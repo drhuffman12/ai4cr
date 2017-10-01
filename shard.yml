@@ -7,7 +7,3 @@ authors:
 crystal: 0.23.1
 
 license: MIT
-
-dependencies:
-  auto_json:
-    github: kostya/auto_json
