@@ -4,7 +4,6 @@ require "../../support/neural_network/data/patterns_with_noise"
 require "../../support/neural_network/data/patterns_with_base_noise"
 
 describe Ai4c::NeuralNetwork::Backpropagation do
-
   describe "#init_network" do
     describe "when given a net with structure of [4, 2]" do
       structure = [4, 2]
@@ -166,20 +165,20 @@ describe Ai4c::NeuralNetwork::Backpropagation do
 
       error_averages = [] of Float64
       is_a_triangle = [1.0, 0.0, 0.0]
-      is_a_square   = [0.0, 1.0, 0.0]
-      is_a_cross   = [0.0, 0.0, 1.0]
+      is_a_square = [0.0, 1.0, 0.0]
+      is_a_cross = [0.0, 0.0, 1.0]
 
-      tr_input = TRIANGLE.flatten.map { |input| input.to_f / 5.0}
-      sq_input = SQUARE.flatten.map { |input| input.to_f / 5.0}
-      cr_input = CROSS.flatten.map { |input| input.to_f / 5.0}
+      tr_input = TRIANGLE.flatten.map { |input| input.to_f / 5.0 }
+      sq_input = SQUARE.flatten.map { |input| input.to_f / 5.0 }
+      cr_input = CROSS.flatten.map { |input| input.to_f / 5.0 }
 
-      tr_with_noise = TRIANGLE_WITH_NOISE.flatten.map { |input| input.to_f / 5.0}
-      sq_with_noise = SQUARE_WITH_NOISE.flatten.map { |input| input.to_f / 5.0}
-      cr_with_noise = CROSS_WITH_NOISE.flatten.map { |input| input.to_f / 5.0}
+      tr_with_noise = TRIANGLE_WITH_NOISE.flatten.map { |input| input.to_f / 5.0 }
+      sq_with_noise = SQUARE_WITH_NOISE.flatten.map { |input| input.to_f / 5.0 }
+      cr_with_noise = CROSS_WITH_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-      tr_with_base_noise = TRIANGLE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0}
-      sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0}
-      cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0}
+      tr_with_base_noise = TRIANGLE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
+      sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
+      cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
       net = Ai4c::NeuralNetwork::Backpropagation.new([256, 3])
       net.learning_rate = rand
@@ -190,12 +189,12 @@ describe Ai4c::NeuralNetwork::Backpropagation do
           errors = {} of Symbol => Float64
           [:tr, :sq, :cr].shuffle.each do |s|
             case s
-              when :tr
-                errors[:tr] = net.train(tr_input, is_a_triangle)
-              when :sq
-                errors[:sq] = net.train(sq_input, is_a_square)
-              when :cr
-                errors[:cr] = net.train(cr_input, is_a_cross)
+            when :tr
+              errors[:tr] = net.train(tr_input, is_a_triangle)
+            when :sq
+              errors[:sq] = net.train(sq_input, is_a_square)
+            when :cr
+              errors[:cr] = net.train(cr_input, is_a_cross)
             end
           end
           error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0

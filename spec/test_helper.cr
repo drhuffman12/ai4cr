@@ -17,7 +17,7 @@
 # Mozilla Foundation at http://www.mozilla.org/MPL/MPL-1.1.txt
 #
 
-def assert_approximate_equality(expected, real, delta=0.01)
+def assert_approximate_equality(expected, real, delta = 0.01)
   if expected.responds_to?(:abs) && real.responds_to?(:abs)
     real.should be_close(expected, delta)
   else
@@ -25,9 +25,9 @@ def assert_approximate_equality(expected, real, delta=0.01)
   end
 end
 
-def assert_approximate_equality_of_nested_list(expected, real, delta=0.01)
+def assert_approximate_equality_of_nested_list(expected, real, delta = 0.01)
   if expected.responds_to?(:each) && real.responds_to?(:each) && expected.size == real.size
-    [expected, real].transpose.each{ |exer| ex = exer[0]; er = exer[1]; assert_approximate_equality_of_nested_list(ex, er, delta) }
+    [expected, real].transpose.each { |exer| ex = exer[0]; er = exer[1]; assert_approximate_equality_of_nested_list(ex, er, delta) }
   else
     assert_approximate_equality expected, real
   end
@@ -35,7 +35,7 @@ end
 
 def assert_equality_of_nested_list(expected, real)
   if expected.responds_to?(:each) && real.responds_to?(:each) && expected.size == real.size
-    [expected, real].transpose.each{ |exer| ex = exer[0]; er = exer[1]; assert_equality_of_nested_list(ex, er) }
+    [expected, real].transpose.each { |exer| ex = exer[0]; er = exer[1]; assert_equality_of_nested_list(ex, er) }
   else
     real.should eq(expected)
   end
