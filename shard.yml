@@ -1,0 +1,9 @@
+name: ai4c
+version: 0.1.0
+
+authors:
+  - Daniel Huffman <drhuffman12@yahoo.com>
+
+crystal: 0.23.1
+
+license: MIT
