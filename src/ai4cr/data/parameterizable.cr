@@ -1,5 +1,5 @@
 # Ported By:: Daniel Huffman
-# Url::       https://github.com/drhuffman12/ai4c
+# Url::       https://github.com/drhuffman12/ai4cr
 #
 # Based on::  Ai4r
 #   Author::  Sergio Fierens
@@ -11,7 +11,7 @@
 # the Mozilla Public License version 1.1  as published by the
 # Mozilla Foundation at http://www.mozilla.org/MPL/MPL-1.1.txt
 
-module Ai4c
+module Ai4cr
   module Data
     module Parameterizable
       module ClassMethods

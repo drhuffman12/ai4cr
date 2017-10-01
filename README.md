@@ -1,4 +1,4 @@
-# ai4c
+# ai4cr
 
 Artificial Intelligence for Crystal (based on https://github.com/SergioFierens/ai4r)
 
@@ -8,27 +8,27 @@ Add this to your application's `shard.yml`:
 
 ```yaml
 dependencies:
-  ai4c:
-    github: drhuffman12/ai4c
+  ai4cr:
+    github: drhuffman12/ai4cr
 ```
 
 ## Usage
 
 ```crystal
-require "ai4c"
+require "ai4cr"
 ```
 
-So far, only Ai4c::NeuralNetwork::Backpropagation and related tests have been ported.
+So far, only Ai4cr::NeuralNetwork::Backpropagation and related tests have been ported.
 
 ## Development
 
-See docs at: https://drhuffman12.github.io/ai4c/
+See docs at: https://drhuffman12.github.io/ai4cr/
 
 See the specs and https://github.com/SergioFierens/ai4r for more info.
 
 ## Contributing
 
-1. Fork it ( https://github.com/drhuffman12/ai4c/fork )
+1. Fork it ( https://github.com/drhuffman12/ai4cr/fork )
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
@@ -51,9 +51,9 @@ Below is an example of the net successfully recognizing all nine test cases.
 ```bash
 $ cd $MY_DEV_FOLDER
 
-$ git clone https://github.com/drhuffman12/ai4c.git
+$ git clone https://github.com/drhuffman12/ai4cr.git
 
-$ cd ai4c
+$ cd ai4cr
 
 $ crystal -v
 Crystal 0.23.1 [e2a1389] (2017-07-13) LLVM 3.8.1
@@ -61,7 +61,7 @@ Crystal 0.23.1 [e2a1389] (2017-07-13) LLVM 3.8.1
 $ crystal deps
 
 $ time crystal spec --release --no-debug --time --verbose
-Ai4c::NeuralNetwork::Backpropagation
+Ai4cr::NeuralNetwork::Backpropagation
   #init_network
     when given a net with structure of [4, 2]
       sets @activation_nodes to expected nested array

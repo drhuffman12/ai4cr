@@ -1,6 +1,6 @@
 require "./neural_network/*"
 
-module Ai4c
+module Ai4cr
   module NeuralNetwork
   end
 end

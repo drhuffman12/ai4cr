@@ -1,6 +1,6 @@
 require "./data/*"
 
-module Ai4c
+module Ai4cr
   module Data
   end
 end
