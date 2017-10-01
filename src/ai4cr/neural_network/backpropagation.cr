@@ -1,5 +1,5 @@
 # Ported By:: Daniel Huffman
-# Url::       https://github.com/drhuffman12/ai4c
+# Url::       https://github.com/drhuffman12/ai4cr
 #
 # Based on::  Ai4r
 #   Author::  Sergio Fierens
@@ -10,7 +10,7 @@
 # You can redistribute it and/or modify it under the terms of
 # the Mozilla Public License version 1.1  as published by the
 # Mozilla Foundation at http://www.mozilla.org/MPL/MPL-1.1.txt
-module Ai4c
+module Ai4cr
   # Artificial Neural Networks are mathematical or computational models based on
   # biological neural networks.
   #
@@ -61,7 +61,7 @@ module Ai4c
     #
     #   # Create the network with 4 inputs, 1 hidden layer with 3 neurons,
     #   # and 2 outputs
-    #   net = Ai4c::NeuralNetwork::Backpropagation.new([4, 3, 2])
+    #   net = Ai4cr::NeuralNetwork::Backpropagation.new([4, 3, 2])
     #
     #   # Train the network
     #   1000.times do |i|
@@ -79,7 +79,7 @@ module Ai4c
     #
     # = About the project
     # Ported By:: Daniel Huffman
-    # Url::       https://github.com/drhuffman12/ai4c
+    # Url::       https://github.com/drhuffman12/ai4cr
     #
     # Based on::  Ai4r
     #   Author::    Sergio Fierens

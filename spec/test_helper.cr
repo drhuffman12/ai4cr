@@ -1,10 +1,10 @@
 #
 # test_helper.cr
 #
-# This is a unit test helper file for ai4c
+# This is a unit test helper file for ai4cr
 #
 # Ported By:: Daniel Huffman
-# Url::       https://github.com/drhuffman12/ai4c
+# Url::       https://github.com/drhuffman12/ai4cr
 #
 # Based on::  Ai4r
 #   Author::    Olav Stetter
@@ -42,7 +42,7 @@ def assert_equality_of_nested_list(expected, real)
 end
 
 # Author:: Daniel Huffman
-# Url::    https://github.com/drhuffman12/ai4c
+# Url::    https://github.com/drhuffman12/ai4cr
 
 def guess(net, raw_in)
   result = net.eval(raw_in)

@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-# describe Ai4c do
+# describe Ai4cr do
 #   # TODO: Write tests
 
 #   it "works" do
