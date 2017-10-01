@@ -20,11 +20,11 @@ require "ai4c"
 
 So far, only Ai4c::NeuralNetwork::Backpropagation and related tests have been ported.
 
-See the specs and https://github.com/SergioFierens/ai4r for more info.
-
 ## Development
 
-TODO: Write development instructions here
+See docs at: https://drhuffman12.github.io/ai4c/
+
+See the specs and https://github.com/SergioFierens/ai4r for more info.
 
 ## Contributing
 
