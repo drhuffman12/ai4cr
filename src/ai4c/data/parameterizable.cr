@@ -37,7 +37,7 @@ module Ai4c
       # You must provide a hash with the folowing format:
       # { :param_name => parameter_value }
       def set_parameters(params)
-        self.class.get_parameters_info.keys.each do | key |
+        self.class.get_parameters_info.keys.each do |key|
           if self.respond_to?("#{key}=".to_sym)
             send("#{key}=".to_sym, params[key]) if params.has_key? key
           end
@@ -50,7 +50,7 @@ module Ai4c
       # { :param_name => parameter_value }
       def get_parameters
         params = {} of Symbol => String
-        self.class.get_parameters_info.keys.each do | key |
+        self.class.get_parameters_info.keys.each do |key|
           params[key] = send(key) if self.respond_to?(key)
         end
         return params
@@ -62,4 +62,3 @@ module Ai4c
     end
   end
 end
-

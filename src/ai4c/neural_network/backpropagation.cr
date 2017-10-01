@@ -11,7 +11,6 @@
 # the Mozilla Public License version 1.1  as published by the
 # Mozilla Foundation at http://www.mozilla.org/MPL/MPL-1.1.txt
 module Ai4c
-
   # Artificial Neural Networks are mathematical or computational models based on
   # biological neural networks.
   #
@@ -20,7 +19,6 @@ module Ai4c
   # * http://en.wikipedia.org/wiki/Artificial_neural_network
   #
   module NeuralNetwork
-
     # = Introduction
     #
     # This is an implementation of a multilayer perceptron network, using
@@ -72,7 +70,7 @@ module Ai4c
     #
     #   # Use it: Evaluate data with the trained network
     #   net.eval([12, 48, 12, 25])
-    #     =>  [0.86, 0.01]
+    # => [0.86, 0.01]
     #
     # More about multilayer perceptron neural networks and backpropagation:
     #
@@ -127,15 +125,15 @@ module Ai4c
       end
 
       def initial_weight_function
-        -> (n : Int32, i : Int32, j : Int32) { ((rand(2000))/1000.0) - 1}
+        ->(n : Int32, i : Int32, j : Int32) { ((rand(2000))/1000.0) - 1 }
       end
 
       def propagation_function
-        -> (x : Float64) { 1/(1+Math.exp(-1*(x))) } #lambda { |x| Math.tanh(x) }
+        ->(x : Float64) { 1/(1 + Math.exp(-1*(x))) } # lambda { |x| Math.tanh(x) }
       end
 
       def derivative_propagation_function
-        -> (y : Float64) { y*(1-y) } #lambda { |y| 1.0 - y**2 }
+        ->(y : Float64) { y*(1 - y) } # lambda { |y| 1.0 - y**2 }
       end
 
       def initialize(@structure : Array(Int32))
@@ -151,7 +149,7 @@ module Ai4c
 
         @last_changes = init_last_changes
 
-        @deltas = [ @activation_nodes.last.map_with_index { | _elem, output_index| 0.0 } ]
+        @deltas = [@activation_nodes.last.map_with_index { |_elem, output_index| 0.0 }]
       end
 
       # Evaluates the input.
@@ -160,7 +158,7 @@ module Ai4c
       #     net.eval([25, 32.3, 12.8, 1.5])
       #         # =>  [0.83, 0.03]
       def eval(input_values)
-        input_values = input_values.map{|v| v.to_f}
+        input_values = input_values.map { |v| v.to_f }
         check_input_dimension(input_values.size)
         init_network if !@weights
         feedforward(input_values)
@@ -187,8 +185,8 @@ module Ai4c
       # This method returns the network error:
       # => 0.5 * sum( (expected_value[i] - output_value[i])**2 )
       def train(inputs, outputs)
-        inputs = inputs.map{|v| v.to_f}
-        outputs = outputs.map{|v| v.to_f}
+        inputs = inputs.map { |v| v.to_f }
+        outputs = outputs.map { |v| v.to_f }
         eval(inputs)
         backpropagate(outputs)
         calculate_error(outputs)
@@ -214,13 +212,13 @@ module Ai4c
       # you must restore their values manually after loading the instance.
       def marshal_dump
         {
-          structure: @structure,
-          disable_bias: @disable_bias,
-          learning_rate: @learning_rate,
-          momentum: @momentum,
-          weights: @weights,
-          last_changes: @last_changes,
-          activation_nodes: @activation_nodes
+          structure:        @structure,
+          disable_bias:     @disable_bias,
+          learning_rate:    @learning_rate,
+          momentum:         @momentum,
+          weights:          @weights,
+          last_changes:     @last_changes,
+          activation_nodes: @activation_nodes,
         }
       end
 
@@ -247,16 +245,16 @@ module Ai4c
 
       # Propagate values forward
       def feedforward(input_values)
-        input_values.each_with_index do | _elem, input_index|
+        input_values.each_with_index do |_elem, input_index|
           @activation_nodes.first[input_index] = input_values[input_index]
         end
-        @weights.each_with_index do | _elem, n|
-          @structure[n+1].times do |j|
+        @weights.each_with_index do |_elem, n|
+          @structure[n + 1].times do |j|
             sum = 0.0
-            @activation_nodes[n].each_with_index do | _elem, i|
+            @activation_nodes[n].each_with_index do |_elem, i|
               sum += (@activation_nodes[n][i] * @weights[n][i][j])
             end
-            @activation_nodes[n+1][j] = propagation_function.call(sum)
+            @activation_nodes[n + 1][j] = propagation_function.call(sum)
           end
         end
       end
@@ -266,23 +264,22 @@ module Ai4c
         @activation_nodes = (0...@structure.size).to_a.map do |n|
           (0...@structure[n]).to_a.map { 1.0 }
         end
-        if ! disable_bias
-          @activation_nodes[0...-1].each {|layer| layer << 1.0 }
+        if !disable_bias
+          @activation_nodes[0...-1].each { |layer| layer << 1.0 }
         end
       end
 
       # Initialize the weight arrays using function specified with the
       # initial_weight_function parameter
       def init_weights
-        @weights = (0...@structure.size-1).to_a.map do |i|
+        @weights = (0...@structure.size - 1).to_a.map do |i|
           nodes_origin = @activation_nodes[i].size
-          nodes_target = @structure[i+1]
+          nodes_target = @structure[i + 1]
           (0...nodes_origin).to_a.map do |j|
             (0...nodes_target).to_a.map do |k|
               initial_weight_function.call(i, j, k)
             end
           end
-
         end
       end
 
@@ -301,7 +298,7 @@ module Ai4c
       def calculate_output_deltas(expected_values)
         output_values = @activation_nodes.last
         output_deltas = [] of Float64
-        output_values.each_with_index do | _elem, output_index|
+        output_values.each_with_index do |_elem, output_index|
           error = expected_values[output_index] - output_values[output_index]
           output_deltas << derivative_propagation_function.call(output_values[output_index]) * error
         end
@@ -311,11 +308,11 @@ module Ai4c
       # Calculate deltas for hidden layers
       def calculate_internal_deltas
         prev_deltas = @deltas.last
-        (@activation_nodes.size-2).downto(1) do |layer_index|
+        (@activation_nodes.size - 2).downto(1) do |layer_index|
           layer_deltas = [] of Float64
-          @activation_nodes[layer_index].each_with_index do | _elem, j|
+          @activation_nodes[layer_index].each_with_index do |_elem, j|
             error = 0.0
-            @structure[layer_index+1].times do |k|
+            @structure[layer_index + 1].times do |k|
               error += prev_deltas[k] * @weights[layer_index][j][k]
             end
             layer_deltas[j] = (derivative_propagation_function.call(
@@ -328,12 +325,12 @@ module Ai4c
 
       # Update weights after @deltas have been calculated.
       def update_weights
-        (@weights.size-1).downto(0) do |n|
-          @weights[n].each_with_index do | _elem, i|
-            @weights[n][i].each_with_index do | _elem, j|
+        (@weights.size - 1).downto(0) do |n|
+          @weights[n].each_with_index do |_elem, i|
+            @weights[n][i].each_with_index do |_elem, j|
               change = @deltas[n][j]*@activation_nodes[n][i]
-              @weights[n][i][j] += ( learning_rate * change +
-                  momentum * @last_changes[n][i][j])
+              @weights[n][i][j] += (learning_rate * change +
+                                    momentum * @last_changes[n][i][j])
               @last_changes[n][i][j] = change
             end
           end
@@ -345,9 +342,9 @@ module Ai4c
       def calculate_error(expected_output)
         output_values = @activation_nodes.last
         error = 0.0
-        expected_output.each_with_index do | _elem, output_index|
+        expected_output.each_with_index do |_elem, output_index|
           error +=
-            0.5*(output_values[output_index]-expected_output[output_index])**2
+            0.5*(output_values[output_index] - expected_output[output_index])**2
         end
         return error
       end
@@ -355,8 +352,8 @@ module Ai4c
       def check_input_dimension(inputs)
         if inputs != @structure.first
           msg = "Wrong number of inputs. " +
-            "Expected: #{@structure.first}, " +
-            "received: #{inputs}."
+                "Expected: #{@structure.first}, " +
+                "received: #{inputs}."
           raise ArgumentError.new(msg)
         end
       end
@@ -364,8 +361,8 @@ module Ai4c
       def check_output_dimension(outputs)
         if outputs != @structure.last
           msg = "Wrong number of outputs. " +
-            "Expected: #{@structure.last}, " +
-            "received: #{outputs}."
+                "Expected: #{@structure.last}, " +
+                "received: #{outputs}."
           raise ArgumentError.new(msg)
         end
       end
