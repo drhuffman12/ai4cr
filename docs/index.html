@@ -20,23 +20,23 @@
 
   <ul>
   
-  <li class="parent " data-id="github.com/drhuffman12/ai4c/Ai4c" data-name="ai4c">
-      <a href="Ai4c.html">Ai4c</a>
+  <li class="parent " data-id="github.com/drhuffman12/ai4c/Ai4cr" data-name="ai4cr">
+      <a href="Ai4cr.html">Ai4cr</a>
       
         <ul>
   
-  <li class="parent " data-id="github.com/drhuffman12/ai4c/Ai4c/Data" data-name="ai4c::data">
-      <a href="Ai4c/Data.html">Data</a>
+  <li class="parent " data-id="github.com/drhuffman12/ai4c/Ai4cr/Data" data-name="ai4cr::data">
+      <a href="Ai4cr/Data.html">Data</a>
       
         <ul>
   
-  <li class="parent " data-id="github.com/drhuffman12/ai4c/Ai4c/Data/Parameterizable" data-name="ai4c::data::parameterizable">
-      <a href="Ai4c/Data/Parameterizable.html">Parameterizable</a>
+  <li class="parent " data-id="github.com/drhuffman12/ai4c/Ai4cr/Data/Parameterizable" data-name="ai4cr::data::parameterizable">
+      <a href="Ai4cr/Data/Parameterizable.html">Parameterizable</a>
       
         <ul>
   
-  <li class=" " data-id="github.com/drhuffman12/ai4c/Ai4c/Data/Parameterizable/ClassMethods" data-name="ai4c::data::parameterizable::classmethods">
-      <a href="Ai4c/Data/Parameterizable/ClassMethods.html">ClassMethods</a>
+  <li class=" " data-id="github.com/drhuffman12/ai4c/Ai4cr/Data/Parameterizable/ClassMethods" data-name="ai4cr::data::parameterizable::classmethods">
+      <a href="Ai4cr/Data/Parameterizable/ClassMethods.html">ClassMethods</a>
       
     </li>
   
@@ -50,13 +50,13 @@
       
     </li>
   
-  <li class="parent " data-id="github.com/drhuffman12/ai4c/Ai4c/NeuralNetwork" data-name="ai4c::neuralnetwork">
-      <a href="Ai4c/NeuralNetwork.html">NeuralNetwork</a>
+  <li class="parent " data-id="github.com/drhuffman12/ai4c/Ai4cr/NeuralNetwork" data-name="ai4cr::neuralnetwork">
+      <a href="Ai4cr/NeuralNetwork.html">NeuralNetwork</a>
       
         <ul>
   
-  <li class=" " data-id="github.com/drhuffman12/ai4c/Ai4c/NeuralNetwork/Backpropagation" data-name="ai4c::neuralnetwork::backpropagation">
-      <a href="Ai4c/NeuralNetwork/Backpropagation.html">Backpropagation</a>
+  <li class=" " data-id="github.com/drhuffman12/ai4c/Ai4cr/NeuralNetwork/Backpropagation" data-name="ai4cr::neuralnetwork::backpropagation">
+      <a href="Ai4cr/NeuralNetwork/Backpropagation.html">Backpropagation</a>
       
     </li>
   
@@ -75,7 +75,7 @@
 </div>
 
 <div id="main-content">
-<h1>ai4c</h1>
+<h1>ai4cr</h1>
 
 <p>Artificial Intelligence for Crystal (based on https://github.com/SergioFierens/ai4r)</p>
 
@@ -84,24 +84,24 @@
 <p>Add this to your application's <code>shard.yml</code>:</p>
 
 <pre><code class='language-yaml'>dependencies:
-  ai4c:
-    github: drhuffman12/ai4c</code></pre>
+  ai4cr:
+    github: drhuffman12/ai4cr</code></pre>
 
 <h2>Usage</h2>
 
-<pre><code class='language-crystal'><span class="k">require</span> <span class="s">&quot;ai4c&quot;</span></code></pre>
+<pre><code class='language-crystal'><span class="k">require</span> <span class="s">&quot;ai4cr&quot;</span></code></pre>
 
-<p>So far, only Ai4c::NeuralNetwork::Backpropagation and related tests have been ported.</p>
+<p>So far, only Ai4cr::NeuralNetwork::Backpropagation and related tests have been ported.</p>
 
 <h2>Development</h2>
 
-<p>See docs at: https://drhuffman12.github.io/ai4c/</p>
+<p>See docs at: https://drhuffman12.github.io/ai4cr/</p>
 
 <p>See the specs and https://github.com/SergioFierens/ai4r for more info.</p>
 
 <h2>Contributing</h2>
 
-<ol><li>Fork it ( https://github.com/drhuffman12/ai4c/fork )</li><li>Create your feature branch (git checkout -b my-new-feature)</li><li>Commit your changes (git commit -am 'Add some feature')</li><li>Push to the branch (git push origin my-new-feature)</li><li>Create a new Pull Request</li></ol>
+<ol><li>Fork it ( https://github.com/drhuffman12/ai4cr/fork )</li><li>Create your feature branch (git checkout -b my-new-feature)</li><li>Commit your changes (git commit -am 'Add some feature')</li><li>Push to the branch (git push origin my-new-feature)</li><li>Create a new Pull Request</li></ol>
 
 <h2>Contributors</h2>
 
@@ -119,9 +119,9 @@
 
 <pre><code class='language-bash'>$ cd $MY_DEV_FOLDER
 
-$ git clone https://github.com/drhuffman12/ai4c.git
+$ git clone https://github.com/drhuffman12/ai4cr.git
 
-$ cd ai4c
+$ cd ai4cr
 
 $ crystal -v
 Crystal 0.23.1 [e2a1389] (2017-07-13) LLVM 3.8.1
@@ -129,7 +129,7 @@ Crystal 0.23.1 [e2a1389] (2017-07-13) LLVM 3.8.1
 $ crystal deps
 
 $ time crystal spec --release --no-debug --time --verbose
-Ai4c::NeuralNetwork::Backpropagation
+Ai4cr::NeuralNetwork::Backpropagation
   #init_network
     when given a net with structure of [4, 2]
       sets @activation_nodes to expected nested array
