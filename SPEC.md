@@ -11,7 +11,7 @@ Below is an example of the net successfully recognizing all nine test cases.
 $ crystal -v
 Crystal 0.23.1 [e2a1389] (2017-07-13) LLVM 3.8.1
 
-$ crystal spec --release --no-debug --time --verbose
+$ time crystal spec --release --no-debug --time --verbose
 Ai4c::NeuralNetwork::Backpropagation
   #init_network
     when given a net with structure of [4, 2]
@@ -45,7 +45,7 @@ Ai4c::NeuralNetwork::Backpropagation
       @activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net
   #train
     using image data (input) and shape flags (output) for triangle, square, and cross
-      and training 92 times each at a learning rate of 0.803557
+      and training 96 times each at a learning rate of 0.101981
         error_averages
           decrease (i.e.: first > last)
           should end up close to 0.1 +/- 0.1
@@ -65,7 +65,13 @@ Ai4c::NeuralNetwork::Backpropagation
             SQUARE
             CROSS
 
-Finished in 5.96 milliseconds
+Finished in 22.5 milliseconds
 34 examples, 0 failures, 0 errors, 0 pending
-Execute: 00:00:00.0109070
+Execute: 00:00:00.0353190
+
+real    0m2.160s
+user    0m2.304s
+sys     0m0.236s
 ```
+
+NOTE: That time, it took about a couple seconds to build. I did notice that it took about 40 seconds to build the first run and only a couple each successive run.
