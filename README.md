@@ -1,6 +1,6 @@
 # ai4c
 
-TODO: Write a description here
+Artificial Intelligence for Crystal (based on https://github.com/SergioFierens/ai4r)
 
 ## Installation
 
@@ -9,7 +9,7 @@ Add this to your application's `shard.yml`:
 ```yaml
 dependencies:
   ai4c:
-    github: [your-github-name]/ai4c
+    github: drhuffman12/ai4c
 ```
 
 ## Usage
@@ -18,7 +18,9 @@ dependencies:
 require "ai4c"
 ```
 
-TODO: Write usage instructions here
+So far, only Ai4c::NeuralNetwork::Backpropagation and related tests have been ported.
+
+See the specs and https://github.com/SergioFierens/ai4r for more info.
 
 ## Development
 
@@ -26,7 +28,7 @@ TODO: Write development instructions here
 
 ## Contributing
 
-1. Fork it ( https://github.com/[your-github-name]/ai4c/fork )
+1. Fork it ( https://github.com/drhuffman12/ai4c/fork )
 2. Create your feature branch (git checkout -b my-new-feature)
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
@@ -34,4 +36,8 @@ TODO: Write development instructions here
 
 ## Contributors
 
-- [[your-github-name]](https://github.com/[your-github-name]) Daniel Huffman - creator, maintainer
+- [drhuffman12](https://github.com/drhuffman12) Daniel Huffman - creator, maintainer
+
+## Testing
+
+See [SPEC.md](./SPEC.md)
