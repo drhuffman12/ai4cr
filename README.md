@@ -20,6 +20,8 @@ require "ai4cr"
 
 So far, only Ai4cr::NeuralNetwork::Backpropagation and related tests have been ported.
 
+If you'd like another class of Ai4r ported, feel free to submit a [new issue](https://github.com/drhuffman12/ai4cr/issues/new).
+
 ## Development
 
 See docs at: https://drhuffman12.github.io/ai4cr/
