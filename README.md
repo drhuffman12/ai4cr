@@ -62,7 +62,7 @@ Crystal 0.23.1 [e2a1389] (2017-07-13) LLVM 3.8.1
 
 $ crystal deps
 
-$ time crystal spec --release --no-debug --time --verbose
+$ time crystal spec --release --no-debug --time --verbose # These should NEVER fail!
 Ai4cr::NeuralNetwork::Backpropagation
   #init_network
     when given a net with structure of [4, 2]
@@ -106,7 +106,7 @@ real    0m0.646s
 user    0m0.644s
 sys     0m0.088s
 
-$ time crystal spec --release --no-debug --time --verbose spec_examples/
+$ time crystal spec --release --no-debug --time --verbose spec_examples/ # These will probably SOMETIMES fail!
 Ai4cr::NeuralNetwork::Backpropagation
   #train
     using image data (input) and shape flags (output) for triangle, square, and cross
