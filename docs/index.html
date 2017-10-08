@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta id="repository-name" content="github.com/drhuffman12/ai4c">
+  <meta id="repository-name" content="github.com/drhuffman12/ai4cr">
   <link href="css/style.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="js/doc.js"></script>
-  <title>README - github.com/drhuffman12/ai4c</title>
+  <title>README - github.com/drhuffman12/ai4cr</title>
 </head>
 <body>
 
@@ -20,22 +20,22 @@
 
   <ul>
   
-  <li class="parent " data-id="github.com/drhuffman12/ai4c/Ai4cr" data-name="ai4cr">
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr" data-name="ai4cr">
       <a href="Ai4cr.html">Ai4cr</a>
       
         <ul>
   
-  <li class="parent " data-id="github.com/drhuffman12/ai4c/Ai4cr/Data" data-name="ai4cr::data">
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data" data-name="ai4cr::data">
       <a href="Ai4cr/Data.html">Data</a>
       
         <ul>
   
-  <li class="parent " data-id="github.com/drhuffman12/ai4c/Ai4cr/Data/Parameterizable" data-name="ai4cr::data::parameterizable">
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data/Parameterizable" data-name="ai4cr::data::parameterizable">
       <a href="Ai4cr/Data/Parameterizable.html">Parameterizable</a>
       
         <ul>
   
-  <li class=" " data-id="github.com/drhuffman12/ai4c/Ai4cr/Data/Parameterizable/ClassMethods" data-name="ai4cr::data::parameterizable::classmethods">
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data/Parameterizable/ClassMethods" data-name="ai4cr::data::parameterizable::classmethods">
       <a href="Ai4cr/Data/Parameterizable/ClassMethods.html">ClassMethods</a>
       
     </li>
@@ -50,12 +50,12 @@
       
     </li>
   
-  <li class="parent " data-id="github.com/drhuffman12/ai4c/Ai4cr/NeuralNetwork" data-name="ai4cr::neuralnetwork">
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork" data-name="ai4cr::neuralnetwork">
       <a href="Ai4cr/NeuralNetwork.html">NeuralNetwork</a>
       
         <ul>
   
-  <li class=" " data-id="github.com/drhuffman12/ai4c/Ai4cr/NeuralNetwork/Backpropagation" data-name="ai4cr::neuralnetwork::backpropagation">
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Backpropagation" data-name="ai4cr::neuralnetwork::backpropagation">
       <a href="Ai4cr/NeuralNetwork/Backpropagation.html">Backpropagation</a>
       
     </li>
@@ -92,6 +92,8 @@
 <pre><code class='language-crystal'><span class="k">require</span> <span class="s">&quot;ai4cr&quot;</span></code></pre>
 
 <p>So far, only Ai4cr::NeuralNetwork::Backpropagation and related tests have been ported.</p>
+
+<p>If you'd like another class of Ai4r ported, feel free to submit a <a href="https://github.com/drhuffman12/ai4cr/issues/new" target="_blank">new issue</a>.</p>
 
 <h2>Development</h2>
 
@@ -161,8 +163,22 @@ Ai4cr::NeuralNetwork::Backpropagation
       @last_changes of the dumped net approximately matches @last_changes of the loaded net
       @activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net
   #train
+    when given a net with structure of [3, 2]
+      returns an error of type Float64
+
+Finished in 634 microseconds
+22 examples, 0 failures, 0 errors, 0 pending
+Execute: 00:00:00.0049940
+
+real    0m0.646s
+user    0m0.644s
+sys     0m0.088s
+
+$ time crystal spec --release --no-debug --time --verbose spec_examples/
+Ai4cr::NeuralNetwork::Backpropagation
+  #train
     using image data (input) and shape flags (output) for triangle, square, and cross
-      and training 33 times each at a learning rate of 0.034608
+      and training 101 times each at a learning rate of 0.697045
         error_averages
           decrease (i.e.: first > last)
           should end up close to 0.1 +/- 0.1
@@ -182,13 +198,13 @@ Ai4cr::NeuralNetwork::Backpropagation
             SQUARE
             CROSS
 
-Finished in 3.33 milliseconds
-34 examples, 0 failures, 0 errors, 0 pending
-Execute: 00:00:00.0089280
+Finished in 6.37 milliseconds
+13 examples, 0 failures, 0 errors, 0 pending
+Execute: 00:00:00.0107670
 
-real    0m0.771s
-user    0m0.760s
-sys     0m0.084s</code></pre>
+real    0m0.617s
+user    0m0.680s
+sys     0m0.060s</code></pre>
 
 <p><span class="flag purple">NOTE</span>  That time, it took less than a second to build. I did notice that it took about 10 seconds to build the first run and only less than a second each successive run.</p>
 </div>

@@ -36,7 +36,7 @@ module Ai4cr
     # * Configurable momentum
     # * Configurable learning rate
     # * Configurable initial weight function
-    # * 100% ruby code, no external dependency
+    # * 100% Crystal code, no external dependency
     #
     # = Parameters
     #
