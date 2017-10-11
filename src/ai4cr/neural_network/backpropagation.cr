@@ -138,7 +138,7 @@ module Ai4cr
 
       def initialize(@structure : Array(Int32), disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil)
         @disable_bias = !!disable_bias
-        @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0? 0.25 : learning_rate.as(Float64)
+        @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? 0.25 : learning_rate.as(Float64)
         @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : 0.1
         # Below are set via #init_network, but must be initialized in the 'initialize' method to avoid being nilable:
         @activation_nodes = [[0.0]]
@@ -339,8 +339,7 @@ module Ai4cr
         output_values = @activation_nodes.last
         error = 0.0
         expected_output.each_with_index do |_elem, output_index|
-          error +=
-            0.5*(output_values[output_index] - expected_output[output_index])**2
+          error += 0.5*(output_values[output_index] - expected_output[output_index])**2
         end
         return error
       end
