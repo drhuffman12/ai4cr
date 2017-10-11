@@ -136,20 +136,16 @@ module Ai4cr
         ->(y : Float64) { y*(1 - y) } # lambda { |y| 1.0 - y**2 }
       end
 
-      def initialize(@structure : Array(Int32))
-        @disable_bias = false
-        @learning_rate = 0.25
-        @momentum = 0.1
-
-        @activation_nodes = (0...@structure.size).to_a.map do |n|
-          (0...@structure[n]).to_a.map { 1.0 }
-        end
-
-        @weights = init_weights
-
-        @last_changes = init_last_changes
-
-        @deltas = [@activation_nodes.last.map_with_index { |_elem, output_index| 0.0 }]
+      def initialize(@structure : Array(Int32), disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil)
+        @disable_bias = !!disable_bias
+        @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? 0.25 : learning_rate.as(Float64)
+        @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : 0.1
+        # Below are set via #init_network, but must be initialized in the 'initialize' method to avoid being nilable:
+        @activation_nodes = [[0.0]]
+        @weights = [[[0.0]]]
+        @last_changes = [[[0.0]]]
+        @deltas = [[0.0]]
+        init_network
       end
 
       # Evaluates the input.
@@ -267,16 +263,17 @@ module Ai4cr
         if !disable_bias
           @activation_nodes[0...-1].each { |layer| layer << 1.0 }
         end
+        @activation_nodes
       end
 
       # Initialize the weight arrays using function specified with the
       # initial_weight_function parameter
       def init_weights
         @weights = (0...@structure.size - 1).to_a.map do |i|
-          nodes_origin = @activation_nodes[i].size
-          nodes_target = @structure[i + 1]
-          (0...nodes_origin).to_a.map do |j|
-            (0...nodes_target).to_a.map do |k|
+          nodes_origin_size = @activation_nodes[i].size
+          nodes_target_size = @structure[i + 1]
+          (0...nodes_origin_size).to_a.map do |j|
+            (0...nodes_target_size).to_a.map do |k|
               initial_weight_function.call(i, j, k)
             end
           end
@@ -315,8 +312,7 @@ module Ai4cr
             @structure[layer_index + 1].times do |k|
               error += prev_deltas[k] * @weights[layer_index][j][k]
             end
-            layer_deltas[j] = (derivative_propagation_function.call(
-              @activation_nodes[layer_index][j]) * error)
+            layer_deltas << (derivative_propagation_function.call(@activation_nodes[layer_index][j]) * error)
           end
           prev_deltas = layer_deltas
           @deltas.unshift(layer_deltas)
@@ -343,8 +339,7 @@ module Ai4cr
         output_values = @activation_nodes.last
         error = 0.0
         expected_output.each_with_index do |_elem, output_index|
-          error +=
-            0.5*(output_values[output_index] - expected_output[output_index])**2
+          error += 0.5*(output_values[output_index] - expected_output[output_index])**2
         end
         return error
       end
