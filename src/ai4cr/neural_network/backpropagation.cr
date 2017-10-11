@@ -312,8 +312,7 @@ module Ai4cr
             @structure[layer_index + 1].times do |k|
               error += prev_deltas[k] * @weights[layer_index][j][k]
             end
-            layer_deltas[j] = (derivative_propagation_function.call(
-              @activation_nodes[layer_index][j]) * error)
+            layer_deltas << (derivative_propagation_function.call(@activation_nodes[layer_index][j]) * error)
           end
           prev_deltas = layer_deltas
           @deltas.unshift(layer_deltas)
