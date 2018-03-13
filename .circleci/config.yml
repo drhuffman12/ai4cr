@@ -38,8 +38,8 @@ version: 2
             fi
         # override:
         #   - crystal deps
-      test:
-        override:
-          - crystal spec
+      # test:
+      #   override:
+      #     - crystal spec
 
     
