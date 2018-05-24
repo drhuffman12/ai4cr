@@ -10,8 +10,8 @@ jobs:
       - run:
           name: run tests
           command: |
-            mkdir -p tmp/test-results
-            crystal spec -s -p -t --no-color > tmp/test-results/spec.out
+            mkdir -p tmp/test-results/spec
+            crystal spec -s -p -t --no-color > tmp/test-results/spec/results.txt
             mkdir test-results
 
       # collect reports
@@ -19,7 +19,7 @@ jobs:
           path: tmp/test-results
 
       - store_artifacts:
-          path: test-results
+          path: tmp/test-results
           destination: test-results
 
           
