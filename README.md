@@ -22,12 +22,6 @@ So far, only Ai4cr::NeuralNetwork::Backpropagation and related tests have been p
 
 If you'd like another class of Ai4r ported, feel free to submit a [new issue](https://github.com/drhuffman12/ai4cr/issues/new).
 
-## Development
-
-See docs at: https://drhuffman12.github.io/ai4cr/
-
-See the specs and https://github.com/SergioFierens/ai4r for more info.
-
 ## Contributing
 
 1. Fork it ( https://github.com/drhuffman12/ai4cr/fork )
@@ -35,6 +29,36 @@ See the specs and https://github.com/SergioFierens/ai4r for more info.
 3. Commit your changes (git commit -am 'Add some feature')
 4. Push to the branch (git push origin my-new-feature)
 5. Create a new Pull Request
+
+### Build
+
+```bash
+docker-compose build
+```
+
+### Show version
+
+```bash
+docker-compose run app crystal eval 'require "./src/ai4cr"; puts "Ai4cr version: #{Ai4cr::VERSION}"'
+```
+
+### Test
+
+```bash
+docker-compose run app crystal spec
+```
+
+### Docker console
+
+```bash
+docker-compose run app /bin/bash
+```
+
+### See also
+
+* The docs at: https://drhuffman12.github.io/ai4cr/
+
+* The specs and https://github.com/SergioFierens/ai4r for more info.
 
 ## Contributors
 
