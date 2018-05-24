@@ -62,7 +62,7 @@ module Ai4cr
     #
     #   # Create the network with 4 inputs, 1 hidden layer with 3 neurons,
     #   # and 2 outputs
-    #   net = Ai4cr::NeuralNetwork::Backpropagation2.new([4, 3, 2])
+    #   net = Ai4cr::NeuralNetwork::Backpropagation.new([4, 3, 2])
     #
     #   # Train the network
     #   1000.times do |i|
@@ -86,7 +86,7 @@ module Ai4cr
     #   Author::    Sergio Fierens
     #   License::   MPL 1.1
     #   Url::       http://ai4r.org
-    struct Backpropagation2
+    struct Backpropagation
       property structure, weights, activation_nodes, last_changes
       property disable_bias, learning_rate, momentum, activation_nodes
       property height, hidden_qty, width
@@ -94,13 +94,13 @@ module Ai4cr
       # Creates a new network specifying the its architecture.
       # E.g.
       #
-      #   net = Backpropagation2.new([4, 3, 2])  # 4 inputs
+      #   net = Backpropagation.new([4, 3, 2])  # 4 inputs
       #                                         # 1 hidden layer with 3 neurons,
       #                                         # 2 outputs
-      #   net = Backpropagation2.new([2, 3, 3, 4])   # 2 inputs
+      #   net = Backpropagation.new([2, 3, 3, 4])   # 2 inputs
       #                                             # 2 hidden layer with 3 neurons each,
       #                                             # 4 outputs
-      #   net = Backpropagation2.new([2, 1])   # 2 inputs
+      #   net = Backpropagation.new([2, 1])   # 2 inputs
       #                                       # No hidden layer
       #                                       # 1 output
 
@@ -151,7 +151,7 @@ module Ai4cr
 
       # Evaluates the input.
       # E.g.
-      #     net = Backpropagation2.new([4, 3, 2])
+      #     net = Backpropagation.new([4, 3, 2])
       #     net.eval([25, 32.3, 12.8, 1.5])
       #         # =>  [0.83, 0.03]
       def eval(input_values)
@@ -164,7 +164,7 @@ module Ai4cr
 
       # Evaluates the input and returns most active node
       # E.g.
-      #     net = Backpropagation2.new([4, 3, 2])
+      #     net = Backpropagation.new([4, 3, 2])
       #     net.eval_result([25, 32.3, 12.8, 1.5])
       #         # eval gives [0.83, 0.03]
       #         # =>  0
