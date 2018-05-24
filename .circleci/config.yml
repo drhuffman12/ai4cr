@@ -7,8 +7,8 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: crystal deps
+          command: 'crystal deps'
       - run:
           name: Run tests
-          command: crystal spec
+          command: 'crystal spec'
           
