@@ -164,3 +164,15 @@ sys     0m0.060s
 ```
 
 NOTE: That time, it took less than a second to build. I did notice that it took about 10 seconds to build the first run and only less than a second each successive run.
+
+
+```sh
+$ time crystal spec --release --no-debug --time --verbose spec/ai4cr/neural_network/backpropagation_spec.cr
+
+$ time crystal spec --release --no-debug --time --verbose spec/ai4cr/neural_network/backpropagation2_spec.cr
+
+$ time crystal spec --release --no-debug --time --verbose spec_examples/ai4cr/neural_network/backpropagation_spec.cr
+
+$ time crystal spec --release --no-debug --time --verbose spec_examples/ai4cr/neural_network/backpropagation2_spec.cr
+
+```

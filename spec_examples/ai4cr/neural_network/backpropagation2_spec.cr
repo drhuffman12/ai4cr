@@ -3,7 +3,7 @@ require "../../support/neural_network/data/training_patterns"
 require "../../support/neural_network/data/patterns_with_noise"
 require "../../support/neural_network/data/patterns_with_base_noise"
 
-describe Ai4cr::NeuralNetwork::Backpropagation do
+describe Ai4cr::NeuralNetwork::Backpropagation2 do
   describe "#train" do
     describe "using image data (input) and shape flags (output) for triangle, square, and cross" do
       correct_count = 0
@@ -25,9 +25,9 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
       cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-      net = Ai4cr::NeuralNetwork::Backpropagation.new([256, 3])
+      net = Ai4cr::NeuralNetwork::Backpropagation2.new([256, 3])
       net.learning_rate = rand
-      qty = 100000 #  + (rand * 100).to_i
+      qty = 100000 # + (rand * 100).to_i
 
       describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
         qty.times do |i|

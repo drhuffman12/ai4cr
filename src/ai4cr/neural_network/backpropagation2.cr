@@ -6,7 +6,7 @@
 #   License:: MPL 1.1
 #   Project:: ai4r
 #   Url::     http://ai4r.org/
-#   Github::  https://github.com/SergioFierens/ai4r
+#   Githun::  https://github.com/SergioFierens/ai4r
 #
 # You can redistribute it and/or modify it under the terms of
 # the Mozilla Public License version 1.1  as published by the
@@ -62,7 +62,7 @@ module Ai4cr
     #
     #   # Create the network with 4 inputs, 1 hidden layer with 3 neurons,
     #   # and 2 outputs
-    #   net = Ai4cr::NeuralNetwork::Backpropagation.new([4, 3, 2])
+    #   net = Ai4cr::NeuralNetwork::Backpropagation2.new([4, 3, 2])
     #
     #   # Train the network
     #   1000.times do |i|
@@ -86,7 +86,7 @@ module Ai4cr
     #   Author::    Sergio Fierens
     #   License::   MPL 1.1
     #   Url::       http://ai4r.org
-    class Backpropagation
+    struct Backpropagation2
       property structure, weights, activation_nodes, last_changes
       property disable_bias, learning_rate, momentum, activation_nodes
       property height, hidden_qty, width
@@ -94,13 +94,13 @@ module Ai4cr
       # Creates a new network specifying the its architecture.
       # E.g.
       #
-      #   net = Backpropagation.new([4, 3, 2])  # 4 inputs
+      #   net = Backpropagation2.new([4, 3, 2])  # 4 inputs
       #                                         # 1 hidden layer with 3 neurons,
       #                                         # 2 outputs
-      #   net = Backpropagation.new([2, 3, 3, 4])   # 2 inputs
+      #   net = Backpropagation2.new([2, 3, 3, 4])   # 2 inputs
       #                                             # 2 hidden layer with 3 neurons each,
       #                                             # 4 outputs
-      #   net = Backpropagation.new([2, 1])   # 2 inputs
+      #   net = Backpropagation2.new([2, 1])   # 2 inputs
       #                                       # No hidden layer
       #                                       # 1 output
 
@@ -151,7 +151,7 @@ module Ai4cr
 
       # Evaluates the input.
       # E.g.
-      #     net = Backpropagation.new([4, 3, 2])
+      #     net = Backpropagation2.new([4, 3, 2])
       #     net.eval([25, 32.3, 12.8, 1.5])
       #         # =>  [0.83, 0.03]
       def eval(input_values)
@@ -164,7 +164,7 @@ module Ai4cr
 
       # Evaluates the input and returns most active node
       # E.g.
-      #     net = Backpropagation.new([4, 3, 2])
+      #     net = Backpropagation2.new([4, 3, 2])
       #     net.eval_result([25, 32.3, 12.8, 1.5])
       #         # eval gives [0.83, 0.03]
       #         # =>  0
@@ -182,7 +182,7 @@ module Ai4cr
       # This method returns the network error:
       # => 0.5 * sum( (expected_value[i] - output_value[i])**2 )
       def train(inputs, outputs)
-        inputs = inputs.map { |v| v.to_f }
+        # inputs = inputs.map { |v| v.to_f }
         outputs = outputs.map { |v| v.to_f }
         eval(inputs)
         backpropagate(outputs)
@@ -258,8 +258,8 @@ module Ai4cr
 
       # Initialize neurons structure.
       def init_activation_nodes
-        @activation_nodes = (0...@structure.size).to_a.map do |n|
-          (0...@structure[n]).to_a.map { 1.0 }
+        @activation_nodes = (0...@structure.size).map do |n|
+          (0...@structure[n]).map { 1.0 }
         end
         if !disable_bias
           @activation_nodes[0...-1].each { |layer| layer << 1.0 }
@@ -270,11 +270,11 @@ module Ai4cr
       # Initialize the weight arrays using function specified with the
       # initial_weight_function parameter
       def init_weights
-        @weights = (0...@structure.size - 1).to_a.map do |i|
+        @weights = (0...@structure.size - 1).map do |i|
           nodes_origin_size = @activation_nodes[i].size
           nodes_target_size = @structure[i + 1]
-          (0...nodes_origin_size).to_a.map do |j|
-            (0...nodes_target_size).to_a.map do |k|
+          (0...nodes_origin_size).map do |j|
+            (0...nodes_target_size).map do |k|
               initial_weight_function.call(i, j, k)
             end
           end
@@ -285,9 +285,9 @@ module Ai4cr
       # previous training. This method initialize the @last_changes
       # structure with 0 values.
       def init_last_changes
-        @last_changes = (0...@weights.size).to_a.map do |w|
-          (0...@weights[w].size).to_a.map do |i|
-            (0...@weights[w][i].size).to_a.map { 0.0 }
+        @last_changes = (0...@weights.size).map do |w|
+          (0...@weights[w].size).map do |i|
+            (0...@weights[w][i].size).map { 0.0 }
           end
         end
       end
@@ -345,6 +345,23 @@ module Ai4cr
         return error
       end
 
+      # def check_input_dimension(inputs)
+      #   if inputs != @structure.first
+      #     msg = (IO::Memory.new << "Wrong number of inputs. " <<
+      #           "Expected: " << @structure.first << ", " <<
+      #           "received: " << inputs << ".")
+      #     raise ArgumentError.new(msg.to_s)
+      #   end
+      # end
+
+      # def check_output_dimension(outputs)
+      #   if outputs != @structure.last
+      #     msg = (IO::Memory.new << "Wrong number of outputs. " <<
+      #           "Expected: " << @structure.last << ", " <<
+      #           "received: " << outputs << ".")
+      #     raise ArgumentError.new(msg.to_s)
+      #   end
+      # end
       def check_input_dimension(inputs)
         if inputs != @structure.first
           msg = "Wrong number of inputs. " +
