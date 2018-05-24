@@ -10,7 +10,7 @@ jobs:
           name: run tests
           command: |
             mkdir -p test-results/spec
-            crystal spec -s -p -t --no-color > test-results/spec/results.txt
+            crystal spec -t --no-color > test-results/spec/results.txt
 
       # collect reports
       - store_test_results:
