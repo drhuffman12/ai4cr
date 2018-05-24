@@ -9,17 +9,17 @@ jobs:
       - run:
           name: run tests
           command: |
-            mkdir /tmp/test-results
-            crystal spec -s -p -t --junit_output /tmp/test-results
+            mkdir tmp/test-results
+            crystal spec -s -p -t --no-color > tmp/test-results/spec.out
 
       # collect reports
       - store_test_results:
-          path: /tmp/test-results
+          path: tmp/test-results
       - store_test_results:
           path: test-results
 
       - store_artifacts:
-          path: /tmp/test-results
+          path: tmp/test-results
           destination: test-results
 
           
