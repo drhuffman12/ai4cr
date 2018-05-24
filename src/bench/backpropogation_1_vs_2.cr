@@ -18,11 +18,16 @@ require "../../spec_examples/support/neural_network/data/patterns_with_base_nois
 # valgrind --tool=callgrind --inclusive=yes --tree=both --auto=yes --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/bench/backpropogation_1_vs_2.callgrind.out bin/bench/backpropogation_1_vs_2
 # valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/bench/backpropogation_1_vs_2.callgrind.out bin/bench/backpropogation_1_vs_2
 
-def bench_check_guess(next_guess, expected_label)
-  p(result_label(next_guess) == expected_label ? "." : "F")
+def verbose?
+  v = ENV["VERBOSE"].to_s.downcase
+  v.size > 0 && v[0] == 't'
 end
 
-correct_count = 0
+VERBOSE = verbose?
+
+def bench_check_guess(next_guess, expected_label)
+  print(result_label(next_guess) == expected_label ? "." : "F")
+end
 
 error_averages = [] of Float64
 is_a_triangle = [1.0, 0.0, 0.0]
@@ -41,11 +46,8 @@ tr_with_base_noise = TRIANGLE_WITH_BASE_NOISE.flatten.map { |input| input.to_f /
 sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-
-qty = 100 # (ARGV[0] || 10).to_i # 10 + (rand * 100).to_i
-# shape = [256, 3]
+qty = 50
 shape = [256, 1000, 3]
-# shape = [256, 500, 500, 3]
 learning_rate = rand
 
 puts "qty: #{qty}"
@@ -53,36 +55,23 @@ puts "shape: #{shape}"
 puts "learning_rate: #{learning_rate}"
 
 def train(net, qty, tr_input, sq_input, cr_input, is_a_triangle, is_a_square, is_a_cross)
-  qty.times do # |i|
-    # errors = {} of Symbol => Float64
-    # [:tr, :sq, :cr].each do |s|
-    #   case s
-    #   when :tr
-    #     # errors[:tr] = net.train(tr_input, is_a_triangle)
-    #     net.train(tr_input, is_a_triangle)
-    #   when :sq
-    #     # errors[:sq] = net.train(sq_input, is_a_square)
-    #     net.train(sq_input, is_a_square)
-    #   when :cr
-    #     # errors[:cr] = net.train(cr_input, is_a_cross)
-    #     net.train(cr_input, is_a_cross)
-    #   end
-    # end
-
+  qty.times do
     [[tr_input, is_a_triangle], [sq_input, is_a_square], [cr_input, is_a_cross]].each do |io|
       net.train(io[0], io[1])  
     end
-    # error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
   end
 
+  print "TSC: " if VERBOSE
   next_guess = guess(net, tr_input)
-  # bench_check_guess(next_guess, "TRIANGLE")
+  bench_check_guess(next_guess, "TRIANGLE") if VERBOSE
 
   next_guess = guess(net, sq_input)
-  # bench_check_guess(next_guess, "SQUARE")
+  bench_check_guess(next_guess, "SQUARE") if VERBOSE
 
   next_guess = guess(net, cr_input)
-  # bench_check_guess(next_guess, "CROSS")
+  bench_check_guess(next_guess, "CROSS") if VERBOSE
+  puts if VERBOSE
+
 end
 
 Benchmark.ips do |x|
@@ -91,10 +80,12 @@ Benchmark.ips do |x|
     net.learning_rate = learning_rate
     train(net, qty, tr_input, sq_input, cr_input, is_a_triangle, is_a_square, is_a_cross)
   end
+  puts
   
   x.report("Backpropagation2") do
     net = Ai4cr::NeuralNetwork::Backpropagation2.new(shape)
     net.learning_rate = learning_rate
     train(net, qty, tr_input, sq_input, cr_input, is_a_triangle, is_a_square, is_a_cross)
   end
+  puts
 end

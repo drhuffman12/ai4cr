@@ -27,7 +27,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
 
       net = Ai4cr::NeuralNetwork::Backpropagation.new([256, 3])
       net.learning_rate = rand
-      qty = 100000 #  + (rand * 100).to_i
+      qty = 100000
 
       describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
         qty.times do |i|
