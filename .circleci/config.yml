@@ -13,7 +13,6 @@ jobs:
             crystal -v > test-results/crystal_version.txt
             crystal eval 'require "./src/ai4cr"; puts "Ai4cr version: #{Ai4cr::VERSION}"' > test-results/app_version.txt
             time crystal spec --release --no-debug --time --error-trace --no-color > test-results/spec/results.txt
-            time crystal spec --release --no-debug --time --error-trace --no-color spec_examples > test-results/spec/results_spec_examples.txt
 
       # collect reports
       - store_test_results:
