@@ -6,13 +6,16 @@ shape = [256, 3]
 Ai4cr::NeuralNetwork::Backpropagation.new(shape)
 
 # USAGE:
-# crystal build --release src/bench/backpropogation.cr -o bin/bench/backpropogation
-# time bin/bench/backpropogation
+# crystal build --release src/bench/backpropogation2.cr -o bin/bench/backpropogation2
+# crystal build --release --debug src/bench/backpropogation2.cr -o bin/bench/backpropogation2
+# crystal build src/bench/backpropogation2.cr -o bin/bench/backpropogation2
+# time bin/bench/backpropogation2
 
 # mkdir -p tmp/bench
 
-# valgrind --tool=callgrind --inclusive=yes --tree=both --auto=yes --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/bench/backpropogation.callgrind.out bin/bench/backpropogation
+# valgrind --tool=callgrind --inclusive=yes --tree=both --auto=yes --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/bench/backpropogation2.callgrind.out bin/bench/backpropogation2
 
-# valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/bench/backpropogation.callgrind.out bin/bench/backpropogation
+# valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/bench/backpropogation2.callgrind.out bin/bench/backpropogation2
 
 
+# valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes --dump-instr=yes --collect-jumps=yes --callgrind-out-file=tmp/bench/backpropogation2.callgrind.out bin/bench/backpropogation2
