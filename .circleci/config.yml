@@ -10,6 +10,8 @@ jobs:
           name: run tests
           command: |
             mkdir -p test-results/spec
+            crystal -v > test-results/spec/crystal_version.txt
+            crystal eval 'require "./src/ai4cr"; puts "Ai4cr version: #{Ai4cr::VERSION}"' > test-results/spec/app_version.txt
             crystal spec -t --no-color > test-results/spec/results.txt
 
       # collect reports

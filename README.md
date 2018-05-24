@@ -36,6 +36,12 @@ If you'd like another class of Ai4r ported, feel free to submit a [new issue](ht
 docker-compose build
 ```
 
+### Show version
+
+```bash
+docker-compose run app crystal eval 'require "./src/ai4cr"; puts "Ai4cr version: #{Ai4cr::VERSION}"'
+```
+
 ### Test
 
 ```bash
