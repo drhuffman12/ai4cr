@@ -10,14 +10,14 @@ jobs:
     steps:
       - checkout
       - run:
-          - name: update_deps
-          - command: shards update
+        - name: update_deps
+        - command: shards update
       - run:
-          - name: build_deps
-          - command: shards build
+        - name: build_deps
+        - command: shards build
       - run:
-          - name: test
-          - command: crystal spec
+        - name: test
+        - command: crystal spec
       - save_cache:
         key: dependency-cache
         paths:
@@ -39,5 +39,5 @@ jobs:
     # test:
     #   override:
     #     - crystal spec
-
+  
   
