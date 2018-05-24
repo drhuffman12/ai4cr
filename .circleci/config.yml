@@ -1,7 +1,6 @@
 version: 2
 jobs:
   build:
-    workDir: ~/repo
     docker:
       - image: crystallang/crystal:nightly
     steps:
