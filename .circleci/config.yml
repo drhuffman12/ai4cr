@@ -9,7 +9,7 @@ jobs:
       - run:
           name: run tests
           command: |
-            mkdir tmp/test-results
+            mkdir -p tmp/test-results
             crystal spec -s -p -t --no-color > tmp/test-results/spec.out
 
       # collect reports
