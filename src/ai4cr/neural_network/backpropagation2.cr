@@ -344,24 +344,7 @@ module Ai4cr
         end
         return error
       end
-
-      # def check_input_dimension(inputs)
-      #   if inputs != @structure.first
-      #     msg = (IO::Memory.new << "Wrong number of inputs. " <<
-      #           "Expected: " << @structure.first << ", " <<
-      #           "received: " << inputs << ".")
-      #     raise ArgumentError.new(msg.to_s)
-      #   end
-      # end
-
-      # def check_output_dimension(outputs)
-      #   if outputs != @structure.last
-      #     msg = (IO::Memory.new << "Wrong number of outputs. " <<
-      #           "Expected: " << @structure.last << ", " <<
-      #           "received: " << outputs << ".")
-      #     raise ArgumentError.new(msg.to_s)
-      #   end
-      # end
+      
       def check_input_dimension(inputs)
         if inputs != @structure.first
           msg = "Wrong number of inputs. " +
