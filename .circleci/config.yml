@@ -17,7 +17,7 @@ jobs:
           name: run tests
           command: |
             mkdir /tmp/test-results
-            crystal spec -s -p -t > /tmp/test-results
+            crystal spec -s -p -t --junit_output /tmp/test-results/spec.txt
 
       # collect reports
       - store_test_results:
