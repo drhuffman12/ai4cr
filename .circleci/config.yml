@@ -5,10 +5,12 @@ jobs:
       - image: crystallang/crystal:nightly
     steps:
       - checkout
-      - run:
-          name: Install dependencies
-          command: 'crystal deps'
-      - run:
-          name: Run tests
-          command: 'crystal spec'
+      - run: shards install
+          
+  test:
+    docker:
+      - image: crystallang/crystal:nightly
+    steps:
+      - checkout
+      - run: crystal spec
           
