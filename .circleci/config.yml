@@ -11,7 +11,6 @@ jobs:
           command: |
             mkdir -p test-results/spec
             crystal spec -s -p -t --no-color > test-results/spec/results.txt
-            mkdir test-results
 
       # collect reports
       - store_test_results:
@@ -20,11 +19,3 @@ jobs:
       - store_artifacts:
           path: test-results
           destination: test-results
-
-          
-  # test:
-  #   docker:
-  #     - image: crystallang/crystal:nightly
-  #   steps:
-  #     - checkout
-  #     # - run: crystal spec
