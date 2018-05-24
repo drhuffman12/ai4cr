@@ -12,5 +12,16 @@ jobs:
       - image: crystallang/crystal:nightly
     steps:
       - checkout
-      - run: crystal spec
-          
+      # - run: crystal spec
+      - run:
+          name: run tests
+          command: |
+            mkdir /tmp/test-results
+            crystal spec -s -p -t > /tmp/test-results
+
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
