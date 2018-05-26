@@ -7,10 +7,10 @@ module Ai4cr
         property disable_bias, learning_rate, momentum, activation_nodes
         property height, hidden_qty, width
 
-        @activation_nodes : Array(Array(Float64))
-        @weights : Array(Array(Array(Float64)))
-        @last_changes : Array(Array(Array(Float64)))
-        @deltas : Array(Array(Float64))
+        @activation_nodes : Array(Array(Float64)) = [[0.0]]
+        @weights : Array(Array(Array(Float64))) = [[[0.0]]]
+        @last_changes : Array(Array(Array(Float64))) = [[[0.0]]]
+        @deltas : Array(Array(Float64)) = [[0.0]]
 
         def height
           @structure.first.to_i
@@ -45,10 +45,10 @@ module Ai4cr
           @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? 0.25 : learning_rate.as(Float64)
           @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : 0.1
           # Below are set via #init_network, but must be initialized in the 'initialize' method to avoid being nilable:
-          @activation_nodes = [[0.0]]
-          @weights = [[[0.0]]]
-          @last_changes = [[[0.0]]]
-          @deltas = [[0.0]]
+          # @activation_nodes = [[0.0]]
+          # @weights = [[[0.0]]]
+          # @last_changes = [[[0.0]]]
+          # @deltas = [[0.0]]
           init_network
         end
 

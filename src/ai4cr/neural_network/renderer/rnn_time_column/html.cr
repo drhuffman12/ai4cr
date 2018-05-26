@@ -1,4 +1,3 @@
-require "../../../prototype_rnn/rnn_time_column"
 require "./generic"
 
 # module PrototypeRnn

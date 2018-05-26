@@ -1,7 +1,5 @@
-require "../../../prototype_rnn/rnn_time_column"
-# require "../../prototype_rnn/rnn"
+require "../../rnn_time_column_forward"
 
-# module PrototypeRnn
 module Ai4cr
   module NeuralNetwork
     module Renderer

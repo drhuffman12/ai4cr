@@ -1,4 +1,4 @@
-require "./rnn_time_column"
+require "./rnn_time_column_forward"
 
 module Ai4cr
   module NeuralNetwork
