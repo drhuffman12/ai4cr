@@ -46,6 +46,12 @@ docker-compose run app crystal eval 'require "./src/ai4cr"; puts "Ai4cr version:
 
 ```bash
 docker-compose run app crystal spec
+# or with options, such as:
+docker-compose run app crystal spec --no-debug --time --verbose spec/ai4cr/neural_network/rspb/rnn_scaled_prime_bidirectional_spec.cr
+# .. or :
+docker-compose run -e AI4CR_RSB_PRIME_QTY_DEFAULT=4 -e AI4CR_RSB_ZOOM_QTY_DEFAULT=4 -e AI4CR_RSB_PANEL_QTY_DEFAULT=4 app crystal spec --no-debug --time --verbose spec/ai4cr/neural_network/rspb/rnn_scaled_prime_bidirectional_spec.cr
+
+# docker-compose run app crystal-coverage spec/ai4cr/neural_network/rspb/rnn_scaled_prime_bidirectional_spec.cr
 ```
 
 ### Docker console
