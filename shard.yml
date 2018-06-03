@@ -12,3 +12,7 @@ license: MIT
 #   icr:
 #     github: crystal-community/icr
 #     branch: master
+
+# development_dependencies:
+#   coverage:
+#     github: anykeyh/crystal-coverage
