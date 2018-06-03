@@ -4,3 +4,7 @@ services:
     build: .
     volumes:
       - ./:/app
+    environment:
+      - AI4CR_RSB_PRIME_QTY_DEFAULT
+      - AI4CR_RSB_ZOOM_QTY_DEFAULT
+      - AI4CR_RSB_PANEL_QTY_DEFAULT
