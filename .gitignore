@@ -7,3 +7,5 @@
 /shard.lock
 
 /test-results/
+
+*.OLD
