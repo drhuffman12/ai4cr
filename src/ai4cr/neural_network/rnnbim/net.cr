@@ -15,7 +15,7 @@ module Ai4cr
         NODE_VAL_MID = 0.0
         NODE_VAL_MAX = 1.0
 
-        getter time_column_qty, input_state_qty, output_state_qty
+        getter time_column_scale, time_column_qty : Int32, input_state_qty, output_state_qty
         getter hidden_layer_qty, hidden_layer_scale
         getter hidden_state_qty : Int32
 
@@ -38,13 +38,16 @@ module Ai4cr
         # getter output_weights : Array(HiddenChannel)
 
         def initialize(
-            @time_column_qty = 8, @input_state_qty = 4, @output_state_qty = 2,
+          # @time_column_qty = 2 * 2 ** 2, 
+            @time_column_scale = 1, 
+            @input_state_qty = 4, @output_state_qty = 2,
             @hidden_layer_qty = 2, @hidden_layer_scale = 1.0
             # ,
             # @local_offsets = [1,2,3,5,7,9,11] # TODO: e.g.: prime offsets
           )
           raise ArgumentError.new("The value of arg 'hidden_layer_qty' must be at least 1.") if hidden_layer_qty < 1
 
+          @time_column_qty = 2 * (2 ** hidden_layer_qty) * time_column_scale
           @time_column_range = (0..time_column_qty-1)
           @input_state_range = (0..input_state_qty-1)
           @output_state_range = (0..output_state_qty-1)
@@ -89,7 +92,10 @@ module Ai4cr
           node_sets[channel_key] = time_column_range.map do |time_column_index|
             # hidden_state_range.map do |s|
               # init_weights_for_output_current(time_column_index)
-              {:output => [[0.0]]}
+              {
+                :from_combo => [[0.0]],
+                :from_bias => [[0.0]]
+              }
             # end
           end
           nh["output"] = node_sets
@@ -99,12 +105,10 @@ module Ai4cr
             # node_sets = HiddenChannelWeights.new
             node_sets = Hash(Symbol,Array(Hash(Symbol, Array(Array(Float64))))).new
             hidden_channel_keys.each do |channel_key|
-              node_sets[channel_key] = time_column_range.map do |time_column_index|
-                # hidden_state_range.map do |s|
-                #   init_weights_for_hidden_current(hidden_layer_index, time_column_index, channel_key)
-                # end
-                init_weights_for_hidden_current(hidden_layer_index, time_column_index, channel_key)
-              end
+              node_sets[:past] = time_column_range.map { |time_column_index| init_weights_to_current_past(time_column_index, hidden_layer_index) }
+              node_sets[:local] = time_column_range.map { |time_column_index| init_weights_to_current_local(time_column_index, hidden_layer_index) }
+              node_sets[:future] = time_column_range.map { |time_column_index| init_weights_to_current_future(time_column_index, hidden_layer_index) }
+              node_sets[:combo] = time_column_range.map { |time_column_index| init_weights_to_current_combo(time_column_index, hidden_layer_index) }
             end
             nh["hidden_#{hidden_layer_index}"] = node_sets
           end
@@ -112,34 +116,56 @@ module Ai4cr
           nh
         end
 
-        def init_weights_for_hidden_current(hidden_layer_index, time_column_index, channel_key) # : Array(Hash(Symbol, Array(Array(Float64))))
-          # case channel_key
-          # when :past
-            init_weights_to_current_past(time_column_index, hidden_layer_index)
-          # # when :local
-          # #   init_weights_to_current_local(time_column_index, hidden_layer_index)
-          # # when :future
-          # #   init_weights_to_current_future(time_column_index, hidden_layer_index)
-          # # when :combo
-          # #   init_weights_to_current_combo(time_column_index, hidden_layer_index)
-          # else
-          #   #   init_weights_to_current_combo(time_column_index, hidden_layer_index)
-          # end
-        end
-
         def init_weights_to_current_past(time_column_index, hidden_layer_index)
           weights = Hash(Symbol, Array(Array(Float64))).new
 
-          # weights[:from_inputs] = init_weights_from_inputs_to_hidden if hidden_layer_index == 0
-          # weights[:from_combo] = init_weights_from_hidden_to_hidden if hidden_layer_index > 0
           if hidden_layer_index == 0
             weights[:from_inputs] = init_weights_from_inputs_to_hidden
           else
             weights[:from_combo] = init_weights_from_hidden_to_hidden
           end
 
-          weights[:from_past] = init_weights_from_hidden_to_hidden if time_column_index > 0
-          # weights[:from_future] = init_weights_from_hidden_to_hidden if past_enabled && time_column_index > 0
+          weights[:from_past] = init_weights_from_hidden_to_hidden if time_column_index >= 2 ** hidden_layer_index
+          weights[:from_mem_same_image] = init_weights_from_hidden_to_hidden
+          weights[:from_mem_after_image] = init_weights_from_hidden_to_hidden
+          weights[:from_bias] = init_weights_from_bias_to_hidden
+          
+          weights
+        end
+
+        def init_weights_to_current_local(time_column_index, hidden_layer_index)
+          weights = Hash(Symbol, Array(Array(Float64))).new
+
+          if hidden_layer_index == 0
+            weights[:from_inputs_past] = init_weights_from_inputs_to_hidden if time_column_index >= 2 ** hidden_layer_index
+            weights[:from_inputs_current] = init_weights_from_inputs_to_hidden
+            weights[:from_inputs_future] = init_weights_from_inputs_to_hidden if time_column_index < time_column_range.max - 2 ** hidden_layer_index
+          else
+            weights[:from_combo_past] = init_weights_from_hidden_to_hidden if time_column_index >= 2 ** hidden_layer_index
+            weights[:from_combo_current] = init_weights_from_hidden_to_hidden
+            weights[:from_combo_future] = init_weights_from_hidden_to_hidden if time_column_index < time_column_range.max - 2 ** hidden_layer_index
+          end
+
+          weights[:from_mem_same_image] = init_weights_from_hidden_to_hidden
+          weights[:from_mem_after_image] = init_weights_from_hidden_to_hidden
+          weights[:from_bias] = init_weights_from_bias_to_hidden
+          
+          weights
+        end
+
+        def init_weights_to_current_combo(time_column_index, hidden_layer_index)
+          weights = Hash(Symbol, Array(Array(Float64))).new
+
+          if hidden_layer_index == 0
+            weights[:from_inputs] = init_weights_from_inputs_to_hidden
+          else
+            weights[:from_combo] = init_weights_from_hidden_to_hidden
+          end
+
+          weights[:from_past] = init_weights_from_hidden_to_hidden
+          weights[:from_local] = init_weights_from_hidden_to_hidden
+          weights[:from_future] = init_weights_from_hidden_to_hidden
+          
           weights[:from_mem_same_image] = init_weights_from_hidden_to_hidden
           weights[:from_mem_after_image] = init_weights_from_hidden_to_hidden
           weights[:from_bias] = init_weights_from_bias_to_hidden
