@@ -13,6 +13,10 @@
 # hidden_layer_index = 0
 # w = net.init_weights_to_current_past(time_column_index, hidden_layer_index)
 
+# w = net.init_weights_to_current_future(time_column_index, hidden_layer_index)
+
+# w = net.init_weights
+
 # puts "w: #{w.pretty_inspect}"
           
 # /home/drhuffman/_dev_/github.com/drhuffman12/ai4cr_alt/src/ai4cr/neural_network/rnnbim/net.cr    
@@ -63,11 +67,6 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
   
         it "@hidden_delta_scales" do
           net.hidden_delta_scales.should eq(expected_hidden_delta_scales)
-        end
-  
-        it "@bias_enabled" do
-          expected_bias_enabled = true
-          net.bias_enabled.should eq(expected_bias_enabled)
         end
       end
 
