@@ -6,21 +6,21 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
 
     expected_sub_keys_for_hidden_weights = [:past, :local, :future, :combo]
 
-    using_default_params_expected_input_state_qty = 4
-    using_default_params_expected_output_state_qty = 2
-    using_default_params_expected_hidden_layer_qty = 2
-    using_default_params_expected_time_column_qty = 2
-    using_default_params_expected_hidden_layer_scale = 1.0
-    using_default_params_expected_hidden_state_qty = 3 # (avg of in & out)*scale
+    default_expected_input_state_qty = 4
+    default_expected_output_state_qty = 2
+    default_expected_hidden_layer_qty = 2
+    default_expected_time_column_qty = 2
+    default_expected_hidden_layer_scale = 1.0
+    default_expected_hidden_state_qty = 3 # (avg of in & out)*scale
 
-    using_default_params_expected_time_column_range = (0..7)
-    using_default_params_expected_input_state_range = (0..3) # (0..using_default_params_expected_input_state_qty-1)
-    using_default_params_expected_hidden_state_range = (0..2) # (0..using_default_params_expected_hidden_state_qty-1)
-    using_default_params_expected_output_state_range = (0..1) # (0..using_default_params_expected_output_state_qty-1)
+    default_expected_time_column_range = (0..7)
+    default_expected_input_state_range = (0..3) # (0..default_expected_input_state_qty-1)
+    default_expected_hidden_state_range = (0..2) # (0..default_expected_hidden_state_qty-1)
+    default_expected_output_state_range = (0..1) # (0..default_expected_output_state_qty-1)
 
-    using_default_params_expected_hidden_delta_scales = [1,2]
+    default_expected_hidden_delta_scales = [1,2]
 
-    using_default_params_expected_nodes_hidden = [
+    default_expected_nodes_hidden = [
       {
         :current => {
           :past => [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]],
@@ -63,640 +63,651 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
     }
     ]
     
-    using_default_params_expected_weight_meta = {
+    ## for Specs:
+    # alias ChronoSize = Int32
+    # alias LayerSize = Int32
+    # alias MetaChronoKey = Symbol
+    
+    # alias MetaWeightsSimple = Hash(Symbol, ChronoSize)
+    # alias MetaWeightsFromChannel = Hash(FromChannelKey, MetaWeightsSimple)
+    # alias MetaWeightsAtTime = Hash(MetaChronoKey, MetaWeightsFromChannel)
+    # alias MetaWeightsToChannel = Hash(ToChannelKey,MetaWeightsAtTime)
+    # alias MetaWeightsNetwork = Hash(LayerName,MetaWeightsToChannel)
+
+    default_expected_weight_meta = {
       "output" => {
-        :output => {
-          :size => using_default_params_expected_time_column_range.size,
+        :output => { # 
+          :chrono_size => default_expected_time_column_range.size,
           :time_col_first_keys => {
-            :from_combo => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
-            },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo => {
+              :in_size => default_expected_hidden_state_range.size, # MetaWeightsSimple
+              :out_size => default_expected_hidden_state_range.size
+            }, # Hash(Symbol, Hash(Symbol, Int32))
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
-          },
+          }, # MetaWeightsAtTime
           :time_col_mid_keys => {
-            :from_combo => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_last_keys => {
-            :from_combo => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           }
-        }
-      },
+        } # Hash(Symbol, Hash(Symbol, Int32))
+      }, # MetaWeightsNetwork
       "hidden_0" => {
         :past => {
-          :size => using_default_params_expected_time_column_range.size,
+          :chrono_size => default_expected_time_column_range.size,
           :time_col_first_keys => {
-            :from_inputs => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_mid_keys => {
-            :from_inputs => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_past => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :past => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_last_keys => {
-            :from_inputs => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_past => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :past => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           }
         },
 
         :local => {
-          :size => using_default_params_expected_time_column_range.size,
+          :chrono_size => default_expected_time_column_range.size,
           :time_col_first_keys => {
-            :from_inputs_current => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input_current => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_inputs_future => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input_future => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_mid_keys => {
-            :from_inputs_past => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input_past => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_inputs_current => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input_current => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_inputs_future => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input_future => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_last_keys => {
-            :from_inputs_past => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input_past => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_inputs_current => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input_current => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           }
         },
 
         :future => {
-          :size => using_default_params_expected_time_column_range.size,
+          :chrono_size => default_expected_time_column_range.size,
           :time_col_first_keys => {
-            :from_future => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :future => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_inputs => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_mid_keys => {
-            :from_future => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :future => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_inputs => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_last_keys => {
-            :from_inputs => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           }
         },
 
         :combo => {
-          :size => using_default_params_expected_time_column_range.size,
+          :chrono_size => default_expected_time_column_range.size,
           :time_col_first_keys => {
-            :from_inputs => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_past => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :past => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_local => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :local => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_future => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :future => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_mid_keys => {
-            :from_inputs => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_past => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :past => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_local => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :local => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_future => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :future => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_last_keys => {
-            :from_inputs => {
-              :size => using_default_params_expected_input_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :input => {
+              :in_size => default_expected_input_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_past => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :past => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_local => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :local => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_future => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :future => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           }
         },
       },
       "hidden_1" => {
         :past => {
-          :size => using_default_params_expected_time_column_range.size,
+          :chrono_size => default_expected_time_column_range.size,
           :time_col_first_keys => {
-            :from_combo => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_mid_keys => {
-            :from_combo => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_past => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :past => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_last_keys => {
-            :from_combo => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_past => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :past => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           }
         },
 
         :local => {
-          :size => using_default_params_expected_time_column_range.size,
+          :chrono_size => default_expected_time_column_range.size,
           :time_col_first_keys => {
-            :from_combo_current => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo_current => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_combo_future => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo_future => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_mid_keys => {
-            :from_combo_past => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo_past => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_combo_current => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo_current => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_combo_future => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo_future => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_last_keys => {
-            :from_combo_past => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo_past => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_combo_current => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo_current => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           }
         },
 
         :future => {
-          :size => using_default_params_expected_time_column_range.size,
+          :chrono_size => default_expected_time_column_range.size,
           :time_col_first_keys => {
-            :from_future => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :future => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_combo => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_mid_keys => {
-            :from_future => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :future => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_combo => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_last_keys => {
-            :from_combo => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           }
         },
 
         :combo => {
-          :size => using_default_params_expected_time_column_range.size,
+          :chrono_size => default_expected_time_column_range.size,
           :time_col_first_keys => {
-            :from_combo => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_past => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :past => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_local => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :local => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_future => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :future => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_mid_keys => {
-            :from_combo => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_past => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :past => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_local => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :local => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_future => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :future => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           },
           :time_col_last_keys => {
-            :from_combo => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :combo => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_past => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :past => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_local => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :local => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_future => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :future => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_same_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_same_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_mem_after_image => {
-              :size => using_default_params_expected_hidden_state_range.size,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :mem_after_image => {
+              :in_size => default_expected_hidden_state_range.size,
+              :out_size => default_expected_hidden_state_range.size
             },
-            :from_bias => {
-              :size => 1,
-              :sub_size => using_default_params_expected_hidden_state_range.size
+            :bias => {
+              :in_size => 1,
+              :out_size => default_expected_hidden_state_range.size
             }
           }
         },
@@ -707,105 +718,105 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
       
       describe "sets expected quantity for instance variable" do
         it "@input_state_qty" do
-          net.input_state_qty.should eq(using_default_params_expected_input_state_qty)
+          net.input_state_qty.should eq(default_expected_input_state_qty)
         end
   
         it "@hidden_state_qty" do
-          net.hidden_state_qty.should eq(using_default_params_expected_hidden_state_qty)
+          net.hidden_state_qty.should eq(default_expected_hidden_state_qty)
         end
   
         it "@output_state_qty" do
-          net.output_state_qty.should eq(using_default_params_expected_output_state_qty)
+          net.output_state_qty.should eq(default_expected_output_state_qty)
         end
   
         it "@hidden_layer_qty" do
-          net.hidden_layer_qty.should eq(using_default_params_expected_hidden_layer_qty)
+          net.hidden_layer_qty.should eq(default_expected_hidden_layer_qty)
         end
   
         it "@hidden_layer_scale" do
-          net.hidden_layer_scale.should eq(using_default_params_expected_hidden_layer_scale)
+          net.hidden_layer_scale.should eq(default_expected_hidden_layer_scale)
         end
   
         it "@hidden_delta_scales" do
-          net.hidden_delta_scales.should eq(using_default_params_expected_hidden_delta_scales)
+          net.hidden_delta_scales.should eq(default_expected_hidden_delta_scales)
         end
       end
 
       describe "sets expected range for instance variable" do
         it "@input_state_range" do
-          net.input_state_range.should eq(using_default_params_expected_input_state_range)
+          net.input_state_range.should eq(default_expected_input_state_range)
         end
   
         it "@hidden_state_range" do
-          net.hidden_state_range.should eq(using_default_params_expected_hidden_state_range)
+          net.hidden_state_range.should eq(default_expected_hidden_state_range)
         end
   
         it "@output_state_range" do
-          net.output_state_range.should eq(using_default_params_expected_output_state_range)
+          net.output_state_range.should eq(default_expected_output_state_range)
         end
       end
 
       describe "sets expected array structure for" do
-        using_default_params_expected_nodes_in = [[0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0]]
-        using_default_params_expected_nodes_out = [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
+        default_expected_nodes_in = [[0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0]]
+        default_expected_nodes_out = [[0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0], [0.0, 0.0]]
   
         it "@nodes_in" do
-          net.nodes_in.should eq(using_default_params_expected_nodes_in)
+          net.nodes_in.should eq(default_expected_nodes_in)
         end
           
         it "#nodes_out" do
-          net.nodes_out.should eq(using_default_params_expected_nodes_out)
+          net.nodes_out.should eq(default_expected_nodes_out)
         end
       end
 
       describe "sets expected hash structure for" do
         it "@nodes_hidden" do
-          net.nodes_hidden.should eq(using_default_params_expected_nodes_hidden)
+          net.nodes_hidden.should eq(default_expected_nodes_hidden)
         end
       end
     end
 
-    describe "#init_nodes_hidden" do
+    describe "#init_hidden_nodes" do
       it "returns expected results" do
-        net.init_nodes_hidden.should eq(using_default_params_expected_nodes_hidden)
+        net.init_hidden_nodes.should eq(default_expected_nodes_hidden)
       end
     end
 
-    describe "#init_weights" do
-      weights = net.init_weights
+    describe "#init_network_weights" do
+      weights = net.init_network_weights
 
       it "has expected top level keys" do
-        weights.keys.should eq(using_default_params_expected_weight_meta.keys)
+        weights.keys.should eq(default_expected_weight_meta.keys)
       end
 
-      using_default_params_expected_weight_meta.keys.each do |top_level_key|
+      default_expected_weight_meta.keys.each do |top_level_key|
         describe "for top level key #{top_level_key}" do
           it "has expected sub-keys" do
-            weights[top_level_key].keys.should eq(using_default_params_expected_weight_meta[top_level_key].keys)
+            weights[top_level_key].keys.should eq(default_expected_weight_meta[top_level_key].keys)
           end
 
-          using_default_params_expected_weight_meta[top_level_key].each do |sub_key, sub_value|
+          default_expected_weight_meta[top_level_key].each do |sub_key, sub_value|
             describe "for sub-key #{sub_key} has an array" do
               it "of expected size" do
-                weights[top_level_key][sub_key].size.should eq(using_default_params_expected_weight_meta[top_level_key][sub_key][:size])
+                expected_size = sub_value[:chrono_size]
+                weights[top_level_key][sub_key].size.should eq(expected_size)
               end
 
               describe "with a first element which" do
                 it "has expected keys" do
-                  # weights[top_level_key][sub_key].first.should eq("TBD")
                   keys = weights[top_level_key][sub_key].first.keys.sort
-                  expected_keys = using_default_params_expected_weight_meta[top_level_key][sub_key][:time_col_first_keys].as(Hash(Symbol, Hash(Symbol, Int32))).keys.sort
+                  expected_keys = sub_value[:time_col_first_keys].as(Hash(Symbol, Hash(Symbol, Int32))).keys.sort
                   keys.should eq(expected_keys) # [:time_col_first_keys])
                 end
 
                 # describe "has expected quantity of values" do
-                #   expected_keys = using_default_params_expected_weight_meta[top_level_key][sub_key]
+                #   expected_keys = sub_value
 
                 #   expected_keys.each do |exp_key|
                 #     it "has expected quantity of values" do
                 #       # weights[top_level_key][sub_key].first.should eq("TBD")
                 #       values = weights[top_level_key][sub_key].first[exp_key]
-                #       expected_values_size = using_default_params_expected_weight_meta[top_level_key][sub_key][:time_col_first_keys].as(Hash(Symbol, Hash(Symbol, Int32)))[exp_key][:size]
+                #       expected_values_size = sub_value[:time_col_first_keys].as(Hash(Symbol, Hash(Symbol, Int32)))[exp_key][:in_size]
                 #       values.size.should eq(expected_values_size) # [:time_col_first_keys])
                 #     end
                 #   end
@@ -816,7 +827,7 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
                 it "has expected keys" do
                   # weights[top_level_key][sub_key].last.should eq("TBD")
                   keys = weights[top_level_key][sub_key].last.keys.sort
-                  expected_keys = using_default_params_expected_weight_meta[top_level_key][sub_key][:time_col_last_keys].as(Hash(Symbol, Hash(Symbol, Int32))).keys.sort
+                  expected_keys = sub_value[:time_col_last_keys].as(Hash(Symbol, Hash(Symbol, Int32))).keys.sort
                   keys.should eq(expected_keys) # [:time_col_last_keys])
                 end
               end
@@ -824,52 +835,6 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
             end
           end
 
-        end
-      end
-
-      ####
-
-      it "returns expected top level keys" do
-        top_keys = weights.keys
-        expected_keys = ["output"]
-        (0..using_default_params_expected_hidden_layer_qty - 1).each { |i| expected_keys << "hidden_#{i}" }
-        top_keys.should eq(expected_keys)
-      end
-    
-      it "has expected quantity of top level keys" do
-        keys = weights.keys
-        expected_key_qty = 1 + net.hidden_layer_range.size
-        keys.size.should eq(expected_key_qty)
-      end
-
-      describe "has top level key" do
-        expected_subkey_class = Hash(Symbol, Array(Hash(Symbol, Array(Array(Float64)))))
-
-        
-        describe "output" do
-          it "with expected sub-keys" do
-            keys = weights["output"].keys
-            expected_sub_keys_for_output = [:output] # TODO
-            keys.should eq(expected_sub_keys_for_output)
-          end
-
-          it "with value of expected class" do
-            weights["output"].class.should eq(expected_subkey_class)
-          end
-        end
-
-        (0..using_default_params_expected_hidden_layer_qty - 1).each do |i|
-          expected_top_key = "hidden_#{i}"
-          describe "#{expected_top_key}" do
-            it "with expected sub-keys" do
-              keys = weights[expected_top_key].keys
-              keys.should eq(expected_sub_keys_for_hidden_weights)
-            end
-
-            it "with value of expected class" do
-              weights[expected_top_key].class.should eq(expected_subkey_class)
-            end
-          end
         end
       end
 
@@ -906,7 +871,7 @@ end
 
 # w = net.init_weights_to_current_future(time_column_index, hidden_layer_index)
 
-# w = net.init_weights
+# w = net.init_network_weights
 
 # puts "w: #{w.pretty_inspect}"
           
