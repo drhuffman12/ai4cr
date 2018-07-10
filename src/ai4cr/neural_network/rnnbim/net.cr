@@ -2,22 +2,6 @@ module Ai4cr
   module NeuralNetwork
     module Rnnbim # RNN, Bidirectional, Inversable Memory
       class Net # Ai4cr::NeuralNetwork::Rnnbim::Net
-        alias ChannelKey = Symbol # TODO: change to Enum?
-        alias FromChannelKey = Symbol # TODO: change to Enum?
-        alias ToChannelKey = Symbol # TODO: change to Enum?
-        alias LayerName = String # TODO: change to Enum?
-
-        alias NodesSimple = Array(Float64)
-        alias NodesChrono = Array(NodesSimple)
-        alias NodesChannel = Hash(ChannelKey, NodesChrono)
-        alias NodesLayer = Hash(ChannelKey, NodesChannel)
-        alias NodesHidden = Array(NodesLayer)
-
-        alias WeightsSimple = Array(Array(Float64))
-        alias WeightsFromChannel = Hash(FromChannelKey, WeightsSimple)
-        alias WeightsToChannel = Hash(ToChannelKey,Array(WeightsFromChannel))
-        alias WeightsNetwork = Hash(LayerName,WeightsToChannel)
-
         NODE_VAL_MIN = -1.0
         NODE_VAL_MID = 0.0
         NODE_VAL_MAX = 1.0
@@ -95,10 +79,11 @@ module Ai4cr
           node_sets[channel_key] = time_column_range.map do |time_column_index|
             # hidden_state_range.map do |s|
               # init_weights_for_output_current(time_column_index)
-              {
-                :combo => [[0.0]],
-                :bias => [[0.0]]
-              }
+              # {
+              #   :combo => [[0.0]],
+              #   :bias => [[0.0]]
+              # }
+              init_weights_to_current_output(time_column_index)
             # end
           end
           nw["output"] = node_sets
@@ -128,7 +113,8 @@ module Ai4cr
             weights_from_channel[:combo] = init_weights_from_hidden_to_hidden
           end
 
-          weights_from_channel[:past] = init_weights_from_hidden_to_hidden if time_column_index >= 2 ** hidden_layer_index
+          weights_from_channel[:past] = init_weights_from_hidden_to_hidden if time_column_index >= node_scaled_border_past(time_column_index, hidden_layer_index)
+
           weights_from_channel[:mem_same_image] = init_weights_from_hidden_to_hidden
           weights_from_channel[:mem_after_image] = init_weights_from_hidden_to_hidden
           weights_from_channel[:bias] = init_weights_from_bias_to_hidden
@@ -140,13 +126,13 @@ module Ai4cr
           weights_from_channel = WeightsFromChannel.new
 
           if hidden_layer_index == 0
-            weights_from_channel[:input_past] = init_weights_from_inputs_to_hidden if time_column_index >= 2 ** hidden_layer_index
+            weights_from_channel[:input_past] = init_weights_from_inputs_to_hidden if time_column_index >= node_scaled_border_past(time_column_index, hidden_layer_index)
             weights_from_channel[:input_current] = init_weights_from_inputs_to_hidden
-            weights_from_channel[:input_future] = init_weights_from_inputs_to_hidden if time_column_index < time_column_range.max - 2 ** hidden_layer_index
+            weights_from_channel[:input_future] = init_weights_from_inputs_to_hidden if time_column_index < node_scaled_border_future(time_column_index, hidden_layer_index)
           else
-            weights_from_channel[:combo_past] = init_weights_from_hidden_to_hidden if time_column_index >= 2 ** hidden_layer_index
+            weights_from_channel[:combo_past] = init_weights_from_hidden_to_hidden if time_column_index >= node_scaled_border_past(time_column_index, hidden_layer_index)
             weights_from_channel[:combo_current] = init_weights_from_hidden_to_hidden
-            weights_from_channel[:combo_future] = init_weights_from_hidden_to_hidden if time_column_index < time_column_range.max - 2 ** hidden_layer_index
+            weights_from_channel[:combo_future] = init_weights_from_hidden_to_hidden if time_column_index < node_scaled_border_future(time_column_index, hidden_layer_index)
           end
 
           weights_from_channel[:mem_same_image] = init_weights_from_hidden_to_hidden
@@ -179,10 +165,15 @@ module Ai4cr
         def init_weights_to_current_future(time_column_index, hidden_layer_index)
           weights_from_channel = WeightsFromChannel.new
 
-          weights_from_channel[:input] = init_weights_from_inputs_to_hidden if hidden_layer_index == 0
-          weights_from_channel[:combo] = init_weights_from_hidden_to_hidden if hidden_layer_index > 0
+          if hidden_layer_index == 0
+            weights_from_channel[:input] = init_weights_from_inputs_to_hidden
+          else
+            weights_from_channel[:combo] = init_weights_from_hidden_to_hidden
+          end
+
           # weights_from_channel[:past] = init_weights_from_hidden_to_hidden if past_enabled && time_column_index > 0
-          weights_from_channel[:future] = init_weights_from_hidden_to_hidden if time_column_index != time_column_range.max
+          weights_from_channel[:future] = init_weights_from_hidden_to_hidden if time_column_index < node_scaled_border_future(time_column_index, hidden_layer_index) # if time_column_index != time_column_range.max
+
           weights_from_channel[:mem_same_image] = init_weights_from_hidden_to_hidden
           weights_from_channel[:mem_after_image] = init_weights_from_hidden_to_hidden
           weights_from_channel[:bias] = init_weights_from_bias_to_hidden
@@ -193,11 +184,20 @@ module Ai4cr
           weights_from_channel = WeightsFromChannel.new
 
           # weights_from_channel[:input] = init_weights_from_inputs_to_hidden if hidden_layer_index == 0
-          weights_from_channel[:combo] = init_weights_from_hidden_to_hidden
-          weights_from_channel[:past] = init_weights_from_hidden_to_hidden
-          weights_from_channel[:mem_same_image] = init_weights_from_hidden_to_hidden
-          weights_from_channel[:mem_after_image] = init_weights_from_hidden_to_hidden
-          weights_from_channel[:bias] = init_weights_from_bias_to_hidden
+
+          # weights_from_channel[:combo] = init_weights_from_hidden_to_hidden
+          # weights_from_channel[:past] = init_weights_from_hidden_to_hidden
+          # weights_from_channel[:mem_same_image] = init_weights_from_hidden_to_hidden
+          # weights_from_channel[:mem_after_image] = init_weights_from_hidden_to_hidden
+          # weights_from_channel[:bias] = init_weights_from_bias_to_hidden
+
+          weights_from_channel[:combo] = init_weights_from_hidden_to_output
+          weights_from_channel[:past] = init_weights_from_hidden_to_output
+          weights_from_channel[:future] = init_weights_from_hidden_to_output
+          # weights_from_channel[:mem_same_image] = init_weights_from_hidden_to_output
+          # weights_from_channel[:mem_after_image] = init_weights_from_hidden_to_output
+          weights_from_channel[:bias] = init_weights_from_bias_to_output
+
           weights_from_channel
         end
 
@@ -215,11 +215,29 @@ module Ai4cr
         end
 
         def init_weights_from_hidden_to_output
-          output_state_range.map { |i| hidden_state_range.map { |s| rnd_pos_neg_one } }
+          hidden_state_range.map { |i| output_state_range.map { |s| rnd_pos_neg_one } }
+          # output_state_range.map { |i| hidden_state_range.map { |s| rnd_pos_neg_one } }
         end
 
         def init_weights_from_bias_to_hidden
           [0].map { |i| hidden_state_range.map { |s| rnd_pos_neg_one } }
+        end
+
+        def init_weights_from_bias_to_output
+          [0].map { |i| output_state_range.map { |s| rnd_pos_neg_one } }
+        end
+
+        # Math
+        def node_delta_scale(time_column_index, hidden_layer_index)
+          2 ** hidden_layer_index
+        end
+        
+        def node_scaled_border_past(time_column_index, hidden_layer_index)
+          node_delta_scale(time_column_index, hidden_layer_index)
+        end
+        
+        def node_scaled_border_future(time_column_index, hidden_layer_index)
+          time_column_range.max - node_delta_scale(time_column_index, hidden_layer_index)
         end
 
         def rnd_pos_neg_one

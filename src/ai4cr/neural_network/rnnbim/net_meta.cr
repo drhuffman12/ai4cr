@@ -1,36 +1,29 @@
 module Ai4cr
   module NeuralNetwork
     module Rnnbim # RNN, Bidirectional, Inversable Memory
-      # A kind of meta data validator or specifier
+      # Expected metadata for Rnnbim Net and a kind of spec helper
       class NetMeta
-        # # To help clarify weight meta data:
-        # alias ChronoSize = Int32
-        # alias LayerSize = Int32
-        # alias MetaChronoKey = Symbol
-        # alias MetaWeightsSimple = Hash(Symbol, ChronoSize)
-        # alias MetaWeightsFromChannel = Hash(FromChannelKey, MetaWeightsSimple)
-        # alias MetaWeightsAtTime = Hash(MetaChronoKey, MetaWeightsFromChannel)
-        # alias MetaWeightsToChannel = Hash(ToChannelKey,MetaWeightsAtTime)
-        # alias MetaWeightsNetwork = Hash(LayerName,MetaWeightsToChannel)
-
         property time_column_range : Range(Int32, Int32)
         property hidden_state_range : Range(Int32, Int32)
         property input_state_range : Range(Int32, Int32)
+        property output_state_range : Range(Int32, Int32)
 
         def initialize(
             @time_column_range,
             @hidden_state_range,
-            @input_state_range
+            @input_state_range,
+            @output_state_range
           )
         end
 
-        def weights
+        def weights : MetaWeightsNetwork
           {
             "output" => weights_output,
-            "hidden_0" => weights_hidden_first,
+            "hidden_0" => weights_hidden_0,
             "hidden_1" => weights_hidden_other,
           }
         end
+
         def weights_output()
           {
             :output => { # 
@@ -38,38 +31,62 @@ module Ai4cr
               :time_col_first_keys => {
                 :combo => {
                   :in_size => hidden_state_range.size, # MetaWeightsSimple
-                  :out_size => hidden_state_range.size
+                  :out_size => output_state_range.size
                 }, # MetaWeightsFromChannel
+                :past => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
+                },
+                :future => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
+                },
                 :bias => {
                   :in_size => 1,
-                  :out_size => hidden_state_range.size
+                  :out_size => output_state_range.size
                 }
               }, # MetaWeightsAtTime
               :time_col_mid_keys => {
                 :combo => {
                   :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
+                  :out_size => output_state_range.size
+                },
+                :past => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
+                },
+                :future => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
                 },
                 :bias => {
                   :in_size => 1,
-                  :out_size => hidden_state_range.size
+                  :out_size => output_state_range.size
                 }
               },
               :time_col_last_keys => {
                 :combo => {
                   :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
+                  :out_size => output_state_range.size
+                },
+                :past => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
+                },
+                :future => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
                 },
                 :bias => {
                   :in_size => 1,
-                  :out_size => hidden_state_range.size
+                  :out_size => output_state_range.size
                 }
               }
             } # MetaWeightsToChannel
           } # MetaWeightsNetwork
         end
 
-        def weights_hidden_first
+        def weights_hidden_0
           {
             :past => {
               :chrono_size => time_column_range.size,

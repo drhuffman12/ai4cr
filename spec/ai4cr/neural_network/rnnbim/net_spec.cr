@@ -4,7 +4,7 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
   describe "with default params" do
     net = Ai4cr::NeuralNetwork::Rnnbim::Net.new
 
-    expected_sub_keys_for_hidden_weights = [:past, :local, :future, :combo]
+    expected_to_channel_keys_for_hidden_weights = [:past, :local, :future, :combo]
 
     default_expected_input_state_qty = 4
     default_expected_output_state_qty = 2
@@ -66,9 +66,10 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
     default_expected_meta = Ai4cr::NeuralNetwork::Rnnbim::NetMeta.new(
       default_expected_time_column_range,
       default_expected_hidden_state_range,
-      default_expected_input_state_range
+      default_expected_input_state_range,
+      default_expected_output_state_range
     )
-    default_expected_top_level_keys = ["output", "hidden_0", "hidden_1"]
+    default_expected_layer_names = ["output", "hidden_0", "hidden_1"]
     default_expected_meta_weights = default_expected_meta.weights
     
     describe "#initialize" do
@@ -142,53 +143,98 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
     describe "#init_network_weights" do
       weights = net.init_network_weights
 
-      it "has expected top level keys" do
+      it "has expected top level 'layer' keys" do
         weights.keys.should eq(default_expected_meta_weights.keys)
-        weights.keys.should eq(default_expected_top_level_keys)
+        weights.keys.should eq(default_expected_layer_names)
       end
 
-      default_expected_meta_weights.keys.each do |top_level_key|
-        describe "for top level key #{top_level_key}" do
-          it "has expected sub-keys" do
-            weights[top_level_key].keys.should eq(default_expected_meta_weights[top_level_key].keys)
+      default_expected_meta_weights.keys.each do |layer_name|
+        describe "for top level 'layer' name \"#{layer_name}\"" do
+          it "has expected 'to channel' keys" do
+            weights[layer_name].keys.should eq(default_expected_meta_weights[layer_name].keys)
           end
 
-          default_expected_meta_weights[top_level_key].each do |sub_key, sub_value|
-            describe "for sub-key #{sub_key} has an array" do
+          default_expected_meta_weights[layer_name].each do |to_channel_key, to_channel_meta|
+            describe "for 'to channel' key :#{to_channel_key} has an array (aka time column indexes)" do
+              expected_size = to_channel_meta[:chrono_size].as(Int32)
+
               it "of expected size" do
-                expected_size = sub_value[:chrono_size]
-                weights[top_level_key][sub_key].size.should eq(expected_size)
+                weights[layer_name][to_channel_key].size.should eq(expected_size)
               end
 
-              describe "with a first element which" do
-                it "has expected keys" do
-                  keys = weights[top_level_key][sub_key].first.keys.sort
-                  expected_keys = sub_value[:time_col_first_keys].as(Hash(Symbol, Hash(Symbol, Int32))).keys.sort
-                  keys.should eq(expected_keys) # [:time_col_first_keys])
+              [:time_col_first_keys, :time_col_mid_keys, :time_col_last_keys].each do |time_col_section_key|
+                describe "with a time column section key (:#{time_col_section_key}) which" do
+                  time_col_index = case time_col_section_key
+                    when :time_col_first_keys
+                      0
+                    when :time_col_last_keys
+                      -1
+                    else
+                      expected_size / 2
+                    end
+
+                  keys = weights[layer_name][to_channel_key][time_col_index].keys.sort
+                  expected_from_channel_meta = to_channel_meta[time_col_section_key].as(Hash(Symbol, Hash(Symbol, Int32)))
+                  expected_from_channel_keys = expected_from_channel_meta.keys.sort
+                  # expected_from_channel_keys = to_channel_meta[time_col_section_key].as(Hash(MetaChronoKey, MetaWeightsFromChannel)).keys.sort
+
+                  it "has expected 'from channel' keys" do
+                    # keys = weights[layer_name][to_channel_key].first.keys.sort
+
+                    # puts
+                    # puts "keys: #{keys}"
+                    # puts
+                    
+                    keys.should eq(expected_from_channel_keys) # [:time_col_first_keys])
+                  end
+
+                  expected_from_channel_keys.each do |expected_from_channel_key|
+                    expected_size_meta = expected_from_channel_meta[expected_from_channel_key]
+                    # to_channel_meta[:time_col_first_keys]
+
+                    describe "for 'from channel' key :#{expected_from_channel_key}, it defines simple weights" do
+                      puts
+                      puts "to_channel_meta: #{to_channel_meta}"
+                      puts
+                      puts "expected_from_channel_meta: #{expected_from_channel_meta}"
+                      puts
+                      puts "expected_from_channel_keys: #{expected_from_channel_keys}"
+                      puts
+
+                      it "with expected :in_size" do
+                        expected_in_size = expected_size_meta[:in_size]
+                        in_size = weights[layer_name][to_channel_key][time_col_index].size
+                        in_size.should eq(expected_in_size)
+                      end
+    
+                      it "with expected :out_size" do
+                        expected_out_size = expected_size_meta[:out_size]
+                        out_size = weights[layer_name][to_channel_key][time_col_index].first.size
+                        out_size.should eq(expected_out_size)
+                      end
+                    end
+                  end
                 end
-
-                # describe "has expected quantity of values" do
-                #   expected_keys = sub_value
-
-                #   expected_keys.each do |exp_key|
-                #     it "has expected quantity of values" do
-                #       # weights[top_level_key][sub_key].first.should eq("TBD")
-                #       values = weights[top_level_key][sub_key].first[exp_key]
-                #       expected_values_size = sub_value[:time_col_first_keys].as(Hash(Symbol, Hash(Symbol, Int32)))[exp_key][:in_size]
-                #       values.size.should eq(expected_values_size) # [:time_col_first_keys])
-                #     end
-                #   end
-                # end
               end
 
-              describe "with a last element which" do
-                it "has expected keys" do
-                  # weights[top_level_key][sub_key].last.should eq("TBD")
-                  keys = weights[top_level_key][sub_key].last.keys.sort
-                  expected_keys = sub_value[:time_col_last_keys].as(Hash(Symbol, Hash(Symbol, Int32))).keys.sort
-                  keys.should eq(expected_keys) # [:time_col_last_keys])
-                end
-              end
+              # describe "with a mid element (:time_col_mid_keys) which" do
+              #   it "has expected keys" do
+              #     # weights[layer_name][to_channel_key].last.should eq("TBD")
+              #     mid_index = weights[layer_name][to_channel_key].size / 2
+              #     keys = weights[layer_name][to_channel_key][mid_index].keys.sort
+              #     expected_keys = to_channel_meta[:time_col_mid_keys].as(Hash(Symbol, Hash(Symbol, Int32))).keys.sort
+              #     keys.should eq(expected_keys) # [:time_col_mid_keys])
+              #   end
+              # end
+
+              # describe "with a last element (:time_col_last_keys) which" do
+              #   it "has expected keys" do
+              #     # weights[layer_name][to_channel_key].last.should eq("TBD")
+              #     keys = weights[layer_name][to_channel_key].last.keys.sort
+              #     expected_keys = to_channel_meta[:time_col_last_keys].as(Hash(Symbol, Hash(Symbol, Int32))).keys.sort
+              #     keys.should eq(expected_keys) # [:time_col_last_keys])
+              #   end
+              # end
 
             end
           end
