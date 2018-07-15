@@ -95,11 +95,7 @@ module Ai4cr
                   :in_size => input_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -117,11 +113,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -139,11 +131,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -165,11 +153,7 @@ module Ai4cr
                   :in_size => input_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -191,11 +175,7 @@ module Ai4cr
                   :in_size => input_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -213,11 +193,7 @@ module Ai4cr
                   :in_size => input_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -239,11 +215,7 @@ module Ai4cr
                   :in_size => input_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -261,11 +233,7 @@ module Ai4cr
                   :in_size => input_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -279,11 +247,7 @@ module Ai4cr
                   :in_size => input_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -313,11 +277,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -343,11 +303,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -373,11 +329,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -399,11 +351,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -421,11 +369,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -443,11 +387,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -469,11 +409,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -495,11 +431,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -517,11 +449,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -543,11 +471,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -565,11 +489,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -583,11 +503,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -617,11 +533,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -647,11 +559,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
@@ -677,11 +585,7 @@ module Ai4cr
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },
-                :mem_same_image => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => hidden_state_range.size
-                },
-                :mem_after_image => {
+                :mem => {
                   :in_size => hidden_state_range.size,
                   :out_size => hidden_state_range.size
                 },

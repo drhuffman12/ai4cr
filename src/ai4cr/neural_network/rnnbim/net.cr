@@ -61,8 +61,7 @@ module Ai4cr
             end
             hash = {
               :current => node_sets,
-              :mem_same_image => node_sets.clone,
-              :mem_after_image => node_sets.clone
+              :mem => node_sets.clone
             }
             hn << hash
           end
@@ -90,7 +89,6 @@ module Ai4cr
 
           # hidden layers
           hidden_layer_range.each do |hidden_layer_index|
-            # node_sets = HiddenChannelWeights.new
             node_sets = WeightsToChannel.new # Hash(Symbol,Array(WeightsFromChannel)).new
             hidden_channel_keys.each do |channel_key|
               node_sets[:past] = time_column_range.map { |time_column_index| init_weights_to_current_past(time_column_index, hidden_layer_index) }
@@ -115,8 +113,7 @@ module Ai4cr
 
           weights_from_channel[:past] = init_weights_from_hidden_to_hidden if time_column_index >= node_scaled_border_past(time_column_index, hidden_layer_index)
 
-          weights_from_channel[:mem_same_image] = init_weights_from_hidden_to_hidden
-          weights_from_channel[:mem_after_image] = init_weights_from_hidden_to_hidden
+          weights_from_channel[:mem] = init_weights_from_hidden_to_hidden
           weights_from_channel[:bias] = init_weights_from_bias_to_hidden
           
           weights_from_channel
@@ -135,8 +132,7 @@ module Ai4cr
             weights_from_channel[:combo_future] = init_weights_from_hidden_to_hidden if time_column_index < node_scaled_border_future(time_column_index, hidden_layer_index)
           end
 
-          weights_from_channel[:mem_same_image] = init_weights_from_hidden_to_hidden
-          weights_from_channel[:mem_after_image] = init_weights_from_hidden_to_hidden
+          weights_from_channel[:mem] = init_weights_from_hidden_to_hidden
           weights_from_channel[:bias] = init_weights_from_bias_to_hidden
           
           weights_from_channel
@@ -155,8 +151,7 @@ module Ai4cr
           weights_from_channel[:local] = init_weights_from_hidden_to_hidden
           weights_from_channel[:future] = init_weights_from_hidden_to_hidden
           
-          weights_from_channel[:mem_same_image] = init_weights_from_hidden_to_hidden
-          weights_from_channel[:mem_after_image] = init_weights_from_hidden_to_hidden
+          weights_from_channel[:mem] = init_weights_from_hidden_to_hidden
           weights_from_channel[:bias] = init_weights_from_bias_to_hidden
           
           weights_from_channel
@@ -174,8 +169,7 @@ module Ai4cr
           # weights_from_channel[:past] = init_weights_from_hidden_to_hidden if past_enabled && time_column_index > 0
           weights_from_channel[:future] = init_weights_from_hidden_to_hidden if time_column_index < node_scaled_border_future(time_column_index, hidden_layer_index) # if time_column_index != time_column_range.max
 
-          weights_from_channel[:mem_same_image] = init_weights_from_hidden_to_hidden
-          weights_from_channel[:mem_after_image] = init_weights_from_hidden_to_hidden
+          weights_from_channel[:mem] = init_weights_from_hidden_to_hidden
           weights_from_channel[:bias] = init_weights_from_bias_to_hidden
           weights_from_channel
         end
@@ -183,19 +177,9 @@ module Ai4cr
         def init_weights_to_current_output(time_column_index)
           weights_from_channel = WeightsFromChannel.new
 
-          # weights_from_channel[:input] = init_weights_from_inputs_to_hidden if hidden_layer_index == 0
-
-          # weights_from_channel[:combo] = init_weights_from_hidden_to_hidden
-          # weights_from_channel[:past] = init_weights_from_hidden_to_hidden
-          # weights_from_channel[:mem_same_image] = init_weights_from_hidden_to_hidden
-          # weights_from_channel[:mem_after_image] = init_weights_from_hidden_to_hidden
-          # weights_from_channel[:bias] = init_weights_from_bias_to_hidden
-
           weights_from_channel[:combo] = init_weights_from_hidden_to_output
           weights_from_channel[:past] = init_weights_from_hidden_to_output
           weights_from_channel[:future] = init_weights_from_hidden_to_output
-          # weights_from_channel[:mem_same_image] = init_weights_from_hidden_to_output
-          # weights_from_channel[:mem_after_image] = init_weights_from_hidden_to_output
           weights_from_channel[:bias] = init_weights_from_bias_to_output
 
           weights_from_channel
