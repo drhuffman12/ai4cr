@@ -189,27 +189,36 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
                   end
 
                   expected_from_channel_keys.each do |expected_from_channel_key|
+
                     expected_size_meta = expected_from_channel_meta[expected_from_channel_key]
-                    # to_channel_meta[:time_col_first_keys]
 
                     describe "for 'from channel' key :#{expected_from_channel_key}, it defines simple weights" do
-                      puts
-                      puts "to_channel_meta: #{to_channel_meta}"
-                      puts
-                      puts "expected_from_channel_meta: #{expected_from_channel_meta}"
-                      puts
-                      puts "expected_from_channel_keys: #{expected_from_channel_keys}"
-                      puts
+                      # puts
+                      # puts "to_channel_meta: #{to_channel_meta}"
+                      # puts
+                      # puts "expected_from_channel_meta: #{expected_from_channel_meta}"
+                      # puts
+                      # puts "expected_from_channel_keys: #{expected_from_channel_keys}"
+                      # puts
 
                       it "with expected :in_size" do
                         expected_in_size = expected_size_meta[:in_size]
-                        in_size = weights[layer_name][to_channel_key][time_col_index].size
+                        ins = weights[layer_name][to_channel_key][time_col_index][expected_from_channel_key].as(Array(Array(Float64)))
+                        in_size = ins.size
+                        # in_size = weights[layer_name][to_channel_key][time_col_index].first.size
+
+                        # puts
+                        # puts "layer_name: '#{layer_name}', to_channel_key: :#{to_channel_key}, time_col_index: #{time_col_index}, ins: #{ins}, expected_from_channel_key: :#{expected_from_channel_key}, in_size: #{in_size}, expected_in_size: #{expected_in_size}"
+                        # puts
+                        
                         in_size.should eq(expected_in_size)
                       end
     
                       it "with expected :out_size" do
                         expected_out_size = expected_size_meta[:out_size]
-                        out_size = weights[layer_name][to_channel_key][time_col_index].first.size
+                        outs = weights[layer_name][to_channel_key][time_col_index][expected_from_channel_key].as(Array(Array(Float64)))
+                        out_size = outs.first.size
+                        # out_size = weights[layer_name][to_channel_key][time_col_index].size
                         out_size.should eq(expected_out_size)
                       end
                     end
