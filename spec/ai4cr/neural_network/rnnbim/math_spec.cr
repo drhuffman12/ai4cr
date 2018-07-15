@@ -73,4 +73,14 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Math do
       end
     end
   end
+
+  describe ".simple_weights_sum" do
+    it "returns expected values" do
+      ins = [0.1,0.2,0.3]
+      simple_weights = [[-1.0, 1.0], [0.5, -0.5], [-0.25, 0.25]]
+      expected_outs = [-0.075, 0.075]
+  
+      subject.simple_weights_sum(ins, simple_weights).should eq(expected_outs)
+    end
+  end
 end

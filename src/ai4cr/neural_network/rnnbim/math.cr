@@ -19,6 +19,15 @@ module Ai4cr
         def self.rnd_pos_neg_one
           rand*2 - 1.0
         end
+
+        def self.simple_weights_sum(ins : NodesSimple, simple_weights : WeightsSimple) : NodesSimple
+          # outs : NodesSimple
+          range_outs = (0..simple_weights.first.size-1)
+          range_ins = (0..simple_weights.size-1)
+          range_outs.map do |o|
+            range_ins.reduce(0.0) { |out, i| ins[i] * simple_weights[i][o] }
+          end
+        end
       end
     end
   end
