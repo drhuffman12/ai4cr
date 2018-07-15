@@ -74,13 +74,104 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Math do
     end
   end
 
+  ins_a = [0.1,0.2,0.3]
+  simple_weights_a = [[0.5, -0.5], [-1.0, 1.0], [-0.25, 0.25]]
+  expected_outs_a = [-0.225, 0.225]
+
+  # ins_b = [0.2,0.3,0.4,0.5]
+  # simple_weights_b = [[-0.25, 0.25], [0.5, -0.5], [-1.0, 1.0], [-0.1, 0.1]]
+  # expected_outs_b = [-0.35, 0.35]
+
+  ins_b = [0.2,0.3,0.4]
+  simple_weights_b = [[-0.25, 0.25], [0.5, -0.5], [-1.0, 1.0]]
+  expected_outs_b = [-0.3, 0.3]
+
+  # ins_b = [0.4]
+  # simple_weights_b = [[-1.0, 1.0]]
+  # expected_outs_b = [-0.3, 0.3]
+
+  ins_c = [0.5]
+  simple_weights_c = [[-0.1, 0.1]]
+  expected_outs_c = [-0.05, 0.05]
+
   describe ".simple_weights_sum" do
-    it "returns expected values" do
-      ins = [0.1,0.2,0.3]
-      simple_weights = [[-1.0, 1.0], [0.5, -0.5], [-0.25, 0.25]]
-      expected_outs = [-0.075, 0.075]
+    describe "returns expected values" do
+      it "example A" do
+        # subject.simple_weights_sum(ins_a, simple_weights_a).should eq(expected_outs_a)
+        outs = subject.simple_weights_sum(ins_a, simple_weights_a)
+        assert_approximate_equality_of_nested_list(outs, expected_outs_a, 0.001)
+      end
   
-      subject.simple_weights_sum(ins, simple_weights).should eq(expected_outs)
+      it "example B" do
+        outs = subject.simple_weights_sum(ins_b, simple_weights_b)
+        assert_approximate_equality_of_nested_list(outs, expected_outs_b, 0.001)
+      end
+  
+      it "example C" do
+        outs = subject.simple_weights_sum(ins_c, simple_weights_c)
+        assert_approximate_equality_of_nested_list(outs, expected_outs_c, 0.001)
+      end
     end
   end
+
+  describe ".simple_weights_sum_multi" do
+    it "returns expected values" do
+      ins_list = [ins_a, ins_b, ins_c]
+      simple_weights_list = [simple_weights_a, simple_weights_b, simple_weights_c]
+      expected_outs_list = [expected_outs_a, expected_outs_b, expected_outs_c]
+
+      outs = subject.simple_weights_sum_multi(ins_list, simple_weights_list)
+      assert_approximate_equality_of_nested_list(outs, expected_outs_list, 0.001)
+    end
+  end
+
+  describe ".simple_weights_sum_multi_sum" do
+    it "returns expected values" do
+      ins_list = [ins_a, ins_b, ins_c]
+      simple_weights_list = [simple_weights_a, simple_weights_b, simple_weights_c]
+      expected_outs = [-0.575, 0.575]
+
+      outs = subject.simple_weights_sum_multi_sum(ins_list, simple_weights_list)
+      assert_approximate_equality_of_nested_list(outs, expected_outs_c, 0.001)
+    end
+  end
+
+  describe ".propagation_function_0_to_1" do
+    map_from_to_approx = {
+      -2.0 => 0.125,
+      -1.0 => 0.25,
+      -0.25 => 0.5,
+      0.0 => 0.5,
+      0.25 => 0.5,
+      1.0 => 0.75,
+      2.0 => 0.875,
+    }
+
+    map_from_to_approx.each do |value_raw, value_limited|
+      it "maps #{value_raw} to approximately #{value_limited}" do
+        out_val = subject.propagation_function_0_to_1.call(value_raw)
+        assert_approximate_equality(out_val, value_limited, 0.1)
+      end
+    end
+  end
+
+  describe ".propagation_function_neg_1_to_1" do
+    map_from_to_approx = {
+      -2.0 => -1.0,
+      -1.0 => -0.75,
+      -0.25 => -0.25,
+      0.0 => 0.0,
+      0.25 => 0.25,
+      1.0 => 0.75,
+      2.0 => 1.0,
+    }
+
+    map_from_to_approx.each do |value_raw, value_limited|
+      it "maps #{value_raw} to approximately #{value_limited}" do
+        out_val = subject.propagation_function_neg_1_to_1.call(value_raw)
+        assert_approximate_equality(out_val, value_limited, 0.1)
+      end
+    end
+  end
+
 end
