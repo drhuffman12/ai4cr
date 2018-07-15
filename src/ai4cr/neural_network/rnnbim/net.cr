@@ -1,7 +1,10 @@
+require "./math"
+
 module Ai4cr
   module NeuralNetwork
     module Rnnbim # RNN, Bidirectional, Inversable Memory
       class Net # Ai4cr::NeuralNetwork::Rnnbim::Net
+
         NODE_VAL_MIN = -1.0
         NODE_VAL_MID = 0.0
         NODE_VAL_MAX = 1.0
@@ -111,7 +114,7 @@ module Ai4cr
             weights_from_channel[:combo] = init_weights_from_hidden_to_hidden
           end
 
-          weights_from_channel[:past] = init_weights_from_hidden_to_hidden if time_column_index >= node_scaled_border_past(time_column_index, hidden_layer_index)
+          weights_from_channel[:past] = init_weights_from_hidden_to_hidden if time_column_index >= Math.node_scaled_border_past(hidden_layer_index)
 
           weights_from_channel[:mem] = init_weights_from_hidden_to_hidden
           weights_from_channel[:bias] = init_weights_from_bias_to_hidden
@@ -123,13 +126,13 @@ module Ai4cr
           weights_from_channel = WeightsFromChannel.new
 
           if hidden_layer_index == 0
-            weights_from_channel[:input_past] = init_weights_from_inputs_to_hidden if time_column_index >= node_scaled_border_past(time_column_index, hidden_layer_index)
+            weights_from_channel[:input_past] = init_weights_from_inputs_to_hidden if time_column_index >= Math.node_scaled_border_past(hidden_layer_index)
             weights_from_channel[:input_current] = init_weights_from_inputs_to_hidden
-            weights_from_channel[:input_future] = init_weights_from_inputs_to_hidden if time_column_index < node_scaled_border_future(time_column_index, hidden_layer_index)
+            weights_from_channel[:input_future] = init_weights_from_inputs_to_hidden if time_column_index < Math.node_scaled_border_future(time_column_range, hidden_layer_index)
           else
-            weights_from_channel[:combo_past] = init_weights_from_hidden_to_hidden if time_column_index >= node_scaled_border_past(time_column_index, hidden_layer_index)
+            weights_from_channel[:combo_past] = init_weights_from_hidden_to_hidden if time_column_index >= Math.node_scaled_border_past(hidden_layer_index)
             weights_from_channel[:combo_current] = init_weights_from_hidden_to_hidden
-            weights_from_channel[:combo_future] = init_weights_from_hidden_to_hidden if time_column_index < node_scaled_border_future(time_column_index, hidden_layer_index)
+            weights_from_channel[:combo_future] = init_weights_from_hidden_to_hidden if time_column_index < Math.node_scaled_border_future(time_column_range, hidden_layer_index)
           end
 
           weights_from_channel[:mem] = init_weights_from_hidden_to_hidden
@@ -167,7 +170,7 @@ module Ai4cr
           end
 
           # weights_from_channel[:past] = init_weights_from_hidden_to_hidden if past_enabled && time_column_index > 0
-          weights_from_channel[:future] = init_weights_from_hidden_to_hidden if time_column_index < node_scaled_border_future(time_column_index, hidden_layer_index) # if time_column_index != time_column_range.max
+          weights_from_channel[:future] = init_weights_from_hidden_to_hidden if time_column_index < Math.node_scaled_border_future(time_column_range, hidden_layer_index) # if time_column_index != time_column_range.max
 
           weights_from_channel[:mem] = init_weights_from_hidden_to_hidden
           weights_from_channel[:bias] = init_weights_from_bias_to_hidden
@@ -186,46 +189,29 @@ module Ai4cr
         end
 
         def init_weights_from_inputs_to_hidden
-          # time_column_range.map { |t| input_state_range.map { |i| hidden_state_range.map { |s| rnd_pos_neg_one } } }
-          input_state_range.map { |i| hidden_state_range.map { |s| rnd_pos_neg_one } }
+          # time_column_range.map { |t| input_state_range.map { |i| hidden_state_range.map { |s| Math.rnd_pos_neg_one } } }
+          input_state_range.map { |i| hidden_state_range.map { |s| Math.rnd_pos_neg_one } }
         end
 
         def init_weights_from_hidden_to_hidden
-          hidden_state_range.map { |i| hidden_state_range.map { |s| rnd_pos_neg_one } }
+          hidden_state_range.map { |i| hidden_state_range.map { |s| Math.rnd_pos_neg_one } }
         end
 
         def init_weights_from_input_to_output
-          input_state_range.map { |i| output_state_range.map { |s| rnd_pos_neg_one } }
+          input_state_range.map { |i| output_state_range.map { |s| Math.rnd_pos_neg_one } }
         end
 
         def init_weights_from_hidden_to_output
-          hidden_state_range.map { |i| output_state_range.map { |s| rnd_pos_neg_one } }
-          # output_state_range.map { |i| hidden_state_range.map { |s| rnd_pos_neg_one } }
+          hidden_state_range.map { |i| output_state_range.map { |s| Math.rnd_pos_neg_one } }
+          # output_state_range.map { |i| hidden_state_range.map { |s| Math.rnd_pos_neg_one } }
         end
 
         def init_weights_from_bias_to_hidden
-          [0].map { |i| hidden_state_range.map { |s| rnd_pos_neg_one } }
+          [0].map { |i| hidden_state_range.map { |s| Math.rnd_pos_neg_one } }
         end
 
         def init_weights_from_bias_to_output
-          [0].map { |i| output_state_range.map { |s| rnd_pos_neg_one } }
-        end
-
-        # Math
-        def node_delta_scale(time_column_index, hidden_layer_index)
-          2 ** hidden_layer_index
-        end
-        
-        def node_scaled_border_past(time_column_index, hidden_layer_index)
-          node_delta_scale(time_column_index, hidden_layer_index)
-        end
-        
-        def node_scaled_border_future(time_column_index, hidden_layer_index)
-          time_column_range.max - node_delta_scale(time_column_index, hidden_layer_index)
-        end
-
-        def rnd_pos_neg_one
-          rand*2 - 1.0
+          [0].map { |i| output_state_range.map { |s| Math.rnd_pos_neg_one } }
         end
       end
     end
