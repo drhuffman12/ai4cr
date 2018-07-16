@@ -138,38 +138,38 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Math do
 
   describe ".propagation_function_0_to_1" do
     map_from_to_approx = {
-      -2.0  => 0.125,
-      -1.0  => 0.25,
-      -0.25 => 0.5,
+      -2.0  => 0.12,
+      -1.0  => 0.27,
+      -0.25 => 0.44,
        0.0  => 0.5,
-       0.25 => 0.5,
-       1.0  => 0.75,
-       2.0  => 0.875,
+       0.25 => 0.56,
+       1.0  => 0.73,
+       2.0  => 0.88,
     }
 
     map_from_to_approx.each do |value_raw, value_limited|
       it "maps #{value_raw} to approximately #{value_limited}" do
         out_val = subject.propagation_function_0_to_1.call(value_raw)
-        assert_approximate_equality(out_val, value_limited, 0.1)
+        assert_approximate_equality(out_val, value_limited, 0.01)
       end
     end
   end
 
   describe ".propagation_function_neg_1_to_1" do
     map_from_to_approx = {
-      -2.0  => -1.0,
-      -1.0  => -0.75,
+      -2.0  => -0.96,
+      -1.0  => -0.76,
       -0.25 => -0.25,
        0.0  =>  0.0,
        0.25 =>  0.25,
-       1.0  =>  0.75,
-       2.0  =>  1.0,
+       1.0  =>  0.76,
+       2.0  =>  0.96,
     }
 
     map_from_to_approx.each do |value_raw, value_limited|
       it "maps #{value_raw} to approximately #{value_limited}" do
         out_val = subject.propagation_function_neg_1_to_1.call(value_raw)
-        assert_approximate_equality(out_val, value_limited, 0.1)
+        assert_approximate_equality(out_val, value_limited, 0.01)
       end
     end
   end
@@ -179,9 +179,10 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Math do
     map_from_to_approx = {
       -2.0  => -6.0,
       -1.0  => -2.0,
-      -0.25 => -0.3125,
+      -0.25 => -0.31,
        0.0  =>  0.0,
-       0.25 =>  0.1875,
+       0.25 =>  0.19,
+       0.5  =>  0.25,
        1.0  =>  0.0,
        2.0  => -2.0,
     }
@@ -189,7 +190,7 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Math do
     map_from_to_approx.each do |value_raw, value_limited|
       it "maps #{value_raw} to approximately #{value_limited}" do
         out_val = subject.derivative_propagation_function_0_to_1.call(value_raw)
-        assert_approximate_equality(out_val, value_limited, 0.1)
+        assert_approximate_equality(out_val, value_limited, 0.01)
       end
     end
   end
@@ -198,9 +199,9 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Math do
     map_from_to_approx = {
       -2.0  => -3.0,
       -1.0  =>  0.0,
-      -0.25 =>  0.9375,
+      -0.25 =>  0.94,
        0.0  =>  1.0,
-       0.25 =>  0.9375,
+       0.25 =>  0.94,
        1.0  =>  0.0,
        2.0  => -3.0,
     }
@@ -208,7 +209,7 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Math do
     map_from_to_approx.each do |value_raw, value_limited|
       it "maps #{value_raw} to approximately #{value_limited}" do
         out_val = subject.derivative_propagation_function_neg_1_to_1.call(value_raw)
-        assert_approximate_equality(out_val, value_limited, 0.1)
+        assert_approximate_equality(out_val, value_limited, 0.01)
       end
     end
   end
