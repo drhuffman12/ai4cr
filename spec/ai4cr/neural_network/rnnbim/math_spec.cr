@@ -136,6 +136,39 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Math do
     end
   end
 
+  describe ".simple_weights_propagate" do
+    it "returns propagated simple output values as expected" do
+      ins_list = [[1.0]]
+      simple_weights_list = [[[-2.0, -1.0, -0.25, 0.0, 0.25, 1.0, 2.0]]]
+      expected_outs = [-0.96,-0.76,-0.25,0.0,0.25,0.76,0.96]
+  
+      outs_list = subject.simple_weights_propagate(ins_list, simple_weights_list)
+      assert_approximate_equality_of_nested_list(outs_list, expected_outs, 0.01)
+    end
+  end
+
+  describe ".simple_output_errors" do
+    it "returns propagated simple output values as expected" do
+      expected_outs = [-0.96,-0.76,-0.25,0.0,0.25,0.76,0.96]
+      actual_outs = [-0.97, -0.77, -0.26, -0.01, 0.24, 0.75, 0.95]
+      expected_errors = [0.01,0.01,0.01,0.01,0.01,0.01,0.01]
+  
+      error_values = subject.simple_output_errors(expected_outs, actual_outs)
+      assert_approximate_equality_of_nested_list(error_values, expected_errors, 0.01)
+    end
+  end
+
+  # describe ".simple_output_deltas" do
+  #   it "returns propagated simple output values as expected" do
+  #     ins_list = [[1.0]]
+  #     simple_weights_list = [[[-2.0, -1.0, -0.25, 0.0, 0.25, 1.0, 2.0]]]
+  #     expected_outs = [-0.96,-0.76,-0.25,0.0,0.25,0.76,0.96]
+  
+  #     outs_list = subject.simple_output_deltas(ins_list, simple_weights_list)
+  #     assert_approximate_equality_of_nested_list(outs_list, expected_outs, 0.01)
+  #   end
+  # end
+
   describe ".propagation_function_0_to_1" do
     map_from_to_approx = {
       -2.0  => 0.12,
@@ -173,7 +206,6 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Math do
       end
     end
   end
-
 
   describe ".derivative_propagation_function_0_to_1" do
     map_from_to_approx = {
