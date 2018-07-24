@@ -20,11 +20,13 @@ module Ai4cr
         getter hidden_state_range : Range(Int32, Int32)
 
         getter hidden_channel_keys : Array(Symbol) # TODO: change to Array(Enum)?
-        getter hidden_delta_scales : Array(Int32)
+        getter hidden_offset_scales : Array(Int32)
 
-        getter nodes_in : NodesChrono, nodes_out : NodesChrono
-        getter nodes_hidden : NodesHidden
+        getter nodes_in : NodesChrono, nodes_out : NodesChrono, nodes_hidden : NodesHidden
+        # getter delta_in : NodesChrono, 
+        getter delta_out : NodesChrono, delta_hidden : NodesHidden
         property network_weights : WeightsNetwork
+        property network_weight_changes : WeightsNetwork
 
         def initialize(
             @time_column_scale = 1, 
@@ -50,9 +52,13 @@ module Ai4cr
           @nodes_out = time_column_range.map { |t| output_state_range.map { |s| 0.0 } }
           @nodes_hidden = init_hidden_nodes
 
-          @hidden_delta_scales = hidden_layer_range.map { |l| 2 ** l }
+          @hidden_offset_scales = hidden_layer_range.map { |l| 2 ** l }
 
           @network_weights = init_network_weights
+          @network_weight_changes = init_network_weights
+          
+          @delta_out = time_column_range.map { |t| output_state_range.map { |s| 0.0 } }
+          @delta_hidden = init_hidden_nodes
         end
 
         def init_hidden_nodes

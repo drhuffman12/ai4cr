@@ -99,17 +99,17 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Math do
       it "example A" do
         # subject.simple_weights_sum(ins_a, simple_weights_a).should eq(expected_outs_a)
         outs = subject.simple_weights_sum(ins_a, simple_weights_a)
-        assert_approximate_equality_of_nested_list(outs, expected_outs_a, 0.001)
+        assert_approximate_equality_of_nested_list(expected_outs_a, outs, 0.001)
       end
   
       it "example B" do
         outs = subject.simple_weights_sum(ins_b, simple_weights_b)
-        assert_approximate_equality_of_nested_list(outs, expected_outs_b, 0.001)
+        assert_approximate_equality_of_nested_list(expected_outs_b, outs, 0.001)
       end
   
       it "example C" do
         outs = subject.simple_weights_sum(ins_c, simple_weights_c)
-        assert_approximate_equality_of_nested_list(outs, expected_outs_c, 0.001)
+        assert_approximate_equality_of_nested_list(expected_outs_c, outs, 0.001)
       end
     end
   end
@@ -121,7 +121,7 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Math do
       expected_outs_list = [expected_outs_a, expected_outs_b, expected_outs_c]
 
       outs = subject.simple_weights_sum_multi(ins_list, simple_weights_list)
-      assert_approximate_equality_of_nested_list(outs, expected_outs_list, 0.001)
+      assert_approximate_equality_of_nested_list(expected_outs_list, outs, 0.001)
     end
   end
 
@@ -132,42 +132,113 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Math do
       expected_outs = [-0.575, 0.575]
 
       outs = subject.simple_weights_sum_multi_sum(ins_list, simple_weights_list)
-      assert_approximate_equality_of_nested_list(outs, expected_outs_c, 0.001)
+      assert_approximate_equality_of_nested_list(expected_outs_c, outs, 0.001)
     end
   end
 
-  describe ".simple_weights_propagate" do
+  describe ".simple_weights_propagate_0_to_1" do
+    it "returns propagated simple output values as expected" do
+      ins_list = [[1.0]]
+      simple_weights_list = [[[-2.0, -1.0, -0.25, 0.0, 0.25, 1.0, 2.0]]]
+      expected_outs = [0.12,0.27,0.44,0.5,0.56,0.73,0.88]
+      diff_radius = 0.01
+  
+      outs_list = subject.simple_weights_propagate_0_to_1(ins_list, simple_weights_list)
+      assert_approximate_equality_of_nested_list(expected_outs, outs_list, diff_radius)
+    end
+  end
+
+  describe ".simple_weights_propagate_neg_1_to_1" do
     it "returns propagated simple output values as expected" do
       ins_list = [[1.0]]
       simple_weights_list = [[[-2.0, -1.0, -0.25, 0.0, 0.25, 1.0, 2.0]]]
       expected_outs = [-0.96,-0.76,-0.25,0.0,0.25,0.76,0.96]
   
-      outs_list = subject.simple_weights_propagate(ins_list, simple_weights_list)
-      assert_approximate_equality_of_nested_list(outs_list, expected_outs, 0.01)
+      outs_list = subject.simple_weights_propagate_neg_1_to_1(ins_list, simple_weights_list)
+      assert_approximate_equality_of_nested_list(expected_outs, outs_list, 0.01)
     end
   end
 
   describe ".simple_output_errors" do
     it "returns propagated simple output values as expected" do
       expected_outs = [-0.96,-0.76,-0.25,0.0,0.25,0.76,0.96]
-      actual_outs = [-0.97, -0.77, -0.26, -0.01, 0.24, 0.75, 0.95]
-      expected_errors = [0.01,0.01,0.01,0.01,0.01,0.01,0.01]
+      actual_outs = [-0.71, -0.51, 0.0, 0.25, 0.5, 1.01, 1.21]
+      expected_errors = [-0.25,-0.25,-0.25,-0.25,-0.25,-0.25,-0.25]
   
       error_values = subject.simple_output_errors(expected_outs, actual_outs)
-      assert_approximate_equality_of_nested_list(error_values, expected_errors, 0.01)
+      assert_approximate_equality_of_nested_list(expected_errors, error_values, 0.01)
     end
   end
 
-  # describe ".simple_output_deltas" do
-  #   it "returns propagated simple output values as expected" do
-  #     ins_list = [[1.0]]
-  #     simple_weights_list = [[[-2.0, -1.0, -0.25, 0.0, 0.25, 1.0, 2.0]]]
-  #     expected_outs = [-0.96,-0.76,-0.25,0.0,0.25,0.76,0.96]
+  describe ".simple_output_deltas_0_to_1" do
+    it "returns propagated simple output values as expected" do
+      expected_outs = [-0.96,-0.76,-0.25,0.0,0.25,0.76,0.96]
+      actual_outs = [-0.71, -0.51, 0.0, 0.25, 0.5, 1.01, 1.21]
+      expected_deltas = [0.303,0.19,0.0,-0.05,-0.06,0.0,0.06]
   
-  #     outs_list = subject.simple_output_deltas(ins_list, simple_weights_list)
-  #     assert_approximate_equality_of_nested_list(outs_list, expected_outs, 0.01)
-  #   end
-  # end
+      delta_values = subject.simple_output_deltas_0_to_1(expected_outs, actual_outs)
+      assert_approximate_equality_of_nested_list(expected_deltas, delta_values, 0.01)
+    end
+  end
+
+  describe ".simple_output_deltas_neg_1_to_1" do
+    it "returns propagated simple output values as expected" do
+      expected_outs = [-0.96,-0.76,-0.25,0.0,0.25,0.76,0.96]
+      actual_outs = [-0.71, -0.51, 0.0, 0.25, 0.5, 1.01, 1.21]
+      expected_deltas = [-0.12,-0.18,-0.25,-0.23,-0.19,0.01,0.12]
+  
+      delta_values = subject.simple_output_deltas_neg_1_to_1(expected_outs, actual_outs)
+      assert_approximate_equality_of_nested_list(expected_deltas, delta_values, 0.01)
+    end
+  end
+
+  describe ".simple_hidden_delta_from_output_0_to_1" do
+    it "returns propagated simple error sum values as expected" do
+      ins_a = [0.1,0.2,0.3]
+      simple_weights_a = [[0.5, -0.5], [-1.0, 1.0], [-0.25, 0.25]]
+      delta_outs_a = [0.1,0.9]
+
+      expected_deltas = [-0.036, 0.128, 0.042]
+      
+      delta_values = subject.simple_hidden_delta_from_output_0_to_1(ins_a, simple_weights_a, delta_outs_a)
+      assert_approximate_equality_of_nested_list(expected_deltas, delta_values, 0.01)
+    end
+  end
+
+  describe ".simple_hidden_delta_from_output_neg_1_to_1" do
+    it "returns propagated simple error sum values as expected" do
+      ins_a = [0.1,0.2,0.3]
+      simple_weights_a = [[0.5, -0.5], [-1.0, 1.0], [-0.25, 0.25]]
+      delta_outs_a = [0.1,0.9]
+
+      expected_deltas = [-0.396, 0.768, 0.182]
+      
+      delta_values = subject.simple_hidden_delta_from_output_neg_1_to_1(ins_a, simple_weights_a, delta_outs_a)
+      assert_approximate_equality_of_nested_list(expected_deltas, delta_values, 0.01)
+    end
+  end
+
+  describe ".update_simple_weights" do
+    learning_rate = 0.5 # : Float64
+    momentum = 0.5 # : Float64
+    ins = [0.1,0.2,0.3] # : NodesSimple
+    simple_weights = [[0.5, -0.5], [-1.0, 1.0], [-0.25, 0.25]] # : WeightsSimple
+    simple_weight_changes = [[0.1, -0.1], [-0.2, 0.2], [-0.3, 0.3]]
+    delta_outs = [-0.396, 0.768, 0.182]
+    updates = subject.update_simple_weights(learning_rate, momentum, ins, simple_weights, simple_weight_changes, delta_outs)
+
+    it "updates simple_weights as expected" do
+      expected_simple_weights = [[0.53, -0.51], [-1.14, 1.18], [-0.46, 0.52]]
+      
+      assert_approximate_equality_of_nested_list(expected_simple_weights, updates[:simple_weights], 0.01)
+    end
+
+    it "updates simple_weight_changes as expected" do
+      expected_simple_weight_changes = [[-0.04, 0.08], [-0.08, 0.15], [-0.12, 0.23]]
+      
+      assert_approximate_equality_of_nested_list(expected_simple_weight_changes, updates[:simple_weight_changes], 0.01)
+    end
+  end
 
   describe ".propagation_function_0_to_1" do
     map_from_to_approx = {

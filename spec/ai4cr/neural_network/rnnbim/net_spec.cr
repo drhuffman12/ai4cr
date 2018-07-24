@@ -18,7 +18,7 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
     default_expected_hidden_state_range = (0..2) # (0..default_expected_hidden_state_qty-1)
     default_expected_output_state_range = (0..1) # (0..default_expected_output_state_qty-1)
 
-    default_expected_hidden_delta_scales = [1,2]
+    default_expected_hidden_offset_scales = [1,2]
 
     default_expected_nodes_hidden = [
       {
@@ -107,8 +107,8 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
           net.hidden_layer_scale.should eq(default_expected_hidden_layer_scale)
         end
   
-        it "@hidden_delta_scales" do
-          net.hidden_delta_scales.should eq(default_expected_hidden_delta_scales)
+        it "@hidden_offset_scales" do
+          net.hidden_offset_scales.should eq(default_expected_hidden_offset_scales)
         end
       end
 
@@ -137,11 +137,19 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
         it "#nodes_out" do
           net.nodes_out.should eq(default_expected_nodes_out)
         end
+          
+        it "#delta_out" do
+          net.delta_out.should eq(default_expected_nodes_out)
+        end
       end
 
       describe "sets expected hash structure for" do
         it "@nodes_hidden" do
           net.nodes_hidden.should eq(default_expected_nodes_hidden)
+        end
+
+        it "@delta_hidden" do
+          net.delta_hidden.should eq(default_expected_nodes_hidden)
         end
       end
     end
