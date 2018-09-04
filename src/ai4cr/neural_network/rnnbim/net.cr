@@ -77,9 +77,20 @@ module Ai4cr
           hn
         end
 
-        def init_network_weights
-          
+        def init_network_weights          
           nw = WeightsNetwork.new
+
+          # hidden layers
+          hidden_layer_range.each do |hidden_layer_index|
+            node_sets = WeightsToChannel.new # Hash(Symbol,Array(WeightsFromChannel)).new
+            hidden_channel_keys.each do |channel_key|
+              node_sets[:past] = time_column_range.map { |time_column_index| init_weights_to_current_past(time_column_index, hidden_layer_index) }
+              node_sets[:local] = time_column_range.map { |time_column_index| init_weights_to_current_local(time_column_index, hidden_layer_index) }
+              node_sets[:future] = time_column_range.map { |time_column_index| init_weights_to_current_future(time_column_index, hidden_layer_index) }
+              node_sets[:combo] = time_column_range.map { |time_column_index| init_weights_to_current_combo(time_column_index, hidden_layer_index) }
+            end
+            nw["hidden_#{hidden_layer_index}"] = node_sets
+          end
 
           # output layer
           channel_key = :output
@@ -95,18 +106,6 @@ module Ai4cr
             # end
           end
           nw["output"] = node_sets
-
-          # hidden layers
-          hidden_layer_range.each do |hidden_layer_index|
-            node_sets = WeightsToChannel.new # Hash(Symbol,Array(WeightsFromChannel)).new
-            hidden_channel_keys.each do |channel_key|
-              node_sets[:past] = time_column_range.map { |time_column_index| init_weights_to_current_past(time_column_index, hidden_layer_index) }
-              node_sets[:local] = time_column_range.map { |time_column_index| init_weights_to_current_local(time_column_index, hidden_layer_index) }
-              node_sets[:future] = time_column_range.map { |time_column_index| init_weights_to_current_future(time_column_index, hidden_layer_index) }
-              node_sets[:combo] = time_column_range.map { |time_column_index| init_weights_to_current_combo(time_column_index, hidden_layer_index) }
-            end
-            nw["hidden_#{hidden_layer_index}"] = node_sets
-          end
 
           nw
         end

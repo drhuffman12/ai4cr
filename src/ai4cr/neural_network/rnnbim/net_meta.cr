@@ -18,72 +18,10 @@ module Ai4cr
 
         def weights : MetaWeightsNetwork
           {
-            "output" => weights_output,
             "hidden_0" => weights_hidden_0,
             "hidden_1" => weights_hidden_other,
+            "output" => weights_output,
           }
-        end
-
-        def weights_output()
-          {
-            :output => { # 
-              :chrono_size => time_column_range.size,
-              :time_col_first_keys => {
-                :combo => {
-                  :in_size => hidden_state_range.size, # MetaWeightsSimple
-                  :out_size => output_state_range.size
-                }, # MetaWeightsFromChannel
-                :past => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => output_state_range.size
-                },
-                :future => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => output_state_range.size
-                },
-                :bias => {
-                  :in_size => 1,
-                  :out_size => output_state_range.size
-                }
-              }, # MetaWeightsAtTime
-              :time_col_mid_keys => {
-                :combo => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => output_state_range.size
-                },
-                :past => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => output_state_range.size
-                },
-                :future => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => output_state_range.size
-                },
-                :bias => {
-                  :in_size => 1,
-                  :out_size => output_state_range.size
-                }
-              },
-              :time_col_last_keys => {
-                :combo => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => output_state_range.size
-                },
-                :past => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => output_state_range.size
-                },
-                :future => {
-                  :in_size => hidden_state_range.size,
-                  :out_size => output_state_range.size
-                },
-                :bias => {
-                  :in_size => 1,
-                  :out_size => output_state_range.size
-                }
-              }
-            } # MetaWeightsToChannel
-          } # MetaWeightsNetwork
         end
 
         def weights_hidden_0
@@ -596,6 +534,68 @@ module Ai4cr
               }
             },
           }
+        end
+
+        def weights_output()
+          {
+            :output => { # 
+              :chrono_size => time_column_range.size,
+              :time_col_first_keys => {
+                :combo => {
+                  :in_size => hidden_state_range.size, # MetaWeightsSimple
+                  :out_size => output_state_range.size
+                }, # MetaWeightsFromChannel
+                :past => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
+                },
+                :future => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
+                },
+                :bias => {
+                  :in_size => 1,
+                  :out_size => output_state_range.size
+                }
+              }, # MetaWeightsAtTime
+              :time_col_mid_keys => {
+                :combo => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
+                },
+                :past => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
+                },
+                :future => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
+                },
+                :bias => {
+                  :in_size => 1,
+                  :out_size => output_state_range.size
+                }
+              },
+              :time_col_last_keys => {
+                :combo => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
+                },
+                :past => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
+                },
+                :future => {
+                  :in_size => hidden_state_range.size,
+                  :out_size => output_state_range.size
+                },
+                :bias => {
+                  :in_size => 1,
+                  :out_size => output_state_range.size
+                }
+              }
+            } # MetaWeightsToChannel
+          } # MetaWeightsNetwork
         end
       end
     end

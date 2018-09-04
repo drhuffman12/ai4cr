@@ -81,7 +81,7 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
       default_expected_input_state_range,
       default_expected_output_state_range
     )
-    default_expected_layer_names = ["output", "hidden_0", "hidden_1"]
+    default_expected_layer_names = ["hidden_0", "hidden_1", "output"]
     default_expected_meta_weights = default_expected_meta.weights
     
     describe "#initialize" do
@@ -283,6 +283,31 @@ describe Ai4cr::NeuralNetwork::Rnnbim::Net do
       #   weights["hidden_1"].should eq([0.0]) # TODO: for debugging; remove before merging to master
       # end
     end
+
+
+    # describe "#train" do
+    #   it "TODO" do
+    #     # ...
+    #   end
+    # end
+
+    describe "#eval" do
+      it "returns expected results" do
+        net.init_hidden_nodes.should eq(default_expected_nodes_hidden)
+      end
+    end
+
+    # describe "#backpropagate" do
+    #   it "TODO" do
+    #     # ...
+    #   end
+    # end
+
+    # describe "#calculate_error" do
+    #   it "TODO" do
+    #     # ...
+    #   end
+    # end
   end
 end
 
