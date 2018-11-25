@@ -1,99 +1,104 @@
-require "./../rnnbim/math"
-# require "./../rnnbim/aliases"
+require "./node/*"
+require "./channel/*"
+require "./hidden_layer"
 
 module Ai4cr
   module NeuralNetwork
     module Rnn # RNN, Bidirectional, Inversable Memory
-      class Net # Ai4cr::NeuralNetwork::Rnnbim::Net
-        alias NodesSimple = Array(Float64)
-        alias NodesChrono = Array(NodesSimple)
-        alias NodesHiddenChrono = Array(NodesChrono) # RNN
+      class Net # Ai4cr::NeuralNetwork::Rnn::Net
+        getter hidden_layer_qty : Int32
+        getter time_column_qty : Int32
+        getter memory_layer_qty : Int32
 
-        alias WeightsSimple = Array(Array(Float64))
-        alias WeightsChrono = Array(WeightsSimple)
-        alias WeightsHiddenChrono = Array(WeightsChrono) # RNN
-        
-        DENDRITE_OFFSETS_DEFAULT = [1] # [1,2,3,4,5,6,7,8] # [1,2,4,8,16,32,64,128]
+        getter output_state_qty : Int32
+        getter hidden_state_qty : Int32
+        getter input_state_qty : Int32
 
-        property hidden_layer_qty : Int32
-        property time_column_qty : Int32
-        property output_state_qty : Int32
-        property input_state_qty : Int32
+        getter bias : Bool
 
-        property dendrite_offsets : Array(Int32)
+        getter hidden_layer_range : Range(Int32, Int32)
+        # getter time_column_range : Range(Int32, Int32)
+        # getter memory_layer_range : Range(Int32, Int32)
 
-        property hidden_layer_range : Range(Int32, Int32)
-        property time_column_range : Range(Int32, Int32)
-        property output_state_range : Range(Int32, Int32)
-        property input_state_range : Range(Int32, Int32)
+        # getter output_state_range : Range(Int32, Int32)
+        # getter hidden_state_range : Range(Int32, Int32)
+        # getter input_state_range : Range(Int32, Int32)
 
-        property nodes_hidden_local : NodesHiddenChrono
-        property nodes_hidden_past : NodesHiddenChrono
-        property nodes_hidden_future : NodesHiddenChrono
-        property nodes_hidden_combo : NodesHiddenChrono # The last one is for nodes_out
+        # property nodes_in : NodesChrono
         # property nodes_out : NodesChrono
-
-        property errors_hidden_local : NodesHiddenChrono
-        property errors_hidden_past : NodesHiddenChrono
-        property errors_hidden_future : NodesHiddenChrono
-        property errors_hidden_combo : NodesHiddenChrono
-
-        property deltas_hidden_local : NodesHiddenChrono
-        property deltas_hidden_past : NodesHiddenChrono
-        property deltas_hidden_future : NodesHiddenChrono
-        property deltas_hidden_combo : NodesHiddenChrono
-
-        property weights_hidden_local : WeightsHiddenChrono
-        property weights_hidden_past : WeightsHiddenChrono
-        property weights_hidden_future : WeightsHiddenChrono
-        property weights_hidden_combo : WeightsHiddenChrono
-
-        property nodes_in : NodesChrono
-        property bias : Bool
-
-        def initialize(@hidden_layer_qty = 1, @time_column_qty = 3, @output_state_qty = 2, @input_state_qty = 2, @dendrite_offsets = DENDRITE_OFFSETS_DEFAULT, @bias = true)
+        # property nodes_in : Array(Node::Input)
+        # property nodes_out : Array(Node::Output)
+        property channel_output : Channel::Output
+        property hidden_layers : Array(HiddenLayer)
+        property channel_input : Channel::Input
+        
+        def initialize(
+          @hidden_layer_qty = 1, @time_column_qty = 4, @memory_layer_qty = 1,
+          @output_state_qty = 3, @hidden_state_qty = 4, @input_state_qty = 2,
+          @dendrite_offsets = Channel::Interface::DENDRITE_OFFSETS_DEFAULT,
+          @bias = true,
+          @output_winner_qty = 1 # when guessing, exaggerate top n number of output states to maximum; others get minimized
+        )
           @hidden_layer_range = (0..hidden_layer_qty-1)
-          @time_column_range = (0..time_column_qty-1)
-          @output_state_range = (0..output_state_qty-1)
-          @input_state_range = (0..input_state_qty-(bias ? 0 : 1))
+          # @time_column_range = (0..time_column_qty-1)
+          # @memory_layer_range = (0..memory_layer_qty-1)
 
-          @nodes_hidden_local = init_nodes_hidden_channel
-          @nodes_hidden_past = init_nodes_hidden_channel
-          @nodes_hidden_future = init_nodes_hidden_channel
-          @nodes_hidden_combo = init_nodes_hidden_channel
+          # @output_state_range = (0..output_state_qty-1)
+          # @hidden_state_range = (0..hidden_state_qty-1)
+          # @hidden_state_range = (0..hidden_state_qty-(bias ? 0 : 1))
+          # @input_state_range = (0..input_state_qty-(bias ? 0 : 1))
 
-          @errors_hidden_local = init_nodes_hidden_channel
-          @errors_hidden_past = init_nodes_hidden_channel
-          @errors_hidden_future = init_nodes_hidden_channel
-          @errors_hidden_combo = init_nodes_hidden_channel
-
-          @deltas_hidden_local = init_nodes_hidden_channel
-          @deltas_hidden_past = init_nodes_hidden_channel
-          @deltas_hidden_future = init_nodes_hidden_channel
-          @deltas_hidden_combo = init_nodes_hidden_channel
-
-          @weights_hidden_local = init_weights_hidden_channel
-          @weights_hidden_past = init_weights_hidden_channel
-          @weights_hidden_future = init_weights_hidden_channel
-          @weights_hidden_combo = init_weights_hidden_channel
-
-          @nodes_in = init_nodes_in
+          # @nodes_in = time_column_range.map{|t| Node::Input.new }
+          # @nodes_out = time_column_range.map{|t| Node::Output.new }
+          @channel_output = Channel::Output.new(time_column_qty: time_column_qty, state_qty: output_state_qty)
+          @hidden_layers = hidden_layer_range.map{|hl| HiddenLayer.new(time_column_qty: time_column_qty, dendrite_offsets: dendrite_offsets, state_qty: hidden_state_qty)}
+          @channel_input = Channel::Input.new(time_column_qty: time_column_qty, state_qty: input_state_qty)
         end
 
-        def init_nodes_hidden_channel
-          hidden_layer_range.map { |l| time_column_range.map { |t| output_state_range.map { |s| 0.0 } } }
+        # Training
+        def train # (inputs, outputs)
+          guess
+          correct
         end
 
-        def init_weights_hidden_channel
-          hidden_layer_range.map { |l| time_column_range.map { |t| output_state_range.map { |s| input_state_range.map { |s| Ai4cr::NeuralNetwork::Rnnbim::Math.rnd_pos_neg_one } } } }
+        # Forward Guessing
+        def guess # aka eval and feed_forward
+          guess_inputs_to_hidden
+          (1..hidden_layer_qty-2).each do |hidden_layer_index|
+            guess_hidden_to_hidden(hidden_layer_index)
+          end
+          guess_hidden_to_output
+          # exaggerate_top_n_output_states
         end
 
-        def init_nodes_in
-          time_column_range.map { |t| input_state_range.map { |s| 0.0 } }
+        def guess_inputs_to_hidden
         end
 
-        def nodes_in(inputs : NodesChrono)
-          @nodes_in = inputs.clone
+        def guess_hidden_to_hidden(hidden_layer_index)
+        end
+
+        def guess_hidden_to_output
+        end
+
+        def exaggerate_top_n_output_states
+        end
+
+        # Backward Training
+        # Propagate error backwards
+        def correct # aka backpropagate # (expected_output_values)
+          # check_output_dimension(expected_output_values.size)
+          calculate_output_deltas # (expected_output_values)
+          calculate_internal_deltas
+          update_weights
+        end
+
+        def calculate_output_deltas # (expected_output_values)
+        end
+
+        def calculate_internal_deltas 
+        end
+
+        def update_weights 
         end
       end
     end

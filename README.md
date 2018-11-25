@@ -107,3 +107,10 @@ Execute: 00:00:04.107645264
 ```
 
 NOTE: That time, it took less than a second to build. I did notice that it took about 10 seconds to build the first run and only less than a second each successive run.
+
+
+### RNN WIP files
+
+```
+crystal spec_examples/ai4cr/neural_network/rnn/tmp_rnn.cr
+```
