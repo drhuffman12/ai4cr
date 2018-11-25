@@ -1,23 +1,23 @@
 initial net:
-#<Ai4cr::NeuralNetwork::Rnn::Net:0x7fa1179c4d80
+#<Ai4cr::NeuralNetwork::Rnn::Net:0x7f43b5730d80
  @bias=true,
  @channel_input=
-  #<Ai4cr::NeuralNetwork::Rnn::Channel::Input:0x7fa1179c2b00
+  #<Ai4cr::NeuralNetwork::Rnn::Channel::Input:0x7f43b572ea00
    @dendrite_offsets=[1],
    @nodes=
-    [#<Ai4cr::NeuralNetwork::Rnn::Node::Input:0x7fa1179cadb0
+    [#<Ai4cr::NeuralNetwork::Rnn::Node::Input:0x7f43b5736cf0
       @state_qty=2,
       @state_range=0..1,
       @state_values=[0.0, 0.0]>,
-     #<Ai4cr::NeuralNetwork::Rnn::Node::Input:0x7fa1179cad80
+     #<Ai4cr::NeuralNetwork::Rnn::Node::Input:0x7f43b5736cc0
       @state_qty=2,
       @state_range=0..1,
       @state_values=[0.0, 0.0]>,
-     #<Ai4cr::NeuralNetwork::Rnn::Node::Input:0x7fa1179cad50
+     #<Ai4cr::NeuralNetwork::Rnn::Node::Input:0x7f43b5736c90
       @state_qty=2,
       @state_range=0..1,
       @state_values=[0.0, 0.0]>,
-     #<Ai4cr::NeuralNetwork::Rnn::Node::Input:0x7fa1179cad20
+     #<Ai4cr::NeuralNetwork::Rnn::Node::Input:0x7f43b5736c60
       @state_qty=2,
       @state_range=0..1,
       @state_values=[0.0, 0.0]>],
@@ -25,10 +25,10 @@ initial net:
    @time_column_qty=4,
    @time_column_range=0..3>,
  @channel_output=
-  #<Ai4cr::NeuralNetwork::Rnn::Channel::Output:0x7fa1179c2c40
+  #<Ai4cr::NeuralNetwork::Rnn::Channel::Output:0x7f43b572ec40
    @dendrite_offsets=[1],
    @nodes=
-    [#<Ai4cr::NeuralNetwork::Rnn::Node::Output:0x7fa1179ccf80
+    [#<Ai4cr::NeuralNetwork::Rnn::Node::Output:0x7f43b5738f80
       @memory_deltas=[[0.0, 0.0, 0.0]],
       @memory_errors=[[0.0, 0.0, 0.0]],
       @memory_expectations=[[0.0, 0.0, 0.0]],
@@ -42,7 +42,7 @@ initial net:
       @state_qty=3,
       @state_range=0..2,
       @state_values=[0.0, 0.0, 0.0]>,
-     #<Ai4cr::NeuralNetwork::Rnn::Node::Output:0x7fa1179ccf00
+     #<Ai4cr::NeuralNetwork::Rnn::Node::Output:0x7f43b5738f00
       @memory_deltas=[[0.0, 0.0, 0.0]],
       @memory_errors=[[0.0, 0.0, 0.0]],
       @memory_expectations=[[0.0, 0.0, 0.0]],
@@ -56,7 +56,7 @@ initial net:
       @state_qty=3,
       @state_range=0..2,
       @state_values=[0.0, 0.0, 0.0]>,
-     #<Ai4cr::NeuralNetwork::Rnn::Node::Output:0x7fa1179cce80
+     #<Ai4cr::NeuralNetwork::Rnn::Node::Output:0x7f43b5738e80
       @memory_deltas=[[0.0, 0.0, 0.0]],
       @memory_errors=[[0.0, 0.0, 0.0]],
       @memory_expectations=[[0.0, 0.0, 0.0]],
@@ -70,7 +70,7 @@ initial net:
       @state_qty=3,
       @state_range=0..2,
       @state_values=[0.0, 0.0, 0.0]>,
-     #<Ai4cr::NeuralNetwork::Rnn::Node::Output:0x7fa1179cce00
+     #<Ai4cr::NeuralNetwork::Rnn::Node::Output:0x7f43b5738e00
       @memory_deltas=[[0.0, 0.0, 0.0]],
       @memory_errors=[[0.0, 0.0, 0.0]],
       @memory_expectations=[[0.0, 0.0, 0.0]],
@@ -88,15 +88,15 @@ initial net:
    @time_column_qty=4,
    @time_column_range=0..3>,
  @dendrite_offsets=[1],
- @hidden_layer_qty=1,
- @hidden_layer_range=0..0,
+ @hidden_layer_qty=2,
+ @hidden_layer_range=0..1,
  @hidden_layers=
-  [#<Ai4cr::NeuralNetwork::Rnn::HiddenLayer:0x7fa1179cbf50
+  [#<Ai4cr::NeuralNetwork::Rnn::HiddenLayer:0x7f43b5730d20
     @channel_combo=
-     #<Ai4cr::NeuralNetwork::Rnn::Channel::Combo:0x7fa1179c2b40
+     #<Ai4cr::NeuralNetwork::Rnn::Channel::Combo:0x7f43b572eb40
       @dendrite_offsets=[1],
       @nodes=
-       [#<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c48a0
+       [#<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730840
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -107,7 +107,7 @@ initial net:
          @state_qty=4,
          @state_range=0..3,
          @state_values=[0.0, 0.0, 0.0, 0.0]>,
-        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c4840
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b57307e0
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -118,7 +118,7 @@ initial net:
          @state_qty=4,
          @state_range=0..3,
          @state_values=[0.0, 0.0, 0.0, 0.0]>,
-        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c47e0
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730780
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -129,7 +129,7 @@ initial net:
          @state_qty=4,
          @state_range=0..3,
          @state_values=[0.0, 0.0, 0.0, 0.0]>,
-        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c4780
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730720
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -144,10 +144,10 @@ initial net:
       @time_column_qty=4,
       @time_column_range=0..3>,
     @channel_future=
-     #<Ai4cr::NeuralNetwork::Rnn::Channel::Future:0x7fa1179c2b80
+     #<Ai4cr::NeuralNetwork::Rnn::Channel::Future:0x7f43b572eb80
       @dendrite_offsets=[1],
       @nodes=
-       [#<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c4a20
+       [#<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b57309c0
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -158,7 +158,7 @@ initial net:
          @state_qty=4,
          @state_range=0..3,
          @state_values=[0.0, 0.0, 0.0, 0.0]>,
-        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c49c0
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730960
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -169,7 +169,7 @@ initial net:
          @state_qty=4,
          @state_range=0..3,
          @state_values=[0.0, 0.0, 0.0, 0.0]>,
-        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c4960
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730900
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -180,7 +180,7 @@ initial net:
          @state_qty=4,
          @state_range=0..3,
          @state_values=[0.0, 0.0, 0.0, 0.0]>,
-        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c4900
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b57308a0
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -195,10 +195,10 @@ initial net:
       @time_column_qty=4,
       @time_column_range=0..3>,
     @channel_local=
-     #<Ai4cr::NeuralNetwork::Rnn::Channel::Local:0x7fa1179c2c00
+     #<Ai4cr::NeuralNetwork::Rnn::Channel::Local:0x7f43b572ec00
       @dendrite_offsets=[1],
       @nodes=
-       [#<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c4d20
+       [#<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730cc0
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -209,7 +209,7 @@ initial net:
          @state_qty=4,
          @state_range=0..3,
          @state_values=[0.0, 0.0, 0.0, 0.0]>,
-        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c4cc0
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730c60
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -220,7 +220,7 @@ initial net:
          @state_qty=4,
          @state_range=0..3,
          @state_values=[0.0, 0.0, 0.0, 0.0]>,
-        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c4c60
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730c00
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -231,7 +231,7 @@ initial net:
          @state_qty=4,
          @state_range=0..3,
          @state_values=[0.0, 0.0, 0.0, 0.0]>,
-        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c4c00
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730ba0
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -246,10 +246,10 @@ initial net:
       @time_column_qty=4,
       @time_column_range=0..3>,
     @channel_past=
-     #<Ai4cr::NeuralNetwork::Rnn::Channel::Past:0x7fa1179c2bc0
+     #<Ai4cr::NeuralNetwork::Rnn::Channel::Past:0x7f43b572ebc0
       @dendrite_offsets=[1],
       @nodes=
-       [#<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c4ba0
+       [#<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730b40
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -260,7 +260,7 @@ initial net:
          @state_qty=4,
          @state_range=0..3,
          @state_values=[0.0, 0.0, 0.0, 0.0]>,
-        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c4b40
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730ae0
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -271,7 +271,7 @@ initial net:
          @state_qty=4,
          @state_range=0..3,
          @state_values=[0.0, 0.0, 0.0, 0.0]>,
-        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c4ae0
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730a80
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -282,7 +282,7 @@ initial net:
          @state_qty=4,
          @state_range=0..3,
          @state_values=[0.0, 0.0, 0.0, 0.0]>,
-        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7fa1179c4a80
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730a20
          @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
          @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
          @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
@@ -297,6 +297,219 @@ initial net:
       @time_column_qty=4,
       @time_column_range=0..3>,
     @dendrite_offsets=[1],
+    @is_first=true,
+    @layer_index=0,
+    @state_qty=4,
+    @time_column_qty=4,
+    @time_column_range=0..3>,
+   #<Ai4cr::NeuralNetwork::Rnn::HiddenLayer:0x7f43b57306c0
+    @channel_combo=
+     #<Ai4cr::NeuralNetwork::Rnn::Channel::Combo:0x7f43b572ea40
+      @dendrite_offsets=[1],
+      @nodes=
+       [#<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b57301e0
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>,
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730180
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>,
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730120
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>,
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b57300c0
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>],
+      @state_qty=4,
+      @time_column_qty=4,
+      @time_column_range=0..3>,
+    @channel_future=
+     #<Ai4cr::NeuralNetwork::Rnn::Channel::Future:0x7f43b572ea80
+      @dendrite_offsets=[1],
+      @nodes=
+       [#<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730360
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>,
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730300
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>,
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b57302a0
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>,
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730240
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>],
+      @state_qty=4,
+      @time_column_qty=4,
+      @time_column_range=0..3>,
+    @channel_local=
+     #<Ai4cr::NeuralNetwork::Rnn::Channel::Local:0x7f43b572eb00
+      @dendrite_offsets=[1],
+      @nodes=
+       [#<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730660
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>,
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730600
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>,
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b57305a0
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>,
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730540
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>],
+      @state_qty=4,
+      @time_column_qty=4,
+      @time_column_range=0..3>,
+    @channel_past=
+     #<Ai4cr::NeuralNetwork::Rnn::Channel::Past:0x7f43b572eac0
+      @dendrite_offsets=[1],
+      @nodes=
+       [#<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b57304e0
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>,
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730480
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>,
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b5730420
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>,
+        #<Ai4cr::NeuralNetwork::Rnn::Node::Hidden:0x7f43b57303c0
+         @memory_deltas=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_errors=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_guesses=[[0.0, 0.0, 0.0, 0.0]],
+         @memory_qty=1,
+         @memory_range=0..0,
+         @state_deltas=[0.0, 0.0, 0.0, 0.0],
+         @state_errors=[0.0, 0.0, 0.0, 0.0],
+         @state_qty=4,
+         @state_range=0..3,
+         @state_values=[0.0, 0.0, 0.0, 0.0]>],
+      @state_qty=4,
+      @time_column_qty=4,
+      @time_column_range=0..3>,
+    @dendrite_offsets=[1],
+    @is_first=false,
+    @layer_index=1,
     @state_qty=4,
     @time_column_qty=4,
     @time_column_range=0..3>],

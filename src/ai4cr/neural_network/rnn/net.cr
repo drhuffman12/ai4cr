@@ -33,7 +33,7 @@ module Ai4cr
         property channel_input : Channel::Input
         
         def initialize(
-          @hidden_layer_qty = 1, @time_column_qty = 4, @memory_layer_qty = 1,
+          @hidden_layer_qty = 2, @time_column_qty = 4, @memory_layer_qty = 1,
           @output_state_qty = 3, @hidden_state_qty = 4, @input_state_qty = 2,
           @dendrite_offsets = Channel::Interface::DENDRITE_OFFSETS_DEFAULT,
           @bias = true,
@@ -51,7 +51,7 @@ module Ai4cr
           # @nodes_in = time_column_range.map{|t| Node::Input.new }
           # @nodes_out = time_column_range.map{|t| Node::Output.new }
           @channel_output = Channel::Output.new(time_column_qty: time_column_qty, state_qty: output_state_qty)
-          @hidden_layers = hidden_layer_range.map{|hl| HiddenLayer.new(time_column_qty: time_column_qty, dendrite_offsets: dendrite_offsets, state_qty: hidden_state_qty)}
+          @hidden_layers = hidden_layer_range.map{|h| HiddenLayer.new(layer_index: h, time_column_qty: time_column_qty, dendrite_offsets: dendrite_offsets, state_qty: hidden_state_qty)}
           @channel_input = Channel::Input.new(time_column_qty: time_column_qty, state_qty: input_state_qty)
         end
 
