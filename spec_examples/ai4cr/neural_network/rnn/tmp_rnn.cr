@@ -1,27 +1,27 @@
 
-require "./../../../../src/ai4cr/neural_network/rnn/node/input"
-node_input = Ai4cr::NeuralNetwork::Rnn::Node::Input.new
+# require "./../../../../src/ai4cr/neural_network/rnn/node/input"
+# node_input = Ai4cr::NeuralNetwork::Rnn::Node::Input.new
 
-puts "initial node_input:"
-puts node_input.pretty_inspect
+# puts "initial node_input:"
+# puts node_input.pretty_inspect
 
-require "./../../../../src/ai4cr/neural_network/rnn/node/trainable"
-node_trainable = Ai4cr::NeuralNetwork::Rnn::Node::Trainable.new
+# require "./../../../../src/ai4cr/neural_network/rnn/node/trainable"
+# node_trainable = Ai4cr::NeuralNetwork::Rnn::Node::Trainable.new
 
-puts "initial node_trainable:"
-puts node_trainable.pretty_inspect
+# puts "initial node_trainable:"
+# puts node_trainable.pretty_inspect
 
-require "./../../../../src/ai4cr/neural_network/rnn/node/hidden"
-node_hidden = Ai4cr::NeuralNetwork::Rnn::Node::Hidden.new
+# require "./../../../../src/ai4cr/neural_network/rnn/node/hidden"
+# node_hidden = Ai4cr::NeuralNetwork::Rnn::Node::Hidden.new
 
-puts "initial node_hidden:"
-puts node_hidden.pretty_inspect
+# puts "initial node_hidden:"
+# puts node_hidden.pretty_inspect
 
-require "./../../../../src/ai4cr/neural_network/rnn/node/output"
-node_output = Ai4cr::NeuralNetwork::Rnn::Node::Output.new
+# require "./../../../../src/ai4cr/neural_network/rnn/node/output"
+# node_output = Ai4cr::NeuralNetwork::Rnn::Node::Output.new
 
-puts "initial node_output:"
-puts node_output.pretty_inspect
+# puts "initial node_output:"
+# puts node_output.pretty_inspect
 
 require "./../../../../src/ai4cr/neural_network/rnn/net"
 net = Ai4cr::NeuralNetwork::Rnn::Net.new

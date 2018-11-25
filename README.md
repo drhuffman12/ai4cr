@@ -112,5 +112,9 @@ NOTE: That time, it took less than a second to build. I did notice that it took 
 ### RNN WIP files
 
 ```
-crystal spec_examples/ai4cr/neural_network/rnn/tmp_rnn.cr
+crystal spec spec/ai4cr/neural_network/rnn
+```
+
+```
+crystal spec_examples/ai4cr/neural_network/rnn/tmp_rnn.cr > tmp/tmp_rnn.out
 ```
