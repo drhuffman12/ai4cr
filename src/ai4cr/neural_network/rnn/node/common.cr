@@ -6,7 +6,7 @@ module Ai4cr
   module NeuralNetwork
     module Rnn
       module Node
-        class Common # Ai4cr::NeuralNetwork::Rnn::Node::Common
+        abstract class Common # Ai4cr::NeuralNetwork::Rnn::Node::Common
           include Node::Interface
   
           getter state_qty : Int32
