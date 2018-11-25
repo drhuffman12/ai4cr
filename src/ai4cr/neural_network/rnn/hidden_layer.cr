@@ -7,6 +7,7 @@ module Ai4cr
       class HiddenLayer # Ai4cr::NeuralNetwork::Rnn::HiddenLayer
         getter layer_index : Int32
         getter is_first : Bool
+        getter bias : Bool # When true, adds hard-coded '1' input and row of weights
         getter time_column_qty : Int32
         getter time_column_range : Range(Int32, Int32)
         getter dendrite_offsets : Array(Int32)
@@ -17,7 +18,7 @@ module Ai4cr
         property channel_future : Channel::Future
         property channel_combo : Channel::Combo
 
-        def initialize(@layer_index, @time_column_qty = TIME_COLUMN_QTY_DEFAULT, @dendrite_offsets = cccc, @state_qty = Node::Interface::STATE_QTY_DEFAULT)
+        def initialize(@bias, @layer_index, @time_column_qty = TIME_COLUMN_QTY_DEFAULT, @dendrite_offsets = cccc, @state_qty = Node::Interface::STATE_QTY_DEFAULT)
           @is_first = layer_index == 0
 
           @time_column_range = (0..time_column_qty-1)
