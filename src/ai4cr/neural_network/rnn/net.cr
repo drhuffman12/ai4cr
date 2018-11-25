@@ -51,7 +51,12 @@ module Ai4cr
           # @nodes_in = time_column_range.map{|t| Node::Input.new }
           # @nodes_out = time_column_range.map{|t| Node::Output.new }
           @channel_output = Channel::Output.new(time_column_qty: time_column_qty, state_qty: output_state_qty)
-          @hidden_layers = hidden_layer_range.map{|h| HiddenLayer.new(bias: bias && h == 0, layer_index: h, time_column_qty: time_column_qty, dendrite_offsets: dendrite_offsets, state_qty: hidden_state_qty)}
+
+          @hidden_layers = hidden_layer_range.map do |h|
+            layer_bias = bias && h == 0 # Bias on just the 1st layer should be sufficient
+            HiddenLayer.new(bias: layer_bias, layer_index: h, time_column_qty: time_column_qty, dendrite_offsets: dendrite_offsets, state_qty: hidden_state_qty)
+          end
+
           @channel_input = Channel::Input.new(time_column_qty: time_column_qty, state_qty: input_state_qty)
         end
 
