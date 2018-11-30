@@ -5,9 +5,9 @@ require "./interface"
 module Ai4cr
   module NeuralNetwork
     module Rnn
-      module Node
-        abstract class Common # Ai4cr::NeuralNetwork::Rnn::Node::Common
-          include Node::Interface
+      module NodeSet # TODO: rename to NodeSetSet
+        abstract class Common # Ai4cr::NeuralNetwork::Rnn::NodeSet::Common
+          include NodeSet::Interface
   
           getter state_qty : Int32
           getter state_range : Range(Int32, Int32)

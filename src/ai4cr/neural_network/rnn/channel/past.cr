@@ -4,9 +4,9 @@ module Ai4cr
   module NeuralNetwork
     module Rnn
       module Channel
-        class Past < Common(Node::Hidden) # Ai4cr::NeuralNetwork::Rnn::Channel::Past
+        class Past < Common(NodeSet::Hidden) # Ai4cr::NeuralNetwork::Rnn::Channel::Past
           # def node_class
-          #   Node::Hidden
+          #   NodeSet::Hidden
           # end
         end
       end

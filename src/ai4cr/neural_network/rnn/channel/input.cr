@@ -4,9 +4,9 @@ module Ai4cr
   module NeuralNetwork
     module Rnn
       module Channel
-        class Input < Common(Node::Input) # Ai4cr::NeuralNetwork::Rnn::Channel::Input
+        class Input < Common(NodeSet::Input) # Ai4cr::NeuralNetwork::Rnn::Channel::Input
           # def node_class
-          #   Node::Input
+          #   NodeSet::Input
           # end
         end
       end

@@ -1,0 +1,1205 @@
+[37;1m- class Object[0;37m (4 bytes)[0;37;1m
+  |
+  +- class Reference[0;37m (4 bytes)[0;37;1m
+  |  |
+  |  +- class Ai4cr::NeuralNetwork::Rnn::Channel::Common(N)
+  |  |  .   [0;37m@time_column_qty   : @time_column_qty[0;37;1m
+  |  |  .   [0;37m@time_column_range : @time_column_range[0;37;1m
+  |  |  .   [0;37m@dendrite_offsets  : @dendrite_offsets[0;37;1m
+  |  |  .   [0;37m@state_qty         : @state_qty[0;37;1m
+  |  |  .   [0;37m@node_sets         : @node_sets[0;37;1m
+  |  |  |
+  |  |  +- class Ai4cr::NeuralNetwork::Rnn::Channel::Combo[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Ai4cr::NeuralNetwork::Rnn::Channel::Future[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Ai4cr::NeuralNetwork::Rnn::Channel::Input[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Ai4cr::NeuralNetwork::Rnn::Channel::Local[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Ai4cr::NeuralNetwork::Rnn::Channel::Output[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Ai4cr::NeuralNetwork::Rnn::Channel::Past[0;37m (48 bytes)[0;37;1m
+  |  |
+  |  +- class Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Common(CINS, SINS, PLOC)
+  |  |  .   [0;37m@layer_index                   : @layer_index[0;37;1m
+  |  |  .   [0;37m@is_first                      : @is_first[0;37;1m
+  |  |  .   [0;37m@bias                          : @bias[0;37;1m
+  |  |  .   [0;37m@time_column_qty               : @time_column_qty[0;37;1m
+  |  |  .   [0;37m@time_column_range             : @time_column_range[0;37;1m
+  |  |  .   [0;37m@dendrite_offsets              : @dendrite_offsets[0;37;1m
+  |  |  .   [0;37m@state_qty                     : @state_qty[0;37;1m
+  |  |  .   [0;37m@output_winner_qty             : @output_winner_qty[0;37;1m
+  |  |  .   [0;37m@previous_layer_output_channel : @previous_layer_output_channel[0;37;1m
+  |  |  .   [0;37m@channel_local                 : @channel_local[0;37;1m
+  |  |  .   [0;37m@channel_past                  : @channel_past[0;37;1m
+  |  |  .   [0;37m@channel_future                : @channel_future[0;37;1m
+  |  |  .   [0;37m@channel_combo                 : @channel_combo[0;37;1m
+  |  |  .   [0;37m@weights_local                 : @weights_local[0;37;1m
+  |  |  |
+  |  |  +- class Ai4cr::NeuralNetwork::Rnn::HiddenLayer::First[0;37m (96 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Other[0;37m (96 bytes)[0;37;1m
+  |  |
+  |  +- class Ai4cr::NeuralNetwork::Rnn::Math[0;37m (4 bytes)[0;37;1m
+  |  |
+  |  +- class Ai4cr::NeuralNetwork::Rnn::Net[0;37m (88 bytes)[0;37;1m
+  |  |      [0;37m@hidden_layer_qty   : Int32                                                                                                ( 4 bytes)[0;37;1m
+  |  |      [0;37m@time_column_qty    : Int32                                                                                                ( 4 bytes)[0;37;1m
+  |  |      [0;37m@memory_layer_qty   : Int32                                                                                                ( 4 bytes)[0;37;1m
+  |  |      [0;37m@output_state_qty   : Int32                                                                                                ( 4 bytes)[0;37;1m
+  |  |      [0;37m@hidden_state_qty   : Int32                                                                                                ( 4 bytes)[0;37;1m
+  |  |      [0;37m@input_state_qty    : Int32                                                                                                ( 4 bytes)[0;37;1m
+  |  |      [0;37m@bias               : Bool                                                                                                 ( 0 bytes)[0;37;1m
+  |  |      [0;37m@hidden_layer_range : Range(Int32, Int32)                                                                                  (12 bytes)[0;37;1m
+  |  |      [0;37m@channel_output     : Ai4cr::NeuralNetwork::Rnn::Channel::Output                                                           ( 8 bytes)[0;37;1m
+  |  |      [0;37m@hidden_layers      : Array(Ai4cr::NeuralNetwork::Rnn::HiddenLayer::First | Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Other) ( 8 bytes)[0;37;1m
+  |  |      [0;37m@channel_input      : Ai4cr::NeuralNetwork::Rnn::Channel::Input                                                            ( 8 bytes)[0;37;1m
+  |  |      [0;37m@dendrite_offsets   : Array(Int32)                                                                                         ( 8 bytes)[0;37;1m
+  |  |      [0;37m@output_winner_qty  : Int32                                                                                                ( 4 bytes)[0;37;1m
+  |  |
+  |  +- class Ai4cr::NeuralNetwork::Rnn::NodeSet::Common[0;37m (32 bytes)[0;37;1m
+  |  |  .   [0;37m@state_qty    : Int32               ( 4 bytes)[0;37;1m
+  |  |  .   [0;37m@state_range  : Range(Int32, Int32) (12 bytes)[0;37;1m
+  |  |  .   [0;37m@state_values : Array(Float64)      ( 8 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Ai4cr::NeuralNetwork::Rnn::NodeSet::Input[0;37m (32 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Ai4cr::NeuralNetwork::Rnn::NodeSet::Trainable[0;37m (56 bytes)[0;37;1m
+  |  |     .   [0;37m@state_errors           : Array(Float64) (8 bytes)[0;37;1m
+  |  |     .   [0;37m@state_deltas           : Array(Float64) (8 bytes)[0;37;1m
+  |  |     .   [0;37m@state_corrected_values : Array(Float64) (8 bytes)[0;37;1m
+  |  |     |
+  |  |     +- class Ai4cr::NeuralNetwork::Rnn::NodeSet::Hidden[0;37m (104 bytes)[0;37;1m
+  |  |     |      [0;37m@memory_qty                  : Int32                 ( 4 bytes)[0;37;1m
+  |  |     |      [0;37m@memory_range                : Range(Int32, Int32)   (12 bytes)[0;37;1m
+  |  |     |      [0;37m@memory_values_set           : Array(Array(Float64)) ( 8 bytes)[0;37;1m
+  |  |     |      [0;37m@memory_errors_set           : Array(Array(Float64)) ( 8 bytes)[0;37;1m
+  |  |     |      [0;37m@memory_deltas_set           : Array(Array(Float64)) ( 8 bytes)[0;37;1m
+  |  |     |      [0;37m@memory_corrected_values_set : Array(Array(Float64)) ( 8 bytes)[0;37;1m
+  |  |     |
+  |  |     +- class Ai4cr::NeuralNetwork::Rnn::NodeSet::Output[0;37m (72 bytes)[0;37;1m
+  |  |            [0;37m@state_expectations : Array(Float64) (8 bytes)[0;37;1m
+  |  |            [0;37m@state_exaggerates  : Array(Float64) (8 bytes)[0;37;1m
+  |  |
+  |  +- class Ai4cr::NeuralNetwork::Rnn::WeightSet::Common(CINS, SINS, ONS)
+  |  |  .   [0;37m@center_input_node_set : @center_input_node_set[0;37;1m
+  |  |  .   [0;37m@side_input_node_sets  : @side_input_node_sets[0;37;1m
+  |  |  .   [0;37m@output_node_set       : @output_node_set[0;37;1m
+  |  |  .   [0;37m@weights               : @weights[0;37;1m
+  |  |  .   [0;37m@bias                  : @bias[0;37;1m
+  |  |  .   [0;37m@output_winner_qty     : @output_winner_qty[0;37;1m
+  |  |  |
+  |  |  +- class Ai4cr::NeuralNetwork::Rnn::WeightSet::Hidden(CINS, SINS, ONS)
+  |  |     |
+  |  |     +- class Ai4cr::NeuralNetwork::Rnn::WeightSet::Local(CINS, SINS, PLOC)
+  |  |            [0;37m@time_column_index_offsets     : @time_column_index_offsets[0;37;1m
+  |  |            [0;37m@time_column_index             : @time_column_index[0;37;1m
+  |  |            [0;37m@previous_layer_output_channel : @previous_layer_output_channel[0;37;1m
+  |  |            [0;37m@output_channel                : @output_channel[0;37;1m
+  |  |            [0;37m@dendrite_offsets              : @dendrite_offsets[0;37;1m
+  |  |            [0;37m@bias                          : @bias[0;37;1m
+  |  |            [0;37m@output_winner_qty             : @output_winner_qty[0;37;1m
+  |  |
+  |  +- class Array(T)
+  |  |      [0;37m@size     : @size[0;37;1m
+  |  |      [0;37m@capacity : @capacity[0;37;1m
+  |  |      [0;37m@buffer   : @buffer[0;37;1m
+  |  |
+  |  +- class Array::CombinationIterator(T)
+  |  |      [0;37m@size    : @size[0;37;1m
+  |  |      [0;37m@n       : @n[0;37;1m
+  |  |      [0;37m@copy    : @copy[0;37;1m
+  |  |      [0;37m@pool    : @pool[0;37;1m
+  |  |      [0;37m@indices : @indices[0;37;1m
+  |  |      [0;37m@stop    : @stop[0;37;1m
+  |  |      [0;37m@i       : @i[0;37;1m
+  |  |      [0;37m@first   : @first[0;37;1m
+  |  |      [0;37m@reuse   : @reuse[0;37;1m
+  |  |
+  |  +- class Array::PermutationIterator(T)
+  |  |      [0;37m@array  : @array[0;37;1m
+  |  |      [0;37m@size   : @size[0;37;1m
+  |  |      [0;37m@n      : @n[0;37;1m
+  |  |      [0;37m@cycles : @cycles[0;37;1m
+  |  |      [0;37m@pool   : @pool[0;37;1m
+  |  |      [0;37m@stop   : @stop[0;37;1m
+  |  |      [0;37m@i      : @i[0;37;1m
+  |  |      [0;37m@first  : @first[0;37;1m
+  |  |      [0;37m@reuse  : @reuse[0;37;1m
+  |  |
+  |  +- class Array::RepeatedCombinationIterator(T)
+  |  |      [0;37m@size    : @size[0;37;1m
+  |  |      [0;37m@n       : @n[0;37;1m
+  |  |      [0;37m@copy    : @copy[0;37;1m
+  |  |      [0;37m@indices : @indices[0;37;1m
+  |  |      [0;37m@pool    : @pool[0;37;1m
+  |  |      [0;37m@stop    : @stop[0;37;1m
+  |  |      [0;37m@i       : @i[0;37;1m
+  |  |      [0;37m@first   : @first[0;37;1m
+  |  |      [0;37m@reuse   : @reuse[0;37;1m
+  |  |
+  |  +- class Box(T)
+  |  |      [0;37m@object : @object[0;37;1m
+  |  |
+  |  +- class Channel(T)
+  |  |  .   [0;37m@closed    : @closed[0;37;1m
+  |  |  .   [0;37m@senders   : @senders[0;37;1m
+  |  |  .   [0;37m@receivers : @receivers[0;37;1m
+  |  |  |
+  |  |  +- class Channel::Buffered(T)
+  |  |  |      [0;37m@capacity : @capacity[0;37;1m
+  |  |  |      [0;37m@queue    : @queue[0;37;1m
+  |  |  |
+  |  |  +- class Channel::Unbuffered(T)
+  |  |         [0;37m@sender    : @sender[0;37;1m
+  |  |         [0;37m@has_value : @has_value[0;37;1m
+  |  |         [0;37m@value     : @value[0;37;1m
+  |  |
+  |  +- class Concurrent::Future(R)
+  |  |      [0;37m@value      : @value[0;37;1m
+  |  |      [0;37m@error      : @error[0;37;1m
+  |  |      [0;37m@delay      : @delay[0;37;1m
+  |  |      [0;37m@block      : @block[0;37;1m
+  |  |      [0;37m@state      : @state[0;37;1m
+  |  |      [0;37m@channel    : @channel[0;37;1m
+  |  |      [0;37m@cancel_msg : @cancel_msg[0;37;1m
+  |  |
+  |  +- class Crystal::Scheduler[0;37m (32 bytes)[0;37;1m
+  |  |      [0;37m@main      : Fiber        (8 bytes)[0;37;1m
+  |  |      [0;37m@current   : Fiber        (8 bytes)[0;37;1m
+  |  |      [0;37m@runnables : Deque(Fiber) (8 bytes)[0;37;1m
+  |  |
+  |  +- class Deque(T)
+  |  |      [0;37m@start    : @start[0;37;1m
+  |  |      [0;37m@size     : @size[0;37;1m
+  |  |      [0;37m@capacity : @capacity[0;37;1m
+  |  |      [0;37m@buffer   : @buffer[0;37;1m
+  |  |
+  |  +- class Dir[0;37m (32 bytes)[0;37;1m
+  |  |      [0;37m@path   : String             (8 bytes)[0;37;1m
+  |  |      [0;37m@dir    : Pointer(LibC::DIR) (8 bytes)[0;37;1m
+  |  |      [0;37m@closed : Bool               (0 bytes)[0;37;1m
+  |  |
+  |  +- class Exception[0;37m (48 bytes)[0;37;1m
+  |  |  .   [0;37m@message   : (String | Nil)    ( 8 bytes)[0;37;1m
+  |  |  .   [0;37m@cause     : (Exception | Nil) ( 8 bytes)[0;37;1m
+  |  |  .   [0;37m@callstack : (CallStack | Nil) (24 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class ArgumentError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Base64::Error[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Channel::ClosedError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Concurrent::CanceledError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class ConcurrentExecutionException[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Debug::ELF::Error[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class DivisionByZeroError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Enumerable::EmptyError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Errno[0;37m (56 bytes)[0;37;1m
+  |  |  |      [0;37m@errno : Int32 (4 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class File::BadPatternError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class IO::Error[0;37m (48 bytes)[0;37;1m
+  |  |  |  |
+  |  |  |  +- class IO::EOFError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class IO::Timeout[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class IndexError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class InvalidByteSequenceError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class KeyError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class NotImplementedError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Time::FloatingTimeConversionError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Time::Format::Error[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Time::Location::InvalidLocationNameError[0;37m (64 bytes)[0;37;1m
+  |  |  |      [0;37m@name   : String         (8 bytes)[0;37;1m
+  |  |  |      [0;37m@source : (String | Nil) (8 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Time::Location::InvalidTZDataError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class Time::Location::InvalidTimezoneOffsetError[0;37m (48 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class TypeCastError[0;37m (48 bytes)[0;37;1m
+  |  |
+  |  +- class Fiber[0;37m (104 bytes)[0;37;1m
+  |  |      [0;37m@stack        : Pointer(Void)            ( 8 bytes)[0;37;1m
+  |  |      [0;37m@resume_event : (Crystal::Event | Nil)   (24 bytes)[0;37;1m
+  |  |      [0;37m@stack_top    : Pointer(Void)            ( 8 bytes)[0;37;1m
+  |  |      [0;37m@stack_bottom : Pointer(Void)            ( 8 bytes)[0;37;1m
+  |  |      [0;37m@name         : (String | Nil)           ( 8 bytes)[0;37;1m
+  |  |      [0;37m@next         : (Fiber | Nil)            ( 8 bytes)[0;37;1m
+  |  |      [0;37m@previous     : (Fiber | Nil)            ( 8 bytes)[0;37;1m
+  |  |      [0;37m@proc         : (Proc(Nil) | Proc(Void)) (24 bytes)[0;37;1m
+  |  |
+  |  +- class Hash(K, V)
+  |  |      [0;37m@size         : @size[0;37;1m
+  |  |      [0;37m@buckets_size : @buckets_size[0;37;1m
+  |  |      [0;37m@first        : @first[0;37;1m
+  |  |      [0;37m@last         : @last[0;37;1m
+  |  |      [0;37m@block        : @block[0;37;1m
+  |  |      [0;37m@buckets      : @buckets[0;37;1m
+  |  |
+  |  +- class Hash::Entry(K, V)
+  |  |      [0;37m@key   : @key[0;37;1m
+  |  |      [0;37m@value : @value[0;37;1m
+  |  |      [0;37m@next  : @next[0;37;1m
+  |  |      [0;37m@fore  : @fore[0;37;1m
+  |  |      [0;37m@back  : @back[0;37;1m
+  |  |
+  |  +- class Hash::EntryIterator(K, V)
+  |  |      [0;37m@hash    : @hash[0;37;1m
+  |  |      [0;37m@current : @current[0;37;1m
+  |  |
+  |  +- class Hash::KeyIterator(K, V)
+  |  |      [0;37m@hash    : @hash[0;37;1m
+  |  |      [0;37m@current : @current[0;37;1m
+  |  |
+  |  +- class Hash::ValueIterator(K, V)
+  |  |      [0;37m@hash    : @hash[0;37;1m
+  |  |      [0;37m@current : @current[0;37;1m
+  |  |
+  |  +- class IO[0;37m (56 bytes)[0;37;1m
+  |  |  .   [0;37m@encoding : (IO::EncodingOptions | Nil) (32 bytes)[0;37;1m
+  |  |  .   [0;37m@encoder  : (IO::Encoder | Nil)         ( 8 bytes)[0;37;1m
+  |  |  .   [0;37m@decoder  : (IO::Decoder | Nil)         ( 8 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class File::PReader[0;37m (120 bytes)[0;37;1m
+  |  |  |      [0;37m@in_buffer_rem    : Slice(UInt8)           (16 bytes)[0;37;1m
+  |  |  |      [0;37m@out_count        : Int32                  ( 4 bytes)[0;37;1m
+  |  |  |      [0;37m@sync             : Bool                   ( 0 bytes)[0;37;1m
+  |  |  |      [0;37m@read_buffering   : Bool                   ( 0 bytes)[0;37;1m
+  |  |  |      [0;37m@flush_on_newline : Bool                   ( 0 bytes)[0;37;1m
+  |  |  |      [0;37m@in_buffer        : (Pointer(UInt8) | Nil) ( 8 bytes)[0;37;1m
+  |  |  |      [0;37m@out_buffer       : (Pointer(UInt8) | Nil) ( 8 bytes)[0;37;1m
+  |  |  |      [0;37m@closed           : Bool                   ( 0 bytes)[0;37;1m
+  |  |  |      [0;37m@fd               : Int32                  ( 4 bytes)[0;37;1m
+  |  |  |      [0;37m@offset           : Int32                  ( 4 bytes)[0;37;1m
+  |  |  |      [0;37m@bytesize         : Int32                  ( 4 bytes)[0;37;1m
+  |  |  |      [0;37m@pos              : Int32                  ( 4 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class IO::ARGF[0;37m (96 bytes)[0;37;1m
+  |  |  |      [0;37m@path            : (String | Nil) (8 bytes)[0;37;1m
+  |  |  |      [0;37m@current_io      : (IO | Nil)     (8 bytes)[0;37;1m
+  |  |  |      [0;37m@argv            : Array(String)  (8 bytes)[0;37;1m
+  |  |  |      [0;37m@stdin           : IO+            (8 bytes)[0;37;1m
+  |  |  |      [0;37m@initialized     : Bool           (0 bytes)[0;37;1m
+  |  |  |      [0;37m@read_from_stdin : Bool           (0 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class IO::Delimited[0;37m (128 bytes)[0;37;1m
+  |  |  |      [0;37m@closed                  : Bool         ( 0 bytes)[0;37;1m
+  |  |  |      [0;37m@delimiter_buffer        : Slice(UInt8) (16 bytes)[0;37;1m
+  |  |  |      [0;37m@active_delimiter_buffer : Slice(UInt8) (16 bytes)[0;37;1m
+  |  |  |      [0;37m@io                      : IO+          ( 8 bytes)[0;37;1m
+  |  |  |      [0;37m@read_delimiter          : Slice(UInt8) (16 bytes)[0;37;1m
+  |  |  |      [0;37m@sync_close              : Bool         ( 0 bytes)[0;37;1m
+  |  |  |      [0;37m@finished                : Bool         ( 0 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class IO::FileDescriptor[0;37m (232 bytes)[0;37;1m
+  |  |  |  .   [0;37m@fd               : Int32                  ( 4 bytes)[0;37;1m
+  |  |  |  .   [0;37m@read_event       : (Crystal::Event | Nil) (24 bytes)[0;37;1m
+  |  |  |  .   [0;37m@write_event      : (Crystal::Event | Nil) (24 bytes)[0;37;1m
+  |  |  |  .   [0;37m@closed           : Bool                   ( 0 bytes)[0;37;1m
+  |  |  |  .   [0;37m@in_buffer_rem    : Slice(UInt8)           (16 bytes)[0;37;1m
+  |  |  |  .   [0;37m@out_count        : Int32                  ( 4 bytes)[0;37;1m
+  |  |  |  .   [0;37m@sync             : Bool                   ( 0 bytes)[0;37;1m
+  |  |  |  .   [0;37m@read_buffering   : Bool                   ( 0 bytes)[0;37;1m
+  |  |  |  .   [0;37m@flush_on_newline : Bool                   ( 0 bytes)[0;37;1m
+  |  |  |  .   [0;37m@in_buffer        : (Pointer(UInt8) | Nil) ( 8 bytes)[0;37;1m
+  |  |  |  .   [0;37m@out_buffer       : (Pointer(UInt8) | Nil) ( 8 bytes)[0;37;1m
+  |  |  |  .   [0;37m@read_timeout     : (Time::Span | Nil)     (24 bytes)[0;37;1m
+  |  |  |  .   [0;37m@write_timeout    : (Time::Span | Nil)     (24 bytes)[0;37;1m
+  |  |  |  .   [0;37m@readers          : (Deque(Fiber) | Nil)   ( 8 bytes)[0;37;1m
+  |  |  |  .   [0;37m@writers          : (Deque(Fiber) | Nil)   ( 8 bytes)[0;37;1m
+  |  |  |  .   [0;37m@read_timed_out   : Bool                   ( 0 bytes)[0;37;1m
+  |  |  |  .   [0;37m@write_timed_out  : Bool                   ( 0 bytes)[0;37;1m
+  |  |  |  |
+  |  |  |  +- class File[0;37m (240 bytes)[0;37;1m
+  |  |  |         [0;37m@path : String (8 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class IO::Hexdump[0;37m (80 bytes)[0;37;1m
+  |  |  |      [0;37m@io     : IO+  (8 bytes)[0;37;1m
+  |  |  |      [0;37m@output : IO+  (8 bytes)[0;37;1m
+  |  |  |      [0;37m@read   : Bool (0 bytes)[0;37;1m
+  |  |  |      [0;37m@write  : Bool (0 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class IO::Memory[0;37m (80 bytes)[0;37;1m
+  |  |  |      [0;37m@buffer     : Pointer(UInt8) (8 bytes)[0;37;1m
+  |  |  |      [0;37m@bytesize   : Int32          (4 bytes)[0;37;1m
+  |  |  |      [0;37m@capacity   : Int32          (4 bytes)[0;37;1m
+  |  |  |      [0;37m@pos        : Int32          (4 bytes)[0;37;1m
+  |  |  |      [0;37m@closed     : Bool           (0 bytes)[0;37;1m
+  |  |  |      [0;37m@resizeable : Bool           (0 bytes)[0;37;1m
+  |  |  |      [0;37m@writeable  : Bool           (0 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class IO::MultiWriter[0;37m (72 bytes)[0;37;1m
+  |  |  |      [0;37m@writers    : Array(IO) (8 bytes)[0;37;1m
+  |  |  |      [0;37m@closed     : Bool      (0 bytes)[0;37;1m
+  |  |  |      [0;37m@sync_close : Bool      (0 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class IO::Sized[0;37m (88 bytes)[0;37;1m
+  |  |  |      [0;37m@sync_close     : Bool   (0 bytes)[0;37;1m
+  |  |  |      [0;37m@read_remaining : UInt64 (8 bytes)[0;37;1m
+  |  |  |      [0;37m@closed         : Bool   (0 bytes)[0;37;1m
+  |  |  |      [0;37m@io             : IO+    (8 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class IO::Stapled[0;37m (80 bytes)[0;37;1m
+  |  |  |      [0;37m@sync_close : Bool (0 bytes)[0;37;1m
+  |  |  |      [0;37m@closed     : Bool (0 bytes)[0;37;1m
+  |  |  |      [0;37m@reader     : IO+  (8 bytes)[0;37;1m
+  |  |  |      [0;37m@writer     : IO+  (8 bytes)[0;37;1m
+  |  |  |
+  |  |  +- class String::Builder[0;37m (80 bytes)[0;37;1m
+  |  |         [0;37m@bytesize : Int32          (4 bytes)[0;37;1m
+  |  |         [0;37m@capacity : Int32          (4 bytes)[0;37;1m
+  |  |         [0;37m@buffer   : Pointer(UInt8) (8 bytes)[0;37;1m
+  |  |         [0;37m@finished : Bool           (0 bytes)[0;37;1m
+  |  |
+  |  +- class IO::Decoder[0;37m (120 bytes)[0;37;1m
+  |  |      [0;37m@out_slice        : Slice(UInt8)        (16 bytes)[0;37;1m
+  |  |      [0;37m@in_buffer        : Pointer(UInt8)      ( 8 bytes)[0;37;1m
+  |  |      [0;37m@encoding_options : IO::EncodingOptions (24 bytes)[0;37;1m
+  |  |      [0;37m@iconv            : Iconv               (16 bytes)[0;37;1m
+  |  |      [0;37m@buffer           : Slice(UInt8)        (16 bytes)[0;37;1m
+  |  |      [0;37m@in_buffer_left   : UInt64              ( 8 bytes)[0;37;1m
+  |  |      [0;37m@out_buffer       : Slice(UInt8)        (16 bytes)[0;37;1m
+  |  |      [0;37m@closed           : Bool                ( 0 bytes)[0;37;1m
+  |  |
+  |  +- class IO::Encoder[0;37m (56 bytes)[0;37;1m
+  |  |      [0;37m@encoding_options : IO::EncodingOptions (24 bytes)[0;37;1m
+  |  |      [0;37m@iconv            : Iconv               (16 bytes)[0;37;1m
+  |  |      [0;37m@closed           : Bool                ( 0 bytes)[0;37;1m
+  |  |
+  |  +- class Indexable::IndexIterator(A)
+  |  |      [0;37m@array : @array[0;37;1m
+  |  |      [0;37m@index : @index[0;37;1m
+  |  |
+  |  +- class Indexable::ItemIterator(A, T)
+  |  |      [0;37m@array : @array[0;37;1m
+  |  |      [0;37m@index : @index[0;37;1m
+  |  |
+  |  +- class Indexable::ReverseItemIterator(A, T)
+  |  |      [0;37m@array : @array[0;37;1m
+  |  |      [0;37m@index : @index[0;37;1m
+  |  |
+  |  +- class Int::DowntoIterator(T, N)
+  |  |      [0;37m@from    : @from[0;37;1m
+  |  |      [0;37m@to      : @to[0;37;1m
+  |  |      [0;37m@current : @current[0;37;1m
+  |  |      [0;37m@done    : @done[0;37;1m
+  |  |
+  |  +- class Int::TimesIterator(T)
+  |  |      [0;37m@n     : @n[0;37;1m
+  |  |      [0;37m@index : @index[0;37;1m
+  |  |
+  |  +- class Int::UptoIterator(T, N)
+  |  |      [0;37m@from    : @from[0;37;1m
+  |  |      [0;37m@to      : @to[0;37;1m
+  |  |      [0;37m@current : @current[0;37;1m
+  |  |      [0;37m@done    : @done[0;37;1m
+  |  |
+  |  +- class Iterator::Chain(I1, I2, T1, T2)
+  |  |      [0;37m@iterator1          : @iterator1[0;37;1m
+  |  |      [0;37m@iterator2          : @iterator2[0;37;1m
+  |  |      [0;37m@iterator1_consumed : @iterator1_consumed[0;37;1m
+  |  |
+  |  +- class Iterator::ChainsAll(Iter, T)
+  |  |      [0;37m@iterators : @iterators[0;37;1m
+  |  |      [0;37m@current   : @current[0;37;1m
+  |  |
+  |  +- class Iterator::Chunk(I, T, U)
+  |  |      [0;37m@iterator       : @iterator[0;37;1m
+  |  |      [0;37m@init           : @init[0;37;1m
+  |  |      [0;37m@original_block : @original_block[0;37;1m
+  |  |      [0;37m@acc            : @acc[0;37;1m
+  |  |
+  |  +- class Iterator::CycleN(I, T, N)
+  |  |      [0;37m@iterator : @iterator[0;37;1m
+  |  |      [0;37m@n        : @n[0;37;1m
+  |  |      [0;37m@count    : @count[0;37;1m
+  |  |
+  |  +- class Iterator::First(I, T, N)
+  |  |      [0;37m@iterator : @iterator[0;37;1m
+  |  |      [0;37m@n        : @n[0;37;1m
+  |  |      [0;37m@original : @original[0;37;1m
+  |  |
+  |  +- class Iterator::FlatMap(I0, T, I, F)
+  |  |      [0;37m@iterator      : @iterator[0;37;1m
+  |  |      [0;37m@func          : @func[0;37;1m
+  |  |      [0;37m@nest_iterator : @nest_iterator[0;37;1m
+  |  |      [0;37m@stopped       : @stopped[0;37;1m
+  |  |
+  |  +- class Iterator::Skip(I, T, N)
+  |  |      [0;37m@iterator : @iterator[0;37;1m
+  |  |      [0;37m@n        : @n[0;37;1m
+  |  |      [0;37m@original : @original[0;37;1m
+  |  |
+  |  +- class Iterator::SkipWhile(I, T, U)
+  |  |      [0;37m@iterator       : @iterator[0;37;1m
+  |  |      [0;37m@func           : @func[0;37;1m
+  |  |      [0;37m@returned_false : @returned_false[0;37;1m
+  |  |
+  |  +- class Iterator::Stop[0;37m (4 bytes)[0;37;1m
+  |  |
+  |  +- class Iterator::TakeWhile(I, T, U)
+  |  |      [0;37m@iterator       : @iterator[0;37;1m
+  |  |      [0;37m@func           : @func[0;37;1m
+  |  |      [0;37m@returned_false : @returned_false[0;37;1m
+  |  |
+  |  +- class Iterator::WithIndex(I, T, O)
+  |  |      [0;37m@iterator : @iterator[0;37;1m
+  |  |      [0;37m@offset   : @offset[0;37;1m
+  |  |      [0;37m@index    : @index[0;37;1m
+  |  |
+  |  +- class Mutex[0;37m (32 bytes)[0;37;1m
+  |  |      [0;37m@mutex_fiber : (Fiber | Nil)        (8 bytes)[0;37;1m
+  |  |      [0;37m@lock_count  : Int32                (4 bytes)[0;37;1m
+  |  |      [0;37m@queue       : (Deque(Fiber) | Nil) (8 bytes)[0;37;1m
+  |  |
+  |  +- class Number::StepIterator(T, L, B)
+  |  |      [0;37m@n        : @n[0;37;1m
+  |  |      [0;37m@to       : @to[0;37;1m
+  |  |      [0;37m@by       : @by[0;37;1m
+  |  |      [0;37m@original : @original[0;37;1m
+  |  |
+  |  +- class PrettyPrint[0;37m (72 bytes)[0;37;1m
+  |  |      [0;37m@output       : IO+                                               (8 bytes)[0;37;1m
+  |  |      [0;37m@maxwidth     : Int32                                             (4 bytes)[0;37;1m
+  |  |      [0;37m@newline      : String                                            (8 bytes)[0;37;1m
+  |  |      [0;37m@indent       : Int32                                             (4 bytes)[0;37;1m
+  |  |      [0;37m@output_width : Int32                                             (4 bytes)[0;37;1m
+  |  |      [0;37m@buffer_width : Int32                                             (4 bytes)[0;37;1m
+  |  |      [0;37m@buffer       : Deque(PrettyPrint::Breakable | PrettyPrint::Text) (8 bytes)[0;37;1m
+  |  |      [0;37m@group_stack  : Array(PrettyPrint::Group)                         (8 bytes)[0;37;1m
+  |  |      [0;37m@group_queue  : PrettyPrint::GroupQueue                           (8 bytes)[0;37;1m
+  |  |
+  |  +- class PrettyPrint::Breakable[0;37m (40 bytes)[0;37;1m
+  |  |      [0;37m@indent : Int32              (4 bytes)[0;37;1m
+  |  |      [0;37m@group  : PrettyPrint::Group (8 bytes)[0;37;1m
+  |  |      [0;37m@obj    : String             (8 bytes)[0;37;1m
+  |  |      [0;37m@width  : Int32              (4 bytes)[0;37;1m
+  |  |      [0;37m@pp     : PrettyPrint        (8 bytes)[0;37;1m
+  |  |
+  |  +- class PrettyPrint::Group[0;37m (24 bytes)[0;37;1m
+  |  |      [0;37m@depth      : Int32                         (4 bytes)[0;37;1m
+  |  |      [0;37m@breakables : Deque(PrettyPrint::Breakable) (8 bytes)[0;37;1m
+  |  |      [0;37m@break      : Bool                          (0 bytes)[0;37;1m
+  |  |
+  |  +- class PrettyPrint::GroupQueue[0;37m (16 bytes)[0;37;1m
+  |  |      [0;37m@queue : Array(Array(PrettyPrint::Group)) (8 bytes)[0;37;1m
+  |  |
+  |  +- class PrettyPrint::Text[0;37m (24 bytes)[0;37;1m
+  |  |      [0;37m@objs  : Array(String) (8 bytes)[0;37;1m
+  |  |      [0;37m@width : Int32         (4 bytes)[0;37;1m
+  |  |
+  |  +- class Process[0;37m (56 bytes)[0;37;1m
+  |  |      [0;37m@pid        : Int32                                        (4 bytes)[0;37;1m
+  |  |      [0;37m@input      : (IO::FileDescriptor | Nil)                   (8 bytes)[0;37;1m
+  |  |      [0;37m@output     : (IO::FileDescriptor | Nil)                   (8 bytes)[0;37;1m
+  |  |      [0;37m@error      : (IO::FileDescriptor | Nil)                   (8 bytes)[0;37;1m
+  |  |      [0;37m@waitpid    : Channel::Buffered(Int32)                     (8 bytes)[0;37;1m
+  |  |      [0;37m@wait_count : Int32                                        (4 bytes)[0;37;1m
+  |  |      [0;37m@channel    : (Channel::Unbuffered(Exception | Nil) | Nil) (8 bytes)[0;37;1m
+  |  |
+  |  +- class Process::Status[0;37m (8 bytes)[0;37;1m
+  |  |      [0;37m@exit_status : Int32 (4 bytes)[0;37;1m
+  |  |
+  |  +- class Random::PCG32[0;37m (24 bytes)[0;37;1m
+  |  |      [0;37m@state : UInt64 (8 bytes)[0;37;1m
+  |  |      [0;37m@inc   : UInt64 (8 bytes)[0;37;1m
+  |  |
+  |  +- class Range::ItemIterator(B, E)
+  |  |      [0;37m@range       : @range[0;37;1m
+  |  |      [0;37m@current     : @current[0;37;1m
+  |  |      [0;37m@reached_end : @reached_end[0;37;1m
+  |  |
+  |  +- class Range::ReverseIterator(B, E)
+  |  |      [0;37m@range   : @range[0;37;1m
+  |  |      [0;37m@current : @current[0;37;1m
+  |  |
+  |  +- class Range::StepIterator(R, B, N)
+  |  |      [0;37m@range       : @range[0;37;1m
+  |  |      [0;37m@step        : @step[0;37;1m
+  |  |      [0;37m@current     : @current[0;37;1m
+  |  |      [0;37m@reached_end : @reached_end[0;37;1m
+  |  |
+  |  +- class Regex[0;37m (40 bytes)[0;37;1m
+  |  |      [0;37m@options  : Regex::Options     (4 bytes)[0;37;1m
+  |  |      [0;37m@source   : String             (8 bytes)[0;37;1m
+  |  |      [0;37m@re       : LibPCRE::Pcre      (8 bytes)[0;37;1m
+  |  |      [0;37m@extra    : LibPCRE::PcreExtra (8 bytes)[0;37;1m
+  |  |      [0;37m@captures : Int32              (4 bytes)[0;37;1m
+  |  |
+  |  +- class String[0;37m (16 bytes)[0;37;1m
+  |  |      [0;37m@bytesize : Int32 (4 bytes)[0;37;1m
+  |  |      [0;37m@length   : Int32 (4 bytes)[0;37;1m
+  |  |      [0;37m@c        : UInt8 (1 bytes)[0;37;1m
+  |  |
+  |  +- class String::CharIterator[0;37m (64 bytes)[0;37;1m
+  |  |      [0;37m@reader : Char::Reader (48 bytes)[0;37;1m
+  |  |      [0;37m@end    : Bool         ( 0 bytes)[0;37;1m
+  |  |
+  |  +- class String::LineIterator[0;37m (32 bytes)[0;37;1m
+  |  |      [0;37m@string : String (8 bytes)[0;37;1m
+  |  |      [0;37m@chomp  : Bool   (0 bytes)[0;37;1m
+  |  |      [0;37m@offset : Int32  (4 bytes)[0;37;1m
+  |  |      [0;37m@end    : Bool   (0 bytes)[0;37;1m
+  |  |
+  |  +- class Thread[0;37m (80 bytes)[0;37;1m
+  |  |      [0;37m@th         : UInt64                     ( 8 bytes)[0;37;1m
+  |  |      [0;37m@exception  : (Exception | Nil)          ( 8 bytes)[0;37;1m
+  |  |      [0;37m@main_fiber : (Fiber | Nil)              ( 8 bytes)[0;37;1m
+  |  |      [0;37m@next       : (Thread | Nil)             ( 8 bytes)[0;37;1m
+  |  |      [0;37m@previous   : (Thread | Nil)             ( 8 bytes)[0;37;1m
+  |  |      [0;37m@detached   : Bool                       ( 0 bytes)[0;37;1m
+  |  |      [0;37m@func       : Proc(Nil)                  (16 bytes)[0;37;1m
+  |  |      [0;37m@scheduler  : (Crystal::Scheduler | Nil) ( 8 bytes)[0;37;1m
+  |  |
+  |  +- class Thread::ConditionVariable[0;37m (56 bytes)[0;37;1m
+  |  |      [0;37m@cond : LibC::PthreadCondT (48 bytes)[0;37;1m
+  |  |
+  |  +- class Thread::Mutex[0;37m (48 bytes)[0;37;1m
+  |  |      [0;37m@mutex : LibC::PthreadMutexT (40 bytes)[0;37;1m
+  |  |
+  |  +- class Time::Location[0;37m (64 bytes)[0;37;1m
+  |         [0;37m@name         : String                                ( 8 bytes)[0;37;1m
+  |         [0;37m@zones        : Array(Time::Location::Zone)           ( 8 bytes)[0;37;1m
+  |         [0;37m@cached_range : Tuple(Int64, Int64)                   (16 bytes)[0;37;1m
+  |         [0;37m@cached_zone  : Time::Location::Zone                  (16 bytes)[0;37;1m
+  |         [0;37m@transitions  : Array(Time::Location::ZoneTransition) ( 8 bytes)[0;37;1m
+  |
+  +- struct Value[0;37m (0 bytes)[0;37;1m
+     |
+     +- struct Enum[0;37m (0 bytes)[0;37;1m
+     |
+     +- struct NamedTuple(T)
+     |
+     +- struct Number[0;37m (0 bytes)[0;37;1m
+     |  |
+     |  +- struct Float[0;37m (0 bytes)[0;37;1m
+     |  |
+     |  +- struct Int[0;37m (0 bytes)[0;37;1m
+     |
+     +- struct Pointer(T)
+     |
+     +- struct Proc(T, R)
+     |
+     +- struct StaticArray(T, N)
+     |      [0;37m@buffer : @buffer[0;37;1m
+     |
+     +- struct Struct[0;37m (0 bytes)[0;37;1m
+     |  |
+     |  +- struct Array::FlattenHelper(T)
+     |  |
+     |  +- struct Atomic(T)
+     |  |      [0;37m@value : @value[0;37;1m
+     |  |
+     |  +- struct CallStack[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@callstack : Array(Pointer(Void))  (8 bytes)[0;37;1m
+     |  |      [0;37m@backtrace : (Array(String) | Nil) (8 bytes)[0;37;1m
+     |  |
+     |  +- struct CallStack::RepeatedFrame[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@ip    : Pointer(Void) (8 bytes)[0;37;1m
+     |  |      [0;37m@count : Int32         (4 bytes)[0;37;1m
+     |  |
+     |  +- struct Channel::ReceiveAction(C)
+     |  |      [0;37m@channel : @channel[0;37;1m
+     |  |
+     |  +- struct Channel::SendAction(C, T)
+     |  |      [0;37m@channel : @channel[0;37;1m
+     |  |      [0;37m@value   : @value[0;37;1m
+     |  |
+     |  +- struct Char::Reader[0;37m (48 bytes)[0;37;1m
+     |  |      [0;37m@string             : String        ( 8 bytes)[0;37;1m
+     |  |      [0;37m@current_char       : Char          ( 4 bytes)[0;37;1m
+     |  |      [0;37m@current_char_width : Int32         ( 4 bytes)[0;37;1m
+     |  |      [0;37m@pos                : Int32         ( 4 bytes)[0;37;1m
+     |  |      [0;37m@error              : (UInt8 | Nil) (16 bytes)[0;37;1m
+     |  |      [0;37m@end                : Bool          ( 0 bytes)[0;37;1m
+     |  |
+     |  +- struct Crystal::Event[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@event : LibEvent2::Event (8 bytes)[0;37;1m
+     |  |      [0;37m@freed : Bool             (0 bytes)[0;37;1m
+     |  |
+     |  +- struct Crystal::Event::Base[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@base : LibEvent2::EventBase (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Crystal::Event::DnsBase[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@dns_base : LibEvent2::DnsBase (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Crystal::Event::DnsBase::GetAddrInfoRequest[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@request : LibEvent2::DnsGetAddrinfoRequest (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Crystal::Hasher[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@a : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@b : UInt64 (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Debug::DWARF::Abbrev[0;37m (24 bytes)[0;37;1m
+     |  |      [0;37m@code       : UInt32                                 (4 bytes)[0;37;1m
+     |  |      [0;37m@tag        : Debug::DWARF::TAG                      (4 bytes)[0;37;1m
+     |  |      [0;37m@attributes : Array(Debug::DWARF::Abbrev::Attribute) (8 bytes)[0;37;1m
+     |  |      [0;37m@children   : Bool                                   (0 bytes)[0;37;1m
+     |  |
+     |  +- struct Debug::DWARF::Abbrev::Attribute[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@at   : Debug::DWARF::AT   (4 bytes)[0;37;1m
+     |  |      [0;37m@form : Debug::DWARF::FORM (4 bytes)[0;37;1m
+     |  |
+     |  +- struct Debug::DWARF::Info[0;37m (88 bytes)[0;37;1m
+     |  |      [0;37m@unit_length         : (UInt32 | UInt64)                   (16 bytes)[0;37;1m
+     |  |      [0;37m@version             : UInt16                              ( 2 bytes)[0;37;1m
+     |  |      [0;37m@debug_abbrev_offset : (UInt32 | UInt64)                   (16 bytes)[0;37;1m
+     |  |      [0;37m@address_size        : UInt8                               ( 1 bytes)[0;37;1m
+     |  |      [0;37m@abbreviations       : (Array(Debug::DWARF::Abbrev) | Nil) ( 8 bytes)[0;37;1m
+     |  |      [0;37m@dwarf64             : Bool                                ( 0 bytes)[0;37;1m
+     |  |      [0;37m@offset              : Int64                               ( 8 bytes)[0;37;1m
+     |  |      [0;37m@ref_offset          : Int64                               ( 8 bytes)[0;37;1m
+     |  |      [0;37m@io                  : IO::FileDescriptor+                 ( 8 bytes)[0;37;1m
+     |  |
+     |  +- struct Debug::DWARF::LineNumbers[0;37m (48 bytes)[0;37;1m
+     |  |      [0;37m@matrix                  : Array(Array(Debug::DWARF::LineNumbers::Row))  (8 bytes)[0;37;1m
+     |  |      [0;37m@directories             : Array(String)                                 (8 bytes)[0;37;1m
+     |  |      [0;37m@files                   : Array(String)                                 (8 bytes)[0;37;1m
+     |  |      [0;37m@offset                  : Int64                                         (8 bytes)[0;37;1m
+     |  |      [0;37m@current_sequence_matrix : (Array(Debug::DWARF::LineNumbers::Row) | Nil) (8 bytes)[0;37;1m
+     |  |      [0;37m@io                      : IO::FileDescriptor+                           (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Debug::DWARF::LineNumbers::Register[0;37m (40 bytes)[0;37;1m
+     |  |      [0;37m@address        : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@op_index       : UInt32 (4 bytes)[0;37;1m
+     |  |      [0;37m@file           : UInt32 (4 bytes)[0;37;1m
+     |  |      [0;37m@line           : UInt32 (4 bytes)[0;37;1m
+     |  |      [0;37m@column         : UInt32 (4 bytes)[0;37;1m
+     |  |      [0;37m@is_stmt        : Bool   (0 bytes)[0;37;1m
+     |  |      [0;37m@basic_block    : Bool   (0 bytes)[0;37;1m
+     |  |      [0;37m@end_sequence   : Bool   (0 bytes)[0;37;1m
+     |  |      [0;37m@prologue_end   : Bool   (0 bytes)[0;37;1m
+     |  |      [0;37m@epilogue_begin : Bool   (0 bytes)[0;37;1m
+     |  |      [0;37m@isa            : UInt32 (4 bytes)[0;37;1m
+     |  |      [0;37m@discriminator  : UInt32 (4 bytes)[0;37;1m
+     |  |
+     |  +- struct Debug::DWARF::LineNumbers::Row[0;37m (32 bytes)[0;37;1m
+     |  |      [0;37m@address      : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@op_index     : UInt32 (4 bytes)[0;37;1m
+     |  |      [0;37m@directory    : Int32  (4 bytes)[0;37;1m
+     |  |      [0;37m@file         : Int32  (4 bytes)[0;37;1m
+     |  |      [0;37m@line         : Int32  (4 bytes)[0;37;1m
+     |  |      [0;37m@column       : Int32  (4 bytes)[0;37;1m
+     |  |      [0;37m@end_sequence : Bool   (0 bytes)[0;37;1m
+     |  |
+     |  +- struct Debug::DWARF::LineNumbers::Sequence[0;37m (176 bytes)[0;37;1m
+     |  |      [0;37m@offset                             : (Int64 | Nil)                             (16 bytes)[0;37;1m
+     |  |      [0;37m@unit_length                        : (UInt32 | Nil)                            (16 bytes)[0;37;1m
+     |  |      [0;37m@version                            : (UInt16 | Nil)                            (16 bytes)[0;37;1m
+     |  |      [0;37m@header_length                      : (UInt32 | Nil)                            (16 bytes)[0;37;1m
+     |  |      [0;37m@minimum_instruction_length         : (UInt8 | Nil)                             (16 bytes)[0;37;1m
+     |  |      [0;37m@maximum_operations_per_instruction : UInt8                                     ( 1 bytes)[0;37;1m
+     |  |      [0;37m@default_is_stmt                    : (Bool | Nil)                              (16 bytes)[0;37;1m
+     |  |      [0;37m@line_base                          : (Int8 | Nil)                              (16 bytes)[0;37;1m
+     |  |      [0;37m@line_range                         : (UInt8 | Nil)                             (16 bytes)[0;37;1m
+     |  |      [0;37m@opcode_base                        : (UInt8 | Nil)                             (16 bytes)[0;37;1m
+     |  |      [0;37m@include_directories                : Array(String)                             ( 8 bytes)[0;37;1m
+     |  |      [0;37m@file_names                         : Array(Tuple(String, Int32, Int32, Int32)) ( 8 bytes)[0;37;1m
+     |  |      [0;37m@standard_opcode_lengths            : Array(UInt8)                              ( 8 bytes)[0;37;1m
+     |  |
+     |  +- struct Debug::DWARF::Strings[0;37m (24 bytes)[0;37;1m
+     |  |      [0;37m@io     : IO::FileDescriptor+ ( 8 bytes)[0;37;1m
+     |  |      [0;37m@offset : (UInt32 | UInt64)   (16 bytes)[0;37;1m
+     |  |
+     |  +- struct Debug::ELF[0;37m (248 bytes)[0;37;1m
+     |  |      [0;37m@ident     : (Debug::ELF::Ident | Nil)                (24 bytes)[0;37;1m
+     |  |      [0;37m@type      : (Debug::ELF::Type | Nil)                 (16 bytes)[0;37;1m
+     |  |      [0;37m@machine   : (Debug::ELF::Machine | Nil)              (16 bytes)[0;37;1m
+     |  |      [0;37m@version   : (UInt32 | Nil)                           (16 bytes)[0;37;1m
+     |  |      [0;37m@entry     : (UInt32 | UInt64 | Nil)                  (16 bytes)[0;37;1m
+     |  |      [0;37m@phoff     : (UInt32 | UInt64 | Nil)                  (16 bytes)[0;37;1m
+     |  |      [0;37m@shoff     : (UInt32 | UInt64 | Nil)                  (16 bytes)[0;37;1m
+     |  |      [0;37m@flags     : (UInt32 | Nil)                           (16 bytes)[0;37;1m
+     |  |      [0;37m@ehsize    : (UInt16 | Nil)                           (16 bytes)[0;37;1m
+     |  |      [0;37m@phentsize : (UInt16 | Nil)                           (16 bytes)[0;37;1m
+     |  |      [0;37m@phnum     : (UInt16 | Nil)                           (16 bytes)[0;37;1m
+     |  |      [0;37m@shentsize : (UInt16 | Nil)                           (16 bytes)[0;37;1m
+     |  |      [0;37m@shnum     : (UInt16 | Nil)                           (16 bytes)[0;37;1m
+     |  |      [0;37m@shstrndx  : (UInt16 | Nil)                           (16 bytes)[0;37;1m
+     |  |      [0;37m@io        : IO::FileDescriptor+                      ( 8 bytes)[0;37;1m
+     |  |      [0;37m@sections  : (Array(Debug::ELF::SectionHeader) | Nil) ( 8 bytes)[0;37;1m
+     |  |
+     |  +- struct Debug::ELF::Ident[0;37m (12 bytes)[0;37;1m
+     |  |      [0;37m@klass      : Debug::ELF::Klass      (1 bytes)[0;37;1m
+     |  |      [0;37m@data       : Debug::ELF::Endianness (4 bytes)[0;37;1m
+     |  |      [0;37m@version    : UInt8                  (1 bytes)[0;37;1m
+     |  |      [0;37m@osabi      : Debug::ELF::OSABI      (1 bytes)[0;37;1m
+     |  |      [0;37m@abiversion : UInt8                  (1 bytes)[0;37;1m
+     |  |
+     |  +- struct Debug::ELF::SectionHeader[0;37m (160 bytes)[0;37;1m
+     |  |      [0;37m@name      : (UInt32 | Nil)                           (16 bytes)[0;37;1m
+     |  |      [0;37m@type      : (Debug::ELF::SectionHeader::Type | Nil)  (16 bytes)[0;37;1m
+     |  |      [0;37m@flags     : (Debug::ELF::SectionHeader::Flags | Nil) (16 bytes)[0;37;1m
+     |  |      [0;37m@addr      : (UInt32 | UInt64 | Nil)                  (16 bytes)[0;37;1m
+     |  |      [0;37m@offset    : (UInt32 | UInt64 | Nil)                  (16 bytes)[0;37;1m
+     |  |      [0;37m@size      : (UInt32 | UInt64 | Nil)                  (16 bytes)[0;37;1m
+     |  |      [0;37m@link      : (UInt32 | Nil)                           (16 bytes)[0;37;1m
+     |  |      [0;37m@info      : (UInt32 | Nil)                           (16 bytes)[0;37;1m
+     |  |      [0;37m@addralign : (UInt32 | UInt64 | Nil)                  (16 bytes)[0;37;1m
+     |  |      [0;37m@entsize   : (UInt32 | UInt64 | Nil)                  (16 bytes)[0;37;1m
+     |  |
+     |  +- struct Dir::ChildIterator[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@dir : Dir (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Dir::EntryIterator[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@dir : Dir (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Dir::Globber::ConstantDirectory[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@path : String (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Dir::Globber::ConstantEntry[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@path : String (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Dir::Globber::DirectoriesOnly[0;37m (0 bytes)[0;37;1m
+     |  |
+     |  +- struct Dir::Globber::DirectoryMatch[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@pattern : String (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Dir::Globber::EntryMatch[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@pattern : String (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Dir::Globber::RecursiveDirectories[0;37m (0 bytes)[0;37;1m
+     |  |
+     |  +- struct Dir::Globber::RootDirectory[0;37m (0 bytes)[0;37;1m
+     |  |
+     |  +- struct Enumerable::Chunk::Accumulator(T, U)
+     |  |      [0;37m@data        : @data[0;37;1m
+     |  |      [0;37m@reuse       : @reuse[0;37;1m
+     |  |      [0;37m@key         : @key[0;37;1m
+     |  |      [0;37m@initialized : @initialized[0;37;1m
+     |  |
+     |  +- struct Enumerable::Chunk::Alone[0;37m (0 bytes)[0;37;1m
+     |  |
+     |  +- struct Enumerable::Chunk::Drop[0;37m (0 bytes)[0;37;1m
+     |  |
+     |  +- struct File::Info[0;37m (0 bytes)[0;37;1m
+     |  |  |
+     |  |  +- struct Crystal::System::FileInfo[0;37m (144 bytes)[0;37;1m
+     |  |         [0;37m@stat : LibC::Stat (144 bytes)[0;37;1m
+     |  |
+     |  +- struct Float::Printer::CachedPowers::Power[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@significand : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@binary_exp  : Int16  (2 bytes)[0;37;1m
+     |  |      [0;37m@decimal_exp : Int16  (2 bytes)[0;37;1m
+     |  |
+     |  +- struct Float::Printer::DiyFP[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@frac : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@exp  : Int32  (4 bytes)[0;37;1m
+     |  |
+     |  +- struct GC::Stats[0;37m (40 bytes)[0;37;1m
+     |  |      [0;37m@heap_size      : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@free_bytes     : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@unmapped_bytes : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@bytes_since_gc : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@total_bytes    : UInt64 (8 bytes)[0;37;1m
+     |  |
+     |  +- struct IO::ByteIterator(I)
+     |  |      [0;37m@io : @io[0;37;1m
+     |  |
+     |  +- struct IO::CharIterator(I)
+     |  |      [0;37m@io : @io[0;37;1m
+     |  |
+     |  +- struct IO::EncodingOptions[0;37m (24 bytes)[0;37;1m
+     |  |      [0;37m@name    : String         ( 8 bytes)[0;37;1m
+     |  |      [0;37m@invalid : (Symbol | Nil) (16 bytes)[0;37;1m
+     |  |
+     |  +- struct IO::LineIterator(I, A, N)
+     |  |      [0;37m@io    : @io[0;37;1m
+     |  |      [0;37m@args  : @args[0;37;1m
+     |  |      [0;37m@nargs : @nargs[0;37;1m
+     |  |
+     |  +- struct Iconv[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@skip_invalid : Bool         (0 bytes)[0;37;1m
+     |  |      [0;37m@iconv        : LibC::IconvT (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Iterator::CompactMap(I, T, U)
+     |  |      [0;37m@iterator : @iterator[0;37;1m
+     |  |      [0;37m@func     : @func[0;37;1m
+     |  |
+     |  +- struct Iterator::Cons(I, T, N)
+     |  |      [0;37m@iterator : @iterator[0;37;1m
+     |  |      [0;37m@n        : @n[0;37;1m
+     |  |      [0;37m@values   : @values[0;37;1m
+     |  |      [0;37m@reuse    : @reuse[0;37;1m
+     |  |
+     |  +- struct Iterator::Cycle(I, T)
+     |  |      [0;37m@iterator : @iterator[0;37;1m
+     |  |
+     |  +- struct Iterator::Flatten(I, T)
+     |  |      [0;37m@iterator   : @iterator[0;37;1m
+     |  |      [0;37m@stopped    : @stopped[0;37;1m
+     |  |      [0;37m@generators : @generators[0;37;1m
+     |  |
+     |  +- struct Iterator::InGroupsOf(I, T, N, U)
+     |  |      [0;37m@reuse          : @reuse[0;37;1m
+     |  |      [0;37m@iterator       : @iterator[0;37;1m
+     |  |      [0;37m@size           : @size[0;37;1m
+     |  |      [0;37m@filled_up_with : @filled_up_with[0;37;1m
+     |  |
+     |  +- struct Iterator::Map(I, T, U)
+     |  |      [0;37m@iterator : @iterator[0;37;1m
+     |  |      [0;37m@func     : @func[0;37;1m
+     |  |
+     |  +- struct Iterator::Reject(I, T, B)
+     |  |      [0;37m@iterator : @iterator[0;37;1m
+     |  |      [0;37m@func     : @func[0;37;1m
+     |  |
+     |  +- struct Iterator::Select(I, T, B)
+     |  |      [0;37m@iterator : @iterator[0;37;1m
+     |  |      [0;37m@func     : @func[0;37;1m
+     |  |
+     |  +- struct Iterator::Singleton(T)
+     |  |      [0;37m@element : @element[0;37;1m
+     |  |
+     |  +- struct Iterator::SingletonProc(T)
+     |  |      [0;37m@proc : @proc[0;37;1m
+     |  |
+     |  +- struct Iterator::Slice(I, T, N)
+     |  |      [0;37m@reuse    : @reuse[0;37;1m
+     |  |      [0;37m@iterator : @iterator[0;37;1m
+     |  |      [0;37m@n        : @n[0;37;1m
+     |  |
+     |  +- struct Iterator::Step(I, T, N)
+     |  |      [0;37m@iterator : @iterator[0;37;1m
+     |  |      [0;37m@by       : @by[0;37;1m
+     |  |
+     |  +- struct Iterator::Tap(I, T)
+     |  |      [0;37m@iterator : @iterator[0;37;1m
+     |  |      [0;37m@proc     : @proc[0;37;1m
+     |  |
+     |  +- struct Iterator::Uniq(I, T, U)
+     |  |      [0;37m@iterator : @iterator[0;37;1m
+     |  |      [0;37m@func     : @func[0;37;1m
+     |  |      [0;37m@hash     : @hash[0;37;1m
+     |  |
+     |  +- struct Iterator::WithObject(I, T, O)
+     |  |      [0;37m@iterator : @iterator[0;37;1m
+     |  |      [0;37m@object   : @object[0;37;1m
+     |  |
+     |  +- struct Iterator::Zip(I1, I2, T1, T2)
+     |  |      [0;37m@iterator1 : @iterator1[0;37;1m
+     |  |      [0;37m@iterator2 : @iterator2[0;37;1m
+     |  |
+     |  +- struct LEBReader[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@data : Pointer(UInt8) (8 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::Addrinfo[0;37m (48 bytes)[0;37;1m
+     |  |      [0;37m@ai_flags     : Int32                   (4 bytes)[0;37;1m
+     |  |      [0;37m@ai_family    : Int32                   (4 bytes)[0;37;1m
+     |  |      [0;37m@ai_socktype  : Int32                   (4 bytes)[0;37;1m
+     |  |      [0;37m@ai_protocol  : Int32                   (4 bytes)[0;37;1m
+     |  |      [0;37m@ai_addrlen   : UInt32                  (4 bytes)[0;37;1m
+     |  |      [0;37m@ai_addr      : Pointer(LibC::Sockaddr) (8 bytes)[0;37;1m
+     |  |      [0;37m@ai_canonname : Pointer(UInt8)          (8 bytes)[0;37;1m
+     |  |      [0;37m@ai_next      : Pointer(LibC::Addrinfo) (8 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::Dirent[0;37m (280 bytes)[0;37;1m
+     |  |      [0;37m@d_ino    : UInt64                  (  8 bytes)[0;37;1m
+     |  |      [0;37m@d_off    : Int64                   (  8 bytes)[0;37;1m
+     |  |      [0;37m@d_reclen : UInt16                  (  2 bytes)[0;37;1m
+     |  |      [0;37m@d_type   : UInt8                   (  1 bytes)[0;37;1m
+     |  |      [0;37m@d_name   : StaticArray(UInt8, 256) (256 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::DivT[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@quot : Int32 (4 bytes)[0;37;1m
+     |  |      [0;37m@rem  : Int32 (4 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::DlInfo[0;37m (32 bytes)[0;37;1m
+     |  |      [0;37m@dli_fname : Pointer(UInt8) (8 bytes)[0;37;1m
+     |  |      [0;37m@dli_fbase : Pointer(Void)  (8 bytes)[0;37;1m
+     |  |      [0;37m@dli_sname : Pointer(UInt8) (8 bytes)[0;37;1m
+     |  |      [0;37m@dli_saddr : Pointer(Void)  (8 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::Flock[0;37m (32 bytes)[0;37;1m
+     |  |      [0;37m@l_type   : Int16 (2 bytes)[0;37;1m
+     |  |      [0;37m@l_whence : Int16 (2 bytes)[0;37;1m
+     |  |      [0;37m@l_start  : Int64 (8 bytes)[0;37;1m
+     |  |      [0;37m@l_len    : Int64 (8 bytes)[0;37;1m
+     |  |      [0;37m@l_pid    : Int32 (4 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::In6Addr[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@__in6_u : LibC::In6AddrIn6U (16 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::In6AddrIn6U[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@__u6_addr8  : StaticArray(UInt8, 16) (16 bytes)[0;37;1m
+     |  |      [0;37m@__u6_addr16 : StaticArray(UInt16, 8) (16 bytes)[0;37;1m
+     |  |      [0;37m@__u6_addr32 : StaticArray(UInt32, 4) (16 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::InAddr[0;37m (4 bytes)[0;37;1m
+     |  |      [0;37m@s_addr : UInt32 (4 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::Linger[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@l_onoff  : Int32 (4 bytes)[0;37;1m
+     |  |      [0;37m@l_linger : Int32 (4 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::PthreadAttrT[0;37m (56 bytes)[0;37;1m
+     |  |      [0;37m@__size  : StaticArray(UInt8, 56) (56 bytes)[0;37;1m
+     |  |      [0;37m@__align : Int64                  ( 8 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::PthreadCondT[0;37m (48 bytes)[0;37;1m
+     |  |      [0;37m@__data  : LibC::PthreadCondTData (48 bytes)[0;37;1m
+     |  |      [0;37m@__size  : StaticArray(UInt8, 48) (48 bytes)[0;37;1m
+     |  |      [0;37m@__align : Int64                  ( 8 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::PthreadCondTData[0;37m (48 bytes)[0;37;1m
+     |  |      [0;37m@__lock          : Int32         (4 bytes)[0;37;1m
+     |  |      [0;37m@__futex         : UInt32        (4 bytes)[0;37;1m
+     |  |      [0;37m@__total_seq     : UInt64        (8 bytes)[0;37;1m
+     |  |      [0;37m@__wakeup_seq    : UInt64        (8 bytes)[0;37;1m
+     |  |      [0;37m@__woken_seq     : UInt64        (8 bytes)[0;37;1m
+     |  |      [0;37m@__mutex         : Pointer(Void) (8 bytes)[0;37;1m
+     |  |      [0;37m@__nwaiters      : UInt32        (4 bytes)[0;37;1m
+     |  |      [0;37m@__broadcast_seq : UInt32        (4 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::PthreadCondattrT[0;37m (4 bytes)[0;37;1m
+     |  |      [0;37m@__size  : StaticArray(UInt8, 4) (4 bytes)[0;37;1m
+     |  |      [0;37m@__align : Int32                 (4 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::PthreadMutexT[0;37m (40 bytes)[0;37;1m
+     |  |      [0;37m@__data  : Pointer(Void)          ( 8 bytes)[0;37;1m
+     |  |      [0;37m@__size  : StaticArray(UInt8, 40) (40 bytes)[0;37;1m
+     |  |      [0;37m@__align : Int64                  ( 8 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::PthreadMutexattrT[0;37m (4 bytes)[0;37;1m
+     |  |      [0;37m@__size  : StaticArray(UInt8, 4) (4 bytes)[0;37;1m
+     |  |      [0;37m@__align : Int32                 (4 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::Rlimit[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@rlim_cur : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@rlim_max : UInt64 (8 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::SigsetT[0;37m (128 bytes)[0;37;1m
+     |  |      [0;37m@val : StaticArray(UInt64, 16) (128 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::Sockaddr[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@sa_family : UInt16                 ( 2 bytes)[0;37;1m
+     |  |      [0;37m@sa_data   : StaticArray(UInt8, 14) (14 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::SockaddrIn[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@sin_family : UInt16                (2 bytes)[0;37;1m
+     |  |      [0;37m@sin_port   : UInt16                (2 bytes)[0;37;1m
+     |  |      [0;37m@sin_addr   : LibC::InAddr          (4 bytes)[0;37;1m
+     |  |      [0;37m@sin_zero   : StaticArray(UInt8, 8) (8 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::SockaddrIn6[0;37m (28 bytes)[0;37;1m
+     |  |      [0;37m@sin6_family   : UInt16        ( 2 bytes)[0;37;1m
+     |  |      [0;37m@sin6_port     : UInt16        ( 2 bytes)[0;37;1m
+     |  |      [0;37m@sin6_flowinfo : UInt32        ( 4 bytes)[0;37;1m
+     |  |      [0;37m@sin6_addr     : LibC::In6Addr (16 bytes)[0;37;1m
+     |  |      [0;37m@sin6_scope_id : UInt32        ( 4 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::SockaddrStorage[0;37m (128 bytes)[0;37;1m
+     |  |      [0;37m@ss_family    : UInt16                  (  2 bytes)[0;37;1m
+     |  |      [0;37m@__ss_align   : UInt64                  (  8 bytes)[0;37;1m
+     |  |      [0;37m@__ss_padding : StaticArray(UInt8, 112) (112 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::Stat[0;37m (144 bytes)[0;37;1m
+     |  |      [0;37m@st_dev           : UInt64                ( 8 bytes)[0;37;1m
+     |  |      [0;37m@st_ino           : UInt64                ( 8 bytes)[0;37;1m
+     |  |      [0;37m@st_nlink         : UInt64                ( 8 bytes)[0;37;1m
+     |  |      [0;37m@st_mode          : UInt32                ( 4 bytes)[0;37;1m
+     |  |      [0;37m@st_uid           : UInt32                ( 4 bytes)[0;37;1m
+     |  |      [0;37m@st_gid           : UInt32                ( 4 bytes)[0;37;1m
+     |  |      [0;37m@__pad0           : Int32                 ( 4 bytes)[0;37;1m
+     |  |      [0;37m@st_rdev          : UInt64                ( 8 bytes)[0;37;1m
+     |  |      [0;37m@st_size          : Int64                 ( 8 bytes)[0;37;1m
+     |  |      [0;37m@st_blksize       : Int64                 ( 8 bytes)[0;37;1m
+     |  |      [0;37m@st_blocks        : Int64                 ( 8 bytes)[0;37;1m
+     |  |      [0;37m@st_atim          : LibC::Timespec        (16 bytes)[0;37;1m
+     |  |      [0;37m@st_mtim          : LibC::Timespec        (16 bytes)[0;37;1m
+     |  |      [0;37m@st_ctim          : LibC::Timespec        (16 bytes)[0;37;1m
+     |  |      [0;37m@__glibc_reserved : StaticArray(Int64, 3) (24 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::Termios[0;37m (60 bytes)[0;37;1m
+     |  |      [0;37m@c_iflag  : UInt32                 ( 4 bytes)[0;37;1m
+     |  |      [0;37m@c_oflag  : UInt32                 ( 4 bytes)[0;37;1m
+     |  |      [0;37m@c_cflag  : UInt32                 ( 4 bytes)[0;37;1m
+     |  |      [0;37m@c_lflag  : UInt32                 ( 4 bytes)[0;37;1m
+     |  |      [0;37m@c_line   : UInt8                  ( 1 bytes)[0;37;1m
+     |  |      [0;37m@c_cc     : StaticArray(UInt8, 32) (32 bytes)[0;37;1m
+     |  |      [0;37m@c_ispeed : UInt32                 ( 4 bytes)[0;37;1m
+     |  |      [0;37m@c_ospeed : UInt32                 ( 4 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::Timespec[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@tv_sec  : Int64 (8 bytes)[0;37;1m
+     |  |      [0;37m@tv_nsec : Int64 (8 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::Timeval[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@tv_sec  : Int64 (8 bytes)[0;37;1m
+     |  |      [0;37m@tv_usec : Int64 (8 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::Timezone[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@tz_minuteswest : Int32 (4 bytes)[0;37;1m
+     |  |      [0;37m@tz_dsttime     : Int32 (4 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::Tm[0;37m (56 bytes)[0;37;1m
+     |  |      [0;37m@tm_sec    : Int32          (4 bytes)[0;37;1m
+     |  |      [0;37m@tm_min    : Int32          (4 bytes)[0;37;1m
+     |  |      [0;37m@tm_hour   : Int32          (4 bytes)[0;37;1m
+     |  |      [0;37m@tm_mday   : Int32          (4 bytes)[0;37;1m
+     |  |      [0;37m@tm_mon    : Int32          (4 bytes)[0;37;1m
+     |  |      [0;37m@tm_year   : Int32          (4 bytes)[0;37;1m
+     |  |      [0;37m@tm_wday   : Int32          (4 bytes)[0;37;1m
+     |  |      [0;37m@tm_yday   : Int32          (4 bytes)[0;37;1m
+     |  |      [0;37m@tm_isdst  : Int32          (4 bytes)[0;37;1m
+     |  |      [0;37m@tm_gmtoff : Int64          (8 bytes)[0;37;1m
+     |  |      [0;37m@tm_zone   : Pointer(UInt8) (8 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::Tms[0;37m (32 bytes)[0;37;1m
+     |  |      [0;37m@tms_utime  : Int64 (8 bytes)[0;37;1m
+     |  |      [0;37m@tms_stime  : Int64 (8 bytes)[0;37;1m
+     |  |      [0;37m@tms_cutime : Int64 (8 bytes)[0;37;1m
+     |  |      [0;37m@tms_cstime : Int64 (8 bytes)[0;37;1m
+     |  |
+     |  +- struct LibC::VaListTag[0;37m (24 bytes)[0;37;1m
+     |  |      [0;37m@gp_offset         : UInt32        (4 bytes)[0;37;1m
+     |  |      [0;37m@fp_offset         : UInt32        (4 bytes)[0;37;1m
+     |  |      [0;37m@overflow_arg_area : Pointer(Void) (8 bytes)[0;37;1m
+     |  |      [0;37m@reg_save_area     : Pointer(Void) (8 bytes)[0;37;1m
+     |  |
+     |  +- struct LibUnwind::Exception[0;37m (48 bytes)[0;37;1m
+     |  |      [0;37m@exception_class   : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@exception_cleanup : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@private1          : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@private2          : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@exception_object  : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@exception_type_id : Int32  (4 bytes)[0;37;1m
+     |  |
+     |  +- struct Pointer::Appender(T)
+     |  |      [0;37m@pointer : @pointer[0;37;1m
+     |  |      [0;37m@start   : @start[0;37;1m
+     |  |
+     |  +- struct Process::Tms[0;37m (32 bytes)[0;37;1m
+     |  |      [0;37m@utime  : Float64 (8 bytes)[0;37;1m
+     |  |      [0;37m@stime  : Float64 (8 bytes)[0;37;1m
+     |  |      [0;37m@cutime : Float64 (8 bytes)[0;37;1m
+     |  |      [0;37m@cstime : Float64 (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Range(B, E)
+     |  |      [0;37m@begin     : @begin[0;37;1m
+     |  |      [0;37m@end       : @end[0;37;1m
+     |  |      [0;37m@exclusive : @exclusive[0;37;1m
+     |  |
+     |  +- struct Reflect(X)
+     |  |
+     |  +- struct Regex::MatchData[0;37m (48 bytes)[0;37;1m
+     |  |      [0;37m@regex      : Regex          (8 bytes)[0;37;1m
+     |  |      [0;37m@group_size : Int32          (4 bytes)[0;37;1m
+     |  |      [0;37m@string     : String         (8 bytes)[0;37;1m
+     |  |      [0;37m@code       : LibPCRE::Pcre  (8 bytes)[0;37;1m
+     |  |      [0;37m@pos        : Int32          (4 bytes)[0;37;1m
+     |  |      [0;37m@ovector    : Pointer(Int32) (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Set(T)
+     |  |      [0;37m@hash : @hash[0;37;1m
+     |  |
+     |  +- struct Slice(T)
+     |  |      [0;37m@size      : @size[0;37;1m
+     |  |      [0;37m@read_only : @read_only[0;37;1m
+     |  |      [0;37m@pointer   : @pointer[0;37;1m
+     |  |
+     |  +- struct String::Formatter(A)
+     |  |      [0;37m@format_buf     : @format_buf[0;37;1m
+     |  |      [0;37m@temp_buf       : @temp_buf[0;37;1m
+     |  |      [0;37m@args           : @args[0;37;1m
+     |  |      [0;37m@io             : @io[0;37;1m
+     |  |      [0;37m@reader         : @reader[0;37;1m
+     |  |      [0;37m@arg_index      : @arg_index[0;37;1m
+     |  |      [0;37m@temp_buf_len   : @temp_buf_len[0;37;1m
+     |  |      [0;37m@format_buf_len : @format_buf_len[0;37;1m
+     |  |
+     |  +- struct String::Formatter::Flags[0;37m (48 bytes)[0;37;1m
+     |  |      [0;37m@space          : Bool          ( 0 bytes)[0;37;1m
+     |  |      [0;37m@sharp          : Bool          ( 0 bytes)[0;37;1m
+     |  |      [0;37m@plus           : Bool          ( 0 bytes)[0;37;1m
+     |  |      [0;37m@minus          : Bool          ( 0 bytes)[0;37;1m
+     |  |      [0;37m@zero           : Bool          ( 0 bytes)[0;37;1m
+     |  |      [0;37m@base           : Int32         ( 4 bytes)[0;37;1m
+     |  |      [0;37m@width          : Int32         ( 4 bytes)[0;37;1m
+     |  |      [0;37m@width_size     : Int32         ( 4 bytes)[0;37;1m
+     |  |      [0;37m@type           : Char          ( 4 bytes)[0;37;1m
+     |  |      [0;37m@precision      : (Int32 | Nil) (16 bytes)[0;37;1m
+     |  |      [0;37m@precision_size : Int32         ( 4 bytes)[0;37;1m
+     |  |
+     |  +- struct String::ToU64Info[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@value    : UInt64 (8 bytes)[0;37;1m
+     |  |      [0;37m@negative : Bool   (0 bytes)[0;37;1m
+     |  |      [0;37m@invalid  : Bool   (0 bytes)[0;37;1m
+     |  |
+     |  +- struct Thread::LinkedList(T)
+     |  |      [0;37m@head  : @head[0;37;1m
+     |  |      [0;37m@tail  : @tail[0;37;1m
+     |  |      [0;37m@mutex : @mutex[0;37;1m
+     |  |
+     |  +- struct Time[0;37m (24 bytes)[0;37;1m
+     |  |      [0;37m@seconds     : Int64          (8 bytes)[0;37;1m
+     |  |      [0;37m@nanoseconds : Int32          (4 bytes)[0;37;1m
+     |  |      [0;37m@location    : Time::Location (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Time::Format[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@pattern  : String                 (8 bytes)[0;37;1m
+     |  |      [0;37m@location : (Time::Location | Nil) (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Time::Format::Formatter[0;37m (32 bytes)[0;37;1m
+     |  |      [0;37m@io   : IO+  ( 8 bytes)[0;37;1m
+     |  |      [0;37m@time : Time (24 bytes)[0;37;1m
+     |  |
+     |  +- struct Time::Format::Parser[0;37m (160 bytes)[0;37;1m
+     |  |      [0;37m@unix_seconds       : (Int64 | Nil)           (16 bytes)[0;37;1m
+     |  |      [0;37m@location           : (Time::Location | Nil)  ( 8 bytes)[0;37;1m
+     |  |      [0;37m@calendar_week_week : (Int32 | Nil)           (16 bytes)[0;37;1m
+     |  |      [0;37m@calendar_week_year : (Int32 | Nil)           (16 bytes)[0;37;1m
+     |  |      [0;37m@day_of_week        : (Time::DayOfWeek | Nil) (16 bytes)[0;37;1m
+     |  |      [0;37m@reader             : Char::Reader            (48 bytes)[0;37;1m
+     |  |      [0;37m@year               : Int32                   ( 4 bytes)[0;37;1m
+     |  |      [0;37m@month              : Int32                   ( 4 bytes)[0;37;1m
+     |  |      [0;37m@day                : Int32                   ( 4 bytes)[0;37;1m
+     |  |      [0;37m@hour               : Int32                   ( 4 bytes)[0;37;1m
+     |  |      [0;37m@minute             : Int32                   ( 4 bytes)[0;37;1m
+     |  |      [0;37m@second             : Int32                   ( 4 bytes)[0;37;1m
+     |  |      [0;37m@nanosecond         : Int32                   ( 4 bytes)[0;37;1m
+     |  |      [0;37m@pm                 : Bool                    ( 0 bytes)[0;37;1m
+     |  |      [0;37m@nanosecond_offset  : Int64                   ( 8 bytes)[0;37;1m
+     |  |
+     |  +- struct Time::Location::Zone[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@offset : Int32          (4 bytes)[0;37;1m
+     |  |      [0;37m@dst    : Bool           (0 bytes)[0;37;1m
+     |  |      [0;37m@name   : (String | Nil) (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Time::Location::ZoneTransition[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@when     : Int64 (8 bytes)[0;37;1m
+     |  |      [0;37m@index    : UInt8 (1 bytes)[0;37;1m
+     |  |      [0;37m@standard : Bool  (0 bytes)[0;37;1m
+     |  |      [0;37m@utc      : Bool  (0 bytes)[0;37;1m
+     |  |
+     |  +- struct Time::MonthSpan[0;37m (8 bytes)[0;37;1m
+     |  |      [0;37m@value : Int64 (8 bytes)[0;37;1m
+     |  |
+     |  +- struct Time::Span[0;37m (16 bytes)[0;37;1m
+     |  |      [0;37m@seconds     : Int64 (8 bytes)[0;37;1m
+     |  |      [0;37m@nanoseconds : Int32 (4 bytes)[0;37;1m
+     |  |
+     |  +- struct VaList[0;37m (24 bytes)[0;37;1m
+     |         [0;37m@to_unsafe : LibC::VaList (24 bytes)[0;37;1m
+     |
+     +- struct Tuple(T)
+     |
+     +- struct Union(T)
+[0m

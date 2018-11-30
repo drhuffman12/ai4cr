@@ -2,8 +2,8 @@
 module Ai4cr
   module NeuralNetwork
     module Rnn
-      module Node
-        module Interface # Ai4cr::NeuralNetwork::Rnn::Node::Interface
+      module NodeSet
+        module Interface # Ai4cr::NeuralNetwork::Rnn::NodeSet::Interface
           STATE_QTY_DEFAULT = 2
   
           STATE_VALUE_MIN_DEFAULT = -1.0

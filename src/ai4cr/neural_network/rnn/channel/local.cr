@@ -4,9 +4,9 @@ module Ai4cr
   module NeuralNetwork
     module Rnn
       module Channel
-        class Local < Common(Node::Hidden) # Ai4cr::NeuralNetwork::Rnn::Channel::Local
+        class Local < Common(NodeSet::Hidden) # Ai4cr::NeuralNetwork::Rnn::Channel::Local
           # def node_class
-          #   Node::Hidden
+          #   NodeSet::Hidden
           # end
         end
       end
