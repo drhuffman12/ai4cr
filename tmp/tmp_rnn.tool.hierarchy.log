@@ -22,7 +22,7 @@
   |  |  +- class Ai4cr::NeuralNetwork::Rnn::Channel::Past[0;37m (48 bytes)[0;37;1m
   |  |
   |  +- class Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Common(CINS, SINS, PLOC)
-  |  |  .   [0;37m@layer_index                   : @layer_index[0;37;1m
+  |  |  .   [0;37m@hidden_layer_index            : @hidden_layer_index[0;37;1m
   |  |  .   [0;37m@is_first                      : @is_first[0;37;1m
   |  |  .   [0;37m@bias                          : @bias[0;37;1m
   |  |  .   [0;37m@time_column_qty               : @time_column_qty[0;37;1m

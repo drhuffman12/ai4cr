@@ -188,8 +188,8 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
               net.hidden_layers.first.is_first.should eq(true)
             end
 
-            it "@layer_index" do
-              net.hidden_layers.first.layer_index.should eq(0)
+            it "@hidden_layer_index" do
+              net.hidden_layers.first.hidden_layer_index.should eq(0)
             end
 
             describe "previous_layer_output_channel" do
@@ -920,8 +920,8 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
               net.hidden_layers.last.is_first.should eq(false)
             end
 
-            it "@layer_index" do
-              net.hidden_layers.last.layer_index.should eq(defaults[:hidden_layer_qty] - 1)
+            it "@hidden_layer_index" do
+              net.hidden_layers.last.hidden_layer_index.should eq(defaults[:hidden_layer_qty] - 1)
             end
 
             describe "previous_layer_output_channel" do

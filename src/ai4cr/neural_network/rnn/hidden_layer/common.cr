@@ -10,7 +10,7 @@ module Ai4cr
         class Common(CINS, SINS, PLOC) # , ONS) # Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Common
           include HiddenLayer::Interface
 
-          getter layer_index : Int32
+          getter hidden_layer_index : Int32
           getter is_first : Bool
           getter bias : Bool # When true, adds hard-coded '1' input and row of weights
           getter time_column_qty : Int32
@@ -32,8 +32,8 @@ module Ai4cr
   
           def initialize(@previous_layer_output_channel : PLOC, @bias, 
             # @output_winner_qty, 
-            @layer_index, @time_column_qty = TIME_COLUMN_QTY_DEFAULT, @dendrite_offsets = Channel::Interface::DENDRITE_OFFSETS_DEFAULT, @state_qty = NodeSet::Interface::STATE_QTY_DEFAULT)
-            @is_first = layer_index == 0
+            @hidden_layer_index, @time_column_qty = TIME_COLUMN_QTY_DEFAULT, @dendrite_offsets = Channel::Interface::DENDRITE_OFFSETS_DEFAULT, @state_qty = NodeSet::Interface::STATE_QTY_DEFAULT)
+            @is_first = hidden_layer_index == 0
   
             @time_column_range = (0..time_column_qty-1)
             
