@@ -118,3 +118,7 @@ crystal spec spec/ai4cr/neural_network/rnn
 ```
 crystal spec_examples/ai4cr/neural_network/rnn/tmp_rnn.cr > tmp/tmp_rnn.out
 ```
+
+```
+crystal tool hierarchy spec_examples/ai4cr/neural_network/rnn/tmp_rnn.cr > tmp/tmp_rnn.tool.hierarchy.log
+```

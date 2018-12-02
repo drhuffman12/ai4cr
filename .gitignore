@@ -9,3 +9,5 @@
 /test-results/
 
 *.OLD
+*.WIP
+WIP/

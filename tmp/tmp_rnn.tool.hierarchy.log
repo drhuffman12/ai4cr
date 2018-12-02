@@ -43,20 +43,19 @@
   |  |
   |  +- class Ai4cr::NeuralNetwork::Rnn::Math[0;37m (4 bytes)[0;37;1m
   |  |
-  |  +- class Ai4cr::NeuralNetwork::Rnn::Net[0;37m (88 bytes)[0;37;1m
-  |  |      [0;37m@hidden_layer_qty   : Int32                                                                                                ( 4 bytes)[0;37;1m
-  |  |      [0;37m@time_column_qty    : Int32                                                                                                ( 4 bytes)[0;37;1m
-  |  |      [0;37m@memory_layer_qty   : Int32                                                                                                ( 4 bytes)[0;37;1m
-  |  |      [0;37m@output_state_qty   : Int32                                                                                                ( 4 bytes)[0;37;1m
-  |  |      [0;37m@hidden_state_qty   : Int32                                                                                                ( 4 bytes)[0;37;1m
-  |  |      [0;37m@input_state_qty    : Int32                                                                                                ( 4 bytes)[0;37;1m
-  |  |      [0;37m@bias               : Bool                                                                                                 ( 0 bytes)[0;37;1m
-  |  |      [0;37m@hidden_layer_range : Range(Int32, Int32)                                                                                  (12 bytes)[0;37;1m
-  |  |      [0;37m@channel_output     : Ai4cr::NeuralNetwork::Rnn::Channel::Output                                                           ( 8 bytes)[0;37;1m
-  |  |      [0;37m@hidden_layers      : Array(Ai4cr::NeuralNetwork::Rnn::HiddenLayer::First | Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Other) ( 8 bytes)[0;37;1m
-  |  |      [0;37m@channel_input      : Ai4cr::NeuralNetwork::Rnn::Channel::Input                                                            ( 8 bytes)[0;37;1m
-  |  |      [0;37m@dendrite_offsets   : Array(Int32)                                                                                         ( 8 bytes)[0;37;1m
-  |  |      [0;37m@output_winner_qty  : Int32                                                                                                ( 4 bytes)[0;37;1m
+  |  +- class Ai4cr::NeuralNetwork::Rnn::Net[0;37m (72 bytes)[0;37;1m
+  |  |      [0;37m@hidden_layer_qty  : Int32                                                                                                (4 bytes)[0;37;1m
+  |  |      [0;37m@time_column_qty   : Int32                                                                                                (4 bytes)[0;37;1m
+  |  |      [0;37m@memory_layer_qty  : Int32                                                                                                (4 bytes)[0;37;1m
+  |  |      [0;37m@output_state_qty  : Int32                                                                                                (4 bytes)[0;37;1m
+  |  |      [0;37m@hidden_state_qty  : Int32                                                                                                (4 bytes)[0;37;1m
+  |  |      [0;37m@input_state_qty   : Int32                                                                                                (4 bytes)[0;37;1m
+  |  |      [0;37m@dendrite_offsets  : Array(Int32)                                                                                         (8 bytes)[0;37;1m
+  |  |      [0;37m@bias              : Bool                                                                                                 (0 bytes)[0;37;1m
+  |  |      [0;37m@output_winner_qty : Int32                                                                                                (4 bytes)[0;37;1m
+  |  |      [0;37m@channel_output    : Ai4cr::NeuralNetwork::Rnn::Channel::Output                                                           (8 bytes)[0;37;1m
+  |  |      [0;37m@hidden_layers     : Array(Ai4cr::NeuralNetwork::Rnn::HiddenLayer::First | Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Other) (8 bytes)[0;37;1m
+  |  |      [0;37m@channel_input     : Ai4cr::NeuralNetwork::Rnn::Channel::Input                                                            (8 bytes)[0;37;1m
   |  |
   |  +- class Ai4cr::NeuralNetwork::Rnn::NodeSet::Common[0;37m (32 bytes)[0;37;1m
   |  |  .   [0;37m@state_qty    : Int32               ( 4 bytes)[0;37;1m
@@ -93,22 +92,22 @@
   |  |  +- class Ai4cr::NeuralNetwork::Rnn::WeightSet::Hidden(CINS, SINS, ONS)
   |  |
   |  +- class Ai4cr::NeuralNetwork::Rnn::WeightSet::Local(CINS, PLOC)
-  |  |      [0;37m@time_column_index_past_offsets   : @time_column_index_past_offsets[0;37;1m
-  |  |      [0;37m@time_column_index_future_offsets : @time_column_index_future_offsets[0;37;1m
-  |  |      [0;37m@time_column_index                : @time_column_index[0;37;1m
   |  |      [0;37m@center_input_node_set            : @center_input_node_set[0;37;1m
-  |  |      [0;37m@side_past_input_node_sets        : @side_past_input_node_sets[0;37;1m
-  |  |      [0;37m@side_future_input_node_sets      : @side_future_input_node_sets[0;37;1m
-  |  |      [0;37m@output_node_set                  : @output_node_set[0;37;1m
-  |  |      [0;37m@bias                             : @bias[0;37;1m
-  |  |      [0;37m@output_winner_qty                : @output_winner_qty[0;37;1m
   |  |      [0;37m@weights_center_input_node_set    : @weights_center_input_node_set[0;37;1m
-  |  |      [0;37m@weights_side_past                : @weights_side_past[0;37;1m
-  |  |      [0;37m@weights_side_future              : @weights_side_future[0;37;1m
   |  |      [0;37m@weights_memory                   : @weights_memory[0;37;1m
+  |  |      [0;37m@side_future_input_node_sets      : @side_future_input_node_sets[0;37;1m
+  |  |      [0;37m@time_column_index_future_offsets : @time_column_index_future_offsets[0;37;1m
+  |  |      [0;37m@weights_side_future              : @weights_side_future[0;37;1m
+  |  |      [0;37m@side_past_input_node_sets        : @side_past_input_node_sets[0;37;1m
+  |  |      [0;37m@time_column_index_past_offsets   : @time_column_index_past_offsets[0;37;1m
+  |  |      [0;37m@weights_side_past                : @weights_side_past[0;37;1m
   |  |      [0;37m@previous_layer_output_channel    : @previous_layer_output_channel[0;37;1m
   |  |      [0;37m@output_channel                   : @output_channel[0;37;1m
+  |  |      [0;37m@time_column_index                : @time_column_index[0;37;1m
   |  |      [0;37m@dendrite_offsets                 : @dendrite_offsets[0;37;1m
+  |  |      [0;37m@bias                             : @bias[0;37;1m
+  |  |      [0;37m@output_winner_qty                : @output_winner_qty[0;37;1m
+  |  |      [0;37m@output_node_set                  : @output_node_set[0;37;1m
   |  |
   |  +- class Array(T)
   |  |      [0;37m@size     : @size[0;37;1m
