@@ -39,7 +39,7 @@ module Ai4cr
           layer_index: 0, time_column_qty: time_column_qty, dendrite_offsets: dendrite_offsets, state_qty: hidden_state_qty)
           
           (1..hidden_layer_qty-1).map do |h|
-            HiddenLayer::Other.new(previous_layer_output_channel: hidden_layers[0].channel_combo, bias: false,
+            @hidden_layers << HiddenLayer::Other.new(previous_layer_output_channel: hidden_layers[0].channel_combo, bias: false,
             # output_winner_qty: output_winner_qty,
             layer_index: h, time_column_qty: time_column_qty, dendrite_offsets: dendrite_offsets, state_qty: hidden_state_qty)
           end
