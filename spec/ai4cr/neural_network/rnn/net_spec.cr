@@ -80,6 +80,8 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
           end  
         end
 
+
+        # TODO: finish implementing Ai4cr::NeuralNetwork::Rnn::Channel::Output then un-comment
         describe "@channel_output" do
           it "class" do
             net.channel_output.should be_a(Ai4cr::NeuralNetwork::Rnn::Channel::Output)
@@ -128,6 +130,10 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
           it "time_column_range" do
             net.channel_output.time_column_range.should eq((0..defaults[:time_column_qty]-1))
           end
+
+          # TODO: implement Ai4cr::NeuralNetwork::Rnn::WeightSet::Output then un-comment
+          # describe "weights_output" do
+          # end
         end
 
         it "@hidden_layer_qty" do
@@ -843,17 +849,31 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
                 end
               end
             end
-          end
 
-          # TODO: implement Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Other then un-comment
-          # it "size" do
-          #   net.hidden_layers.size.should eq(defaults[:hidden_layer_qty])
-          # end
+            # TODO: implement Ai4cr::NeuralNetwork::Rnn::WeightSet::Past then un-comment
+            # describe "weights_past" do
+            # end
+
+            # TODO: implement Ai4cr::NeuralNetwork::Rnn::WeightSet::Future then un-comment
+            # describe "weights_future" do
+            # end
+
+            # TODO: implement Ai4cr::NeuralNetwork::Rnn::WeightSet::Combo then un-comment
+            # describe "weights_combo" do
+            # end
+          end
 
           # TODO: implement Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Other then un-comment
           # describe "second" do
           #   it "class" do
           #     net.hidden_layers.[1].should be_a(Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Other)
+          #   end
+          # end
+
+          # TODO: implement Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Other then un-comment
+          # describe "last" do
+          #   it "class" do
+          #     net.hidden_layers.last.should be_a(Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Other)
           #   end
           # end
         end
