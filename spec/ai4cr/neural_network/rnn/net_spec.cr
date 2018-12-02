@@ -315,7 +315,41 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
                       net.hidden_layers.first.weights_local.first.weights_center_input_node_set.first.size.should eq(defaults[:input_state_qty] + (defaults[:bias] ? 1 : 0))
                     end
                   end
-                end  
+                end
+                
+                describe "#forward_sums_center" do
+                  it "size" do
+                    net.hidden_layers.first.weights_local.first.forward_sums_center.size.should eq(defaults[:hidden_state_qty])
+                  end
+
+                  describe "first" do
+                    it "size" do
+                      net.hidden_layers.first.weights_local.first.forward_sums_center.first.size.should eq(defaults[:input_state_qty] + (defaults[:bias] ? 1 : 0))
+                    end
+                  end
+                  
+                  describe "BEFORE loading and input data" do
+                    sums = net.hidden_layers.first.weights_local.first.forward_sums_center
+                    (0..defaults[:hidden_state_qty]-1).each do |h|
+                      describe "hidden state index #{h}" do
+                        (0..defaults[:input_state_qty]-1).each do |i|
+                          describe "input state index #{i}" do
+                            it "is zero" do
+                              sums[h][i].should be_close(0.0, 0.0000001)
+                            end
+                          end
+                        end
+                        if defaults[:bias]
+                          describe "input state index #{defaults[:input_state_qty]} (bias)" do
+                            it "is non-zero" do
+                              (sums[h][defaults[:input_state_qty]]).abs.should be > 0.0
+                            end
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
 
                 describe "weights_memory" do
                   it "class" do

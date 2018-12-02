@@ -21,6 +21,16 @@ module Ai4cr
               w
             end
           end
+
+          def forward_sums_center
+            weights_center_input_node_set.map_with_index do |outs, output_index|
+              s = center_input_node_set.state_values.map_with_index do |inputs, input_index|
+                center_input_node_set.state_values[input_index] * weights_center_input_node_set[output_index][input_index]
+              end
+              s << weights_center_input_node_set[output_index][center_input_node_set.state_qty] if bias
+              s
+            end
+          end
         end
       end
     end
