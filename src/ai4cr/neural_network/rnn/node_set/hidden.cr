@@ -7,7 +7,7 @@ module Ai4cr
     module Rnn
       module NodeSet
         class Hidden < Trainable # Ai4cr::NeuralNetwork::Rnn::NodeSet::Common
-          MEMORY_QTY_DEFAULT = 1
+          MEMORY_QTY_DEFAULT = 2
 
           # property state_errors : Array(Float64)
           # property state_deltas : Array(Float64)

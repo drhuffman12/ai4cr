@@ -7,7 +7,7 @@ module Ai4cr
   module NeuralNetwork
     module Rnn
       module HiddenLayer
-        class Common(CINS, SINS, PLOC) # Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Common
+        class Common(CINS, SINS, PLOC, ONS) # Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Common
           include HiddenLayer::Interface
 
           getter layer_index : Int32
@@ -25,7 +25,7 @@ module Ai4cr
           property channel_future : Channel::Future
           property channel_combo : Channel::Combo # this layer's output channel
 
-          property weights_local : Array(Ai4cr::NeuralNetwork::Rnn::WeightSet::Local(CINS, SINS, PLOC))
+          property weights_local : Array(Ai4cr::NeuralNetwork::Rnn::WeightSet::Local(CINS, PLOC)) # , SINS, PLOC, ONS))
           # property channel_past : Ai4cr::NeuralNetwork::Rnn::WeightSet::Interface
           # property channel_future : Ai4cr::NeuralNetwork::Rnn::WeightSet::Interface
           # property channel_combo : Ai4cr::NeuralNetwork::Rnn::WeightSet::Interface
@@ -40,8 +40,11 @@ module Ai4cr
             @channel_future = Channel::Future.new(time_column_qty, dendrite_offsets, state_qty)
             @channel_combo = Channel::Combo.new(time_column_qty, dendrite_offsets, state_qty)
 
+            # ons = Ai4cr::NeuralNetwork::Rnn::NodeSet::Hidden
             @weights_local = time_column_range.map do |time_column_index|
-              Ai4cr::NeuralNetwork::Rnn::WeightSet::Local(CINS, SINS, PLOC).new(previous_layer_output_channel, channel_local, time_column_index, dendrite_offsets, bias, output_winner_qty)
+              # Ai4cr::NeuralNetwork::Rnn::WeightSet::Local(CINS, SINS, PLOC, ONS).new
+              # Ai4cr::NeuralNetwork::Rnn::WeightSet::Local(CINS, CINS, PLOC, ons).new
+              Ai4cr::NeuralNetwork::Rnn::WeightSet::Local(CINS, PLOC).new(previous_layer_output_channel, channel_local, time_column_index, dendrite_offsets, bias, output_winner_qty)
             end
           end
   

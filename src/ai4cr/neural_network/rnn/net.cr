@@ -33,7 +33,7 @@ module Ai4cr
         property channel_input : Channel::Input
         
         def initialize(
-          @hidden_layer_qty = 2, @time_column_qty = 4, @memory_layer_qty = 1,
+          @hidden_layer_qty = 2, @time_column_qty = 4, @memory_layer_qty = NodeSet::Hidden::MEMORY_QTY_DEFAULT,
           @output_state_qty = 3, @hidden_state_qty = 4, @input_state_qty = 2,
           @dendrite_offsets = Channel::Interface::DENDRITE_OFFSETS_DEFAULT,
           @bias = true,
