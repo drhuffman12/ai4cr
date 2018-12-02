@@ -301,48 +301,115 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
                   net.hidden_layers.first.weights_local.first.time_column_index_past_offsets.empty?.should be_true
                 end  
 
-                describe "weights_center_input_node_set" do
+                describe "weights_center" do
                   it "class" do
-                    net.hidden_layers.first.weights_local.first.weights_center_input_node_set.should be_a(Array(Array(Float64)))
+                    net.hidden_layers.first.weights_local.first.weights_center.should be_a(Array(Array(Float64)))
                   end
                   
                   it "size" do
-                    net.hidden_layers.first.weights_local.first.weights_center_input_node_set.size.should eq(defaults[:hidden_state_qty])
+                    net.hidden_layers.first.weights_local.first.weights_center.size.should eq(defaults[:hidden_state_qty])
                   end
                   
                   describe "first" do
                     it "size" do
-                      net.hidden_layers.first.weights_local.first.weights_center_input_node_set.first.size.should eq(defaults[:input_state_qty] + (defaults[:bias] ? 1 : 0))
+                      net.hidden_layers.first.weights_local.first.weights_center.first.size.should eq(defaults[:input_state_qty] + (defaults[:bias] ? 1 : 0))
                     end
                   end
                 end
                 
-                describe "#forward_sums_center" do
+                describe "#forward_products_center" do
+                  weights = net.hidden_layers.first.weights_local.first.weights_center
+                  products = net.hidden_layers.first.weights_local.first.forward_products_center
+                  close_within = 0.000_000_000_1
+                  
                   it "size" do
-                    net.hidden_layers.first.weights_local.first.forward_sums_center.size.should eq(defaults[:hidden_state_qty])
+                    products.size.should eq(defaults[:hidden_state_qty])
                   end
+
+                  # it "DRH_DEBUG weights" do
+                  #   weights.should eq([[0.0]])
+                  # end
+
+                  # it "DRH_DEBUG products" do
+                  #   products.should eq([[0.0]])
+                  # end
 
                   describe "first" do
                     it "size" do
-                      net.hidden_layers.first.weights_local.first.forward_sums_center.first.size.should eq(defaults[:input_state_qty] + (defaults[:bias] ? 1 : 0))
+                      products.first.size.should eq(defaults[:input_state_qty] + (defaults[:bias] ? 1 : 0))
                     end
                   end
                   
                   describe "BEFORE loading and input data" do
-                    sums = net.hidden_layers.first.weights_local.first.forward_sums_center
                     (0..defaults[:hidden_state_qty]-1).each do |h|
                       describe "hidden state index #{h}" do
                         (0..defaults[:input_state_qty]-1).each do |i|
                           describe "input state index #{i}" do
                             it "is zero" do
-                              sums[h][i].should be_close(0.0, 0.0000001)
+                              products[h][i].should be_close(0.0, close_within)
                             end
                           end
                         end
                         if defaults[:bias]
                           describe "input state index #{defaults[:input_state_qty]} (bias)" do
                             it "is non-zero" do
-                              (sums[h][defaults[:input_state_qty]]).abs.should be > 0.0
+                              (products[h][defaults[:input_state_qty]]).should be_close(weights[h][defaults[:input_state_qty]], close_within)
+                            end
+                          end
+                        end
+                      end
+                    end
+                  end
+                end
+                
+                describe "#forward_products_future" do
+                  weights = net.hidden_layers.first.weights_local.first.weights_side_future
+                  products = net.hidden_layers.first.weights_local.first.forward_products_future
+                  close_within = 0.000_000_000_1
+                  
+                  it "size" do
+                    products.size.should eq(weights.size)
+                  end
+
+                  # it "DRH_DEBUG weights" do
+                  #   weights.should eq([[0.0]])
+                  # end
+
+                  # it "DRH_DEBUG products" do
+                  #   products.should eq([[0.0]])
+                  # end
+
+                  describe "first" do
+                    it "size" do
+                      products.first.size.should eq(defaults[:hidden_state_qty])
+                    end
+
+                    describe "first" do
+                      it "size" do
+                        products.first.first.size.should eq(defaults[:input_state_qty] + (defaults[:bias] ? 1 : 0))
+                      end
+                    end
+                  end
+
+                  
+                  describe "BEFORE loading and input data" do
+                    (0..weights.size-1).each do |t|
+                      describe "future time col offset num #{t}" do
+                        (0..defaults[:hidden_state_qty]-1).each do |h|
+                          describe "hidden state index #{h}" do
+                            (0..defaults[:input_state_qty]-1).each do |i|
+                              describe "input state index #{i}" do
+                                it "is zero" do
+                                  products[t][h][i].should be_close(0.0, close_within)
+                                end
+                              end
+                            end
+                            if defaults[:bias]
+                              describe "input state index #{defaults[:input_state_qty]} (bias)" do
+                                it "is non-zero" do
+                                  (products[t][h][defaults[:input_state_qty]]).should be_close(weights[t][h][defaults[:input_state_qty]], close_within)
+                                end
+                              end
                             end
                           end
                         end
@@ -488,18 +555,18 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
                   net.hidden_layers.first.weights_local.[1].time_column_index_past_offsets.empty?.should be_false
                 end  
 
-                describe "weights_center_input_node_set" do
+                describe "weights_center" do
                   it "class" do
-                    net.hidden_layers.first.weights_local.[1].weights_center_input_node_set.should be_a(Array(Array(Float64)))
+                    net.hidden_layers.first.weights_local.[1].weights_center.should be_a(Array(Array(Float64)))
                   end
                   
                   it "size" do
-                    net.hidden_layers.first.weights_local.[1].weights_center_input_node_set.size.should eq(defaults[:hidden_state_qty])
+                    net.hidden_layers.first.weights_local.[1].weights_center.size.should eq(defaults[:hidden_state_qty])
                   end
                   
                   describe "first" do
                     it "size" do
-                      net.hidden_layers.first.weights_local.[1].weights_center_input_node_set.first.size.should eq(defaults[:input_state_qty] + (defaults[:bias] ? 1 : 0))
+                      net.hidden_layers.first.weights_local.[1].weights_center.first.size.should eq(defaults[:input_state_qty] + (defaults[:bias] ? 1 : 0))
                     end
                   end
                 end  
@@ -653,18 +720,18 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
                   net.hidden_layers.first.weights_local.[2].time_column_index_past_offsets.empty?.should be_false
                 end  
 
-                describe "weights_center_input_node_set" do
+                describe "weights_center" do
                   it "class" do
-                    net.hidden_layers.first.weights_local.[2].weights_center_input_node_set.should be_a(Array(Array(Float64)))
+                    net.hidden_layers.first.weights_local.[2].weights_center.should be_a(Array(Array(Float64)))
                   end
                   
                   it "size" do
-                    net.hidden_layers.first.weights_local.[2].weights_center_input_node_set.size.should eq(defaults[:hidden_state_qty])
+                    net.hidden_layers.first.weights_local.[2].weights_center.size.should eq(defaults[:hidden_state_qty])
                   end
                   
                   describe "first" do
                     it "size" do
-                      net.hidden_layers.first.weights_local.[2].weights_center_input_node_set.first.size.should eq(defaults[:input_state_qty] + (defaults[:bias] ? 1 : 0))
+                      net.hidden_layers.first.weights_local.[2].weights_center.first.size.should eq(defaults[:input_state_qty] + (defaults[:bias] ? 1 : 0))
                     end
                   end
                 end  
@@ -818,18 +885,18 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
                   net.hidden_layers.first.weights_local.[3].time_column_index_past_offsets.should eq([-1])
                 end  
 
-                describe "weights_center_input_node_set" do
+                describe "weights_center" do
                   it "class" do
-                    net.hidden_layers.first.weights_local.[3].weights_center_input_node_set.should be_a(Array(Array(Float64)))
+                    net.hidden_layers.first.weights_local.[3].weights_center.should be_a(Array(Array(Float64)))
                   end
                   
                   it "size" do
-                    net.hidden_layers.first.weights_local.[3].weights_center_input_node_set.size.should eq(defaults[:hidden_state_qty])
+                    net.hidden_layers.first.weights_local.[3].weights_center.size.should eq(defaults[:hidden_state_qty])
                   end
                   
                   describe "first" do
                     it "size" do
-                      net.hidden_layers.first.weights_local.[3].weights_center_input_node_set.first.size.should eq(defaults[:input_state_qty] + (defaults[:bias] ? 1 : 0))
+                      net.hidden_layers.first.weights_local.[3].weights_center.first.size.should eq(defaults[:input_state_qty] + (defaults[:bias] ? 1 : 0))
                     end
                   end
                 end  
@@ -891,11 +958,11 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
             end
 
             # TODO: implement Ai4cr::NeuralNetwork::Rnn::WeightSet::Past then un-comment
-            # describe "weights_past" do
+            # describe "weights_side_past" do
             # end
 
             # TODO: implement Ai4cr::NeuralNetwork::Rnn::WeightSet::Future then un-comment
-            # describe "weights_future" do
+            # describe "weights_side_future" do
             # end
 
             # TODO: implement Ai4cr::NeuralNetwork::Rnn::WeightSet::Combo then un-comment
@@ -1067,18 +1134,18 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
                   net.hidden_layers.last.weights_local.first.time_column_index_past_offsets.empty?.should be_true
                 end  
 
-                describe "weights_center_input_node_set" do
+                describe "weights_center" do
                   it "class" do
-                    net.hidden_layers.last.weights_local.first.weights_center_input_node_set.should be_a(Array(Array(Float64)))
+                    net.hidden_layers.last.weights_local.first.weights_center.should be_a(Array(Array(Float64)))
                   end
                   
                   it "size" do
-                    net.hidden_layers.last.weights_local.first.weights_center_input_node_set.size.should eq(defaults[:hidden_state_qty])
+                    net.hidden_layers.last.weights_local.first.weights_center.size.should eq(defaults[:hidden_state_qty])
                   end
                   
                   describe "first" do
                     it "size" do
-                      net.hidden_layers.last.weights_local.first.weights_center_input_node_set.first.size.should eq(defaults[:hidden_state_qty])
+                      net.hidden_layers.last.weights_local.first.weights_center.first.size.should eq(defaults[:hidden_state_qty])
                     end
                   end
                 end  
@@ -1220,18 +1287,18 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
                   net.hidden_layers.last.weights_local.[1].time_column_index_past_offsets.empty?.should be_false
                 end  
 
-                describe "weights_center_input_node_set" do
+                describe "weights_center" do
                   it "class" do
-                    net.hidden_layers.last.weights_local.[1].weights_center_input_node_set.should be_a(Array(Array(Float64)))
+                    net.hidden_layers.last.weights_local.[1].weights_center.should be_a(Array(Array(Float64)))
                   end
                   
                   it "size" do
-                    net.hidden_layers.last.weights_local.[1].weights_center_input_node_set.size.should eq(defaults[:hidden_state_qty])
+                    net.hidden_layers.last.weights_local.[1].weights_center.size.should eq(defaults[:hidden_state_qty])
                   end
                   
                   describe "first" do
                     it "size" do
-                      net.hidden_layers.last.weights_local.[1].weights_center_input_node_set.first.size.should eq(defaults[:hidden_state_qty])
+                      net.hidden_layers.last.weights_local.[1].weights_center.first.size.should eq(defaults[:hidden_state_qty])
                     end
                   end
                 end  
@@ -1385,18 +1452,18 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
                   net.hidden_layers.last.weights_local.[2].time_column_index_past_offsets.empty?.should be_false
                 end  
 
-                describe "weights_center_input_node_set" do
+                describe "weights_center" do
                   it "class" do
-                    net.hidden_layers.last.weights_local.[2].weights_center_input_node_set.should be_a(Array(Array(Float64)))
+                    net.hidden_layers.last.weights_local.[2].weights_center.should be_a(Array(Array(Float64)))
                   end
                   
                   it "size" do
-                    net.hidden_layers.last.weights_local.[2].weights_center_input_node_set.size.should eq(defaults[:hidden_state_qty])
+                    net.hidden_layers.last.weights_local.[2].weights_center.size.should eq(defaults[:hidden_state_qty])
                   end
                   
                   describe "first" do
                     it "size" do
-                      net.hidden_layers.last.weights_local.[2].weights_center_input_node_set.first.size.should eq(defaults[:hidden_state_qty])
+                      net.hidden_layers.last.weights_local.[2].weights_center.first.size.should eq(defaults[:hidden_state_qty])
                     end
                   end
                 end  
@@ -1550,18 +1617,18 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
                   net.hidden_layers.last.weights_local.[3].time_column_index_past_offsets.should eq([-1])
                 end  
 
-                describe "weights_center_input_node_set" do
+                describe "weights_center" do
                   it "class" do
-                    net.hidden_layers.last.weights_local.[3].weights_center_input_node_set.should be_a(Array(Array(Float64)))
+                    net.hidden_layers.last.weights_local.[3].weights_center.should be_a(Array(Array(Float64)))
                   end
                   
                   it "size" do
-                    net.hidden_layers.last.weights_local.[3].weights_center_input_node_set.size.should eq(defaults[:hidden_state_qty])
+                    net.hidden_layers.last.weights_local.[3].weights_center.size.should eq(defaults[:hidden_state_qty])
                   end
                   
                   describe "first" do
                     it "size" do
-                      net.hidden_layers.last.weights_local.[3].weights_center_input_node_set.first.size.should eq(defaults[:hidden_state_qty])
+                      net.hidden_layers.last.weights_local.[3].weights_center.first.size.should eq(defaults[:hidden_state_qty])
                     end
                   end
                 end  
@@ -1623,11 +1690,11 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
             end
 
             # TODO: implement Ai4cr::NeuralNetwork::Rnn::WeightSet::Past then un-comment
-            # describe "weights_past" do
+            # describe "weights_side_past" do
             # end
 
             # TODO: implement Ai4cr::NeuralNetwork::Rnn::WeightSet::Future then un-comment
-            # describe "weights_future" do
+            # describe "weights_side_future" do
             # end
 
             # TODO: implement Ai4cr::NeuralNetwork::Rnn::WeightSet::Combo then un-comment

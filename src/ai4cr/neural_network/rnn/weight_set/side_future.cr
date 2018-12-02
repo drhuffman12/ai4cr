@@ -35,6 +35,18 @@ module Ai4cr
               end
             end
           end
+
+          def forward_products_future
+            side_future_input_node_sets.map_with_index do |node_set, node_set_index|
+              weights_side_future[node_set_index].map_with_index do |outs, output_index|
+                products_partial = node_set.state_values.map_with_index do |inputs, input_index|
+                  node_set.state_values[input_index] * weights_side_future[node_set_index][output_index][input_index]
+                end
+                products_partial << weights_side_future[node_set_index][output_index][node_set.state_qty] if bias
+                products_partial
+              end
+            end
+          end
         end
       end
     end

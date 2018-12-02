@@ -43,7 +43,7 @@ module Ai4cr
             @side_past_input_node_sets = Array(CINS).new
             @side_future_input_node_sets = Array(CINS).new
 
-            @weights_center_input_node_set = WeightsSimple.new
+            @weights_center = WeightsSimple.new
             @weights_side_past = Array(WeightsSimple).new
             @weights_side_future = Array(WeightsSimple).new
             @weights_memory = Array(WeightsSimple).new
