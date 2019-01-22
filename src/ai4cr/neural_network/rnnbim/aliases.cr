@@ -9,11 +9,14 @@ module Ai4cr
 
       alias NodesSimple = Array(Float64)
       alias NodesChrono = Array(NodesSimple)
+      alias NodesHiddenChrono = Array(NodesChrono) # RNN
       alias NodesChannel = Hash(ChannelKey, NodesChrono)
       alias NodesLayer = Hash(ChannelKey, NodesChannel)
       alias NodesHidden = Array(NodesLayer)
 
       alias WeightsSimple = Array(Array(Float64))
+      alias WeightsChrono = Array(WeightsSimple)
+      alias WeightsHiddenChrono = Array(WeightsChrono) # RNN
       alias WeightsFromChannel = Hash(FromChannelKey, WeightsSimple | Int32)
       alias WeightsToChannel = Hash(ToChannelKey,Array(WeightsFromChannel))
       alias WeightsNetwork = Hash(LayerName,WeightsToChannel)

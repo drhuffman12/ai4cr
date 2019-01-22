@@ -56,6 +56,9 @@ module Ai4cr
           end
   
           def guess
+            # time_column_range.each do |time_column_index|
+            #   weights_local[time_column_index]
+            # end
           end
   
           def correct

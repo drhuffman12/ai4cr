@@ -34,6 +34,7 @@ module Ai4cr
           @channel_input = Channel::Input.new(time_column_qty: time_column_qty, state_qty: input_state_qty)
 
           @hidden_layers = Array(Ai4cr::NeuralNetwork::Rnn::HiddenLayer::First | Ai4cr::NeuralNetwork::Rnn::HiddenLayer::Other).new
+          
           @hidden_layers << HiddenLayer::First.new(previous_layer_output_channel: channel_input, bias: true,
           # output_winner_qty: output_winner_qty,
           hidden_layer_index: 0, time_column_qty: time_column_qty, dendrite_offsets: dendrite_offsets, state_qty: hidden_state_qty)

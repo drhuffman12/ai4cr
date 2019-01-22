@@ -13,6 +13,7 @@ module Ai4cr
         getter hidden_layer_qty, hidden_layer_scale
         getter hidden_state_qty : Int32
 
+        getter hidden_layer_range : Range(Int32, Int32)
         getter time_column_range : Range(Int32, Int32)
         getter input_state_range : Range(Int32, Int32)
         getter output_state_range : Range(Int32, Int32)
@@ -22,11 +23,21 @@ module Ai4cr
         getter hidden_channel_keys : Array(Symbol) # TODO: change to Array(Enum)?
         getter hidden_offset_scales : Array(Int32)
 
-        getter nodes_in : NodesChrono, nodes_out : NodesChrono, nodes_hidden : NodesHidden
+        getter nodes_in : NodesChrono
+        getter nodes_hidden : NodesHidden
+        getter nodes_out : NodesChrono
+        getter nodes_out_expected : NodesChrono # used in conjunction w/ nodes_out_required
+        getter nodes_out_required_not : NodesChrono # Must NOT match: -1.0
+        getter nodes_out_required_undecided : NodesChrono # Undecided/Don't Care: 0.0
+        getter nodes_out_required_all : NodesChrono # Must Match: 1.0
+        getter nodes_out_required : NodesChrono # values in -1.0 to 1.0
+
         # getter delta_in : NodesChrono, 
         getter delta_out : NodesChrono, delta_hidden : NodesHidden
         property network_weights : WeightsNetwork
         property network_weight_changes : WeightsNetwork
+
+        # property current_inputs, current_outputs
 
         def initialize(
             @time_column_scale = 1, 
@@ -50,6 +61,13 @@ module Ai4cr
 
           @nodes_in = time_column_range.map { |t| input_state_range.map { |s| 0.0 } }
           @nodes_out = time_column_range.map { |t| output_state_range.map { |s| 0.0 } }
+          
+          @nodes_out_expected = time_column_range.map { |t| output_state_range.map { |s| 0.0 } }
+          @nodes_out_required_not = time_column_range.map { |t| output_state_range.map { |s| -1.0 } }
+          @nodes_out_required_undecided = time_column_range.map { |t| output_state_range.map { |s| 0.0 } }
+          @nodes_out_required_all = time_column_range.map { |t| output_state_range.map { |s| 1.0 } }
+          @nodes_out_required = nodes_out_required_all
+
           @nodes_hidden = init_hidden_nodes
 
           @hidden_offset_scales = hidden_layer_range.map { |l| 2 ** l }
@@ -217,6 +235,100 @@ module Ai4cr
 
         def init_weights_from_bias_to_output
           [0].map { |i| output_state_range.map { |s| Math.rnd_pos_neg_one } }
+        end
+
+        def check_io_dimensions(inputs, outputs)
+          @nodes_in = check_input_dimension(inputs)
+          @nodes_out_expected = check_output_dimension(outputs)
+        end
+
+        def check_input_dimension(inputs)
+          # current_inputs, current_outputs
+          raise ArgumentError.new("Bad Inputs") if inputs.size != nodes_in.size || inputs.map{|i| i.size} != nodes_in.map{|i| i.size}
+          inputs.map{|i| i.map{|j| j.to_f}}
+        end
+
+        def check_output_dimension(outputs)
+          # current_inputs, current_outputs
+          raise ArgumentError.new("Bad Outputs") if outputs.size != nodes_out.size || outputs.map{|i| i.size} != nodes_out.map{|i| i.size}
+          outputs.map{|i| i.map{|j| j.to_f}}
+        end
+
+        def eval(inputs)
+          @nodes_in = check_input_dimension(inputs)
+          # eval_raw
+          eval_sums
+        end
+
+        # def eval_raw
+        #   @nodes_in = inputs.map{|i| i.map{|j| j.to_f}} # clone
+        #   eval_sums
+        # end
+
+        def eval_sums
+          # @network_weights
+
+          # hidden layers
+          hidden_layer_range.each do |hidden_layer_index|
+            node_sets = WeightsToChannel.new # Hash(Symbol,Array(WeightsFromChannel)).new
+            hidden_channel_keys.each do |channel_key|
+              node_sets[:past] = time_column_range.map { |time_column_index| init_weights_to_current_past(time_column_index, hidden_layer_index) }
+              node_sets[:local] = time_column_range.map { |time_column_index| init_weights_to_current_local(time_column_index, hidden_layer_index) }
+              node_sets[:future] = time_column_range.map { |time_column_index| init_weights_to_current_future(time_column_index, hidden_layer_index) }
+              node_sets[:combo] = time_column_range.map { |time_column_index| init_weights_to_current_combo(time_column_index, hidden_layer_index) }
+            end
+            nw["hidden_#{hidden_layer_index}"] = node_sets
+          end
+
+          # output layer
+          channel_key = :output
+          node_sets = WeightsToChannel.new
+          node_sets[channel_key] = time_column_range.map do |time_column_index|
+            # hidden_state_range.map do |s|
+              # init_weights_for_output_current(time_column_index)
+              # {
+              #   :combo => [[0.0]],
+              #   :bias => [[0.0]]
+              # }
+              init_weights_to_current_output(time_column_index)
+            # end
+          end
+          nw["output"] = node_sets
+
+        end
+
+        def backpropagate(outputs)
+        end
+
+        def calculate_error(outputs)
+        end
+
+        def nodes_out_required(requirements)
+          @nodes_out_required = requirements
+        end
+
+        def nodes_out_required_not!
+          @nodes_out_required = @nodes_out_required_not
+        end
+
+        def nodes_out_required_undecided!
+          @nodes_out_required = @nodes_out_required_undecided
+        end
+
+        def nodes_out_required_all!
+          @nodes_out_required = @nodes_out_required_all
+        end
+
+        def train(inputs, outputs)
+          @nodes_out_expected = check_output_dimension(outputs)
+          eval(inputs)
+          
+          # inputs = inputs.map { |v| v.to_f }
+          # outputs = outputs.map { |v| v.to_f }
+          # check_io_dimensions(inputs, outputs)
+          # eval_raw
+          backpropagate(outputs)
+          calculate_error(outputs)
         end
       end
     end
