@@ -352,7 +352,7 @@ module Ai4cr
         end
         @calculated_error_total = error
       end
-      
+
       def check_input_dimension(inputs)
         if inputs != @structure.first
           msg = "Wrong number of inputs. " +
