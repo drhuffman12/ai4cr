@@ -17,5 +17,4 @@ Ai4cr::NeuralNetwork::Backpropagation.new(shape)
 
 # valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/bench/backpropogation2.callgrind.out bin/bench/backpropogation2
 
-
 # valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes --dump-instr=yes --collect-jumps=yes --callgrind-out-file=tmp/bench/backpropogation2.callgrind.out bin/bench/backpropogation2

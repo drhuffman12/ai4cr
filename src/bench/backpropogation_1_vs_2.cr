@@ -57,7 +57,7 @@ puts "learning_rate: #{learning_rate}"
 def train(net, qty, tr_input, sq_input, cr_input, is_a_triangle, is_a_square, is_a_cross)
   qty.times do
     [[tr_input, is_a_triangle], [sq_input, is_a_square], [cr_input, is_a_cross]].each do |io|
-      net.train(io[0], io[1])  
+      net.train(io[0], io[1])
     end
   end
 
@@ -71,7 +71,6 @@ def train(net, qty, tr_input, sq_input, cr_input, is_a_triangle, is_a_square, is
   next_guess = guess(net, cr_input)
   bench_check_guess(next_guess, "CROSS") if VERBOSE
   puts if VERBOSE
-
 end
 
 Benchmark.ips do |x|
@@ -81,7 +80,7 @@ Benchmark.ips do |x|
     train(net, qty, tr_input, sq_input, cr_input, is_a_triangle, is_a_square, is_a_cross)
   end
   puts
-  
+
   # x.report("Backpropagation2") do
   #   net = Ai4cr::NeuralNetwork::Backpropagation2.new(shape)
   #   net.learning_rate = learning_rate
