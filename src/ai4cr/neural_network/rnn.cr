@@ -1,4 +1,4 @@
-require "./rnn/*"
+# require "./rnn/*"
 
 module Ai4cr
   module NeuralNetwork
