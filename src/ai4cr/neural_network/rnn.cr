@@ -2,9 +2,17 @@ require "./rnn/*"
 
 module Ai4cr
   module NeuralNetwork
-    alias SimpleNodes = Array(Array(Float64))
-
-    module NetGeneric
+    struct Rnn
+      enum ChannelType
+        Local
+        Past
+        Future
+        Combo
+      end
+  
+      alias NodeCoord = NamedTuple(output_layer: Int32, time_col: Int32, channel: ChannelType)
+      alias SimpleNodes = Array(Array(Float64))
+  
       property size_time_cols : Int32
       property size_states_in : Int32
       property size_states_out : Int32
@@ -16,8 +24,28 @@ module Ai4cr
       property inputs : SimpleNodes
       property outputs : SimpleNodes
 
+      
+
+      # property memory : SimpleNodes
+
       # property hidden_first : HiddenFirst
       # property hidden_others : Array(HiddenOther)
+
+
+      def initialize(size_time_cols = 5, size_states_in = 3, size_states_out = 4, inputs = nil, outputs = nil) # , hidden_first = nil)
+        @size_time_cols = inputs ? inputs.as(SimpleNodes).size : size_time_cols
+        @size_states_in = inputs ? inputs.as(SimpleNodes).first.size : size_states_in
+        @size_states_out = outputs ? outputs.as(SimpleNodes).first.size : size_states_out
+
+        @range_time_cols = (0..size_time_cols-1)
+        @range_states_in = (0..size_states_in-1)
+        @range_states_out = (0..size_states_out-1)
+
+        @inputs = inputs ? inputs.as(SimpleNodes) : init_simple_nodes(range_time_cols,range_states_in)
+        @outputs = outputs ? outputs.as(SimpleNodes) : init_simple_nodes(range_time_cols,range_states_out)
+        
+        # @hidden_first = hidden_first ? hidden_first.as(HiddenLayerGeneric) : HiddenLayerGeneric.new(@inputs, @size_time_cols, @size_states_in, @size_states_out)
+      end
 
       # def initialize(@size_time_cols = 5, @size_states_in = 3, @size_states_out = 4, inputs = nil, outputs = nil)
       #   @range_time_cols = (0..size_time_cols-1)
@@ -108,30 +136,6 @@ module Ai4cr
     #   property outputs : SimpleNodes
     # end
 
-    class Rnn
-      include NetGeneric
-
-      # property hidden_first : HiddenLayerGeneric
-      # property hidden_others : Array(HiddenOther)
-
-      # def initialize
-      # end
-
-      def initialize(size_time_cols = 5, size_states_in = 3, size_states_out = 4, inputs = nil, outputs = nil) # , hidden_first = nil)
-        @size_time_cols = inputs ? inputs.as(SimpleNodes).size : size_time_cols
-        @size_states_in = inputs ? inputs.as(SimpleNodes).first.size : size_states_in
-        @size_states_out = outputs ? outputs.as(SimpleNodes).first.size : size_states_out
-
-        @range_time_cols = (0..size_time_cols-1)
-        @range_states_in = (0..size_states_in-1)
-        @range_states_out = (0..size_states_out-1)
-
-        @inputs = inputs ? inputs.as(SimpleNodes) : init_simple_nodes(range_time_cols,range_states_in)
-        @outputs = outputs ? outputs.as(SimpleNodes) : init_simple_nodes(range_time_cols,range_states_out)
-        
-        # @hidden_first = hidden_first ? hidden_first.as(HiddenLayerGeneric) : HiddenLayerGeneric.new(@inputs, @size_time_cols, @size_states_in, @size_states_out)
-      end
-    end
   end
 end
 
