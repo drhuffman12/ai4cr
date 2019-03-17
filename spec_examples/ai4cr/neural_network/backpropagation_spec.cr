@@ -2,8 +2,8 @@ require "./../../spec_helper"
 require "../../support/neural_network/data/training_patterns"
 require "../../support/neural_network/data/patterns_with_noise"
 require "../../support/neural_network/data/patterns_with_base_noise"
-# require "json/builder"
 require "json"
+charter = AsciiBarCharter.new(0.0,1.0,3)
 
 describe Ai4cr::NeuralNetwork::Backpropagation do
   describe "#train" do
@@ -27,10 +27,8 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
       cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-      net = Ai4cr::NeuralNetwork::Backpropagation.new([256, 3])
-
-      net.learning_rate = rand
-      qty = 100000
+      net = Ai4cr::NeuralNetwork::Backpropagation.new([256, 3], learning_rate: rand)
+      qty = 200 # 100000
 
       describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
         qty.times do |i|
@@ -141,6 +139,8 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
             end
           end
         end
+
+        puts "\n** error_averages: #{charter.colored_value(error_averages.first)} .. #{charter.colored_value(error_averages.last)} #{charter.plot(error_averages)}\n"
       end
     end
   end

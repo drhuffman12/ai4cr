@@ -126,9 +126,9 @@ module Ai4cr
         @structure.last.to_i
       end
 
-      def deltas
-        @structure.last.to_i
-      end
+      # def deltas
+      #   @structure.last.to_i
+      # end
 
       def initial_weight_function
         ->(n : Int32, i : Int32, j : Int32) { ((rand(2000))/1000.0) - 1 }
@@ -142,17 +142,18 @@ module Ai4cr
         ->(y : Float64) { y*(1 - y) } # lambda { |y| 1.0 - y**2 }
       end
 
-      def initialize(@structure : Array(Int32), disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil)
+      def initialize(@structure : Array(Int32), disable_bias : Bool? = true, learning_rate : Float64? = nil, momentum : Float64? = nil)
         @disable_bias = !!disable_bias
         @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? 0.25 : learning_rate.as(Float64)
         @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : 0.1
         # Below are set via #init_network, but must be initialized in the 'initialize' method to avoid being nilable:
-        @activation_nodes = [[0.0]]
-        @weights = [[[0.0]]]
-        @last_changes = [[[0.0]]]
-        @deltas = [[0.0]]
+        @activation_nodes = init_activation_nodes # [[0.0]] # structure.map{|layer_size| layer_size.times.map{0.0}.to_a}.to_a
+
+        @weights = init_weights # [[[0.0]]]
+        @last_changes = init_last_changes # [[[0.0]]]
+        @deltas = init_deltas # [[0.0]]
         @calculated_error_total = 0.0
-        init_network
+        # init_network
       end
 
       # Evaluates the input.
@@ -163,7 +164,7 @@ module Ai4cr
       def eval(input_values)
         input_values = input_values.map { |v| v.to_f }
         check_input_dimension(input_values.size)
-        init_network if !@weights
+        # init_network if !@weights
         feedforward(input_values)
         return @activation_nodes.last.clone
       end
@@ -197,12 +198,13 @@ module Ai4cr
 
       # Initialize (or reset) activation nodes and weights, with the
       # provided net structure and parameters.
-      def init_network
-        init_activation_nodes
-        init_weights
-        init_last_changes
-        return self
-      end
+      # def init_network
+      #   init_activation_nodes
+      #   init_weights
+      #   init_last_changes
+      #   init_deltas
+      #   return self
+      # end
 
       # # protected
 
@@ -265,20 +267,40 @@ module Ai4cr
       end
 
       # Initialize neurons structure.
+      # def init_activation_nodes
+      #   @activation_nodes = (0...@structure.size).map do |n|
+      #     (0...@structure[n]).map { 1.0 }
+      #   end
+      #   if !disable_bias
+      #     @activation_nodes[0...-1].each { |layer| layer << 1.0 }
+      #   end
+      #   @activation_nodes
+      # end
       def init_activation_nodes
-        @activation_nodes = (0...@structure.size).map do |n|
+        act_nodes = (0...@structure.size).map do |n|
           (0...@structure[n]).map { 1.0 }
         end
         if !disable_bias
-          @activation_nodes[0...-1].each { |layer| layer << 1.0 }
+          act_nodes[0...-1].each { |layer| layer << 1.0 }
         end
-        @activation_nodes
+        act_nodes
       end
 
       # Initialize the weight arrays using function specified with the
       # initial_weight_function parameter
+      # def init_weights
+      #   @weights = (0...@structure.size - 1).map do |i|
+      #     nodes_origin_size = @activation_nodes[i].size
+      #     nodes_target_size = @structure[i + 1]
+      #     (0...nodes_origin_size).map do |j|
+      #       (0...nodes_target_size).map do |k|
+      #         initial_weight_function.call(i, j, k)
+      #       end
+      #     end
+      #   end
+      # end
       def init_weights
-        @weights = (0...@structure.size - 1).map do |i|
+        (0...@structure.size - 1).map do |i|
           nodes_origin_size = @activation_nodes[i].size
           nodes_target_size = @structure[i + 1]
           (0...nodes_origin_size).map do |j|
@@ -292,14 +314,24 @@ module Ai4cr
       # Momentum usage need to know how much a weight changed in the
       # previous training. This method initialize the @last_changes
       # structure with 0 values.
+      # def init_last_changes
+      #   @last_changes = (0...@weights.size).map do |w|
+      #     (0...@weights[w].size).map do |i|
+      #       (0...@weights[w][i].size).map { 0.0 }
+      #     end
+      #   end
+      # end
       def init_last_changes
-        @last_changes = (0...@weights.size).map do |w|
+        (0...@weights.size).map do |w|
           (0...@weights[w].size).map do |i|
             (0...@weights[w][i].size).map { 0.0 }
           end
         end
       end
 
+      def init_deltas
+        structure.map{|layer_size| layer_size.times.map{0.0}.to_a}.to_a
+      end
       # Calculate deltas for output layer
       def calculate_output_deltas(expected_values)
         output_values = @activation_nodes.last
