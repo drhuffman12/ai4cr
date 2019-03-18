@@ -44,9 +44,27 @@ end
 # Author:: Daniel Huffman
 # Url::    https://github.com/drhuffman12/ai4cr
 
+# TODO: move below 'guess' and 'train' code to Backpropagation or a ChainedNet class/struct
 def guess(net, raw_in)
   result = net.eval(raw_in)
   result.map { |v| v.round(6) }
+end
+
+def guess_chained(net1, net2, raw_in)
+  result1 = net1.eval(raw_in)
+  result2 = net2.eval(result1)
+  result2.map { |v| v.round(6) }
+end
+
+def train_chained(net1, net2, input, output)
+  net1.train_forward(input)
+  net2.train_forward(net1.activation_nodes.last)
+
+  errors = net2.train_backwards(output)
+
+  net1.train_backwards_from_chained_net(net2.input_deltas)
+  
+  errors
 end
 
 def result_label(result)

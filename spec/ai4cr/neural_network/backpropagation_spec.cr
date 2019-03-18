@@ -142,14 +142,48 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       describe "#train" do
         it "returns a Float64" do
           net.train(inputs, outputs).should be_a(Float64)
-
-
           puts "\nnet trained: #{net.pretty_inspect}\n"
         end
 
-        it "updates the net" do
+        it "updates the activation_nodes" do
           net.train(inputs, outputs)
           net.activation_nodes.should_not eq(expected_activation_nodes_initialized)
+        end
+
+        it "updates the the first set of activation_nodes (initially loaded with the inputs)" do
+          net = Ai4cr::NeuralNetwork::Backpropagation.new(structure, disable_bias) # .init_network
+
+          # initializers
+          expected_activation_nodes_for_input = expected_activation_nodes_initialized.first[0..(inputs.size-1)].clone
+          expected_activation_nodes_for_input.should_not eq(inputs)
+
+          # actual_activation_nodes_for_input
+          net.activation_nodes.first.should eq(expected_activation_nodes_initialized.first)
+          net.activation_nodes.first[0..(inputs.size-1)].should_not eq(inputs)
+
+          net.train(inputs, outputs)
+
+          # after training
+          net.activation_nodes.first.should_not eq(expected_activation_nodes_initialized.first)
+          net.activation_nodes.first[0..(inputs.size-1)].should eq(inputs)
+        end
+
+        it "updates the the input_deltas" do
+          net = Ai4cr::NeuralNetwork::Backpropagation.new(structure, disable_bias) # .init_network
+
+          net.train(inputs, outputs)
+          # after training
+          input_deltas1 = net.input_deltas.clone
+          net.input_deltas.size.should eq(inputs.size)
+
+          net.train(inputs, outputs)
+          # after training
+          input_deltas2 = net.input_deltas.clone
+          net.input_deltas.size.should eq(inputs.size)
+          input_deltas1.should_not eq(input_deltas2)
+
+          input_deltas1.size.should eq(input_deltas2.size)
+          input_deltas1.should_not eq(input_deltas2)
         end
 
         it "updates the activation_nodes to different vales each training session" do
