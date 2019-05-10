@@ -1,6 +1,6 @@
 # ai4cr
 
-CircleCI: [![CircleCI](https://circleci.com/gh/drhuffman12/ai4cr.svg?style=svg)](https://circleci.com/gh/drhuffman12/ai4cr)
+CircleCI status: [![CircleCI](https://circleci.com/gh/drhuffman12/ai4cr.svg?style=svg)](https://circleci.com/gh/drhuffman12/ai4cr)
 
 Artificial Intelligence for Crystal (based on https://github.com/SergioFierens/ai4r)
 
