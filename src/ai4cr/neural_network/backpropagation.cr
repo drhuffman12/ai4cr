@@ -178,6 +178,32 @@ module Ai4cr
         # @derivative_propagation_function = lambda { |y| y*(1-y) } #lambda { |y| 1.0 - y**2 }
       end
 
+      # NOTE: To make a net of similar config, use config_* instead of *_json
+      def to_config
+        {
+          structure:        @structure,
+          disable_bias:     @disable_bias,
+          learning_rate:    @learning_rate,
+          momentum:         @momentum,
+        }.to_json
+      end
+
+      def self.from_config(json)
+        config = Ai4cr::NeuralNetwork::BackpropagationConfig.from_json(json)
+
+        structure = config.structure
+        disable_bias = config.disable_bias
+        learning_rate = config.learning_rate
+        momentum = config.momentum
+
+        Ai4cr::NeuralNetwork::Backpropagation.new(
+          structure: structure,
+          disable_bias: disable_bias,
+          learning_rate: learning_rate,
+          momentum: momentum,
+        )
+      end
+
       ################################################################
       ## Train and Eval
 

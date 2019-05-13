@@ -265,24 +265,32 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       json = net.to_json
       net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
 
+      # NOTE: To make a net of similar config, use config_* instead of *_json
+      config = net.to_config
+      net3 = Ai4cr::NeuralNetwork::Backpropagation.from_config(config)
+
       it "@structure of the dumped net matches @structure of the loaded net" do
         assert_equality_of_nested_list net.structure, x.structure # TODO: Remove (marshal_dump and marshal_load are deprecated)
         assert_equality_of_nested_list net.structure, net2.structure
+        assert_equality_of_nested_list net.structure, net3.structure
       end
 
       it "@disable_bias on the dumped net matches @disable_bias of the loaded net" do
         net.disable_bias.should eq(x.disable_bias) # TODO: Remove (marshal_dump and marshal_load are deprecated)
         net.disable_bias.should eq(net2.disable_bias)
+        net.disable_bias.should eq(net3.disable_bias)
       end
 
       it "@learning_rate of the dumped net approximately matches @learning_rate of the loaded net" do
         assert_approximate_equality net.learning_rate, x.learning_rate # TODO: Remove (marshal_dump and marshal_load are deprecated)
         assert_approximate_equality net.learning_rate, net2.learning_rate
+        assert_approximate_equality net.learning_rate, net3.learning_rate
       end
 
       it "@momentum of the dumped net approximately matches @momentum of the loaded net" do
         assert_approximate_equality net.momentum, x.momentum # TODO: Remove (marshal_dump and marshal_load are deprecated)
         assert_approximate_equality net.momentum, net2.momentum
+        assert_approximate_equality net.momentum, net3.momentum
       end
 
       it "@weights of the dumped net approximately matches @weights of the loaded net" do
