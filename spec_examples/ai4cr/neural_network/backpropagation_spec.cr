@@ -29,9 +29,6 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
 
       net = Ai4cr::NeuralNetwork::Backpropagation.new([256, 3])
 
-      # File.write("../ai4cr_ui/db/seeds/BackpropagationNet.json",JSON.parse(net.to_json))
-      File.write("../ai4cr_ui/db/seeds/BackpropagationNet.new.json",net.to_json)
-
       net.learning_rate = rand
       qty = 100000
 
@@ -145,8 +142,6 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
           end
         end
       end
-
-      File.write("../ai4cr_ui/db/seeds/BackpropagationNet.trained.json",net.to_json)
     end
   end
 end
