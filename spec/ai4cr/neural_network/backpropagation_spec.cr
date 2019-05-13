@@ -156,41 +156,55 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
     describe "when given a net with structure of [3, 2]" do
       structure = [3, 2]
       net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2]).init_network
-      # s = Marshal.dump(net)
-      # x = Marshal.load(s)
-      # s = net.to_json
-      # x = Ai4cr::NeuralNetwork::Backpropagation.from_json(s)
+
+      # TODO: Remove (marshal_dump and marshal_load are deprecated)
       s = net.marshal_dump
       structure = s[:structure]
       x = Ai4cr::NeuralNetwork::Backpropagation.new(structure).init_network
       x.marshal_load(s)
 
+      # NOTE: *_json replaces marshal_dump and marshal_load
+      json = net.to_json
+      net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
+
       it "@structure of the dumped net matches @structure of the loaded net" do
-        assert_equality_of_nested_list net.structure, x.structure
+        assert_equality_of_nested_list net.structure, x.structure # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_equality_of_nested_list net.structure, net2.structure
       end
 
       it "@disable_bias on the dumped net matches @disable_bias of the loaded net" do
-        net.disable_bias.should eq(x.disable_bias)
+        net.disable_bias.should eq(x.disable_bias) # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        net.disable_bias.should eq(net2.disable_bias)
       end
 
       it "@learning_rate of the dumped net approximately matches @learning_rate of the loaded net" do
-        assert_approximate_equality net.learning_rate, x.learning_rate
+        assert_approximate_equality net.learning_rate, x.learning_rate # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality net.learning_rate, net2.learning_rate
       end
 
       it "@momentum of the dumped net approximately matches @momentum of the loaded net" do
-        assert_approximate_equality net.momentum, x.momentum
+        assert_approximate_equality net.momentum, x.momentum # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality net.momentum, net2.momentum
       end
 
       it "@weights of the dumped net approximately matches @weights of the loaded net" do
-        assert_approximate_equality_of_nested_list net.weights, x.weights
+        assert_approximate_equality_of_nested_list net.weights, x.weights # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality_of_nested_list net.weights, net2.weights
       end
 
       it "@last_changes of the dumped net approximately matches @last_changes of the loaded net" do
-        assert_approximate_equality_of_nested_list net.last_changes, x.last_changes
+        assert_approximate_equality_of_nested_list net.last_changes, x.last_changes # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality_of_nested_list net.last_changes, net2.last_changes
       end
 
       it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
-        assert_approximate_equality_of_nested_list net.activation_nodes, x.activation_nodes
+        assert_approximate_equality_of_nested_list net.activation_nodes, x.activation_nodes # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality_of_nested_list net.activation_nodes, net2.activation_nodes
+      end
+
+      it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
+        assert_approximate_equality_of_nested_list net.calculated_error_total, x.calculated_error_total # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total
       end
     end
   end
