@@ -11,6 +11,8 @@
 # You can redistribute it and/or modify it under the terms of
 # the Mozilla Public License version 1.1  as published by the
 # Mozilla Foundation at http://www.mozilla.org/MPL/MPL-1.1.txt
+require "json"
+
 module Ai4cr
   # Artificial Neural Networks are mathematical or computational models based on
   # biological neural networks.
@@ -87,9 +89,12 @@ module Ai4cr
     #   License::   MPL 1.1
     #   Url::       http://ai4r.org
     struct Backpropagation
-      property structure, weights, activation_nodes, last_changes
-      property disable_bias, learning_rate, momentum, activation_nodes
-      property height, hidden_qty, width
+      include ::JSON::Serializable
+      
+      property structure, disable_bias, learning_rate, momentum
+      property weights, last_changes, activation_nodes
+      property calculated_error_total : Float64
+      getter height, hidden_qty, width, deltas
 
       # Creates a new network specifying the its architecture.
       # E.g.
@@ -146,6 +151,7 @@ module Ai4cr
         @weights = [[[0.0]]]
         @last_changes = [[[0.0]]]
         @deltas = [[0.0]]
+        @calculated_error_total = 0.0
         init_network
       end
 
@@ -207,6 +213,7 @@ module Ai4cr
       # * propagation_function
       # * derivative_propagation_function
       # you must restore their values manually after loading the instance.
+      @[Deprecated("Use `self.to_json` instead")]
       def marshal_dump
         {
           structure:        @structure,
@@ -219,6 +226,7 @@ module Ai4cr
         }
       end
 
+      @[Deprecated("Use `self.from_json(json_data)` instead")]
       def marshal_load(tup)
         @structure = tup[:structure].as(Array(Int32))
         @disable_bias = tup[:disable_bias].as(Bool)
@@ -342,7 +350,7 @@ module Ai4cr
         expected_output.each_with_index do |_elem, output_index|
           error += 0.5*(output_values[output_index] - expected_output[output_index])**2
         end
-        return error
+        @calculated_error_total = error
       end
       
       def check_input_dimension(inputs)
