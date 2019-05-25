@@ -58,11 +58,11 @@ end
 
 def train_chained(net1, net2, input, output)
   net1.train_forward(input)
-  net2.train_forward(net1.activation_nodes.last)
+  net2.train_forward(net1.state.activation_nodes.last)
 
   errors = net2.train_backwards(output)
 
-  net1.train_backwards_from_chained_net(net2.input_deltas)
+  net1.train_backwards_from_chained_net(net2.state.input_deltas)
   
   errors
 end

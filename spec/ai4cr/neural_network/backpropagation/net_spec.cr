@@ -14,19 +14,19 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure, disable_bias) # .init_network
 
       it "sets @activation_nodes to expected nested array" do
-        net.activation_nodes.should eq(expected_activation_nodes_initialized)
+        net.state.activation_nodes.should eq(expected_activation_nodes_initialized)
       end
 
       it "sets @weights to expected size" do
-        net.weights.size.should eq(expected_weights_size)
+        net.state.weights.size.should eq(expected_weights_size)
       end
 
       it "sets @weights.first to expected size" do
-        net.weights.first.size.should eq(expected_weights_first_size)
+        net.state.weights.first.size.should eq(expected_weights_first_size)
       end
 
       it "sets each sub-array w/in @weights.first to expected size" do
-        net.weights.first.each do |weights_n|
+        net.state.weights.first.each do |weights_n|
           weights_n.size.should eq(expected_weights_first_sub_size)
         end
       end
@@ -40,7 +40,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
 
         it "updates the net" do
           net.train(inputs, outputs)
-          net.activation_nodes.should_not eq(expected_activation_nodes_initialized)
+          net.state.activation_nodes.should_not eq(expected_activation_nodes_initialized)
         end
       end
     end
@@ -57,19 +57,19 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure, disable_bias) # .init_network
 
       it "sets @activation_nodes to expected nested array" do
-        net.activation_nodes.should eq(expected_activation_nodes_initialized)
+        net.state.activation_nodes.should eq(expected_activation_nodes_initialized)
       end
 
       it "sets @weights to expected size" do
-        net.weights.size.should eq(expected_weights_size)
+        net.state.weights.size.should eq(expected_weights_size)
       end
 
       it "sets @weights.first to expected size" do
-        net.weights.first.size.should eq(expected_weights_first_size)
+        net.state.weights.first.size.should eq(expected_weights_first_size)
       end
 
       it "sets each sub-array w/in @weights.first to expected size" do
-        net.weights.first.each do |weights_n|
+        net.state.weights.first.each do |weights_n|
           weights_n.size.should eq(expected_weights_first_sub_size)
         end
       end
@@ -81,7 +81,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
 
         it "updates the net" do
           net.train(inputs, outputs)
-          net.activation_nodes.should_not eq(expected_activation_nodes_initialized)
+          net.state.activation_nodes.should_not eq(expected_activation_nodes_initialized)
         end
       end
     end
@@ -106,39 +106,39 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       puts "\nnet initialized: #{net.pretty_inspect}\n"
 
       # expected_weights_initialized_for_testing = [[[1.0,-1.0],[0.5, -0.5]],[[0.25],[-0.25]]]
-      # net.weights = expected_weights_initialized_for_testing
+      # net.state.weights = expected_weights_initialized_for_testing
       # allow(net).to receive(weights).and_return(expected_weights_initialized_for_testing)
       expected_deltas_trained = [[0.0, 0.11817556435647361], [0.14770540994269726, -0.07628320427387962], [0.6131166367108101]]
 
       it "sets @activation_nodes to expected nested array" do
-        net.activation_nodes.should eq(expected_activation_nodes_initialized)
+        net.state.activation_nodes.should eq(expected_activation_nodes_initialized)
       end
 
       it "sets @weights to expected size" do
-        net.weights.size.should eq(expected_weights_size)
+        net.state.weights.size.should eq(expected_weights_size)
       end
 
       it "sets @weights.first to expected size" do
-        net.weights.first.size.should eq(expected_weights_first_size)
+        net.state.weights.first.size.should eq(expected_weights_first_size)
       end
 
       it "sets each sub-array w/in @weights.first to expected size" do
-        net.weights.first.each do |weights_n|
+        net.state.weights.first.each do |weights_n|
           weights_n.size.should eq(expected_weights_first_sub_size)
         end
       end
 
       # it "sets @weights to expected DEBUG" do
-      #   net.weights.should eq(expected_weights_initialized_for_testing)
+      #   net.state.weights.should eq(expected_weights_initialized_for_testing)
       # end
 
       it "sets @deltas to expected size" do
-        net.deltas.size.should eq(expected_deltas_initialized.size)
-        net.deltas.first.size.should eq(expected_deltas_initialized.first.size)
+        net.state.deltas.size.should eq(expected_deltas_initialized.size)
+        net.state.deltas.first.size.should eq(expected_deltas_initialized.first.size)
       end
 
       it "sets @deltas to expected nested array" do
-        net.deltas.should eq(expected_deltas_initialized)
+        net.state.deltas.should eq(expected_deltas_initialized)
       end
 
       describe "#train" do
@@ -149,7 +149,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
 
         it "updates the activation_nodes" do
           net.train(inputs, outputs)
-          net.activation_nodes.should_not eq(expected_activation_nodes_initialized)
+          net.state.activation_nodes.should_not eq(expected_activation_nodes_initialized)
         end
 
         it "updates the the first set of activation_nodes (initially loaded with the inputs)" do
@@ -160,14 +160,14 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
           expected_activation_nodes_for_input.should_not eq(inputs)
 
           # actual_activation_nodes_for_input
-          net.activation_nodes.first.should eq(expected_activation_nodes_initialized.first)
-          net.activation_nodes.first[0..(inputs.size-1)].should_not eq(inputs)
+          net.state.activation_nodes.first.should eq(expected_activation_nodes_initialized.first)
+          net.state.activation_nodes.first[0..(inputs.size-1)].should_not eq(inputs)
 
           net.train(inputs, outputs)
 
           # after training
-          net.activation_nodes.first.should_not eq(expected_activation_nodes_initialized.first)
-          net.activation_nodes.first[0..(inputs.size-1)].should eq(inputs)
+          net.state.activation_nodes.first.should_not eq(expected_activation_nodes_initialized.first)
+          net.state.activation_nodes.first[0..(inputs.size-1)].should eq(inputs)
         end
 
         it "updates the the input_deltas" do
@@ -175,13 +175,13 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
 
           net.train(inputs, outputs)
           # after training
-          input_deltas1 = net.input_deltas.clone
-          net.input_deltas.size.should eq(inputs.size)
+          input_deltas1 = net.state.input_deltas.clone
+          net.state.input_deltas.size.should eq(inputs.size)
 
           net.train(inputs, outputs)
           # after training
-          input_deltas2 = net.input_deltas.clone
-          net.input_deltas.size.should eq(inputs.size)
+          input_deltas2 = net.state.input_deltas.clone
+          net.state.input_deltas.size.should eq(inputs.size)
           input_deltas1.should_not eq(input_deltas2)
 
           input_deltas1.size.should eq(input_deltas2.size)
@@ -189,33 +189,33 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         end
 
         it "updates the activation_nodes to different vales each training session" do
-         activation_nodes_before = net.activation_nodes.clone
+         activation_nodes_before = net.state.activation_nodes.clone
           net.train(inputs, outputs)
-         activation_nodes_mid = net.activation_nodes.clone
+         activation_nodes_mid = net.state.activation_nodes.clone
           net.train(inputs, outputs)
-         activation_nodes_after = net.activation_nodes.clone
+         activation_nodes_after = net.state.activation_nodes.clone
          activation_nodes_mid.should_not eq(activation_nodes_before)
          activation_nodes_after.should_not eq(activation_nodes_mid)
          activation_nodes_after.should_not eq(activation_nodes_before)
         end
 
         it "updates the deltas to different vales each training session" do
-         deltas_before = net.deltas.clone
+         deltas_before = net.state.deltas.clone
           net.train(inputs, outputs)
-         deltas_mid = net.deltas.clone
+         deltas_mid = net.state.deltas.clone
           net.train(inputs, outputs)
-         deltas_after = net.deltas.clone
+         deltas_after = net.state.deltas.clone
          deltas_mid.should_not eq(deltas_before)
          deltas_after.should_not eq(deltas_mid)
          deltas_after.should_not eq(deltas_before)
         end
 
         it "updates the @weights to different vales each training session" do
-          weights_before = net.weights.clone
+          weights_before = net.state.weights.clone
           net.train(inputs, outputs)
-          weights_mid = net.weights.clone
+          weights_mid = net.state.weights.clone
           net.train(inputs, outputs)
-          weights_after = net.weights.clone
+          weights_after = net.state.weights.clone
           weights_mid.should_not eq(weights_before)
           weights_after.should_not eq(weights_mid)
           weights_after.should_not eq(weights_before)
@@ -296,23 +296,23 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       end
 
       it "@weights of the dumped net approximately matches @weights of the loaded net" do
-        assert_approximate_equality_of_nested_list net.weights, x.weights # TODO: Remove (marshal_dump and marshal_load are deprecated)
-        assert_approximate_equality_of_nested_list net.weights, net2.weights
+        assert_approximate_equality_of_nested_list net.state.weights, x.state.weights # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality_of_nested_list net.state.weights, net2.state.weights
       end
 
       it "@last_changes of the dumped net approximately matches @last_changes of the loaded net" do
-        assert_approximate_equality_of_nested_list net.last_changes, x.last_changes # TODO: Remove (marshal_dump and marshal_load are deprecated)
-        assert_approximate_equality_of_nested_list net.last_changes, net2.last_changes
+        assert_approximate_equality_of_nested_list net.state.last_changes, x.state.last_changes # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality_of_nested_list net.state.last_changes, net2.state.last_changes
       end
 
       it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
-        assert_approximate_equality_of_nested_list net.activation_nodes, x.activation_nodes # TODO: Remove (marshal_dump and marshal_load are deprecated)
-        assert_approximate_equality_of_nested_list net.activation_nodes, net2.activation_nodes
+        assert_approximate_equality_of_nested_list net.state.activation_nodes, x.state.activation_nodes # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality_of_nested_list net.state.activation_nodes, net2.state.activation_nodes
       end
 
       it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
-        assert_approximate_equality_of_nested_list net.calculated_error_total, x.calculated_error_total # TODO: Remove (marshal_dump and marshal_load are deprecated)
-        assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total
+        assert_approximate_equality_of_nested_list net.state.calculated_error_total, x.state.calculated_error_total # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality_of_nested_list net.state.calculated_error_total, net2.state.calculated_error_total
       end
     end
   end
