@@ -2,7 +2,9 @@ version: 2
 jobs:
   build:
     docker:
-      - image: crystallang/crystal:nightly
+      # - image: crystallang/crystal:nightly
+      # Try 'latest' instead of 'nightly'; see: https://github.com/crystal-lang/crystal/issues/7713
+      - image: crystallang/crystal:latest
     steps:
       - checkout
       - run: shards install
