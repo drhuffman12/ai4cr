@@ -3,7 +3,7 @@ require "../ai4cr"
 shape = [256, 3]
 # shape = [256, 1000, 3]
 # shape = [256, 500, 500, 3]
-Ai4cr::NeuralNetwork::Backpropagation.new(shape)
+Ai4cr::NeuralNetwork::Backpropagation::Net.new(shape)
 
 # USAGE:
 # crystal build --release src/bench/backpropogation2.cr -o bin/bench/backpropogation2

@@ -1,11 +1,12 @@
-require "./../../spec_helper"
-require "../../support/neural_network/data/training_patterns"
-require "../../support/neural_network/data/patterns_with_noise"
-require "../../support/neural_network/data/patterns_with_base_noise"
 require "json"
+require "./../../../spec_helper"
+require "../../../support/neural_network/data/training_patterns"
+require "../../../support/neural_network/data/patterns_with_noise"
+require "../../../support/neural_network/data/patterns_with_base_noise"
+
 charter = AsciiBarCharter.new(0.0,1.0,3)
 
-describe Ai4cr::NeuralNetwork::Backpropagation do
+describe Ai4cr::NeuralNetwork::Backpropagation::Net do
   describe "#train" do
     describe "using image data (input) and shape flags (output) for triangle, square, and cross" do
       correct_count = 0
@@ -31,13 +32,15 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       describe "with bias disabled" do
         input_size = 256
         disable_bias = true
-        net = Ai4cr::NeuralNetwork::Backpropagation.new([input_size, 3], learning_rate: rand, disable_bias: disable_bias)
+        net = Ai4cr::NeuralNetwork::Backpropagation::Net.new([input_size, 3], learning_rate: rand, disable_bias: disable_bias)
 
         it "does not include a bias node" do
           net.activation_nodes.first.size.should eq(input_size)
         end
 
-        describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
+        File.write("../ai4cr_ui/db/seeds/BackpropagationNet.new.json",net.to_json)
+
+        describe "and training #{qty} times each at a learning rate of #{net.config.learning_rate.round(6)}" do
           error_averages = [] of Float64
           qty.times do |i|
             errors = {} of Symbol => Float64
@@ -54,24 +57,26 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
           end
           
+          File.write("../ai4cr_ui/db/seeds/BackpropagationNet.trained.json",net.to_json)
+          
           describe "JSON (de-)serialization works" do
             it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
               json = net.to_json
-              net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
+              net2 = Ai4cr::NeuralNetwork::Backpropagation::Net.from_json(json)
 
               assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total, 0.000000001
             end
           
             it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
               json = net.to_json
-              net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
+              net2 = Ai4cr::NeuralNetwork::Backpropagation::Net.from_json(json)
 
               assert_approximate_equality_of_nested_list net.activation_nodes, net2.activation_nodes, 0.000000001
             end
           
             it "@weights of the dumped net approximately matches @weights of the loaded net" do
               json = net.to_json
-              net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
+              net2 = Ai4cr::NeuralNetwork::Backpropagation::Net.from_json(json)
 
               assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
             end
@@ -148,20 +153,20 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
             end
           end
 
-          puts "\n** error_averages when bias #{disable_bias ? "IS" : "is NOT"} disable and learning rate of #{net.learning_rate.round(2)}:\n  #{charter.colored_value(error_averages.first)} .. #{charter.colored_value(error_averages.last)} #{charter.plot(error_averages)}\n"
+          puts "\n** error_averages when bias #{disable_bias ? "IS" : "is NOT"} disable and learning rate of #{net.config.learning_rate.round(2)}:\n  #{charter.colored_value(error_averages.first)} .. #{charter.colored_value(error_averages.last)} #{charter.plot(error_averages)}\n"
         end
       end
 
       describe "with bias enabled" do
         input_size = 256
         disable_bias = false
-        net = Ai4cr::NeuralNetwork::Backpropagation.new([input_size, 3], learning_rate: rand, disable_bias: disable_bias)
+        net = Ai4cr::NeuralNetwork::Backpropagation::Net.new([input_size, 3], learning_rate: rand, disable_bias: disable_bias)
 
         it "does not include a bias node" do
           net.activation_nodes.first.size.should eq(input_size + 1)
         end
 
-        describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
+        describe "and training #{qty} times each at a learning rate of #{net.config.learning_rate.round(6)}" do
           error_averages = [] of Float64
           qty.times do |i|
             errors = {} of Symbol => Float64
@@ -249,7 +254,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
             end
           end
 
-          puts "\n** error_averages when bias #{disable_bias ? "IS" : "is NOT"} disable and learning rate of #{net.learning_rate.round(2)}:\n  #{charter.colored_value(error_averages.first)} .. #{charter.colored_value(error_averages.last)} #{charter.plot(error_averages)}\n"
+          puts "\n** error_averages when bias #{disable_bias ? "IS" : "is NOT"} disable and learning rate of #{net.config.learning_rate.round(2)}:\n  #{charter.colored_value(error_averages.first)} .. #{charter.colored_value(error_averages.last)} #{charter.plot(error_averages)}\n"
 
           puts "net.activation_nodes sizes: #{net.activation_nodes.map{|layer| layer.size}}"
           puts "net.deltas sizes: #{net.deltas.map{|layer| layer.size}}"
@@ -264,11 +269,11 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         net1_disable_bias = false # bias at beginning (if desired); not needed after
         net2_disable_bias = true
 
-        net1 = Ai4cr::NeuralNetwork::Backpropagation.new([net1_input_size, net1_output_size], learning_rate: rand, disable_bias: net1_disable_bias)
+        net1 = Ai4cr::NeuralNetwork::Backpropagation::Net.new([net1_input_size, net1_output_size], learning_rate: rand, disable_bias: net1_disable_bias)
 
-        net2 = Ai4cr::NeuralNetwork::Backpropagation.new([net1_output_size, net2_output_size], learning_rate: rand, disable_bias: net2_disable_bias)
+        net2 = Ai4cr::NeuralNetwork::Backpropagation::Net.new([net1_output_size, net2_output_size], learning_rate: rand, disable_bias: net2_disable_bias)
 
-        describe "and training #{qty} times each at a learning rate of (net1) #{net1.learning_rate.round(3)} (net2) #{net2.learning_rate.round(3)}" do
+        describe "and training #{qty} times each at a learning rate of (net1) #{net1.config.learning_rate.round(3)} (net2) #{net2.config.learning_rate.round(3)}" do
           error_averages = [] of Float64
           qty.times do |i|
             errors = {} of Symbol => Float64
@@ -290,7 +295,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
           end
 
           it "net1's output is the same size as net2's input" do
-            net1.activation_nodes.last.size.should eq(net2.structure.first)
+            net1.activation_nodes.last.size.should eq(net2.config.structure.first)
           end
 
           describe "error_averages" do
@@ -364,10 +369,9 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
             end
           end
 
-          puts "\n** error_averages when chained with first having bias and 2nd not and learning rate of (net1) #{net1.learning_rate.round(2)} (net2) #{net2.learning_rate.round(2)}:\n  #{charter.colored_value(error_averages.first)} .. #{charter.colored_value(error_averages.last)} #{charter.plot(error_averages)}\n"
+          puts "\n** error_averages when chained with first having bias and 2nd not and learning rate of (net1) #{net1.config.learning_rate.round(2)} (net2) #{net2.config.learning_rate.round(2)}:\n  #{charter.colored_value(error_averages.first)} .. #{charter.colored_value(error_averages.last)} #{charter.plot(error_averages)}\n"
         end
       end
     end
-
   end
 end

@@ -10,7 +10,7 @@ module Ai4cr
       # property foo
 
       def initialize(structure : Array(Int32), disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil, @memory_size : Int32 = 1)
-        @net = Ai4cr::NeuralNetwork::Backpropagation.new(structure, disable_bias, learning_rate, momentum)
+        @net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure, disable_bias, learning_rate, momentum)
         @output_size = structure.last
         @memory_current_start_index = 0
         @memory_current_end_index = memory_size - 1

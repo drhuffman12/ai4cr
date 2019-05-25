@@ -20,13 +20,13 @@ dependencies:
 require "ai4cr"
 ```
 
-So far, only Ai4cr::NeuralNetwork::Backpropagation and related tests have been ported.
+So far, only Ai4cr::NeuralNetwork::Backpropagation::Net and related tests have been ported.
 
 NOTE: `marshal_dump` and `marshal_load` are deprecated; use `to_json` and `from_json` instead, e.g.:
 
 ```
 # Create and save a net
-net = Ai4cr::NeuralNetwork::Backpropagation.new(...)
+net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(...)
 File.write("../ai4cr_ui/db/seeds/BackpropagationNet.new.json",net.to_json)
 
 # Train and save a net
@@ -35,7 +35,7 @@ File.write("../ai4cr_ui/db/seeds/BackpropagationNet.trained.json",net.to_json)
 
 # Verify serialization in a spec
 json = net.to_json
-net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
+net2 = Ai4cr::NeuralNetwork::Backpropagation::Net.from_json(json)
 assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
 ```
 

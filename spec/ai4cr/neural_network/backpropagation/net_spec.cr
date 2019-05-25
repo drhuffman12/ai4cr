@@ -1,4 +1,4 @@
-require "./../../spec_helper"
+require "./../../../spec_helper"
 
 describe Ai4cr::NeuralNetwork::Backpropagation do
   describe "#initialize" do
@@ -11,7 +11,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       expected_weights_size = 1
       expected_weights_first_size = 5
       expected_weights_first_sub_size = 2
-      net = Ai4cr::NeuralNetwork::Backpropagation.new(structure, disable_bias) # .init_network
+      net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure, disable_bias) # .init_network
 
       it "sets @activation_nodes to expected nested array" do
         net.activation_nodes.should eq(expected_activation_nodes_initialized)
@@ -33,7 +33,9 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
 
       describe "#train" do
         it "returns a Float64" do
+          puts "BEFORE net.to_json: #{net.to_json}"
           net.train(inputs, outputs).should be_a(Float64)
+          puts "AFTER net.to_json: #{net.to_json}"
         end
 
         it "updates the net" do
@@ -52,7 +54,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       expected_weights_size = 2
       expected_weights_first_size = 3
       expected_weights_first_sub_size = 2
-      net = Ai4cr::NeuralNetwork::Backpropagation.new(structure, disable_bias) # .init_network
+      net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure, disable_bias) # .init_network
 
       it "sets @activation_nodes to expected nested array" do
         net.activation_nodes.should eq(expected_activation_nodes_initialized)
@@ -97,8 +99,8 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       expected_weights_first_sub_size = 2
       expected_deltas_first_size = 0.0
       expected_deltas_initialized = [[0.0, 0.0], [0.0, 0.0], [0.0]]
-      net = Ai4cr::NeuralNetwork::Backpropagation.new(structure, disable_bias) # .init_network
-      # net.disable_bias = true
+      net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure, disable_bias) # .init_network
+      # net.config.disable_bias = true
       # net.init_network
 
       puts "\nnet initialized: #{net.pretty_inspect}\n"
@@ -151,7 +153,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         end
 
         it "updates the the first set of activation_nodes (initially loaded with the inputs)" do
-          net = Ai4cr::NeuralNetwork::Backpropagation.new(structure, disable_bias) # .init_network
+          net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure, disable_bias) # .init_network
 
           # initializers
           expected_activation_nodes_for_input = expected_activation_nodes_initialized.first[0..(inputs.size-1)].clone
@@ -169,7 +171,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         end
 
         it "updates the the input_deltas" do
-          net = Ai4cr::NeuralNetwork::Backpropagation.new(structure, disable_bias) # .init_network
+          net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure, disable_bias) # .init_network
 
           net.train(inputs, outputs)
           # after training
@@ -229,7 +231,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         out_size = 2
         inputs = [3, 2, 3]
         structure = [in_size, out_size]
-        net = Ai4cr::NeuralNetwork::Backpropagation.new(structure)
+        net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure)
         y = net.eval(inputs)
         y.size.should eq(out_size)
       end
@@ -242,7 +244,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         out_size = 7
         structure = [in_size] + layer_sizes + [out_size]
         inputs = [2, 3]
-        net = Ai4cr::NeuralNetwork::Backpropagation.new(structure)
+        net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure)
         y = net.eval(inputs)
         y.size.should eq(out_size)
       end
@@ -252,45 +254,45 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
   describe "#dump" do
     describe "when given a net with structure of [3, 2]" do
       structure = [3, 2]
-      # net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2]).init_network
+      # net = Ai4cr::NeuralNetwork::Backpropagation::Net.new([3, 2]).init_network
 
       # TODO: Remove (marshal_dump and marshal_load are deprecated)
-      net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2]) # .init_network
+      net = Ai4cr::NeuralNetwork::Backpropagation::Net.new([3, 2]) # .init_network
       s = net.marshal_dump
       structure = s[:structure]
-      x = Ai4cr::NeuralNetwork::Backpropagation.new(structure) # .init_network
+      x = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure) # .init_network
       x.marshal_load(s)
 
       # NOTE: *_json replaces marshal_dump and marshal_load
       json = net.to_json
-      net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
+      net2 = Ai4cr::NeuralNetwork::Backpropagation::Net.from_json(json)
 
       # NOTE: To make a net of similar config, use config_* instead of *_json
       config = net.to_config
-      net3 = Ai4cr::NeuralNetwork::Backpropagation.from_config(config)
+      net3 = Ai4cr::NeuralNetwork::Backpropagation::Net.from_config(config)
 
       it "@structure of the dumped net matches @structure of the loaded net" do
-        assert_equality_of_nested_list net.structure, x.structure # TODO: Remove (marshal_dump and marshal_load are deprecated)
-        assert_equality_of_nested_list net.structure, net2.structure
-        assert_equality_of_nested_list net.structure, net3.structure
+        assert_equality_of_nested_list net.config.structure, x.config.structure # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_equality_of_nested_list net.config.structure, net2.config.structure
+        assert_equality_of_nested_list net.config.structure, net3.config.structure
       end
 
       it "@disable_bias on the dumped net matches @disable_bias of the loaded net" do
-        net.disable_bias.should eq(x.disable_bias) # TODO: Remove (marshal_dump and marshal_load are deprecated)
-        net.disable_bias.should eq(net2.disable_bias)
-        net.disable_bias.should eq(net3.disable_bias)
+        net.config.disable_bias.should eq(x.config.disable_bias) # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        net.config.disable_bias.should eq(net2.config.disable_bias)
+        net.config.disable_bias.should eq(net3.config.disable_bias)
       end
 
       it "@learning_rate of the dumped net approximately matches @learning_rate of the loaded net" do
-        assert_approximate_equality net.learning_rate, x.learning_rate # TODO: Remove (marshal_dump and marshal_load are deprecated)
-        assert_approximate_equality net.learning_rate, net2.learning_rate
-        assert_approximate_equality net.learning_rate, net3.learning_rate
+        assert_approximate_equality net.config.learning_rate, x.config.learning_rate # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality net.config.learning_rate, net2.config.learning_rate
+        assert_approximate_equality net.config.learning_rate, net3.config.learning_rate
       end
 
       it "@momentum of the dumped net approximately matches @momentum of the loaded net" do
-        assert_approximate_equality net.momentum, x.momentum # TODO: Remove (marshal_dump and marshal_load are deprecated)
-        assert_approximate_equality net.momentum, net2.momentum
-        assert_approximate_equality net.momentum, net3.momentum
+        assert_approximate_equality net.config.momentum, x.config.momentum # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality net.config.momentum, net2.config.momentum
+        assert_approximate_equality net.config.momentum, net3.config.momentum
       end
 
       it "@weights of the dumped net approximately matches @weights of the loaded net" do
@@ -318,7 +320,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
   describe "#train" do
     describe "when given a net with structure of [3, 2]" do
       structure = [3, 2]
-      net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2]) # .init_network
+      net = Ai4cr::NeuralNetwork::Backpropagation::Net.new([3, 2]) # .init_network
 
       it "returns an error of type Float64" do
         inputs = [1, 2, 3]

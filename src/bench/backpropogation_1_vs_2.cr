@@ -75,7 +75,7 @@ end
 
 Benchmark.ips do |x|
   x.report("Backpropagation") do
-    net = Ai4cr::NeuralNetwork::Backpropagation.new(shape)
+    net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(shape)
     net.learning_rate = learning_rate
     train(net, qty, tr_input, sq_input, cr_input, is_a_triangle, is_a_square, is_a_cross)
   end
