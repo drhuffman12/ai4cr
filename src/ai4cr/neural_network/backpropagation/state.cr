@@ -14,7 +14,9 @@ module Ai4cr
         property activation_nodes : Array(Array(Float64))
         property deltas : Array(Array(Float64))
         property input_deltas : Array(Float64)
-        property calculated_error_total : Float64
+        property calculated_error_latest : Float64
+        property track_history : Bool
+        property calculated_error_history : Array(Float64)
 
         # @activation_nodes : Array(Array(Float64))
         # @weights : Array(Array(Array(Float64)))
@@ -23,7 +25,14 @@ module Ai4cr
         # @input_deltas : Array(Float64)
 
         # def initialize(@config)
-        def initialize(structure : Array(Int32), disable_bias : Bool? = true, learning_rate : Float64? = nil, momentum : Float64? = nil)
+
+        def initialize(
+          structure : Array(Int32),
+          disable_bias : Bool? = true,
+          learning_rate : Float64? = nil,
+          momentum : Float64? = nil,
+          @track_history = true # false
+        )
           @config = Config.new(structure, disable_bias, learning_rate, momentum)
 
           @activation_nodes = init_activation_nodes
@@ -31,7 +40,9 @@ module Ai4cr
           @last_changes = init_last_changes
           @deltas = init_deltas
           @input_deltas = init_input_deltas
-          @calculated_error_total = 0.0
+          @calculated_error_latest = 0.0
+
+          @calculated_error_history = Array(Float64).new
         end
 
         # TODO: Remove
@@ -43,6 +54,17 @@ module Ai4cr
           init_last_changes
           init_deltas
           return self
+        end
+
+        def update_calculated_error_latest(error)
+          
+          @calculated_error_latest = error
+          @calculated_error_history << error if track_history
+          error
+        end
+
+        def clear_history
+          @calculated_error_history = Array(Float).new
         end
 
         # Initialize neurons structure.
@@ -88,7 +110,6 @@ module Ai4cr
         private def init_input_deltas
           config.structure.first.times.map{0.0}.to_a
         end
-
       end
     end
   end

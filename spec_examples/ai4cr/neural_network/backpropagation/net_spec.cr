@@ -34,13 +34,16 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
         disable_bias = true
         net = Ai4cr::NeuralNetwork::Backpropagation::Net.new([input_size, 3], learning_rate: rand, disable_bias: disable_bias)
 
+        stats = net.training_stats(in_bw: true)
+        puts "BEFORE any .. training_stats: #{stats}"
+
         it "does not include a bias node" do
           net.state.activation_nodes.first.size.should eq(input_size)
         end
 
         File.write("../ai4cr_ui/db/seeds/BackpropagationNet.new.json",net.to_json)
 
-        describe "and training #{qty} times each at a learning rate of #{net.config.learning_rate.round(6)}" do
+        describe "and training #{qty} times each at a learning rate of #{net.state.config.learning_rate.round(6)}" do
           error_averages = [] of Float64
           qty.times do |i|
             errors = {} of Symbol => Float64
@@ -56,15 +59,17 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
           end
+          stats = net.training_stats(in_bw: true)
+          puts "AFTER some .. training_stats: #{stats}"
           
           File.write("../ai4cr_ui/db/seeds/BackpropagationNet.trained.json",net.to_json)
           
           describe "JSON (de-)serialization works" do
-            it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
+            it "@calculated_error_latest of the dumped net approximately matches @calculated_error_latest of the loaded net" do
               json = net.to_json
               net2 = Ai4cr::NeuralNetwork::Backpropagation::Net.from_json(json)
 
-              assert_approximate_equality_of_nested_list net.state.calculated_error_total, net2.state.calculated_error_total, 0.000000001
+              assert_approximate_equality_of_nested_list net.state.calculated_error_latest, net2.state.calculated_error_latest, 0.000000001
             end
           
             it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
@@ -153,7 +158,8 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
             end
           end
 
-          puts "\n** error_averages when bias #{disable_bias ? "IS" : "is NOT"} disable and learning rate of #{net.config.learning_rate.round(2)}:\n  #{charter.colored_value(error_averages.first)} .. #{charter.colored_value(error_averages.last)} #{charter.plot(error_averages)}\n"
+          stats = net.training_stats(in_bw: true)
+          puts "AFTER all .. training_stats: #{stats}"
         end
       end
 
@@ -166,7 +172,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
           net.state.activation_nodes.first.size.should eq(input_size + 1)
         end
 
-        describe "and training #{qty} times each at a learning rate of #{net.config.learning_rate.round(6)}" do
+        describe "and training #{qty} times each at a learning rate of #{net.state.config.learning_rate.round(6)}" do
           error_averages = [] of Float64
           qty.times do |i|
             errors = {} of Symbol => Float64
@@ -254,11 +260,14 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
             end
           end
 
-          puts "\n** error_averages when bias #{disable_bias ? "IS" : "is NOT"} disable and learning rate of #{net.config.learning_rate.round(2)}:\n  #{charter.colored_value(error_averages.first)} .. #{charter.colored_value(error_averages.last)} #{charter.plot(error_averages)}\n"
+          puts "\n** error_averages when bias #{disable_bias ? "IS" : "is NOT"} disable and learning rate of #{net.state.config.learning_rate.round(2)}:\n  #{charter.bar_prefixed_with_number(error_averages.first)} .. #{charter.bar_prefixed_with_number(error_averages.last)} #{charter.plot(error_averages)}\n"
 
           puts "net.state.activation_nodes sizes: #{net.state.activation_nodes.map{|layer| layer.size}}"
           puts "net.state.deltas sizes: #{net.state.deltas.map{|layer| layer.size}}"
         end
+
+        stats = net.training_stats(in_bw: true)
+        puts "AFTER with bias enabled .. training_stats: #{stats}"
       end
 
       describe "with chained networks" do
@@ -273,7 +282,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
 
         net2 = Ai4cr::NeuralNetwork::Backpropagation::Net.new([net1_output_size, net2_output_size], learning_rate: rand, disable_bias: net2_disable_bias)
 
-        describe "and training #{qty} times each at a learning rate of (net1) #{net1.config.learning_rate.round(3)} (net2) #{net2.config.learning_rate.round(3)}" do
+        describe "and training #{qty} times each at a learning rate of (net1) #{net1.state.config.learning_rate.round(3)} (net2) #{net2.state.config.learning_rate.round(3)}" do
           error_averages = [] of Float64
           qty.times do |i|
             errors = {} of Symbol => Float64
@@ -295,7 +304,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
           end
 
           it "net1's output is the same size as net2's input" do
-            net1.state.activation_nodes.last.size.should eq(net2.config.structure.first)
+            net1.state.activation_nodes.last.size.should eq(net2.state.config.structure.first)
           end
 
           describe "error_averages" do
@@ -369,7 +378,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
             end
           end
 
-          puts "\n** error_averages when chained with first having bias and 2nd not and learning rate of (net1) #{net1.config.learning_rate.round(2)} (net2) #{net2.config.learning_rate.round(2)}:\n  #{charter.colored_value(error_averages.first)} .. #{charter.colored_value(error_averages.last)} #{charter.plot(error_averages)}\n"
+          puts "\n** error_averages when chained with first having bias and 2nd not and learning rate of (net1) #{net1.state.config.learning_rate.round(2)} (net2) #{net2.state.config.learning_rate.round(2)}:\n  #{charter.bar_prefixed_with_number(error_averages.first)} .. #{charter.bar_prefixed_with_number(error_averages.last)} #{charter.plot(error_averages)}\n"
         end
       end
     end

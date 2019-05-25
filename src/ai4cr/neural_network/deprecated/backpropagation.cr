@@ -93,7 +93,7 @@ module Ai4cr
       
       property structure, disable_bias, learning_rate, momentum
       property weights, last_changes, activation_nodes
-      property calculated_error_total : Float64
+      property calculated_error_latest : Float64
       property deltas, input_deltas
       getter height, hidden_qty, width
 
@@ -126,7 +126,7 @@ module Ai4cr
         @last_changes = init_last_changes
         @deltas = init_deltas
         @input_deltas = init_input_deltas
-        @calculated_error_total = 0.0
+        @calculated_error_latest = 0.0
       end
 
       def height
@@ -441,7 +441,7 @@ module Ai4cr
         expected_output.each_with_index do |_elem, output_index|
           error += 0.5*(output_values[output_index] - expected_output[output_index])**2
         end
-        @calculated_error_total = error
+        @calculated_error_latest = error
       end
       
       ################################

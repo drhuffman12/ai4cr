@@ -33,9 +33,9 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
 
       describe "#train" do
         it "returns a Float64" do
-          puts "BEFORE net.to_json: #{net.to_json}"
+          puts "BEFORE net.to_json: #{net.to_json}\n training_stats: #{net.training_stats(in_bw: true)}"
           net.train(inputs, outputs).should be_a(Float64)
-          puts "AFTER net.to_json: #{net.to_json}"
+          puts "AFTER net.to_json: #{net.to_json}\n training_stats: #{net.training_stats(in_bw: true)}"
         end
 
         it "updates the net" do
@@ -100,7 +100,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       expected_deltas_first_size = 0.0
       expected_deltas_initialized = [[0.0, 0.0], [0.0, 0.0], [0.0]]
       net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure, disable_bias) # .init_network
-      # net.config.disable_bias = true
+      # net.state.config.disable_bias = true
       # net.init_network
 
       puts "\nnet initialized: #{net.pretty_inspect}\n"
@@ -272,27 +272,27 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       net3 = Ai4cr::NeuralNetwork::Backpropagation::Net.from_config(config)
 
       it "@structure of the dumped net matches @structure of the loaded net" do
-        assert_equality_of_nested_list net.config.structure, x.config.structure # TODO: Remove (marshal_dump and marshal_load are deprecated)
-        assert_equality_of_nested_list net.config.structure, net2.config.structure
-        assert_equality_of_nested_list net.config.structure, net3.config.structure
+        assert_equality_of_nested_list net.state.config.structure, x.state.config.structure # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_equality_of_nested_list net.state.config.structure, net2.state.config.structure
+        assert_equality_of_nested_list net.state.config.structure, net3.state.config.structure
       end
 
       it "@disable_bias on the dumped net matches @disable_bias of the loaded net" do
-        net.config.disable_bias.should eq(x.config.disable_bias) # TODO: Remove (marshal_dump and marshal_load are deprecated)
-        net.config.disable_bias.should eq(net2.config.disable_bias)
-        net.config.disable_bias.should eq(net3.config.disable_bias)
+        net.state.config.disable_bias.should eq(x.state.config.disable_bias) # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        net.state.config.disable_bias.should eq(net2.state.config.disable_bias)
+        net.state.config.disable_bias.should eq(net3.state.config.disable_bias)
       end
 
       it "@learning_rate of the dumped net approximately matches @learning_rate of the loaded net" do
-        assert_approximate_equality net.config.learning_rate, x.config.learning_rate # TODO: Remove (marshal_dump and marshal_load are deprecated)
-        assert_approximate_equality net.config.learning_rate, net2.config.learning_rate
-        assert_approximate_equality net.config.learning_rate, net3.config.learning_rate
+        assert_approximate_equality net.state.config.learning_rate, x.state.config.learning_rate # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality net.state.config.learning_rate, net2.state.config.learning_rate
+        assert_approximate_equality net.state.config.learning_rate, net3.state.config.learning_rate
       end
 
       it "@momentum of the dumped net approximately matches @momentum of the loaded net" do
-        assert_approximate_equality net.config.momentum, x.config.momentum # TODO: Remove (marshal_dump and marshal_load are deprecated)
-        assert_approximate_equality net.config.momentum, net2.config.momentum
-        assert_approximate_equality net.config.momentum, net3.config.momentum
+        assert_approximate_equality net.state.config.momentum, x.state.config.momentum # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality net.state.config.momentum, net2.state.config.momentum
+        assert_approximate_equality net.state.config.momentum, net3.state.config.momentum
       end
 
       it "@weights of the dumped net approximately matches @weights of the loaded net" do
@@ -310,9 +310,9 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         assert_approximate_equality_of_nested_list net.state.activation_nodes, net2.state.activation_nodes
       end
 
-      it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
-        assert_approximate_equality_of_nested_list net.state.calculated_error_total, x.state.calculated_error_total # TODO: Remove (marshal_dump and marshal_load are deprecated)
-        assert_approximate_equality_of_nested_list net.state.calculated_error_total, net2.state.calculated_error_total
+      it "@calculated_error_latest of the dumped net approximately matches @calculated_error_latest of the loaded net" do
+        assert_approximate_equality_of_nested_list net.state.calculated_error_latest, x.state.calculated_error_latest # TODO: Remove (marshal_dump and marshal_load are deprecated)
+        assert_approximate_equality_of_nested_list net.state.calculated_error_latest, net2.state.calculated_error_latest
       end
     end
   end
