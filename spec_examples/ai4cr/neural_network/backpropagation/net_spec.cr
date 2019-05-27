@@ -37,11 +37,11 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
         stats = net.training_stats(in_bw: true)
         puts "BEFORE any .. training_stats: #{stats}"
 
+        # File.write("../ai4cr_ui/db/seeds/BackpropagationNet.new.json",net.to_json)
+
         it "does not include a bias node" do
           net.state.activation_nodes.first.size.should eq(input_size)
         end
-
-        File.write("../ai4cr_ui/db/seeds/BackpropagationNet.new.json",net.to_json)
 
         describe "and training #{qty} times each at a learning rate of #{net.state.config.learning_rate.round(6)}" do
           error_averages = [] of Float64
