@@ -11,7 +11,9 @@ stats = net.training_stats(in_bw: true)
 puts "BEFORE any .. training_stats: #{stats}"
 
 File.write("#{results_folder}/net_small_example.new.json",net.to_json)
-File.write("#{results_folder}/net_small_example.new_stats.json",stats.to_json)
+File.write("#{results_folder}/net_small_example.new.stats.json",stats.to_json)
+File.write("#{results_folder}/net_small_example.new.state.json",net.state.to_json)
+File.write("#{results_folder}/net_small_example.new.state.config.json",net.state.config.to_json)
 
 training_sets = [
   # binary (2 bits) to 4 columns (for values 0..3)
@@ -35,4 +37,6 @@ end
 stats = net.training_stats(in_bw: true)
 puts "AFTER some .. training_stats: #{stats}"
 File.write("#{results_folder}/net_small_example.trained.json",net.to_json)
-File.write("#{results_folder}/net_small_example.trained_stats.json",stats.to_json)
+File.write("#{results_folder}/net_small_example.trained.stats.json",stats.to_json)
+File.write("#{results_folder}/net_small_example.trained.state.json",net.state.to_json)
+File.write("#{results_folder}/net_small_example.trained.state.config.json",net.state.config.to_json)

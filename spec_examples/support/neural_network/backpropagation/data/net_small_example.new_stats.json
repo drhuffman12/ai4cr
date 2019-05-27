@@ -1,8 +1,0 @@
-{
-  "label": "Net Training Stats:",
-  "config": "{\"structure\":[2,6,4],\"disable_bias\":true,\"learning_rate\":0.766720284907032,\"momentum\":0.8265368974019507}",
-  "learning_rate": 0.767,
-  "calculated_error_latest": 0.0,
-  "bar_last": "0.0_",
-  "track_history": true
-}

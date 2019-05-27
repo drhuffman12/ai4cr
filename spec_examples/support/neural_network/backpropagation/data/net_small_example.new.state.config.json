@@ -1,0 +1,10 @@
+{
+  "structure": [
+    2,
+    6,
+    4
+  ],
+  "disable_bias": true,
+  "learning_rate": 0.5580694461400748,
+  "momentum": 0.7856484017223413
+}
