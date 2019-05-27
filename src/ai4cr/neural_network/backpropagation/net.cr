@@ -32,7 +32,7 @@ module Ai4cr
 
           main_data = {
             label: label,
-            config: state.config.to_json,
+            config: JSON.parse(state.config.to_json),
             learning_rate: state.config.learning_rate.round(precision),
             calculated_error_latest:  state.calculated_error_latest,
             bar_last: charter.bar_prefixed_with_number(state.calculated_error_latest),

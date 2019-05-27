@@ -1,7 +1,16 @@
 {
   "label": "Net Training Stats:",
-  "config": "{\"structure\":[2,6,4],\"disable_bias\":true,\"learning_rate\":0.5580694461400748,\"momentum\":0.7856484017223413}",
-  "learning_rate": 0.558,
+  "config": {
+    "structure": [
+      4,
+      6,
+      2
+    ],
+    "disable_bias": true,
+    "learning_rate": 0.5842310159447157,
+    "momentum": 0.2351513605878657
+  },
+  "learning_rate": 0.584,
   "calculated_error_latest": 0.0,
   "bar_last": "0.0_",
   "track_history": true
