@@ -1,3 +1,5 @@
+require "colorize"
+
 class AsciiBarCharter
   BAR_CHARS = ['_','\u2581','\u2582','\u2583','\u2584','\u2585','\u2586','\u2587','\u2588','\u2589','\u258A']
   BAR_STEP_QTY = BAR_CHARS.size - 1 # first char is a 'floor', not a 'step'
@@ -19,8 +21,8 @@ class AsciiBarCharter
     i = (BAR_STEP_QTY * (single_data - min) / min_max_delta).round.to_i
     i = 0 if i < 0
     i = BAR_STEP_QTY if i > BAR_STEP_QTY
-    bar = BAR_CHARS[i]
-    bar = bar.colorize.fore(BAR_COLORS[i]).back(:light_gray) unless in_bw
+    bar = BAR_CHARS[i].to_s
+    bar = bar.colorize.fore(BAR_COLORS[i]).back(:light_gray).to_s unless in_bw
     as_bar ? bar : (single_data.round(precision).to_s + bar.to_s)
   end
 
