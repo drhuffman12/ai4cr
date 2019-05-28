@@ -1,6 +1,6 @@
 require "./../../../spec_helper"
 
-describe Ai4cr::NeuralNetwork::Backpropagation do
+describe Ai4cr::NeuralNetwork::Backpropagation::Net do
   describe "#initialize" do
     describe "when given a net with structure of [4, 2] and bias enabled" do
       structure = [4, 2]
