@@ -6,7 +6,7 @@ class AsciiBarCharter
   BAR_COLORS = [:blue,:green,:green,:light_green,:light_green,:yellow,:yellow,:light_red,:light_red,:red,:red]
 
   getter min, max, min_max_delta : Float64, precision, in_bw
-
+  
   def initialize(@min : Float64, @max : Float64, @precision : Int8, @in_bw = false)
     @min_max_delta = 1.0 * (max - min)
   end

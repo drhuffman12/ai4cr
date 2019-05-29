@@ -9,13 +9,14 @@ module Ai4cr
 
         property config : Config
 
+        property calculated_error_latest : Float64
+        property track_history : Bool
+
         property weights : Array(Array(Array(Float64)))
         property last_changes : Array(Array(Array(Float64)))
         property activation_nodes : Array(Array(Float64))
         property deltas : Array(Array(Float64))
         property input_deltas : Array(Float64)
-        property calculated_error_latest : Float64
-        property track_history : Bool
         property calculated_error_history : Array(Float64)
 
         # @activation_nodes : Array(Array(Float64))
@@ -40,7 +41,7 @@ module Ai4cr
           @last_changes = init_last_changes
           @deltas = init_deltas
           @input_deltas = init_input_deltas
-          @calculated_error_latest = 0.0
+          @calculated_error_latest = -1.0
 
           @calculated_error_history = Array(Float64).new
         end
