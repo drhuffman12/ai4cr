@@ -153,13 +153,14 @@ module Ai4cr
 
         # Evaluates the input and returns most active node
         # E.g.
-        #     net = Backpropagation.new([4, 3, 2])
+        #     net = Backpropagation.new([4, 3, 3])
         #     net.eval_result([25, 32.3, 12.8, 1.5])
-        #         # eval gives [0.83, 0.03]
+        #         # eval gives [0.83, 0.83, 0.03]
         #         # =>  0
         def eval_result(input_values)
           result = eval(input_values)
-          result.index(result.max)
+          result.index(result.max) # tie goes to the lowest index
+          # results.map_with_index{|result, index| [result, index]}.sort.reverse.first[1] # tie goes to the highest index
         end
 
         # Evaluates the input.
