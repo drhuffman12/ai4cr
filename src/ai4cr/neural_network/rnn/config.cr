@@ -6,6 +6,7 @@ module Ai4cr
     module Rnn
       struct Config
         include JSON::Serializable
+        include NeuralNetwork::Common::Initializers::StructureHiddenLaters
         include NeuralNetwork::Common::Initializers::LearningRate
         include NeuralNetwork::Common::Initializers::Momentum
 
@@ -16,7 +17,7 @@ module Ai4cr
         property qty_time_cols_neighbor_inputs
         property qty_recent_memory
 
-        property structure_hidden_laters : Array(Int32)
+        # property structure_hidden_laters : Array(Int32)
         property disable_bias : Bool
 
         def initialize(
@@ -24,16 +25,25 @@ module Ai4cr
           @qty_states_in = 3,
           @qty_states_out = 4,
           @qty_time_cols = 5,
-          @qty_lpfc_layers = 2,
+          @qty_lpfc_layers = 3,
           @qty_time_cols_neighbor_inputs = 2,
           @qty_recent_memory = 2,
           # Embedded Backpropagation Nets:
-          @structure_hidden_laters = [] of Int32, disable_bias = true, learning_rate = nil, momentum = nil
+          # @structure_hidden_laters = [] of Int32,
+          @hidden_scale_factor = 2,
+          structure_hidden_laters : Array(Int32)? = nil,
+          disable_bias = true, learning_rate = nil, momentum = nil
         )
+          @structure_hidden_laters = init_structure_hidden_laters(structure_hidden_laters, qty_states_in, qty_states_out, hidden_scale_factor)
           @disable_bias = !!disable_bias
           @learning_rate = init_learning_rate(learning_rate)
           @momentum = init_momentum(momentum)
         end
+
+        # def init_structure_hidden_laters(_structure_hidden_laters)
+        #   # must be positive
+        #   _structure_hidden_laters.nil? ? [qty_states_in + qty_states_out] : _structure_hidden_laters.as(Array(Int32))
+        # end  
       end
     end
   end
