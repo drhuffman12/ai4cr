@@ -1,0 +1,25 @@
+{
+  "config": {
+    "qty_states_in": 3,
+    "qty_states_out": 4,
+    "qty_time_cols": 5,
+    "qty_lpfc_layers": 2,
+    "qty_time_cols_neighbor_inputs": 2,
+    "qty_recent_memory": 2,
+
+    "structure_hidden_laters": [],
+    "learning_rate": 0.25,
+    "momentum": 0.1,
+    "disable_bias": true
+  },
+  "channel_set": [
+    {
+      "channel_set_index": 0,
+      "disable_bias": false
+    },
+    {
+      "channel_set_index": 1,
+      "disable_bias": true
+    }
+  ]
+}

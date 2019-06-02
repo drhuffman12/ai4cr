@@ -3,6 +3,7 @@
   "qty_states_out": 4,
   "qty_time_cols": 5,
   "qty_lpfc_layers": 2,
+  "qty_time_cols_neighbor_inputs": 2,
   "qty_recent_memory": 2,
   
   "structure_hidden_laters":[],

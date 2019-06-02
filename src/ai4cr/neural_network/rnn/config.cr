@@ -13,6 +13,7 @@ module Ai4cr
         property qty_states_out
         property qty_time_cols
         property qty_lpfc_layers
+        property qty_time_cols_neighbor_inputs
         property qty_recent_memory
 
         property structure_hidden_laters : Array(Int32)
@@ -20,7 +21,12 @@ module Ai4cr
 
         def initialize(
           # RNN Net:
-          @qty_states_in = 3, @qty_states_out = 4, @qty_time_cols = 5, @qty_lpfc_layers = 2, @qty_recent_memory = 2,
+          @qty_states_in = 3,
+          @qty_states_out = 4,
+          @qty_time_cols = 5,
+          @qty_lpfc_layers = 2,
+          @qty_time_cols_neighbor_inputs = 2,
+          @qty_recent_memory = 2,
           # Embedded Backpropagation Nets:
           @structure_hidden_laters = [] of Int32, disable_bias = true, learning_rate = nil, momentum = nil
         )
