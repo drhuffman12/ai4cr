@@ -6,10 +6,8 @@ module Ai4cr
     module Rnn
       struct Config
         include JSON::Serializable
-        # include Common::Initializers::LearningRate
-        # include Common::Initializers::Momentum
-        include Ai4cr::NeuralNetwork::Backpropagation::Common::Initializers::LearningRate
-        include Ai4cr::NeuralNetwork::Backpropagation::Common::Initializers::Momentum
+        include NeuralNetwork::Common::Initializers::LearningRate
+        include NeuralNetwork::Common::Initializers::Momentum
 
         property qty_states_in
         property qty_states_out
@@ -34,5 +32,3 @@ module Ai4cr
     end
   end
 end
-
-# touch spec/ai4cr/neural_network/rnn/config_spec.cr
