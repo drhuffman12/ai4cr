@@ -1,9 +1,9 @@
-require "./rnn/*"
+require "./common/*"
 
 module Ai4cr
   module NeuralNetwork
     module Backpropagation
-      module Rnn
+      module Common
       end
     end
   end

@@ -1,0 +1,12 @@
+{
+  "qty_states_in": 3,
+  "qty_states_out": 4,
+  "qty_time_cols": 5,
+  "qty_lpfc_layers": 2,
+  "qty_recent_memory": 2,
+  
+  "structure_hidden_laters":[],
+  "disable_bias": true,
+  "learning_rate":0.25,
+  "momentum":0.1
+}
