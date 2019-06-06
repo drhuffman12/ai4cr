@@ -77,7 +77,7 @@ module Ai4cr
           qty_hidden_laters = 2,
           qty_time_cols_neighbor_inputs = 2,
           qty_recent_memory = 2,
-
+          
           # Embedded Backpropagation Nets:
           # @hidden_scale_factor = 2,
           # structure_hidden_laters : Array(Int32)? = nil, disable_bias = true, 
@@ -221,21 +221,28 @@ module Ai4cr
                 time_col_index: time_col_index
               }
             end
-          end
+          end + 
+          config.qty_recent_memory.times.to_a.map {
+            {
+              channel_set_index: channel_set_index,
+              channel_type: ChannelType::Memory.value,
+              time_col_index: time_col_index
+            } 
+          }
         end
 
         def init_connections_to_node_at_channel_set_past(channel_set_index, prev_channel, time_col_index, time_col_indexes_before) : Array(NodeCoord)
           (
             time_col_indexes_before.map do |tci|
               {
-                channel_set_index: time_col_index,
+                channel_set_index: channel_set_index,
                 channel_type: ChannelType::Past.value,
                 time_col_index: tci
               }
             end +
 
             [{
-              channel_set_index: time_col_index - 1,
+              channel_set_index: channel_set_index - 1,
               channel_type: prev_channel,
               time_col_index: time_col_index
             }]
@@ -247,20 +254,27 @@ module Ai4cr
                 time_col_index: time_col_index
               }
             end
-          end
+          end + 
+          config.qty_recent_memory.times.to_a.map {
+            {
+              channel_set_index: channel_set_index,
+              channel_type: ChannelType::Memory.value,
+              time_col_index: time_col_index
+            } 
+          }
         end
 
         def init_connections_to_node_at_channel_set_future(channel_set_index, prev_channel, time_col_index, time_col_indexes_after) : Array(NodeCoord)
           (
             [{
-              channel_set_index: time_col_index - 1,
+              channel_set_index: channel_set_index - 1,
               channel_type: prev_channel,
               time_col_index: time_col_index
             }] +
 
             time_col_indexes_after.map do |tci|
               {
-                channel_set_index: time_col_index,
+                channel_set_index: channel_set_index,
                 channel_type: ChannelType::Future.value,
                 time_col_index: tci
               }
@@ -273,12 +287,19 @@ module Ai4cr
                 time_col_index: time_col_index
               }
             end
-          end
+          end + 
+          config.qty_recent_memory.times.to_a.map {
+            {
+              channel_set_index: channel_set_index,
+              channel_type: ChannelType::Memory.value,
+              time_col_index: time_col_index
+            } 
+          }
         end
 
         def init_connections_to_node_at_channel_set_combo(channel_set_index, prev_channel, time_col_index) : Array(NodeCoord)
           [{
-            channel_set_index: time_col_index - 1,
+            channel_set_index: channel_set_index - 1,
             channel_type: prev_channel,
             time_col_index: time_col_index
           }] +
@@ -296,7 +317,20 @@ module Ai4cr
             channel_set_index: channel_set_index,
             channel_type: ChannelType::Future.value,
             time_col_index: time_col_index
-          }]
+          }] + 
+          config.qty_recent_memory.times.to_a.map {
+            {
+              channel_set_index: channel_set_index,
+              channel_type: ChannelType::Memory.value,
+              time_col_index: time_col_index
+            } 
+          }
+          # qty_states_hidden_out
+          # [{
+          #   channel_set_index: channel_set_index,
+          #   channel_type: ChannelType::Future.value,
+          #   time_col_index: time_col_index
+          # }]
         end
           # .tap do |arr|
           #   if channel_set_index > 0
@@ -403,7 +437,7 @@ module Ai4cr
           node_input_mappings = init_connections_to_node_at(channel_set_index, channel_type, time_col_index)
           
           NeuralNetwork::Rnn::Node::Net.new(
-            @config.qty_states_in, @config.qty_states_hidden_out, @config.qty_states_out,
+            @config.qty_states_in, @config.qty_states_hidden_out, @config.qty_states_out, @config.qty_recent_memory,
             channel_set_index, channel_type, time_col_index,
             node_input_mappings
           ) # (channel_set_index, channel_type, time_col_index, node_input_mappings)

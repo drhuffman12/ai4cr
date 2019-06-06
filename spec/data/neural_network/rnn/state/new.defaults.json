@@ -34,11 +34,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 0,
           "channel_type": 0,
           "time_col_index": 0,
@@ -57,6 +72,16 @@
               "channel_set_index": -1,
               "channel_type": 4,
               "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 0
             }
           ]
         },
@@ -81,11 +106,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 0,
           "channel_type": 0,
           "time_col_index": 1,
@@ -109,6 +149,16 @@
               "channel_set_index": -1,
               "channel_type": 4,
               "time_col_index": 3
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 1
             }
           ]
         },
@@ -138,11 +188,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 0,
           "channel_type": 0,
           "time_col_index": 2,
@@ -171,6 +236,16 @@
               "channel_set_index": -1,
               "channel_type": 4,
               "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 2
             }
           ]
         },
@@ -195,11 +270,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 0,
           "channel_type": 0,
           "time_col_index": 3,
@@ -223,6 +313,16 @@
               "channel_set_index": -1,
               "channel_type": 4,
               "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 3
             }
           ]
         },
@@ -242,11 +342,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 0,
           "channel_type": 0,
           "time_col_index": 4,
@@ -265,355 +380,15 @@
               "channel_set_index": -1,
               "channel_type": 4,
               "time_col_index": 4
-            }
-          ]
-        }
-      ],
-      [
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 0,
-          "channel_type": 1,
-          "time_col_index": 0,
-          "node_input_mappings": [
-            {
-              "channel_set_index": -1,
-              "channel_type": 4,
-              "time_col_index": 0
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 0,
-          "channel_type": 1,
-          "time_col_index": 1,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 1,
-              "channel_type": 1,
-              "time_col_index": 0
             },
             {
               "channel_set_index": 0,
-              "channel_type": 4,
-              "time_col_index": 1
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 0,
-          "channel_type": 1,
-          "time_col_index": 2,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 2,
-              "channel_type": 1,
-              "time_col_index": 0
-            },
-            {
-              "channel_set_index": 2,
-              "channel_type": 1,
-              "time_col_index": 1
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 4,
-              "time_col_index": 2
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 0,
-          "channel_type": 1,
-          "time_col_index": 3,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 3,
-              "channel_type": 1,
-              "time_col_index": 1
-            },
-            {
-              "channel_set_index": 3,
-              "channel_type": 1,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 2,
-              "channel_type": 4,
-              "time_col_index": 3
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 0,
-          "channel_type": 1,
-          "time_col_index": 4,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 4,
-              "channel_type": 1,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 4,
-              "channel_type": 1,
-              "time_col_index": 3
-            },
-            {
-              "channel_set_index": 3,
-              "channel_type": 4,
+              "channel_type": 6,
               "time_col_index": 4
-            }
-          ]
-        }
-      ],
-      [
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0
-            ],
-            [],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 0,
-          "channel_type": 2,
-          "time_col_index": 0,
-          "node_input_mappings": [
-            {
-              "channel_set_index": -1,
-              "channel_type": 4,
-              "time_col_index": 0
             },
             {
               "channel_set_index": 0,
-              "channel_type": 2,
-              "time_col_index": 1
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 2,
-              "time_col_index": 2
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0
-            ],
-            [],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 0,
-          "channel_type": 2,
-          "time_col_index": 1,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 0,
-              "channel_type": 4,
-              "time_col_index": 1
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 2,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 2,
-              "time_col_index": 3
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0
-            ],
-            [],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 0,
-          "channel_type": 2,
-          "time_col_index": 2,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 1,
-              "channel_type": 4,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 2,
-              "channel_type": 2,
-              "time_col_index": 3
-            },
-            {
-              "channel_set_index": 2,
-              "channel_type": 2,
-              "time_col_index": 4
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0
-            ],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 0,
-          "channel_type": 2,
-          "time_col_index": 3,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 2,
-              "channel_type": 4,
-              "time_col_index": 3
-            },
-            {
-              "channel_set_index": 3,
-              "channel_type": 2,
-              "time_col_index": 4
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 0,
-          "channel_type": 2,
-          "time_col_index": 4,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 3,
-              "channel_type": 4,
+              "channel_type": 6,
               "time_col_index": 4
             }
           ]
@@ -640,12 +415,675 @@
               0.0,
               0.0,
               0.0
-            ],
-            []
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 0,
+          "channel_type": 1,
+          "time_col_index": 0,
+          "node_input_mappings": [
+            {
+              "channel_set_index": -1,
+              "channel_type": 4,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 0
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 0,
+          "channel_type": 1,
+          "time_col_index": 1,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 0,
+              "channel_type": 1,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": -1,
+              "channel_type": 4,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 1
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 0,
+          "channel_type": 1,
+          "time_col_index": 2,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 0,
+              "channel_type": 1,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 1,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": -1,
+              "channel_type": 4,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 2
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 0,
+          "channel_type": 1,
+          "time_col_index": 3,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 0,
+              "channel_type": 1,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 1,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": -1,
+              "channel_type": 4,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 3
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 0,
+          "channel_type": 1,
+          "time_col_index": 4,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 0,
+              "channel_type": 1,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 1,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": -1,
+              "channel_type": 4,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 4
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 0,
+          "channel_type": 2,
+          "time_col_index": 0,
+          "node_input_mappings": [
+            {
+              "channel_set_index": -1,
+              "channel_type": 4,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 2,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 2,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 0
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 0,
+          "channel_type": 2,
+          "time_col_index": 1,
+          "node_input_mappings": [
+            {
+              "channel_set_index": -1,
+              "channel_type": 4,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 2,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 2,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 1
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 0,
+          "channel_type": 2,
+          "time_col_index": 2,
+          "node_input_mappings": [
+            {
+              "channel_set_index": -1,
+              "channel_type": 4,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 2,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 2,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 2
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 0,
+          "channel_type": 2,
+          "time_col_index": 3,
+          "node_input_mappings": [
+            {
+              "channel_set_index": -1,
+              "channel_type": 4,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 2,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 3
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 0,
+          "channel_type": 2,
+          "time_col_index": 4,
+          "node_input_mappings": [
+            {
+              "channel_set_index": -1,
+              "channel_type": 4,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 4
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 0,
           "channel_type": 3,
           "time_col_index": 0,
@@ -669,6 +1107,16 @@
               "channel_set_index": 0,
               "channel_type": 2,
               "time_col_index": 0
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 0
             }
           ]
         },
@@ -693,17 +1141,38 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 0,
           "channel_type": 3,
           "time_col_index": 1,
           "node_input_mappings": [
             {
-              "channel_set_index": 0,
+              "channel_set_index": -1,
               "channel_type": 4,
               "time_col_index": 1
             },
@@ -720,6 +1189,16 @@
             {
               "channel_set_index": 0,
               "channel_type": 2,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
               "time_col_index": 1
             }
           ]
@@ -745,17 +1224,38 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 0,
           "channel_type": 3,
           "time_col_index": 2,
           "node_input_mappings": [
             {
-              "channel_set_index": 1,
+              "channel_set_index": -1,
               "channel_type": 4,
               "time_col_index": 2
             },
@@ -772,6 +1272,16 @@
             {
               "channel_set_index": 0,
               "channel_type": 2,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
               "time_col_index": 2
             }
           ]
@@ -797,17 +1307,38 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 0,
           "channel_type": 3,
           "time_col_index": 3,
           "node_input_mappings": [
             {
-              "channel_set_index": 2,
+              "channel_set_index": -1,
               "channel_type": 4,
               "time_col_index": 3
             },
@@ -824,6 +1355,16 @@
             {
               "channel_set_index": 0,
               "channel_type": 2,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
               "time_col_index": 3
             }
           ]
@@ -849,17 +1390,38 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 0,
           "channel_type": 3,
           "time_col_index": 4,
           "node_input_mappings": [
             {
-              "channel_set_index": 3,
+              "channel_set_index": -1,
               "channel_type": 4,
               "time_col_index": 4
             },
@@ -876,6 +1438,16 @@
             {
               "channel_set_index": 0,
               "channel_type": 2,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 6,
               "time_col_index": 4
             }
           ]
@@ -913,11 +1485,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 1,
           "channel_type": 0,
           "time_col_index": 0,
@@ -940,6 +1527,16 @@
             {
               "channel_set_index": 0,
               "channel_type": 0,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
               "time_col_index": 0
             }
           ]
@@ -980,11 +1577,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 1,
           "channel_type": 0,
           "time_col_index": 1,
@@ -1013,6 +1625,16 @@
               "channel_set_index": 0,
               "channel_type": 0,
               "time_col_index": 1
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 1
             }
           ]
         },
@@ -1059,11 +1681,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 1,
           "channel_type": 0,
           "time_col_index": 2,
@@ -1097,6 +1734,16 @@
               "channel_set_index": 0,
               "channel_type": 0,
               "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 2
             }
           ]
         },
@@ -1136,11 +1783,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 1,
           "channel_type": 0,
           "time_col_index": 3,
@@ -1169,6 +1831,16 @@
               "channel_set_index": 0,
               "channel_type": 0,
               "time_col_index": 3
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 3
             }
           ]
         },
@@ -1201,11 +1873,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 1,
           "channel_type": 0,
           "time_col_index": 4,
@@ -1229,465 +1916,15 @@
               "channel_set_index": 0,
               "channel_type": 0,
               "time_col_index": 4
-            }
-          ]
-        }
-      ],
-      [
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 1,
-          "channel_type": 1,
-          "time_col_index": 0,
-          "node_input_mappings": [
-            {
-              "channel_set_index": -1,
-              "channel_type": 3,
-              "time_col_index": 0
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 1,
-              "time_col_index": 0
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 1,
-          "channel_type": 1,
-          "time_col_index": 1,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 1,
-              "channel_type": 1,
-              "time_col_index": 0
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 3,
-              "time_col_index": 1
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 1,
-              "time_col_index": 1
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 1,
-          "channel_type": 1,
-          "time_col_index": 2,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 2,
-              "channel_type": 1,
-              "time_col_index": 0
-            },
-            {
-              "channel_set_index": 2,
-              "channel_type": 1,
-              "time_col_index": 1
             },
             {
               "channel_set_index": 1,
-              "channel_type": 3,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 1,
-              "time_col_index": 2
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 1,
-          "channel_type": 1,
-          "time_col_index": 3,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 3,
-              "channel_type": 1,
-              "time_col_index": 1
-            },
-            {
-              "channel_set_index": 3,
-              "channel_type": 1,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 2,
-              "channel_type": 3,
-              "time_col_index": 3
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 1,
-              "time_col_index": 3
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 1,
-          "channel_type": 1,
-          "time_col_index": 4,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 4,
-              "channel_type": 1,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 4,
-              "channel_type": 1,
-              "time_col_index": 3
-            },
-            {
-              "channel_set_index": 3,
-              "channel_type": 3,
+              "channel_type": 6,
               "time_col_index": 4
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 1,
-              "time_col_index": 4
-            }
-          ]
-        }
-      ],
-      [
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [],
-            [],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 1,
-          "channel_type": 2,
-          "time_col_index": 0,
-          "node_input_mappings": [
-            {
-              "channel_set_index": -1,
-              "channel_type": 3,
-              "time_col_index": 0
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 2,
-              "time_col_index": 1
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 2,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 2,
-              "time_col_index": 0
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [],
-            [],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 1,
-          "channel_type": 2,
-          "time_col_index": 1,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 0,
-              "channel_type": 3,
-              "time_col_index": 1
             },
             {
               "channel_set_index": 1,
-              "channel_type": 2,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 2,
-              "time_col_index": 3
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 2,
-              "time_col_index": 1
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [],
-            [],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 1,
-          "channel_type": 2,
-          "time_col_index": 2,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 1,
-              "channel_type": 3,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 2,
-              "channel_type": 2,
-              "time_col_index": 3
-            },
-            {
-              "channel_set_index": 2,
-              "channel_type": 2,
-              "time_col_index": 4
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 2,
-              "time_col_index": 2
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 1,
-          "channel_type": 2,
-          "time_col_index": 3,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 2,
-              "channel_type": 3,
-              "time_col_index": 3
-            },
-            {
-              "channel_set_index": 3,
-              "channel_type": 2,
-              "time_col_index": 4
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 2,
-              "time_col_index": 3
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 1,
-          "channel_type": 2,
-          "time_col_index": 4,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 3,
-              "channel_type": 3,
-              "time_col_index": 4
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 2,
+              "channel_type": 6,
               "time_col_index": 4
             }
           ]
@@ -1717,33 +1954,40 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 1,
-          "channel_type": 3,
+          "channel_type": 1,
           "time_col_index": 0,
           "node_input_mappings": [
             {
-              "channel_set_index": -1,
+              "channel_set_index": 0,
               "channel_type": 3,
               "time_col_index": 0
             },
             {
-              "channel_set_index": 1,
-              "channel_type": 0,
-              "time_col_index": 0
-            },
-            {
-              "channel_set_index": 1,
+              "channel_set_index": 0,
               "channel_type": 1,
               "time_col_index": 0
             },
             {
               "channel_set_index": 1,
-              "channel_type": 2,
+              "channel_type": 6,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
               "time_col_index": 0
             }
           ]
@@ -1771,11 +2015,838 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 1,
+          "channel_type": 1,
+          "time_col_index": 1,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 1,
+              "channel_type": 1,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 3,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 1,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 1
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 1,
+          "channel_type": 1,
+          "time_col_index": 2,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 1,
+              "channel_type": 1,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 1,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 3,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 1,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 2
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 1,
+          "channel_type": 1,
+          "time_col_index": 3,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 1,
+              "channel_type": 1,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 1,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 3,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 1,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 3
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 1,
+          "channel_type": 1,
+          "time_col_index": 4,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 1,
+              "channel_type": 1,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 1,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 3,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 1,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 4
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 1,
+          "channel_type": 2,
+          "time_col_index": 0,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 0,
+              "channel_type": 3,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 2,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 2,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 2,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 0
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 1,
+          "channel_type": 2,
+          "time_col_index": 1,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 0,
+              "channel_type": 3,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 2,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 2,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 2,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 1
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 1,
+          "channel_type": 2,
+          "time_col_index": 2,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 0,
+              "channel_type": 3,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 2,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 2,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 2,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 2
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 1,
+          "channel_type": 2,
+          "time_col_index": 3,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 0,
+              "channel_type": 3,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 2,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 2,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 3
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 1,
+          "channel_type": 2,
+          "time_col_index": 4,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 0,
+              "channel_type": 3,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 0,
+              "channel_type": 2,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 4
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 1,
+          "channel_type": 3,
+          "time_col_index": 0,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 0,
+              "channel_type": 3,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 0,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 1,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 2,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 0
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 1,
           "channel_type": 3,
           "time_col_index": 1,
@@ -1799,6 +2870,16 @@
               "channel_set_index": 1,
               "channel_type": 2,
               "time_col_index": 1
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 1
             }
           ]
         },
@@ -1825,17 +2906,38 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 1,
           "channel_type": 3,
           "time_col_index": 2,
           "node_input_mappings": [
             {
-              "channel_set_index": 1,
+              "channel_set_index": 0,
               "channel_type": 3,
               "time_col_index": 2
             },
@@ -1852,6 +2954,16 @@
             {
               "channel_set_index": 1,
               "channel_type": 2,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
               "time_col_index": 2
             }
           ]
@@ -1879,17 +2991,38 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 1,
           "channel_type": 3,
           "time_col_index": 3,
           "node_input_mappings": [
             {
-              "channel_set_index": 2,
+              "channel_set_index": 0,
               "channel_type": 3,
               "time_col_index": 3
             },
@@ -1906,6 +3039,16 @@
             {
               "channel_set_index": 1,
               "channel_type": 2,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
               "time_col_index": 3
             }
           ]
@@ -1933,17 +3076,38 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 1,
           "channel_type": 3,
           "time_col_index": 4,
           "node_input_mappings": [
             {
-              "channel_set_index": 3,
+              "channel_set_index": 0,
               "channel_type": 3,
               "time_col_index": 4
             },
@@ -1960,6 +3124,16 @@
             {
               "channel_set_index": 1,
               "channel_type": 2,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 6,
               "time_col_index": 4
             }
           ]
@@ -1997,11 +3171,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 2,
           "channel_type": 0,
           "time_col_index": 0,
@@ -2024,6 +3213,16 @@
             {
               "channel_set_index": 1,
               "channel_type": 0,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
               "time_col_index": 0
             }
           ]
@@ -2064,11 +3263,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 2,
           "channel_type": 0,
           "time_col_index": 1,
@@ -2097,6 +3311,16 @@
               "channel_set_index": 1,
               "channel_type": 0,
               "time_col_index": 1
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 1
             }
           ]
         },
@@ -2143,11 +3367,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 2,
           "channel_type": 0,
           "time_col_index": 2,
@@ -2181,6 +3420,16 @@
               "channel_set_index": 1,
               "channel_type": 0,
               "time_col_index": 2
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 2
             }
           ]
         },
@@ -2220,11 +3469,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 2,
           "channel_type": 0,
           "time_col_index": 3,
@@ -2253,6 +3517,16 @@
               "channel_set_index": 1,
               "channel_type": 0,
               "time_col_index": 3
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 3
             }
           ]
         },
@@ -2285,11 +3559,26 @@
               0.0,
               0.0,
               0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
             ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 2,
           "channel_type": 0,
           "time_col_index": 4,
@@ -2313,465 +3602,15 @@
               "channel_set_index": 1,
               "channel_type": 0,
               "time_col_index": 4
-            }
-          ]
-        }
-      ],
-      [
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 2,
-          "channel_type": 1,
-          "time_col_index": 0,
-          "node_input_mappings": [
-            {
-              "channel_set_index": -1,
-              "channel_type": 3,
-              "time_col_index": 0
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 1,
-              "time_col_index": 0
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 2,
-          "channel_type": 1,
-          "time_col_index": 1,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 1,
-              "channel_type": 1,
-              "time_col_index": 0
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 3,
-              "time_col_index": 1
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 1,
-              "time_col_index": 1
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 2,
-          "channel_type": 1,
-          "time_col_index": 2,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 2,
-              "channel_type": 1,
-              "time_col_index": 0
             },
             {
               "channel_set_index": 2,
-              "channel_type": 1,
-              "time_col_index": 1
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 3,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 1,
-              "time_col_index": 2
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 2,
-          "channel_type": 1,
-          "time_col_index": 3,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 3,
-              "channel_type": 1,
-              "time_col_index": 1
-            },
-            {
-              "channel_set_index": 3,
-              "channel_type": 1,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 2,
-              "channel_type": 3,
-              "time_col_index": 3
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 1,
-              "time_col_index": 3
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ]
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 2,
-          "channel_type": 1,
-          "time_col_index": 4,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 4,
-              "channel_type": 1,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 4,
-              "channel_type": 1,
-              "time_col_index": 3
-            },
-            {
-              "channel_set_index": 3,
-              "channel_type": 3,
+              "channel_type": 6,
               "time_col_index": 4
             },
             {
-              "channel_set_index": 1,
-              "channel_type": 1,
-              "time_col_index": 4
-            }
-          ]
-        }
-      ],
-      [
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [],
-            [],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 2,
-          "channel_type": 2,
-          "time_col_index": 0,
-          "node_input_mappings": [
-            {
-              "channel_set_index": -1,
-              "channel_type": 3,
-              "time_col_index": 0
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 2,
-              "time_col_index": 1
-            },
-            {
-              "channel_set_index": 0,
-              "channel_type": 2,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 2,
-              "time_col_index": 0
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [],
-            [],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 2,
-          "channel_type": 2,
-          "time_col_index": 1,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 0,
-              "channel_type": 3,
-              "time_col_index": 1
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 2,
-              "time_col_index": 2
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 2,
-              "time_col_index": 3
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 2,
-              "time_col_index": 1
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [],
-            [],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 2,
-          "channel_type": 2,
-          "time_col_index": 2,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 1,
-              "channel_type": 3,
-              "time_col_index": 2
-            },
-            {
               "channel_set_index": 2,
-              "channel_type": 2,
-              "time_col_index": 3
-            },
-            {
-              "channel_set_index": 2,
-              "channel_type": 2,
-              "time_col_index": 4
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 2,
-              "time_col_index": 2
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            [],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 2,
-          "channel_type": 2,
-          "time_col_index": 3,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 2,
-              "channel_type": 3,
-              "time_col_index": 3
-            },
-            {
-              "channel_set_index": 3,
-              "channel_type": 2,
-              "time_col_index": 4
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 2,
-              "time_col_index": 3
-            }
-          ]
-        },
-        {
-          "node_input_cache": [
-            [
-              0.0,
-              0.0,
-              0.0,
-              0.0,
-              0.0
-            ],
-            []
-          ],
-          "qty_states_in": 3,
-          "qty_states_hidden_out": 5,
-          "qty_states_out": 4,
-          "channel_set_index": 2,
-          "channel_type": 2,
-          "time_col_index": 4,
-          "node_input_mappings": [
-            {
-              "channel_set_index": 3,
-              "channel_type": 3,
-              "time_col_index": 4
-            },
-            {
-              "channel_set_index": 1,
-              "channel_type": 2,
+              "channel_type": 6,
               "time_col_index": 4
             }
           ]
@@ -2801,17 +3640,820 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 2,
+          "channel_type": 1,
+          "time_col_index": 0,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 1,
+              "channel_type": 3,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 1,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 0
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 2,
+          "channel_type": 1,
+          "time_col_index": 1,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 2,
+              "channel_type": 1,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 3,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 1,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 1
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 2,
+          "channel_type": 1,
+          "time_col_index": 2,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 2,
+              "channel_type": 1,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 1,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 3,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 1,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 2
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 2,
+          "channel_type": 1,
+          "time_col_index": 3,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 2,
+              "channel_type": 1,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 1,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 3,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 1,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 3
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 2,
+          "channel_type": 1,
+          "time_col_index": 4,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 2,
+              "channel_type": 1,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 1,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 3,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 1,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 4
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 2,
+          "channel_type": 2,
+          "time_col_index": 0,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 1,
+              "channel_type": 3,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 2,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 2,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 2,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 0
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 2,
+          "channel_type": 2,
+          "time_col_index": 1,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 1,
+              "channel_type": 3,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 2,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 2,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 2,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 1
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 2,
+          "channel_type": 2,
+          "time_col_index": 2,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 1,
+              "channel_type": 3,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 2,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 2,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 2,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 2
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 2,
+          "channel_type": 2,
+          "time_col_index": 3,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 1,
+              "channel_type": 3,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 2,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 2,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 3
+            }
+          ]
+        },
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
+          "channel_set_index": 2,
+          "channel_type": 2,
+          "time_col_index": 4,
+          "node_input_mappings": [
+            {
+              "channel_set_index": 1,
+              "channel_type": 3,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 1,
+              "channel_type": 2,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 4
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "node_input_cache": [
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          ],
+          "qty_states_in": 3,
+          "qty_states_hidden_out": 5,
+          "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 2,
           "channel_type": 3,
           "time_col_index": 0,
           "node_input_mappings": [
             {
-              "channel_set_index": -1,
+              "channel_set_index": 1,
               "channel_type": 3,
               "time_col_index": 0
             },
@@ -2828,6 +4470,16 @@
             {
               "channel_set_index": 2,
               "channel_type": 2,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 0
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
               "time_col_index": 0
             }
           ]
@@ -2855,17 +4507,38 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 2,
           "channel_type": 3,
           "time_col_index": 1,
           "node_input_mappings": [
             {
-              "channel_set_index": 0,
+              "channel_set_index": 1,
               "channel_type": 3,
               "time_col_index": 1
             },
@@ -2882,6 +4555,16 @@
             {
               "channel_set_index": 2,
               "channel_type": 2,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 1
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
               "time_col_index": 1
             }
           ]
@@ -2909,11 +4592,32 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 2,
           "channel_type": 3,
           "time_col_index": 2,
@@ -2937,6 +4641,16 @@
               "channel_set_index": 2,
               "channel_type": 2,
               "time_col_index": 2
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 2
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 2
             }
           ]
         },
@@ -2963,17 +4677,38 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 2,
           "channel_type": 3,
           "time_col_index": 3,
           "node_input_mappings": [
             {
-              "channel_set_index": 2,
+              "channel_set_index": 1,
               "channel_type": 3,
               "time_col_index": 3
             },
@@ -2990,6 +4725,16 @@
             {
               "channel_set_index": 2,
               "channel_type": 2,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 3
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
               "time_col_index": 3
             }
           ]
@@ -3017,17 +4762,38 @@
               0.0,
               0.0
             ],
-            []
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
           ],
           "qty_states_in": 3,
           "qty_states_hidden_out": 5,
           "qty_states_out": 4,
+          "qty_recent_memory": 2,
           "channel_set_index": 2,
           "channel_type": 3,
           "time_col_index": 4,
           "node_input_mappings": [
             {
-              "channel_set_index": 3,
+              "channel_set_index": 1,
               "channel_type": 3,
               "time_col_index": 4
             },
@@ -3044,6 +4810,16 @@
             {
               "channel_set_index": 2,
               "channel_type": 2,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
+              "time_col_index": 4
+            },
+            {
+              "channel_set_index": 2,
+              "channel_type": 6,
               "time_col_index": 4
             }
           ]
