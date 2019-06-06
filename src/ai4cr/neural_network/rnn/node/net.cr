@@ -1,5 +1,4 @@
 require "json"
-# require "../common"
 
 module Ai4cr
   module NeuralNetwork
@@ -8,12 +7,43 @@ module Ai4cr
         struct Net
           include JSON::Serializable
 
-          property node_input_mappings
+          property qty_states_in
+          property qty_states_hidden_out
+          property qty_states_out
 
-          def initialize(@node_input_mappings : Array(NodeCoord))
+          property channel_set_index
+          property channel_type
+          property time_col_index
+
+          # TODO: Move some of these to Node::Config
+          property node_input_mappings
+          property node_input_cache : Array(Array(Float64))
+
+          def initialize(
+            @qty_states_in : Int32, @qty_states_hidden_out : Int32, @qty_states_out : Int32,
+            @channel_set_index : Int32, @channel_type : Int32, @time_col_index : Int32,
+            @node_input_mappings : Array(NodeCoord),
+          )
+            @node_input_cache = init_node_input_cache
           end
 
-          
+          def init_node_input_cache
+            node_input_mappings.map do |node_input_mapping|
+              case node_input_mapping[:channel_type]
+              when ChannelType::Local.value, ChannelType::Past.value, ChannelType::Output.value, ChannelType::Combo.value
+                qty_states_hidden_out.times.to_a.map{ 0.0 }
+              when ChannelType::Input.value
+                qty_states_in.times.to_a.map{ 0.0 }
+
+              # when ChannelType::Output.value # TODO:
+              #   qty_states_out.times.to_a.map{ 0.0 }
+
+              else
+                # raise "Invalid input papping type"
+                [] of Float64
+              end
+            end
+          end          
         end
       end
     end

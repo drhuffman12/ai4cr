@@ -147,7 +147,7 @@ module Ai4cr
           time_col_index_left = time_col_index_left < 0 ? 0 : time_col_index_left
 
           time_col_index_right = (time_col_index + @config.qty_time_cols_neighbor_inputs)
-          time_col_index_right = time_col_index_right >= @config.qty_time_cols ? @config.qty_time_cols - 1 : @config.qty_time_cols
+          time_col_index_right = time_col_index_right >= @config.qty_time_cols ? @config.qty_time_cols - 1 : time_col_index_right
 
           time_col_indexes_before = (time_col_index_left..(time_col_index - 1)).to_a
           time_col_indexes_after = ((time_col_index + 1)..time_col_index_right).to_a
@@ -157,21 +157,40 @@ module Ai4cr
           else
             ChannelType::Combo.value
           end
-
-          case channel_type
+          connections : Array(NodeCoord)
+          connections = case channel_type
           when ChannelType::Local.value
-            init_connections_to_node_at_channel_set_local(channel_set_index, time_col_index, time_col_indexes_before, time_col_indexes_after, prev_channel)
+            init_connections_to_node_at_channel_set_local(channel_set_index, prev_channel, time_col_index, time_col_indexes_before, time_col_indexes_after)
           when ChannelType::Past.value
-            init_connections_to_node_at_channel_set_past(channel_set_index, time_col_index, time_col_indexes_before, prev_channel)
+            init_connections_to_node_at_channel_set_past(channel_set_index, prev_channel, time_col_index, time_col_indexes_before)
           when ChannelType::Future.value
-            init_connections_to_node_at_channel_set_future(channel_set_index, time_col_index, time_col_indexes_after, prev_channel)
+            init_connections_to_node_at_channel_set_future(channel_set_index, prev_channel, time_col_index, time_col_indexes_after)
           else
-            # init_connections_to_node_at_channel_set_combo(channel_set_index, time_col_index, prev_channel)
-            Array(NodeCoord).new
+            # Array(NodeCoord).new
+            init_connections_to_node_at_channel_set_combo(channel_set_index, prev_channel, time_col_index)
           end
+
+          if channel_set_index == 0 && channel_type == 0 && time_col_index == 0
+            drh_debug_data = {
+              channel_set_index: channel_set_index,
+              channel_type: channel_type,
+              time_col_index: time_col_index,
+              qty_time_cols_neighbor_inputs: config.qty_time_cols_neighbor_inputs,
+              qty_time_cols: config.qty_time_cols,
+              time_col_index_left: time_col_index_left,
+              time_col_index_right: time_col_index_right,
+              time_col_indexes_before: time_col_indexes_before,
+              time_col_indexes_after: time_col_indexes_after,
+            }
+            puts
+            puts "drh_debug_data: #{drh_debug_data}"
+            puts
+          end
+
+          connections
         end
 
-        def init_connections_to_node_at_channel_set_local(channel_set_index, time_col_index, time_col_indexes_before, time_col_indexes_after, prev_channel) : Array(NodeCoord)
+        def init_connections_to_node_at_channel_set_local(channel_set_index, prev_channel, time_col_index, time_col_indexes_before, time_col_indexes_after) : Array(NodeCoord)
           (
             time_col_indexes_before.map do |tci|
               {
@@ -205,7 +224,7 @@ module Ai4cr
           end
         end
 
-        def init_connections_to_node_at_channel_set_past(channel_set_index, time_col_index, time_col_indexes_before, prev_channel) : Array(NodeCoord)
+        def init_connections_to_node_at_channel_set_past(channel_set_index, prev_channel, time_col_index, time_col_indexes_before) : Array(NodeCoord)
           (
             time_col_indexes_before.map do |tci|
               {
@@ -231,7 +250,7 @@ module Ai4cr
           end
         end
 
-        def init_connections_to_node_at_channel_set_future(channel_set_index, time_col_index, time_col_indexes_after, prev_channel) : Array(NodeCoord)
+        def init_connections_to_node_at_channel_set_future(channel_set_index, prev_channel, time_col_index, time_col_indexes_after) : Array(NodeCoord)
           (
             [{
               channel_set_index: time_col_index - 1,
@@ -257,38 +276,37 @@ module Ai4cr
           end
         end
 
-        def init_connections_to_node_at_channel_set_combo(channel_set_index, time_col_index, prev_channel) : Array(NodeCoord)
-          [
-            {
-              channel_set_index: channel_set_index -1,
-              channel_type: prev_channel,
-              time_col_index: time_col_index
-            },
-            {
-              channel_set_index: channel_set_index,
-              channel_type: ChannelType::Local.value,
-              time_col_index: time_col_index
-            },
-            {
-              channel_set_index: channel_set_index,
-              channel_type: ChannelType::Past.value,
-              time_col_index: time_col_index
-            },
-            {
-              channel_set_index: channel_set_index,
-              channel_type: ChannelType::Future.value,
-              time_col_index: time_col_index
-            }
-          ].tap do |arr|
-            if channel_set_index > 0
-              arr << {
-                channel_set_index: channel_set_index - 1,
-                channel_type: ChannelType::Combo.value,
-                time_col_index: time_col_index
-              }
-            end
-          end
+        def init_connections_to_node_at_channel_set_combo(channel_set_index, prev_channel, time_col_index) : Array(NodeCoord)
+          [{
+            channel_set_index: time_col_index - 1,
+            channel_type: prev_channel,
+            time_col_index: time_col_index
+          }] +
+          [{
+            channel_set_index: channel_set_index,
+            channel_type: ChannelType::Local.value,
+            time_col_index: time_col_index
+          }] +
+          [{
+            channel_set_index: channel_set_index,
+            channel_type: ChannelType::Past.value,
+            time_col_index: time_col_index
+          }] +
+          [{
+            channel_set_index: channel_set_index,
+            channel_type: ChannelType::Future.value,
+            time_col_index: time_col_index
+          }]
         end
+          # .tap do |arr|
+          #   if channel_set_index > 0
+          #     arr << {
+          #       channel_set_index: channel_set_index - 1,
+          #       channel_type: ChannelType::Combo.value,
+          #       time_col_index: time_col_index
+          #     }
+          #   end
+          # end
 
         # def init_nodes_OLD # (disable_bias)
         #   # alias NodeCoord = NamedTuple(time_col_index: Int32, channel_set_index: Int32, channel_type: Symbol)
@@ -384,7 +402,11 @@ module Ai4cr
 
           node_input_mappings = init_connections_to_node_at(channel_set_index, channel_type, time_col_index)
           
-          NeuralNetwork::Rnn::Node::Net.new(node_input_mappings) # (channel_set_index, channel_type, time_col_index, node_input_mappings)
+          NeuralNetwork::Rnn::Node::Net.new(
+            @config.qty_states_in, @config.qty_states_hidden_out, @config.qty_states_out,
+            channel_set_index, channel_type, time_col_index,
+            node_input_mappings
+          ) # (channel_set_index, channel_type, time_col_index, node_input_mappings)
         end
 
       end
