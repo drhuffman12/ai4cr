@@ -24,7 +24,7 @@ describe Ai4cr::NeuralNetwork::Rnn::Config do
         end
   
         it "qty_lpfc_layers" do
-          expected_qty_lpfc_layers = 2
+          expected_qty_lpfc_layers = 3
           rnn_config.qty_lpfc_layers.should eq(expected_qty_lpfc_layers)
         end
   
@@ -34,14 +34,19 @@ describe Ai4cr::NeuralNetwork::Rnn::Config do
         end
   
         it "structure_hidden_laters" do
-          expected_structure_hidden_laters = [] of Int32
-          rnn_config.structure_hidden_laters.should eq(expected_structure_hidden_laters)
+          expected_qty_hidden_laters = 2
+          expected_qty_states_hidden_out = 5
+
+          rnn_config.structure_hidden_laters.size.should eq(expected_qty_hidden_laters)
+          rnn_config.structure_hidden_laters.each do |shl|
+            shl.should eq(expected_qty_states_hidden_out)
+          end
         end
   
-        it "disable_bias" do
-          expected_disable_bias = true
-          rnn_config.disable_bias.should eq(expected_disable_bias)
-        end
+        # it "disable_bias" do
+        #   expected_disable_bias = true
+        #   rnn_config.disable_bias.should eq(expected_disable_bias)
+        # end
   
         it "learning_rate" do
           expected_learning_rate = 0.25
