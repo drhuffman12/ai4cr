@@ -5,7 +5,7 @@ describe Ai4cr::NeuralNetwork::Rnn::State do
   describe "#initialize" do
     describe "when given no params" do
       rnn_state = Ai4cr::NeuralNetwork::Rnn::State.new
-      File.write("tmp/rnn_state.json", rnn_state.to_json)
+      # File.write("tmp/rnn_state.json", rnn_state.to_json)
 
       puts
       puts "rnn_state:"
