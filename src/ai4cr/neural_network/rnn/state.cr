@@ -437,7 +437,8 @@ module Ai4cr
           node_input_mappings = init_connections_to_node_at(channel_set_index, channel_type, time_col_index)
           
           NeuralNetwork::Rnn::Node::Net.new(
-            @config.qty_states_in, @config.qty_states_hidden_out, @config.qty_states_out, @config.qty_recent_memory,
+            @config,
+            # @config.qty_states_in, @config.qty_states_hidden_out, @config.qty_states_out, @config.qty_recent_memory,
             channel_set_index, channel_type, time_col_index,
             node_input_mappings
           ) # (channel_set_index, channel_type, time_col_index, node_input_mappings)
