@@ -1,0 +1,1393 @@
+{
+  "config": {
+   "learning_rate": 0.25,
+   "momentum": 0.1,
+   "structure_hidden_laters": [],
+   "qty_states_in": 3,
+   "qty_states_hidden_out": 0,
+   "qty_states_out": 2,
+   "qty_time_cols": 3,
+   "qty_lpfc_layers": 1,
+   "qty_hidden_laters": 0,
+   "qty_time_cols_neighbor_inputs": 1,
+   "qty_recent_memory": 1
+  },
+  "mem_bkprops": [
+   [
+    [
+     {
+      "state": {
+       "config": {
+        "rnn_config": {
+         "learning_rate": 0.25,
+         "momentum": 0.1,
+         "structure_hidden_laters": [],
+         "qty_states_in": 3,
+         "qty_states_hidden_out": 0,
+         "qty_states_out": 2,
+         "qty_time_cols": 3,
+         "qty_lpfc_layers": 1,
+         "qty_hidden_laters": 0,
+         "qty_time_cols_neighbor_inputs": 1,
+         "qty_recent_memory": 1
+        },
+        "channel_set_index": 0,
+        "channel_type": 0,
+        "time_col_index": 0,
+        "mem_bkprop_input_mappings": [
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 0
+         },
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 1
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 6,
+          "time_col_index": 0
+         }
+        ],
+        "mem_bkprop_input_cache": [
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         []
+        ]
+       },
+       "recent_memory": [
+        []
+       ],
+       "bp_net": {
+        "state": {
+         "config": {
+          "learning_rate": 0.25,
+          "momentum": 0.1,
+          "structure": [
+           6,
+           0
+          ],
+          "disable_bias": false
+         },
+         "calculated_error_latest": -1.0,
+         "track_history": true,
+         "weights": [
+          [
+           [],
+           [],
+           [],
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "last_changes": [
+          [
+           [],
+           [],
+           [],
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "activation_nodes": [
+          [
+           1.0,
+           1.0,
+           1.0,
+           1.0,
+           1.0,
+           1.0,
+           1.0
+          ],
+          []
+         ],
+         "deltas": [
+          [
+           0.0,
+           0.0,
+           0.0,
+           0.0,
+           0.0,
+           0.0
+          ],
+          []
+         ],
+         "input_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+         ],
+         "calculated_error_history": []
+        }
+       }
+      }
+     },
+     {
+      "state": {
+       "config": {
+        "rnn_config": {
+         "learning_rate": 0.25,
+         "momentum": 0.1,
+         "structure_hidden_laters": [],
+         "qty_states_in": 3,
+         "qty_states_hidden_out": 0,
+         "qty_states_out": 2,
+         "qty_time_cols": 3,
+         "qty_lpfc_layers": 1,
+         "qty_hidden_laters": 0,
+         "qty_time_cols_neighbor_inputs": 1,
+         "qty_recent_memory": 1
+        },
+        "channel_set_index": 0,
+        "channel_type": 0,
+        "time_col_index": 1,
+        "mem_bkprop_input_mappings": [
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 0
+         },
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 1
+         },
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 2
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 6,
+          "time_col_index": 1
+         }
+        ],
+        "mem_bkprop_input_cache": [
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         []
+        ]
+       },
+       "recent_memory": [
+        []
+       ],
+       "bp_net": {
+        "state": {
+         "config": {
+          "learning_rate": 0.25,
+          "momentum": 0.1,
+          "structure": [
+           9,
+           0
+          ],
+          "disable_bias": false
+         },
+         "calculated_error_latest": -1.0,
+         "track_history": true,
+         "weights": [
+          [
+           [],
+           [],
+           [],
+           [],
+           [],
+           [],
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "last_changes": [
+          [
+           [],
+           [],
+           [],
+           [],
+           [],
+           [],
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "activation_nodes": [
+          [
+           1.0,
+           1.0,
+           1.0,
+           1.0,
+           1.0,
+           1.0,
+           1.0,
+           1.0,
+           1.0,
+           1.0
+          ],
+          []
+         ],
+         "deltas": [
+          [
+           0.0,
+           0.0,
+           0.0,
+           0.0,
+           0.0,
+           0.0,
+           0.0,
+           0.0,
+           0.0
+          ],
+          []
+         ],
+         "input_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+         ],
+         "calculated_error_history": []
+        }
+       }
+      }
+     },
+     {
+      "state": {
+       "config": {
+        "rnn_config": {
+         "learning_rate": 0.25,
+         "momentum": 0.1,
+         "structure_hidden_laters": [],
+         "qty_states_in": 3,
+         "qty_states_hidden_out": 0,
+         "qty_states_out": 2,
+         "qty_time_cols": 3,
+         "qty_lpfc_layers": 1,
+         "qty_hidden_laters": 0,
+         "qty_time_cols_neighbor_inputs": 1,
+         "qty_recent_memory": 1
+        },
+        "channel_set_index": 0,
+        "channel_type": 0,
+        "time_col_index": 2,
+        "mem_bkprop_input_mappings": [
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 1
+         },
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 2
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 6,
+          "time_col_index": 2
+         }
+        ],
+        "mem_bkprop_input_cache": [
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         []
+        ]
+       },
+       "recent_memory": [
+        []
+       ],
+       "bp_net": {
+        "state": {
+         "config": {
+          "learning_rate": 0.25,
+          "momentum": 0.1,
+          "structure": [
+           6,
+           0
+          ],
+          "disable_bias": false
+         },
+         "calculated_error_latest": -1.0,
+         "track_history": true,
+         "weights": [
+          [
+           [],
+           [],
+           [],
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "last_changes": [
+          [
+           [],
+           [],
+           [],
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "activation_nodes": [
+          [
+           1.0,
+           1.0,
+           1.0,
+           1.0,
+           1.0,
+           1.0,
+           1.0
+          ],
+          []
+         ],
+         "deltas": [
+          [
+           0.0,
+           0.0,
+           0.0,
+           0.0,
+           0.0,
+           0.0
+          ],
+          []
+         ],
+         "input_deltas": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+         ],
+         "calculated_error_history": []
+        }
+       }
+      }
+     }
+    ],
+    [
+     {
+      "state": {
+       "config": {
+        "rnn_config": {
+         "learning_rate": 0.25,
+         "momentum": 0.1,
+         "structure_hidden_laters": [],
+         "qty_states_in": 3,
+         "qty_states_hidden_out": 0,
+         "qty_states_out": 2,
+         "qty_time_cols": 3,
+         "qty_lpfc_layers": 1,
+         "qty_hidden_laters": 0,
+         "qty_time_cols_neighbor_inputs": 1,
+         "qty_recent_memory": 1
+        },
+        "channel_set_index": 0,
+        "channel_type": 1,
+        "time_col_index": 0,
+        "mem_bkprop_input_mappings": [
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 0
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 6,
+          "time_col_index": 0
+         }
+        ],
+        "mem_bkprop_input_cache": [
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         []
+        ]
+       },
+       "recent_memory": [
+        []
+       ],
+       "bp_net": {
+        "state": {
+         "config": {
+          "learning_rate": 0.25,
+          "momentum": 0.1,
+          "structure": [
+           3,
+           0
+          ],
+          "disable_bias": false
+         },
+         "calculated_error_latest": -1.0,
+         "track_history": true,
+         "weights": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "last_changes": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "activation_nodes": [
+          [
+           1.0,
+           1.0,
+           1.0,
+           1.0
+          ],
+          []
+         ],
+         "deltas": [
+          [
+           0.0,
+           0.0,
+           0.0
+          ],
+          []
+         ],
+         "input_deltas": [
+          0.0,
+          0.0,
+          0.0
+         ],
+         "calculated_error_history": []
+        }
+       }
+      }
+     },
+     {
+      "state": {
+       "config": {
+        "rnn_config": {
+         "learning_rate": 0.25,
+         "momentum": 0.1,
+         "structure_hidden_laters": [],
+         "qty_states_in": 3,
+         "qty_states_hidden_out": 0,
+         "qty_states_out": 2,
+         "qty_time_cols": 3,
+         "qty_lpfc_layers": 1,
+         "qty_hidden_laters": 0,
+         "qty_time_cols_neighbor_inputs": 1,
+         "qty_recent_memory": 1
+        },
+        "channel_set_index": 0,
+        "channel_type": 1,
+        "time_col_index": 1,
+        "mem_bkprop_input_mappings": [
+         {
+          "channel_set_index": 0,
+          "channel_type": 1,
+          "time_col_index": 0
+         },
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 1
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 6,
+          "time_col_index": 1
+         }
+        ],
+        "mem_bkprop_input_cache": [
+         [],
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         []
+        ]
+       },
+       "recent_memory": [
+        []
+       ],
+       "bp_net": {
+        "state": {
+         "config": {
+          "learning_rate": 0.25,
+          "momentum": 0.1,
+          "structure": [
+           3,
+           0
+          ],
+          "disable_bias": false
+         },
+         "calculated_error_latest": -1.0,
+         "track_history": true,
+         "weights": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "last_changes": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "activation_nodes": [
+          [
+           1.0,
+           1.0,
+           1.0,
+           1.0
+          ],
+          []
+         ],
+         "deltas": [
+          [
+           0.0,
+           0.0,
+           0.0
+          ],
+          []
+         ],
+         "input_deltas": [
+          0.0,
+          0.0,
+          0.0
+         ],
+         "calculated_error_history": []
+        }
+       }
+      }
+     },
+     {
+      "state": {
+       "config": {
+        "rnn_config": {
+         "learning_rate": 0.25,
+         "momentum": 0.1,
+         "structure_hidden_laters": [],
+         "qty_states_in": 3,
+         "qty_states_hidden_out": 0,
+         "qty_states_out": 2,
+         "qty_time_cols": 3,
+         "qty_lpfc_layers": 1,
+         "qty_hidden_laters": 0,
+         "qty_time_cols_neighbor_inputs": 1,
+         "qty_recent_memory": 1
+        },
+        "channel_set_index": 0,
+        "channel_type": 1,
+        "time_col_index": 2,
+        "mem_bkprop_input_mappings": [
+         {
+          "channel_set_index": 0,
+          "channel_type": 1,
+          "time_col_index": 1
+         },
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 2
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 6,
+          "time_col_index": 2
+         }
+        ],
+        "mem_bkprop_input_cache": [
+         [],
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         []
+        ]
+       },
+       "recent_memory": [
+        []
+       ],
+       "bp_net": {
+        "state": {
+         "config": {
+          "learning_rate": 0.25,
+          "momentum": 0.1,
+          "structure": [
+           3,
+           0
+          ],
+          "disable_bias": false
+         },
+         "calculated_error_latest": -1.0,
+         "track_history": true,
+         "weights": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "last_changes": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "activation_nodes": [
+          [
+           1.0,
+           1.0,
+           1.0,
+           1.0
+          ],
+          []
+         ],
+         "deltas": [
+          [
+           0.0,
+           0.0,
+           0.0
+          ],
+          []
+         ],
+         "input_deltas": [
+          0.0,
+          0.0,
+          0.0
+         ],
+         "calculated_error_history": []
+        }
+       }
+      }
+     }
+    ],
+    [
+     {
+      "state": {
+       "config": {
+        "rnn_config": {
+         "learning_rate": 0.25,
+         "momentum": 0.1,
+         "structure_hidden_laters": [],
+         "qty_states_in": 3,
+         "qty_states_hidden_out": 0,
+         "qty_states_out": 2,
+         "qty_time_cols": 3,
+         "qty_lpfc_layers": 1,
+         "qty_hidden_laters": 0,
+         "qty_time_cols_neighbor_inputs": 1,
+         "qty_recent_memory": 1
+        },
+        "channel_set_index": 0,
+        "channel_type": 2,
+        "time_col_index": 0,
+        "mem_bkprop_input_mappings": [
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 0
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 2,
+          "time_col_index": 1
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 6,
+          "time_col_index": 0
+         }
+        ],
+        "mem_bkprop_input_cache": [
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         [],
+         []
+        ]
+       },
+       "recent_memory": [
+        []
+       ],
+       "bp_net": {
+        "state": {
+         "config": {
+          "learning_rate": 0.25,
+          "momentum": 0.1,
+          "structure": [
+           3,
+           0
+          ],
+          "disable_bias": false
+         },
+         "calculated_error_latest": -1.0,
+         "track_history": true,
+         "weights": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "last_changes": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "activation_nodes": [
+          [
+           1.0,
+           1.0,
+           1.0,
+           1.0
+          ],
+          []
+         ],
+         "deltas": [
+          [
+           0.0,
+           0.0,
+           0.0
+          ],
+          []
+         ],
+         "input_deltas": [
+          0.0,
+          0.0,
+          0.0
+         ],
+         "calculated_error_history": []
+        }
+       }
+      }
+     },
+     {
+      "state": {
+       "config": {
+        "rnn_config": {
+         "learning_rate": 0.25,
+         "momentum": 0.1,
+         "structure_hidden_laters": [],
+         "qty_states_in": 3,
+         "qty_states_hidden_out": 0,
+         "qty_states_out": 2,
+         "qty_time_cols": 3,
+         "qty_lpfc_layers": 1,
+         "qty_hidden_laters": 0,
+         "qty_time_cols_neighbor_inputs": 1,
+         "qty_recent_memory": 1
+        },
+        "channel_set_index": 0,
+        "channel_type": 2,
+        "time_col_index": 1,
+        "mem_bkprop_input_mappings": [
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 1
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 2,
+          "time_col_index": 2
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 6,
+          "time_col_index": 1
+         }
+        ],
+        "mem_bkprop_input_cache": [
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         [],
+         []
+        ]
+       },
+       "recent_memory": [
+        []
+       ],
+       "bp_net": {
+        "state": {
+         "config": {
+          "learning_rate": 0.25,
+          "momentum": 0.1,
+          "structure": [
+           3,
+           0
+          ],
+          "disable_bias": false
+         },
+         "calculated_error_latest": -1.0,
+         "track_history": true,
+         "weights": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "last_changes": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "activation_nodes": [
+          [
+           1.0,
+           1.0,
+           1.0,
+           1.0
+          ],
+          []
+         ],
+         "deltas": [
+          [
+           0.0,
+           0.0,
+           0.0
+          ],
+          []
+         ],
+         "input_deltas": [
+          0.0,
+          0.0,
+          0.0
+         ],
+         "calculated_error_history": []
+        }
+       }
+      }
+     },
+     {
+      "state": {
+       "config": {
+        "rnn_config": {
+         "learning_rate": 0.25,
+         "momentum": 0.1,
+         "structure_hidden_laters": [],
+         "qty_states_in": 3,
+         "qty_states_hidden_out": 0,
+         "qty_states_out": 2,
+         "qty_time_cols": 3,
+         "qty_lpfc_layers": 1,
+         "qty_hidden_laters": 0,
+         "qty_time_cols_neighbor_inputs": 1,
+         "qty_recent_memory": 1
+        },
+        "channel_set_index": 0,
+        "channel_type": 2,
+        "time_col_index": 2,
+        "mem_bkprop_input_mappings": [
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 2
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 6,
+          "time_col_index": 2
+         }
+        ],
+        "mem_bkprop_input_cache": [
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         []
+        ]
+       },
+       "recent_memory": [
+        []
+       ],
+       "bp_net": {
+        "state": {
+         "config": {
+          "learning_rate": 0.25,
+          "momentum": 0.1,
+          "structure": [
+           3,
+           0
+          ],
+          "disable_bias": false
+         },
+         "calculated_error_latest": -1.0,
+         "track_history": true,
+         "weights": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "last_changes": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "activation_nodes": [
+          [
+           1.0,
+           1.0,
+           1.0,
+           1.0
+          ],
+          []
+         ],
+         "deltas": [
+          [
+           0.0,
+           0.0,
+           0.0
+          ],
+          []
+         ],
+         "input_deltas": [
+          0.0,
+          0.0,
+          0.0
+         ],
+         "calculated_error_history": []
+        }
+       }
+      }
+     }
+    ],
+    [
+     {
+      "state": {
+       "config": {
+        "rnn_config": {
+         "learning_rate": 0.25,
+         "momentum": 0.1,
+         "structure_hidden_laters": [],
+         "qty_states_in": 3,
+         "qty_states_hidden_out": 0,
+         "qty_states_out": 2,
+         "qty_time_cols": 3,
+         "qty_lpfc_layers": 1,
+         "qty_hidden_laters": 0,
+         "qty_time_cols_neighbor_inputs": 1,
+         "qty_recent_memory": 1
+        },
+        "channel_set_index": 0,
+        "channel_type": 3,
+        "time_col_index": 0,
+        "mem_bkprop_input_mappings": [
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 0
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 0,
+          "time_col_index": 0
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 1,
+          "time_col_index": 0
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 2,
+          "time_col_index": 0
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 6,
+          "time_col_index": 0
+         }
+        ],
+        "mem_bkprop_input_cache": [
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         [],
+         [],
+         [],
+         []
+        ]
+       },
+       "recent_memory": [
+        []
+       ],
+       "bp_net": {
+        "state": {
+         "config": {
+          "learning_rate": 0.25,
+          "momentum": 0.1,
+          "structure": [
+           3,
+           0
+          ],
+          "disable_bias": false
+         },
+         "calculated_error_latest": -1.0,
+         "track_history": true,
+         "weights": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "last_changes": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "activation_nodes": [
+          [
+           1.0,
+           1.0,
+           1.0,
+           1.0
+          ],
+          []
+         ],
+         "deltas": [
+          [
+           0.0,
+           0.0,
+           0.0
+          ],
+          []
+         ],
+         "input_deltas": [
+          0.0,
+          0.0,
+          0.0
+         ],
+         "calculated_error_history": []
+        }
+       }
+      }
+     },
+     {
+      "state": {
+       "config": {
+        "rnn_config": {
+         "learning_rate": 0.25,
+         "momentum": 0.1,
+         "structure_hidden_laters": [],
+         "qty_states_in": 3,
+         "qty_states_hidden_out": 0,
+         "qty_states_out": 2,
+         "qty_time_cols": 3,
+         "qty_lpfc_layers": 1,
+         "qty_hidden_laters": 0,
+         "qty_time_cols_neighbor_inputs": 1,
+         "qty_recent_memory": 1
+        },
+        "channel_set_index": 0,
+        "channel_type": 3,
+        "time_col_index": 1,
+        "mem_bkprop_input_mappings": [
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 1
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 0,
+          "time_col_index": 1
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 1,
+          "time_col_index": 1
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 2,
+          "time_col_index": 1
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 6,
+          "time_col_index": 1
+         }
+        ],
+        "mem_bkprop_input_cache": [
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         [],
+         [],
+         [],
+         []
+        ]
+       },
+       "recent_memory": [
+        []
+       ],
+       "bp_net": {
+        "state": {
+         "config": {
+          "learning_rate": 0.25,
+          "momentum": 0.1,
+          "structure": [
+           3,
+           0
+          ],
+          "disable_bias": false
+         },
+         "calculated_error_latest": -1.0,
+         "track_history": true,
+         "weights": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "last_changes": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "activation_nodes": [
+          [
+           1.0,
+           1.0,
+           1.0,
+           1.0
+          ],
+          []
+         ],
+         "deltas": [
+          [
+           0.0,
+           0.0,
+           0.0
+          ],
+          []
+         ],
+         "input_deltas": [
+          0.0,
+          0.0,
+          0.0
+         ],
+         "calculated_error_history": []
+        }
+       }
+      }
+     },
+     {
+      "state": {
+       "config": {
+        "rnn_config": {
+         "learning_rate": 0.25,
+         "momentum": 0.1,
+         "structure_hidden_laters": [],
+         "qty_states_in": 3,
+         "qty_states_hidden_out": 0,
+         "qty_states_out": 2,
+         "qty_time_cols": 3,
+         "qty_lpfc_layers": 1,
+         "qty_hidden_laters": 0,
+         "qty_time_cols_neighbor_inputs": 1,
+         "qty_recent_memory": 1
+        },
+        "channel_set_index": 0,
+        "channel_type": 3,
+        "time_col_index": 2,
+        "mem_bkprop_input_mappings": [
+         {
+          "channel_set_index": -1,
+          "channel_type": 4,
+          "time_col_index": 2
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 0,
+          "time_col_index": 2
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 1,
+          "time_col_index": 2
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 2,
+          "time_col_index": 2
+         },
+         {
+          "channel_set_index": 0,
+          "channel_type": 6,
+          "time_col_index": 2
+         }
+        ],
+        "mem_bkprop_input_cache": [
+         [
+          0.0,
+          0.0,
+          0.0
+         ],
+         [],
+         [],
+         [],
+         []
+        ]
+       },
+       "recent_memory": [
+        []
+       ],
+       "bp_net": {
+        "state": {
+         "config": {
+          "learning_rate": 0.25,
+          "momentum": 0.1,
+          "structure": [
+           3,
+           0
+          ],
+          "disable_bias": false
+         },
+         "calculated_error_latest": -1.0,
+         "track_history": true,
+         "weights": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "last_changes": [
+          [
+           [],
+           [],
+           [],
+           []
+          ]
+         ],
+         "activation_nodes": [
+          [
+           1.0,
+           1.0,
+           1.0,
+           1.0
+          ],
+          []
+         ],
+         "deltas": [
+          [
+           0.0,
+           0.0,
+           0.0
+          ],
+          []
+         ],
+         "input_deltas": [
+          0.0,
+          0.0,
+          0.0
+         ],
+         "calculated_error_history": []
+        }
+       }
+      }
+     }
+    ]
+   ]
+  ]
+ }
