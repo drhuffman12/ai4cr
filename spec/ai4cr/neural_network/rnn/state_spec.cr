@@ -76,19 +76,36 @@ describe Ai4cr::NeuralNetwork::Rnn::State do
         end
       end
 
-      # it "exports to json as expected" do
-      #   File.write("tmp/rnn_state.json", rnn_state.to_pretty_json(indent: " "))
+      describe "exports to json as expected for" do
+        # File.write("tmp/rnn_state.json", rnn_state.to_pretty_json(indent: " "))
 
-      #   puts
-      #   puts "rnn_state:"
-      #   puts rnn_state.to_json
-      #   puts
+        contents = File.read("spec/data/neural_network/rnn/state/new.defaults.json")
+        expected_json = JSON.parse(contents) # so can compare w/out human readable json file formatting
+        actual_json = JSON.parse(rnn_state.to_json)
+        
+        it "config" do
+          actual_json["config"].should eq(expected_json["config"])
+        end
 
-      #   contents = File.read("spec/data/neural_network/rnn/state/new.defaults.json")
-      #   expected_json = JSON.parse(contents) # so can compare w/out human readable json file formatting
+        # describe "nodes" do
+        #   expected_nodes = Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::Node::Net))).from_json(expected_json["nodes"].to_json)
+        #   actual_nodes = Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::Node::Net))).from_json(actual_json["nodes"].to_json)
 
-      #   JSON.parse(rnn_state.to_json).should eq(expected_json)
-      # end
-    end
+        #   it ".size" do
+        #     actual_nodes.size.should eq(expected_nodes.size)
+        #   end
+
+        #   it ".first.size" do
+        #     actual_nodes.first.size.should eq(expected_nodes.first.size)
+        #   end
+
+        #   it ".first.first.size" do
+        #     actual_nodes.first.first.size.should eq(expected_nodes.first.first.size)
+        #   end
+        # end
+        
+      end
+
+   end
   end
 end

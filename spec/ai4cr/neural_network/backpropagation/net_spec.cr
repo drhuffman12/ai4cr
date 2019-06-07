@@ -33,9 +33,9 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
 
       describe "#train" do
         it "returns a Float64" do
-          puts "BEFORE net.to_json: #{net.to_json}\n training_stats: #{net.training_stats(in_bw: true)}"
+          # puts "BEFORE net.to_json: #{net.to_json}\n training_stats: #{net.training_stats(in_bw: true)}"
           net.train(inputs, outputs).should be_a(Float64)
-          puts "AFTER net.to_json: #{net.to_json}\n training_stats: #{net.training_stats(in_bw: true)}"
+          # puts "AFTER net.to_json: #{net.to_json}\n training_stats: #{net.training_stats(in_bw: true)}"
         end
 
         it "updates the net" do
@@ -92,7 +92,6 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
       inputs = [2, 3]
       outputs = [4]
       expected_activation_nodes_initialized = [[1.0, 1.0], [1.0, 1.0], [1.0]] # w/ disable_bias = true
-      # expected_activation_nodes_initialized = [[1.0, 1.0, 1.0], [1.0, 1.0, 1.0], [1.0]] # w/ disable_bias = false
       expected_activation_nodes_trained = [[0.0, 0.0], [0.0, 0.0], [0.0]]
       expected_weights_size = 2
       expected_weights_first_size = 2 # one less than prev example since bias is disabled here
@@ -100,14 +99,9 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
       expected_deltas_first_size = 0.0
       expected_deltas_initialized = [[0.0, 0.0], [0.0, 0.0], [0.0]]
       net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure, disable_bias) # .init_network
-      # net.state.config.disable_bias = true
-      # net.init_network
 
-      puts "\nnet initialized: #{net.pretty_inspect}\n"
+      # puts "\nnet initialized: #{net.pretty_inspect}\n"
 
-      # expected_weights_initialized_for_testing = [[[1.0,-1.0],[0.5, -0.5]],[[0.25],[-0.25]]]
-      # net.state.weights = expected_weights_initialized_for_testing
-      # allow(net).to receive(weights).and_return(expected_weights_initialized_for_testing)
       expected_deltas_trained = [[0.0, 0.11817556435647361], [0.14770540994269726, -0.07628320427387962], [0.6131166367108101]]
 
       it "sets @activation_nodes to expected nested array" do
@@ -144,7 +138,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
       describe "#train" do
         it "returns a Float64" do
           net.train(inputs, outputs).should be_a(Float64)
-          puts "\nnet trained: #{net.pretty_inspect}\n"
+          # puts "\nnet trained: #{net.pretty_inspect}\n"
         end
 
         it "updates the activation_nodes" do

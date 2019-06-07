@@ -8,22 +8,19 @@ module Ai4cr
         struct Config
           include JSON::Serializable
 
-          property rnn_config
-          property channel_set_index
-          property channel_type
-          property time_col_index
-          property node_input_mappings
+          property rnn_config : Rnn::Config
+          property channel_set_index : Int32
+          property channel_type : Int32
+          property time_col_index : Int32
+          property node_input_mappings : Array(NodeCoord)
           property node_input_cache : Array(Array(Float64))
 
           def initialize(
-            @rnn_config : Rnn::Config,
-            # @qty_states_in : Int32, @qty_states_hidden_out : Int32, @qty_states_out : Int32, @qty_recent_memory : Int32,
-            @channel_set_index : Int32, @channel_type : Int32, @time_col_index : Int32,
-            @node_input_mappings : Array(NodeCoord)
+            @rnn_config,
+            @channel_set_index, @channel_type, @time_col_index,
+            @node_input_mappings
           )
             @node_input_cache = init_node_input_cache
-
-            # @bp_net = init_bp_net
           end
 
           def init_node_input_cache
@@ -33,9 +30,6 @@ module Ai4cr
                 rnn_config.qty_states_hidden_out.times.to_a.map{ 0.0 }
               when ChannelType::Input.value
                 rnn_config.qty_states_in.times.to_a.map{ 0.0 }
-
-              # when ChannelType::Output.value # TODO:
-              #   rnn_config.qty_states_out.times.to_a.map{ 0.0 }
 
               # when ChannelType::Memory.value # TODO:
               #   # rnn_config.qty_recent_memory.times.to_a.map{ rnn_config.qty_states_hidden_out.times.to_a.map{ 0.0 } }.flatten
