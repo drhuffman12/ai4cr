@@ -23,9 +23,9 @@ module Ai4cr
         property config : Config
         # property channel_set : Array(ChannelSet)
 
-        # property node_input_mappings : Array(Hash(Symbol, Array(MemBkpropCoord)))
-        # property node_input_mappings : Array(Array(Array(Array(Rnn::MemBkpropCoord))))
-        # property node_input_mappings : NamedTuple(
+        # property mem_bkprop_input_mappings : Array(Hash(Symbol, Array(MemBkpropCoord)))
+        # property mem_bkprop_input_mappings : Array(Array(Array(Array(Rnn::MemBkpropCoord))))
+        # property mem_bkprop_input_mappings : NamedTuple(
         #   channel_sets: Array(
         #     NamedTuple(
         #       channel_types: Array(
@@ -41,13 +41,13 @@ module Ai4cr
         # )
 
 
-        # property nodes : Array(Array(Hash(Symbol, Array(NeuralNetwork::Backpropagation::Net))))
-        # property nodes : Hash(MemBkpropCoord, NeuralNetwork::Backpropagation::Net)
-        property nodes : Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net)))
-        # property nodes : Array(Hash(Symbol, Array(NeuralNetwork::Backpropagation::Net)))
+        # property mem_bkprops : Array(Array(Hash(Symbol, Array(NeuralNetwork::Backpropagation::Net))))
+        # property mem_bkprops : Hash(MemBkpropCoord, NeuralNetwork::Backpropagation::Net)
+        property mem_bkprops : Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net)))
+        # property mem_bkprops : Array(Hash(Symbol, Array(NeuralNetwork::Backpropagation::Net)))
 
-        # property node_input_mappings 
-        # property node_input_mappings : # time_col_index => channel_set_index => channel_symbol => 
+        # property mem_bkprop_input_mappings 
+        # property mem_bkprop_input_mappings : # time_col_index => channel_set_index => channel_symbol => 
 
         # include NeuralNetwork::Common::Initializers::LearningRate
         # include NeuralNetwork::Common::Initializers::Momentum
@@ -96,15 +96,15 @@ module Ai4cr
 
           # @inputs = init_inputs
           # @outputs = init_outputs
-          # @channel_set = init_nodes # (config) # (disable_bias)
+          # @channel_set = init_mem_bkprops # (config) # (disable_bias)
 
-          # @node_input_mappings = init_node_input_mappings
-          @nodes = init_nodes # (config) # (disable_bias)
+          # @mem_bkprop_input_mappings = init_mem_bkprop_input_mappings
+          @mem_bkprops = init_mem_bkprops # (config) # (disable_bias)
           # @io_connections = init_io_connections
         end
 
-        # def init_node_input_mappings
-        #   # _node_input_mappings = Array(Hash(Symbol, Array(MemBkpropCoord))).new
+        # def init_mem_bkprop_input_mappings
+        #   # _mem_bkprop_input_mappings = Array(Hash(Symbol, Array(MemBkpropCoord))).new
 
         #   # qty_states_in_and_out = config.qty_states_out + config.qty_states_out
 
@@ -118,7 +118,7 @@ module Ai4cr
         #   #     (0..(config.qty_time_cols - 1)).to_a.map do |time_col_index|                
         #   #       # _disable_bias = channel_set_index > 0 # TODO: utilize disable_bias .. but only if ????
                 
-        #   #       init_connections_to_node_at(channel_set_index, channel_type, time_col_index)
+        #   #       init_connections_to_mem_bkprop_at(channel_set_index, channel_type, time_col_index)
                 
         #   #     end
         #   #   end
@@ -132,7 +132,7 @@ module Ai4cr
         #             time_col_indexes: (0..(config.qty_time_cols - 1)).to_a.map do |time_col_index|                
         #               # _disable_bias = channel_set_index > 0 # TODO: utilize disable_bias .. but only if ????
                       
-        #               init_connections_to_node_at(channel_set_index, channel_type, time_col_index)
+        #               init_connections_to_mem_bkprop_at(channel_set_index, channel_type, time_col_index)
                       
         #             end
         #           }
@@ -142,7 +142,7 @@ module Ai4cr
         #   }
         # end
 
-        def init_connections_to_node_at(channel_set_index, channel_type, time_col_index) : Array(MemBkpropCoord)
+        def init_connections_to_mem_bkprop_at(channel_set_index, channel_type, time_col_index) : Array(MemBkpropCoord)
           time_col_index_left = (time_col_index - @config.qty_time_cols_neighbor_inputs)
           time_col_index_left = time_col_index_left < 0 ? 0 : time_col_index_left
 
@@ -160,14 +160,14 @@ module Ai4cr
           connections : Array(MemBkpropCoord)
           connections = case channel_type
           when ChannelType::Local.value
-            init_connections_to_node_at_channel_set_local(channel_set_index, prev_channel, time_col_index, time_col_indexes_before, time_col_indexes_after)
+            init_connections_to_mem_bkprop_at_channel_set_local(channel_set_index, prev_channel, time_col_index, time_col_indexes_before, time_col_indexes_after)
           when ChannelType::Past.value
-            init_connections_to_node_at_channel_set_past(channel_set_index, prev_channel, time_col_index, time_col_indexes_before)
+            init_connections_to_mem_bkprop_at_channel_set_past(channel_set_index, prev_channel, time_col_index, time_col_indexes_before)
           when ChannelType::Future.value
-            init_connections_to_node_at_channel_set_future(channel_set_index, prev_channel, time_col_index, time_col_indexes_after)
+            init_connections_to_mem_bkprop_at_channel_set_future(channel_set_index, prev_channel, time_col_index, time_col_indexes_after)
           else
             # Array(MemBkpropCoord).new
-            init_connections_to_node_at_channel_set_combo(channel_set_index, prev_channel, time_col_index)
+            init_connections_to_mem_bkprop_at_channel_set_combo(channel_set_index, prev_channel, time_col_index)
           end
 
           # if channel_set_index == 0 && channel_type == 0 && time_col_index == 0
@@ -190,7 +190,7 @@ module Ai4cr
           connections
         end
 
-        def init_connections_to_node_at_channel_set_local(channel_set_index, prev_channel, time_col_index, time_col_indexes_before, time_col_indexes_after) : Array(MemBkpropCoord)
+        def init_connections_to_mem_bkprop_at_channel_set_local(channel_set_index, prev_channel, time_col_index, time_col_indexes_before, time_col_indexes_after) : Array(MemBkpropCoord)
           (
             time_col_indexes_before.map do |tci|
               {
@@ -231,7 +231,7 @@ module Ai4cr
           }
         end
 
-        def init_connections_to_node_at_channel_set_past(channel_set_index, prev_channel, time_col_index, time_col_indexes_before) : Array(MemBkpropCoord)
+        def init_connections_to_mem_bkprop_at_channel_set_past(channel_set_index, prev_channel, time_col_index, time_col_indexes_before) : Array(MemBkpropCoord)
           (
             time_col_indexes_before.map do |tci|
               {
@@ -264,7 +264,7 @@ module Ai4cr
           }
         end
 
-        def init_connections_to_node_at_channel_set_future(channel_set_index, prev_channel, time_col_index, time_col_indexes_after) : Array(MemBkpropCoord)
+        def init_connections_to_mem_bkprop_at_channel_set_future(channel_set_index, prev_channel, time_col_index, time_col_indexes_after) : Array(MemBkpropCoord)
           (
             [{
               channel_set_index: channel_set_index - 1,
@@ -297,7 +297,7 @@ module Ai4cr
           }
         end
 
-        def init_connections_to_node_at_channel_set_combo(channel_set_index, prev_channel, time_col_index) : Array(MemBkpropCoord)
+        def init_connections_to_mem_bkprop_at_channel_set_combo(channel_set_index, prev_channel, time_col_index) : Array(MemBkpropCoord)
           [{
             channel_set_index: channel_set_index - 1,
             channel_type: prev_channel,
@@ -342,9 +342,9 @@ module Ai4cr
           #   end
           # end
 
-        # def init_nodes_OLD # (disable_bias)
+        # def init_mem_bkprops_OLD # (disable_bias)
         #   # alias MemBkpropCoord = NamedTuple(time_col_index: Int32, channel_set_index: Int32, channel_type: Symbol)
-        #   # property nodes : Hash(MemBkpropCoord, NeuralNetwork::Backpropagation::Net)
+        #   # property mem_bkprops : Hash(MemBkpropCoord, NeuralNetwork::Backpropagation::Net)
 
         #   qty_states_in_and_out = config.qty_states_out + config.qty_states_out
 
@@ -389,10 +389,10 @@ module Ai4cr
         #   _channel_sets
         # end
 
-        def init_nodes
-          # _node_input_mappings = Array(Hash(Symbol, Array(MemBkpropCoord))).new
-          # _nodes = Hash(MemBkpropCoord, NeuralNetwork::Backpropagation::Net).new
-          # _nodes = Hash(MemBkpropCoord, NeuralNetwork::Rnn::MemBkprop::Net).new
+        def init_mem_bkprops
+          # _mem_bkprop_input_mappings = Array(Hash(Symbol, Array(MemBkpropCoord))).new
+          # _mem_bkprops = Hash(MemBkpropCoord, NeuralNetwork::Backpropagation::Net).new
+          # _mem_bkprops = Hash(MemBkpropCoord, NeuralNetwork::Rnn::MemBkprop::Net).new
 
           channel_set_index_max = config.qty_lpfc_layers - 1
 
@@ -404,7 +404,7 @@ module Ai4cr
           #           time_col_indexes: (0..(config.qty_time_cols - 1)).to_a.map do |time_col_index|                
           #             # _disable_bias = channel_set_index > 0 # TODO: utilize disable_bias .. but only if ????
                       
-          #             init_connections_to_node_at(channel_set_index, channel_type, time_col_index)
+          #             init_connections_to_mem_bkprop_at(channel_set_index, channel_type, time_col_index)
                       
           #           end
           #         }
@@ -418,30 +418,30 @@ module Ai4cr
               (0..(config.qty_time_cols - 1)).map do |time_col_index|                
                 # _disable_bias = channel_set_index > 0 # TODO: utilize disable_bias .. but only if ????
                 
-                init_node_at(channel_set_index, channel_type, time_col_index)
+                init_mem_bkprop_at(channel_set_index, channel_type, time_col_index)
                 
               end
             end
           end
         end
                 
-        def init_node_at(channel_set_index, channel_type, time_col_index) # coord : MemBkpropCoord, config : NodeConfig) : Node
+        def init_mem_bkprop_at(channel_set_index, channel_type, time_col_index) # coord : MemBkpropCoord, config : mem_bkpropConfig) : mem_bkprop
           # qty_states_in_and_out = config.qty_states_out + config.qty_states_out
 
           # _learning_rate = config.learning_rate
           # _momentum = config.momentum
-          # node_input_mappings = node_input_mappings[channel_set_index][channel_type][time_col_index]
-          # node_input_mappings = node_input_mappings[:channel_sets][channel_set_index][:channel_types][channel_type][:time_col_indexes][time_col_index]
+          # mem_bkprop_input_mappings = mem_bkprop_input_mappings[channel_set_index][channel_type][time_col_index]
+          # mem_bkprop_input_mappings = mem_bkprop_input_mappings[:channel_sets][channel_set_index][:channel_types][channel_type][:time_col_indexes][time_col_index]
 
 
-          node_input_mappings = init_connections_to_node_at(channel_set_index, channel_type, time_col_index)
+          mem_bkprop_input_mappings = init_connections_to_mem_bkprop_at(channel_set_index, channel_type, time_col_index)
           
           NeuralNetwork::Rnn::MemBkprop::Net.new(
             @config,
             # @config.qty_states_in, @config.qty_states_hidden_out, @config.qty_states_out, @config.qty_recent_memory,
             channel_set_index, channel_type, time_col_index,
-            node_input_mappings
-          ) # (channel_set_index, channel_type, time_col_index, node_input_mappings)
+            mem_bkprop_input_mappings
+          ) # (channel_set_index, channel_type, time_col_index, mem_bkprop_input_mappings)
         end
 
       end

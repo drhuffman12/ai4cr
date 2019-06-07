@@ -15,14 +15,14 @@ describe Ai4cr::NeuralNetwork::Rnn::MemBkprop::State do
         channel_type: 2,
         time_col_index: 3,
       }
-      node_input_mappings = [mem_bkprop_coord]
+      mem_bkprop_input_mappings = [mem_bkprop_coord]
 
-      rnn_node_state = Ai4cr::NeuralNetwork::Rnn::MemBkprop::State.new(
+      rnn_mem_bkprop_state = Ai4cr::NeuralNetwork::Rnn::MemBkprop::State.new(
         rnn_config,
         channel_set_index, channel_type, time_col_index,
-        node_input_mappings
+        mem_bkprop_input_mappings
       )
-      # File.write("tmp/rnn_node_state.json", rnn_node_state.to_pretty_json(indent: " "))
+      File.write("tmp/rnn_mem_bkprop_state.json", rnn_mem_bkprop_state.to_pretty_json(indent: " "))
 
       describe "sets default values for" do
       end
@@ -30,7 +30,7 @@ describe Ai4cr::NeuralNetwork::Rnn::MemBkprop::State do
       describe "exports to json as expected for" do
         contents = File.read("spec/data/neural_network/rnn/mem_bkprop/state/new.defaults.json")
         expected_json = JSON.parse(contents) # so can compare w/out human readable json file formatting
-        actual_json = JSON.parse(rnn_node_state.to_json)
+        actual_json = JSON.parse(rnn_mem_bkprop_state.to_json)
         
         it "config" do
           actual_json["config"].should eq(expected_json["config"])

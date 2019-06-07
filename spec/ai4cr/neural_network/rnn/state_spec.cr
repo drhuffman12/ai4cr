@@ -54,30 +54,30 @@ describe Ai4cr::NeuralNetwork::Rnn::State do
         end
       end
 
-      describe "initializes @nodes" do
+      describe "initializes @mem_bkprops" do
         describe "as an array (of channel sets)" do
           it "of expected size" do
-            rnn_state.nodes.size.should eq(expected_qty_lpfc_layers)
+            rnn_state.mem_bkprops.size.should eq(expected_qty_lpfc_layers)
           end
         end
 
         describe "containing an array (of channel types)" do
           it "of expected size" do
             expected_channel_size = 4
-            rnn_state.nodes.first.size.should eq(expected_channel_size)
+            rnn_state.mem_bkprops.first.size.should eq(expected_channel_size)
           end
 
 
           describe "containing an array (of time columns)" do
             it "of expected size" do
-              rnn_state.nodes.first.first.size.should eq(expected_qty_time_cols)
+              rnn_state.mem_bkprops.first.first.size.should eq(expected_qty_time_cols)
             end
           end
         end
       end
 
       describe "exports to json as expected for" do
-        # File.write("tmp/rnn_state.json", rnn_state.to_pretty_json(indent: " "))
+        File.write("tmp/rnn_state.json", rnn_state.to_pretty_json(indent: " "))
 
         contents = File.read("spec/data/neural_network/rnn/state/new.defaults.json")
         expected_json = JSON.parse(contents) # so can compare w/out human readable json file formatting
@@ -87,20 +87,20 @@ describe Ai4cr::NeuralNetwork::Rnn::State do
           actual_json["config"].should eq(expected_json["config"])
         end
 
-        # describe "nodes" do
-        #   expected_nodes = Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net))).from_json(expected_json["nodes"].to_json)
-        #   actual_nodes = Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net))).from_json(actual_json["nodes"].to_json)
+        # describe "mem_bkprops" do
+        #   expected_mem_bkprops = Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net))).from_json(expected_json["mem_bkprops"].to_json)
+        #   actual_mem_bkprops = Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net))).from_json(actual_json["mem_bkprops"].to_json)
 
         #   it ".size" do
-        #     actual_nodes.size.should eq(expected_nodes.size)
+        #     actual_mem_bkprops.size.should eq(expected_mem_bkprops.size)
         #   end
 
         #   it ".first.size" do
-        #     actual_nodes.first.size.should eq(expected_nodes.first.size)
+        #     actual_mem_bkprops.first.size.should eq(expected_mem_bkprops.first.size)
         #   end
 
         #   it ".first.first.size" do
-        #     actual_nodes.first.first.size.should eq(expected_nodes.first.first.size)
+        #     actual_mem_bkprops.first.first.size.should eq(expected_mem_bkprops.first.first.size)
         #   end
         # end
         

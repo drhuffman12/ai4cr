@@ -15,14 +15,14 @@ describe Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net do
         channel_type: 2,
         time_col_index: 3,
       }
-      node_input_mappings = [mem_bkprop_coord]
+      mem_bkprop_input_mappings = [mem_bkprop_coord]
 
       rnn_mem_bkprop_net = Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net.new(
         rnn_config,
         channel_set_index, channel_type, time_col_index,
-        node_input_mappings
+        mem_bkprop_input_mappings
       )
-      # File.write("tmp/rnn_mem_bkprop_net.json", rnn_mem_bkprop_net.to_pretty_json(indent: " "))
+      File.write("tmp/rnn_mem_bkprop_net.json", rnn_mem_bkprop_net.to_pretty_json(indent: " "))
 
       describe "sets default values for" do
       end

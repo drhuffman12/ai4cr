@@ -15,21 +15,21 @@ module Ai4cr
           def initialize(
             rnn_config,
             channel_set_index, channel_type, time_col_index,
-            node_input_mappings
+            mem_bkprop_input_mappings
           )
             @config = MemBkprop::Config.new(
               rnn_config,
               channel_set_index, channel_type, time_col_index,
-              node_input_mappings
+              mem_bkprop_input_mappings
             )
             @recent_memory = init_recent_memory
             @bp_net = init_bp_net
           end
           
           def init_bp_net
-            node_structure = [config.node_input_cache.flatten.size] + config.rnn_config.structure_hidden_laters + [config.rnn_config.qty_states_hidden_out]
+            mem_bkprop_structure = [config.mem_bkprop_input_cache.flatten.size] + config.rnn_config.structure_hidden_laters + [config.rnn_config.qty_states_hidden_out]
             Backpropagation::Net.new(
-              structure: node_structure,
+              structure: mem_bkprop_structure,
               disable_bias: !(config.channel_set_index == 0),
               learning_rate: config.rnn_config.learning_rate,
               momentum: config.rnn_config.momentum
