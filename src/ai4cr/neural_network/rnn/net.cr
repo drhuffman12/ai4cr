@@ -54,4 +54,3 @@ module Ai4cr
     end
   end
 end
-      
