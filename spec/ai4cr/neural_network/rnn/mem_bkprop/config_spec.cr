@@ -10,12 +10,12 @@ describe Ai4cr::NeuralNetwork::Rnn::MemBkprop::Config do
       channel_type = 0
       time_col_index = 0
 
-      node_coord = {
+      mem_bkprop_coord = {
         channel_set_index: 1,
         channel_type: 2,
         time_col_index: 3,
       }
-      node_input_mappings = [node_coord]
+      node_input_mappings = [mem_bkprop_coord]
 
       rnn_node_config = Ai4cr::NeuralNetwork::Rnn::MemBkprop::Config.new(
         rnn_config,

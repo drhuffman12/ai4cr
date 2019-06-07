@@ -15,8 +15,8 @@ module Ai4cr
         Memory = 6
       end
 
-      # alias NodeCoord = NamedTuple(channel_set_index: Int32, channel_type: ChannelType, time_col_index: Int32)
-      alias NodeCoord = NamedTuple(channel_set_index: Int32, channel_type: Int32, time_col_index: Int32)
+      # alias MemBkpropCoord = NamedTuple(channel_set_index: Int32, channel_type: ChannelType, time_col_index: Int32)
+      alias MemBkpropCoord = NamedTuple(channel_set_index: Int32, channel_type: Int32, time_col_index: Int32)
 
     end
   end

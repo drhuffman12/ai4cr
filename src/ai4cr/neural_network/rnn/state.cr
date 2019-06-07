@@ -17,14 +17,14 @@ module Ai4cr
         #   Output
         # end
 
-        # # alias NodeCoord = NamedTuple(channel_set_index: Int32, channel_type: ChannelType, time_col_index: Int32)
-        # alias NodeCoord = NamedTuple(channel_set_index: Int32, channel_type: Int32, time_col_index: Int32)
+        # # alias MemBkpropCoord = NamedTuple(channel_set_index: Int32, channel_type: ChannelType, time_col_index: Int32)
+        # alias MemBkpropCoord = NamedTuple(channel_set_index: Int32, channel_type: Int32, time_col_index: Int32)
 
         property config : Config
         # property channel_set : Array(ChannelSet)
 
-        # property node_input_mappings : Array(Hash(Symbol, Array(NodeCoord)))
-        # property node_input_mappings : Array(Array(Array(Array(Rnn::NodeCoord))))
+        # property node_input_mappings : Array(Hash(Symbol, Array(MemBkpropCoord)))
+        # property node_input_mappings : Array(Array(Array(Array(Rnn::MemBkpropCoord))))
         # property node_input_mappings : NamedTuple(
         #   channel_sets: Array(
         #     NamedTuple(
@@ -32,7 +32,7 @@ module Ai4cr
         #         NamedTuple(
         #           time_col_indexes: Array(
         #             # Array(NamedTuple(channel_set_index: Int32, channel_type: Int32, time_col_index: Int32))
-        #             Array(Rnn::NodeCoord)
+        #             Array(Rnn::MemBkpropCoord)
         #           )
         #         )
         #       )
@@ -42,7 +42,7 @@ module Ai4cr
 
 
         # property nodes : Array(Array(Hash(Symbol, Array(NeuralNetwork::Backpropagation::Net))))
-        # property nodes : Hash(NodeCoord, NeuralNetwork::Backpropagation::Net)
+        # property nodes : Hash(MemBkpropCoord, NeuralNetwork::Backpropagation::Net)
         property nodes : Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net)))
         # property nodes : Array(Hash(Symbol, Array(NeuralNetwork::Backpropagation::Net)))
 
@@ -104,7 +104,7 @@ module Ai4cr
         end
 
         # def init_node_input_mappings
-        #   # _node_input_mappings = Array(Hash(Symbol, Array(NodeCoord))).new
+        #   # _node_input_mappings = Array(Hash(Symbol, Array(MemBkpropCoord))).new
 
         #   # qty_states_in_and_out = config.qty_states_out + config.qty_states_out
 
@@ -142,7 +142,7 @@ module Ai4cr
         #   }
         # end
 
-        def init_connections_to_node_at(channel_set_index, channel_type, time_col_index) : Array(NodeCoord)
+        def init_connections_to_node_at(channel_set_index, channel_type, time_col_index) : Array(MemBkpropCoord)
           time_col_index_left = (time_col_index - @config.qty_time_cols_neighbor_inputs)
           time_col_index_left = time_col_index_left < 0 ? 0 : time_col_index_left
 
@@ -157,7 +157,7 @@ module Ai4cr
           else
             ChannelType::Combo.value
           end
-          connections : Array(NodeCoord)
+          connections : Array(MemBkpropCoord)
           connections = case channel_type
           when ChannelType::Local.value
             init_connections_to_node_at_channel_set_local(channel_set_index, prev_channel, time_col_index, time_col_indexes_before, time_col_indexes_after)
@@ -166,7 +166,7 @@ module Ai4cr
           when ChannelType::Future.value
             init_connections_to_node_at_channel_set_future(channel_set_index, prev_channel, time_col_index, time_col_indexes_after)
           else
-            # Array(NodeCoord).new
+            # Array(MemBkpropCoord).new
             init_connections_to_node_at_channel_set_combo(channel_set_index, prev_channel, time_col_index)
           end
 
@@ -190,7 +190,7 @@ module Ai4cr
           connections
         end
 
-        def init_connections_to_node_at_channel_set_local(channel_set_index, prev_channel, time_col_index, time_col_indexes_before, time_col_indexes_after) : Array(NodeCoord)
+        def init_connections_to_node_at_channel_set_local(channel_set_index, prev_channel, time_col_index, time_col_indexes_before, time_col_indexes_after) : Array(MemBkpropCoord)
           (
             time_col_indexes_before.map do |tci|
               {
@@ -231,7 +231,7 @@ module Ai4cr
           }
         end
 
-        def init_connections_to_node_at_channel_set_past(channel_set_index, prev_channel, time_col_index, time_col_indexes_before) : Array(NodeCoord)
+        def init_connections_to_node_at_channel_set_past(channel_set_index, prev_channel, time_col_index, time_col_indexes_before) : Array(MemBkpropCoord)
           (
             time_col_indexes_before.map do |tci|
               {
@@ -264,7 +264,7 @@ module Ai4cr
           }
         end
 
-        def init_connections_to_node_at_channel_set_future(channel_set_index, prev_channel, time_col_index, time_col_indexes_after) : Array(NodeCoord)
+        def init_connections_to_node_at_channel_set_future(channel_set_index, prev_channel, time_col_index, time_col_indexes_after) : Array(MemBkpropCoord)
           (
             [{
               channel_set_index: channel_set_index - 1,
@@ -297,7 +297,7 @@ module Ai4cr
           }
         end
 
-        def init_connections_to_node_at_channel_set_combo(channel_set_index, prev_channel, time_col_index) : Array(NodeCoord)
+        def init_connections_to_node_at_channel_set_combo(channel_set_index, prev_channel, time_col_index) : Array(MemBkpropCoord)
           [{
             channel_set_index: channel_set_index - 1,
             channel_type: prev_channel,
@@ -343,8 +343,8 @@ module Ai4cr
           # end
 
         # def init_nodes_OLD # (disable_bias)
-        #   # alias NodeCoord = NamedTuple(time_col_index: Int32, channel_set_index: Int32, channel_type: Symbol)
-        #   # property nodes : Hash(NodeCoord, NeuralNetwork::Backpropagation::Net)
+        #   # alias MemBkpropCoord = NamedTuple(time_col_index: Int32, channel_set_index: Int32, channel_type: Symbol)
+        #   # property nodes : Hash(MemBkpropCoord, NeuralNetwork::Backpropagation::Net)
 
         #   qty_states_in_and_out = config.qty_states_out + config.qty_states_out
 
@@ -353,7 +353,7 @@ module Ai4cr
           
         #   channel_set_index_max = config.qty_lpfc_layers - 1
 
-        #   _channel_sets = Hash(NodeCoord, NeuralNetwork::Backpropagation::Net).new
+        #   _channel_sets = Hash(MemBkpropCoord, NeuralNetwork::Backpropagation::Net).new
         #   (0..channel_set_index_max).each do |channel_set_index|
         #     [ChannelType::Local.value, ChannelType::Past.value, ChannelType::Future.value, ChannelType::Combo.value].each do |channel_type|
         #       (0..(config.qty_time_cols - 1)).each do |time_col_index|
@@ -370,12 +370,12 @@ module Ai4cr
                 
         #         _disable_bias = channel_set_index > 0 # TODO: utilize disable_bias .. but only if ????
 
-        #         node_coord = {
+        #         mem_bkprop_coord = {
         #           channel_set_index: channel_set_index,
         #           channel_type: channel_type,
         #           time_col_index: time_col_index
         #         }
-        #         _channel_sets[node_coord] = NeuralNetwork::Backpropagation::Net.new(
+        #         _channel_sets[mem_bkprop_coord] = NeuralNetwork::Backpropagation::Net.new(
         #           structure: _structure,
         #           disable_bias: _disable_bias,
         #           learning_rate: _learning_rate,
@@ -390,9 +390,9 @@ module Ai4cr
         # end
 
         def init_nodes
-          # _node_input_mappings = Array(Hash(Symbol, Array(NodeCoord))).new
-          # _nodes = Hash(NodeCoord, NeuralNetwork::Backpropagation::Net).new
-          # _nodes = Hash(NodeCoord, NeuralNetwork::Rnn::MemBkprop::Net).new
+          # _node_input_mappings = Array(Hash(Symbol, Array(MemBkpropCoord))).new
+          # _nodes = Hash(MemBkpropCoord, NeuralNetwork::Backpropagation::Net).new
+          # _nodes = Hash(MemBkpropCoord, NeuralNetwork::Rnn::MemBkprop::Net).new
 
           channel_set_index_max = config.qty_lpfc_layers - 1
 
@@ -425,7 +425,7 @@ module Ai4cr
           end
         end
                 
-        def init_node_at(channel_set_index, channel_type, time_col_index) # coord : NodeCoord, config : NodeConfig) : Node
+        def init_node_at(channel_set_index, channel_type, time_col_index) # coord : MemBkpropCoord, config : NodeConfig) : Node
           # qty_states_in_and_out = config.qty_states_out + config.qty_states_out
 
           # _learning_rate = config.learning_rate

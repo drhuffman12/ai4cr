@@ -12,7 +12,7 @@ module Ai4cr
           property channel_set_index : Int32
           property channel_type : Int32
           property time_col_index : Int32
-          property node_input_mappings : Array(NodeCoord)
+          property node_input_mappings : Array(MemBkpropCoord)
           property node_input_cache : Array(Array(Float64))
 
           def initialize(

@@ -12,7 +12,7 @@ module Ai4cr
           def initialize(
             rnn_config : Rnn::Config,
             channel_set_index : Int32, channel_type : Int32, time_col_index : Int32,
-            node_input_mappings : Array(NodeCoord)
+            node_input_mappings : Array(MemBkpropCoord)
           )
             @state = MemBkprop::State.new(
               rnn_config,
