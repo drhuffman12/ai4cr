@@ -170,22 +170,22 @@ module Ai4cr
             init_connections_to_node_at_channel_set_combo(channel_set_index, prev_channel, time_col_index)
           end
 
-          if channel_set_index == 0 && channel_type == 0 && time_col_index == 0
-            drh_debug_data = {
-              channel_set_index: channel_set_index,
-              channel_type: channel_type,
-              time_col_index: time_col_index,
-              qty_time_cols_neighbor_inputs: config.qty_time_cols_neighbor_inputs,
-              qty_time_cols: config.qty_time_cols,
-              time_col_index_left: time_col_index_left,
-              time_col_index_right: time_col_index_right,
-              time_col_indexes_before: time_col_indexes_before,
-              time_col_indexes_after: time_col_indexes_after,
-            }
-            puts
-            puts "drh_debug_data: #{drh_debug_data}"
-            puts
-          end
+          # if channel_set_index == 0 && channel_type == 0 && time_col_index == 0
+          #   drh_debug_data = {
+          #     channel_set_index: channel_set_index,
+          #     channel_type: channel_type,
+          #     time_col_index: time_col_index,
+          #     qty_time_cols_neighbor_inputs: config.qty_time_cols_neighbor_inputs,
+          #     qty_time_cols: config.qty_time_cols,
+          #     time_col_index_left: time_col_index_left,
+          #     time_col_index_right: time_col_index_right,
+          #     time_col_indexes_before: time_col_indexes_before,
+          #     time_col_indexes_after: time_col_indexes_after,
+          #   }
+          #   puts
+          #   puts "drh_debug_data: #{drh_debug_data}"
+          #   puts
+          # end
 
           connections
         end
