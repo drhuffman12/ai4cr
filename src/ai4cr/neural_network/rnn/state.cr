@@ -43,7 +43,7 @@ module Ai4cr
 
         # property nodes : Array(Array(Hash(Symbol, Array(NeuralNetwork::Backpropagation::Net))))
         # property nodes : Hash(NodeCoord, NeuralNetwork::Backpropagation::Net)
-        property nodes : Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::Node::Net)))
+        property nodes : Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net)))
         # property nodes : Array(Hash(Symbol, Array(NeuralNetwork::Backpropagation::Net)))
 
         # property node_input_mappings 
@@ -392,7 +392,7 @@ module Ai4cr
         def init_nodes
           # _node_input_mappings = Array(Hash(Symbol, Array(NodeCoord))).new
           # _nodes = Hash(NodeCoord, NeuralNetwork::Backpropagation::Net).new
-          # _nodes = Hash(NodeCoord, NeuralNetwork::Rnn::Node::Net).new
+          # _nodes = Hash(NodeCoord, NeuralNetwork::Rnn::MemBkprop::Net).new
 
           channel_set_index_max = config.qty_lpfc_layers - 1
 
@@ -436,7 +436,7 @@ module Ai4cr
 
           node_input_mappings = init_connections_to_node_at(channel_set_index, channel_type, time_col_index)
           
-          NeuralNetwork::Rnn::Node::Net.new(
+          NeuralNetwork::Rnn::MemBkprop::Net.new(
             @config,
             # @config.qty_states_in, @config.qty_states_hidden_out, @config.qty_states_out, @config.qty_recent_memory,
             channel_set_index, channel_type, time_col_index,

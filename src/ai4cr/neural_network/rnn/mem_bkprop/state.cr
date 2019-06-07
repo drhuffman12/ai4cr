@@ -4,11 +4,11 @@ require "json"
 module Ai4cr
   module NeuralNetwork
     module Rnn
-      module Node
+      module MemBkprop
         struct State
           include JSON::Serializable
 
-          property config : Node::Config
+          property config : MemBkprop::Config
           property recent_memory : Array(Array(Float64))
           property bp_net : Backpropagation::Net
 
@@ -17,7 +17,7 @@ module Ai4cr
             channel_set_index, channel_type, time_col_index,
             node_input_mappings
           )
-            @config = Node::Config.new(
+            @config = MemBkprop::Config.new(
               rnn_config,
               channel_set_index, channel_type, time_col_index,
               node_input_mappings

@@ -1,9 +1,9 @@
-require "./node/*"
+require "./mem_bkprop/*"
 
 module Ai4cr
   module NeuralNetwork
     module Rnn
-      module Node
+      module MemBkprop
       end
     end
   end

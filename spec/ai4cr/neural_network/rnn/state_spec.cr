@@ -88,8 +88,8 @@ describe Ai4cr::NeuralNetwork::Rnn::State do
         end
 
         # describe "nodes" do
-        #   expected_nodes = Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::Node::Net))).from_json(expected_json["nodes"].to_json)
-        #   actual_nodes = Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::Node::Net))).from_json(actual_json["nodes"].to_json)
+        #   expected_nodes = Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net))).from_json(expected_json["nodes"].to_json)
+        #   actual_nodes = Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net))).from_json(actual_json["nodes"].to_json)
 
         #   it ".size" do
         #     actual_nodes.size.should eq(expected_nodes.size)

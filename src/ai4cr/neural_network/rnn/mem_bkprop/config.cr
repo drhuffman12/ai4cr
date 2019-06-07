@@ -4,7 +4,7 @@ require "json"
 module Ai4cr
   module NeuralNetwork
     module Rnn
-      module Node
+      module MemBkprop
         struct Config
           include JSON::Serializable
 

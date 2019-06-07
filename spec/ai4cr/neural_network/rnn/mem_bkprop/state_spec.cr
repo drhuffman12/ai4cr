@@ -1,7 +1,7 @@
 require "./../../../../spec_helper"
 require "json"
 
-describe Ai4cr::NeuralNetwork::Rnn::Node::State do
+describe Ai4cr::NeuralNetwork::Rnn::MemBkprop::State do
   describe "#initialize" do
     describe "when given no params" do
       rnn_config = Ai4cr::NeuralNetwork::Rnn::Config.new
@@ -17,7 +17,7 @@ describe Ai4cr::NeuralNetwork::Rnn::Node::State do
       }
       node_input_mappings = [node_coord]
 
-      rnn_node_state = Ai4cr::NeuralNetwork::Rnn::Node::State.new(
+      rnn_node_state = Ai4cr::NeuralNetwork::Rnn::MemBkprop::State.new(
         rnn_config,
         channel_set_index, channel_type, time_col_index,
         node_input_mappings
@@ -28,7 +28,7 @@ describe Ai4cr::NeuralNetwork::Rnn::Node::State do
       end
 
       describe "exports to json as expected for" do
-        contents = File.read("spec/data/neural_network/rnn/node/state/new.defaults.json")
+        contents = File.read("spec/data/neural_network/rnn/mem_bkprop/state/new.defaults.json")
         expected_json = JSON.parse(contents) # so can compare w/out human readable json file formatting
         actual_json = JSON.parse(rnn_node_state.to_json)
         
