@@ -5,7 +5,7 @@ describe Ai4cr::NeuralNetwork::Rnn::Config do
   describe "#initialize" do
     describe "when given no params" do
       rnn_config = Ai4cr::NeuralNetwork::Rnn::Config.new
-      File.write("tmp/rnn_config.json", rnn_config.to_json)
+      # File.write("tmp/rnn_config.json", rnn_config.to_json)
 
       describe "sets default values for" do
         it "qty_states_in" do

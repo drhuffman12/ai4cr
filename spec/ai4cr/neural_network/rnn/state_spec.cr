@@ -77,7 +77,7 @@ describe Ai4cr::NeuralNetwork::Rnn::State do
       end
 
       describe "exports to json as expected for" do
-        File.write("tmp/rnn_state.json", rnn_state.to_pretty_json(indent: " "))
+        # File.write("tmp/rnn_state.json", rnn_state.to_pretty_json(indent: " "))
 
         contents = File.read("spec/data/neural_network/rnn/state/new.defaults.json")
         expected_json = JSON.parse(contents) # so can compare w/out human readable json file formatting

@@ -22,7 +22,7 @@ describe Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net do
         channel_set_index, channel_type, time_col_index,
         mem_bkprop_input_mappings
       )
-      File.write("tmp/rnn_mem_bkprop_net.json", rnn_mem_bkprop_net.to_pretty_json(indent: " "))
+      # File.write("tmp/rnn_mem_bkprop_net.json", rnn_mem_bkprop_net.to_pretty_json(indent: " "))
 
       describe "sets default values for" do
       end

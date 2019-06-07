@@ -22,7 +22,7 @@ describe Ai4cr::NeuralNetwork::Rnn::MemBkprop::Config do
         channel_set_index, channel_type, time_col_index,
         mem_bkprop_input_mappings
       )
-      File.write("tmp/rnn_mem_bkprop_config.json", rnn_mem_bkprop_config.to_pretty_json(indent: " "))
+      # File.write("tmp/rnn_mem_bkprop_config.json", rnn_mem_bkprop_config.to_pretty_json(indent: " "))
 
       it "exports to json as expected" do
         contents = File.read("spec/data/neural_network/rnn/mem_bkprop/config/new.defaults.json")
