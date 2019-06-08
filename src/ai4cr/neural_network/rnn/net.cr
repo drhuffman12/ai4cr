@@ -10,7 +10,7 @@ module Ai4cr
 
         def initialize(
           # RNN Net:
-          qty_states_in = 3, qty_states_hidden_out = 5, qty_states_out = 4,
+          qty_states_in = 3, qty_states_channel_out = 5, qty_states_out = 4,
           qty_time_cols = 5,
           qty_lpfc_layers = 3,
           qty_hidden_laters = 2,
@@ -22,7 +22,7 @@ module Ai4cr
         )
           @state = Rnn::State.new(
             # RNN Net:
-            qty_states_in = 3, qty_states_hidden_out = 5, qty_states_out = 4,
+            qty_states_in = 3, qty_states_channel_out = 5, qty_states_out = 4,
             qty_time_cols = 5,
             qty_lpfc_layers = 3,
             qty_hidden_laters = 2,

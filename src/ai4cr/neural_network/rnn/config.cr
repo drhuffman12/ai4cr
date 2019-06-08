@@ -11,7 +11,7 @@ module Ai4cr
         include NeuralNetwork::Common::Initializers::Momentum
 
         property qty_states_in
-        property qty_states_hidden_out
+        property qty_states_channel_out
         property qty_states_out
         property qty_time_cols
         property qty_lpfc_layers
@@ -24,7 +24,7 @@ module Ai4cr
 
         def initialize(
           # RNN Net:
-          @qty_states_in = 3, @qty_states_hidden_out = 5, @qty_states_out = 4,
+          @qty_states_in = 3, @qty_states_channel_out = 5, @qty_states_out = 4,
           @qty_time_cols = 5,
           @qty_lpfc_layers = 3, @qty_hidden_laters = 2,
           @qty_time_cols_neighbor_inputs = 2, @qty_recent_memory = 2,
@@ -35,7 +35,7 @@ module Ai4cr
           # disable_bias = true, 
           learning_rate = nil, momentum = nil
         )
-          @structure_hidden_laters = init_structure_hidden_laters(qty_states_hidden_out, qty_hidden_laters)
+          @structure_hidden_laters = init_structure_hidden_laters(qty_states_channel_out, qty_hidden_laters)
           # @disable_bias = !!disable_bias
           @learning_rate = init_learning_rate(learning_rate)
           @momentum = init_momentum(momentum)

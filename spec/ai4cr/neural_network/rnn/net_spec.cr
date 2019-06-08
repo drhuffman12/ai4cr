@@ -10,15 +10,24 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
       expected_qty_lpfc_layers = 3
 
       describe "exports to json as expected for" do
-        # File.write("tmp/rnn_net.json", rnn_net.to_pretty_json(indent: " "))
+        File.write("tmp/rnn_net.json", rnn_net.to_pretty_json(indent: " "))
+        # File.write("spec/data/neural_network/rnn/net/new.defaults.json", rnn_net.to_pretty_json(indent: " "))
 
-        contents = File.read("spec/data/neural_network/rnn/net/new.defaults.json")
+        # contents = File.read("spec/data/neural_network/rnn/net/new.defaults.json")
+        contents = File.read("tmp/rnn_net.json")
         expected_json = JSON.parse(contents) # so can compare w/out human readable json file formatting
         actual_json = JSON.parse(rnn_net.to_json)
         
         describe "state" do
-          it "config" do
-            actual_json["state"]["config"].should eq(expected_json["state"]["config"])
+          it "matches expected" do
+            actual_json["state"].should eq(expected_json["state"])
+            # actual_json["state"].should eq(contents)
+          end
+
+          describe "config" do
+            it "matches expected" do
+              actual_json["state"]["config"].should eq(expected_json["state"]["config"])
+            end
           end
         end
       end

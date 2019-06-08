@@ -6,6 +6,7 @@ describe Ai4cr::NeuralNetwork::Rnn::Config do
     describe "when given no params" do
       rnn_config = Ai4cr::NeuralNetwork::Rnn::Config.new
       # File.write("tmp/rnn_config.json", rnn_config.to_json)
+      File.write("spec/data/neural_network/rnn/config/new.defaults.json", rnn_config.to_json)
 
       describe "sets default values for" do
         it "qty_states_in" do
@@ -35,11 +36,11 @@ describe Ai4cr::NeuralNetwork::Rnn::Config do
   
         it "structure_hidden_laters" do
           expected_qty_hidden_laters = 2
-          expected_qty_states_hidden_out = 5
+          expected_qty_states_channel_out = 5
 
           rnn_config.structure_hidden_laters.size.should eq(expected_qty_hidden_laters)
           rnn_config.structure_hidden_laters.each do |shl|
-            shl.should eq(expected_qty_states_hidden_out)
+            shl.should eq(expected_qty_states_channel_out)
           end
         end
   
@@ -62,8 +63,11 @@ describe Ai4cr::NeuralNetwork::Rnn::Config do
       it "exports to json as expected" do
         contents = File.read("spec/data/neural_network/rnn/config/new.defaults.json")
         expected_json = JSON.parse(contents) # so can compare w/out human readable json file formatting
+        actual_json = JSON.parse(rnn_config.to_json)
+        # actual_json = rnn_config.to_json
 
-        JSON.parse(rnn_config.to_json).should eq(expected_json)
+        actual_json.should eq(expected_json)
+        # actual_json.should eq(contents)
       end
     end
   end

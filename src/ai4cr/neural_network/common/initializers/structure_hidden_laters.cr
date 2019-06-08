@@ -15,9 +15,9 @@ module Ai4cr
           #   _qty_hidden_laters.times.to_a.map{|layer| qty_states}
           # end  
 
-          # def init_structure_hidden_laters(_qty_states_in, _qty_states_hidden_out, _qty_states_out, _qty_hidden_laters)
-          def init_structure_hidden_laters(_qty_states_hidden_out, _qty_hidden_laters)
-            _qty_hidden_laters.times.to_a.map { _qty_states_hidden_out }
+          # def init_structure_hidden_laters(_qty_states_in, _qty_states_channel_out, _qty_states_out, _qty_hidden_laters)
+          def init_structure_hidden_laters(_qty_states_channel_out, _qty_hidden_laters)
+            _qty_hidden_laters.times.to_a.map { _qty_states_channel_out }
           end
         end
       end

@@ -110,7 +110,7 @@ describe Ai4cr::NeuralNetwork::Rnn::State do
     describe "when given params for a tiny rnn net" do
       rnn_state = Ai4cr::NeuralNetwork::Rnn::State.new(
         qty_states_in = 3,
-        qty_states_hidden_out = 0,
+        qty_states_channel_out = 4,
         qty_states_out = 2,
         qty_time_cols = 3,
         qty_lpfc_layers = 1,
@@ -119,7 +119,8 @@ describe Ai4cr::NeuralNetwork::Rnn::State do
         qty_recent_memory = 1,
       )
 
-      File.write("tmp/rnn_state.tiny.json", rnn_state.to_pretty_json(indent: " "))
+      # File.write("tmp/rnn_state.tiny.json", rnn_state.to_pretty_json(indent: " "))
+      # File.write("spec/data/neural_network/rnn/state/new.tiny.json", rnn_state.to_pretty_json(indent: " "))
 
       contents = File.read("spec/data/neural_network/rnn/state/new.tiny.json")
       expected_json = JSON.parse(contents) # so can compare w/out human readable json file formatting
@@ -130,4 +131,30 @@ describe Ai4cr::NeuralNetwork::Rnn::State do
       end
     end
   end
+
+  # describe "when given params for a large rnn net" do
+  #   rnn_state = Ai4cr::NeuralNetwork::Rnn::State.new(
+  #     qty_states_in = 80,
+  #     qty_states_channel_out = 0,
+  #     qty_states_out = 80,
+  #     qty_time_cols = 40,
+  #     qty_lpfc_layers = 8,
+  #     qty_hidden_laters = 0,
+  #     qty_time_cols_neighbor_inputs = 8,
+  #     qty_recent_memory = 8,
+  #   )
+
+  #   File.write("tmp/rnn_state.large.json", rnn_state.to_pretty_json(indent: " "))
+  #   # puts "sizeof(Ai4cr::NeuralNetwork::Rnn::State): #{sizeof(Ai4cr::NeuralNetwork::Rnn::State)}"
+  #   # puts "instance_sizeof(Ai4cr::NeuralNetwork::Rnn::State): #{instance_sizeof(Ai4cr::NeuralNetwork::Rnn::State)}"
+  #   # # puts "sizeof(rnn_state): #{sizeof(rnn_state)}"
+
+  #   contents = File.read("spec/data/neural_network/rnn/state/new.large.json")
+  #   expected_json = JSON.parse(contents) # so can compare w/out human readable json file formatting
+  #   actual_json = JSON.parse(rnn_state.to_json)
+
+  #   it "config" do
+  #     actual_json["config"].should eq(expected_json["config"])
+  #   end
+  # end
 end

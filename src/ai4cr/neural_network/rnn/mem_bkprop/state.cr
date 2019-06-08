@@ -27,7 +27,7 @@ module Ai4cr
           end
           
           def init_bp_net
-            mem_bkprop_structure = [config.mem_bkprop_input_cache.flatten.size] + config.rnn_config.structure_hidden_laters + [config.rnn_config.qty_states_hidden_out]
+            mem_bkprop_structure = [config.mem_bkprop_input_cache.flatten.size] + config.rnn_config.structure_hidden_laters + [config.rnn_config.qty_states_channel_out]
             Backpropagation::Net.new(
               structure: mem_bkprop_structure,
               disable_bias: !(config.channel_set_index == 0),
@@ -41,7 +41,7 @@ module Ai4cr
 
           def init_recent_memory
             @config.rnn_config.qty_recent_memory.times.to_a.map do |recent_memory_index|
-              @config.rnn_config.qty_states_hidden_out.times.to_a.map { |hidden_out_index| 0.0}
+              @config.rnn_config.qty_states_channel_out.times.to_a.map { |hidden_out_index| 0.0}
             end
           end
 
