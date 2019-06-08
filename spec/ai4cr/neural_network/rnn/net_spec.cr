@@ -10,11 +10,13 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
       expected_qty_lpfc_layers = 3
 
       describe "exports to json as expected for" do
-        File.write("tmp/rnn_net.json", rnn_net.to_pretty_json(indent: " "))
+        Dir.mkdir("tmp") unless Dir.exists?("tmp")
+        tempfile_path = "tmp/rnn_net." + Time.utc.to_s("%Y-%m-%d.%H-%M-%S.%z") + "_" + rand.to_s + ".json"
+        File.write(tempfile_path, rnn_net.to_pretty_json(indent: " "))
         # File.write("spec/data/neural_network/rnn/net/new.defaults.json", rnn_net.to_pretty_json(indent: " "))
 
         # contents = File.read("spec/data/neural_network/rnn/net/new.defaults.json")
-        contents = File.read("tmp/rnn_net.json")
+        contents = File.read(tempfile_path)
         expected_json = JSON.parse(contents) # so can compare w/out human readable json file formatting
         actual_json = JSON.parse(rnn_net.to_json)
         
@@ -30,6 +32,8 @@ describe Ai4cr::NeuralNetwork::Rnn::Net do
             end
           end
         end
+      ensure
+        File.delete(tempfile_path) if tempfile_path && File.file?(tempfile_path)
       end
 
       it "exports to json and reimports from json" do
