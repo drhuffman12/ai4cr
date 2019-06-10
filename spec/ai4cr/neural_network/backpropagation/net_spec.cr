@@ -13,22 +13,9 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
       expected_weights_first_sub_size = 2
       net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure, disable_bias) # .init_network
 
-      it "sets @activation_nodes to expected nested array" do
-        net.state.activation_nodes.should eq(expected_activation_nodes_initialized)
-      end
-
-      it "sets @weights to expected size" do
-        net.state.weights.size.should eq(expected_weights_size)
-      end
-
-      it "sets @weights.first to expected size" do
-        net.state.weights.first.size.should eq(expected_weights_first_size)
-      end
-
-      it "sets each sub-array w/in @weights.first to expected size" do
-        net.state.weights.first.each do |weights_n|
-          weights_n.size.should eq(expected_weights_first_sub_size)
-        end
+      it "sets @state to an Ai4cr::NeuralNetwork::Backpropagation::State" do
+        net.state.nil?.should eq(false)
+        net.state.class.should eq(Ai4cr::NeuralNetwork::Backpropagation::State)
       end
 
       describe "#train" do
@@ -56,21 +43,27 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
       expected_weights_first_sub_size = 2
       net = Ai4cr::NeuralNetwork::Backpropagation::Net.new(structure, disable_bias) # .init_network
 
-      it "sets @activation_nodes to expected nested array" do
-        net.state.activation_nodes.should eq(expected_activation_nodes_initialized)
-      end
+      # it "sets @state to an Ai4cr::NeuralNetwork::Backpropagation::State" do
+      #   net.state.nil?.should eq(false)
+      #   net.state.class.should eq(Ai4cr::NeuralNetwork::Backpropagation::State)
+      # end
 
-      it "sets @weights to expected size" do
-        net.state.weights.size.should eq(expected_weights_size)
-      end
+      describe "when exported as json" do
+        net_exported = net.to_json
+        net_exported_reimported = Ai4cr::NeuralNetwork::Backpropagation::Net.from_json(net_exported)
 
-      it "sets @weights.first to expected size" do
-        net.state.weights.first.size.should eq(expected_weights_first_size)
-      end
+        describe "and re-imported from json" do
+          net_exported_reimported = Ai4cr::NeuralNetwork::Backpropagation::Net.from_json(net_exported)
+          net_exported_reimported_reexported = net_exported_reimported.to_json
 
-      it "sets each sub-array w/in @weights.first to expected size" do
-        net.state.weights.first.each do |weights_n|
-          weights_n.size.should eq(expected_weights_first_sub_size)
+          it "has a @state" do
+            net.state.nil?.should eq(false)
+            net.state.class.should eq(Ai4cr::NeuralNetwork::Backpropagation::State)
+          end
+          
+          it "exported json matches reimported json" do
+            JSON.parse(net_exported).should eq(JSON.parse(net_exported_reimported_reexported))
+          end
         end
       end
 
@@ -84,6 +77,26 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
           net.state.activation_nodes.should_not eq(expected_activation_nodes_initialized)
         end
       end
+
+      describe "when exported as json" do
+        net_exported = net.to_json
+        net_exported_reimported = Ai4cr::NeuralNetwork::Backpropagation::Net.from_json(net_exported)
+
+        describe "and re-imported from json" do
+          net_exported_reimported = Ai4cr::NeuralNetwork::Backpropagation::Net.from_json(net_exported)
+          net_exported_reimported_reexported = net_exported_reimported.to_json
+
+          it "has a @state" do
+            net.state.nil?.should eq(false)
+            net.state.class.should eq(Ai4cr::NeuralNetwork::Backpropagation::State)
+          end
+    
+          it "exported json matches reimported json" do
+            JSON.parse(net_exported).should eq(JSON.parse(net_exported_reimported_reexported))
+          end
+        end
+      end
+
     end
 
     describe "when given a net with structure of [2, 2, 1] with bias disabled" do
@@ -104,35 +117,9 @@ describe Ai4cr::NeuralNetwork::Backpropagation::Net do
 
       expected_deltas_trained = [[0.0, 0.11817556435647361], [0.14770540994269726, -0.07628320427387962], [0.6131166367108101]]
 
-      it "sets @activation_nodes to expected nested array" do
-        net.state.activation_nodes.should eq(expected_activation_nodes_initialized)
-      end
-
-      it "sets @weights to expected size" do
-        net.state.weights.size.should eq(expected_weights_size)
-      end
-
-      it "sets @weights.first to expected size" do
-        net.state.weights.first.size.should eq(expected_weights_first_size)
-      end
-
-      it "sets each sub-array w/in @weights.first to expected size" do
-        net.state.weights.first.each do |weights_n|
-          weights_n.size.should eq(expected_weights_first_sub_size)
-        end
-      end
-
-      # it "sets @weights to expected DEBUG" do
-      #   net.state.weights.should eq(expected_weights_initialized_for_testing)
-      # end
-
-      it "sets @deltas to expected size" do
-        net.state.deltas.size.should eq(expected_deltas_initialized.size)
-        net.state.deltas.first.size.should eq(expected_deltas_initialized.first.size)
-      end
-
-      it "sets @deltas to expected nested array" do
-        net.state.deltas.should eq(expected_deltas_initialized)
+      it "sets @state to an Ai4cr::NeuralNetwork::Backpropagation::State" do
+        net.state.nil?.should eq(false)
+        net.state.class.should eq(Ai4cr::NeuralNetwork::Backpropagation::State)
       end
 
       describe "#train" do

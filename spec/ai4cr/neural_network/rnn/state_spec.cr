@@ -1,58 +1,77 @@
 require "./../../../spec_helper"
 require "json"
+require "yaml"
 
 describe Ai4cr::NeuralNetwork::Rnn::State do
   describe "#initialize" do
     describe "when given no params" do
       rnn_state = Ai4cr::NeuralNetwork::Rnn::State.new
-
+      rnn_state_to_json = rnn_state.to_json
+      rnn_state_exported_and_imported = Ai4cr::NeuralNetwork::Rnn::State.from_json(rnn_state_to_json)
+      rnn_state_exported_and_imported_and_exported = rnn_state_exported_and_imported.to_json
+      
       expected_qty_time_cols = 5
       expected_qty_lpfc_layers = 3
 
-      describe "sets default values for" do
-        it "qty_states_in" do
-          expected_qty_states_in = 3
-          rnn_state.config.qty_states_in.should eq(expected_qty_states_in)
-        end
-  
-        it "qty_states_out" do
-          expected_qty_states_out = 4
-          rnn_state.config.qty_states_out.should eq(expected_qty_states_out)
-        end
-  
-        it "qty_time_cols" do
-          rnn_state.config.qty_time_cols.should eq(expected_qty_time_cols)
-        end
-  
-        it "qty_lpfc_layers" do
-          rnn_state.config.qty_lpfc_layers.should eq(expected_qty_lpfc_layers)
-        end
-  
-        it "qty_recent_memory" do
-          expected_qty_recent_memory = 2
-          rnn_state.config.qty_recent_memory.should eq(expected_qty_recent_memory)
-        end
-  
-        # it "structure_hidden_laters" do
-        #   expected_structure_hidden_laters = [] of Int32
-        #   rnn_state.config.structure_hidden_laters.should eq(expected_structure_hidden_laters)
-        # end
-  
-        # it "disable_bias" do
-        #   expected_disable_bias = true
-        #   rnn_state.disable_bias.should eq(expected_disable_bias)
-        # end
-  
-        it "learning_rate" do
-          expected_learning_rate = 0.25
-          rnn_state.config.learning_rate.should eq(expected_learning_rate)
-        end
-  
-        it "momentum" do
-          expected_momentum = 0.1
-          rnn_state.config.momentum.should eq(expected_momentum)
-        end
+      it "initializes a config" do
+        rnn_state.config.nil?.should eq(false)
       end
+
+      it "initializes a mem_bkprops" do
+        rnn_state.mem_bkprops.nil?.should eq(false)
+      end
+
+      it "initializes a final_output_nets" do
+        rnn_state.final_output_nets.nil?.should eq(false)
+      end
+
+
+      # describe "sets default values for" do
+      #   describe "config" do
+      #     it "qty_states_in" do
+      #       expected_qty_states_in = 3
+      #       rnn_state.config.qty_states_in.should eq(expected_qty_states_in)
+      #     end
+
+      #     it "qty_states_out" do
+      #       expected_qty_states_out = 4
+      #       rnn_state.config.qty_states_out.should eq(expected_qty_states_out)
+      #     end
+    
+      #     it "qty_time_cols" do
+      #       rnn_state.config.qty_time_cols.should eq(expected_qty_time_cols)
+      #     end
+    
+      #     it "qty_lpfc_layers" do
+      #       rnn_state.config.qty_lpfc_layers.should eq(expected_qty_lpfc_layers)
+      #     end
+    
+      #     it "qty_recent_memory" do
+      #       expected_qty_recent_memory = 2
+      #       rnn_state.config.qty_recent_memory.should eq(expected_qty_recent_memory)
+      #     end
+    
+      #     # it "structure_hidden_laters" do
+      #     #   expected_structure_hidden_laters = [] of Int32
+      #     #   rnn_state.config.structure_hidden_laters.should eq(expected_structure_hidden_laters)
+      #     # end
+    
+      #     # it "disable_bias" do
+      #     #   expected_disable_bias = true
+      #     #   rnn_state.disable_bias.should eq(expected_disable_bias)
+      #     # end
+    
+      #     it "learning_rate" do
+      #       expected_learning_rate = 0.25
+      #       rnn_state.config.learning_rate.should eq(expected_learning_rate)
+      #     end
+    
+      #     it "momentum" do
+      #       expected_momentum = 0.1
+      #       rnn_state.config.momentum.should eq(expected_momentum)
+      #     end
+      #   end
+      # end
 
       describe "initializes @mem_bkprops" do
         describe "as an array (of channel sets)" do
@@ -76,17 +95,65 @@ describe Ai4cr::NeuralNetwork::Rnn::State do
         end
       end
 
+      describe "initializes @final_output_nets" do
+        describe "as an array (of channel sets)" do
+          it "of expected size" do
+            expected_size = rnn_state.config.qty_time_cols
+            rnn_state.final_output_nets.size.should eq(expected_size)
+          end
+        end
+
+        describe "containing an array" do
+          it "of expected class" do
+            rnn_state.final_output_nets.first.class.should eq(Ai4cr::NeuralNetwork::Backpropagation::Net)
+          end
+        end
+      end
+
       describe "exports to json as expected for" do
         # File.write("tmp/rnn_state.json", rnn_state.to_pretty_json(indent: " "))
+        # File.write("spec/data/neural_network/rnn/state/new.defaults.json", rnn_state.to_pretty_json(indent: " "))
 
         contents = File.read("spec/data/neural_network/rnn/state/new.defaults.json")
         expected_json = JSON.parse(contents) # so can compare w/out human readable json file formatting
         actual_json = JSON.parse(rnn_state.to_json)
+
+        
         
         it "config" do
           actual_json["config"].should eq(expected_json["config"])
         end
 
+        describe "initializes @final_output_nets" do
+          describe "as an array" do
+            it "of Backpropagations" do 
+              rnn_state.final_output_nets.class.should eq(Array(Ai4cr::NeuralNetwork::Backpropagation::Net))
+              rnn_state_exported_and_imported.final_output_nets.class.should eq(Array(Ai4cr::NeuralNetwork::Backpropagation::Net))
+              # rnn_state.final_output_nets.should eq(rnn_state_exported_and_imported.final_output_nets)
+            end
+
+            it "of expected size" do
+              expected_size = rnn_state.config.qty_time_cols
+              rnn_state.final_output_nets.size.should eq(expected_size)
+              # rnn_state.final_output_nets.size.should eq(expected_size)
+              # yaml = YAML::Nodes::Builder.new
+              # actual_json.to_yaml(yaml)              
+              # yaml.to_hash.keys.should eq(["foo"])
+              actual_json["final_output_nets"].size.should eq(expected_size)
+              expected_json["final_output_nets"].size.should eq(expected_size)
+              # actual_json["final_output_nets"].size.should eq(expected_json["final_output_nets"].size)
+            end
+          end
+  
+          # describe "containing an array" do
+          #   it "of expected data" do
+          #     # rnn_state.final_output_nets.first.class.should eq(Ai4cr::NeuralNetwork::Backpropagation::Net)
+          #     actual_json["final_output_nets"].size.should eq(expected_size)
+          #     actual_json["final_output_nets"].size.should eq(expected_json["final_output_nets"].size)
+          #   end
+          # end
+        end
+  
         # describe "mem_bkprops" do
         #   expected_mem_bkprops = Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net))).from_json(expected_json["mem_bkprops"].to_json)
         #   actual_mem_bkprops = Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net))).from_json(actual_json["mem_bkprops"].to_json)

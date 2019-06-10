@@ -70,8 +70,8 @@ module Ai4cr
 
         # Initialize neurons structure.
         private def init_activation_nodes
-          act_nodes = (0...config.structure.size).map do |n|
-            (0...config.structure[n]).map { 1.0 }
+          act_nodes = (0...config.structure.size).to_a.map do |n|
+            (0...config.structure[n]).to_a.map { 1.0 }
           end
           if !config.disable_bias
             act_nodes[0...-1].each { |layer| layer << 1.0 }
@@ -82,11 +82,11 @@ module Ai4cr
         # Initialize the weight arrays using function specified with the
         # initial_weight_function parameter
         private def init_weights
-          (0...config.structure.size - 1).map do |i|
+          (0...config.structure.size - 1).to_a.map do |i|
             nodes_origin_size = @activation_nodes[i].size
             nodes_target_size = config.structure[i + 1]
-            (0...nodes_origin_size).map do |j|
-              (0...nodes_target_size).map do |k|
+            (0...nodes_origin_size).to_a.map do |j|
+              (0...nodes_target_size).to_a.map do |k|
                 initial_weight_function.call(i, j, k)
               end
             end
@@ -97,9 +97,9 @@ module Ai4cr
         # previous training. This method initialize the @last_changes
         # structure with 0 values.
         private def init_last_changes
-          (0...@weights.size).map do |w|
-            (0...@weights[w].size).map do |i|
-              (0...@weights[w][i].size).map { 0.0 }
+          (0...@weights.size).to_a.map do |w|
+            (0...@weights[w].size).to_a.map do |i|
+              (0...@weights[w][i].size).to_a.map { 0.0 }
             end
           end
         end
@@ -109,7 +109,7 @@ module Ai4cr
         end
         
         private def init_input_deltas
-          config.structure.first.times.map{0.0}.to_a
+          config.structure.first.times.to_a.map{0.0}.to_a
         end
       end
     end

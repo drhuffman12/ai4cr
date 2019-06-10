@@ -30,7 +30,8 @@ module Ai4cr
             qty_recent_memory = 2,
             
             # Embedded Backpropagation Nets:
-            learning_rate = nil, momentum = nil
+            # learning_rate = nil, momentum = nil
+            learning_rate = 0.5, momentum = 0.25
           )
         end
 

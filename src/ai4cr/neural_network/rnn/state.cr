@@ -12,7 +12,8 @@ module Ai4cr
         
         property mem_bkprops : Array(Array(Array(Ai4cr::NeuralNetwork::Rnn::MemBkprop::Net)))
         # property last_channel_to_outputs : Array(NeuralNetwork::Backpropagation::Net)
-        property last_combos_to_outputs : Array(NeuralNetwork::Backpropagation::Net)
+
+        property final_output_nets : Array(NeuralNetwork::Backpropagation::Net)
 
         def initialize(
           # RNN Net:
@@ -38,14 +39,14 @@ module Ai4cr
           )
 
           @mem_bkprops = init_mem_bkprops
-          @last_combos_to_outputs = init_last_combos_to_outputs
+          @final_output_nets = init_final_output_nets
         end
 
         def init_mem_bkprops
           channel_set_index_max = config.qty_lpfc_layers - 1
-          (0..channel_set_index_max).map do |channel_set_index|
+          (0..channel_set_index_max).to_a.map do |channel_set_index|
             [ChannelType::Local.value, ChannelType::Past.value, ChannelType::Future.value, ChannelType::Combo.value].map do |channel_type|
-              (0..(config.qty_time_cols - 1)).map do |time_col_index|                
+              (0..(config.qty_time_cols - 1)).to_a.map do |time_col_index|                
                 init_mem_bkprop_at(channel_set_index, channel_type, time_col_index)
               end
             end
@@ -238,10 +239,10 @@ module Ai4cr
           # end
 
 
-        def init_last_combos_to_outputs
+        def init_final_output_nets
           channel_set_index_max = config.qty_lpfc_layers - 1
           channel_type = ChannelType::Combo.value
-          (0..(config.qty_time_cols - 1)).map do |time_col_index|
+          (0..(config.qty_time_cols - 1)).to_a.map do |time_col_index|
             NeuralNetwork::Backpropagation::Net.new(
               structure: [config.qty_states_channel_out, config.qty_states_out],
               disable_bias: true,
