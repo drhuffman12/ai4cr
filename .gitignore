@@ -1,5 +1,6 @@
 /lib/
 /bin/
+/tmp/
 /.shards/
 
 # Libraries don't need dependency lock
@@ -10,4 +11,3 @@
 /_scratch_/
 /.OLD/
 *.OLD
-tmp/
