@@ -53,6 +53,10 @@ If you'd like another class of Ai4r ported, feel free to submit a [new issue](ht
 ### Build
 
 ```bash
+# for a cleaner build:
+docker-compose build --force-rm --no-cache --pull
+
+# normally:
 docker-compose build
 ```
 
