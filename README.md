@@ -50,6 +50,12 @@ If you'd like another class of Ai4r ported, feel free to submit a [new issue](ht
 4. Push to the branch (git push origin my-new-feature)
 5. Create a new Pull Request
 
+### (Re-)Format
+
+```bash
+docker-compose run app reformat.sh
+```
+
 ### Build
 
 ```bash
