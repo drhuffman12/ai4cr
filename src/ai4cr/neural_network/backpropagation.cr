@@ -90,7 +90,7 @@ module Ai4cr
     #   Url::       http://ai4r.org
     struct Backpropagation
       include ::JSON::Serializable
-      
+
       property structure, disable_bias, learning_rate, momentum
       property weights, last_changes, activation_nodes
       property calculated_error_total : Float64
@@ -352,7 +352,7 @@ module Ai4cr
         end
         @calculated_error_total = error
       end
-      
+
       def check_input_dimension(inputs)
         if inputs != @structure.first
           msg = "Wrong number of inputs. " +

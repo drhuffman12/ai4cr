@@ -50,16 +50,26 @@ If you'd like another class of Ai4r ported, feel free to submit a [new issue](ht
 4. Push to the branch (git push origin my-new-feature)
 5. Create a new Pull Request
 
+### (Re-)Format
+
+```bash
+docker-compose run app scripts/reformat
+```
+
 ### Build
 
 ```bash
+# for a cleaner build:
+docker-compose build --force-rm --no-cache --pull
+
+# normally:
 docker-compose build
 ```
 
 ### Show version
 
 ```bash
-docker-compose run app crystal eval 'require "./src/ai4cr"; puts "Ai4cr version: #{Ai4cr::VERSION}"'
+docker-compose run app scripts/version_info
 ```
 
 ### Test
@@ -106,24 +116,28 @@ $ docker-compose build
 
 ### These should NEVER fail!
 
-```bash
-$ docker-compose run app crystal spec --release --no-debug --time --error-trace --no-color
-............................
+For any tests that should NEVER fail (e.g.: in spite of sufficient training), put them into `spec`, and run them via:
 
-Finished in 184 microseconds
-28 examples, 0 failures, 0 errors, 0 pending
-Execute: 00:00:00.005837007
+```bash
+$ docker-compose run app scripts/test_always
+..............................
+
+Finished in 4.01 milliseconds
+30 examples, 0 failures, 0 errors, 0 pending
+Execute: 00:00:00.010855717
 ```
 
 ### These will probably SOMETIMES fail!
 
+For any tests that could fails sometimes (e.g.: if not trained enough), put them into `spec_examples`, and run them via:
+
 ```bash
-$ docker-compose run app crystal spec --release --no-debug --time --error-trace --no-color spec_examples
+$ docker-compose run app scripts/test_sometimes
 .............
 
-Finished in 4.1 seconds
-13 examples, 0 failures, 0 errors, 0 pending
-Execute: 00:00:04.107645264
+Finished in 6.76 seconds
+16 examples, 0 failures, 0 errors, 0 pending
+Execute: 00:00:06.769663359
 ```
 
 NOTE: That time, it took less than a second to build. I did notice that it took about 10 seconds to build the first run and only less than a second each successive run.
