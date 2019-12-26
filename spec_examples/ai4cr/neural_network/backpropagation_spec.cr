@@ -47,7 +47,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
           end
           error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
         end
-      
+
         describe "JSON (de-)serialization works" do
           it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
             json = net.to_json
@@ -55,14 +55,14 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
 
             assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total, 0.000000001
           end
-        
+
           it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
             json = net.to_json
             net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
 
             assert_approximate_equality_of_nested_list net.activation_nodes, net2.activation_nodes, 0.000000001
           end
-        
+
           it "@weights of the dumped net approximately matches @weights of the loaded net" do
             json = net.to_json
             net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
