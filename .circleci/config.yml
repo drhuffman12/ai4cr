@@ -11,9 +11,9 @@ jobs:
           command: |
             mkdir -p test-results/spec
             crystal -v > test-results/crystal_version.txt
-            crystal eval 'require "./src/ai4cr"; puts "Ai4cr version: #{Ai4cr::VERSION}"' > test-results/app_version.txt
-            time crystal spec --release --no-debug --time --error-trace --no-color > test-results/spec/results.txt
-            time crystal spec --release --no-debug --time --error-trace --no-color --junit_output test-results/results
+            scripts/version_info > test-results/app_version.txt
+            time scripts/test_always > test-results/spec/results.txt
+            time scripts/test_always_junit_format
 
       # collect reports
       - store_test_results:

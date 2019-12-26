@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+crystal eval 'require "./src/ai4cr"; puts "Ai4cr version: #{Ai4cr::VERSION}"'
