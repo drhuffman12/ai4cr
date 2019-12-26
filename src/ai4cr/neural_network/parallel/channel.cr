@@ -4,7 +4,7 @@ require "json"
 module Ai4cr
   module NeuralNetwork
     module Parallel
-      enum ChannelType
+      enum Channel
         Input  = -1
         Past   =  0
         Local  =  1
