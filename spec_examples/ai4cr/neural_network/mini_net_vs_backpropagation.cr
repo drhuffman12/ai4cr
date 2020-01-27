@@ -144,5 +144,45 @@ def wip
   puts mn.guesses_bottom_n
 
   puts mn.outputs_guessed
+
+
+  ####
+
+  require "./src/ai4cr/neural_network/mini_net_relu.cr"
+  
+  # inputs_given = [-0.1,0.2,-0.3,0.4,-0.5]
+  # outputs_expected = [1.0,0.0,-1.0,1.0,0.0]
+
+
+  inputs_given = [0.1,0.2,0.3,0.4,0.5]
+  outputs_expected = [1.0,0.0,1.0,1.0,0.0]
+
+  mn = Ai4cr::NeuralNetwork::MiniNetRelu.new(width: inputs_given.size, height: outputs_expected.size)
+  puts mn.pretty_inspect
+  result = mn.step_eval(inputs_given)
+
+  qty_training_sessions = 5
+  error_list = Array(Float64).new(qty_training_sessions, 0.0)
+
+  puts "\n"
+  qty_training_sessions.times.each do |i|
+    print "."
+    error_list[i] = mn.step_train(inputs_given, outputs_expected)
+  end
+  puts "\n"
+
+  puts mn.pretty_inspect
+  puts error_list.pretty_inspect
+
+  puts mn.guesses_rounded
+
+  puts mn.guesses_ceiled  
+  
+  puts mn.guesses_sorted
+  puts mn.guesses_top_n
+  puts mn.guesses_bottom_n
+
+  puts mn.outputs_guessed
+
 end
 

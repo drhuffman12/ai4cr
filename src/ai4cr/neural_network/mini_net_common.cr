@@ -66,11 +66,15 @@ module Ai4cr
 
       ## To get the sorted/top/bottom n output results
       def guesses_sorted
-        @outputs_guessed.map_with_index { |o, index| [index,o].sort }
+        @outputs_guessed.map_with_index { |o, idx| [idx,o].sort }
       end
 
-      def guesses_rounded
+      def guesses_rounded # good for MiniNetExp; and maybe MiniNetRanh
         @outputs_guessed.map { |v| v.round }
+      end
+
+      def guesses_ceiled # good for MiniNetRelu
+        @outputs_guessed.map { |v| v.ceil }
       end
 
       def guesses_top_n(n = @outputs_guessed.size)
