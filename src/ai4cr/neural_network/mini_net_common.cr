@@ -64,6 +64,10 @@ module Ai4cr
         @outputs_guessed
       end
 
+      def guesses_best
+        @outputs_guessed
+      end
+
       ## To get the sorted/top/bottom n output results
       def guesses_sorted
         @outputs_guessed.map_with_index { |o, idx| [idx,o].sort }

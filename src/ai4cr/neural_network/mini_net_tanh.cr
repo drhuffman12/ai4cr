@@ -18,6 +18,10 @@ module Ai4cr
         ->(y : Float64) { 1.0 - (y**2) }
       end
       ####
+
+      def guesses_best
+        guesses_rounded
+      end
       
     end
   end

@@ -18,6 +18,10 @@ module Ai4cr
         ->(y : Float64) { y < 0 ? 0.0 : 1.0 }
       end
       ####
+
+      def guesses_best
+        guesses_ceiled
+      end
       
     end
   end
