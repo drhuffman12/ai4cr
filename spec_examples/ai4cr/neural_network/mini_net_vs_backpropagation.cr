@@ -31,7 +31,7 @@ def wip
     [-0.5,-1.0],
   ]
   puts mn.pretty_inspect
-  result = mn.step_eval(inputs_given)
+  result = mn.eval(inputs_given)
   #=> [0.31002551887238755, 0.16798161486607552]
 
   qty_training_sessions = 10
@@ -40,7 +40,7 @@ def wip
   puts "\n"
   qty_training_sessions.times.each do |i|
     print "."
-    error_list[i] = mn.step_train(inputs_given, outputs_expected)
+    error_list[i] = mn.train(inputs_given, outputs_expected)
   end
   puts "\n"
 
@@ -59,7 +59,7 @@ def wip
 
   mn = Ai4cr::NeuralNetwork::MiniNetExp.new(width: inputs_given.size, height: outputs_expected.size)
   puts mn.pretty_inspect
-  result = mn.step_eval(inputs_given)
+  result = mn.eval(inputs_given)
   # => [0.02931223075135632, 0.0009110511944006454]
 
   qty_training_sessions = 500
@@ -68,7 +68,7 @@ def wip
   puts "\n"
   qty_training_sessions.times.each do |i|
     print "."
-    error_list[i] = mn.step_train(inputs_given, outputs_expected)
+    error_list[i] = mn.train(inputs_given, outputs_expected)
   end
   puts "\n"
 
@@ -91,7 +91,7 @@ def wip
 
   mn = Ai4cr::NeuralNetwork::MiniNetExp.new(width: inputs_given.size, height: outputs_expected.size)
   puts mn.pretty_inspect
-  result = mn.step_eval(inputs_given)
+  result = mn.eval(inputs_given)
 
   qty_training_sessions = 500
   error_list = Array(Float64).new(qty_training_sessions, 0.0)
@@ -99,7 +99,7 @@ def wip
   puts "\n"
   qty_training_sessions.times.each do |i|
     print "."
-    error_list[i] = mn.step_train(inputs_given, outputs_expected)
+    error_list[i] = mn.train(inputs_given, outputs_expected)
   end
   puts "\n"
 
@@ -122,7 +122,7 @@ def wip
 
   mn = Ai4cr::NeuralNetwork::MiniNetTanh.new(width: inputs_given.size, height: outputs_expected.size)
   puts mn.pretty_inspect
-  result = mn.step_eval(inputs_given)
+  result = mn.eval(inputs_given)
 
   qty_training_sessions = 5000
   error_list = Array(Float64).new(qty_training_sessions, 0.0)
@@ -130,7 +130,7 @@ def wip
   puts "\n"
   qty_training_sessions.times.each do |i|
     print "."
-    error_list[i] = mn.step_train(inputs_given, outputs_expected)
+    error_list[i] = mn.train(inputs_given, outputs_expected)
   end
   puts "\n"
 
@@ -159,7 +159,7 @@ def wip
 
   mn = Ai4cr::NeuralNetwork::MiniNetRelu.new(width: inputs_given.size, height: outputs_expected.size)
   puts mn.pretty_inspect
-  result = mn.step_eval(inputs_given)
+  result = mn.eval(inputs_given)
 
   qty_training_sessions = 5
   error_list = Array(Float64).new(qty_training_sessions, 0.0)
@@ -167,7 +167,7 @@ def wip
   puts "\n"
   qty_training_sessions.times.each do |i|
     print "."
-    error_list[i] = mn.step_train(inputs_given, outputs_expected)
+    error_list[i] = mn.train(inputs_given, outputs_expected)
   end
   puts "\n"
 

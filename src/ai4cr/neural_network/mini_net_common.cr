@@ -32,8 +32,8 @@ module Ai4cr
         disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil
       )
         @disable_bias = !!disable_bias
-        @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? 0.25 : learning_rate.as(Float64)
-        @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : 0.1
+        @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
+        @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
 
         @height_considering_bias = @height + (@disable_bias ? 0 : 1)
         @range_height = Array.new(@height_considering_bias) { |i| i }
@@ -56,7 +56,7 @@ module Ai4cr
       end
 
       ## steps for 'eval' aka 'guess':
-      def step_eval(inputs_given)
+      def eval(inputs_given) # aka eval
         step_load_inputs(inputs_given)
         step_calc_forward
         # ...
@@ -90,7 +90,7 @@ module Ai4cr
       end
 
       ## training steps
-      def step_train(inputs_given, outputs_expected)
+      def train(inputs_given, outputs_expected)
         step_load_inputs(inputs_given)
         step_calc_forward
         # ...
