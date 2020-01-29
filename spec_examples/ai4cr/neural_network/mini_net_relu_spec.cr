@@ -38,7 +38,7 @@ describe Ai4cr::NeuralNetwork::MiniNetRelu do
       net = Ai4cr::NeuralNetwork::MiniNetRelu.new(height: 256, width: 3)
 
       # net.learning_rate = rand
-      qty = 100000
+      qty = 100_000
 
       describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
         puts "\nTRAINING:\n"
