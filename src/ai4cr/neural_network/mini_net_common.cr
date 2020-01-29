@@ -18,15 +18,14 @@ module Ai4cr
       property last_changes : Array(Array(Float64)) # aka previous weights
       property calculated_error_total : Float64
 
-      # property inputs_given : Array(Float64), 
       property outputs_expected : Array(Float64)
 
-      property inputs_deltas : Array(Float64), output_deltas : Array(Float64)
+      property input_deltas : Array(Float64), output_deltas : Array(Float64)
 
       property disable_bias : Bool
       property learning_rate  : Float64
       property momentum : Float64
-
+                                                                                                                                   
       def initialize(
         @height, @width,
         disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil
@@ -34,13 +33,36 @@ module Ai4cr
         @disable_bias = !!disable_bias
         @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
         @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
-
+        
+        # init_network:
         @height_considering_bias = @height + (@disable_bias ? 0 : 1)
         @range_height = Array.new(@height_considering_bias) { |i| i }
 
         @inputs_given = Array.new(@height_considering_bias, 0.0)
         @inputs_given[-1] = 1 unless @disable_bias
-        @inputs_deltas = Array.new(@height_considering_bias, 0.0)
+        @input_deltas = Array.new(@height_considering_bias, 0.0)
+
+        @range_width = Array.new(@width) { |i| i }
+
+        @outputs_guessed = Array.new(@width, 0.0)
+        @outputs_expected = Array.new(@width, 0.0)
+        @output_deltas = Array.new(@width, 0.0)        
+
+        @weights = @range_height.map { @range_width.map { rand*2-1 } }
+
+        @last_changes = Array.new(@height_considering_bias, Array.new(@width, 0.0))
+
+        @calculated_error_total = 0.0
+      end
+
+      def init_network
+        # init_network:
+        @height_considering_bias = @height + (@disable_bias ? 0 : 1)
+        @range_height = Array.new(@height_considering_bias) { |i| i }
+
+        @inputs_given = Array.new(@height_considering_bias, 0.0)
+        @inputs_given[-1] = 1 unless @disable_bias
+        @input_deltas = Array.new(@height_considering_bias, 0.0)
 
         @range_width = Array.new(@width) { |i| i }
 
@@ -113,9 +135,9 @@ module Ai4cr
         load_outputs_expected(outputs_expected)
       end
 
-      # This would be a chained MiniNet's inputs_deltas
+      # This would be a chained MiniNet's input_deltas
       # e.g.: mini_net_A feeds is chained into mini_net_B
-      #    So you would mini_net_A.step_load_chained_outputs_deltas(mini_net_B.inputs_deltas)
+      #    So you would mini_net_A.step_load_chained_outputs_deltas(mini_net_B.input_deltas)
       def step_load_chained_outputs_deltas(outputs_deltas)
         raise "Invalid outputs_deltas size" if outputs_expected.size != @width
         load_outputs_deltas(outputs_deltas)
@@ -127,33 +149,18 @@ module Ai4cr
         step_update_weights
       end
 
-      # def step_calculate_output_deltas
-      #   @outputs_expected.map_with_index do |oe, index|
-      
-      #     @output_deltas_raw[index] = oe - @outputs_guessed[index]
-      #     @output_errors[index] = oe - @outputs_guessed[index]
-
-      #     @output_deltas_capped[index]
-      #     output_deltas << derivative_propagation_function.call(output_values[output_index]) * error
-      #   end
-      # end
-
       # private
 
       def load_inputs(inputs_given)
         # Network could have a bias, which is racked onto to the end of the inputs, so we must account for that.
-        # @inputs_given = inputs_given.map { |v| v.to_f }}
-        # @inputs_given.map_with_index! { |v, i| inputs_given[i].to_f }
         inputs_given.each_with_index { |v,i| @inputs_given[i] = v.to_f }
       end
 
       def load_outputs_expected(outputs_expected)
-        # @outputs_expected = outputs_expected.map { |v| v.to_f }
         @outputs_expected.map_with_index! { |v, i| outputs_expected[i] }
       end
 
       def load_outputs_deltas(outputs_deltas)
-        # @outputs_deltas = outputs_deltas.map { |v| v.to_f }
         @outputs_deltas.map_with_index! { |v, i| outputs_deltas[i] }
       end
 
@@ -183,40 +190,40 @@ module Ai4cr
         end
       end
 
+      # Calculate deltas for output layer
       def step_calculate_output_deltas # (outputs_expected)
-        # step_load_outputs(outputs_expected)
         @output_deltas.map_with_index! do |d, i|
           error = @outputs_expected[i] - @outputs_guessed[i]
           derivative_propagation_function.call(@outputs_guessed[i]) * error
         end
       end
 
-      def step_calc_input_deltas # aka calculate_internal_deltas aka step_calculate_internal_deltas
-        @inputs_deltas.map_with_index! do |vi, ih|
+      # Calculate deltas for hidden layers
+      def step_calc_input_deltas # calculate_internal_deltas
+        prev_deltas = @output_deltas
+        layer_index = 1
+        layer_deltas = [] of Float64
+        height_considering_bias.times.to_a.each do |j|
           error = 0.0
-          @range_width.map do |iw|
-            # error += @inputs_given[ih]*@weights[ih][iw]
-            error += @output_deltas[iw] * @weights[ih][iw]
+          @width.times do |k|
+            error += @output_deltas[k] * @weights[j][k]
           end
-          # propagation_function.call(sum)
-          derivative_propagation_function.call(@inputs_given[ih]) * error
-          # sum
+          layer_deltas << (derivative_propagation_function.call(@inputs_given[j]) * error)
         end
+        @input_deltas = layer_deltas
       end
 
-      def step_update_weights # aka update_weights
-        @range_height.each do |ih|
-          @range_width.each do |iw|
-            # rand*2-1
-
-            # change = @deltas[n][j]*@activation_nodes[n][i]
-            # @last_changes[n][i][j] = change
-            # @weights[n][i][j] += (learning_rate * change +
-            #                       momentum * @last_changes[n][i][j])
-
-            change = @output_deltas[iw] * @inputs_given[ih]
-            @weights[ih][iw] = @learning_rate * change + @momentum * @last_changes[ih][iw] 
-            @last_changes[ih][iw] = change           
+      # Update weights after @deltas have been calculated.
+      def step_update_weights # update_weights
+        # per input row weights from first to last...
+        # j == input row number
+        height_considering_bias.times.to_a.each do |j|
+          # per output column weights from first to last...
+          # k == out column number
+          @weights[j].each_with_index do |_elem, k|
+            change = @output_deltas[k]*@inputs_given[j]
+            @weights[j][k] += (learning_rate * change + momentum * @last_changes[j][k])
+            @last_changes[j][k] = change
           end
         end
       end
