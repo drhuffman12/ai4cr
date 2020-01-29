@@ -125,9 +125,9 @@ module Ai4cr
         @calculated_error_total # @error
       end
 
-      def step_load_inputs(inputs_given)
-        raise "Invalid inputs_given size: #{inputs_given.size}; should be height: #{@height}" if inputs_given.size != @height
-        load_inputs(inputs_given)
+      def step_load_inputs(inputs)
+        raise "Invalid inputs_given size: #{inputs.size}; should be height: #{@height}" if inputs.size != @height
+        load_inputs(inputs)
       end
 
       def step_load_outputs(outputs_expected)
