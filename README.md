@@ -2,6 +2,8 @@
 
 CircleCI status: [![CircleCI](https://circleci.com/gh/drhuffman12/ai4cr.svg?style=svg)](https://circleci.com/gh/drhuffman12/ai4cr)
 
+[![GitHub release](https://img.shields.io/github/release/drhuffman12/ascii_bar_charter.js.svg)](https://GitHub.com/drhuffman12/ascii_bar_charter.js/releases/)
+
 Artificial Intelligence for Crystal (based on https://github.com/SergioFierens/ai4r)
 
 ## Installation
@@ -12,6 +14,7 @@ Add this to your application's `shard.yml`:
 dependencies:
   ai4cr:
     github: drhuffman12/ai4cr
+    branch: master
 ```
 
 ## Usage
