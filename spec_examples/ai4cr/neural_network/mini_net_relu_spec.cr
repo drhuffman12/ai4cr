@@ -38,8 +38,8 @@ describe Ai4cr::NeuralNetwork::MiniNetRelu do
       net = Ai4cr::NeuralNetwork::MiniNetRelu.new(height: 256, width: 3, error_distance_history_max: 60)
 
       # net.learning_rate = rand
-      qty = 30000 # 100_000
-      # qty_10_percent = qty // 10
+      qty = 3000 # 100_000
+      qty_10_percent = qty // 10
 
       describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
         puts "\nTRAINING:\n"
@@ -50,13 +50,13 @@ describe Ai4cr::NeuralNetwork::MiniNetRelu do
             case s
             when :tr
               errors[:tr] = net.train(tr_input, is_a_triangle)
-              net.step_calculate_error_distance_history # if i % qty_10_percent == 0
+              net.step_calculate_error_distance_history if i % qty_10_percent == 0
             when :sq
               errors[:sq] = net.train(sq_input, is_a_square)
-              net.step_calculate_error_distance_history # if i % qty_10_percent == 0
+              net.step_calculate_error_distance_history if i % qty_10_percent == 0
             when :cr
               errors[:cr] = net.train(cr_input, is_a_cross)
-              net.step_calculate_error_distance_history # if i % qty_10_percent == 0
+              net.step_calculate_error_distance_history if i % qty_10_percent == 0
             end
           end
           error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -75,7 +75,7 @@ describe Ai4cr::NeuralNetwork::MiniNetRelu do
 
         puts "#{net.class.name}:"
         puts "  plot: '#{plot}'"
-        puts "  error_distance_history: '#{net.error_distance_history}'"
+        puts "  error_distance_history: '#{net.error_distance_history.map{|e| e.round(6)}}'"
         
         puts "\n--------\n"
 
