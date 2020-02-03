@@ -16,7 +16,7 @@ module Ai4cr
       property inputs_given : Array(Float64), outputs_guessed : Array(Float64)
       property weights : Array(Array(Float64))
       property last_changes : Array(Array(Float64)) # aka previous weights
-      property calculated_error_total : Float64
+      property error_total : Float64
 
       property outputs_expected : Array(Float64)
 
@@ -25,10 +25,14 @@ module Ai4cr
       property disable_bias : Bool
       property learning_rate  : Float64
       property momentum : Float64
+
+      property error_distance_history_max : Int32
+      property error_distance_history : Array(Float64)
                                                                                                                                    
       def initialize(
         @height, @width,
-        disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil
+        disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil,
+        error_distance_history_max : Int32 = 10
       )
         @disable_bias = !!disable_bias
         @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
@@ -52,10 +56,14 @@ module Ai4cr
 
         @last_changes = Array.new(@height_considering_bias, Array.new(@width, 0.0))
 
-        @calculated_error_total = 0.0
+        @error_total = 0.0
+
+        @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
+        @error_distance = 0.0
+        @error_distance_history = Array.new(0, 0.0)
       end
 
-      def init_network
+      def init_network(error_distance_history_max : Int32 = 10)
         # init_network:
         @height_considering_bias = @height + (@disable_bias ? 0 : 1)
         @range_height = Array.new(@height_considering_bias) { |i| i }
@@ -74,7 +82,11 @@ module Ai4cr
 
         @last_changes = Array.new(@height_considering_bias, Array.new(@width, 0.0))
 
-        @calculated_error_total = 0.0
+        @error_total = 0.0
+
+        @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
+        @error_distance = 0.0
+        @error_distance_history = Array.new(0, 0.0)
       end
 
       ## steps for 'eval' aka 'guess':
@@ -112,7 +124,7 @@ module Ai4cr
       end
 
       ## training steps
-      def train(inputs_given, outputs_expected)
+      def train(inputs_given, outputs_expected, until_min_avg_error = 0.1)
         step_load_inputs(inputs_given)
         step_calc_forward
         # ...
@@ -122,7 +134,7 @@ module Ai4cr
         step_calculate_error
 
         # {outputs_guessed: @outputs_guessed, deltas: @deltas, error: @error}
-        @calculated_error_total # @error
+        @error_total # @error
       end
 
       def step_load_inputs(inputs)
@@ -229,11 +241,29 @@ module Ai4cr
       end
 
       def step_calculate_error # aka calculate_error
-        @calculated_error_total = 0.0
+        error = 0.0
         @outputs_expected.map_with_index do |oe, iw|
-          @calculated_error_total += 0.5*(oe - @outputs_guessed[iw])**2
+          error += 0.5*(oe - @outputs_guessed[iw])**2
         end
-        @calculated_error_total
+        @error_total = error
+      end
+
+      # Calculate the radius of the error as if each output cell is an value in a coordinate set
+      def step_calculate_error_distance_history
+        # @error_distance_history_max = error_distance_history_max
+        return @error_distance_history = [-1.0] if @error_distance_history_max < 1
+        error = 0.0
+        @outputs_expected.map_with_index do |oe, iw|
+          error += (oe - @outputs_guessed[iw])**2
+        end
+        @error_distance = Math.sqrt(error)
+        if @error_distance_history.size < @error_distance_history_max - 1
+          @error_distance_history << error_total
+        else
+          @error_distance_history.rotate!
+          @error_distance_history[-1] = error_total
+        end
+        @error_distance_history
       end
     end
   end

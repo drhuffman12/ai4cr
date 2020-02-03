@@ -1,9 +1,9 @@
+require "json"
+require "ascii_bar_charter"
 require "./../../spec_helper"
 require "../../support/neural_network/data/training_patterns"
 require "../../support/neural_network/data/patterns_with_noise"
 require "../../support/neural_network/data/patterns_with_base_noise"
-# require "json/builder"
-require "json"
 
 def mini_net_exp_best_guess(net, raw_in)
   # result = net.eval(raw_in)
@@ -35,10 +35,11 @@ describe Ai4cr::NeuralNetwork::MiniNetExp do
       sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
       cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-      net = Ai4cr::NeuralNetwork::MiniNetExp.new(height: 256, width: 3)
+      net = Ai4cr::NeuralNetwork::MiniNetExp.new(height: 256, width: 3, error_distance_history_max: 60)
 
       # net.learning_rate = rand
-      qty = 100_000
+      qty = 30000 # 100_000
+      # qty_10_percent = qty // 10
 
       describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
         puts "\nTRAINING:\n"
@@ -49,14 +50,33 @@ describe Ai4cr::NeuralNetwork::MiniNetExp do
             case s
             when :tr
               errors[:tr] = net.train(tr_input, is_a_triangle)
+              net.step_calculate_error_distance_history # if i % qty_10_percent == 0
             when :sq
               errors[:sq] = net.train(sq_input, is_a_square)
+              net.step_calculate_error_distance_history # if i % qty_10_percent == 0
             when :cr
               errors[:cr] = net.train(cr_input, is_a_cross)
+              net.step_calculate_error_distance_history # if i % qty_10_percent == 0
             end
           end
           error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
         end
+
+        puts "\n--------\n"
+        min = 0.0
+        max = 1.0
+        precision = 2.to_i8
+        in_bw = false
+        prefixed = false
+        reversed = false
+
+        charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
+        plot = charter.plot(net.error_distance_history, prefixed)
+
+        puts "#{net.class.name}:"
+        puts "  plot: '#{plot}'"
+        puts "  error_distance_history: '#{net.error_distance_history}'"
+        
         puts "\n--------\n"
 
         # describe "JSON (de-)serialization works" do

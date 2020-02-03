@@ -12,6 +12,11 @@ development_dependencies:
   ameba:
     github: crystal-ameba/ameba
     version: ~> 0.11.0
+
+  ascii_bar_charter:
+    github: drhuffman12/ascii_bar_charter
+    branch: master
+
   # aasm:
   #   github: veelenga/aasm.cr
   #   # version: 0.11.0
