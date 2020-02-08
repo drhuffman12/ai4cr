@@ -258,8 +258,10 @@ module Ai4cr
         end
         @error_distance = Math.sqrt(error)
         if @error_distance_history.size < @error_distance_history_max - 1
+          # Array not 'full' yet, so add latest value to end
           @error_distance_history << error_total
         else
+          # Array 'full', so rotate end to front and then put new value at last index
           @error_distance_history.rotate!
           @error_distance_history[-1] = error_total
         end
