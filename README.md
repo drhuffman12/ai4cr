@@ -43,51 +43,51 @@ assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.00000000
 
 ## Roadmap
 
--[ ] Add RNN
+- [ ]  Add RNN
 
--[ ] Port from `ai4r`:
-  -[ ] classifiers
-    -[ ] classifier.rb
-    -[ ] hyperpipes.rb
-    -[ ] ib1.rb
-    -[ ] id3.rb
-    -[ ] multilayer_perceptron.rb
-    -[ ] naive_bayes.rb
-    -[ ] one_r.rb
-    -[ ] prism.rb
-    -[ ] simple_linear_regression.rb
-    -[ ] votes.rb
-      -[ ] zero_r.rb
-  -[ ] clusterers
-    -[ ] average_linkage.rb
-    -[ ] bisecting_k_means.rb
-    -[ ] centroid_linkage.rb
-    -[ ] clusterer.rb
-    -[ ] complete_linkage.rb
-    -[ ] diana.rb
-    -[ ] k_means.rb
-    -[ ] median_linkage.rb
-    -[ ] single_linkage.rb
-    -[ ] ward_linkage_hierarchical.rb
-    -[ ] ward_linkage.rb
-      -[ ] weighted_average_linkage.rb
-  -[ ] data
-    -[ ] data_set.rb
-    -[ ] parameterizable.rb
-    -[ ] proximity.rb
-      -[ ] statistics.rb
-  -[ ] experiment
-      -[ ] classifier_evaluator.rb
-  -[ ] genetic_algorithm
-      -[ ] genetic_algorithm.rb
-  -[ ] neural_network
+- [ ]  Port from `ai4r`:
+  - [ ]  classifiers
+    - [ ]  classifier.rb
+    - [ ]  hyperpipes.rb
+    - [ ]  ib1.rb
+    - [ ]  id3.rb
+    - [ ]  multilayer_perceptron.rb
+    - [ ]  naive_bayes.rb
+    - [ ]  one_r.rb
+    - [ ]  prism.rb
+    - [ ]  simple_linear_regression.rb
+    - [ ]  votes.rb
+      - [ ]  zero_r.rb
+  - [ ]  clusterers
+    - [ ]  average_linkage.rb
+    - [ ]  bisecting_k_means.rb
+    - [ ]  centroid_linkage.rb
+    - [ ]  clusterer.rb
+    - [ ]  complete_linkage.rb
+    - [ ]  diana.rb
+    - [ ]  k_means.rb
+    - [ ]  median_linkage.rb
+    - [ ]  single_linkage.rb
+    - [ ]  ward_linkage_hierarchical.rb
+    - [ ]  ward_linkage.rb
+      - [ ]  weighted_average_linkage.rb
+  - [ ]  data
+    - [ ]  data_set.rb
+    - [ ]  parameterizable.rb
+    - [ ]  proximity.rb
+      - [ ]  statistics.rb
+  - [ ]  experiment
+      - [ ]  classifier_evaluator.rb
+  - [ ]  genetic_algorithm
+      - [ ]  genetic_algorithm.rb
+  - [ ]  neural_network
     -[x] backpropagation.rb
-    -[ ] hopfield.rb
-  -[ ] som
-    -[ ] layer.rb
-    -[ ] node.rb
-    -[ ] som.rb
-    -[ ] two_phase_layer.rb
+    - [ ]  hopfield.rb
+  - [ ]  som
+    - [ ]  layer.rb
+    - [ ]  node.rb
+    - [ ]  som.rb
+    - [ ]  two_phase_layer.rb
 
 If you'd like another class of Ai4r ported, feel free to submit a [new issue](https://github.com/drhuffman12/ai4cr/issues/new).
 
