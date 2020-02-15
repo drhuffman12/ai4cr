@@ -1,9 +1,9 @@
 name: ai4cr
-version: 0.1.7
+version: 0.1.8
 
 authors:
   - Daniel Huffman <drhuffman12@yahoo.com>
 
-crystal: 0.32.1
+crystal: 0.33.0
 
 license: MIT
