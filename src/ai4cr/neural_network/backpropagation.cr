@@ -126,9 +126,9 @@ module Ai4cr
         @structure.last.to_i
       end
 
-      def deltas
-        @structure.last.to_i
-      end
+      # def deltas
+      #   @structure.last.to_i
+      # end
 
       def initial_weight_function
         ->(n : Int32, i : Int32, j : Int32) { ((rand(2000))/1000.0) - 1 }
@@ -150,7 +150,18 @@ module Ai4cr
         @activation_nodes = [[0.0]]
         @weights = [[[0.0]]]
         @last_changes = [[[0.0]]]
-        @deltas = [[0.0]]
+        # @deltas = [[0.0]]
+        # hidden_layer_count = (@structure.size - 2)
+        # @deltas = hidden_layer_count.last.times.to_a.map_with_index { @structure.last.times.to_a.map { 0.0 } }
+
+        # hidden_layer_count = (@structure.size - 2)
+        # @deltas = (hidden_layer_count.downto(0).to_a.map do |idl|
+        #   ((0..@structure[idl+1]).to_a.map { |idc| 0.0 }).as(Array((Float64)))
+        # end).as(Array(Array(Float64)))
+        @deltas = (@structure.size - 1).downto(1).to_a.map do |idl|
+          (0..(@structure[idl] - 1)).to_a.map { 0.0 }
+        end
+
         @calculated_error_total = 0.0
         init_network
       end
@@ -223,6 +234,7 @@ module Ai4cr
           weights:          @weights,
           last_changes:     @last_changes,
           activation_nodes: @activation_nodes,
+          deltas: @deltas
         }
       end
 
@@ -235,6 +247,7 @@ module Ai4cr
         @weights = tup[:weights].as(Array(Array(Array(Float64))))
         @last_changes = tup[:last_changes].as(Array(Array(Array(Float64))))
         @activation_nodes = tup[:activation_nodes].as(Array(Array(Float64)))
+        @deltas = tup[:deltas].as(Array(Array(Float64)))
         # @initial_weight_function = lambda { |n, i, j| ((rand(2000))/1000.0) - 1}
         # @propagation_function = lambda { |x| 1/(1+Math.exp(-1*(x))) } #lambda { |x| Math.tanh(x) }
         # @derivative_propagation_function = lambda { |y| y*(1-y) } #lambda { |y| 1.0 - y**2 }
@@ -330,8 +343,16 @@ module Ai4cr
 
       # Update weights after @deltas have been calculated.
       def update_weights
+        # per layer from last to first...
+        # n == layer number
         (@weights.size - 1).downto(0) do |n|
+
+          # per input row weights from first to last...
+          # i == input row number
           @weights[n].each_with_index do |_elem, i|
+
+            # per output column weights from first to last...
+            # j == out column number
             @weights[n][i].each_with_index do |_elem, j|
               change = @deltas[n][j]*@activation_nodes[n][i]
               @weights[n][i][j] += (learning_rate * change +
