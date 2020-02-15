@@ -1,6 +1,6 @@
-require "./../../spec_helper"
+require "./../../../spec_helper"
 
-describe Ai4cr::NeuralNetwork::MiniNetExp do
+describe Ai4cr::NeuralNetwork::Cmn::MiniNetExp do
   # describe "#init_network" do
   #   describe "when given a net with structure of [4, 2]" do
   #     structure = [4, 2]
@@ -10,7 +10,7 @@ describe Ai4cr::NeuralNetwork::MiniNetExp do
   #     expected_weights_size = 1
   #     expected_weights_first_size = 5
   #     expected_weights_first_sub_size = 2
-  #     net = Ai4cr::NeuralNetwork::MiniNetExp.new(structure).init_network
+  #     net = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(structure).init_network
 
   #     it "sets @activation_nodes to expected nested array" do
   #       net.activation_nodes.should eq(expected_activation_nodes)
@@ -50,7 +50,7 @@ describe Ai4cr::NeuralNetwork::MiniNetExp do
   #     expected_weights_size = 2
   #     expected_weights_first_size = 3
   #     expected_weights_first_sub_size = 2
-  #     net = Ai4cr::NeuralNetwork::MiniNetExp.new(structure).init_network
+  #     net = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(structure).init_network
 
   #     it "sets @activation_nodes to expected nested array" do
   #       net.activation_nodes.should eq(expected_activation_nodes)
@@ -90,7 +90,7 @@ describe Ai4cr::NeuralNetwork::MiniNetExp do
   #     expected_weights_size = 2
   #     expected_weights_first_size = 2 # one less than prev example since bias is disabled here
   #     expected_weights_first_sub_size = 2
-  #     net = Ai4cr::NeuralNetwork::MiniNetExp.new(structure).init_network
+  #     net = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(structure).init_network
   #     net.disable_bias = true
   #     net.init_network
 
@@ -132,7 +132,7 @@ describe Ai4cr::NeuralNetwork::MiniNetExp do
   #       out_size = 2
   #       inputs = [3, 2, 3]
   #       structure = [in_size, out_size]
-  #       net = Ai4cr::NeuralNetwork::MiniNetExp.new(structure)
+  #       net = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(structure)
 
   #       weights_before = net.weights.clone
   #       y = net.eval(inputs)
@@ -146,7 +146,7 @@ describe Ai4cr::NeuralNetwork::MiniNetExp do
   #       out_size = 2
   #       inputs = [3, 2, 3]
   #       structure = [in_size, out_size]
-  #       net = Ai4cr::NeuralNetwork::MiniNetExp.new(structure)
+  #       net = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(structure)
   #       y = net.eval(inputs)
   #       y.size.should eq(out_size)
   #     end
@@ -159,7 +159,7 @@ describe Ai4cr::NeuralNetwork::MiniNetExp do
   #       out_size = 7
   #       structure = [in_size] + layer_sizes + [out_size]
   #       inputs = [2, 3]
-  #       net = Ai4cr::NeuralNetwork::MiniNetExp.new(structure)
+  #       net = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(structure)
   #       y = net.eval(inputs)
   #       y.size.should eq(out_size)
   #     end
@@ -169,17 +169,17 @@ describe Ai4cr::NeuralNetwork::MiniNetExp do
   # describe "#dump" do
   #   describe "when given a net with structure of [3, 2]" do
   #     structure = [3, 2]
-  #     net = Ai4cr::NeuralNetwork::MiniNetExp.new([3, 2]).init_network
+  #     net = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new([3, 2]).init_network
 
   #     # TODO: Remove (marshal_dump and marshal_load are deprecated)
   #     s = net.marshal_dump
   #     structure = s[:structure]
-  #     x = Ai4cr::NeuralNetwork::MiniNetExp.new(structure).init_network
+  #     x = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(structure).init_network
   #     x.marshal_load(s)
 
   #     # NOTE: *_json replaces marshal_dump and marshal_load
   #     json = net.to_json
-  #     net2 = Ai4cr::NeuralNetwork::MiniNetExp.from_json(json)
+  #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.from_json(json)
 
   #     it "@structure of the dumped net matches @structure of the loaded net" do
   #       assert_equality_of_nested_list net.structure, x.structure # TODO: Remove (marshal_dump and marshal_load are deprecated)
@@ -227,7 +227,7 @@ describe Ai4cr::NeuralNetwork::MiniNetExp do
   #   describe "when given a net with structure of [3, 2]" do
   #     # before_each do
   #       structure = [3, 2]
-  #       net = Ai4cr::NeuralNetwork::MiniNetExp.new(height: 3, width: 2)
+  #       net = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(height: 3, width: 2)
   #       hard_coded_weights = [
   #         [-0.9,0.7],
   #         [-0.9,0.6],
@@ -355,7 +355,7 @@ describe Ai4cr::NeuralNetwork::MiniNetExp do
       # before_each do
         # structure = [3, 2]
         # net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
-        net = Ai4cr::NeuralNetwork::MiniNetExp.new(height: 3, width: 2)
+        net = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(height: 3, width: 2)
         hard_coded_weights = [
           [-0.9,0.7],
           [-0.9,0.6],

@@ -1,9 +1,7 @@
 require "json"
 require "ascii_bar_charter"
-require "./../../spec_helper"
-require "../../support/neural_network/data/training_patterns"
-require "../../support/neural_network/data/patterns_with_noise"
-require "../../support/neural_network/data/patterns_with_base_noise"
+require "./../../../spec_helper"
+require "../../../support/neural_network/data/*"
 
 def mini_net_exp_best_guess(net, raw_in)
   # result = net.eval(raw_in)
@@ -13,7 +11,7 @@ def mini_net_exp_best_guess(net, raw_in)
   net.guesses_best
 end
 
-describe Ai4cr::NeuralNetwork::MiniNetExp do
+describe Ai4cr::NeuralNetwork::Cmn::MiniNetExp do
   describe "#train" do
     describe "using image data (input) and shape flags (output) for triangle, square, and cross" do
       correct_count = 0
@@ -35,7 +33,7 @@ describe Ai4cr::NeuralNetwork::MiniNetExp do
       sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
       cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-      net = Ai4cr::NeuralNetwork::MiniNetExp.new(height: 256, width: 3, error_distance_history_max: 60)
+      net = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(height: 256, width: 3, error_distance_history_max: 60)
 
       # net.learning_rate = rand
       qty = 3000 # 100_000
@@ -82,21 +80,21 @@ describe Ai4cr::NeuralNetwork::MiniNetExp do
         # describe "JSON (de-)serialization works" do
         #   it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
         #     json = net.to_json
-        #     net2 = Ai4cr::NeuralNetwork::MiniNetExp.from_json(json)
+        #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.from_json(json)
 
         #     assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total, 0.000000001
         #   end
 
         #   it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
         #     json = net.to_json
-        #     net2 = Ai4cr::NeuralNetwork::MiniNetExp.from_json(json)
+        #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.from_json(json)
 
         #     assert_approximate_equality_of_nested_list net.activation_nodes, net2.activation_nodes, 0.000000001
         #   end
 
         #   it "@weights of the dumped net approximately matches @weights of the loaded net" do
         #     json = net.to_json
-        #     net2 = Ai4cr::NeuralNetwork::MiniNetExp.from_json(json)
+        #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.from_json(json)
 
         #     assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
         #   end

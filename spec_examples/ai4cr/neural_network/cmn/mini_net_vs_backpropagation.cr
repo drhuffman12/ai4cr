@@ -1,4 +1,4 @@
-require "./../../spec_helper"
+require "./../../../spec_helper"
 require "benchmark"
 
 width = 100
@@ -7,7 +7,7 @@ structure = [width, height]
 
 results = Benchmark.ips do |x|
   x.report("Backpropagation") { Ai4cr::NeuralNetwork::Backpropagation.new(structure: structure) }
-  x.report("MiniNetExp") { Ai4cr::NeuralNetwork::MiniNetExp.new(width: width, height: height) }
+  x.report("MiniNetExp") { Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(width: width, height: height) }
 end
 
 height_considering_bias = height + 1
@@ -30,9 +30,9 @@ def wip
   inputs_given = [0.1,0.2,0.3]
   outputs_expected = [1.0,0.0]
 
-  # mn = Ai4cr::NeuralNetwork::MiniNetExp.new(width: outputs_expected.size, height: inputs_given.size)
-  # mn = Ai4cr::NeuralNetwork::MiniNetTanh.new(width: outputs_expected.size, height: inputs_given.size)
-  mn = Ai4cr::NeuralNetwork::MiniNetRelu.new(width: outputs_expected.size, height: inputs_given.size)
+  # mn = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(width: outputs_expected.size, height: inputs_given.size)
+  # mn = Ai4cr::NeuralNetwork::Cmn::MiniNetTanh.new(width: outputs_expected.size, height: inputs_given.size)
+  mn = Ai4cr::NeuralNetwork::Cmn::MiniNetRelu.new(width: outputs_expected.size, height: inputs_given.size)
   mn.weights = [
     [-0.5,-1.0],
     [-0.5,-1.0],
@@ -71,8 +71,8 @@ def wip
   inputs_given = [0.1,0.2,0.3]
   outputs_expected = [1.0,0.0]
 
-  # mn = Ai4cr::NeuralNetwork::MiniNetExp.new(width: inputs_given.size, height: outputs_expected.size)
-  mn = Ai4cr::NeuralNetwork::MiniNetExp.new(width: outputs_expected.size, height: inputs_given.size)
+  # mn = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(width: inputs_given.size, height: outputs_expected.size)
+  mn = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(width: outputs_expected.size, height: inputs_given.size)
   puts mn.pretty_inspect
   result = mn.eval(inputs_given)
   # => [0.02931223075135632, 0.0009110511944006454]
@@ -104,8 +104,8 @@ def wip
   inputs_given = [0.1,0.2,0.3,0.4,0.5]
   outputs_expected = [1.0,0.0,1.0,1.0,0.0]
 
-  # mn = Ai4cr::NeuralNetwork::MiniNetExp.new(width: inputs_given.size, height: outputs_expected.size)
-  mn = Ai4cr::NeuralNetwork::MiniNetExp.new(width: outputs_expected.size, height: inputs_given.size)
+  # mn = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(width: inputs_given.size, height: outputs_expected.size)
+  mn = Ai4cr::NeuralNetwork::Cmn::MiniNetExp.new(width: outputs_expected.size, height: inputs_given.size)
   puts mn.pretty_inspect
   result = mn.eval(inputs_given)
 
@@ -136,8 +136,8 @@ def wip
   inputs_given = [-0.1,0.2,-0.3,0.4,-0.5]
   outputs_expected = [1.0,0.0,-1.0,1.0,0.0]
 
-  # mn = Ai4cr::NeuralNetwork::MiniNetTanh.new(width: inputs_given.size, height: outputs_expected.size)
-  mn = Ai4cr::NeuralNetwork::MiniNetTanh.new(width: outputs_expected.size, height: inputs_given.size)
+  # mn = Ai4cr::NeuralNetwork::Cmn::MiniNetTanh.new(width: inputs_given.size, height: outputs_expected.size)
+  mn = Ai4cr::NeuralNetwork::Cmn::MiniNetTanh.new(width: outputs_expected.size, height: inputs_given.size)
   # puts mn.pretty_inspect
   result = mn.eval(inputs_given)
 
@@ -174,7 +174,7 @@ def wip
   inputs_given = [0.1,0.2,0.3,0.4,0.5]
   outputs_expected = [1.0,0.0,1.0,1.0,0.0]
 
-  mn = Ai4cr::NeuralNetwork::MiniNetRelu.new(width: inputs_given.size, height: outputs_expected.size)
+  mn = Ai4cr::NeuralNetwork::Cmn::MiniNetRelu.new(width: inputs_given.size, height: outputs_expected.size)
   puts mn.pretty_inspect
   result = mn.eval(inputs_given)
 
