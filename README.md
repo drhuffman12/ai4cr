@@ -81,7 +81,7 @@ assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.00000000
   - [ ]  genetic_algorithm
       - [ ]  genetic_algorithm.rb
   - [ ]  neural_network
-    -[x] backpropagation.rb
+    - [x] backpropagation.rb
     - [ ]  hopfield.rb
   - [ ]  som
     - [ ]  layer.rb
