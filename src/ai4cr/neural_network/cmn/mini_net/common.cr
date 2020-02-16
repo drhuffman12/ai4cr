@@ -13,6 +13,12 @@ module Ai4cr
           # NOTE: The classes that use this module should also include a line like:
           # include JSON::Serializable
 
+          abstract def propagation_function
+
+          abstract def derivative_propagation_function
+
+          abstract def guesses_best
+
           getter width : Int32, height : Int32
           getter height_considering_bias : Int32
           getter range_width : Array(Int32), range_height : Array(Int32)

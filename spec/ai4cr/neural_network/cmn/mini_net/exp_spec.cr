@@ -7,17 +7,16 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp do
       # structure = [3, 2]
       # net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 2)
+
+      inputs = [0.1, 0.2, 0.3]
       hard_coded_weights = [
         [-0.9, 0.7],
         [-0.9, 0.6],
         [0.1, 0.2],
         [0.6, -0.3],
       ]
-
       expected_outputs_guessed_before = net.width.times.to_a.map { 0.0 }
       expected_outputs_guessed_after = [0.589040434058665, 0.48750260351579]
-      inputs = [0.1, 0.2, 0.3]
-      outputs = [0.4, 0.5]
 
       it "the 'outputs_guessed' start as zeros" do
         net.init_network

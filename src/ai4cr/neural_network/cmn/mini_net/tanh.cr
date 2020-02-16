@@ -1,10 +1,5 @@
 require "json"
 require "./common.cr"
-# require "./src/ai4cr/neural_network/mini_net_common.cr"
-# require "mini_net_common.cr"
-
-require "json"
-require "./common.cr"
 
 module Ai4cr
   module NeuralNetwork
