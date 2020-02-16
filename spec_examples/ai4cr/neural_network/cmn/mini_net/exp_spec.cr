@@ -73,8 +73,8 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp do
 
         puts "#{net.class.name}:"
         puts "  plot: '#{plot}'"
-        puts "  error_distance_history: '#{net.error_distance_history.map{|e| e.round(6)}}'"
-        
+        puts "  error_distance_history: '#{net.error_distance_history.map { |e| e.round(6) }}'"
+
         puts "\n--------\n"
 
         # describe "JSON (de-)serialization works" do
@@ -117,7 +117,6 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp do
             assert_approximate_equality(error_averages.last, 0.001, 0.001)
           end
         end
-
 
         describe "#eval correctly guesses shape flags (output) when given image data (input) of" do
           describe "original input data for" do

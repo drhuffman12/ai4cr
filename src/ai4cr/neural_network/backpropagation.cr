@@ -234,7 +234,7 @@ module Ai4cr
           weights:          @weights,
           last_changes:     @last_changes,
           activation_nodes: @activation_nodes,
-          deltas: @deltas
+          deltas:           @deltas,
         }
       end
 
@@ -346,11 +346,9 @@ module Ai4cr
         # per layer from last to first...
         # n == layer number
         (@weights.size - 1).downto(0) do |n|
-
           # per input row weights from first to last...
           # i == input row number
           @weights[n].each_with_index do |_elem, i|
-
             # per output column weights from first to last...
             # j == out column number
             @weights[n][i].each_with_index do |_elem, j|

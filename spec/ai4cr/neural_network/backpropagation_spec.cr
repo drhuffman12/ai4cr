@@ -226,32 +226,32 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
   describe "#train" do
     describe "when given a net with structure of [3, 2]" do
       # before_each do
-        structure = [3, 2]
-        net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
-        hard_coded_weights = [
-          [
-            [-0.9,0.7],
-            [-0.9,0.6],
-            [0.1,0.2],
-            [0.6,-0.3]
-          ]
-        ]
-        expected_deltas_before = [[0.0,0.0]]
-        expected_after_deltas = [[-0.045761358353806764,0.0031223972161964547]]
-        expected_after_weights = [
-          [
-            [-0.9011440339588452, 0.7000780599304048],
-            [-0.9022880679176903, 0.6001561198608099],
-            [0.0965678981234645, 0.20023417979121474],
-            [0.5885596604115483, -0.2992194006959509]
-          ]
-        ]
-        expected_error = 0.017946235313986033
+      structure = [3, 2]
+      net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
+      hard_coded_weights = [
+        [
+          [-0.9, 0.7],
+          [-0.9, 0.6],
+          [0.1, 0.2],
+          [0.6, -0.3],
+        ],
+      ]
+      expected_deltas_before = [[0.0, 0.0]]
+      expected_after_deltas = [[-0.045761358353806764, 0.0031223972161964547]]
+      expected_after_weights = [
+        [
+          [-0.9011440339588452, 0.7000780599304048],
+          [-0.9022880679176903, 0.6001561198608099],
+          [0.0965678981234645, 0.20023417979121474],
+          [0.5885596604115483, -0.2992194006959509],
+        ],
+      ]
+      expected_error = 0.017946235313986033
 
-        inputs = [0.1, 0.2, 0.3]
-        outputs = [0.4, 0.5]
+      inputs = [0.1, 0.2, 0.3]
+      outputs = [0.4, 0.5]
       # end
-      
+
       it "deltas start as zeros" do
         net.init_network
         net.learning_rate = 0.25
@@ -279,7 +279,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         assert_equality_of_nested_list deltas_before, expected_deltas_before
         assert_approximate_equality_of_nested_list deltas_after, expected_after_deltas, 0.0000001
       end
-      
+
       it "weights do change" do
         net.init_network
         net.learning_rate = 0.25
@@ -295,7 +295,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       it "correctly updates the weights" do
         net.init_network
         net.learning_rate = 0.25
-        net.momentum = 0.1        
+        net.momentum = 0.1
         net.weights = hard_coded_weights.clone
 
         weights_before = net.weights.clone

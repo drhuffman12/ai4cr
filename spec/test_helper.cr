@@ -24,6 +24,7 @@ def assert_approximate_equality(expected, real, delta = 0.01)
     real.should eq(expected)
   end
 end
+
 def assert_approximate_inequality(expected, real, delta = 0.01)
   if expected.responds_to?(:abs) && real.responds_to?(:abs)
     real.should_not be_close(expected, delta)
