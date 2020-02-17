@@ -156,9 +156,38 @@ module Ai4cr
             load_inputs(inputs)
           end
 
+          def step_calc_forward # aka feedforward # step_calc_forward_1
+            # 1nd place WINNER w/ 100x100 i's and o's
+
+            # close tie beteen step_calc_forward_1 and step_calc_forward_2 as fastest
+            @outputs_guessed = @range_width.map do |w|
+              sum = 0.0
+              @range_height.each do |h|
+                sum += @inputs_given[h]*@weights[h][w]
+              end
+              propagation_function.call(sum)
+              # sum
+            end
+          end
+
           def step_load_outputs(outputs_expected)
             raise "Invalid outputs_expected size" if outputs_expected.size != @width
             load_outputs_expected(outputs_expected)
+          end
+
+          def step_calculate_error # aka calculate_error
+            error = 0.0
+            @outputs_expected.map_with_index do |oe, iw|
+              error += 0.5*(oe - @outputs_guessed[iw])**2
+            end
+            @error_total = error
+          end
+
+          def step_backpropagate
+            step_calculate_output_deltas
+
+            step_calc_input_deltas
+            step_update_weights
           end
 
           # This would be a chained MiniNet's input_deltas
@@ -167,12 +196,6 @@ module Ai4cr
           def step_load_chained_outputs_deltas(outputs_deltas)
             raise "Invalid outputs_deltas size" if outputs_expected.size != @width
             load_outputs_deltas(outputs_deltas)
-          end
-
-          def step_backpropagate
-            step_calculate_output_deltas
-            step_calc_input_deltas
-            step_update_weights
           end
 
           # private
@@ -202,20 +225,6 @@ module Ai4cr
           end
 
           ####
-
-          def step_calc_forward # aka feedforward # step_calc_forward_1
-            # 1nd place WINNER w/ 100x100 i's and o's
-
-            # close tie beteen step_calc_forward_1 and step_calc_forward_2 as fastest
-            @outputs_guessed = @range_width.map do |w|
-              sum = 0.0
-              @range_height.each do |h|
-                sum += @inputs_given[h]*@weights[h][w]
-              end
-              propagation_function.call(sum)
-              # sum
-            end
-          end
 
           # Calculate deltas for output layer
           def step_calculate_output_deltas # (outputs_expected)
@@ -253,14 +262,6 @@ module Ai4cr
                 @last_changes[j][k] = change
               end
             end
-          end
-
-          def step_calculate_error # aka calculate_error
-            error = 0.0
-            @outputs_expected.map_with_index do |oe, iw|
-              error += 0.5*(oe - @outputs_guessed[iw])**2
-            end
-            @error_total = error
           end
 
           # Calculate the radius of the error as if each output cell is an value in a coordinate set
