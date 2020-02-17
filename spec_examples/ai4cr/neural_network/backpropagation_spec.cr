@@ -8,7 +8,6 @@ require "json"
 describe Ai4cr::NeuralNetwork::Backpropagation do
   describe "#train" do
     describe "with a shape of [256,3]" do
-      
       describe "using image data (input) and shape flags (output) for triangle, square, and cross" do
         correct_count = 0
 
@@ -170,7 +169,6 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
     end
 
     describe "with a shape of [256,300,3]" do
-      
       describe "using image data (input) and shape flags (output) for triangle, square, and cross" do
         correct_count = 0
 

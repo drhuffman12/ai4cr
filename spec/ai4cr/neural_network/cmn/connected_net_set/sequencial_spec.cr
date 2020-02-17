@@ -11,14 +11,14 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
       [-0.4, 0.9, -0.4, -0.7],
       [0.1, 0.8, 0.9, -0.0],
       [-0.7, -0.3, -0.6, -0.7],
-      [1.0, 0.2, 0.6, -0.5]
+      [1.0, 0.2, 0.6, -0.5],
     ]
     hard_coded_weights1 = [
       [-0.4, 0.8],
       [-1.0, -0.3],
       [-0.6, 0.6],
       [0.2, -0.3],
-      [1.0, -0.1]
+      [1.0, -0.1],
     ]
 
     puts "hard_coded_weights0: #{hard_coded_weights0.each { |a| puts a.join("\t") }}"
@@ -28,20 +28,18 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
     expected_outputs_guessed_after = [0.454759979898907, 0.635915600435646]
 
     it "the 'outputs_guessed' start as zeros" do
-
       net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 4)
       net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 4, width: 2)
       cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial(Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp).new([net0, net1])
-  
+
       puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
       puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
-  
+
       net0.init_network
       net0.learning_rate = 0.25
       net0.momentum = 0.1
       net0.weights = hard_coded_weights0.clone
       # puts "\nnet0 (BEFORE): #{net0.to_json}\n"
-
 
       net1.init_network
       net1.learning_rate = 0.25
@@ -50,7 +48,6 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
       # puts "\nnet1 (BEFORE): #{net1.to_json}\n"
 
       puts "\ncns (BEFORE): #{cns.to_json}\n"
-      
 
       outputs_guessed_before = net1.outputs_guessed.clone
 
@@ -61,7 +58,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
       net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 4)
       net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 4, width: 2)
       cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial(Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp).new([net0, net1])
-  
+
       puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
       puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
 
@@ -71,7 +68,6 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
       net0.weights = hard_coded_weights0.clone
       # puts "\nnet0 (BEFORE): #{net0.to_json}\n"
 
-
       net1.init_network
       net1.learning_rate = 0.25
       net1.momentum = 0.1
@@ -79,7 +75,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
       # puts "\nnet1 (BEFORE): #{net1.to_json}\n"
 
       puts "\ncns (BEFORE): #{cns.to_json}\n"
-      
+
       outputs_guessed_before = cns.net_set.last.outputs_guessed.clone
 
       cns.eval(inputs)
@@ -88,6 +84,5 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
 
       assert_approximate_equality_of_nested_list outputs_guessed_after, expected_outputs_guessed_after
     end
-
   end
 end

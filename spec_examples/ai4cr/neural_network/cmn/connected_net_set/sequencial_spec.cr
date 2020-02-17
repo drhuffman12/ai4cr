@@ -39,7 +39,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
         net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 256, width: 300, error_distance_history_max: 60)
         net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 300, width: 3, error_distance_history_max: 60)
         cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial(Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp).new([net0, net1])
-    
+
         # net.learning_rate = rand
         qty = 500
         qty_10_percent = qty // 10

@@ -219,7 +219,7 @@ module Ai4cr
         outputs = outputs.map { |v| v.to_f }
         eval(inputs)
         load_expected_outputs(outputs)
-        backpropagate # (outputs)
+        backpropagate   # (outputs)
         calculate_error # (outputs)
       end
 
@@ -387,7 +387,7 @@ module Ai4cr
       def load_expected_outputs(expected_outputs)
         @expected_outputs.map_with_index! { |v, i| expected_outputs[i] }
       end
-      
+
       # Calculate quadratic error for a expected output value
       # Error = 0.5 * sum( (expected_value[i] - output_value[i])**2 )
       def calculate_error # (expected_outputs)
