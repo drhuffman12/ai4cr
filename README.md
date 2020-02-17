@@ -14,6 +14,7 @@ Add this to your application's `shard.yml`:
 dependencies:
   ai4cr:
     github: drhuffman12/ai4cr
+    branch: master
 ```
 
 ## Usage

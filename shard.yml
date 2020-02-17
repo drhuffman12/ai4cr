@@ -1,5 +1,5 @@
 name: ai4cr
-version: 0.1.8
+version: 0.1.9
 
 authors:
   - Daniel Huffman <drhuffman12@yahoo.com>
@@ -7,3 +7,20 @@ authors:
 crystal: 0.33.0
 
 license: MIT
+
+development_dependencies:
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 0.11.0
+
+  ascii_bar_charter:
+    github: drhuffman12/ascii_bar_charter
+    branch: master
+
+  # aasm:
+  #   github: veelenga/aasm.cr
+  #   # version: 0.11.0
+#     # github: drhuffman12/aasm.cr
+#     branch: master
+#     # version: 0.1.1
+#     # # https://github.com/veelenga/aasm.cr
