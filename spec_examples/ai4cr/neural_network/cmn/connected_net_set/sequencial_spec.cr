@@ -11,9 +11,9 @@ def mini_net_exp_best_guess(net, raw_in)
   net.guesses_best
 end
 
-describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp do
+describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
   describe "#train" do
-    describe "with a shape of [256,3]" do
+    describe "with a shape of [256,300,3]" do
       describe "using image data (input) and shape flags (output) for triangle, square, and cross" do
         correct_count = 0
 
@@ -34,13 +34,17 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp do
         sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
         cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-        net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 256, width: 3, error_distance_history_max: 60)
+        # net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 256, width: 3, error_distance_history_max: 60)
 
+        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 256, width: 300, error_distance_history_max: 60)
+        net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 300, width: 3, error_distance_history_max: 60)
+        cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial(Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp).new([net0, net1])
+    
         # net.learning_rate = rand
         qty = 500
         qty_10_percent = qty // 10
 
-        describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
+        describe "and training #{qty} times each at a learning rate of #{cns.net_set.last.learning_rate.round(6)}" do
           puts "\nTRAINING:\n"
           qty.times do |i|
             print "." if i % qty_10_percent == 0 # 1000 == 0
@@ -48,14 +52,17 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp do
             [:tr, :sq, :cr].shuffle.each do |s|
               case s
               when :tr
-                errors[:tr] = net.train(tr_input, is_a_triangle)
-                net.step_calculate_error_distance_history if i % qty_10_percent == 0
+                errors[:tr] = cns.train(tr_input, is_a_triangle)
+                # net0.step_calculate_error_distance_history if i % qty_10_percent == 0
+                cns.net_set.last.step_calculate_error_distance_history if i % qty_10_percent == 0
               when :sq
-                errors[:sq] = net.train(sq_input, is_a_square)
-                net.step_calculate_error_distance_history if i % qty_10_percent == 0
+                errors[:sq] = cns.train(sq_input, is_a_square)
+                # net0.step_calculate_error_distance_history if i % qty_10_percent == 0
+                cns.net_set.last.step_calculate_error_distance_history if i % qty_10_percent == 0
               when :cr
-                errors[:cr] = net.train(cr_input, is_a_cross)
-                net.step_calculate_error_distance_history if i % qty_10_percent == 0
+                errors[:cr] = cns.train(cr_input, is_a_cross)
+                # net0.step_calculate_error_distance_history if i % qty_10_percent == 0
+                cns.net_set.last.step_calculate_error_distance_history if i % qty_10_percent == 0
               end
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -70,11 +77,11 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp do
           reversed = false
 
           charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
-          plot = charter.plot(net.error_distance_history, prefixed)
+          plot = charter.plot(cns.net_set.last.error_distance_history, prefixed)
 
-          puts "#{net.class.name} with structure of #{net.structure}:"
+          puts "#{cns.class.name} with structure of #{cns.structure}:"
           puts "  plot: '#{plot}'"
-          puts "  error_distance_history: '#{net.error_distance_history.map { |e| e.round(6) }}'"
+          puts "  error_distance_history: '#{cns.net_set.last.error_distance_history.map { |e| e.round(6) }}'"
 
           puts "\n--------\n"
 
@@ -122,51 +129,51 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp do
           describe "#eval correctly guesses shape flags (output) when given image data (input) of" do
             describe "original input data for" do
               it "TRIANGLE" do
-                next_guess = mini_net_exp_best_guess(net, tr_input)
+                next_guess = mini_net_exp_best_guess(cns, tr_input)
                 check_guess(next_guess, "TRIANGLE")
               end
 
               it "SQUARE" do
-                next_guess = mini_net_exp_best_guess(net, sq_input)
+                next_guess = mini_net_exp_best_guess(cns, sq_input)
                 check_guess(next_guess, "SQUARE")
               end
 
               it "CROSS" do
-                next_guess = mini_net_exp_best_guess(net, cr_input)
+                next_guess = mini_net_exp_best_guess(cns, cr_input)
                 check_guess(next_guess, "CROSS")
               end
             end
 
             describe "noisy input data for" do
               it "TRIANGLE" do
-                next_guess = mini_net_exp_best_guess(net, tr_with_noise)
+                next_guess = mini_net_exp_best_guess(cns, tr_with_noise)
                 check_guess(next_guess, "TRIANGLE")
               end
 
               it "SQUARE" do
-                next_guess = mini_net_exp_best_guess(net, sq_with_noise)
+                next_guess = mini_net_exp_best_guess(cns, sq_with_noise)
                 check_guess(next_guess, "SQUARE")
               end
 
               it "CROSS" do
-                next_guess = mini_net_exp_best_guess(net, cr_with_noise)
+                next_guess = mini_net_exp_best_guess(cns, cr_with_noise)
                 check_guess(next_guess, "CROSS")
               end
             end
 
             describe "base noisy input data for" do
               it "TRIANGLE" do
-                next_guess = mini_net_exp_best_guess(net, tr_with_base_noise)
+                next_guess = mini_net_exp_best_guess(cns, tr_with_base_noise)
                 check_guess(next_guess, "TRIANGLE")
               end
 
               it "SQUARE" do
-                next_guess = mini_net_exp_best_guess(net, sq_with_base_noise)
+                next_guess = mini_net_exp_best_guess(cns, sq_with_base_noise)
                 check_guess(next_guess, "SQUARE")
               end
 
               it "CROSS" do
-                next_guess = mini_net_exp_best_guess(net, cr_with_base_noise)
+                next_guess = mini_net_exp_best_guess(cns, cr_with_base_noise)
                 check_guess(next_guess, "CROSS")
               end
             end

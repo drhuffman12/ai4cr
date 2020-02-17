@@ -96,6 +96,10 @@ module Ai4cr
       property calculated_error_total : Float64
       getter height, hidden_qty, width, deltas
 
+      property expected_outputs : Array(Float64)
+      property error_distance_history_max : Int32
+      property error_distance_history : Array(Float64)
+
       # Creates a new network specifying the its architecture.
       # E.g.
       #
@@ -142,7 +146,13 @@ module Ai4cr
         ->(y : Float64) { y*(1 - y) } # lambda { |y| 1.0 - y**2 }
       end
 
-      def initialize(@structure : Array(Int32), disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil)
+      def initialize(
+        @structure : Array(Int32),
+        disable_bias : Bool? = nil,
+        learning_rate : Float64? = nil,
+        momentum : Float64? = nil,
+        error_distance_history_max : Int32 = 10
+      )
         @disable_bias = !!disable_bias
         @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? 0.25 : learning_rate.as(Float64)
         @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : 0.1
@@ -163,6 +173,12 @@ module Ai4cr
         end
 
         @calculated_error_total = 0.0
+
+        @expected_outputs = Array.new(width, 0.0)
+        @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
+        @error_distance = 0.0
+        @error_distance_history = Array.new(0, 0.0)
+
         init_network
       end
 
@@ -202,8 +218,9 @@ module Ai4cr
         # inputs = inputs.map { |v| v.to_f }
         outputs = outputs.map { |v| v.to_f }
         eval(inputs)
-        backpropagate(outputs)
-        calculate_error(outputs)
+        load_expected_outputs(outputs)
+        backpropagate # (outputs)
+        calculate_error # (outputs)
       end
 
       # Initialize (or reset) activation nodes and weights, with the
@@ -212,6 +229,12 @@ module Ai4cr
         init_activation_nodes
         init_weights
         init_last_changes
+
+        @expected_outputs = Array.new(width, 0.0)
+        @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
+        @error_distance = 0.0
+        @error_distance_history = Array.new(0, 0.0)
+
         return self
       end
 
@@ -254,9 +277,9 @@ module Ai4cr
       end
 
       # Propagate error backwards
-      def backpropagate(expected_output_values)
-        check_output_dimension(expected_output_values.size)
-        calculate_output_deltas(expected_output_values)
+      def backpropagate # (expected_outputs_values)
+        # check_output_dimension(@expected_outputs.size)
+        calculate_output_deltas # (@expected_outputs)
         calculate_internal_deltas
         update_weights
       end
@@ -314,11 +337,11 @@ module Ai4cr
       end
 
       # Calculate deltas for output layer
-      def calculate_output_deltas(expected_values)
+      def calculate_output_deltas # (expected_values)
         output_values = @activation_nodes.last
         output_deltas = [] of Float64
         output_values.each_with_index do |_elem, output_index|
-          error = expected_values[output_index] - output_values[output_index]
+          error = @expected_outputs[output_index] - output_values[output_index]
           output_deltas << derivative_propagation_function.call(output_values[output_index]) * error
         end
         @deltas = [output_deltas]
@@ -361,15 +384,40 @@ module Ai4cr
         end
       end
 
+      def load_expected_outputs(expected_outputs)
+        @expected_outputs.map_with_index! { |v, i| expected_outputs[i] }
+      end
+      
       # Calculate quadratic error for a expected output value
       # Error = 0.5 * sum( (expected_value[i] - output_value[i])**2 )
-      def calculate_error(expected_output)
+      def calculate_error # (expected_outputs)
         output_values = @activation_nodes.last
         error = 0.0
-        expected_output.each_with_index do |_elem, output_index|
-          error += 0.5*(output_values[output_index] - expected_output[output_index])**2
+        @expected_outputs.each_with_index do |_elem, output_index|
+          error += 0.5*(output_values[output_index] - @expected_outputs[output_index])**2
         end
         @calculated_error_total = error
+      end
+
+      # Calculate the radius of the error as if each output cell is an value in a coordinate set
+      def step_calculate_error_distance_history
+        # @error_distance_history_max = error_distance_history_max
+        return @error_distance_history = [-1.0] if @error_distance_history_max < 1
+        error = 0.0
+        output_values = @activation_nodes.last
+        @expected_outputs.map_with_index do |oe, iw|
+          error += (oe - output_values[iw])**2
+        end
+        @error_distance = Math.sqrt(error)
+        if @error_distance_history.size < @error_distance_history_max - 1
+          # Array not 'full' yet, so add latest value to end
+          @error_distance_history << @calculated_error_total
+        else
+          # Array 'full', so rotate end to front and then put new value at last index
+          @error_distance_history.rotate!
+          @error_distance_history[-1] = @calculated_error_total
+        end
+        @error_distance_history
       end
 
       def check_input_dimension(inputs)
@@ -381,11 +429,11 @@ module Ai4cr
         end
       end
 
-      def check_output_dimension(outputs)
-        if outputs != @structure.last
+      def check_output_dimension # (outputs)
+        if @expected_outputs.size != @structure.last
           msg = "Wrong number of outputs. " +
                 "Expected: #{@structure.last}, " +
-                "received: #{outputs}."
+                "received: #{@expected_outputs.size}."
           raise ArgumentError.new(msg)
         end
       end

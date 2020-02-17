@@ -55,15 +55,15 @@ module Ai4cr
             @inputs_given[-1] = 1 unless @disable_bias
             @input_deltas = Array.new(@height_considering_bias, 0.0)
 
-            @range_width = Array.new(@width) { |i| i }
+            @range_width = Array.new(width) { |i| i }
 
-            @outputs_guessed = Array.new(@width, 0.0)
-            @outputs_expected = Array.new(@width, 0.0)
-            @output_deltas = Array.new(@width, 0.0)
+            @outputs_guessed = Array.new(width, 0.0)
+            @outputs_expected = Array.new(width, 0.0)
+            @output_deltas = Array.new(width, 0.0)
 
             @weights = @range_height.map { @range_width.map { rand*2 - 1 } }
 
-            @last_changes = Array.new(@height_considering_bias, Array.new(@width, 0.0))
+            @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
 
             @error_total = 0.0
 
@@ -81,21 +81,25 @@ module Ai4cr
             @inputs_given[-1] = 1 unless @disable_bias
             @input_deltas = Array.new(@height_considering_bias, 0.0)
 
-            @range_width = Array.new(@width) { |i| i }
+            @range_width = Array.new(width) { |i| i }
 
-            @outputs_guessed = Array.new(@width, 0.0)
-            @outputs_expected = Array.new(@width, 0.0)
-            @output_deltas = Array.new(@width, 0.0)
+            @outputs_guessed = Array.new(width, 0.0)
+            @outputs_expected = Array.new(width, 0.0)
+            @output_deltas = Array.new(width, 0.0)
 
             @weights = @range_height.map { @range_width.map { rand*2 - 1 } }
 
-            @last_changes = Array.new(@height_considering_bias, Array.new(@width, 0.0))
+            @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
 
             @error_total = 0.0
 
             @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
             @error_distance = 0.0
             @error_distance_history = Array.new(0, 0.0)
+          end
+
+          def structure
+            [height, width]
           end
 
           # # steps for 'eval' aka 'guess':
@@ -133,14 +137,15 @@ module Ai4cr
           end
 
           # # training steps
+          # TODO: utilize until_min_avg_error
           def train(inputs_given, outputs_expected, until_min_avg_error = 0.1)
             step_load_inputs(inputs_given)
             step_calc_forward
             # ...
 
             step_load_outputs(outputs_expected)
-            step_backpropagate
             step_calculate_error
+            step_backpropagate
 
             # {outputs_guessed: @outputs_guessed, deltas: @deltas, error: @error}
             @error_total # @error

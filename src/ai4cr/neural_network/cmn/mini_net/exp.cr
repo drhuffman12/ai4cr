@@ -5,7 +5,7 @@ module Ai4cr
   module NeuralNetwork
     module Cmn
       module MiniNet
-        struct Exp
+        class Exp
           include JSON::Serializable
           include Common
 

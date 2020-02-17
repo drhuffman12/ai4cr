@@ -5,7 +5,7 @@ module Ai4cr
   module NeuralNetwork
     module Cmn
       module MiniNet
-        struct Relu
+        class Relu
           include JSON::Serializable
           include Common
 
