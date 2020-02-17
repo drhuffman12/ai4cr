@@ -4,7 +4,7 @@ module Ai4cr
   module NeuralNetwork
     module Cmn
       module ConnectedNetSet
-        class Sequencial(T)
+        class Chain(T)
           # For starters, we'll just handle a sequence
 
           include JSON::Serializable

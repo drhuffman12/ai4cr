@@ -11,7 +11,7 @@ def mini_net_exp_best_guess(net, raw_in)
   net.guesses_best
 end
 
-describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
+describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
   describe "#train" do
     describe "with a shape of [256,300,3]" do
       describe "using image data (input) and shape flags (output) for triangle, square, and cross" do
@@ -38,7 +38,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
 
         net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 256, width: 300, error_distance_history_max: 60)
         net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 300, width: 3, error_distance_history_max: 60)
-        cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial(Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp).new([net0, net1])
+        cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain(Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp).new([net0, net1])
 
         # net.learning_rate = rand
         qty = 500
