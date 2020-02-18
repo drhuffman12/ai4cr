@@ -38,7 +38,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
 
         net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 256, width: 300, error_distance_history_max: 60)
         net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 300, width: 3, error_distance_history_max: 60)
-        cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain(Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp).new([net0, net1])
+        cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new([net0, net1])
 
         # net.learning_rate = rand
         qty = 500
@@ -181,5 +181,20 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
         end
       end
     end
+  end
+
+  describe "TODO: REMOVE! This is just for debugging! (Or, utilize for additional tests.)" do
+    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 1, width: 2)
+    nr = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 2, width: 3)
+    nt = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: 3, width: 4)
+
+    arr = [ne, nr, nt]
+    cv2 = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(net_set: arr)
+    puts "*"*8
+    puts "cv2.validate!: #{cv2.validate!}"
+    puts "*"*8
+
+    puts "cv2: #{cv2.pretty_inspect}"
+    puts "*"*8
   end
 end

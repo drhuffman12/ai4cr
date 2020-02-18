@@ -4,26 +4,36 @@ module Ai4cr
   module NeuralNetwork
     module Cmn
       module ConnectedNetSet
-        class Chain(T)
-          # For starters, we'll just handle a sequence
-
+        class Chain
           include JSON::Serializable
 
-          property net_set
+          getter structure : Array(Int32)
+          property net_set : Array(MiniNet::Common::AbstractNet)
 
-          def initialize(@net_set : Array(T))
+          def initialize(@net_set)
+            @structure = calc_structure
+          end
+
+          def validate
+            index_max = @net_set.size - 1
+
+            width_height_mismatch = @net_set.map_with_index do |net_from, index|
+              if index >= index_max
+                false
+              else
+                net_to = @net_set[index + 1]
+                net_from.width != net_to.height
+              end
+            end.any?
+
+            width_height_mismatch ? false : true
           end
 
           def validate!
-            index_max = @net_set.size - 1
-            width_height_mismatch = [0..index_max].map do |index|
-              @net_set[index].width != @net_set[index + 1].height
-            end.any?
-
-            raise "Invalid net set (width vs height mismatch)" if width_height_mismatch
+            validate ? true : raise "Invalid net set (width vs height mismatch)"
           end
 
-          def structure
+          def calc_structure
             # [height, width]
             @net_set.map_with_index do |net, index|
               net.height

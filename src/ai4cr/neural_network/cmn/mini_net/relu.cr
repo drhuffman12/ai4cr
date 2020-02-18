@@ -1,14 +1,10 @@
 require "json"
-require "./common.cr"
 
 module Ai4cr
   module NeuralNetwork
     module Cmn
       module MiniNet
-        class Relu
-          include JSON::Serializable
-          include Common
-
+        class Relu < Common::AbstractNet
           def propagation_function
             ->(x : Float64) { x < 0 ? 0.0 : x }
           end
@@ -25,5 +21,3 @@ module Ai4cr
     end
   end
 end
-
-# puts Ai4cr::NeuralNetwork::Cmn::MiniNet::.new(2,3).to_json

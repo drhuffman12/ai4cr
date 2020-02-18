@@ -30,7 +30,10 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
     it "the 'outputs_guessed' start as zeros" do
       net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 4)
       net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 4, width: 2)
-      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain(Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp).new([net0, net1])
+      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+      arr << net0
+      arr << net1
+      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
 
       puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
       puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
@@ -57,7 +60,10 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
     it "the 'outputs_guessed' start are updated as expected" do
       net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 4)
       net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 4, width: 2)
-      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain(Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp).new([net0, net1])
+      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+      arr << net0
+      arr << net1
+      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
 
       puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
       puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
