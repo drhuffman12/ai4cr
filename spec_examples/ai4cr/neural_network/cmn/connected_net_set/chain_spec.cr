@@ -34,11 +34,13 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
         sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
         cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-        # net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 256, width: 3, error_distance_history_max: 60)
-
-        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 256, width: 300, error_distance_history_max: 60)
+        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 256, width: 300, error_distance_history_max: 60)
         net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 300, width: 3, error_distance_history_max: 60)
-        cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new([net0, net1])
+        
+        arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+        arr << net0
+        arr << net1
+        cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
 
         # net.learning_rate = rand
         qty = 500
@@ -79,7 +81,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
           charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
           plot = charter.plot(cns.net_set.last.error_distance_history, prefixed)
 
-          puts "#{cns.class.name} with structure of #{cns.structure}:"
+          puts "#{cns.class.name} with structure of #{cns.structure} with nets of types #{cns.net_set.map { |n| n.class.name }}:"
           puts "  plot: '#{plot}'"
           puts "  error_distance_history: '#{cns.net_set.last.error_distance_history.map { |e| e.round(6) }}'"
 
@@ -183,18 +185,39 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
     end
   end
 
-  describe "TODO: REMOVE! This is just for debugging! (Or, utilize for additional tests.)" do
-    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 1, width: 2)
+  describe "when given a mix of Exp, Relu, and Tanh MiniNets all chained together (with associated IO sizes" do
+    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 2)
     nr = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 2, width: 3)
     nt = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: 3, width: 4)
 
-    arr = [ne, nr, nt]
-    cv2 = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(net_set: arr)
-    puts "*"*8
-    puts "cv2.validate!: #{cv2.validate!}"
-    puts "*"*8
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr << ne
+    arr << nr
+    arr << nt
+    cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
 
-    puts "cv2: #{cv2.pretty_inspect}"
-    puts "*"*8
+    initial_inputs = [rand, rand, rand]
+    expected_inital_outputs = (arr.last.width.times.to_a.map { 0.0 })
+
+    it "is valid" do
+      puts "*"*8
+
+      puts "cns: #{cns.pretty_inspect}"
+      puts "*"*8
+
+      puts "cns.validate!: #{cns.validate!}"
+      puts "*"*8
+      (cns.validate!).should be_true
+    end
+
+    it "updates last net's outputs when guessing" do
+      cns.net_set.each { |net| net.init_network }
+
+      (cns.guesses_best).should eq(expected_inital_outputs)
+
+      cns.eval(initial_inputs)
+
+      (cns.guesses_best).should_not eq(expected_inital_outputs)
+    end
   end
 end

@@ -51,12 +51,13 @@ plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
 (Run `crystal spec spec_examples` to see more error history plot examples. NOTE: These run short training sessions, so some tests are likely to fail some of the time.)
 
 - [ ] Add Cmn ("Connectable Mini Networks") (WIP)
+  - [ ] simple benchmark comparisons
   - [ ] ConnectedNetSet (WIP)
     - [x] Chain
     - [ ] TBD
     - [ ] ...
   - [x] MiniNet
-    - [x] Common module
+    - [x] Common modules
     - [x] Exp
     - [x] Relu
     - [x] Tanh

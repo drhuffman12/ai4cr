@@ -91,4 +91,41 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
       assert_approximate_equality_of_nested_list outputs_guessed_after, expected_outputs_guessed_after
     end
   end
+
+  describe "when given a mix of Exp, Relu, and Tanh MiniNets all chained together (with associated IO sizes" do
+    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 2)
+    nr = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 2, width: 3)
+    nt = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: 3, width: 4)
+
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr << ne
+    arr << nr
+    arr << nt
+    cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
+
+    initial_inputs = [rand, rand, rand]
+    expected_inital_outputs = (arr.last.width.times.to_a.map { 0.0 })
+
+    it "is valid" do
+      puts "*"*8
+
+      puts "cns: #{cns.pretty_inspect}"
+      puts "*"*8
+
+      puts "cns.validate!: #{cns.validate!}"
+      puts "*"*8
+      (cns.validate!).should be_true
+    end
+
+    it "updates last net's outputs when guessing" do
+      cns.net_set.each { |net| net.init_network }
+
+      (cns.guesses_best).should eq(expected_inital_outputs)
+
+      cns.eval(initial_inputs)
+
+      (cns.guesses_best.size).should eq(expected_inital_outputs.size)
+      (cns.guesses_best).should_not eq(expected_inital_outputs)
+    end
+  end
 end

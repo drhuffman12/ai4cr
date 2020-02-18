@@ -10,6 +10,21 @@ module Ai4cr
           getter structure : Array(Int32)
           property net_set : Array(MiniNet::Common::AbstractNet)
 
+          # NOTE: When passing in the array for net_set,
+          # .. if you're including just one type of MiniNet, e.g.:
+          #   net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 256, width: 300, error_distance_history_max: 60)
+          #   net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 300, width: 3, error_distance_history_max: 60)
+          #
+          # ... and you try to pass in like below, you'll get a type error:
+          #   cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new([net0, net1])
+          #
+          # ... So, you'll need to init the array like:
+          #   arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+          #   arr << net0
+          #   arr << net1
+          #
+          # ... and then pass it in like:
+          #   cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
           def initialize(@net_set)
             @structure = calc_structure
           end
