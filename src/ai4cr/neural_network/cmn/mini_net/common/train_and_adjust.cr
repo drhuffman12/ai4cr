@@ -8,16 +8,10 @@ module Ai4cr
           module TrainAndAdjust
             # ####
             # # TODO: Move prop and deriv methods to subclass and split method pairs per sub-class
-            # def propagation_function
-            #   ->(x : Float64) { x } # { 1/(1 + Math.exp(-1*(x))) } # lambda { |x| Math.tanh(x) }
-            # end
-
-            # # TODO: Move prop and deriv methods to subclass and split method pairs per sub-class
             # def derivative_propagation_function
             #   ->(y : Float64) { y } # { y*(1 - y) } # lambda { |y| 1.0 - y**2 }
             # end
             # ####
-            abstract def propagation_function
             abstract def derivative_propagation_function
 
             # # training steps
@@ -78,6 +72,10 @@ module Ai4cr
               @output_deltas.map_with_index! do |d, i|
                 error = @outputs_expected[i] - @outputs_guessed[i]
                 derivative_propagation_function.call(@outputs_guessed[i]) * error
+                # # TODO: Research ReLU and why I'm not seeing performance gain in my code
+                # # For Relu performance gain, check for 0.0
+                # der_val = derivative_propagation_function.call(@outputs_guessed[i])
+                # der_val == 0.0 ? 0.0 : der_val * error
               end
             end
 
@@ -92,6 +90,10 @@ module Ai4cr
                   error += @output_deltas[k] * @weights[j][k]
                 end
                 layer_deltas << (derivative_propagation_function.call(@inputs_given[j]) * error)
+                # # TODO: Research ReLU and why I'm not seeing performance gain in my code
+                # # For Relu performance gain, check for 0.0
+                # der_val = derivative_propagation_function.call(@inputs_given[j])                
+                # layer_deltas << (der_val == 0.0 ? 0.0 : der_val * error)
               end
               @input_deltas = layer_deltas
             end

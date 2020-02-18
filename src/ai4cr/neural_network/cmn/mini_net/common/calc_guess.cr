@@ -6,6 +6,14 @@ module Ai4cr
       module MiniNet
         module Common
           module CalcGuess
+            # ####
+            # # TODO: Move prop and deriv methods to subclass and split method pairs per sub-class
+            # def propagation_function
+            #   ->(x : Float64) { x } # { 1/(1 + Math.exp(-1*(x))) } # lambda { |x| Math.tanh(x) }
+            # end
+            abstract def propagation_function
+            # ####
+
             # pseudo-abstract
             # default set below, but might be different per subclass
             def guesses_best
