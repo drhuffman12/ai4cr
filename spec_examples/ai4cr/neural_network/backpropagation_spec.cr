@@ -196,6 +196,9 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         qty = 500
         qty_10_percent = qty // 10
 
+        puts "\n--------\n"
+        puts "#{net.class.name} with structure of #{net.structure}:"
+        
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
           puts "\nTRAINING:\n"
           timestamp_before = Time.utc
@@ -232,7 +235,6 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
           charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
           plot = charter.plot(net.error_distance_history, prefixed)
 
-          puts "#{net.class.name} with structure of #{net.structure}:"
           puts "  plot: '#{plot}'"
           puts "  error_distance_history: '#{net.error_distance_history.map { |e| e.round(6) }}'"
 
