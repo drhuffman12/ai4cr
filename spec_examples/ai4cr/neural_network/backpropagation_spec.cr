@@ -168,7 +168,8 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       end
     end
 
-    describe "with a shape of [256,300,3]" do
+    hidden_size = 500
+    describe "with a shape of [256,#{hidden_size},#{hidden_size},3]" do
       describe "using image data (input) and shape flags (output) for triangle, square, and cross" do
         correct_count = 0
 
@@ -189,13 +190,15 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
         cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-        net = Ai4cr::NeuralNetwork::Backpropagation.new([256, 300, 3], error_distance_history_max: 60)
+        net = Ai4cr::NeuralNetwork::Backpropagation.new([256, hidden_size, hidden_size, 3], error_distance_history_max: 60)
 
         # net.learning_rate = rand
         qty = 500
         qty_10_percent = qty // 10
 
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
+          puts "\nTRAINING:\n"
+          timestamp_before = Time.utc
           qty.times do |i|
             print "." if i % qty_10_percent == 0 # 1000 == 0
             errors = {} of Symbol => Float64
@@ -214,7 +217,10 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
           end
+          timestamp_after = Time.utc
 
+          puts "\n--------\n"
+          puts "duration: #{timestamp_after - timestamp_before}"
           puts "\n--------\n"
           min = 0.0
           max = 1.0

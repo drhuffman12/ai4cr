@@ -13,7 +13,8 @@ end
 
 describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
   describe "#train" do
-    describe "with a shape of [256,300,3]" do
+    hidden_size = 500
+    describe "with a shape of [256,#{hidden_size},#{hidden_size},3]" do
       describe "using image data (input) and shape flags (output) for triangle, square, and cross" do
         correct_count = 0
 
@@ -34,12 +35,14 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
         sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
         cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 256, width: 300, error_distance_history_max: 60)
-        net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 300, width: 3, error_distance_history_max: 60)
-        
+        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 256, width: hidden_size, error_distance_history_max: 60)
+        net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60)
+        net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: hidden_size, width: 3, error_distance_history_max: 60)
+
         arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
         arr << net0
         arr << net1
+        arr << net2
         cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
 
         # net.learning_rate = rand
@@ -48,6 +51,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
 
         describe "and training #{qty} times each at a learning rate of #{cns.net_set.last.learning_rate.round(6)}" do
           puts "\nTRAINING:\n"
+          timestamp_before = Time.utc
           qty.times do |i|
             print "." if i % qty_10_percent == 0 # 1000 == 0
             errors = {} of Symbol => Float64
@@ -69,7 +73,10 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
           end
+          timestamp_after = Time.utc
 
+          puts "\n--------\n"
+          puts "duration: #{timestamp_after - timestamp_before}"
           puts "\n--------\n"
           min = 0.0
           max = 1.0
