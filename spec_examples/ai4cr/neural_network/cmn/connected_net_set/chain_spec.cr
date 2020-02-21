@@ -39,10 +39,10 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
         qty = 500
         qty_10_percent = qty // 10
 
-        describe "using net of types of: Exp" do
-          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 256, width: hidden_size, error_distance_history_max: 60)
-          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60)
-          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: hidden_size, width: 3, error_distance_history_max: 60)
+        describe "using net of types of: Sigmoid" do
+          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 256, width: hidden_size, error_distance_history_max: 60)
+          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60)
+          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden_size, width: 3, error_distance_history_max: 60)
   
           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
           arr << net0
@@ -102,21 +102,21 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
               # describe "JSON (de-)serialization works" do
               #   it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
               #     json = net.to_json
-              #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.from_json(json)
+              #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.from_json(json)
 
               #     assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total, 0.000000001
               #   end
 
               #   it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
               #     json = net.to_json
-              #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.from_json(json)
+              #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.from_json(json)
 
               #     assert_approximate_equality_of_nested_list net.activation_nodes, net2.activation_nodes, 0.000000001
               #   end
 
               #   it "@weights of the dumped net approximately matches @weights of the loaded net" do
               #     json = net.to_json
-              #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.from_json(json)
+              #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.from_json(json)
 
               #     assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
               #   end
@@ -199,7 +199,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
         describe "using net of types of: (mixed)" do
           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 256, width: hidden_size, error_distance_history_max: 60)
           net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60)
-          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: hidden_size, width: 3, error_distance_history_max: 60)
+          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden_size, width: 3, error_distance_history_max: 60)
   
           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
           arr << net0
@@ -258,21 +258,21 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
               # describe "JSON (de-)serialization works" do
               #   it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
               #     json = net.to_json
-              #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.from_json(json)
+              #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.from_json(json)
 
               #     assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total, 0.000000001
               #   end
 
               #   it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
               #     json = net.to_json
-              #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.from_json(json)
+              #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.from_json(json)
 
               #     assert_approximate_equality_of_nested_list net.activation_nodes, net2.activation_nodes, 0.000000001
               #   end
 
               #   it "@weights of the dumped net approximately matches @weights of the loaded net" do
               #     json = net.to_json
-              #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.from_json(json)
+              #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.from_json(json)
 
               #     assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
               #   end

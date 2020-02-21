@@ -11,7 +11,7 @@ def mini_net_exp_best_guess(net, raw_in)
   net.guesses_best
 end
 
-describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp do
+describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid do
   describe "#train" do
     describe "with a shape of [256,3]" do
       describe "using image data (input) and shape flags (output) for triangle, square, and cross" do
@@ -34,7 +34,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp do
         sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
         cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-        net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 256, width: 3, error_distance_history_max: 60)
+        net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 256, width: 3, error_distance_history_max: 60)
 
         # net.learning_rate = rand
         qty = 500
@@ -81,21 +81,21 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp do
           # describe "JSON (de-)serialization works" do
           #   it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
           #     json = net.to_json
-          #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.from_json(json)
+          #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.from_json(json)
 
           #     assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total, 0.000000001
           #   end
 
           #   it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
           #     json = net.to_json
-          #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.from_json(json)
+          #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.from_json(json)
 
           #     assert_approximate_equality_of_nested_list net.activation_nodes, net2.activation_nodes, 0.000000001
           #   end
 
           #   it "@weights of the dumped net approximately matches @weights of the loaded net" do
           #     json = net.to_json
-          #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.from_json(json)
+          #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.from_json(json)
 
           #     assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
           #   end

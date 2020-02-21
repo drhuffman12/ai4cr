@@ -12,8 +12,8 @@ module Ai4cr
 
           # NOTE: When passing in the array for net_set,
           # .. if you're including just one type of MiniNet, e.g.:
-          #   net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 256, width: 300, error_distance_history_max: 60)
-          #   net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 300, width: 3, error_distance_history_max: 60)
+          #   net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 256, width: 300, error_distance_history_max: 60)
+          #   net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 300, width: 3, error_distance_history_max: 60)
           #
           # ... and you try to pass in like below, you'll get a type error:
           #   cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new([net0, net1])
@@ -87,6 +87,14 @@ module Ai4cr
 
           def guesses_best
             @net_set.last.guesses_best
+          end
+
+          def step_calculate_error_distance_history
+            @net_set.last.step_calculate_error_distance_history
+          end
+
+          def error_distance_history
+            @net_set.last.error_distance_history
           end
         end
       end

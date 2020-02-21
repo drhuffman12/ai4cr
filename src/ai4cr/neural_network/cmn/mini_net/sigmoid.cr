@@ -4,7 +4,7 @@ module Ai4cr
   module NeuralNetwork
     module Cmn
       module MiniNet
-        class Exp < Common::AbstractNet
+        class Sigmoid < Common::AbstractNet
           def propagation_function
             ->(x : Float64) { 1/(1 + Math.exp(-1*(x))) } # lambda { |x| Math.tanh(x) }
           end

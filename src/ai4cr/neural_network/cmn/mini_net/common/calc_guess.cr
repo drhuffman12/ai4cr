@@ -29,7 +29,7 @@ module Ai4cr
               @outputs_guessed.map_with_index { |o, idx| [idx, o].sort }
             end
 
-            def guesses_rounded # good for MiniNetExp; and maybe MiniNetRanh
+            def guesses_rounded # good for MiniNet::Sigmoid; and maybe MiniNetRanh
               @outputs_guessed.map { |v| v.round }
             end
 

@@ -28,8 +28,8 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
     expected_outputs_guessed_after = [0.454759979898907, 0.635915600435646]
 
     it "the 'outputs_guessed' start as zeros" do
-      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 4)
-      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 4, width: 2)
+      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 3, width: 4)
+      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 4, width: 2)
       arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
       arr << net0
       arr << net1
@@ -58,8 +58,8 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
     end
 
     it "the 'outputs_guessed' start are updated as expected" do
-      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 4)
-      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 4, width: 2)
+      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 3, width: 4)
+      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 4, width: 2)
       arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
       arr << net0
       arr << net1
@@ -92,8 +92,8 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
     end
   end
 
-  describe "when given a mix of Exp, Relu, and Tanh MiniNets all chained together (with associated IO sizes" do
-    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 2)
+  describe "when given a mix of Sigmoid, Relu, and Tanh MiniNets all chained together (with associated IO sizes" do
+    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 3, width: 2)
     nr = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 2, width: 3)
     nt = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: 3, width: 4)
 

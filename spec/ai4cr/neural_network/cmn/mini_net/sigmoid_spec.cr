@@ -1,12 +1,12 @@
 require "./../../../../spec_helper"
 
-describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp do
+describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid do
   describe "#eval" do
     describe "when given a net with structure of [3, 2]" do
       # before_each do
       # structure = [3, 2]
       # net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
-      net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 2)
+      net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 3, width: 2)
 
       inputs = [0.1, 0.2, 0.3]
       hard_coded_weights = [
@@ -53,7 +53,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp do
       # before_each do
       # structure = [3, 2]
       # net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
-      net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 2)
+      net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 3, width: 2)
       hard_coded_weights = [
         [-0.9, 0.7],
         [-0.9, 0.6],
@@ -165,7 +165,7 @@ end
 #       out_size = 2
 #       inputs = [3, 2, 3]
 #       structure = [in_size, out_size]
-#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(structure)
+#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(structure)
 
 #       weights_before = net.weights.clone
 #       y = net.eval(inputs)
@@ -179,7 +179,7 @@ end
 #       out_size = 2
 #       inputs = [3, 2, 3]
 #       structure = [in_size, out_size]
-#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(structure)
+#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(structure)
 #       y = net.eval(inputs)
 #       y.size.should eq(out_size)
 #     end
@@ -192,7 +192,7 @@ end
 #       out_size = 7
 #       structure = [in_size] + layer_sizes + [out_size]
 #       inputs = [2, 3]
-#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(structure)
+#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(structure)
 #       y = net.eval(inputs)
 #       y.size.should eq(out_size)
 #     end
@@ -209,7 +209,7 @@ end
 #     expected_weights_first_size = 5
 #     expected_weights_first_sub_size = 2
 
-#     net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(structure).init_network
+#     net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(structure).init_network
 
 #     it "sets @activation_nodes to expected nested array" do
 #       net.activation_nodes.should eq(expected_activation_nodes)
@@ -249,7 +249,7 @@ end
 #     expected_weights_size = 2
 #     expected_weights_first_size = 3
 #     expected_weights_first_sub_size = 2
-#     net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(structure).init_network
+#     net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(structure).init_network
 
 #     it "sets @activation_nodes to expected nested array" do
 #       net.activation_nodes.should eq(expected_activation_nodes)
@@ -289,7 +289,7 @@ end
 #     expected_weights_size = 2
 #     expected_weights_first_size = 2 # one less than prev example since bias is disabled here
 #     expected_weights_first_sub_size = 2
-#     net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(structure).init_network
+#     net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(structure).init_network
 #     net.disable_bias = true
 #     net.init_network
 
@@ -331,7 +331,7 @@ end
 #       out_size = 2
 #       inputs = [3, 2, 3]
 #       structure = [in_size, out_size]
-#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(structure)
+#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(structure)
 
 #       weights_before = net.weights.clone
 #       y = net.eval(inputs)
@@ -345,7 +345,7 @@ end
 #       out_size = 2
 #       inputs = [3, 2, 3]
 #       structure = [in_size, out_size]
-#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(structure)
+#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(structure)
 #       y = net.eval(inputs)
 #       y.size.should eq(out_size)
 #     end
@@ -358,7 +358,7 @@ end
 #       out_size = 7
 #       structure = [in_size] + layer_sizes + [out_size]
 #       inputs = [2, 3]
-#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(structure)
+#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(structure)
 #       y = net.eval(inputs)
 #       y.size.should eq(out_size)
 #     end
@@ -368,17 +368,17 @@ end
 # describe "#dump" do
 #   describe "when given a net with structure of [3, 2]" do
 #     structure = [3, 2]
-#     net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new([3, 2]).init_network
+#     net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new([3, 2]).init_network
 
 #     # TODO: Remove (marshal_dump and marshal_load are deprecated)
 #     s = net.marshal_dump
 #     structure = s[:structure]
-#     x = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(structure).init_network
+#     x = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(structure).init_network
 #     x.marshal_load(s)
 
 #     # NOTE: *_json replaces marshal_dump and marshal_load
 #     json = net.to_json
-#     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.from_json(json)
+#     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.from_json(json)
 
 #     it "@structure of the dumped net matches @structure of the loaded net" do
 #       assert_equality_of_nested_list net.structure, x.structure # TODO: Remove (marshal_dump and marshal_load are deprecated)
@@ -426,7 +426,7 @@ end
 #   describe "when given a net with structure of [3, 2]" do
 #     # before_each do
 #       structure = [3, 2]
-#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 2)
+#       net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 3, width: 2)
 #       hard_coded_weights = [
 #         [-0.9,0.7],
 #         [-0.9,0.6],

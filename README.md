@@ -42,6 +42,15 @@ net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
 assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
 ```
 
+## Comparison benchmarks
+
+To build and run them:
+
+```
+crystal build --release  src/bench/mini_nets_vs_backprop.cr
+./mini_nets_vs_backprop
+```
+
 ## Roadmap
 
 - [x] Generate an error history plot using `AsciiBarCharter` and `error_distance_history` , e.g.:
@@ -58,9 +67,10 @@ plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
     - [ ] ...
   - [x] MiniNet
     - [x] Common modules
-    - [x] Exp
+    - [x] Sigmoid
     - [x] Relu
     - [x] Tanh
+  - [ ] Comparison benchmarks
   - [ ] TBD
   - [ ] ...
 
