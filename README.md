@@ -51,6 +51,12 @@ crystal build --release  src/bench/mini_nets_vs_backprop.cr
 ./mini_nets_vs_backprop
 ```
 
+Example output:
+
+```
+
+```
+
 ## Roadmap
 
 - [x] Generate an error history plot using `AsciiBarCharter` and `error_distance_history` , e.g.:

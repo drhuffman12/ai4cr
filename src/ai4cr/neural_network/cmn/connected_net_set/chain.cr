@@ -96,6 +96,10 @@ module Ai4cr
           def error_distance_history
             @net_set.last.error_distance_history
           end
+
+          def skipped_training_history
+            @net_set.last.skipped_training_history
+          end
         end
       end
     end

@@ -68,9 +68,9 @@ module Ai4cr
               # 1nd place WINNER w/ 100x100 i's and o's
 
               # close tie beteen step_calc_forward_1 and step_calc_forward_2 as fastest
-              @outputs_guessed = @range_width.map do |w|
+              @outputs_guessed = @width_indexes.map do |w|
                 sum = 0.0
-                @range_height.each do |h|
+                @height_indexes.each do |h|
                   sum += @inputs_given[h]*@weights[h][w]
                 end
                 propagation_function.call(sum)

@@ -23,8 +23,10 @@ module Ai4cr
 
               step_load_outputs(outputs_expected)
               step_calculate_error
-              step_backpropagate
+              # @skipped_training = @error_distance < @error_distance_threshold
 
+              step_backpropagate
+                
               # {outputs_guessed: @outputs_guessed, deltas: @deltas, error: @error}
               @error_total # @error
             end
@@ -40,11 +42,16 @@ module Ai4cr
                 error += 0.5*(oe - @outputs_guessed[iw])**2
               end
               @error_total = error
+              # step_calculate_error_distance
+              @error_total
             end
 
             def step_backpropagate
               step_calculate_output_deltas
 
+              @skipped_training = @error_total < @error_distance_threshold
+              return if !@skipped_training
+              
               step_calc_input_deltas
               step_update_weights
             end
@@ -84,9 +91,9 @@ module Ai4cr
               prev_deltas = @output_deltas
               layer_index = 1
               layer_deltas = [] of Float64
-              height_considering_bias.times.to_a.each do |j|
+              height_indexes.each do |j|
                 error = 0.0
-                @width.times do |k|
+                width_indexes.each do |k|
                   error += @output_deltas[k] * @weights[j][k]
                 end
                 layer_deltas << (derivative_propagation_function.call(@inputs_given[j]) * error)
@@ -102,7 +109,7 @@ module Ai4cr
             def step_update_weights # update_weights
               # per input row weights from first to last...
               # j == input row number
-              height_considering_bias.times.to_a.each do |j|
+              height_indexes.each do |j|
                 # per output column weights from first to last...
                 # k == out column number
                 @weights[j].each_with_index do |_elem, k|
@@ -113,22 +120,34 @@ module Ai4cr
               end
             end
 
+            # # Calculate the radius of the error as if each output cell is an value in a coordinate set
+            # def step_calculate_error_distance
+            #   error = 0.0
+            #   # @outputs_expected.map_with_index do |oe, iw|
+            #   #   error += (oe - @outputs_guessed[iw])**2
+            #   # end
+            #   @output_deltas.map_with_index do |od|
+            #     error += od**2
+            #   end
+            #   @error_distance = Math.sqrt(error)
+            # end
+
             # Calculate the radius of the error as if each output cell is an value in a coordinate set
             def step_calculate_error_distance_history
               # @error_distance_history_max = error_distance_history_max
               return @error_distance_history = [-1.0] if @error_distance_history_max < 1
-              error = 0.0
-              @outputs_expected.map_with_index do |oe, iw|
-                error += (oe - @outputs_guessed[iw])**2
-              end
-              @error_distance = Math.sqrt(error)
+              # step_calculate_error_distance
               if @error_distance_history.size < @error_distance_history_max - 1
                 # Array not 'full' yet, so add latest value to end
-                @error_distance_history << error_total
+                @error_distance_history << error_total # @error_distance # 
+                @skipped_training_history << skipped_training
               else
                 # Array 'full', so rotate end to front and then put new value at last index
                 @error_distance_history.rotate!
-                @error_distance_history[-1] = error_total
+                @error_distance_history[-1] = error_total # @error_distance # error_total
+
+                @skipped_training_history.rotate!
+                @skipped_training_history[-1] = skipped_training # @error_distance # error_total
               end
               @error_distance_history
             end

@@ -1,0 +1,233 @@
+TRAINING 100 times:
+
+ Training of Backpropagation w/ structure of [256, 3] 804.72  (  1.24ms) (± 2.48%)   233kB/op        fastest
+   Training of MiniNet::Tanh w/ structure of [256, 3] 635.61  (  1.57ms) (± 2.19%)   1.4MB/op   1.27× slower
+Training of MiniNet::Sigmoid w/ structure of [256, 3] 646.86  (  1.55ms) (± 1.98%)   1.4MB/op   1.24× slower
+   Training of MiniNet::Relu w/ structure of [256, 3] 647.43  (  1.54ms) (± 2.38%)  1.41MB/op   1.24× slower
+
+--------
+Ai4cr::NeuralNetwork::Backpropagation with structure of [256, 3] :
+  plot: '_▅_____▅_'
+  error_distance_history: '[0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh with structure of [256, 3] :
+  plot: '▊▊▊▊▊▊▊▊▊'
+  error_distance_history: '[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid with structure of [256, 3] :
+  plot: '_▅▅▅▅▅_▅_'
+  error_distance_history: '[0.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, 0.5, 0.0]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu with structure of [256, 3] :
+  plot: '_________'
+  error_distance_history: '[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'
+
+--------
+
+                          Training of Backpropagation w/ structure of [256, 100, 3]  30.33  ( 32.97ms) (± 2.52%)   605kB/op        fastest
+      Training of ConnectedNetSet::Chain w/ structure of [256, 100, 3] (Tanh, Tanh)  29.71  ( 33.66ms) (± 3.14%)   2.5MB/op   1.02× slower
+Training of ConnectedNetSet::Chain w/ structure of [256, 100, 3] (Sigmoid, Sigmoid)  30.22  ( 33.09ms) (± 2.87%)   2.5MB/op   1.00× slower
+      Training of ConnectedNetSet::Chain w/ structure of [256, 100, 3] (Relu, Relu)  30.22  ( 33.09ms) (± 2.44%)  2.57MB/op   1.00× slower
+   Training of ConnectedNetSet::Chain w/ structure of [256, 100, 3] (Relu, Sigmoid)  30.16  ( 33.16ms) (± 2.92%)   2.5MB/op   1.01× slower
+
+--------
+Ai4cr::NeuralNetwork::Backpropagation with structure of [256, 100, 3] :
+  plot: '_________'
+  error_distance_history: '[8.0e-6, 8.0e-6, 8.0e-6, 8.0e-6, 8.0e-6, 8.0e-6, 8.0e-6, 8.0e-6, 8.0e-6]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 100, 3] Tanh,Tanh:
+  plot: '▊▊▊▊▊▊▊▊▊'
+  error_distance_history: '[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 100, 3] Sigmoid,Sigmoid:
+  plot: '▃▃▄▃▃▄▃▄▄'
+  error_distance_history: '[0.319593, 0.304954, 0.37968, 0.321184, 0.322547, 0.369159, 0.290795, 0.368966, 0.361819]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 100, 3] Relu,Relu:
+  plot: '_____▇___'
+  error_distance_history: '[0.0, 0.0, 0.0, 0.0, 0.0, 0.693179, 0.0, 0.0, 0.0]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 100, 3] Relu,Sigmoid:
+  plot: '▃▂▃▃▄▃▄▃▃'
+  error_distance_history: '[0.323492, 0.236663, 0.274031, 0.277996, 0.40632, 0.343863, 0.3551, 0.324562, 0.344188]'
+
+--------
+
+                          Training of Backpropagation w/ structure of [256, 1000, 3]   3.01  (332.31ms) (± 0.71%)  2.67MB/op   1.05× slower
+      Training of ConnectedNetSet::Chain w/ structure of [256, 1000, 3] (Tanh, Tanh)   3.14  (318.65ms) (± 1.63%)  8.68MB/op   1.01× slower
+Training of ConnectedNetSet::Chain w/ structure of [256, 1000, 3] (Sigmoid, Sigmoid)   3.16  (316.62ms) (± 0.67%)  8.68MB/op   1.00× slower
+      Training of ConnectedNetSet::Chain w/ structure of [256, 1000, 3] (Relu, Relu)   3.17  (315.34ms) (± 1.31%)  9.03MB/op        fastest
+   Training of ConnectedNetSet::Chain w/ structure of [256, 1000, 3] (Relu, Sigmoid)   3.13  (319.80ms) (± 0.85%)  8.68MB/op   1.01× slower
+
+--------
+Ai4cr::NeuralNetwork::Backpropagation with structure of [256, 1000, 3] :
+  plot: '_________'
+  error_distance_history: '[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 1000, 3] Tanh,Tanh:
+  plot: '▊▊▊▊▊▊▊▊▊'
+  error_distance_history: '[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 3.0, 1.0, 1.0]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 1000, 3] Sigmoid,Sigmoid:
+  plot: '_________'
+  error_distance_history: '[0.000247, 0.00025, 0.000358, 0.000255, 0.001943, 0.000345, 0.001876, 0.001845, 0.001823]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 1000, 3] Relu,Relu:
+  plot: '▅_▄__▂__▆'
+  error_distance_history: '[0.485577, 0.0, 0.406577, 0.0, 0.024326, 0.231501, 0.0, 0.0, 0.564753]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 1000, 3] Relu,Sigmoid:
+  plot: '▄▄▃▃▄▂▄▄▄'
+  error_distance_history: '[0.359135, 0.353039, 0.336547, 0.265705, 0.376494, 0.207417, 0.373136, 0.431725, 0.441155]'
+
+--------
+
+                                   Training of Backpropagation w/ structure of [256, 100, 100, 3]  21.06  ( 47.49ms) (± 3.18%)  0.95MB/op   1.01× slower
+         Training of ConnectedNetSet::Chain w/ structure of [256, 100, 100, 3] (Tanh, Tanh, Tanh)  21.23  ( 47.11ms) (± 2.11%)   3.6MB/op   1.01× slower
+Training of ConnectedNetSet::Chain w/ structure of [256, 100, 100, 3] (Sigmoid, Sigmoid, Sigmoid)  21.36  ( 46.82ms) (± 2.02%)   3.6MB/op        fastest
+         Training of ConnectedNetSet::Chain w/ structure of [256, 100, 100, 3] (Relu, Relu, Relu)  20.96  ( 47.72ms) (± 2.57%)  3.93MB/op   1.02× slower
+      Training of ConnectedNetSet::Chain w/ structure of [256, 100, 100, 3] (Tanh, Relu, Sigmoid)  21.15  ( 47.29ms) (± 2.92%)   3.6MB/op   1.01× slower
+
+--------
+Ai4cr::NeuralNetwork::Backpropagation with structure of [256, 100, 100, 3] :
+  plot: '_________'
+  error_distance_history: '[1.6e-5, 2.1e-5, 2.4e-5, 2.4e-5, 2.1e-5, 2.1e-5, 2.4e-5, 1.6e-5, 2.4e-5]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 100, 100, 3] Tanh,Tanh,Tanh:
+  plot: '▊▊▊▊▊▊▊▊▊'
+  error_distance_history: '[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 100, 100, 3] Sigmoid,Sigmoid,Sigmoid:
+  plot: '▄▄▄▄▄▄▃▃▄'
+  error_distance_history: '[0.371335, 0.379574, 0.414336, 0.385034, 0.393287, 0.40953, 0.344843, 0.332536, 0.382158]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 100, 100, 3] Relu,Relu,Relu:
+  plot: '▂▆▄▃_▅__▄'
+  error_distance_history: '[0.228102, 0.593072, 0.37948, 0.348299, 0.0, 0.504504, 0.0, 0.0, 0.355571]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 100, 100, 3] Tanh,Relu,Sigmoid:
+  plot: '▃▄▃▃▃▃▄▃▄'
+  error_distance_history: '[0.329172, 0.378877, 0.346526, 0.304286, 0.258593, 0.3409, 0.409945, 0.258664, 0.411487]'
+
+--------
+
+                                   Training of Backpropagation w/ structure of [256, 1000, 1000, 3] 327.31m (  3.06s ) (± 0.22%)  5.11MB/op   1.21× slower
+         Training of ConnectedNetSet::Chain w/ structure of [256, 1000, 1000, 3] (Tanh, Tanh, Tanh) 387.29m (  2.58s ) (± 0.03%)  15.9MB/op   1.03× slower
+Training of ConnectedNetSet::Chain w/ structure of [256, 1000, 1000, 3] (Sigmoid, Sigmoid, Sigmoid) 372.00m (  2.69s ) (± 0.06%)  15.9MB/op   1.07× slower
+         Training of ConnectedNetSet::Chain w/ structure of [256, 1000, 1000, 3] (Relu, Relu, Relu) 397.37m (  2.52s ) (± 0.42%)  19.6MB/op        fastest
+      Training of ConnectedNetSet::Chain w/ structure of [256, 1000, 1000, 3] (Tanh, Relu, Sigmoid) 387.35m (  2.58s ) (± 0.52%)  15.9MB/op   1.03× slower
+
+--------
+Ai4cr::NeuralNetwork::Backpropagation with structure of [256, 1000, 1000, 3] :
+  plot: '▅▅_▅▅▅▅▅_'
+  error_distance_history: '[0.500007, 0.500007, 0.0, 0.500007, 0.500006, 0.500006, 0.500006, 0.500005, 0.0]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 1000, 1000, 3] Tanh,Tanh,Tanh:
+  plot: '▊▊▊▊▊▊▊▊▊'
+  error_distance_history: '[1.0, 1.0, 1.0, 3.0, 1.0, 1.0, 3.0, 1.0, 1.0]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 1000, 1000, 3] Sigmoid,Sigmoid,Sigmoid:
+  plot: '▃▁▁▂▁▃▁▃▂'
+  error_distance_history: '[0.341377, 0.086714, 0.070884, 0.198002, 0.07785, 0.293569, 0.06803, 0.327053, 0.209177]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 1000, 1000, 3] Relu,Relu,Relu:
+  plot: '__▇_____▁'
+  error_distance_history: '[0.0, 0.0, 0.651131, 0.0, 0.0, 0.0, 0.0, 0.0, 0.105633]'
+
+--------
+
+--------
+Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain with structure of [256, 1000, 1000, 3] Tanh,Relu,Sigmoid:
+  plot: '▃▃▃▃▃▃▃▃▄'
+  error_distance_history: '[0.343864, 0.284334, 0.318153, 0.297035, 0.32145, 0.291408, 0.331353, 0.333391, 0.394598]'
+
+--------
+INITIALIZATION ONLY:
+
+ Initialization of Backpropagation w/ structure of [100, 100]   4.97k (201.40µs) (± 2.08%)  285kB/op   2.09× slower
+Initialization of MiniNet::Sigmoid w/ structure of [100, 100]  10.29k ( 97.15µs) (± 1.99%)  147kB/op   1.01× slower
+   Initialization of MiniNet::Tanh w/ structure of [100, 100]  10.38k ( 96.32µs) (± 1.77%)  147kB/op        fastest
+   Initialization of MiniNet::Relu w/ structure of [100, 100]  10.31k ( 96.99µs) (± 1.83%)  147kB/op   1.01× slower
+
+ Initialization of Backpropagation w/ structure of [1000, 1000]  79.62  ( 12.56ms) (± 1.79%)  15.4MB/op   1.98× slower
+Initialization of MiniNet::Sigmoid w/ structure of [1000, 1000] 155.92  (  6.41ms) (± 2.39%)  7.75MB/op   1.01× slower
+   Initialization of MiniNet::Tanh w/ structure of [1000, 1000] 157.45  (  6.35ms) (± 1.71%)  7.75MB/op        fastest
+   Initialization of MiniNet::Relu w/ structure of [1000, 1000] 155.47  (  6.43ms) (± 2.92%)  7.75MB/op   1.01× slower
+
+                          Initialization of Backpropagation w/ structure of [100, 100, 100]   2.31k (433.61µs) (± 1.80%)  565kB/op   1.93× slower
+Initialization of ConnectedNetSet::Chain w/ structure of [100, 100, 100] (Sigmoid, Sigmoid)   4.42k (226.11µs) (± 2.32%)  295kB/op   1.01× slower
+                                       Initialization of ConnectedNetSet::Chain (Tanh, Tanh   4.45k (224.72µs) (± 2.14%)  295kB/op        fastest
+                                       Initialization of ConnectedNetSet::Chain (Relu, Relu   4.45k (224.93µs) (± 2.05%)  295kB/op   1.00× slower
+                                    Initialization of ConnectedNetSet::Chain (Relu, Sigmoid   4.43k (225.58µs) (± 1.74%)  295kB/op   1.00× slower
+
+                          Initialization of Backpropagation w/ structure of [1000, 1000, 1000]  38.36  ( 26.07ms) (± 3.66%)  30.9MB/op   2.00× slower
+Initialization of ConnectedNetSet::Chain w/ structure of [1000, 1000, 1000] (Sigmoid, Sigmoid)  76.89  ( 13.01ms) (± 2.07%)  15.5MB/op   1.00× slower
+                                          Initialization of ConnectedNetSet::Chain (Tanh, Tanh  76.81  ( 13.02ms) (± 2.42%)  15.5MB/op   1.00× slower
+                                          Initialization of ConnectedNetSet::Chain (Relu, Relu  76.89  ( 13.01ms) (± 2.26%)  15.5MB/op        fastest
+                                       Initialization of ConnectedNetSet::Chain (Relu, Sigmoid  75.90  ( 13.17ms) (± 3.56%)  15.5MB/op   1.01× slower
+
+                          Initialization of Backpropagation w/ structure of [100, 100, 100, 100]   1.51k (661.79µs) (± 1.86%)  847kB/op   1.94× slower
+Initialization of ConnectedNetSet::Chain w/ structure of [100, 100, 100, 100] (Sigmoid, Sigmoid)   2.90k (345.05µs) (± 2.36%)  443kB/op   1.01× slower
+                                      Initialization of ConnectedNetSet::Chain (Tanh, Tanh, Tanh   2.92k (342.65µs) (± 2.49%)  443kB/op   1.01× slower
+                                            Initialization of ConnectedNetSet::Chain (Relu, Relu   2.91k (343.73µs) (± 2.10%)  443kB/op   1.01× slower
+                                   Initialization of ConnectedNetSet::Chain (Tanh, Relu, Sigmoid   2.94k (340.51µs) (± 2.22%)  443kB/op        fastest
+
+                          Initialization of Backpropagation w/ structure of [1000, 1000, 1000, 1000]  26.85  ( 37.25ms) (± 3.05%)  46.3MB/op   1.95× slower
+Initialization of ConnectedNetSet::Chain w/ structure of [1000, 1000, 1000, 1000] (Sigmoid, Sigmoid)  51.70  ( 19.34ms) (± 2.86%)  23.3MB/op   1.01× slower
+                                          Initialization of ConnectedNetSet::Chain (Tanh, Tanh, Tanh  52.22  ( 19.15ms) (± 2.48%)  23.3MB/op        fastest
+                                                Initialization of ConnectedNetSet::Chain (Relu, Relu  51.54  ( 19.40ms) (± 2.93%)  23.3MB/op   1.01× slower
+                                       Initialization of ConnectedNetSet::Chain (Tanh, Relu, Sigmoid  51.30  ( 19.49ms) (± 3.93%)  23.3MB/op   1.02× slower

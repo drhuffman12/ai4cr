@@ -6,11 +6,11 @@ module Ai4cr
       module MiniNet
         class Relu < Common::AbstractNet
           def propagation_function
-            ->(x : Float64) { x < 0 ? 0.0 : x }
+            ->(x : Float64) { x < 0 ? 0.0 : [1.0,x].min }
           end
 
           def derivative_propagation_function
-            ->(y : Float64) { y < 0 ? 0.0 : 1.0 }
+            ->(y : Float64) { y < 0 ? 0.001 : 1.0 }
           end
 
           def guesses_best

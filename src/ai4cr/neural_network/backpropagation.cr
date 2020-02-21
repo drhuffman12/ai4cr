@@ -89,6 +89,7 @@ module Ai4cr
     #   License::   MPL 1.1
     #   Url::       http://ai4r.org
     struct Backpropagation
+    # class Backpropagation
       include ::JSON::Serializable
 
       property structure, disable_bias, learning_rate, momentum
@@ -437,6 +438,38 @@ module Ai4cr
           raise ArgumentError.new(msg)
         end
       end
+
+      # GUESSES
+      def guesses_best
+        # guesses_as_is
+        guesses_rounded
+      end
+
+      # # To get the sorted/top/bottom n output results
+      def guesses_as_is
+        @activation_nodes.last
+      end
+
+      def guesses_sorted
+        @activation_nodes.last.map_with_index { |o, idx| [idx, o].sort }
+      end
+
+      def guesses_rounded # good for MiniNet::Sigmoid; and maybe MiniNetRanh
+        @activation_nodes.last.map { |v| v.round }
+      end
+
+      def guesses_ceiled # good for MiniNetRelu
+        @activation_nodes.last.map { |v| v.ceil }
+      end
+
+      def guesses_top_n(n = @activation_nodes.last.size)
+        guesses_sorted[0..(n - 1)]
+      end
+
+      def guesses_bottom_n(n = @activation_nodes.last.size)
+        guesses_sorted.reverse[0..(n - 1)]
+      end
+
     end
   end
 end

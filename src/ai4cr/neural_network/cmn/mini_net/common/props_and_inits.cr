@@ -8,7 +8,7 @@ module Ai4cr
           module PropsAndInits
             getter width : Int32, height : Int32
             getter height_considering_bias : Int32
-            getter range_width : Array(Int32), range_height : Array(Int32)
+            getter width_indexes : Array(Int32), height_indexes : Array(Int32)
             property inputs_given : Array(Float64), outputs_guessed : Array(Float64)
             property weights : Array(Array(Float64))
             property last_changes : Array(Array(Float64)) # aka previous weights
@@ -22,8 +22,15 @@ module Ai4cr
             property learning_rate : Float64
             property momentum : Float64
 
-            property error_distance_history_max : Int32
-            property error_distance_history : Array(Float64)
+            getter error_distance : Float64
+            getter error_distance_threshold : Float64
+            
+            # i.e.: if enough nodes skipped_training in last training round, then stop training
+            getter skipped_training : Bool
+            getter skipped_training_history : Array(Bool)
+
+            getter error_distance_history_max : Int32
+            getter error_distance_history : Array(Float64)
 
             def initialize(
               @height, @width,
@@ -36,52 +43,56 @@ module Ai4cr
 
               # init_network:
               @height_considering_bias = @height + (@disable_bias ? 0 : 1)
-              @range_height = Array.new(@height_considering_bias) { |i| i }
+              @height_indexes = Array.new(@height_considering_bias) { |i| i }
 
               @inputs_given = Array.new(@height_considering_bias, 0.0)
               @inputs_given[-1] = 1 unless @disable_bias
               @input_deltas = Array.new(@height_considering_bias, 0.0)
 
-              @range_width = Array.new(width) { |i| i }
+              @width_indexes = Array.new(width) { |i| i }
 
               @outputs_guessed = Array.new(width, 0.0)
               @outputs_expected = Array.new(width, 0.0)
               @output_deltas = Array.new(width, 0.0)
 
-              @weights = @range_height.map { @range_width.map { rand*2 - 1 } }
+              @weights = @height_indexes.map { @width_indexes.map { rand*2 - 1 } }
 
               @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
 
               @error_total = 0.0
-
+              @skipped_training = false
+              @skipped_training_history = Array(Bool).new
               @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-              @error_distance = 0.0
+              @error_distance = 1.0
+              @error_distance_threshold = width * 0.00001 # replace 0.00001 with a param
               @error_distance_history = Array.new(0, 0.0)
             end
 
             def init_network(error_distance_history_max : Int32 = 10)
               # init_network:
               @height_considering_bias = @height + (@disable_bias ? 0 : 1)
-              @range_height = Array.new(@height_considering_bias) { |i| i }
+              @height_indexes = Array.new(@height_considering_bias) { |i| i }
 
               @inputs_given = Array.new(@height_considering_bias, 0.0)
               @inputs_given[-1] = 1 unless @disable_bias
               @input_deltas = Array.new(@height_considering_bias, 0.0)
 
-              @range_width = Array.new(width) { |i| i }
+              @width_indexes = Array.new(width) { |i| i }
 
               @outputs_guessed = Array.new(width, 0.0)
               @outputs_expected = Array.new(width, 0.0)
               @output_deltas = Array.new(width, 0.0)
 
-              @weights = @range_height.map { @range_width.map { rand*2 - 1 } }
+              @weights = @height_indexes.map { @width_indexes.map { rand*2 - 1 } }
 
               @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
 
               @error_total = 0.0
-
+              @skipped_training = false
+              @skipped_training_history = Array.new(0, false)
               @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
               @error_distance = 0.0
+              @error_distance_threshold = width * 0.00001 # replace 0.00001 with a param
               @error_distance_history = Array.new(0, 0.0)
             end
 
