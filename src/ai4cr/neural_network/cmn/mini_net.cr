@@ -6,10 +6,10 @@ module Ai4cr
     module Cmn
       module MiniNet
         # Cmn aka Connectable Mini Networks
-        # alias Types = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp |
+        # alias Types = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid |
         # Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu |
         # Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh
-        # alias Types = Exp | Relu | Tanh
+        # alias Types = Sigmoid | Relu | Tanh
       end
     end
   end

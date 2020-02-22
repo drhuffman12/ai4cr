@@ -7,7 +7,7 @@ structure = [width, height]
 
 results = Benchmark.ips do |x|
   x.report("Backpropagation") { Ai4cr::NeuralNetwork::Backpropagation.new(structure: structure) }
-  x.report("MiniNetExp") { Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(width: width, height: height) }
+  x.report("MiniNet::Sigmoid") { Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(width: width, height: height) }
 end
 
 height_considering_bias = height + 1
@@ -30,7 +30,7 @@ end
 #   inputs_given = [0.1,0.2,0.3]
 #   outputs_expected = [1.0,0.0]
 
-#   # mn = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(width: outputs_expected.size, height: inputs_given.size)
+#   # mn = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(width: outputs_expected.size, height: inputs_given.size)
 #   # mn = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(width: outputs_expected.size, height: inputs_given.size)
 #   mn = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(width: outputs_expected.size, height: inputs_given.size)
 #   mn.weights = [
@@ -70,8 +70,8 @@ end
 #   inputs_given = [0.1,0.2,0.3]
 #   outputs_expected = [1.0,0.0]
 
-#   # mn = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(width: inputs_given.size, height: outputs_expected.size)
-#   mn = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(width: outputs_expected.size, height: inputs_given.size)
+#   # mn = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(width: inputs_given.size, height: outputs_expected.size)
+#   mn = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(width: outputs_expected.size, height: inputs_given.size)
 #   puts mn.pretty_inspect
 #   result = mn.eval(inputs_given)
 #   # => [0.02931223075135632, 0.0009110511944006454]
@@ -102,8 +102,8 @@ end
 #   inputs_given = [0.1,0.2,0.3,0.4,0.5]
 #   outputs_expected = [1.0,0.0,1.0,1.0,0.0]
 
-#   # mn = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(width: inputs_given.size, height: outputs_expected.size)
-#   mn = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(width: outputs_expected.size, height: inputs_given.size)
+#   # mn = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(width: inputs_given.size, height: outputs_expected.size)
+#   mn = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(width: outputs_expected.size, height: inputs_given.size)
 #   puts mn.pretty_inspect
 #   result = mn.eval(inputs_given)
 

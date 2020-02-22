@@ -25,7 +25,7 @@ require "ai4cr"
 
 So far, only Ai4cr::NeuralNetwork::Backpropagation and related tests have been ported.
 
-NOTE: `marshal_dump` and `marshal_load` are deprecated; use `to_json` and `from_json` instead, e.g.:
+NOTE: `marshal_dump` and `marshal_load` from ai4r have been replaced by `to_json` and `from_json` instead, e.g.:
 
 ```
 # Create and save a net
@@ -42,6 +42,19 @@ net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
 assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
 ```
 
+## Comparison benchmarks
+
+To build and run them:
+
+```
+crystal build --release  src/bench/mini_nets_vs_backprop.cr
+./mini_nets_vs_backprop
+```
+
+Example output:
+
+![docs/mini_nets_vs_backprop.example.png](docs/mini_nets_vs_backprop.example.png)
+
 ## Roadmap
 
 - [x] Generate an error history plot using `AsciiBarCharter` and `error_distance_history` , e.g.:
@@ -51,6 +64,19 @@ plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
 (Run `crystal spec spec_examples` to see more error history plot examples. NOTE: These run short training sessions, so some tests are likely to fail some of the time.)
 
 - [ ] Add Cmn ("Connectable Mini Networks") (WIP)
+  - [ ] simple benchmark comparisons
+  - [ ] ConnectedNetSet (WIP)
+    - [x] Chain
+    - [ ] TBD
+    - [ ] ...
+  - [x] MiniNet
+    - [x] Common modules
+    - [x] Sigmoid
+    - [x] Relu
+    - [x] Tanh
+  - [ ] Comparison benchmarks
+  - [ ] TBD
+  - [ ] ...
 
 - [ ] Add RNN
 

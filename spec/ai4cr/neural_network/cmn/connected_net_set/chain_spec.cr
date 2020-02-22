@@ -1,6 +1,6 @@
 require "./../../../../spec_helper"
 
-describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
+describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
   describe "when given two nets with structure of [3, 4] and [4, 2]" do
     # before_each do
     # structure = [3, 2]
@@ -28,9 +28,12 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
     expected_outputs_guessed_after = [0.454759979898907, 0.635915600435646]
 
     it "the 'outputs_guessed' start as zeros" do
-      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 4)
-      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 4, width: 2)
-      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial(Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp).new([net0, net1])
+      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 3, width: 4)
+      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 4, width: 2)
+      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+      arr << net0
+      arr << net1
+      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
 
       puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
       puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
@@ -55,9 +58,12 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
     end
 
     it "the 'outputs_guessed' start are updated as expected" do
-      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 3, width: 4)
-      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp.new(height: 4, width: 2)
-      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial(Ai4cr::NeuralNetwork::Cmn::MiniNet::Exp).new([net0, net1])
+      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 3, width: 4)
+      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 4, width: 2)
+      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+      arr << net0
+      arr << net1
+      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
 
       puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
       puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
@@ -83,6 +89,43 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Sequencial do
       puts "\ncns (AFTER): #{cns.to_json}\n"
 
       assert_approximate_equality_of_nested_list outputs_guessed_after, expected_outputs_guessed_after
+    end
+  end
+
+  describe "when given a mix of Sigmoid, Relu, and Tanh MiniNets all chained together (with associated IO sizes" do
+    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 3, width: 2)
+    nr = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 2, width: 3)
+    nt = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: 3, width: 4)
+
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr << ne
+    arr << nr
+    arr << nt
+    cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
+
+    initial_inputs = [rand, rand, rand]
+    expected_inital_outputs = (arr.last.width.times.to_a.map { 0.0 })
+
+    it "is valid" do
+      puts "*"*8
+
+      puts "cns: #{cns.pretty_inspect}"
+      puts "*"*8
+
+      puts "cns.validate!: #{cns.validate!}"
+      puts "*"*8
+      (cns.validate!).should be_true
+    end
+
+    it "updates last net's outputs when guessing" do
+      cns.net_set.each { |net| net.init_network }
+
+      (cns.guesses_best).should eq(expected_inital_outputs)
+
+      cns.eval(initial_inputs)
+
+      (cns.guesses_best.size).should eq(expected_inital_outputs.size)
+      (cns.guesses_best).should_not eq(expected_inital_outputs)
     end
   end
 end
