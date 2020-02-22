@@ -49,18 +49,16 @@ module Ai4cr
           end
 
           def calc_structure
-            # [height, width]
             @net_set.map_with_index do |net, index|
               net.height
             end << @net_set.last.width
           end
 
-          def eval(inputs_given) # aka eval
+          def eval(inputs_given)
             @net_set.each_with_index do |net, index|
               index == 0 ? net.step_load_inputs(inputs_given) : net.step_load_inputs(@net_set[index - 1].outputs_guessed)
               net.step_calc_forward
             end
-            # ...
 
             @net_set.last.outputs_guessed
           end
@@ -82,7 +80,7 @@ module Ai4cr
               net.step_backpropagate
             end
 
-            @net_set.last.error_total # @error
+            @net_set.last.error_total
           end
 
           def guesses_best
@@ -95,10 +93,6 @@ module Ai4cr
 
           def error_distance_history
             @net_set.last.error_distance_history
-          end
-
-          def skipped_training_history
-            @net_set.last.skipped_training_history
           end
         end
       end

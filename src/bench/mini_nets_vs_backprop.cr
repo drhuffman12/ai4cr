@@ -2,26 +2,13 @@
 require "option_parser"
 require "benchmark"
 require "ascii_bar_charter"
-
-# require "../ai4cr/*"
-# require "../ai4cr.cr"
 require "../ai4cr.cr"
-
-# require "../../spec/spec_helper"
-# require "spec/test_helper"
-# require "../../spec/spec_helper"
 require "../../spec_examples/support/neural_network/data/*"
 
-# USAGE:
-# time crystal build --release src/bench/backpropogation_1_vs_2.cr -o bin/bench/backpropogation_1_vs_2
-# real    0m8.305s
-# user    0m8.625s
-# sys     0m0.167s
-#
-# time bin/bench/backpropogation_1_vs_2
-# mkdir -p tmp/bench
-# valgrind --tool=callgrind --inclusive=yes --tree=both --auto=yes --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/bench/backpropogation_1_vs_2.callgrind.out bin/bench/backpropogation_1_vs_2
-# valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/bench/backpropogation_1_vs_2.callgrind.out bin/bench/backpropogation_1_vs_2
+# To dig deeper into performance refinement:
+# crystal build --release src/mini_nets_vs_backprop
+# mkdir -p tmp/
+# valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/mini_nets_vs_backprop.out ./mini_nets_vs_backprop
 
 in_bw = false
 
@@ -32,11 +19,11 @@ OptionParser.parse do |parser|
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
 
-struct Ai4cr::NeuralNetwork::Backpropagation
-  def skipped_training_history
-    [false]
-  end
-end
+# struct Ai4cr::NeuralNetwork::Backpropagation
+#   def skipped_training_history
+#     [false]
+#   end
+# end
 
 is_a_triangle = [1.0, 0.0, 0.0]
 is_a_square = [0.0, 1.0, 0.0]
@@ -145,12 +132,6 @@ def graph(ios_list, charter_high_is_red, charter_high_is_blue, net)
   plot_correct_percentages = charter_high_is_blue.plot(correct_percentages, false)
   puts "    plot: '#{plot_correct_percentages}'"
   puts "    correct_percentages: '#{correct_percentages.map { |e| e.round(6) }}'"
-
-  puts "  Skipped Training:"
-  skipped_training_history_i = net.skipped_training_history.map{|h| h ? 1 : 0}
-  plot_skip_rates = charter_high_is_blue.plot(skipped_training_history_i, false)
-  puts "    plot: '#{plot_skip_rates}'"
-  puts "    skipped_training_history: '#{skipped_training_history_i}'"
 
   puts "\n--------\n"
 end

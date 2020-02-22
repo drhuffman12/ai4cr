@@ -23,12 +23,6 @@ module Ai4cr
             property momentum : Float64
 
             getter error_distance : Float64
-            getter error_distance_threshold : Float64
-            
-            # i.e.: if enough nodes skipped_training in last training round, then stop training
-            getter skipped_training : Bool
-            getter skipped_training_history : Array(Bool)
-
             getter error_distance_history_max : Int32
             getter error_distance_history : Array(Float64)
 
@@ -60,11 +54,8 @@ module Ai4cr
               @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
 
               @error_total = 0.0
-              @skipped_training = false
-              @skipped_training_history = Array(Bool).new
               @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
               @error_distance = 1.0
-              @error_distance_threshold = width * 0.00001 # replace 0.00001 with a param
               @error_distance_history = Array.new(0, 0.0)
             end
 
@@ -88,11 +79,8 @@ module Ai4cr
               @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
 
               @error_total = 0.0
-              @skipped_training = false
-              @skipped_training_history = Array.new(0, false)
-              @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
+             @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
               @error_distance = 0.0
-              @error_distance_threshold = width * 0.00001 # replace 0.00001 with a param
               @error_distance_history = Array.new(0, 0.0)
             end
 

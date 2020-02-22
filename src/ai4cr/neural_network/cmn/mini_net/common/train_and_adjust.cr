@@ -6,12 +6,6 @@ module Ai4cr
       module MiniNet
         module Common
           module TrainAndAdjust
-            # ####
-            # # TODO: Move prop and deriv methods to subclass and split method pairs per sub-class
-            # def derivative_propagation_function
-            #   ->(y : Float64) { y } # { y*(1 - y) } # lambda { |y| 1.0 - y**2 }
-            # end
-            # ####
             abstract def derivative_propagation_function
 
             # # training steps
@@ -19,16 +13,13 @@ module Ai4cr
             def train(inputs_given, outputs_expected, until_min_avg_error = 0.1)
               step_load_inputs(inputs_given)
               step_calc_forward
-              # ...
 
               step_load_outputs(outputs_expected)
               step_calculate_error
-              # @skipped_training = @error_distance < @error_distance_threshold
 
               step_backpropagate
                 
-              # {outputs_guessed: @outputs_guessed, deltas: @deltas, error: @error}
-              @error_total # @error
+              @error_total
             end
 
             def step_load_outputs(outputs_expected)
@@ -36,21 +27,17 @@ module Ai4cr
               load_outputs_expected(outputs_expected)
             end
 
-            def step_calculate_error # aka calculate_error
+            def step_calculate_error
               error = 0.0
               @outputs_expected.map_with_index do |oe, iw|
                 error += 0.5*(oe - @outputs_guessed[iw])**2
               end
               @error_total = error
-              # step_calculate_error_distance
               @error_total
             end
 
             def step_backpropagate
               step_calculate_output_deltas
-
-              @skipped_training = @error_total < @error_distance_threshold
-              return if !@skipped_training
               
               step_calc_input_deltas
               step_update_weights
@@ -87,7 +74,7 @@ module Ai4cr
             end
 
             # Calculate deltas for hidden layers
-            def step_calc_input_deltas # calculate_internal_deltas
+            def step_calc_input_deltas # aka calculate_internal_deltas
               prev_deltas = @output_deltas
               layer_index = 1
               layer_deltas = [] of Float64
@@ -106,48 +93,26 @@ module Ai4cr
             end
 
             # Update weights after @deltas have been calculated.
-            def step_update_weights # update_weights
-              # per input row weights from first to last...
-              # j == input row number
+            def step_update_weights
               height_indexes.each do |j|
-                # per output column weights from first to last...
-                # k == out column number
                 @weights[j].each_with_index do |_elem, k|
                   change = @output_deltas[k]*@inputs_given[j]
-                  @weights[j][k] += (learning_rate * change + momentum * @last_changes[j][k])
+                  @weights[j][k] += (@learning_rate * change + @momentum * @last_changes[j][k])
                   @last_changes[j][k] = change
                 end
               end
             end
 
-            # # Calculate the radius of the error as if each output cell is an value in a coordinate set
-            # def step_calculate_error_distance
-            #   error = 0.0
-            #   # @outputs_expected.map_with_index do |oe, iw|
-            #   #   error += (oe - @outputs_guessed[iw])**2
-            #   # end
-            #   @output_deltas.map_with_index do |od|
-            #     error += od**2
-            #   end
-            #   @error_distance = Math.sqrt(error)
-            # end
-
             # Calculate the radius of the error as if each output cell is an value in a coordinate set
             def step_calculate_error_distance_history
-              # @error_distance_history_max = error_distance_history_max
               return @error_distance_history = [-1.0] if @error_distance_history_max < 1
-              # step_calculate_error_distance
               if @error_distance_history.size < @error_distance_history_max - 1
                 # Array not 'full' yet, so add latest value to end
-                @error_distance_history << error_total # @error_distance # 
-                @skipped_training_history << skipped_training
+                @error_distance_history << @error_total
               else
                 # Array 'full', so rotate end to front and then put new value at last index
                 @error_distance_history.rotate!
-                @error_distance_history[-1] = error_total # @error_distance # error_total
-
-                @skipped_training_history.rotate!
-                @skipped_training_history[-1] = skipped_training # @error_distance # error_total
+                @error_distance_history[-1] = @error_total
               end
               @error_distance_history
             end
