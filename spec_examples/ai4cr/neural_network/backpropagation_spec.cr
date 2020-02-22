@@ -1,8 +1,5 @@
 require "./../../spec_helper"
-require "../../support/neural_network/data/training_patterns"
-require "../../support/neural_network/data/patterns_with_noise"
-require "../../support/neural_network/data/patterns_with_base_noise"
-# require "json/builder"
+require "../../support/neural_network/data/*"
 require "json"
 
 describe Ai4cr::NeuralNetwork::Backpropagation do

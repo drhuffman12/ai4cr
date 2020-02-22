@@ -53,9 +53,7 @@ crystal build --release  src/bench/mini_nets_vs_backprop.cr
 
 Example output:
 
-```
-
-```
+![docs/mini_nets_vs_backprop.example.png](docs/mini_nets_vs_backprop.example.png)
 
 ## Roadmap
 
