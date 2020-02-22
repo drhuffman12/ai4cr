@@ -25,7 +25,7 @@ require "ai4cr"
 
 So far, only Ai4cr::NeuralNetwork::Backpropagation and related tests have been ported.
 
-NOTE: `marshal_dump` and `marshal_load` are deprecated; use `to_json` and `from_json` instead, e.g.:
+NOTE: `marshal_dump` and `marshal_load` from ai4r have been replaced by `to_json` and `from_json` instead, e.g.:
 
 ```
 # Create and save a net

@@ -239,43 +239,7 @@ module Ai4cr
         return self
       end
 
-      # # protected
-
-      # Custom serialization. It used to fail trying to serialize because
-      # it uses lambda functions internally, and they cannot be serialized.
-      # Now it does not fail, but if you customize the values of
-      # * initial_weight_function
-      # * propagation_function
-      # * derivative_propagation_function
-      # you must restore their values manually after loading the instance.
-      @[Deprecated("Use `self.to_json` instead")]
-      def marshal_dump
-        {
-          structure:        @structure,
-          disable_bias:     @disable_bias,
-          learning_rate:    @learning_rate,
-          momentum:         @momentum,
-          weights:          @weights,
-          last_changes:     @last_changes,
-          activation_nodes: @activation_nodes,
-          deltas:           @deltas,
-        }
-      end
-
-      @[Deprecated("Use `self.from_json(json_data)` instead")]
-      def marshal_load(tup)
-        @structure = tup[:structure].as(Array(Int32))
-        @disable_bias = tup[:disable_bias].as(Bool)
-        @learning_rate = tup[:learning_rate].as(Float64)
-        @momentum = tup[:momentum].as(Float64)
-        @weights = tup[:weights].as(Array(Array(Array(Float64))))
-        @last_changes = tup[:last_changes].as(Array(Array(Array(Float64))))
-        @activation_nodes = tup[:activation_nodes].as(Array(Array(Float64)))
-        @deltas = tup[:deltas].as(Array(Array(Float64)))
-        # @initial_weight_function = lambda { |n, i, j| ((rand(2000))/1000.0) - 1}
-        # @propagation_function = lambda { |x| 1/(1+Math.exp(-1*(x))) } #lambda { |x| Math.tanh(x) }
-        # @derivative_propagation_function = lambda { |y| y*(1-y) } #lambda { |y| 1.0 - y**2 }
-      end
+      # protected
 
       # Propagate error backwards
       def backpropagate # (expected_outputs_values)
