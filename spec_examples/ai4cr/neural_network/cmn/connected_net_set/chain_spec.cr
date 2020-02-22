@@ -43,16 +43,16 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 256, width: hidden_size, error_distance_history_max: 60)
           net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60)
           net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden_size, width: 3, error_distance_history_max: 60)
-  
+
           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
           arr << net0
           arr << net1
           arr << net2
           cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
-  
+
           puts "\n--------\n"
           puts "#{cns.class.name} with structure of #{cns.structure} with nets of types #{cns.net_set.map { |n| n.class.name }}:"
-          
+
           describe "using #{cns.class.name} with structure of #{cns.structure} with nets of types #{cns.net_set.map { |n| n.class.name }}" do
             describe "and training #{qty} times each at a learning rate of #{cns.net_set.last.learning_rate.round(6)}" do
               puts "\nTRAINING:\n"
@@ -200,16 +200,16 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 256, width: hidden_size, error_distance_history_max: 60)
           net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60)
           net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden_size, width: 3, error_distance_history_max: 60)
-  
+
           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
           arr << net0
           arr << net1
           arr << net2
           cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
-  
+
           puts "\n--------\n"
           puts "#{cns.class.name} with structure of #{cns.structure} with nets of types #{cns.net_set.map { |n| n.class.name }}:"
-          
+
           describe "using #{cns.class.name} with structure of #{cns.structure} with nets of types #{cns.net_set.map { |n| n.class.name }}" do
             describe "and training #{qty} times each at a learning rate of #{cns.net_set.last.learning_rate.round(6)}" do
               puts "\nTRAINING:\n"

@@ -79,7 +79,7 @@ module Ai4cr
               @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
 
               @error_total = 0.0
-             @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
+              @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
               @error_distance = 0.0
               @error_distance_history = Array.new(0, 0.0)
             end

@@ -1,4 +1,3 @@
-
 require "option_parser"
 require "benchmark"
 require "ascii_bar_charter"
@@ -14,7 +13,7 @@ in_bw = false
 
 OptionParser.parse do |parser|
   parser.banner = "Usage: mini_nets_vs_backprop [arguments]\n" +
-    "Build: crystal build --release src/bench/mini_nets_vs_backprop.cr"
+                  "Build: crystal build --release src/bench/mini_nets_vs_backprop.cr"
   parser.on("-b", "--in_bw", "Charts are in black and white") { in_bw = true }
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
@@ -42,9 +41,9 @@ sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5
 cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
 ios_list = [
-  { ins_arr: [tr_input, tr_with_noise, tr_with_base_noise], outs: is_a_triangle },
-  { ins_arr: [sq_input, sq_with_noise, sq_with_base_noise], outs: is_a_square},
-  { ins_arr: [cr_input, cr_with_noise, cr_with_base_noise], outs: is_a_cross}
+  {ins_arr: [tr_input, tr_with_noise, tr_with_base_noise], outs: is_a_triangle},
+  {ins_arr: [sq_input, sq_with_noise, sq_with_base_noise], outs: is_a_square},
+  {ins_arr: [cr_input, cr_with_noise, cr_with_base_noise], outs: is_a_cross},
 ]
 ios_first = ios_list.first
 ins_size = ios_first[:ins_arr].first.size
@@ -104,12 +103,11 @@ def eval(net, ios_list)
 end
 
 def graph(ios_list, charter_high_is_red, charter_high_is_blue, net)
-
   net_set_types = if net.is_a?(Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain)
-    net.net_set.map{|ns| ns.class.name.split("::").last}.join(",")
-  else
-    ""
-  end
+                    net.net_set.map { |ns| ns.class.name.split("::").last }.join(",")
+                  else
+                    ""
+                  end
 
   puts "#{net.class.name} with structure of #{net.structure} #{net_set_types}:"
 
@@ -155,15 +153,15 @@ def bench_train_no_hidden(ios_list, qty_loops, charter_high_is_red, charter_high
     x.report("Training of Backpropagation w/ structure of #{structure}") do
       train(net_bp, ios_list, qty_loops)
     end
-    
+
     x.report("Training of MiniNet::Tanh w/ structure of #{structure}") do
       train(net_tanh, ios_list, qty_loops)
     end
-    
+
     x.report("Training of MiniNet::Sigmoid w/ structure of #{structure}") do
       train(net_sigm, ios_list, qty_loops)
     end
-    
+
     x.report("Training of MiniNet::Relu w/ structure of #{structure}") do
       train(net_relu, ios_list, qty_loops)
     end
@@ -213,19 +211,19 @@ def bench_train_hidden1(ios_list, qty_loops, charter_high_is_red, charter_high_i
     x.report("Training of Backpropagation w/ structure of #{structure}") do
       train(net_bp, ios_list, qty_loops)
     end
-    
+
     x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Tanh, Tanh)") do
       train(cns_tanh_tanh, ios_list, qty_loops)
     end
-    
+
     x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Sigmoid, Sigmoid)") do
       train(cns_sigm_sigm, ios_list, qty_loops)
     end
-    
+
     x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Relu, Relu)") do
       train(cns_relu_relu, ios_list, qty_loops)
     end
-    
+
     x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Relu, Sigmoid)") do
       train(cns_relu_sigm, ios_list, qty_loops)
     end
@@ -235,7 +233,7 @@ def bench_train_hidden1(ios_list, qty_loops, charter_high_is_red, charter_high_i
   graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_tanh_tanh)
   graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_sigm_sigm)
   graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_relu_relu)
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_relu_sigm)   
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_relu_sigm)
 end
 
 def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_is_blue, height, hidden1, hidden2, width)
@@ -278,8 +276,6 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
   arr << net1_relu
   arr << net2_Sigm
   cns_tanh_relu_sigm = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
-  
-
 
   net0_234_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: 2, width: 3)
   net1_234_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 3, width: 4)
@@ -292,30 +288,30 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
   File.write("tmp/cns_234.json", cns_234.to_pretty_json(indent: "  "))
   # cns_234b = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.from_json(File.read("tmp/cns_234.json"))
   # File.write("tmp/cns_234b.json", cns_234b.to_pretty_json(indent: "  "))
-  
+
   puts "\n--------\n"
   Benchmark.ips do |x|
     x.report("Training of Backpropagation w/ structure of #{structure}") do
       train(net_bp, ios_list, qty_loops)
     end
-    
+
     x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Tanh, Tanh, Tanh)") do
       train(cns_tanh_tanh_tanh, ios_list, qty_loops)
     end
-    
+
     x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Sigmoid, Sigmoid, Sigmoid)") do
       train(cns_sigm_sigm_sigm, ios_list, qty_loops)
     end
-    
+
     x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Relu, Relu, Relu)") do
       train(cns_relu_relu_relu, ios_list, qty_loops)
     end
-    
+
     x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Tanh, Relu, Sigmoid)") do
       train(cns_tanh_relu_sigm, ios_list, qty_loops)
     end
   end
-  
+
   graph(ios_list, charter_high_is_red, charter_high_is_blue, net_bp)
   graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_tanh_tanh_tanh)
   graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_sigm_sigm_sigm)
@@ -323,10 +319,10 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
   graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_tanh_relu_sigm)
 end
 
-## BENCHMARK 1a
+# # BENCHMARK 1a
 # One net w/ the following 1 layers of weights and 2 layers of nodes with the following structure: [100,100]
 # * 1st net's weights are for the 100 inputs nodes to the 100 output nodes
-# 
+#
 # width = 100
 # height = 100
 bench_train_no_hidden(ios_list, qty_loops, charter_high_is_red, charter_high_is_blue, height, width)
@@ -334,47 +330,47 @@ bench_train_no_hidden(ios_list, qty_loops, charter_high_is_red, charter_high_is_
 # ## BENCHMARK 1b
 # # One net w/ the following 1 layers of weights and 2 layers of nodes with the following structure: [100,100]
 # # * 1st net's weights are for the 100 inputs nodes to the 100 output nodes
-# # 
+# #
 # # width = 1000
 # # height = 1000
 # bench_train_no_hidden(ios_list, qty_loops, charter_high_is_red, charter_high_is_blue, height, width)
 
-## BENCHMARK 2a
+# # BENCHMARK 2a
 # Two nets w/ the following 2 layers of weights and 3 layers of nodes with the following structure: [100,100,100]
 # * 1st net's weights are for the 100 inputs nodes to the 100 hidden nodes
 # * 2nd net's weights are for the 100 hidden nodes to the 100 output nodes
-# 
+#
 # width = 100
 hidden = 100
 # height = 100
 bench_train_hidden1(ios_list, qty_loops, charter_high_is_red, charter_high_is_blue, height, hidden, width)
 
-## BENCHMARK 2b
+# # BENCHMARK 2b
 # Two nets w/ the following 2 layers of weights and 3 layers of nodes with the following structure: [100,100,100]
 # * 1st net's weights are for the 100 inputs nodes to the 100 hidden nodes
 # * 2nd net's weights are for the 100 hidden nodes to the 100 output nodes
-# 
+#
 # width = 1000
 hidden = 1000
 # height = 1000
 bench_train_hidden1(ios_list, qty_loops, charter_high_is_red, charter_high_is_blue, height, hidden, width)
 
-## BENCHMARK 3a
+# # BENCHMARK 3a
 # Two nets w/ the following 2 layers of weights and 3 layers of nodes with the following structure: [100,100,100]
 # * 1st net's weights are for the 100 inputs nodes to the 100 hidden nodes
 # * 2nd net's weights are for the 100 hidden nodes to the 100 output nodes
-# 
+#
 # width = 100
 hidden1 = 100
 hidden2 = 100
 # height = 100
 bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_is_blue, height, hidden1, hidden2, width)
 
-## BENCHMARK 3b
+# # BENCHMARK 3b
 # Two nets w/ the following 2 layers of weights and 3 layers of nodes with the following structure: [100,100,100]
 # * 1st net's weights are for the 100 inputs nodes to the 100 hidden nodes
 # * 2nd net's weights are for the 100 hidden nodes to the 100 output nodes
-# 
+#
 # width = 1000
 hidden1 = 1000
 hidden2 = 1000
@@ -385,10 +381,10 @@ bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_is_bl
 puts "INITIALIZATION ONLY:"
 ################################################################
 
-## BENCHMARK 1a
+# # BENCHMARK 1a
 # One net w/ the following 1 layers of weights and 2 layers of nodes with the following structure: [100,100]
 # * 1st net's weights are for the 100 inputs nodes to the 100 output nodes
-# 
+#
 width = 100
 height = 100
 structure = [height, width]
@@ -401,10 +397,10 @@ Benchmark.ips do |x|
   x.report("Initialization of MiniNet::Relu w/ structure of #{structure}") { Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: width) }
 end
 
-## BENCHMARK 1b
+# # BENCHMARK 1b
 # One net w/ the following 1 layers of weights and 2 layers of nodes with the following structure: [100,100]
 # * 1st net's weights are for the 100 inputs nodes to the 100 output nodes
-# 
+#
 width = 1000
 height = 1000
 structure = [height, width]
@@ -417,11 +413,11 @@ Benchmark.ips do |x|
   x.report("Initialization of MiniNet::Relu w/ structure of #{structure}") { Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: width) }
 end
 
-## BENCHMARK 2a
+# # BENCHMARK 2a
 # Two nets w/ the following 2 layers of weights and 3 layers of nodes with the following structure: [100,100,100]
 # * 1st net's weights are for the 100 inputs nodes to the 100 hidden nodes
 # * 2nd net's weights are for the 100 hidden nodes to the 100 output nodes
-# 
+#
 width = 100
 hidden = 100
 height = 100
@@ -468,11 +464,11 @@ Benchmark.ips do |x|
   end
 end
 
-## BENCHMARK 2b
+# # BENCHMARK 2b
 # Two nets w/ the following 2 layers of weights and 3 layers of nodes with the following structure: [100,100,100]
 # * 1st net's weights are for the 100 inputs nodes to the 100 hidden nodes
 # * 2nd net's weights are for the 100 hidden nodes to the 100 output nodes
-# 
+#
 width = 1000
 hidden = 1000
 height = 1000
@@ -520,11 +516,11 @@ Benchmark.ips do |x|
   end
 end
 
-## BENCHMARK 3a
+# # BENCHMARK 3a
 # Two nets w/ the following 2 layers of weights and 3 layers of nodes with the following structure: [100,100,100]
 # * 1st net's weights are for the 100 inputs nodes to the 100 hidden nodes
 # * 2nd net's weights are for the 100 hidden nodes to the 100 output nodes
-# 
+#
 width = 100
 hidden1 = 100
 hidden2 = 100
@@ -580,11 +576,11 @@ Benchmark.ips do |x|
   end
 end
 
-## BENCHMARK 3b
+# # BENCHMARK 3b
 # Two nets w/ the following 2 layers of weights and 3 layers of nodes with the following structure: [100,100,100]
 # * 1st net's weights are for the 100 inputs nodes to the 100 hidden nodes
 # * 2nd net's weights are for the 100 hidden nodes to the 100 output nodes
-# 
+#
 width = 1000
 hidden1 = 1000
 hidden2 = 1000

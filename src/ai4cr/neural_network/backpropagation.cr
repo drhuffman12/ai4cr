@@ -89,7 +89,7 @@ module Ai4cr
     #   License::   MPL 1.1
     #   Url::       http://ai4r.org
     struct Backpropagation
-    # class Backpropagation
+      # class Backpropagation
       include ::JSON::Serializable
 
       property structure, disable_bias, learning_rate, momentum
@@ -469,7 +469,6 @@ module Ai4cr
       def guesses_bottom_n(n = @activation_nodes.last.size)
         guesses_sorted.reverse[0..(n - 1)]
       end
-
     end
   end
 end

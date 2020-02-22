@@ -12,6 +12,7 @@ module Ai4cr
             #   ->(x : Float64) { x } # { 1/(1 + Math.exp(-1*(x))) } # lambda { |x| Math.tanh(x) }
             # end
             abstract def propagation_function
+
             # ####
 
             # pseudo-abstract

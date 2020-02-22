@@ -198,7 +198,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
 
         puts "\n--------\n"
         puts "#{net.class.name} with structure of #{net.structure}:"
-        
+
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
           puts "\nTRAINING:\n"
           timestamp_before = Time.utc

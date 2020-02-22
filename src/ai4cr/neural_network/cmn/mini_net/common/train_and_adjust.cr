@@ -18,7 +18,7 @@ module Ai4cr
               step_calculate_error
 
               step_backpropagate
-                
+
               @error_total
             end
 
@@ -38,7 +38,7 @@ module Ai4cr
 
             def step_backpropagate
               step_calculate_output_deltas
-              
+
               step_calc_input_deltas
               step_update_weights
             end
@@ -86,7 +86,7 @@ module Ai4cr
                 layer_deltas << (derivative_propagation_function.call(@inputs_given[j]) * error)
                 # # TODO: Research ReLU and why I'm not seeing performance gain in my code
                 # # For Relu performance gain, check for 0.0
-                # der_val = derivative_propagation_function.call(@inputs_given[j])                
+                # der_val = derivative_propagation_function.call(@inputs_given[j])
                 # layer_deltas << (der_val == 0.0 ? 0.0 : der_val * error)
               end
               @input_deltas = layer_deltas
