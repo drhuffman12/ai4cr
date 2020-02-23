@@ -92,15 +92,24 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
     end
   end
 
-  describe "when given a mix of Sigmoid, Relu, and Tanh MiniNets all chained together (with associated IO sizes" do
-    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 3, width: 2)
-    nr = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 2, width: 3)
-    nt = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: 3, width: 4)
+  describe "when given a mix of Tanh, Relu, and Sigmoid  MiniNets all chained together (with associated IO sizes)" do
+    # all layers will have bias
+    disable_bias = false
+
+    layer_0_size_without_bias = 3
+    layer_1_size_without_bias = 4
+    layer_2_size_without_bias = 5
+    layer_3_size_without_bias = 6
+    bias_offset = (disable_bias ? 0 : 1)
+
+    nt = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: layer_0_size_without_bias, width: layer_1_size_without_bias, disable_bias: false)
+    nr = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: layer_1_size_without_bias, width: layer_2_size_without_bias, disable_bias: true)
+    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: layer_2_size_without_bias, width: layer_3_size_without_bias, disable_bias: true)
 
     arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
-    arr << ne
-    arr << nr
     arr << nt
+    arr << nr
+    arr << ne
     cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
 
     initial_inputs = [rand, rand, rand]
@@ -115,6 +124,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
       puts "cns.validate!: #{cns.validate!}"
       puts "*"*8
       (cns.validate!).should be_true
+      (cns.errors.empty?).should be_true
     end
 
     it "updates last net's outputs when guessing" do

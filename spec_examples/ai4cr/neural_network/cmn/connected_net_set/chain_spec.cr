@@ -40,9 +40,9 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
         qty_10_percent = qty // 10
 
         describe "using net of types of: Sigmoid" do
-          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 256, width: hidden_size, error_distance_history_max: 60)
-          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60)
-          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden_size, width: 3, error_distance_history_max: 60)
+          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false)
+          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true)
+          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true)
 
           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
           arr << net0
@@ -197,9 +197,9 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
         end
 
         describe "using net of types of: (mixed)" do
-          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 256, width: hidden_size, error_distance_history_max: 60)
-          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60)
-          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden_size, width: 3, error_distance_history_max: 60)
+          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false)
+          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true)
+          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true)
 
           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
           arr << net0
