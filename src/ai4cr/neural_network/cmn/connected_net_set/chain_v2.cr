@@ -1,10 +1,11 @@
 require "json"
+require "./../learning_style.cr"
 
 module Ai4cr
   module NeuralNetwork
     module Cmn
       module ConnectedNetSet
-        class Chain
+        class ChainV2
           # NOTE: The first net should have a bias; the others should not.
           # TODO: Force bias only on 1st and none on others
 

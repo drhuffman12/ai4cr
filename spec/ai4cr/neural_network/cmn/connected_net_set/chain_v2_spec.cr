@@ -1,6 +1,6 @@
 require "./../../../../spec_helper"
 
-describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
+describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2 do
   describe "when given two nets with structure of [3, 4] and [4, 2]" do
     # before_each do
     # structure = [3, 2]
@@ -28,9 +28,9 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
     expected_outputs_guessed_after = [0.454759979898907, 0.635915600435646]
 
     it "the 'outputs_guessed' start as zeros" do
-      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 3, width: 4)
-      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 4, width: 2)
-      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: 3, width: 4, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: 4, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
       arr << net0
       arr << net1
       cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
@@ -58,9 +58,9 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
     end
 
     it "the 'outputs_guessed' start are updated as expected" do
-      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 3, width: 4)
-      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 4, width: 2)
-      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: 3, width: 4, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: 4, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
       arr << net0
       arr << net1
       cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
@@ -92,7 +92,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
     end
   end
 
-  describe "when given a mix of Tanh, Relu, and Sigmoid  MiniNets all chained together (with associated IO sizes)" do
+  describe "when given a mix of Tanh, Prelu, Relu, and Sigmoid  MiniNets all chained together (with associated IO sizes)" do
     # all layers will have bias
     disable_bias = false
 
@@ -100,15 +100,18 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
     layer_1_size_without_bias = 4
     layer_2_size_without_bias = 5
     layer_3_size_without_bias = 6
+    layer_4_size_without_bias = 7
     bias_offset = (disable_bias ? 0 : 1)
 
-    nt = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: layer_0_size_without_bias, width: layer_1_size_without_bias, disable_bias: false)
-    nr = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: layer_1_size_without_bias, width: layer_2_size_without_bias, disable_bias: true)
-    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: layer_2_size_without_bias, width: layer_3_size_without_bias, disable_bias: true)
+    nt = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: layer_0_size_without_bias, width: layer_1_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH, disable_bias: false)
+    nr = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: layer_1_size_without_bias, width: layer_2_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU, disable_bias: true)
+    np = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: layer_2_size_without_bias, width: layer_3_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU, disable_bias: true)
+    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: layer_3_size_without_bias, width: layer_4_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << nt
     arr << nr
+    arr << np
     arr << ne
     cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
 

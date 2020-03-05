@@ -185,28 +185,28 @@ def bench_train_hidden1(ios_list, qty_loops, charter_high_is_red, charter_high_i
 
   net0_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: height, width: hidden)
   net1_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: hidden, width: width, disable_bias: true)
-  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
   arr << net0_tanh
   arr << net1_tanh
   cns_tanh_tanh = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
 
   net0_sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: height, width: hidden)
   net1_sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden, width: width, disable_bias: true)
-  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
   arr << net0_sigm
   arr << net1_sigm
   cns_sigm_sigm = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
 
   net0_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: hidden)
   net1_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden, width: width, disable_bias: true)
-  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
   arr << net0_relu
   arr << net1_relu
   cns_relu_relu = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
 
   net0_relu_sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: hidden)
   net1_relu_sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden, width: width, disable_bias: true)
-  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
   arr << net0_relu_sigm
   arr << net1_relu_sigm
   cns_relu_sigm = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
@@ -249,7 +249,7 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
   net0_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: height, width: hidden1)
   net1_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: hidden1, width: hidden2, disable_bias: true)
   net2_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: hidden2, width: width, disable_bias: true)
-  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
   arr << net0_tanh
   arr << net1_tanh
   arr << net2_tanh
@@ -258,7 +258,7 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
   net0_sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: height, width: hidden1)
   net1_sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden1, width: hidden2, disable_bias: true)
   net2_sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden2, width: width, disable_bias: true)
-  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
   arr << net0_sigm
   arr << net1_sigm
   arr << net2_sigm
@@ -267,7 +267,7 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
   net0_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: hidden1)
   net1_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden1, width: hidden2, disable_bias: true)
   net2_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden2, width: width, disable_bias: true)
-  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
   arr << net0_relu
   arr << net1_relu
   arr << net2_relu
@@ -276,7 +276,7 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
   net0_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: height, width: hidden1)
   net1_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden1, width: hidden2, disable_bias: true)
   net2_Sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden2, width: width, disable_bias: true)
-  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
   arr << net0_tanh
   arr << net1_relu
   arr << net2_Sigm
@@ -285,7 +285,7 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
   net0_234_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: 2, width: 3)
   net1_234_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 3, width: 4, disable_bias: true)
   net2_234_Sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 4, width: 5, disable_bias: true)
-  arr_234 = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+  arr_234 = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
   arr_234 << net0_234_tanh
   arr_234 << net1_234_relu
   arr_234 << net2_234_Sigm
@@ -435,7 +435,7 @@ Benchmark.ips do |x|
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: height, width: hidden)
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
@@ -444,7 +444,7 @@ Benchmark.ips do |x|
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: height, width: hidden)
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: hidden, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
@@ -453,7 +453,7 @@ Benchmark.ips do |x|
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: hidden)
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
@@ -462,7 +462,7 @@ Benchmark.ips do |x|
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: hidden)
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
@@ -486,7 +486,7 @@ Benchmark.ips do |x|
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: height, width: hidden)
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
@@ -495,7 +495,7 @@ Benchmark.ips do |x|
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: height, width: hidden)
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: hidden, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
@@ -504,7 +504,7 @@ Benchmark.ips do |x|
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: hidden)
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     # arr << net2
@@ -514,7 +514,7 @@ Benchmark.ips do |x|
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: hidden)
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
@@ -540,7 +540,7 @@ Benchmark.ips do |x|
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden1, width: hidden2, disable_bias: true)
     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden2, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     arr << net2
@@ -551,7 +551,7 @@ Benchmark.ips do |x|
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: hidden1, width: hidden2, disable_bias: true)
     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: hidden2, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     arr << net2
@@ -562,7 +562,7 @@ Benchmark.ips do |x|
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden1, width: hidden2, disable_bias: true)
     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden2, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     arr << net2
@@ -573,7 +573,7 @@ Benchmark.ips do |x|
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden1, width: hidden2, disable_bias: true)
     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden2, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     arr << net2
@@ -600,7 +600,7 @@ Benchmark.ips do |x|
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden1, width: hidden2, disable_bias: true)
     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden2, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     arr << net2
@@ -611,7 +611,7 @@ Benchmark.ips do |x|
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: hidden1, width: hidden2, disable_bias: true)
     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: hidden2, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     arr << net2
@@ -622,7 +622,7 @@ Benchmark.ips do |x|
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden1, width: hidden2, disable_bias: true)
     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden2, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     arr << net2
@@ -633,7 +633,7 @@ Benchmark.ips do |x|
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden1, width: hidden2, disable_bias: true)
     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden2, width: width, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Common::AbstractNet).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
     arr << net0
     arr << net1
     arr << net2

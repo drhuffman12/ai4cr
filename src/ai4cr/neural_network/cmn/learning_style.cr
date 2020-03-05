@@ -27,6 +27,7 @@ module Ai4cr
       #   end
       # end
 
+      # Ai4cr::NeuralNetwork::Cmn::
       LS_PRELU = LearningStyle::Prelu
       LS_RELU = LearningStyle::Relu
       LS_SIGMOID = LearningStyle::Sigmoid

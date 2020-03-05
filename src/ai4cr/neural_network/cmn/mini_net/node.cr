@@ -42,46 +42,46 @@ module Ai4cr
 
           def propagation_function
             case @learning_style
-            when LA_PRELU # LearningStyle::Prelu
+            when LS_PRELU # LearningStyle::Prelu
               propagation_function_prelu
-            when LA_RELU # LearningStyle::Rel
+            when LS_RELU # LearningStyle::Rel
               propagation_function_relu
-            when LA_SIGMOID # LearningStyle::Sigmoid
+            when LS_SIGMOID # LearningStyle::Sigmoid
               propagation_function_sigmoid
-            when LA_TANH # LearningStyle::Tanh
+            when LS_TANH # LearningStyle::Tanh
               propagation_function_tanh
-            # else
-            #   raise "Unsupported LearningStyle"
+            else
+              raise "Unsupported LearningStyle"
             end
           end
 
           def derivative_propagation_function
             case @learning_style
-            when LA_PRELU # LearningStyle::Prelu
+            when LS_PRELU # LearningStyle::Prelu
               derivative_propagation_function_prelu
-            when LA_RELU # LearningStyle::Rel
+            when LS_RELU # LearningStyle::Rel
               derivative_propagation_function_relu
-            when LA_SIGMOID # LearningStyle::Sigmoid
+            when LS_SIGMOID # LearningStyle::Sigmoid
               derivative_propagation_function_sigmoid
-            when LA_TANH # LearningStyle::Tanh
+            when LS_TANH # LearningStyle::Tanh
               derivative_propagation_function_tanh
-            # else
-            #   raise "Unsupported LearningStyle"
+            else
+              raise "Unsupported LearningStyle"
             end
           end
 
           def guesses_best
             case @learning_style
-            when LA_PRELU # LearningStyle::Prelu
+            when LS_PRELU # LearningStyle::Prelu
               guesses_best_prelu
-            when LA_RELU # LearningStyle::Rel
+            when LS_RELU # LearningStyle::Rel
               guesses_best_relu
-            when LA_SIGMOID # LearningStyle::Sigmoid
+            when LS_SIGMOID # LearningStyle::Sigmoid
               guesses_best_sigmoid
-            when LA_TANH # LearningStyle::Tanh
+            when LS_TANH # LearningStyle::Tanh
               guesses_best_tanh
-            # else
-            #   raise "Unsupported LearningStyle"
+            else
+              raise "Unsupported LearningStyle"
             end
           end
 
