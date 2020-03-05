@@ -137,5 +137,20 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain do
       (cns.guesses_best.size).should eq(expected_inital_outputs.size)
       (cns.guesses_best).should_not eq(expected_inital_outputs)
     end
+
+    # it "exports to json without raising an error" do
+    #   json_exported = cns.to_json
+    #   # Below should not raise:
+    #   cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.from_json(json_exported)
+    # end
+
+    # it "imports exported json without raising an error" do
+    #   json_exported = cns.to_json
+    #   # Below should not raise:
+    #   cns2 = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.from_json(json_exported)
+    #   # below should match
+    #   (cns2.to_json).should eq(json_exported)
+    # end
+
   end
 end

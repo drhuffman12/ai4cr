@@ -67,6 +67,7 @@ plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
   - [x] simple benchmark comparisons
   - [ ] ConnectedNetSet (WIP)
     - [x] Chain
+    - [ ] Chain (but using Node aka refactored as MiniNet)
     - [ ] TBD
     - [ ] ...
   - [x] MiniNet
@@ -74,6 +75,8 @@ plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
     - [x] Sigmoid
     - [x] Relu
     - [x] Tanh
+    - [x] Node aka Combine above into one JSON importable/exportable class that can be used w/ Chain
+    - [ ] Refactor Node as MiniNet and Remove sub classes
   - [ ] TBD
   - [ ] ...
 
@@ -165,6 +168,12 @@ docker-compose run app crystal spec
 
 ```bash
 docker-compose run app /bin/bash
+```
+
+### ICR console
+
+```bash
+icr -r ./src/ai4cr
 ```
 
 ### See also

@@ -1,4 +1,5 @@
 require "json"
+require "./../../learning_style.cr"
 
 module Ai4cr
   module NeuralNetwork
@@ -26,11 +27,17 @@ module Ai4cr
             getter error_distance_history_max : Int32
             getter error_distance_history : Array(Float64)
 
+            property learning_style : LearningStyle
+
             def initialize(
               @height, @width,
+              @learning_style : LearningStyle = LS_RELU, #  LearningStyle::Relu,
+
               disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil,
               error_distance_history_max : Int32 = 10
             )
+              # @learning_style = Common::LearningStyle::Relu
+
               @disable_bias = !!disable_bias
               @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
               @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
@@ -40,7 +47,8 @@ module Ai4cr
               @height_indexes = Array.new(@height_considering_bias) { |i| i }
 
               @inputs_given = Array.new(@height_considering_bias, 0.0)
-              @inputs_given[-1] = 1 unless @disable_bias
+              @inputs_given[-1] = 1.0 unless @disable_bias
+              # @inputs_given[-1] = 0.1 unless @disable_bias
               @input_deltas = Array.new(@height_considering_bias, 0.0)
 
               @width_indexes = Array.new(width) { |i| i }
@@ -50,6 +58,8 @@ module Ai4cr
               @output_deltas = Array.new(width, 0.0)
 
               @weights = @height_indexes.map { @width_indexes.map { rand*2 - 1 } }
+              # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(2.0/(height_considering_bias + width))) } }
+              # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(height_considering_bias/2.0)) } }
 
               @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
 
@@ -65,7 +75,8 @@ module Ai4cr
               @height_indexes = Array.new(@height_considering_bias) { |i| i }
 
               @inputs_given = Array.new(@height_considering_bias, 0.0)
-              @inputs_given[-1] = 1 unless @disable_bias
+              @inputs_given[-1] = 1.0 unless @disable_bias
+              # @inputs_given[-1] = 0.1 unless @disable_bias
               @input_deltas = Array.new(@height_considering_bias, 0.0)
 
               @width_indexes = Array.new(width) { |i| i }
@@ -74,7 +85,13 @@ module Ai4cr
               @outputs_expected = Array.new(width, 0.0)
               @output_deltas = Array.new(width, 0.0)
 
+              # Weight initialization (https://medium.com/datadriveninvestor/deep-learning-best-practices-activation-functions-weight-initialization-methods-part-1-c235ff976ed)
+              # * Xavier initialization mostly used with tanh and logistic activation function
+              # * He-initialization mostly used with ReLU or it’s variants — Leaky ReLU.
+
               @weights = @height_indexes.map { @width_indexes.map { rand*2 - 1 } }
+              # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(2.0/(height_considering_bias + width))) } }
+              # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(height_considering_bias/2.0)) } }
 
               @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
 
