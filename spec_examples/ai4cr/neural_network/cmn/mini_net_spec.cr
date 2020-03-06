@@ -1,7 +1,7 @@
 require "json"
 require "ascii_bar_charter"
-require "./../../../../spec_helper"
-require "../../../../support/neural_network/data/*"
+require "./../../../spec_helper"
+require "../../../support/neural_network/data/*"
 
 def mini_net_relu_best_guess(net, raw_in)
   # result = net.eval(raw_in)
@@ -11,7 +11,7 @@ def mini_net_relu_best_guess(net, raw_in)
   net.guesses_best
 end
 
-describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Node do
+describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
   describe "#train" do
     describe "using image data (input) and shape flags (output) for triangle, square, and cross" do
       correct_count = 0
@@ -34,8 +34,8 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Node do
       cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
       # net.learning_rate = rand
-      qty = 3000 # 100_000
-      qty_10_percent = qty // 10
+      qty = 100 # 100_000
+      qty_X_percent = qty // 5
 
       [
         Ai4cr::NeuralNetwork::Cmn::LS_PRELU,
@@ -43,7 +43,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Node do
         Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID,
         Ai4cr::NeuralNetwork::Cmn::LS_TANH
       ].each do |learning_style|
-        net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: 256, width: 3, error_distance_history_max: 60, learning_style: learning_style)
+        net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: 3, error_distance_history_max: 60, learning_style: learning_style)
   
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)} using learning_style: #{learning_style}" do
           puts "\nTRAINING (learning_style: #{learning_style}):\n"
@@ -54,13 +54,13 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Node do
               case s
               when :tr
                 errors[:tr] = net.train(tr_input, is_a_triangle)
-                net.step_calculate_error_distance_history if i % qty_10_percent == 0
+                net.step_calculate_error_distance_history if i % qty_X_percent == 0
               when :sq
                 errors[:sq] = net.train(sq_input, is_a_square)
-                net.step_calculate_error_distance_history if i % qty_10_percent == 0
+                net.step_calculate_error_distance_history if i % qty_X_percent == 0
               when :cr
                 errors[:cr] = net.train(cr_input, is_a_cross)
-                net.step_calculate_error_distance_history if i % qty_10_percent == 0
+                net.step_calculate_error_distance_history if i % qty_X_percent == 0
               end
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -86,21 +86,21 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Node do
           # describe "JSON (de-)serialization works" do
           #   it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
           #     json = net.to_json
-          #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.from_json(json)
+          #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(json)
 
           #     assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total, 0.000000001
           #   end
 
           #   it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
           #     json = net.to_json
-          #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.from_json(json)
+          #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(json)
 
           #     assert_approximate_equality_of_nested_list net.activation_nodes, net2.activation_nodes, 0.000000001
           #   end
 
           #   it "@weights of the dumped net approximately matches @weights of the loaded net" do
           #     json = net.to_json
-          #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.from_json(json)
+          #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(json)
 
           #     assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
           #   end

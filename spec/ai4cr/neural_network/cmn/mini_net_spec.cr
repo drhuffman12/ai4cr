@@ -1,7 +1,7 @@
 
-require "./../../../../spec_helper"
+require "./../../../spec_helper"
 
-describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Node do
+describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
   describe "when importing and exporting as JSON" do
     [
       Ai4cr::NeuralNetwork::Cmn::LS_PRELU,
@@ -12,7 +12,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Node do
       context "when given height: 2, width: 3, learning_style: #{learning_style}" do
         context "when exporting to JSON" do
 
-          np1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: 2, width: 3, learning_style: learning_style)
+          np1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 2, width: 3, learning_style: learning_style)
           np1_json = np1.to_json
           np1_hash = JSON.parse(np1_json).as_h
 
@@ -26,10 +26,10 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Node do
 
         context "when importing from JSON" do
 
-          np1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(2,3,learning_style)
+          np1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(2,3,learning_style)
           np1_json = np1.to_json
 
-          np2 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.from_json(np1_json)
+          np2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(np1_json)
           np2_json = np2.to_json
 
           # FYI: Due to some rounding errors during export/import, the following might not work:
@@ -68,7 +68,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Node do
       # before_each do
       # structure = [3, 2]
       # net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
-      net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: 3, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+      net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 3, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
 
       inputs = [0.1, 0.2, 0.3]
       hard_coded_weights = [
@@ -115,7 +115,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet::Node do
       # before_each do
       # structure = [3, 2]
       # net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
-      net = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: 3, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+      net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 3, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
       hard_coded_weights = [
         [-0.9, 0.7],
         [-0.9, 0.6],

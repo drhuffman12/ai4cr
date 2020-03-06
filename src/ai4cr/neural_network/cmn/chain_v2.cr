@@ -1,10 +1,10 @@
 require "json"
-require "./../learning_style.cr"
+require "./learning_style.cr"
 
 module Ai4cr
   module NeuralNetwork
     module Cmn
-      module ConnectedNetSet
+      # module ConnectedNetSet
         class ChainV2
           # NOTE: The first net should have a bias; the others should not.
           # TODO: Force bias only on 1st and none on others
@@ -12,7 +12,7 @@ module Ai4cr
           include JSON::Serializable
 
           getter structure : Array(Int32)
-          property net_set : Array(MiniNet::Node)
+          property net_set : Array(MiniNet)
           # getter weight_height_mismatches : type_of({from_index: 1, to_index: 2, from_width: 3, to_height_considering_bias: 4, from_bias: false, to_bias: true})
           # getter weight_height_mismatches : NamedTuple(from_index: Int32, to_index: Int32, from_width: Int32, to_height_considering_bias: Int32, from_bias: Bool, to_bias: Bool)
           # getter weight_height_mismatches : Array(Hash(Symbol,UInt32))
@@ -27,15 +27,15 @@ module Ai4cr
           #   net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 300, width: 3, error_distance_history_max: 60)
           #
           # ... and you try to pass in like below, you'll get a type error:
-          #   cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.new([net0, net1])
+          #   cns = Ai4cr::NeuralNetwork::Cmn::ChainV2.new([net0, net1])
           #
           # ... So, you'll need to init the array like:
-          #   arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
+          #   arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
           #   arr << net0
           #   arr << net1
           #
           # ... and then pass it in like:
-          #   cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.new(arr)
+          #   cns = Ai4cr::NeuralNetwork::Cmn::ChainV2.new(arr)
           def initialize(@net_set)
             @structure = calc_structure
             # @weight_height_mismatches = Array(Hash(Symbol,UInt32)).new
@@ -132,7 +132,7 @@ module Ai4cr
             @net_set.last.error_distance_history
           end
         end
-      end
+      # end
     end
   end
 end

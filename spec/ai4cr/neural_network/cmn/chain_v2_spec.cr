@@ -1,6 +1,6 @@
-require "./../../../../spec_helper"
+require "./../../../spec_helper"
 
-describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2 do
+describe Ai4cr::NeuralNetwork::Cmn::ChainV2 do
   describe "when given two nets with structure of [3, 4] and [4, 2]" do
     # before_each do
     # structure = [3, 2]
@@ -28,12 +28,12 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2 do
     expected_outputs_guessed_after = [0.454759979898907, 0.635915600435646]
 
     it "the 'outputs_guessed' start as zeros" do
-      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: 3, width: 4, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: 4, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
+      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 3, width: 4, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
       arr << net0
       arr << net1
-      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.new(arr)
+      cns = Ai4cr::NeuralNetwork::Cmn::ChainV2.new(arr)
 
       puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
       puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
@@ -58,12 +58,12 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2 do
     end
 
     it "the 'outputs_guessed' start are updated as expected" do
-      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: 3, width: 4, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: 4, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
+      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 3, width: 4, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
       arr << net0
       arr << net1
-      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.new(arr)
+      cns = Ai4cr::NeuralNetwork::Cmn::ChainV2.new(arr)
 
       puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
       puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
@@ -103,17 +103,17 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2 do
     layer_4_size_without_bias = 7
     bias_offset = (disable_bias ? 0 : 1)
 
-    nt = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: layer_0_size_without_bias, width: layer_1_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH, disable_bias: false)
-    nr = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: layer_1_size_without_bias, width: layer_2_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU, disable_bias: true)
-    np = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: layer_2_size_without_bias, width: layer_3_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU, disable_bias: true)
-    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(height: layer_3_size_without_bias, width: layer_4_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID, disable_bias: true)
+    nt = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_0_size_without_bias, width: layer_1_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH, disable_bias: false)
+    nr = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_1_size_without_bias, width: layer_2_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU, disable_bias: true)
+    np = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_2_size_without_bias, width: layer_3_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU, disable_bias: true)
+    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_3_size_without_bias, width: layer_4_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID, disable_bias: true)
 
-    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
     arr << nt
     arr << nr
     arr << np
     arr << ne
-    cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.new(arr)
+    cns = Ai4cr::NeuralNetwork::Cmn::ChainV2.new(arr)
 
     initial_inputs = [rand, rand, rand]
     expected_inital_outputs = (arr.last.width.times.to_a.map { 0.0 })
@@ -144,13 +144,13 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2 do
     # it "exports to json without raising an error" do
     #   json_exported = cns.to_json
     #   # Below should not raise:
-    #   cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.from_json(json_exported)
+    #   cns = Ai4cr::NeuralNetwork::Cmn::ChainV2.from_json(json_exported)
     # end
 
     # it "imports exported json without raising an error" do
     #   json_exported = cns.to_json
     #   # Below should not raise:
-    #   cns2 = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.from_json(json_exported)
+    #   cns2 = Ai4cr::NeuralNetwork::Cmn::ChainV2.from_json(json_exported)
     #   # below should match
     #   (cns2.to_json).should eq(json_exported)
     # end

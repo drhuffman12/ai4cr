@@ -1,5 +1,5 @@
 # require "./../../../../spec_helper"
-require "./../../../../../src/ai4cr.cr"
+require "./../../../../src/ai4cr.cr"
 require "benchmark"
 require "ascii_bar_charter"
 
@@ -21,10 +21,10 @@ example_input_set_tanh = training_io_indexes.map { height_indexes.map { (rand()*
 example_output_set_tanh = training_io_indexes.map { width_indexes.map { (rand()*2 - 1).round.to_f } }
 
 net_backprop = Ai4cr::NeuralNetwork::Backpropagation.new(structure: structure) 
-net_ls_prelu = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
-net_ls_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
-net_ls_sigmoid = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-net_ls_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH)
+net_ls_prelu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+net_ls_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
+net_ls_sigmoid = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+net_ls_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH)
 
 def ascii_plot(name, net)
   puts "\n--------\n"
@@ -50,10 +50,10 @@ puts "\n========\n"
 
 results = Benchmark.ips do |x|
   x.report("Initializing Backpropagation") { Ai4cr::NeuralNetwork::Backpropagation.new(structure: structure) }
-  x.report("Initializing MiniNet::Node (PRELU)") { Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU) }
-  x.report("Initializing MiniNet::Node (RELU)") { Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU) }
-  x.report("Initializing MiniNet::Node (SIGMOID)") { Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID) }
-  x.report("Initializing MiniNet::Node (TANH)") { Ai4cr::NeuralNetwork::Cmn::MiniNet::Node.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH) }
+  x.report("Initializing MiniNet (PRELU)") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU) }
+  x.report("Initializing MiniNet (RELU)") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU) }
+  x.report("Initializing MiniNet (SIGMOID)") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID) }
+  x.report("Initializing MiniNet (TANH)") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH) }
 end
 
 puts "\n========\n"
@@ -66,28 +66,28 @@ results = Benchmark.ips do |x|
       net.step_calculate_error_distance_history if i % graph_sample_percent == 0
     end
   end
-  x.report("Training (on random data) MiniNet::Node (PRELU)") do
+  x.report("Training (on random data) MiniNet (PRELU)") do
     training_io_indexes.each do |i|
       net = net_ls_prelu
       net.train(example_input_set[i], example_output_set[i])
       net.step_calculate_error_distance_history if i % graph_sample_percent == 0
     end
   end
-  x.report("Training (on random data) MiniNet::Node (RELU)") do
+  x.report("Training (on random data) MiniNet (RELU)") do
     training_io_indexes.each do |i|
       net = net_ls_relu
       net.train(example_input_set[i], example_output_set[i])
       net.step_calculate_error_distance_history if i % graph_sample_percent == 0
     end
   end
-  x.report("Training (on random data) MiniNet::Node (SIGMOID)") do
+  x.report("Training (on random data) MiniNet (SIGMOID)") do
     training_io_indexes.each do |i|
       net = net_ls_sigmoid
       net.train(example_input_set[i], example_output_set[i])
       net.step_calculate_error_distance_history if i % graph_sample_percent == 0
     end
   end
-  x.report("Training (on random data) MiniNet::Node (TANH)") do
+  x.report("Training (on random data) MiniNet (TANH)") do
     training_io_indexes.each do |i|
       net = net_ls_tanh
       net.train(example_input_set_tanh[i], example_output_set_tanh[i])
