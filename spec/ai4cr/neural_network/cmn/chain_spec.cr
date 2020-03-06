@@ -1,6 +1,6 @@
 require "./../../../spec_helper"
 
-describe Ai4cr::NeuralNetwork::Cmn::ChainV2 do
+describe Ai4cr::NeuralNetwork::Cmn::Chain do
   describe "when given two nets with structure of [3, 4] and [4, 2]" do
     # before_each do
     # structure = [3, 2]
@@ -33,7 +33,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ChainV2 do
       arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
       arr << net0
       arr << net1
-      cns = Ai4cr::NeuralNetwork::Cmn::ChainV2.new(arr)
+      cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
       puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
       puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
@@ -63,7 +63,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ChainV2 do
       arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
       arr << net0
       arr << net1
-      cns = Ai4cr::NeuralNetwork::Cmn::ChainV2.new(arr)
+      cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
       puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
       puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
@@ -113,7 +113,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ChainV2 do
     arr << nr
     arr << np
     arr << ne
-    cns = Ai4cr::NeuralNetwork::Cmn::ChainV2.new(arr)
+    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
     initial_inputs = [rand, rand, rand]
     expected_inital_outputs = (arr.last.width.times.to_a.map { 0.0 })
@@ -144,13 +144,13 @@ describe Ai4cr::NeuralNetwork::Cmn::ChainV2 do
     # it "exports to json without raising an error" do
     #   json_exported = cns.to_json
     #   # Below should not raise:
-    #   cns = Ai4cr::NeuralNetwork::Cmn::ChainV2.from_json(json_exported)
+    #   cns = Ai4cr::NeuralNetwork::Cmn::Chain.from_json(json_exported)
     # end
 
     # it "imports exported json without raising an error" do
     #   json_exported = cns.to_json
     #   # Below should not raise:
-    #   cns2 = Ai4cr::NeuralNetwork::Cmn::ChainV2.from_json(json_exported)
+    #   cns2 = Ai4cr::NeuralNetwork::Cmn::Chain.from_json(json_exported)
     #   # below should match
     #   (cns2.to_json).should eq(json_exported)
     # end

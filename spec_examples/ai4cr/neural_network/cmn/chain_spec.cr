@@ -11,7 +11,7 @@ def mini_net_exp_best_guess(net, raw_in)
   net.guesses_best
 end
 
-describe Ai4cr::NeuralNetwork::Cmn::ChainV2 do
+describe Ai4cr::NeuralNetwork::Cmn::Chain do
   describe "#train" do
     hidden_size = 500
     describe "with a shape of [256,#{hidden_size},#{hidden_size},3]" do
@@ -48,7 +48,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ChainV2 do
           arr << net0
           arr << net1
           arr << net2
-          cns = Ai4cr::NeuralNetwork::Cmn::ChainV2.new(arr)
+          cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
           puts "\n--------\n"
           puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
@@ -205,7 +205,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ChainV2 do
           arr << net0
           arr << net1
           arr << net2
-          cns = Ai4cr::NeuralNetwork::Cmn::ChainV2.new(arr)
+          cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
           puts "\n--------\n"
           puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
