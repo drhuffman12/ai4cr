@@ -41,10 +41,10 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
         Ai4cr::NeuralNetwork::Cmn::LS_PRELU,
         Ai4cr::NeuralNetwork::Cmn::LS_RELU,
         Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID,
-        Ai4cr::NeuralNetwork::Cmn::LS_TANH
+        Ai4cr::NeuralNetwork::Cmn::LS_TANH,
       ].each do |learning_style|
         net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: 3, error_distance_history_max: 60, learning_style: learning_style)
-  
+
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)} using learning_style: #{learning_style}" do
           puts "\nTRAINING (learning_style: #{learning_style}):\n"
           qty.times do |i|
@@ -178,7 +178,6 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
           end
         end
       end
-
     end
   end
 end

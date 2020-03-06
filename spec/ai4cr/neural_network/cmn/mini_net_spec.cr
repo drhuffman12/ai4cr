@@ -1,4 +1,3 @@
-
 require "./../../../spec_helper"
 
 describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
@@ -7,33 +6,31 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
       Ai4cr::NeuralNetwork::Cmn::LS_PRELU,
       Ai4cr::NeuralNetwork::Cmn::LS_RELU,
       Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID,
-      Ai4cr::NeuralNetwork::Cmn::LS_TANH
+      Ai4cr::NeuralNetwork::Cmn::LS_TANH,
     ].each do |learning_style|
       context "when given height: 2, width: 3, learning_style: #{learning_style}" do
         context "when exporting to JSON" do
-
           np1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 2, width: 3, learning_style: learning_style)
           np1_json = np1.to_json
           np1_hash = JSON.parse(np1_json).as_h
 
           expected_keys = ["width", "height", "height_considering_bias", "width_indexes", "height_indexes", "inputs_given", "outputs_guessed", "weights", "last_changes", "error_total", "outputs_expected", "input_deltas", "output_deltas", "disable_bias", "learning_rate", "momentum", "error_distance", "error_distance_history_max", "error_distance_history", "learning_style", "deriv_scale"]
           expected_keys.each do |key|
-            it "it has top level key of #{key}" do            
+            it "it has top level key of #{key}" do
               (np1_hash.keys).should contain(key)
             end
           end
         end
 
         context "when importing from JSON" do
-
-          np1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(2,3,learning_style)
+          np1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(2, 3, learning_style)
           np1_json = np1.to_json
 
           np2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(np1_json)
           np2_json = np2.to_json
 
           # FYI: Due to some rounding errors during export/import, the following might not work:
-          # it "re-exported JSON matches imported JSON" do            
+          # it "re-exported JSON matches imported JSON" do
           #   (np1_json).should eq(np2_json)
           # end
           # e.g.:
@@ -43,7 +40,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
           # However, it seems to be fine when you split it out by top-level keys:
           expected_keys = ["width", "height", "height_considering_bias", "width_indexes", "height_indexes", "inputs_given", "outputs_guessed", "weights", "last_changes", "error_total", "outputs_expected", "input_deltas", "output_deltas", "disable_bias", "learning_rate", "momentum", "error_distance", "error_distance_history_max", "error_distance_history", "learning_style", "deriv_scale"]
           expected_keys.each do |key|
-            it "re-exported JSON matches imported JSON for top level key of #{key}" do            
+            it "re-exported JSON matches imported JSON for top level key of #{key}" do
               (np1_json[key]).should eq(np2_json[key])
             end
           end
@@ -52,12 +49,10 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
           np1_hash = JSON.parse(np1_json).as_h
           np2_hash = JSON.parse(np2_json).as_h
           # FYI: Due to some rounding errors during export/import, the following might not work:
-          it "re-exported JSON matches imported JSON" do            
+          it "re-exported JSON matches imported JSON" do
             (np1_hash).should eq(np2_hash)
           end
         end
-        
-
       end
     end
   end

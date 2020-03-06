@@ -8,14 +8,14 @@ module Ai4cr
   module NeuralNetwork
     module Cmn
       # module MiniNet
-        class MiniNet
-          include JSON::Serializable
+      class MiniNet
+        include JSON::Serializable
 
-          # MiniNet code (based on original ai4r Backpropagation) is split up into modules and abstract-/sub-classes to be more manageable
-          include Common::PropsAndInits
-          include Common::CalcGuess
-          include Common::TrainAndAdjust
-        end
+        # MiniNet code (based on original ai4r Backpropagation) is split up into modules and abstract-/sub-classes to be more manageable
+        include Common::PropsAndInits
+        include Common::CalcGuess
+        include Common::TrainAndAdjust
+      end
       # end
     end
   end

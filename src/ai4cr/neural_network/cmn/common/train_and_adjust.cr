@@ -120,16 +120,16 @@ module Ai4cr
           def set_deriv_scale_prelu(scale)
             @deriv_scale = scale
           end
-          
+
           def propagation_function
             case @learning_style
             when LS_PRELU # LearningStyle::Prelu
               ->(x : Float64) { x < 0 ? 0.0 : x }
             when LS_RELU # LearningStyle::Rel
               ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
-            when LS_SIGMOID # LearningStyle::Sigmoid
+            when LS_SIGMOID                                # LearningStyle::Sigmoid
               ->(x : Float64) { 1/(1 + Math.exp(-1*(x))) } # lambda { |x| Math.tanh(x) }
-            when LS_TANH # LearningStyle::Tanh
+            when LS_TANH                                   # LearningStyle::Tanh
               ->(x : Float64) { Math.tanh(x) }
             else
               raise "Unsupported LearningStyle"
@@ -142,9 +142,9 @@ module Ai4cr
               ->(y : Float64) { y < 0 ? @deriv_scale : 1.0 }
             when LS_RELU # LearningStyle::Rel
               ->(y : Float64) { y < 0 ? 0.0 : 1.0 }
-            when LS_SIGMOID # LearningStyle::Sigmoid
+            when LS_SIGMOID                 # LearningStyle::Sigmoid
               ->(y : Float64) { y*(1 - y) } # lambda { |y| 1.0 - y**2 }
-            when LS_TANH # LearningStyle::Tanh
+            when LS_TANH                    # LearningStyle::Tanh
               ->(y : Float64) { 1.0 - (y**2) }
             else
               raise "Unsupported LearningStyle"

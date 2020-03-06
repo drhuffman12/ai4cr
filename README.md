@@ -65,19 +65,22 @@ plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
 
 - [ ] Add Cmn ("Connectable Mini Networks") (WIP)
   - [x] simple benchmark comparisons
-  - [ ] ConnectedNetSet (WIP)
-    - [x] Chain
-    - [ ] Chain (but using Node aka refactored as MiniNet)
-    - [ ] TBD
-    - [ ] ...
+  - [x] Learning Styles
+    - [x] Pelu
+    - [x] Relu
+    - [x] Sigmoid
+    - [x] Tanh
   - [x] MiniNet
     - [x] Common modules
-    - [x] Sigmoid
-    - [x] Relu
-    - [x] Tanh
-    - [x] Node aka Combine above into one JSON importable/exportable class that can be used w/ Chain
-    - [ ] Refactor Node as MiniNet and Remove sub classes
-  - [ ] TBD
+    - [x] JSON importable/exportable
+    - [x] can use various 'Learning Styles'
+    - [ ] (?) move 'Learning Styles'-specific methods from MiniNet into Enum
+  - [ ] misc Connected Net Sets (WIP)
+    - [x] Chain
+    - [ ] RNN
+    - [ ] (TBD)
+    - [ ] ...
+  - [ ] (TBD)
   - [ ] ...
 
 - [ ] Add RNN

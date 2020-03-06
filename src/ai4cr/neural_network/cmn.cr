@@ -1,5 +1,6 @@
 require "json"
 require "./cmn/*"
+
 # require "./cmn/mini_net/common/learning_style.cr"
 
 module Ai4cr

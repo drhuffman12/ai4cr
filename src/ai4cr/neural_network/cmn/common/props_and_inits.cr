@@ -27,16 +27,21 @@ module Ai4cr
           getter error_distance_history : Array(Float64)
 
           property learning_style : LearningStyle
+          property deriv_scale : Float64
 
           def initialize(
             @height, @width,
             @learning_style : LearningStyle = LS_RELU, #  LearningStyle::Relu,
-            # @deriv_scale = 0.1, # for Prelu
-            # @deriv_scale = 0.01, # for Prelu
-            @deriv_scale = 0.001, # for Prelu
+
+            # for Prelu
+            # TODO: set deriv_scale based on ?
+            # @deriv_scale = 0.1,
+            # @deriv_scale = 0.01,
+            # @deriv_scale = 0.001,
+            @deriv_scale = rand / 2.0,
 
             disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil,
-            error_distance_history_max : Int32 = 10,
+            error_distance_history_max : Int32 = 10
           )
             # @learning_style = Common::LearningStyle::Relu
 
@@ -59,6 +64,7 @@ module Ai4cr
             @outputs_expected = Array.new(width, 0.0)
             @output_deltas = Array.new(width, 0.0)
 
+            # TODO: set weights based on learning_type
             @weights = @height_indexes.map { @width_indexes.map { rand*2 - 1 } }
             # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(2.0/(height_considering_bias + width))) } }
             # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(height_considering_bias/2.0)) } }

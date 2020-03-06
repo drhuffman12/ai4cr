@@ -20,7 +20,7 @@ example_output_set = training_io_indexes.map { width_indexes.map { rand().round.
 example_input_set_tanh = training_io_indexes.map { height_indexes.map { (rand()*2 - 1).to_f } }
 example_output_set_tanh = training_io_indexes.map { width_indexes.map { (rand()*2 - 1).round.to_f } }
 
-net_backprop = Ai4cr::NeuralNetwork::Backpropagation.new(structure: structure) 
+net_backprop = Ai4cr::NeuralNetwork::Backpropagation.new(structure: structure)
 net_ls_prelu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
 net_ls_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
 net_ls_sigmoid = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
@@ -138,7 +138,6 @@ puts "\n========\n"
 # end
 
 sleep 5
-
 
 puts "\n========\n"
 
