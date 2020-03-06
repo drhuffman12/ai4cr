@@ -28,24 +28,24 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         net = Ai4cr::NeuralNetwork::Backpropagation.new([256, 3], error_distance_history_max: 60)
 
         # net.learning_rate = rand
-        qty = 500
-        qty_10_percent = qty // 10
+        qty = 100
+        qty_X_percent = qty // 5
 
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
           qty.times do |i|
-            print "." if i % qty_10_percent == 0 # 1000 == 0
+            print "." if i % qty_X_percent == 0 # 1000 == 0
             errors = {} of Symbol => Float64
             [:tr, :sq, :cr].shuffle.each do |s|
               case s
               when :tr
                 errors[:tr] = net.train(tr_input, is_a_triangle)
-                net.step_calculate_error_distance_history if i % qty_10_percent == 0
+                net.step_calculate_error_distance_history if i % qty_X_percent == 0
               when :sq
                 errors[:sq] = net.train(sq_input, is_a_square)
-                net.step_calculate_error_distance_history if i % qty_10_percent == 0
+                net.step_calculate_error_distance_history if i % qty_X_percent == 0
               when :cr
                 errors[:cr] = net.train(cr_input, is_a_cross)
-                net.step_calculate_error_distance_history if i % qty_10_percent == 0
+                net.step_calculate_error_distance_history if i % qty_X_percent == 0
               end
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -190,8 +190,8 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         net = Ai4cr::NeuralNetwork::Backpropagation.new([256, hidden_size, hidden_size, 3], error_distance_history_max: 60)
 
         # net.learning_rate = rand
-        qty = 500
-        qty_10_percent = qty // 10
+        qty = 100
+        qty_X_percent = qty // 5
 
         puts "\n--------\n"
         puts "#{net.class.name} with structure of #{net.structure}:"
@@ -200,19 +200,19 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
           puts "\nTRAINING:\n"
           timestamp_before = Time.utc
           qty.times do |i|
-            print "." if i % qty_10_percent == 0 # 1000 == 0
+            print "." if i % qty_X_percent == 0 # 1000 == 0
             errors = {} of Symbol => Float64
             [:tr, :sq, :cr].shuffle.each do |s|
               case s
               when :tr
                 errors[:tr] = net.train(tr_input, is_a_triangle)
-                net.step_calculate_error_distance_history if i % qty_10_percent == 0
+                net.step_calculate_error_distance_history if i % qty_X_percent == 0
               when :sq
                 errors[:sq] = net.train(sq_input, is_a_square)
-                net.step_calculate_error_distance_history if i % qty_10_percent == 0
+                net.step_calculate_error_distance_history if i % qty_X_percent == 0
               when :cr
                 errors[:cr] = net.train(cr_input, is_a_cross)
-                net.step_calculate_error_distance_history if i % qty_10_percent == 0
+                net.step_calculate_error_distance_history if i % qty_X_percent == 0
               end
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0

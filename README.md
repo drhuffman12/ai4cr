@@ -65,16 +65,22 @@ plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
 
 - [ ] Add Cmn ("Connectable Mini Networks") (WIP)
   - [x] simple benchmark comparisons
-  - [ ] ConnectedNetSet (WIP)
-    - [x] Chain
-    - [ ] TBD
-    - [ ] ...
+  - [x] Learning Styles
+    - [x] Pelu
+    - [x] Relu
+    - [x] Sigmoid
+    - [x] Tanh
   - [x] MiniNet
     - [x] Common modules
-    - [x] Sigmoid
-    - [x] Relu
-    - [x] Tanh
-  - [ ] TBD
+    - [x] JSON importable/exportable
+    - [x] can use various 'Learning Styles'
+    - [ ] (?) move 'Learning Styles'-specific methods from MiniNet into Enum
+  - [ ] misc Connected Net Sets (WIP)
+    - [x] Chain
+    - [ ] RNN
+    - [ ] (TBD)
+    - [ ] ...
+  - [ ] (TBD)
   - [ ] ...
 
 - [ ] Add RNN
@@ -165,6 +171,12 @@ docker-compose run app crystal spec
 
 ```bash
 docker-compose run app /bin/bash
+```
+
+### ICR console
+
+```bash
+icr -r ./src/ai4cr
 ```
 
 ### See also
