@@ -32,9 +32,12 @@ module Ai4cr
             def initialize(
               @height, @width,
               @learning_style : LearningStyle = LS_RELU, #  LearningStyle::Relu,
+              # @deriv_scale = 0.1, # for Prelu
+              # @deriv_scale = 0.01, # for Prelu
+              @deriv_scale = 0.001, # for Prelu
 
               disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil,
-              error_distance_history_max : Int32 = 10
+              error_distance_history_max : Int32 = 10,
             )
               # @learning_style = Common::LearningStyle::Relu
 

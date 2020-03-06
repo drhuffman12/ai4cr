@@ -6,7 +6,7 @@ module Ai4cr
       module MiniNet
         module Common
           module TrainAndAdjust
-            abstract def derivative_propagation_function
+            # abstract def derivative_propagation_function
 
             # # training steps
             # TODO: utilize until_min_avg_error
@@ -115,6 +115,56 @@ module Ai4cr
                 @error_distance_history[-1] = @error_total
               end
               @error_distance_history
+            end
+
+            # Per Learning Style:
+            def set_deriv_scale_prelu(scale)
+              @deriv_scale = scale
+            end
+            
+            def propagation_function
+              case @learning_style
+              when LS_PRELU # LearningStyle::Prelu
+                ->(x : Float64) { x < 0 ? 0.0 : x }
+              when LS_RELU # LearningStyle::Rel
+                ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
+              when LS_SIGMOID # LearningStyle::Sigmoid
+                ->(x : Float64) { 1/(1 + Math.exp(-1*(x))) } # lambda { |x| Math.tanh(x) }
+              when LS_TANH # LearningStyle::Tanh
+                ->(x : Float64) { Math.tanh(x) }
+              else
+                raise "Unsupported LearningStyle"
+              end
+            end
+
+            def derivative_propagation_function
+              case @learning_style
+              when LS_PRELU # LearningStyle::Prelu
+                ->(y : Float64) { y < 0 ? @deriv_scale : 1.0 }
+              when LS_RELU # LearningStyle::Rel
+                ->(y : Float64) { y < 0 ? 0.0 : 1.0 }
+              when LS_SIGMOID # LearningStyle::Sigmoid
+                ->(y : Float64) { y*(1 - y) } # lambda { |y| 1.0 - y**2 }
+              when LS_TANH # LearningStyle::Tanh
+                ->(y : Float64) { 1.0 - (y**2) }
+              else
+                raise "Unsupported LearningStyle"
+              end
+            end
+
+            def guesses_best
+              case @learning_style
+              when LS_PRELU # LearningStyle::Prelu
+                guesses_ceiled
+              when LS_RELU # LearningStyle::Rel
+                guesses_ceiled
+              when LS_SIGMOID # LearningStyle::Sigmoid
+                guesses_rounded
+              when LS_TANH # LearningStyle::Tanh
+                guesses_rounded
+              else
+                raise "Unsupported LearningStyle"
+              end
             end
           end
         end
