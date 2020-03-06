@@ -33,7 +33,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2 do
       arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
       arr << net0
       arr << net1
-      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
+      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.new(arr)
 
       puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
       puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
@@ -63,7 +63,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2 do
       arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
       arr << net0
       arr << net1
-      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
+      cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.new(arr)
 
       puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
       puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
@@ -113,7 +113,7 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2 do
     arr << nr
     arr << np
     arr << ne
-    cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
+    cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.new(arr)
 
     initial_inputs = [rand, rand, rand]
     expected_inital_outputs = (arr.last.width.times.to_a.map { 0.0 })
@@ -144,13 +144,13 @@ describe Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2 do
     # it "exports to json without raising an error" do
     #   json_exported = cns.to_json
     #   # Below should not raise:
-    #   cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.from_json(json_exported)
+    #   cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.from_json(json_exported)
     # end
 
     # it "imports exported json without raising an error" do
     #   json_exported = cns.to_json
     #   # Below should not raise:
-    #   cns2 = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.from_json(json_exported)
+    #   cns2 = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.from_json(json_exported)
     #   # below should match
     #   (cns2.to_json).should eq(json_exported)
     # end

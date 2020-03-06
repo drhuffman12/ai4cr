@@ -27,7 +27,7 @@ module Ai4cr
           #   net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 300, width: 3, error_distance_history_max: 60)
           #
           # ... and you try to pass in like below, you'll get a type error:
-          #   cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new([net0, net1])
+          #   cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.new([net0, net1])
           #
           # ... So, you'll need to init the array like:
           #   arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet::Node).new
@@ -35,7 +35,7 @@ module Ai4cr
           #   arr << net1
           #
           # ... and then pass it in like:
-          #   cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::Chain.new(arr)
+          #   cns = Ai4cr::NeuralNetwork::Cmn::ConnectedNetSet::ChainV2.new(arr)
           def initialize(@net_set)
             @structure = calc_structure
             # @weight_height_mismatches = Array(Hash(Symbol,UInt32)).new
