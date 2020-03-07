@@ -18,5 +18,14 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: shards install
+    - name: Show Crystal version
+      run: crystal -v
+    - name: Show repo version
+      run: scripts/version_info
+    - name: Run static code analysis
+      run: bin/ameba --no-color
     - name: Run tests
-      run: crystal spec
+      run: scripts/test_always
+      # run: crystal spec
+    - name: Run tests (w/ junit format)
+      run: scripts/test_always_junit_format
