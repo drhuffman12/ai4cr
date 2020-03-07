@@ -14,8 +14,6 @@ end
 describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
   describe "#train" do
     describe "using image data (input) and shape flags (output) for triangle, square, and cross" do
-      correct_count = 0
-
       error_averages = [] of Float64
       is_a_triangle = [1.0, 0.0, 0.0]
       is_a_square = [0.0, 1.0, 0.0]
@@ -35,7 +33,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
 
       # net.learning_rate = rand
       qty = 100 # 100_000
-      qty_X_percent = qty // 5
+      qty_x_percent = qty // 5
 
       [
         Ai4cr::NeuralNetwork::Cmn::LS_PRELU,
@@ -54,13 +52,13 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
               case s
               when :tr
                 errors[:tr] = net.train(tr_input, is_a_triangle)
-                net.step_calculate_error_distance_history if i % qty_X_percent == 0
+                net.step_calculate_error_distance_history if i % qty_x_percent == 0
               when :sq
                 errors[:sq] = net.train(sq_input, is_a_square)
-                net.step_calculate_error_distance_history if i % qty_X_percent == 0
+                net.step_calculate_error_distance_history if i % qty_x_percent == 0
               when :cr
                 errors[:cr] = net.train(cr_input, is_a_cross)
-                net.step_calculate_error_distance_history if i % qty_X_percent == 0
+                net.step_calculate_error_distance_history if i % qty_x_percent == 0
               end
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0

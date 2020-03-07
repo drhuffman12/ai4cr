@@ -82,7 +82,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
 
       puts "\ncns (BEFORE): #{cns.to_json}\n"
 
-      outputs_guessed_before = cns.net_set.last.outputs_guessed.clone
+      # outputs_guessed_before = cns.net_set.last.outputs_guessed.clone
 
       cns.eval(inputs)
       outputs_guessed_after = cns.net_set.last.outputs_guessed.clone
@@ -93,15 +93,11 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
   end
 
   describe "when given a mix of Tanh, Prelu, Relu, and Sigmoid  MiniNets all chained together (with associated IO sizes)" do
-    # all layers will have bias
-    disable_bias = false
-
     layer_0_size_without_bias = 3
     layer_1_size_without_bias = 4
     layer_2_size_without_bias = 5
     layer_3_size_without_bias = 6
     layer_4_size_without_bias = 7
-    bias_offset = (disable_bias ? 0 : 1)
 
     nt = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_0_size_without_bias, width: layer_1_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH, disable_bias: false)
     nr = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_1_size_without_bias, width: layer_2_size_without_bias, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU, disable_bias: true)

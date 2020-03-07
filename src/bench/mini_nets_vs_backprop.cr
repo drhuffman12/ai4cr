@@ -55,10 +55,10 @@ max = 1.0
 precision = 2.to_i8
 # in_bw = true
 # in_bw = false
-prefixed = false
+# prefixed = false
 # reversed = false
-charter_high_is_red = AsciiBarCharter.new(min, max, precision, in_bw, reversed = false)
-charter_high_is_blue = AsciiBarCharter.new(min, max, precision, in_bw, reversed = true)
+charter_high_is_red = AsciiBarCharter.new(min, max, precision, in_bw, reversed: false)
+charter_high_is_blue = AsciiBarCharter.new(min, max, precision, in_bw, reversed: true)
 
 def train(net, ios_list, qty_loops)
   # ins, outs
@@ -275,20 +275,20 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
 
   net0_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: height, width: hidden1)
   net1_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: hidden1, width: hidden2, disable_bias: true)
-  net2_Sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden2, width: width, disable_bias: true)
+  net2_sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: hidden2, width: width, disable_bias: true)
   arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
   arr << net0_tanh
   arr << net1_relu
-  arr << net2_Sigm
+  arr << net2_sigm
   cns_tanh_relu_sigm = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
   net0_234_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: 2, width: 3)
   net1_234_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: 3, width: 4, disable_bias: true)
-  net2_234_Sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 4, width: 5, disable_bias: true)
+  net2_234_sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 4, width: 5, disable_bias: true)
   arr_234 = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
   arr_234 << net0_234_tanh
   arr_234 << net1_234_relu
-  arr_234 << net2_234_Sigm
+  arr_234 << net2_234_sigm
   cns_234 = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr_234)
   File.write("tmp/cns_234.json", cns_234.to_pretty_json(indent: "  "))
   # cns_234b = Ai4cr::NeuralNetwork::Cmn::Chain.from_json(File.read("tmp/cns_234.json"))
@@ -438,7 +438,7 @@ Benchmark.ips do |x|
     arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
     arr << net0
     arr << net1
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
   x.report("Initialization of ConnectedNetSet::Chain (Tanh, Tanh") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: height, width: hidden)
@@ -447,7 +447,7 @@ Benchmark.ips do |x|
     arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
     arr << net0
     arr << net1
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
   x.report("Initialization of ConnectedNetSet::Chain (Relu, Relu") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: hidden)
@@ -456,7 +456,7 @@ Benchmark.ips do |x|
     arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
     arr << net0
     arr << net1
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
   x.report("Initialization of ConnectedNetSet::Chain (Relu, Sigmoid") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: hidden)
@@ -465,7 +465,7 @@ Benchmark.ips do |x|
     arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
     arr << net0
     arr << net1
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
 end
 
@@ -489,7 +489,7 @@ Benchmark.ips do |x|
     arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
     arr << net0
     arr << net1
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
   x.report("Initialization of ConnectedNetSet::Chain (Tanh, Tanh") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: height, width: hidden)
@@ -498,7 +498,7 @@ Benchmark.ips do |x|
     arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
     arr << net0
     arr << net1
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
   x.report("Initialization of ConnectedNetSet::Chain (Relu, Relu") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: hidden)
@@ -508,7 +508,7 @@ Benchmark.ips do |x|
     arr << net0
     arr << net1
     # arr << net2
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
   x.report("Initialization of ConnectedNetSet::Chain (Relu, Sigmoid") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: hidden)
@@ -517,7 +517,7 @@ Benchmark.ips do |x|
     arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
     arr << net0
     arr << net1
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
 end
 
@@ -544,7 +544,7 @@ Benchmark.ips do |x|
     arr << net0
     arr << net1
     arr << net2
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
   x.report("Initialization of ConnectedNetSet::Chain (Tanh, Tanh, Tanh") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: height, width: hidden1)
@@ -555,7 +555,7 @@ Benchmark.ips do |x|
     arr << net0
     arr << net1
     arr << net2
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
   x.report("Initialization of ConnectedNetSet::Chain (Relu, Relu") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: hidden1)
@@ -566,7 +566,7 @@ Benchmark.ips do |x|
     arr << net0
     arr << net1
     arr << net2
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
   x.report("Initialization of ConnectedNetSet::Chain (Tanh, Relu, Sigmoid") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: height, width: hidden1)
@@ -577,7 +577,7 @@ Benchmark.ips do |x|
     arr << net0
     arr << net1
     arr << net2
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
 end
 
@@ -604,7 +604,7 @@ Benchmark.ips do |x|
     arr << net0
     arr << net1
     arr << net2
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
   x.report("Initialization of ConnectedNetSet::Chain (Tanh, Tanh, Tanh") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: height, width: hidden1)
@@ -615,7 +615,7 @@ Benchmark.ips do |x|
     arr << net0
     arr << net1
     arr << net2
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
   x.report("Initialization of ConnectedNetSet::Chain (Relu, Relu") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Relu.new(height: height, width: hidden1)
@@ -626,7 +626,7 @@ Benchmark.ips do |x|
     arr << net0
     arr << net1
     arr << net2
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
   x.report("Initialization of ConnectedNetSet::Chain (Tanh, Relu, Sigmoid") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(height: height, width: hidden1)
@@ -637,6 +637,6 @@ Benchmark.ips do |x|
     arr << net0
     arr << net1
     arr << net2
-    cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
 end
