@@ -82,7 +82,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
         net.weights = hard_coded_weights.clone
         puts "\nnet (BEFORE): #{net.to_json}\n"
 
-        # outputs_guessed_before = net.outputs_guessed.clone
+        outputs_guessed_before = net.outputs_guessed.clone
 
         assert_equality_of_nested_list outputs_guessed_before, expected_outputs_guessed_before
       end
