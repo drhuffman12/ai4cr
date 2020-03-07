@@ -83,8 +83,6 @@ plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
   - [ ] (TBD)
   - [ ] ...
 
-- [ ] Add RNN
-
 - [ ] Port from `ai4r`:
   - [ ] classifiers
     - [ ] classifier.rb
