@@ -12,6 +12,7 @@ jobs:
             mkdir -p test-results/spec
             crystal -v > test-results/crystal_version.txt
             scripts/version_info > test-results/app_version.txt
+            time bin/ameba > test-results/static_code_analysis.ameba.txt
             time scripts/test_always > test-results/spec/results.txt
             time scripts/test_always_junit_format
 

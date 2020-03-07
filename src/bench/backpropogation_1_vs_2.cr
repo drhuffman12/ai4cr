@@ -29,7 +29,7 @@ def bench_check_guess(next_guess, expected_label)
   print(result_label(next_guess) == expected_label ? "." : "F")
 end
 
-error_averages = [] of Float64
+# error_averages = [] of Float64
 is_a_triangle = [1.0, 0.0, 0.0]
 is_a_square = [0.0, 1.0, 0.0]
 is_a_cross = [0.0, 0.0, 1.0]
@@ -38,13 +38,19 @@ tr_input = TRIANGLE.flatten.map { |input| input.to_f / 5.0 }
 sq_input = SQUARE.flatten.map { |input| input.to_f / 5.0 }
 cr_input = CROSS.flatten.map { |input| input.to_f / 5.0 }
 
-tr_with_noise = TRIANGLE_WITH_NOISE.flatten.map { |input| input.to_f / 5.0 }
-sq_with_noise = SQUARE_WITH_NOISE.flatten.map { |input| input.to_f / 5.0 }
-cr_with_noise = CROSS_WITH_NOISE.flatten.map { |input| input.to_f / 5.0 }
+# tr_with_noise = TRIANGLE_WITH_NOISE.flatten.map { |input| input.to_f / 5.0 }
+# sq_with_noise = SQUARE_WITH_NOISE.flatten.map { |input| input.to_f / 5.0 }
+# cr_with_noise = CROSS_WITH_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-tr_with_base_noise = TRIANGLE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
-sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
-cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
+# tr_with_base_noise = TRIANGLE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
+# sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
+# cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
+
+# guessing_sets = {
+#   "TRIANGLE" => [tr_input, tr_with_noise, tr_with_base_noise],
+#   "SQUARE" => [sq_input, sq_with_noise, sq_with_base_noise],
+#   "CROSS" => [cr_input, cr_with_noise, cr_with_base_noise]
+# }
 
 qty = 50
 shape = [256, 1000, 3]
@@ -62,6 +68,7 @@ def train(net, qty, tr_input, sq_input, cr_input, is_a_triangle, is_a_square, is
   end
 
   print "TSC: " if VERBOSE
+
   next_guess = guess(net, tr_input)
   bench_check_guess(next_guess, "TRIANGLE") if VERBOSE
 
@@ -70,6 +77,7 @@ def train(net, qty, tr_input, sq_input, cr_input, is_a_triangle, is_a_square, is
 
   next_guess = guess(net, cr_input)
   bench_check_guess(next_guess, "CROSS") if VERBOSE
+
   puts if VERBOSE
 end
 

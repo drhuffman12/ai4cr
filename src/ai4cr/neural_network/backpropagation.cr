@@ -136,7 +136,7 @@ module Ai4cr
       # end
 
       def initial_weight_function
-        ->(n : Int32, i : Int32, j : Int32) { ((rand(2000))/1000.0) - 1 }
+        ->(_n : Int32, _i : Int32, _j : Int32) { 2*rand - 1 }
       end
 
       def propagation_function
@@ -193,7 +193,7 @@ module Ai4cr
         check_input_dimension(input_values.size)
         init_network if !@weights
         feedforward(input_values)
-        return @activation_nodes.last.clone
+        @activation_nodes.last.clone
       end
 
       # Evaluates the input and returns most active node
@@ -236,7 +236,7 @@ module Ai4cr
         @error_distance = 0.0
         @error_distance_history = Array.new(0, 0.0)
 
-        return self
+        self
       end
 
       # protected
@@ -350,7 +350,7 @@ module Ai4cr
       end
 
       def load_expected_outputs(expected_outputs)
-        @expected_outputs.map_with_index! { |v, i| expected_outputs[i] }
+        @expected_outputs.map_with_index! { |_, i| expected_outputs[i] }
       end
 
       # Calculate quadratic error for a expected output value

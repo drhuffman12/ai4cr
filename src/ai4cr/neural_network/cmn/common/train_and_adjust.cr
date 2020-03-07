@@ -53,16 +53,16 @@ module Ai4cr
           # private
 
           def load_outputs_expected(outputs_expected)
-            @outputs_expected.map_with_index! { |v, i| outputs_expected[i] }
+            @outputs_expected.map_with_index! { |_, i| outputs_expected[i] }
           end
 
           def load_outputs_deltas(outputs_deltas)
-            @outputs_deltas.map_with_index! { |v, i| outputs_deltas[i] }
+            @outputs_deltas.map_with_index! { |_, i| outputs_deltas[i] }
           end
 
           # Calculate deltas for output layer
           def step_calculate_output_deltas # (outputs_expected)
-            @output_deltas.map_with_index! do |d, i|
+            @output_deltas.map_with_index! do |_, i|
               error = @outputs_expected[i] - @outputs_guessed[i]
               derivative_propagation_function.call(@outputs_guessed[i]) * error
               # # TODO: Research ReLU and why I'm not seeing performance gain in my code
@@ -74,8 +74,8 @@ module Ai4cr
 
           # Calculate deltas for hidden layers
           def step_calc_input_deltas # aka calculate_internal_deltas
-            prev_deltas = @output_deltas
-            layer_index = 1
+            # prev_deltas = @output_deltas
+            # layer_index = 1
             layer_deltas = [] of Float64
             height_indexes.each do |j|
               error = 0.0

@@ -16,6 +16,7 @@ development_dependencies:
   ascii_bar_charter:
     github: drhuffman12/ascii_bar_charter
     branch: master
+    # version: ~> 1.03
 
   # aasm:
   #   github: veelenga/aasm.cr

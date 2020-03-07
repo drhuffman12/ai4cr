@@ -77,7 +77,7 @@ module Ai4cr
         end
 
         def calc_structure
-          @net_set.map_with_index do |net, index|
+          @net_set.map do |net|
             net.height
           end << @net_set.last.width
         end

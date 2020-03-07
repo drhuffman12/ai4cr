@@ -135,7 +135,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         net = Ai4cr::NeuralNetwork::Backpropagation.new(structure)
 
         weights_before = net.weights.clone
-        y = net.eval(inputs)
+        net.eval(inputs)
         weights_after = net.weights.clone
 
         assert_equality_of_nested_list weights_before, weights_after
@@ -169,7 +169,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
   describe "#dump" do
     describe "when given a net with structure of [3, 2]" do
       structure = [3, 2]
-      net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2]).init_network
+      net = Ai4cr::NeuralNetwork::Backpropagation.new(structure).init_network
       json = net.to_json
       net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
 
@@ -211,7 +211,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
     describe "when given a net with structure of [3, 2]" do
       # before_each do
       structure = [3, 2]
-      net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
+      net = Ai4cr::NeuralNetwork::Backpropagation.new(structure)
       hard_coded_weights = [
         [
           [-0.9, 0.7],

@@ -48,7 +48,7 @@ end
 
 puts "\n========\n"
 
-results = Benchmark.ips do |x|
+Benchmark.ips do |x|
   x.report("Initializing Backpropagation") { Ai4cr::NeuralNetwork::Backpropagation.new(structure: structure) }
   x.report("Initializing MiniNet (PRELU)") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU) }
   x.report("Initializing MiniNet (RELU)") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU) }
@@ -58,7 +58,7 @@ end
 
 puts "\n========\n"
 
-results = Benchmark.ips do |x|
+Benchmark.ips do |x|
   x.report("Training (on random data) Backpropagation") do
     training_io_indexes.each do |i|
       net = net_backprop
@@ -151,7 +151,7 @@ puts "\n========\n"
 
 height_considering_bias = height + 1
 
-results = Benchmark.ips do |x|
+Benchmark.ips do |x|
   x.report("Array.new") { Array.new(height_considering_bias) { |i| i } }
   x.report("to_a") { (0..(height_considering_bias - 1)).to_a }
 end

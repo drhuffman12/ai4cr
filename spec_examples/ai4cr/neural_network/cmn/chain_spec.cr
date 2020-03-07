@@ -16,8 +16,6 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
     hidden_size = 500
     describe "with a shape of [256,#{hidden_size},#{hidden_size},3]" do
       describe "using image data (input) and shape flags (output) for triangle, square, and cross" do
-        correct_count = 0
-
         error_averages = [] of Float64
         is_a_triangle = [1.0, 0.0, 0.0]
         is_a_square = [0.0, 1.0, 0.0]
@@ -37,7 +35,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
 
         # net.learning_rate = rand
         qty = 100
-        qty_X_percent = qty // 5
+        qty_x_percent = qty // 5
 
         describe "using net of types of: Sigmoid" do
           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
@@ -58,22 +56,22 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
               puts "\nTRAINING:\n"
               timestamp_before = Time.utc
               qty.times do |i|
-                print "." if i % qty_X_percent == 0 # 1000 == 0
+                print "." if i % qty_x_percent == 0 # 1000 == 0
                 errors = {} of Symbol => Float64
                 [:tr, :sq, :cr].shuffle.each do |s|
                   case s
                   when :tr
                     errors[:tr] = cns.train(tr_input, is_a_triangle)
-                    # net0.step_calculate_error_distance_history if i % qty_X_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_X_percent == 0
+                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
                   when :sq
                     errors[:sq] = cns.train(sq_input, is_a_square)
-                    # net0.step_calculate_error_distance_history if i % qty_X_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_X_percent == 0
+                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
                   when :cr
                     errors[:cr] = cns.train(cr_input, is_a_cross)
-                    # net0.step_calculate_error_distance_history if i % qty_X_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_X_percent == 0
+                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
                   end
                 end
                 error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -215,22 +213,22 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
               puts "\nTRAINING:\n"
               timestamp_before = Time.utc
               qty.times do |i|
-                print "." if i % qty_X_percent == 0 # 1000 == 0
+                print "." if i % qty_x_percent == 0 # 1000 == 0
                 errors = {} of Symbol => Float64
                 [:tr, :sq, :cr].shuffle.each do |s|
                   case s
                   when :tr
                     errors[:tr] = cns.train(tr_input, is_a_triangle)
-                    # net0.step_calculate_error_distance_history if i % qty_X_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_X_percent == 0
+                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
                   when :sq
                     errors[:sq] = cns.train(sq_input, is_a_square)
-                    # net0.step_calculate_error_distance_history if i % qty_X_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_X_percent == 0
+                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
                   when :cr
                     errors[:cr] = cns.train(cr_input, is_a_cross)
-                    # net0.step_calculate_error_distance_history if i % qty_X_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_X_percent == 0
+                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
                   end
                 end
                 error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
