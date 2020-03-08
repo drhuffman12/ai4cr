@@ -1,3 +1,4 @@
+# Yeah, technicallu not a spec, but let's roll with this for now ...
 # require "./../../../../spec_helper"
 require "./../../../../src/ai4cr.cr"
 require "benchmark"
@@ -26,7 +27,29 @@ net_ls_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: heigh
 net_ls_sigmoid = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
 net_ls_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH)
 
-def ascii_plot(name, net)
+def histogram(arr, precision = 0) # , keys = [] of Float64)
+  h = Hash(Float64, Int32).new
+  # keys.each {|k| h[k] = 0}
+  arr.flatten.group_by { |v| v.round(precision) }
+    .each { |elem| h[elem[0]] = elem[1].size }
+  h.to_a.sort { |a, b| a[0] <=> b[0] }.to_h
+end
+
+# net_ls_relu
+#   TOTALS:: min: -51.140556, max: 66.240067, avg: -0.018731, stddev: 11.34342128217379
+#   HISTOGRAM:: {
+  -51.0 => 3, -43.0 => 2, -41.0 => 2, -40.0 => 2, -39.0 => 1, -38.0 => 2, -37.0 => 3, -36.0 => 8, -35.0 => 3, -34.0 => 8,
+  -33.0 => 3, -32.0 => 9, -31.0 => 6, -30.0 => 10, -29.0 => 10, -28.0 => 12, -27.0 => 18, -26.0 => 26, -25.0 => 30, -24.0 => 27,
+  -23.0 => 52, -22.0 => 62, -21.0 => 74, -20.0 => 63, -19.0 => 78, -18.0 => 77, -17.0 => 112, -16.0 => 123, -15.0 => 142, -14.0 => 169,
+  -13.0 => 177, -12.0 => 201, -11.0 => 193, -10.0 => 253, -9.0 => 250, -8.0 => 272, -7.0 => 297, -6.0 => 337, -5.0 => 331, -4.0 => 368,
+  -3.0 => 357, -2.0 => 353, -1.0 => 360, -0.0 => 390, 1.0 => 364, 2.0 => 335, 3.0 => 366, 4.0 => 322, 5.0 => 334, 6.0 => 298,
+  7.0 => 317, 8.0 => 282, 9.0 => 240, 10.0 => 235, 11.0 => 242, 12.0 => 188, 13.0 => 172, 14.0 => 179, 15.0 => 127, 16.0 => 126,
+  17.0 => 109, 18.0 => 97, 19.0 => 77, 20.0 => 53, 21.0 => 56, 22.0 => 58, 23.0 => 37, 24.0 => 28, 25.0 => 38, 26.0 => 30
+   27.0 => 14, 28.0 => 22, 29.0 => 10, 30.0 => 8, 31.0 => 10, 32.0 => 9, 33.0 => 9, 34.0 => 9, 35.0 => 4, 36.0 => 3,
+   37.0 => 3, 38.0 => 2, 39.0 => 2, 41.0 => 3, 44.0 => 1, 45.0 => 1, 46.0 => 1, 47.0 => 1, 52.0 => 1, 66.0 => 1
+}
+
+def plot_errors(name, net)
   puts "\n--------\n"
   puts name
 
@@ -42,6 +65,33 @@ def ascii_plot(name, net)
 
   puts "  plot: '#{plot}'"
   puts "  error_distance_history: '#{net.error_distance_history.map { |e| e.round(6) }}'"
+
+  puts "\n--------\n"
+end
+
+def plot_weights(name, weights, verbose = false)
+  puts "\n--------\n"
+  puts name
+
+  min = -1.0
+  max = 1.0
+  precision = 3.to_i8
+  in_bw = false
+  prefixed = false
+  reversed = true
+
+  charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
+
+  weights_flattened = weights.flatten
+  puts "  TOTALS:: min: #{weights_flattened.min.round(precision*2)}, max: #{weights_flattened.max.round(precision*2)}, avg: #{(1.0 * weights_flattened.sum / weights_flattened.size).round(precision*2)}, stddev: #{weights_flattened.standard_deviation}"
+  puts "  HISTOGRAM:: #{histogram(weights_flattened)}"
+  puts "  ROWS::"
+  weights.each do |row|
+    plot = charter.plot(row, prefixed)
+
+    puts "  plot: '#{plot}', min: #{row.min.round(precision*2)}, max: #{row.max.round(precision*2)}, avg: #{(1.0 * row.sum / weights_flattened.size).round(precision*2)}, stddev: #{row.standard_deviation}"
+    puts "  row: '#{row.map { |e| e.round(precision*2) }}'" if verbose
+  end
 
   puts "\n--------\n"
 end
@@ -141,13 +191,24 @@ sleep 5
 
 puts "\n========\n"
 
-ascii_plot("net_backprop", net_backprop)
-ascii_plot("net_ls_prelu", net_ls_prelu)
-ascii_plot("net_ls_relu", net_ls_relu)
-ascii_plot("net_ls_sigmoid", net_ls_sigmoid)
-ascii_plot("net_ls_tanh", net_ls_tanh)
+puts "Errors and Trained Weights:"
 
-puts "\n========\n"
+plot_errors("net_backprop", net_backprop)
+plot_weights("net_backprop(last)", net_backprop.weights.first)
+
+plot_errors("net_ls_prelu", net_ls_prelu)
+plot_weights("net_ls_prelu", net_ls_prelu.weights)
+
+plot_errors("net_ls_relu", net_ls_relu)
+plot_weights("net_ls_relu", net_ls_relu.weights)
+
+plot_errors("net_ls_sigmoid", net_ls_sigmoid)
+plot_weights("net_ls_sigmoid", net_ls_sigmoid.weights)
+
+plot_errors("net_ls_tanh", net_ls_tanh)
+plot_weights("net_ls_tanh", net_ls_tanh.weights)
+
+puts "\n--------\n"
 
 height_considering_bias = height + 1
 
