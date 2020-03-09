@@ -78,7 +78,15 @@ def plot_weights(name, weights, verbose = false)
   precision = 3.to_i8
   in_bw = false
   prefixed = false
-  reversed = true
+  inverted_colors = true
+
+  char_box = '\u2588' # 'x' # '\u25A0'
+  # bar_chars = 11.times.to_a.map{ '\u25A0' }
+
+
+  bar_colors = [:red, :black, :dark_gray, :yellow, :light_gray, :white, :green]
+  # bar_chars = bar_colors.size.times.to_a.map{ '\u25A0' }
+  bar_chars = bar_colors.size.times.to_a.map{ char_box }
 
   charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
 
