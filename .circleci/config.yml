@@ -26,7 +26,10 @@ jobs:
           command: scripts/test_always_junit_format
       - run:
           name: Run benchmarks
-          command: scripts/bench > test-results/spec/bench.txt
+          command: scripts/bench > test-results/bench.txt
+      - run:
+          name: List test_results files
+          command: tree test-results
 
       # collect reports
       - store_test_results:
