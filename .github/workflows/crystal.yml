@@ -23,10 +23,10 @@ jobs:
     - name: Show repo version
       run: scripts/version_info
     - name: Run static code analysis
-      run: bin/ameba --no-color
+      run: bin/ameba # --no-color
     - name: Run tests (txt format)
-      run: scripts/test_always
-      # run: crystal spec
+      # run: scripts/test_always
+      run: crystal spec --release --no-debug --time --error-trace # --no-color
     - name: Run tests (junit format)
       run: scripts/test_always_junit_format
     # This times out and breaks the build:
