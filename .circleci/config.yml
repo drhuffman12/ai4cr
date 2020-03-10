@@ -35,8 +35,8 @@ jobs:
       #       tree test-results
 
       # # collect reports
-      # - store_test_results:
-      #     path: /tmp/test-results
+      - store_test_results:
+          path: /tmp/test-results
 
       - store_artifacts:
           path: /tmp/test-results
