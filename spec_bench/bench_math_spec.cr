@@ -33,16 +33,7 @@ end
 
 min = 0.0
 max = 1.0
-step_max = 10
 precision = 3
-
-# equal_spaced_steps(min, max, step_max, precision)
-# # equal_spaced_steps(0.0, 1.0, 10, 3.to_i8)
-
-# random_steps(min, max, step_max, precision)
-# # random_steps(0.0, 1.0, 10, 3.to_i8)
-
-# equal_spaced_steps_shuffled(min, max, step_max, precision)
 
 [1, 10, 100, 1000, 10000].each do |sm|
   Benchmark.ips do |x|
