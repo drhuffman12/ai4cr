@@ -1,8 +1,8 @@
 # Yeah, technicallu not a spec, but let's roll with this for now ...
 # require "./../../../../spec_helper"
-require "./../../../../src/ai4cr.cr"
 require "benchmark"
 require "ascii_bar_charter"
+require "./../src/ai4cr.cr"
 
 width = 100
 height = 100
@@ -215,10 +215,3 @@ plot_errors("net_ls_tanh", net_ls_tanh)
 plot_weights("net_ls_tanh", net_ls_tanh.weights)
 
 puts "\n--------\n"
-
-height_considering_bias = height + 1
-
-Benchmark.ips do |x|
-  x.report("Array.new") { Array.new(height_considering_bias) { |i| i } }
-  x.report("to_a") { (0..(height_considering_bias - 1)).to_a }
-end

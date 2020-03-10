@@ -15,6 +15,7 @@ jobs:
             time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
             time scripts/test_always > test-results/spec/results.txt
             time scripts/test_always_junit_format
+            time scripts/bench > test-results/spec/bench.txt
 
       # collect reports
       - store_test_results:

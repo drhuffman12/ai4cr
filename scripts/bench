@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# crystal spec --release --no-debug --time --error-trace --no-color spec_bench
+
+crystal spec --release --no-debug --time --error-trace spec_bench
