@@ -1,4 +1,4 @@
-name: Crystal CI
+name: Github Workflow for ai4cr
 
 on:
   push:
@@ -24,10 +24,10 @@ jobs:
       run: scripts/version_info
     - name: Run static code analysis
       run: bin/ameba --no-color
-    - name: Run tests
+    - name: Run tests (txt format)
       run: scripts/test_always
       # run: crystal spec
-    - name: Run tests (w/ junit format)
+    - name: Run tests (junit format)
       run: scripts/test_always_junit_format
     - name: Run benchmarks
       run: scripts/bench

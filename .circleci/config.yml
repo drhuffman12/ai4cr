@@ -7,15 +7,26 @@ jobs:
       - checkout
       - run: shards install
       - run:
-          name: run tests
-          command: |
-            mkdir -p test-results/spec
-            crystal -v > test-results/crystal_version.txt
-            scripts/version_info > test-results/app_version.txt
-            time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
-            time scripts/test_always > test-results/spec/results.txt
-            time scripts/test_always_junit_format
-            time scripts/bench > test-results/spec/bench.txt
+          name: Prep test-results folder
+          command: mkdir -p test-results/spec            
+      - run:
+          name: Show Crystal version
+          command: crystal -v > test-results/crystal_version.txt
+      - run:
+          name: Show repo version
+          command: scripts/version_info > test-results/app_version.txt
+      - run:
+          name: Run static code analysis
+          command: bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
+      - run:
+          name: run tests (txt format)
+          command: scripts/test_always > test-results/spec/results.txt
+      - run:
+          name: run tests (junit format)
+          command: scripts/test_always_junit_format
+      - run:
+          name: Run benchmarks
+          command: scripts/bench > test-results/spec/bench.txt
 
       # collect reports
       - store_test_results:
