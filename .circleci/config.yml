@@ -24,9 +24,10 @@ jobs:
       - run:
           name: run tests (junit format)
           command: scripts/test_always_junit_format
-      - run:
-          name: Run benchmarks
-          command: scripts/bench > test-results/bench.txt
+      # This times out and breaks the build:
+      # - run:
+      #     name: Run benchmarks
+      #     command: scripts/bench > test-results/bench.txt
       - run:
           name: List test_results files
           command: tree test-results

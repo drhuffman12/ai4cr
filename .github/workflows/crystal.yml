@@ -29,5 +29,6 @@ jobs:
       # run: crystal spec
     - name: Run tests (junit format)
       run: scripts/test_always_junit_format
-    - name: Run benchmarks
-      run: scripts/bench
+    # This times out and breaks the build:
+    # - name: Run benchmarks
+    #   run: scripts/bench
