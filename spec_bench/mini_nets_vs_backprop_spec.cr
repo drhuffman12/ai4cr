@@ -286,9 +286,10 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
   arr_234 << net1_234_relu
   arr_234 << net2_234_sigm
   cns_234 = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr_234)
-  File.write("tmp/cns_234.json", cns_234.to_pretty_json(indent: "  "))
+  # File.write("tmp/cns_234.json", cns_234.to_pretty_json(indent: "  "))
   # cns_234b = Ai4cr::NeuralNetwork::Cmn::Chain.from_json(File.read("tmp/cns_234.json"))
   # File.write("tmp/cns_234b.json", cns_234b.to_pretty_json(indent: "  "))
+  puts cns_234.to_pretty_json(indent: "  ")
 
   puts "\n--------\n"
   Benchmark.ips do |x|
