@@ -8,19 +8,19 @@ jobs:
       - run: shards install
       - run:
           name: Prep test-results folder
-          command: mkdir -p /tmp/test-results/spec            
+          command: mkdir -p test-results/spec            
       - run:
           name: Show Crystal version
-          command: crystal -v > /tmp/test-results/crystal_version.txt
+          command: crystal -v > test-results/crystal_version.txt
       - run:
           name: Show repo version
-          command: scripts/version_info > /tmp/test-results/app_version.txt
+          command: scripts/version_info > test-results/app_version.txt
       - run:
           name: Run static code analysis
-          command: bin/ameba --no-color > /tmp/test-results/static_code_analysis.ameba.txt
+          command: bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
       - run:
           name: run tests (txt format)
-          command: scripts/test_always > /tmp/test-results/spec/results.txt
+          command: scripts/test_always > test-results/spec/results.txt
       - run:
           name: run tests (junit format)
           command: scripts/test_always_junit_format
@@ -36,8 +36,8 @@ jobs:
 
       # # collect reports
       - store_test_results:
-          path: /tmp/test-results
+          path: test-results
 
       - store_artifacts:
-          path: /tmp/test-results
+          path: test-results
           # destination: test-results
