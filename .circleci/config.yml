@@ -28,9 +28,11 @@ jobs:
       # - run:
       #     name: Run benchmarks
       #     command: scripts/bench > test-results/bench.txt
-      - run:
-          name: List test_results files
-          command: tree test-results
+      # - run:
+      #     name: List test_results files
+      #     command: |
+      #       apt install -y tree
+      #       tree test-results
 
       # collect reports
       - store_test_results:
