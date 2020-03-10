@@ -13,7 +13,7 @@ end
 def equal_spaced_steps(min, max, step_max, precision)
   dist = max - min
   # step_max = bar_chars.size - 1
-  data = (0..step_max).to_a.map { |i| (dist * i / step_max + min).round(precision) }
+  (0..step_max).to_a.map { |i| (dist * i / step_max + min).round(precision) }
 end
 
 def equal_spaced_steps_shuffled(min, max, step_max, precision)
@@ -26,8 +26,8 @@ end
 
 def random_steps(min, max, step_max, precision)
   dist = max - min
-  data = Array(Float64).new
-  ary = Array.new(step_max + 1) { rnd(min, dist, precision) }
+  # data = Array(Float64).new
+  Array.new(step_max + 1) { rnd(min, dist, precision) }
   # Array(Float64).new(size: step_max).fill(rnd(min, dist, precision))
 end
 
@@ -36,20 +36,20 @@ max = 1.0
 step_max = 10
 precision = 3
 
-equal_spaced_steps(min, max, step_max, precision)
-# equal_spaced_steps(0.0, 1.0, 10, 3.to_i8)
+# equal_spaced_steps(min, max, step_max, precision)
+# # equal_spaced_steps(0.0, 1.0, 10, 3.to_i8)
 
-random_steps(min, max, step_max, precision)
-# random_steps(0.0, 1.0, 10, 3.to_i8)
+# random_steps(min, max, step_max, precision)
+# # random_steps(0.0, 1.0, 10, 3.to_i8)
 
-equal_spaced_steps_shuffled(min, max, step_max, precision)
+# equal_spaced_steps_shuffled(min, max, step_max, precision)
 
-[1,10,100,1000,10000].each do |step_max|
+[1, 10, 100, 1000, 10000].each do |sm|
   Benchmark.ips do |x|
-    puts "step_max: #{step_max}::"
-    x.report("  equal_spaced_steps") { equal_spaced_steps(min, max, step_max, precision) }
-    x.report("  random_steps") { random_steps(min, max, step_max, precision) }
-    x.report("  equal_spaced_steps_shuffled") { equal_spaced_steps_shuffled(min, max, step_max, precision) }
+    puts "step_max: #{sm}::"
+    x.report("  equal_spaced_steps") { equal_spaced_steps(min, max, sm, precision) }
+    x.report("  random_steps") { random_steps(min, max, sm, precision) }
+    x.report("  equal_spaced_steps_shuffled") { equal_spaced_steps_shuffled(min, max, sm, precision) }
   end
 end
 
