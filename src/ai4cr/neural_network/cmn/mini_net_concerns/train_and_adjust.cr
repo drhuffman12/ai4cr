@@ -124,7 +124,7 @@ module Ai4cr
           def propagation_function
             case @learning_style
             when LS_PRELU # LearningStyle::Prelu
-              ->(x : Float64) { x < 0 ? 0.0 : x }
+              ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
             when LS_RELU # LearningStyle::Rel
               ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
             when LS_SIGMOID                                # LearningStyle::Sigmoid
