@@ -4,7 +4,7 @@ require "./../learning_style.cr"
 module Ai4cr
   module NeuralNetwork
     module Cmn
-      module Common
+      module MiniNetConcerns
         module PropsAndInits
           getter width : Int32, height : Int32
           getter height_considering_bias : Int32

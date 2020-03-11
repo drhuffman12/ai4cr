@@ -3,7 +3,7 @@ require "json"
 module Ai4cr
   module NeuralNetwork
     module Cmn
-      module Common
+      module MiniNetConcerns
         module CalcGuess
           # ####
           # # TODO: Move prop and deriv methods to subclass and split method pairs per sub-class
