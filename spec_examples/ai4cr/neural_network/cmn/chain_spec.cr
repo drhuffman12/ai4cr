@@ -86,9 +86,9 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
               precision = 2.to_i8
               in_bw = false
               prefixed = false
-              reversed = false
+              inverted_colors = false
 
-              charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
+              charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: inverted_colors)
               plot = charter.plot(cns.net_set.last.error_distance_history, prefixed)
 
               puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
@@ -243,9 +243,9 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
               precision = 2.to_i8
               in_bw = false
               prefixed = false
-              reversed = false
+              inverted_colors = false
 
-              charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
+              charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: inverted_colors)
               plot = charter.plot(cns.net_set.last.error_distance_history, prefixed)
 
               puts "  plot: '#{plot}'"
