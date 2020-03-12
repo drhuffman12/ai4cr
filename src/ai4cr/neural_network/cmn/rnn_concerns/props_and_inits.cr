@@ -15,7 +15,9 @@ module Ai4cr
 
           property mini_net_configs : Array(Array(MiniNetConcerns::MiniNetConfig))
 
-          property mini_net_set : Array(Array(MiniNet)) # TODO
+          property mini_net_set : Array(Array(MiniNet))
+          
+          getter outputs_guessed : Array(Array(Float64))
 
           def initialize(@config = RnnConcerns::NetConfig.new)
             @layer_index_max = @config.hidden_layer_qty
@@ -26,7 +28,9 @@ module Ai4cr
 
             @mini_net_configs = init_mini_net_configs
 
-            @mini_net_set = init_mini_net_set # TODO
+            @mini_net_set = init_mini_net_set
+
+            @outputs_guessed = Array(Array(Float64)).new
           end
 
           def init_mini_net_configs
