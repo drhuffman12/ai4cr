@@ -1,9 +1,10 @@
 require "json"
 require "./learning_style.cr"
+require "./mini_net_concerns/*"
 require "./rnn_concerns/*"
 
 # require "./rnn_concerns/net_config.cr"
-# require "./rnn_concerns/weight_set_config.cr"
+# require "./rnn_concerns/mini_net_config.cr"
 
 module Ai4cr
   module NeuralNetwork

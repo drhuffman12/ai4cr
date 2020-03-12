@@ -14,13 +14,13 @@ module Ai4cr
           hidden_state_size : Int32 = 4,
           output_state_size : Int32 = 2,
 
-          initial_bias_disabled : Bool = true,
+          initial_bias_disabled : Bool = false,
           initial_bias_scale : Float64 = rand,
 
           # TODO: research what is the ideal default learning styles per layer
-          hidden_learing_styles_first : LearningStyle = LS_TANH,
-          hidden_learing_styles_middle : LearningStyle = LS_RELU,
-          output_learing_style : LearningStyle = LS_SIGMOID,
+          hidden_learning_styles_first : LearningStyle = LS_TANH,
+          hidden_learning_styles_middle : LearningStyle = LS_RELU,
+          output_learning_style : LearningStyle = LS_SIGMOID,
           learning_rate : Float64? = nil,
           momentum : Float64? = nil,
           deriv_scale : Float64 = rand / 100.0,

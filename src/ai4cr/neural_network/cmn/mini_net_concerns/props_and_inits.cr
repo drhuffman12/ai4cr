@@ -30,8 +30,49 @@ module Ai4cr
           property learning_style : LearningStyle
           property deriv_scale : Float64
 
+          def initialize(mini_net_config : RnnConcerns::MiniNetConfig)
+            @height = mini_net_config.height
+            @width = mini_net_config.width
+            @learning_style = mini_net_config.learning_style
+            @deriv_scale = mini_net_config.deriv_scale
+            @bias_disabled = !!mini_net_config.bias_disabled
+            @bias_scale = (mini_net_config.bias_scale < 0.0) ? [1.0, mini_net_config.bias_scale].min : 0.0
+            @learning_rate = mini_net_config.learning_rate.nil? || mini_net_config.learning_rate.as(Float64) <= 0.0 ? rand : [1.0, mini_net_config.learning_rate.as(Float64)].min
+            @momentum = mini_net_config.momentum && mini_net_config.momentum.as(Float64) > 0.0 ? [1.0, mini_net_config.momentum.as(Float64)].min : rand
+            
+            @error_distance_history_max = (mini_net_config.error_distance_history_max < 0 ? 0 : mini_net_config.error_distance_history_max)
+
+            # TODO: consolidate 'init_network' code
+            # init_network:
+            @height_considering_bias = @height + (@bias_disabled ? 0 : 1)
+            @height_indexes = Array.new(@height_considering_bias) { |i| i }
+
+            @inputs_given = Array.new(@height_considering_bias, 0.0)
+            @inputs_given[-1] = 1.0 unless @bias_disabled
+            # @inputs_given[-1] = 0.1 unless @bias_disabled
+            @input_deltas = Array.new(@height_considering_bias, 0.0)
+
+            @width_indexes = Array.new(width) { |i| i }
+
+            @outputs_guessed = Array.new(width, 0.0)
+            @outputs_expected = Array.new(width, 0.0)
+            @output_deltas = Array.new(width, 0.0)
+
+            # TODO: set weights based on learning_type
+            # @weights = @height_indexes.map { @width_indexes.map { rand*2 - 1 } }
+            # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(2.0/(height_considering_bias + width))) } }
+            @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(height_considering_bias/2.0)) } }
+
+            @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
+
+            @error_total = 0.0
+            @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
+            @error_distance = 1.0
+            @error_distance_history = Array.new(0, 0.0)
+          end
+
           def initialize(
-            @height, @width,
+            @height = 2, @width = 1,
             @learning_style : LearningStyle = LS_RELU, #  LearningStyle::Relu,
 
             # for Prelu
@@ -41,8 +82,11 @@ module Ai4cr
             # @deriv_scale = 0.001,
             @deriv_scale = rand / 100.0,
 
-            bias_disabled : Bool? = nil, @bias_scale : Float64 = rand,
-            learning_rate : Float64? = nil, momentum : Float64? = nil,
+            bias_disabled : Bool? = nil,
+            @bias_scale : Float64 = rand,
+
+            learning_rate : Float64? = nil,
+            momentum : Float64? = nil,
             error_distance_history_max : Int32 = 10
           )
             # @learning_style = Common::LearningStyle::Relu
