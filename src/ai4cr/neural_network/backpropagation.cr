@@ -46,7 +46,7 @@ module Ai4cr
     # Use class method get_parameters_info to obtain details on the algorithm
     # parameters. Use set_parameters to set values for this parameters.
     #
-    # * :disable_bias => If true, the algorithm will not use bias nodes.
+    # * :bias_disabled => If true, the algorithm will not use bias nodes.
     #   False by default.
     # * :initial_weight_function => f(n, i, j) must return the initial
     #   weight for the conection between the node i in layer n, and node j in
@@ -92,7 +92,7 @@ module Ai4cr
       # class Backpropagation
       include ::JSON::Serializable
 
-      property structure, disable_bias, learning_rate, momentum
+      property structure, bias_disabled, learning_rate, momentum
       property weights, last_changes, activation_nodes
       property calculated_error_total : Float64
       getter height, hidden_qty, width, deltas
@@ -149,12 +149,12 @@ module Ai4cr
 
       def initialize(
         @structure : Array(Int32),
-        disable_bias : Bool? = nil,
+        bias_disabled : Bool? = nil,
         learning_rate : Float64? = nil,
         momentum : Float64? = nil,
         error_distance_history_max : Int32 = 10
       )
-        @disable_bias = !!disable_bias
+        @bias_disabled = !!bias_disabled
         @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? 0.25 : learning_rate.as(Float64)
         @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : 0.1
         # Below are set via #init_network, but must be initialized in the 'initialize' method to avoid being nilable:
@@ -270,7 +270,7 @@ module Ai4cr
         @activation_nodes = (0...@structure.size).map do |n|
           (0...@structure[n]).map { 1.0 }
         end
-        if !disable_bias
+        if !bias_disabled
           @activation_nodes[0...-1].each { |layer| layer << 1.0 }
         end
         @activation_nodes

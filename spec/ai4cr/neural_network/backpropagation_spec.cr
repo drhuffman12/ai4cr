@@ -91,7 +91,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
       expected_weights_first_size = 2 # one less than prev example since bias is disabled here
       expected_weights_first_sub_size = 2
       net = Ai4cr::NeuralNetwork::Backpropagation.new(structure).init_network
-      net.disable_bias = true
+      net.bias_disabled = true
       net.init_network
 
       it "sets @activation_nodes to expected nested array" do
@@ -177,8 +177,8 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         assert_equality_of_nested_list net.structure, net2.structure
       end
 
-      it "@disable_bias on the dumped net matches @disable_bias of the loaded net" do
-        net.disable_bias.should eq(net2.disable_bias)
+      it "@bias_disabled on the dumped net matches @bias_disabled of the loaded net" do
+        net.bias_disabled.should eq(net2.bias_disabled)
       end
 
       it "@learning_rate of the dumped net approximately matches @learning_rate of the loaded net" do

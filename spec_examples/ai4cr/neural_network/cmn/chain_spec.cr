@@ -38,9 +38,9 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         qty_x_percent = qty // 5
 
         describe "using net of types of: Sigmoid" do
-          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, bias_disabled: false, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
 
           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
           arr << net0
@@ -195,9 +195,9 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         end
 
         describe "using net of types of: (mixed)" do
-          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
-          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
-          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, bias_disabled: false, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
+          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
 
           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
           arr << net0

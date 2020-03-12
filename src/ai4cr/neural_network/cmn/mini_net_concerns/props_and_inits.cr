@@ -18,7 +18,7 @@ module Ai4cr
 
           property input_deltas : Array(Float64), output_deltas : Array(Float64)
 
-          property disable_bias : Bool
+          property bias_disabled : Bool
           property bias_scale : Float64
           property learning_rate : Float64
           property momentum : Float64
@@ -41,24 +41,24 @@ module Ai4cr
             # @deriv_scale = 0.001,
             @deriv_scale = rand / 100.0,
 
-            disable_bias : Bool? = nil, @bias_scale : Float64 = rand,
+            bias_disabled : Bool? = nil, @bias_scale : Float64 = rand,
             learning_rate : Float64? = nil, momentum : Float64? = nil,
             error_distance_history_max : Int32 = 10
           )
             # @learning_style = Common::LearningStyle::Relu
 
-            @disable_bias = !!disable_bias
+            @bias_disabled = !!bias_disabled
             @bias_scale = (bias_scale < 0.0) ? [1.0, bias_scale].min : 0.0
             @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : [1.0, learning_rate.as(Float64)].min
             @momentum = momentum && momentum.as(Float64) > 0.0 ? [1.0, momentum.as(Float64)].min : rand
 
             # init_network:
-            @height_considering_bias = @height + (@disable_bias ? 0 : 1)
+            @height_considering_bias = @height + (@bias_disabled ? 0 : 1)
             @height_indexes = Array.new(@height_considering_bias) { |i| i }
 
             @inputs_given = Array.new(@height_considering_bias, 0.0)
-            @inputs_given[-1] = 1.0 unless @disable_bias
-            # @inputs_given[-1] = 0.1 unless @disable_bias
+            @inputs_given[-1] = 1.0 unless @bias_disabled
+            # @inputs_given[-1] = 0.1 unless @bias_disabled
             @input_deltas = Array.new(@height_considering_bias, 0.0)
 
             @width_indexes = Array.new(width) { |i| i }
@@ -82,12 +82,12 @@ module Ai4cr
 
           def init_network(error_distance_history_max : Int32 = 10)
             # init_network:
-            @height_considering_bias = @height + (@disable_bias ? 0 : 1)
+            @height_considering_bias = @height + (@bias_disabled ? 0 : 1)
             @height_indexes = Array.new(@height_considering_bias) { |i| i }
 
             @inputs_given = Array.new(@height_considering_bias, 0.0)
-            @inputs_given[-1] = 1.0 unless @disable_bias
-            # @inputs_given[-1] = 0.1 unless @disable_bias
+            @inputs_given[-1] = 1.0 unless @bias_disabled
+            # @inputs_given[-1] = 0.1 unless @bias_disabled
             @input_deltas = Array.new(@height_considering_bias, 0.0)
 
             @width_indexes = Array.new(width) { |i| i }

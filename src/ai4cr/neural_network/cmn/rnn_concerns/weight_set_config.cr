@@ -21,7 +21,6 @@ module Ai4cr
           momentum : Float64? = nil,
           deriv_scale : Float64 = rand / 100.0,
           error_distance_history_max : Int32 = 10 do
-
           include JSON::Serializable
 
           def height
@@ -31,8 +30,6 @@ module Ai4cr
           def width
             output_state_size
           end
-
-
         end
       end
     end

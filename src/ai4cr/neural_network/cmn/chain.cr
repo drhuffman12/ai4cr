@@ -58,8 +58,8 @@ module Ai4cr
                   :to_index                   => index + 1,
                   :from_width                 => net_from.width,
                   :to_height_considering_bias => @net_set[index + 1].height_considering_bias,
-                  :from_disable_bias          => (net_from.disable_bias ? 1 : 0),
-                  :to_disable_bias            => (@net_set[index + 1].disable_bias ? 1 : 0),
+                  :from_disable_bias          => (net_from.bias_disabled ? 1 : 0),
+                  :to_disable_bias            => (@net_set[index + 1].bias_disabled ? 1 : 0),
                 }
               end
             end
