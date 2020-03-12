@@ -30,7 +30,7 @@ module Ai4cr
           property learning_style : LearningStyle
           property deriv_scale : Float64
 
-          def initialize(mini_net_config : RnnConcerns::MiniNetConfig)
+          def initialize(mini_net_config : MiniNetConcerns::MiniNetConfig)
             @height = mini_net_config.height
             @width = mini_net_config.width
             @learning_style = mini_net_config.learning_style

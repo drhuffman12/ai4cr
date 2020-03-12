@@ -13,7 +13,7 @@ module Ai4cr
           getter time_col_index_max : Int32
           getter time_col_range : Array(Int32)
 
-          property mini_net_configs : Array(Array(RnnConcerns::MiniNetConfig))
+          property mini_net_configs : Array(Array(MiniNetConcerns::MiniNetConfig))
 
           property mini_net_set : Array(Array(MiniNet)) # TODO
 
@@ -54,7 +54,7 @@ module Ai4cr
                 hist_qty = (@config.hist_qty_max > t) ? [t - @config.hist_qty_max + 1, @config.hist_qty_max].min : 0
                 input_hist_set_sizes = (0..hist_qty - 1).to_a.map { hist_state_size }
 
-                RnnConcerns::MiniNetConfig.new(
+                MiniNetConcerns::MiniNetConfig.new(
                   output_state_size: output_state_size,
                   input_prev_layer_size: input_prev_layer_size,
                   input_hist_set_sizes: input_hist_set_sizes,

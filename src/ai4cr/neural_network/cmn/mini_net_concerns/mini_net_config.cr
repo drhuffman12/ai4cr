@@ -4,7 +4,7 @@ require "./../learning_style.cr"
 module Ai4cr
   module NeuralNetwork
     module Cmn
-      module RnnConcerns
+      module MiniNetConcerns
         record MiniNetConfig,
           output_state_size : Int32 = 2,
 
@@ -23,11 +23,11 @@ module Ai4cr
           error_distance_history_max : Int32 = 10 do
           include JSON::Serializable
 
-          def height
+          def height : Int32
             input_prev_layer_size + input_hist_set_sizes.sum
           end
 
-          def width
+          def width : Int32
             output_state_size
           end
         end
