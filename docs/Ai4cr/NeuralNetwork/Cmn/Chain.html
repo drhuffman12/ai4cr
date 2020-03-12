@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.33.0">
+
+<link href="../../../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="github.com/drhuffman12/ai4cr">
+  <title>Ai4cr::NeuralNetwork::Cmn::Chain - github.com/drhuffman12/ai4cr</title>
+  <script type="text/javascript">
+    CrystalDoc.base_path = "../../../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../../../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr" data-name="ai4cr">
+      <a href="../../../Ai4cr.html">Ai4cr</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data" data-name="ai4cr::data">
+      <a href="../../../Ai4cr/Data.html">Data</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data/Parameterizable" data-name="ai4cr::data::parameterizable">
+      <a href="../../../Ai4cr/Data/Parameterizable.html">Parameterizable</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data/Parameterizable/ClassMethods" data-name="ai4cr::data::parameterizable::classmethods">
+      <a href="../../../Ai4cr/Data/Parameterizable/ClassMethods.html">ClassMethods</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork" data-name="ai4cr::neuralnetwork">
+      <a href="../../../Ai4cr/NeuralNetwork.html">NeuralNetwork</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Backpropagation" data-name="ai4cr::neuralnetwork::backpropagation">
+      <a href="../../../Ai4cr/NeuralNetwork/Backpropagation.html">Backpropagation</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn" data-name="ai4cr::neuralnetwork::cmn">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn.html">Cmn</a>
+      
+        <ul>
+  
+  <li class=" current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/Chain" data-name="ai4cr::neuralnetwork::cmn::chain">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/Chain.html">Chain</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/LearningStyle" data-name="ai4cr::neuralnetwork::cmn::learningstyle">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNet" data-name="ai4cr::neuralnetwork::cmn::mininet">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/MiniNet.html">MiniNet</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns" data-name="ai4cr::neuralnetwork::cmn::mininetconcerns">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns.html">MiniNetConcerns</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/CalcGuess" data-name="ai4cr::neuralnetwork::cmn::mininetconcerns::calcguess">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/CalcGuess.html">CalcGuess</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/PropsAndInits" data-name="ai4cr::neuralnetwork::cmn::mininetconcerns::propsandinits">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/PropsAndInits.html">PropsAndInits</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/TrainAndAdjust" data-name="ai4cr::neuralnetwork::cmn::mininetconcerns::trainandadjust">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/TrainAndAdjust.html">TrainAndAdjust</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/Rnn" data-name="ai4cr::neuralnetwork::cmn::rnn">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/Rnn.html">Rnn</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns.html">RnnConcerns</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/CalcGuess" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::calcguess">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/CalcGuess.html">CalcGuess</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/NetConfig" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::netconfig">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/NetConfig.html">NetConfig</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/PropsAndInits" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::propsandinits">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/PropsAndInits.html">PropsAndInits</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/TrainAndAdjust" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::trainandadjust">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/TrainAndAdjust.html">TrainAndAdjust</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/WeightSetConfig" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::weightsetconfig">
+      <a href="../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/WeightSetConfig.html">WeightSetConfig</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Enumerable" data-name="enumerable(t)">
+      <a href="../../../Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Ai4cr::NeuralNetwork::Cmn::Chain
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../../Ai4cr/NeuralNetwork/Cmn/Chain.html">Ai4cr::NeuralNetwork::Cmn::Chain</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>module ConnectedNetSet</p>
+
+
+
+
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type">JSON::Serializable</li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L8" target="_blank">
+        ai4cr/neural_network/cmn/chain.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(pull:JSON::PullParser)-class-method" class="signature"><strong>.new</strong>(pull : JSON::PullParser)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new(net_set)-class-method" class="signature"><strong>.new</strong>(net_set)</a>
+        
+          <div class="summary"><p><span class="flag purple">NOTE</span>  When passing in the array for net_set, ..</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#calc_structure-instance-method" class="signature"><strong>#calc_structure</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#error_distance_history-instance-method" class="signature"><strong>#error_distance_history</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#errors:Array(Hash(Symbol,Int32))-instance-method" class="signature"><strong>#errors</strong> : Array(Hash(Symbol, Int32))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#eval(inputs_given)-instance-method" class="signature"><strong>#eval</strong>(inputs_given)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#guesses_best-instance-method" class="signature"><strong>#guesses_best</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#net_set:Array(MiniNet)-instance-method" class="signature"><strong>#net_set</strong> : Array(MiniNet)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#net_set=(net_set:Array(MiniNet))-instance-method" class="signature"><strong>#net_set=</strong>(net_set : Array(MiniNet))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#step_calculate_error_distance_history-instance-method" class="signature"><strong>#step_calculate_error_distance_history</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#structure:Array(Int32)-instance-method" class="signature"><strong>#structure</strong> : Array(Int32)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#train(inputs_given,outputs_expected,until_min_avg_error=0.1)-instance-method" class="signature"><strong>#train</strong>(inputs_given, outputs_expected, until_min_avg_error = <span class="n">0.1</span>)</a>
+        
+          <div class="summary"><p><span class="flag orange">TODO</span>  utilize until_min_avg_error</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#validate-instance-method" class="signature"><strong>#validate</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#validate!-instance-method" class="signature"><strong>#validate!</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#weight_height_mismatches:Array(Hash(Symbol,Int32))-instance-method" class="signature"><strong>#weight_height_mismatches</strong> : Array(Hash(Symbol, Int32))</a>
+        
+          <div class="summary"><p>getter weight_height_mismatches : type_of({from_index: 1, to_index: 2, from_width: 3, to_height_considering_bias: 4, from_bias: false, to_bias: true}) getter weight_height_mismatches : NamedTuple(from_index: Int32, to_index: Int32, from_width: Int32, to_height_considering_bias: Int32, from_bias: Bool, to_bias: Bool) getter weight_height_mismatches : Array(Hash(Symbol,UInt32))</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(pull:JSON::PullParser)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(pull : JSON::PullParser)
+
+        <a class="method-permalink" href="#new(pull:JSON::PullParser)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L12" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(net_set)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(net_set)
+
+        <a class="method-permalink" href="#new(net_set)-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p><span class="flag purple">NOTE</span>  When passing in the array for net_set,
+.. if you're including just one type of MiniNet, e.g.:
+  net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 256, width: 300, error_distance_history_max: 60)
+  net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 300, width: 3, error_distance_history_max: 60)</p>
+
+<p>... and you try to pass in like below, you'll get a type error:
+  cns = Ai4cr::NeuralNetwork::Cmn::Chain.new([net0, net1])</p>
+
+<p>... So, you'll need to init the array like:
+  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
+  arr &lt;&lt; net0
+  arr &lt;&lt; net1</p>
+
+<p>... and then pass it in like:
+  cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L39" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="calc_structure-instance-method">
+      <div class="signature">
+        
+        def <strong>calc_structure</strong>
+
+        <a class="method-permalink" href="#calc_structure-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L79" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="error_distance_history-instance-method">
+      <div class="signature">
+        
+        def <strong>error_distance_history</strong>
+
+        <a class="method-permalink" href="#error_distance_history-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L131" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="errors:Array(Hash(Symbol,Int32))-instance-method">
+      <div class="signature">
+        
+        def <strong>errors</strong> : Array(Hash(Symbol, Int32))
+
+        <a class="method-permalink" href="#errors:Array(Hash(Symbol,Int32))-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L71" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="eval(inputs_given)-instance-method">
+      <div class="signature">
+        
+        def <strong>eval</strong>(inputs_given)
+
+        <a class="method-permalink" href="#eval(inputs_given)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L85" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="guesses_best-instance-method">
+      <div class="signature">
+        
+        def <strong>guesses_best</strong>
+
+        <a class="method-permalink" href="#guesses_best-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L123" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="net_set:Array(MiniNet)-instance-method">
+      <div class="signature">
+        
+        def <strong>net_set</strong> : Array(<a href="../../../Ai4cr/NeuralNetwork/Cmn/MiniNet.html">MiniNet</a>)
+
+        <a class="method-permalink" href="#net_set:Array(MiniNet)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L15" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="net_set=(net_set:Array(MiniNet))-instance-method">
+      <div class="signature">
+        
+        def <strong>net_set=</strong>(net_set : Array(<a href="../../../Ai4cr/NeuralNetwork/Cmn/MiniNet.html">MiniNet</a>))
+
+        <a class="method-permalink" href="#net_set=(net_set:Array(MiniNet))-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L15" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="step_calculate_error_distance_history-instance-method">
+      <div class="signature">
+        
+        def <strong>step_calculate_error_distance_history</strong>
+
+        <a class="method-permalink" href="#step_calculate_error_distance_history-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L127" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="structure:Array(Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>structure</strong> : Array(Int32)
+
+        <a class="method-permalink" href="#structure:Array(Int32)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L14" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="train(inputs_given,outputs_expected,until_min_avg_error=0.1)-instance-method">
+      <div class="signature">
+        
+        def <strong>train</strong>(inputs_given, outputs_expected, until_min_avg_error = <span class="n">0.1</span>)
+
+        <a class="method-permalink" href="#train(inputs_given,outputs_expected,until_min_avg_error=0.1)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p><span class="flag orange">TODO</span>  utilize until_min_avg_error</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L103" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="validate-instance-method">
+      <div class="signature">
+        
+        def <strong>validate</strong>
+
+        <a class="method-permalink" href="#validate-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L45" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="validate!-instance-method">
+      <div class="signature">
+        
+        def <strong>validate!</strong>
+
+        <a class="method-permalink" href="#validate!-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L75" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="weight_height_mismatches:Array(Hash(Symbol,Int32))-instance-method">
+      <div class="signature">
+        
+        def <strong>weight_height_mismatches</strong> : Array(Hash(Symbol, Int32))
+
+        <a class="method-permalink" href="#weight_height_mismatches:Array(Hash(Symbol,Int32))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>getter weight_height_mismatches : type_of({from_index: 1, to_index: 2, from_width: 3, to_height_considering_bias: 4, from_bias: false, to_bias: true})
+getter weight_height_mismatches : NamedTuple(from_index: Int32, to_index: Int32, from_width: Int32, to_height_considering_bias: Int32, from_bias: Bool, to_bias: Bool)
+getter weight_height_mismatches : Array(Hash(Symbol,UInt32))</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/chain.cr#L19" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

@@ -15,7 +15,7 @@
 </svg>
 
   <meta id="repository-name" content="github.com/drhuffman12/ai4cr">
-  <title>Ai4cr::Data::Parameterizable::ClassMethods - github.com/drhuffman12/ai4cr</title>
+  <title>Ai4cr::NeuralNetwork::Cmn::LearningStyle - github.com/drhuffman12/ai4cr</title>
   <script type="text/javascript">
     CrystalDoc.base_path = "../../../";
   </script>
@@ -45,17 +45,17 @@
       
         <ul>
   
-  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data" data-name="ai4cr::data">
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data" data-name="ai4cr::data">
       <a href="../../../Ai4cr/Data.html">Data</a>
       
         <ul>
   
-  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data/Parameterizable" data-name="ai4cr::data::parameterizable">
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data/Parameterizable" data-name="ai4cr::data::parameterizable">
       <a href="../../../Ai4cr/Data/Parameterizable.html">Parameterizable</a>
       
         <ul>
   
-  <li class=" current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data/Parameterizable/ClassMethods" data-name="ai4cr::data::parameterizable::classmethods">
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data/Parameterizable/ClassMethods" data-name="ai4cr::data::parameterizable::classmethods">
       <a href="../../../Ai4cr/Data/Parameterizable/ClassMethods.html">ClassMethods</a>
       
     </li>
@@ -70,7 +70,7 @@
       
     </li>
   
-  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork" data-name="ai4cr::neuralnetwork">
+  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork" data-name="ai4cr::neuralnetwork">
       <a href="../../../Ai4cr/NeuralNetwork.html">NeuralNetwork</a>
       
         <ul>
@@ -80,7 +80,7 @@
       
     </li>
   
-  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn" data-name="ai4cr::neuralnetwork::cmn">
+  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn" data-name="ai4cr::neuralnetwork::cmn">
       <a href="../../../Ai4cr/NeuralNetwork/Cmn.html">Cmn</a>
       
         <ul>
@@ -90,7 +90,7 @@
       
     </li>
   
-  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/LearningStyle" data-name="ai4cr::neuralnetwork::cmn::learningstyle">
+  <li class=" current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/LearningStyle" data-name="ai4cr::neuralnetwork::cmn::learningstyle">
       <a href="../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a>
       
     </li>
@@ -194,13 +194,39 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">module</span> Ai4cr::Data::Parameterizable::ClassMethods
+  <span class="kind">enum</span> Ai4cr::NeuralNetwork::Cmn::LearningStyle
 
 </h1>
 
 
 
 
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>module MiniNet
+  module Common
+Ai4cr::NeuralNetwork::Cmn::LearningStyle.values
+=> [Prelu, Relu, Sigmoid, Tanh]</p>
+
+<p>Ai4cr::NeuralNetwork::Cmn::LearningStyle.values.map{|v|v.to_s}
+=> ["Prelu", "Relu", "Sigmoid", "Tanh"]</p>
+
+<p>Ai4cr::NeuralNetwork::Cmn::LearningStyle.values.map{|v|v.value}
+=> [10, 11, 12, 13]</p>
+
+<p>Ai4cr::NeuralNetwork::Cmn::LearningStyle::Prelu.value
+=> 10</p>
+
+<p>Ai4cr::NeuralNetwork::Cmn::LS_PRELU.value
+=> 10</p>
 
 
 
@@ -225,14 +251,48 @@
   </h2>
   
     
-      <a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/data/parameterizable.cr#L17" target="_blank">
-        ai4cr/data/parameterizable.cr
+      <a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/learning_style.cr#L21" target="_blank">
+        ai4cr/neural_network/cmn/learning_style.cr
       </a>
     
     <br/>
   
 
 
+
+  
+    <h2>
+      <a id="enum-members" class="anchor" href="#enum-members">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Enum Members
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="Prelu">
+        <strong>Prelu</strong> = <code><span class="n">10</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Relu">
+        <strong>Relu</strong> = <code><span class="n">20</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Sigmoid">
+        <strong>Sigmoid</strong> = <code><span class="n">30</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="Tanh">
+        <strong>Tanh</strong> = <code><span class="n">40</span></code>
+      </dt>
+      
+    
+  </dl>
 
 
 
@@ -251,16 +311,22 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#get_parameters_info-instance-method" class="signature"><strong>#get_parameters_info</strong></a>
-        
-          <div class="summary"><p>Get info on what can be parameterized on this algorithm.</p></div>
+        <a href="#prelu?-instance-method" class="signature"><strong>#prelu?</strong></a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#parameters_info(params_info)-instance-method" class="signature"><strong>#parameters_info</strong>(params_info)</a>
+        <a href="#relu?-instance-method" class="signature"><strong>#relu?</strong></a>
         
-          <div class="summary"><p>Set info on what can be parameterized on this algorithm.</p></div>
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sigmoid?-instance-method" class="signature"><strong>#sigmoid?</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tanh?-instance-method" class="signature"><strong>#tanh?</strong></a>
         
       </li>
     
@@ -271,6 +337,46 @@
 
 
 <div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
   
 </div>
 
@@ -288,48 +394,66 @@
     Instance Method Detail
   </h2>
   
-    <div class="entry-detail" id="get_parameters_info-instance-method">
+    <div class="entry-detail" id="prelu?-instance-method">
       <div class="signature">
         
-        def <strong>get_parameters_info</strong>
+        def <strong>prelu?</strong>
 
-        <a class="method-permalink" href="#get_parameters_info-instance-method">#</a>
+        <a class="method-permalink" href="#prelu?-instance-method">#</a>
       </div>
-      
-        <div class="doc">
-          
-          <p>Get info on what can be parameterized on this algorithm.
-It returns a hash with the following format:
-{ :param_name => "Info on the parameter" }</p>
-        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/data/parameterizable.cr#L21" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/learning_style.cr#L22" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="parameters_info(params_info)-instance-method">
+    <div class="entry-detail" id="relu?-instance-method">
       <div class="signature">
         
-        def <strong>parameters_info</strong>(params_info)
+        def <strong>relu?</strong>
 
-        <a class="method-permalink" href="#parameters_info(params_info)-instance-method">#</a>
+        <a class="method-permalink" href="#relu?-instance-method">#</a>
       </div>
-      
-        <div class="doc">
-          
-          <p>Set info on what can be parameterized on this algorithm.
-You must provide a hash with the following format:
-{ :param_name => "Info on the parameter" }</p>
-        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/data/parameterizable.cr#L28" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/learning_style.cr#L23" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sigmoid?-instance-method">
+      <div class="signature">
+        
+        def <strong>sigmoid?</strong>
+
+        <a class="method-permalink" href="#sigmoid?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/learning_style.cr#L24" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tanh?-instance-method">
+      <div class="signature">
+        
+        def <strong>tanh?</strong>
+
+        <a class="method-permalink" href="#tanh?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/learning_style.cr#L25" target="_blank">View source</a>]
         
       </div>
     </div>

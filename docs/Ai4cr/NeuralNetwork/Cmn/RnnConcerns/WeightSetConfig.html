@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.33.0">
+
+<link href="../../../../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../../../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="github.com/drhuffman12/ai4cr">
+  <title>Ai4cr::NeuralNetwork::Cmn::RnnConcerns::WeightSetConfig - github.com/drhuffman12/ai4cr</title>
+  <script type="text/javascript">
+    CrystalDoc.base_path = "../../../../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../../../../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr" data-name="ai4cr">
+      <a href="../../../../Ai4cr.html">Ai4cr</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data" data-name="ai4cr::data">
+      <a href="../../../../Ai4cr/Data.html">Data</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data/Parameterizable" data-name="ai4cr::data::parameterizable">
+      <a href="../../../../Ai4cr/Data/Parameterizable.html">Parameterizable</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data/Parameterizable/ClassMethods" data-name="ai4cr::data::parameterizable::classmethods">
+      <a href="../../../../Ai4cr/Data/Parameterizable/ClassMethods.html">ClassMethods</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork" data-name="ai4cr::neuralnetwork">
+      <a href="../../../../Ai4cr/NeuralNetwork.html">NeuralNetwork</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Backpropagation" data-name="ai4cr::neuralnetwork::backpropagation">
+      <a href="../../../../Ai4cr/NeuralNetwork/Backpropagation.html">Backpropagation</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn" data-name="ai4cr::neuralnetwork::cmn">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn.html">Cmn</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/Chain" data-name="ai4cr::neuralnetwork::cmn::chain">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/Chain.html">Chain</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/LearningStyle" data-name="ai4cr::neuralnetwork::cmn::learningstyle">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNet" data-name="ai4cr::neuralnetwork::cmn::mininet">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/MiniNet.html">MiniNet</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns" data-name="ai4cr::neuralnetwork::cmn::mininetconcerns">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns.html">MiniNetConcerns</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/CalcGuess" data-name="ai4cr::neuralnetwork::cmn::mininetconcerns::calcguess">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/CalcGuess.html">CalcGuess</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/PropsAndInits" data-name="ai4cr::neuralnetwork::cmn::mininetconcerns::propsandinits">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/PropsAndInits.html">PropsAndInits</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/TrainAndAdjust" data-name="ai4cr::neuralnetwork::cmn::mininetconcerns::trainandadjust">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/TrainAndAdjust.html">TrainAndAdjust</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/Rnn" data-name="ai4cr::neuralnetwork::cmn::rnn">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/Rnn.html">Rnn</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns.html">RnnConcerns</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/CalcGuess" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::calcguess">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/CalcGuess.html">CalcGuess</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/NetConfig" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::netconfig">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/NetConfig.html">NetConfig</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/PropsAndInits" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::propsandinits">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/PropsAndInits.html">PropsAndInits</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/TrainAndAdjust" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::trainandadjust">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/TrainAndAdjust.html">TrainAndAdjust</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/WeightSetConfig" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::weightsetconfig">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/WeightSetConfig.html">WeightSetConfig</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Enumerable" data-name="enumerable(t)">
+      <a href="../../../../Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">struct</span> Ai4cr::NeuralNetwork::Cmn::RnnConcerns::WeightSetConfig
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/WeightSetConfig.html">Ai4cr::NeuralNetwork::Cmn::RnnConcerns::WeightSetConfig</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type">JSON::Serializable</li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/weight_set_config.cr#L8" target="_blank">
+        ai4cr/neural_network/cmn/rnn_concerns/weight_set_config.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(output_state_size:Int32=2,input_prev_layer_size:Int32=-1,input_hist_set_sizes:Array(Int32)=[-1],bias_disabled:Bool=false,bias_scale:Float64=rand,learing_style:LearningStyle=LS_RELU,learning_rate:Float64?=nil,momentum:Float64?=nil,deriv_scale:Float64=rand/100.0,error_distance_history_max:Int32=10)-class-method" class="signature"><strong>.new</strong>(output_state_size : Int32 = <span class="n">2</span>, input_prev_layer_size : Int32 = <span class="n">-1</span>, input_hist_set_sizes : Array(Int32) = [<span class="n">-1</span>], bias_disabled : Bool = <span class="n">false</span>, bias_scale : Float64 = rand, learing_style : LearningStyle = <span class="t">LS_RELU</span>, learning_rate : Float64? = <span class="n">nil</span>, momentum : Float64? = <span class="n">nil</span>, deriv_scale : Float64 = rand <span class="o">/</span> <span class="n">100.0</span>, error_distance_history_max : Int32 = <span class="n">10</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new(pull:JSON::PullParser)-class-method" class="signature"><strong>.new</strong>(pull : JSON::PullParser)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#bias_disabled:Bool-instance-method" class="signature"><strong>#bias_disabled</strong> : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bias_scale:Float64-instance-method" class="signature"><strong>#bias_scale</strong> : Float64</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#clone-instance-method" class="signature"><strong>#clone</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#copy_with(output_state_size_output_state_size=@output_state_size,input_prev_layer_size_input_prev_layer_size=@input_prev_layer_size,input_hist_set_sizes_input_hist_set_sizes=@input_hist_set_sizes,bias_disabled_bias_disabled=@bias_disabled,bias_scale_bias_scale=@bias_scale,learing_style_learing_style=@learing_style,learning_rate_learning_rate=@learning_rate,momentum_momentum=@momentum,deriv_scale_deriv_scale=@deriv_scale,error_distance_history_max_error_distance_history_max=@error_distance_history_max)-instance-method" class="signature"><strong>#copy_with</strong>(output_state_size _output_state_size = @output_state_size, input_prev_layer_size _input_prev_layer_size = @input_prev_layer_size, input_hist_set_sizes _input_hist_set_sizes = @input_hist_set_sizes, bias_disabled _bias_disabled = @bias_disabled, bias_scale _bias_scale = @bias_scale, learing_style _learing_style = @learing_style, learning_rate _learning_rate = @learning_rate, momentum _momentum = @momentum, deriv_scale _deriv_scale = @deriv_scale, error_distance_history_max _error_distance_history_max = @error_distance_history_max)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#deriv_scale:Float64-instance-method" class="signature"><strong>#deriv_scale</strong> : Float64</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#error_distance_history_max:Int32-instance-method" class="signature"><strong>#error_distance_history_max</strong> : Int32</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#height-instance-method" class="signature"><strong>#height</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#input_hist_set_sizes:Array(Int32)-instance-method" class="signature"><strong>#input_hist_set_sizes</strong> : Array(Int32)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#input_prev_layer_size:Int32-instance-method" class="signature"><strong>#input_prev_layer_size</strong> : Int32</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#learing_style:LearningStyle-instance-method" class="signature"><strong>#learing_style</strong> : LearningStyle</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#learning_rate:Float64?-instance-method" class="signature"><strong>#learning_rate</strong> : Float64?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#momentum:Float64?-instance-method" class="signature"><strong>#momentum</strong> : Float64?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#output_state_size:Int32-instance-method" class="signature"><strong>#output_state_size</strong> : Int32</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#width-instance-method" class="signature"><strong>#width</strong></a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(output_state_size:Int32=2,input_prev_layer_size:Int32=-1,input_hist_set_sizes:Array(Int32)=[-1],bias_disabled:Bool=false,bias_scale:Float64=rand,learing_style:LearningStyle=LS_RELU,learning_rate:Float64?=nil,momentum:Float64?=nil,deriv_scale:Float64=rand/100.0,error_distance_history_max:Int32=10)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(output_state_size : Int32 = <span class="n">2</span>, input_prev_layer_size : Int32 = <span class="n">-1</span>, input_hist_set_sizes : Array(Int32) = [<span class="n">-1</span>], bias_disabled : Bool = <span class="n">false</span>, bias_scale : Float64 = rand, learing_style : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a> = <span class="t">LS_RELU</span>, learning_rate : Float64? = <span class="n">nil</span>, momentum : Float64? = <span class="n">nil</span>, deriv_scale : Float64 = rand <span class="o">/</span> <span class="n">100.0</span>, error_distance_history_max : Int32 = <span class="n">10</span>)
+
+        <a class="method-permalink" href="#new(output_state_size:Int32=2,input_prev_layer_size:Int32=-1,input_hist_set_sizes:Array(Int32)=[-1],bias_disabled:Bool=false,bias_scale:Float64=rand,learing_style:LearningStyle=LS_RELU,learning_rate:Float64?=nil,momentum:Float64?=nil,deriv_scale:Float64=rand/100.0,error_distance_history_max:Int32=10)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/weight_set_config.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(pull:JSON::PullParser)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(pull : JSON::PullParser)
+
+        <a class="method-permalink" href="#new(pull:JSON::PullParser)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/weight_set_config.cr#L24" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="bias_disabled:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>bias_disabled</strong> : Bool
+
+        <a class="method-permalink" href="#bias_disabled:Bool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bias_scale:Float64-instance-method">
+      <div class="signature">
+        
+        def <strong>bias_scale</strong> : Float64
+
+        <a class="method-permalink" href="#bias_scale:Float64-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="clone-instance-method">
+      <div class="signature">
+        
+        def <strong>clone</strong>
+
+        <a class="method-permalink" href="#clone-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/weight_set_config.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="copy_with(output_state_size_output_state_size=@output_state_size,input_prev_layer_size_input_prev_layer_size=@input_prev_layer_size,input_hist_set_sizes_input_hist_set_sizes=@input_hist_set_sizes,bias_disabled_bias_disabled=@bias_disabled,bias_scale_bias_scale=@bias_scale,learing_style_learing_style=@learing_style,learning_rate_learning_rate=@learning_rate,momentum_momentum=@momentum,deriv_scale_deriv_scale=@deriv_scale,error_distance_history_max_error_distance_history_max=@error_distance_history_max)-instance-method">
+      <div class="signature">
+        
+        def <strong>copy_with</strong>(output_state_size _output_state_size = @output_state_size, input_prev_layer_size _input_prev_layer_size = @input_prev_layer_size, input_hist_set_sizes _input_hist_set_sizes = @input_hist_set_sizes, bias_disabled _bias_disabled = @bias_disabled, bias_scale _bias_scale = @bias_scale, learing_style _learing_style = @learing_style, learning_rate _learning_rate = @learning_rate, momentum _momentum = @momentum, deriv_scale _deriv_scale = @deriv_scale, error_distance_history_max _error_distance_history_max = @error_distance_history_max)
+
+        <a class="method-permalink" href="#copy_with(output_state_size_output_state_size=@output_state_size,input_prev_layer_size_input_prev_layer_size=@input_prev_layer_size,input_hist_set_sizes_input_hist_set_sizes=@input_hist_set_sizes,bias_disabled_bias_disabled=@bias_disabled,bias_scale_bias_scale=@bias_scale,learing_style_learing_style=@learing_style,learning_rate_learning_rate=@learning_rate,momentum_momentum=@momentum,deriv_scale_deriv_scale=@deriv_scale,error_distance_history_max_error_distance_history_max=@error_distance_history_max)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/weight_set_config.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="deriv_scale:Float64-instance-method">
+      <div class="signature">
+        
+        def <strong>deriv_scale</strong> : Float64
+
+        <a class="method-permalink" href="#deriv_scale:Float64-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="error_distance_history_max:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>error_distance_history_max</strong> : Int32
+
+        <a class="method-permalink" href="#error_distance_history_max:Int32-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="height-instance-method">
+      <div class="signature">
+        
+        def <strong>height</strong>
+
+        <a class="method-permalink" href="#height-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/weight_set_config.cr#L25" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="input_hist_set_sizes:Array(Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>input_hist_set_sizes</strong> : Array(Int32)
+
+        <a class="method-permalink" href="#input_hist_set_sizes:Array(Int32)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="input_prev_layer_size:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>input_prev_layer_size</strong> : Int32
+
+        <a class="method-permalink" href="#input_prev_layer_size:Int32-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="learing_style:LearningStyle-instance-method">
+      <div class="signature">
+        
+        def <strong>learing_style</strong> : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a>
+
+        <a class="method-permalink" href="#learing_style:LearningStyle-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="learning_rate:Float64?-instance-method">
+      <div class="signature">
+        
+        def <strong>learning_rate</strong> : Float64?
+
+        <a class="method-permalink" href="#learning_rate:Float64?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="momentum:Float64?-instance-method">
+      <div class="signature">
+        
+        def <strong>momentum</strong> : Float64?
+
+        <a class="method-permalink" href="#momentum:Float64?-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="output_state_size:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>output_state_size</strong> : Int32
+
+        <a class="method-permalink" href="#output_state_size:Int32-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="width-instance-method">
+      <div class="signature">
+        
+        def <strong>width</strong>
+
+        <a class="method-permalink" href="#width-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/weight_set_config.cr#L30" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

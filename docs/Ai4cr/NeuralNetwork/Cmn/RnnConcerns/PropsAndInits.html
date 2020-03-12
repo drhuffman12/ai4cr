@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.33.0">
+
+<link href="../../../../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../../../../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="github.com/drhuffman12/ai4cr">
+  <title>Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits - github.com/drhuffman12/ai4cr</title>
+  <script type="text/javascript">
+    CrystalDoc.base_path = "../../../../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../../../../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr" data-name="ai4cr">
+      <a href="../../../../Ai4cr.html">Ai4cr</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data" data-name="ai4cr::data">
+      <a href="../../../../Ai4cr/Data.html">Data</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data/Parameterizable" data-name="ai4cr::data::parameterizable">
+      <a href="../../../../Ai4cr/Data/Parameterizable.html">Parameterizable</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/Data/Parameterizable/ClassMethods" data-name="ai4cr::data::parameterizable::classmethods">
+      <a href="../../../../Ai4cr/Data/Parameterizable/ClassMethods.html">ClassMethods</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork" data-name="ai4cr::neuralnetwork">
+      <a href="../../../../Ai4cr/NeuralNetwork.html">NeuralNetwork</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Backpropagation" data-name="ai4cr::neuralnetwork::backpropagation">
+      <a href="../../../../Ai4cr/NeuralNetwork/Backpropagation.html">Backpropagation</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn" data-name="ai4cr::neuralnetwork::cmn">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn.html">Cmn</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/Chain" data-name="ai4cr::neuralnetwork::cmn::chain">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/Chain.html">Chain</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/LearningStyle" data-name="ai4cr::neuralnetwork::cmn::learningstyle">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNet" data-name="ai4cr::neuralnetwork::cmn::mininet">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/MiniNet.html">MiniNet</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns" data-name="ai4cr::neuralnetwork::cmn::mininetconcerns">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns.html">MiniNetConcerns</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/CalcGuess" data-name="ai4cr::neuralnetwork::cmn::mininetconcerns::calcguess">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/CalcGuess.html">CalcGuess</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/PropsAndInits" data-name="ai4cr::neuralnetwork::cmn::mininetconcerns::propsandinits">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/PropsAndInits.html">PropsAndInits</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/TrainAndAdjust" data-name="ai4cr::neuralnetwork::cmn::mininetconcerns::trainandadjust">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/MiniNetConcerns/TrainAndAdjust.html">TrainAndAdjust</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/Rnn" data-name="ai4cr::neuralnetwork::cmn::rnn">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/Rnn.html">Rnn</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns.html">RnnConcerns</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/CalcGuess" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::calcguess">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/CalcGuess.html">CalcGuess</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/NetConfig" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::netconfig">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/NetConfig.html">NetConfig</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/PropsAndInits" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::propsandinits">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/PropsAndInits.html">PropsAndInits</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/TrainAndAdjust" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::trainandadjust">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/TrainAndAdjust.html">TrainAndAdjust</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/WeightSetConfig" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::weightsetconfig">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/WeightSetConfig.html">WeightSetConfig</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Enumerable" data-name="enumerable(t)">
+      <a href="../../../../Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits
+
+</h1>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="direct-including-types" class="anchor" href="#direct-including-types">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Direct including types
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../../../../Ai4cr/NeuralNetwork/Cmn/Rnn.html">Ai4cr::NeuralNetwork::Cmn::Rnn</a></li>
+    
+  </ul>
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/props_and_inits.cr#L8" target="_blank">
+        ai4cr/neural_network/cmn/rnn_concerns/props_and_inits.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(config=RnnConcerns::NetConfig.new)-class-method" class="signature"><strong>.new</strong>(config = <span class="t">RnnConcerns</span><span class="t">::</span><span class="t">NetConfig</span>.<span class="k">new</span>)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#config:RnnConcerns::NetConfig-instance-method" class="signature"><strong>#config</strong> : RnnConcerns::NetConfig</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#hidden_layer_index_max:Int32-instance-method" class="signature"><strong>#hidden_layer_index_max</strong> : Int32</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#hidden_layer_range:Array(Int32)-instance-method" class="signature"><strong>#hidden_layer_range</strong> : Array(Int32)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#init_weight_set_configs-instance-method" class="signature"><strong>#init_weight_set_configs</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#time_col_index_max:Int32-instance-method" class="signature"><strong>#time_col_index_max</strong> : Int32</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#time_col_range:Array(Int32)-instance-method" class="signature"><strong>#time_col_range</strong> : Array(Int32)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#weight_set_configs:Array(Array(RnnConcerns::WeightSetConfig))-instance-method" class="signature"><strong>#weight_set_configs</strong> : Array(Array(RnnConcerns::WeightSetConfig))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#weight_set_configs=(weight_set_configs:Array(Array(RnnConcerns::WeightSetConfig)))-instance-method" class="signature"><strong>#weight_set_configs=</strong>(weight_set_configs : Array(Array(RnnConcerns::WeightSetConfig)))</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(config=RnnConcerns::NetConfig.new)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(config = <span class="t">RnnConcerns</span><span class="t">::</span><span class="t">NetConfig</span>.<span class="k">new</span>)
+
+        <a class="method-permalink" href="#new(config=RnnConcerns::NetConfig.new)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/props_and_inits.cr#L20" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="config:RnnConcerns::NetConfig-instance-method">
+      <div class="signature">
+        
+        def <strong>config</strong> : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/NetConfig.html">RnnConcerns::NetConfig</a>
+
+        <a class="method-permalink" href="#config:RnnConcerns::NetConfig-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/props_and_inits.cr#L9" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hidden_layer_index_max:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>hidden_layer_index_max</strong> : Int32
+
+        <a class="method-permalink" href="#hidden_layer_index_max:Int32-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/props_and_inits.cr#L11" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hidden_layer_range:Array(Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>hidden_layer_range</strong> : Array(Int32)
+
+        <a class="method-permalink" href="#hidden_layer_range:Array(Int32)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/props_and_inits.cr#L12" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="init_weight_set_configs-instance-method">
+      <div class="signature">
+        
+        def <strong>init_weight_set_configs</strong>
+
+        <a class="method-permalink" href="#init_weight_set_configs-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/props_and_inits.cr#L32" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="time_col_index_max:Int32-instance-method">
+      <div class="signature">
+        
+        def <strong>time_col_index_max</strong> : Int32
+
+        <a class="method-permalink" href="#time_col_index_max:Int32-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/props_and_inits.cr#L13" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="time_col_range:Array(Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>time_col_range</strong> : Array(Int32)
+
+        <a class="method-permalink" href="#time_col_range:Array(Int32)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/props_and_inits.cr#L14" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="weight_set_configs:Array(Array(RnnConcerns::WeightSetConfig))-instance-method">
+      <div class="signature">
+        
+        def <strong>weight_set_configs</strong> : Array(Array(<a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/WeightSetConfig.html">RnnConcerns::WeightSetConfig</a>))
+
+        <a class="method-permalink" href="#weight_set_configs:Array(Array(RnnConcerns::WeightSetConfig))-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/props_and_inits.cr#L16" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="weight_set_configs=(weight_set_configs:Array(Array(RnnConcerns::WeightSetConfig)))-instance-method">
+      <div class="signature">
+        
+        def <strong>weight_set_configs=</strong>(weight_set_configs : Array(Array(<a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/WeightSetConfig.html">RnnConcerns::WeightSetConfig</a>)))
+
+        <a class="method-permalink" href="#weight_set_configs=(weight_set_configs:Array(Array(RnnConcerns::WeightSetConfig)))-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/props_and_inits.cr#L16" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
