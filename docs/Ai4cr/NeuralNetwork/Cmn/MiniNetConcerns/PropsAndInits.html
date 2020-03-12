@@ -140,6 +140,11 @@
       
     </li>
   
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/MiniNetConfig" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::mininetconfig">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/MiniNetConfig.html">MiniNetConfig</a>
+      
+    </li>
+  
   <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/NetConfig" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::netconfig">
       <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/NetConfig.html">NetConfig</a>
       
@@ -152,11 +157,6 @@
   
   <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/TrainAndAdjust" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::trainandadjust">
       <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/TrainAndAdjust.html">TrainAndAdjust</a>
-      
-    </li>
-  
-  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/WeightSetConfig" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::weightsetconfig">
-      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/WeightSetConfig.html">WeightSetConfig</a>
       
     </li>
   
@@ -239,7 +239,7 @@
   </h2>
   
     
-      <a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L8" target="_blank">
+      <a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L8" target="_blank">
         ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr
       </a>
     
@@ -261,7 +261,12 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(height,width,learning_style:LearningStyle=LS_RELU,deriv_scale=rand/100.0,bias_disabled:Bool?=nil,bias_scale:Float64=rand,learning_rate:Float64?=nil,momentum:Float64?=nil,error_distance_history_max:Int32=10)-class-method" class="signature"><strong>.new</strong>(height, width, learning_style : LearningStyle = <span class="t">LS_RELU</span>, deriv_scale = rand <span class="o">/</span> <span class="n">100.0</span>, bias_disabled : Bool? = <span class="n">nil</span>, bias_scale : Float64 = rand, learning_rate : Float64? = <span class="n">nil</span>, momentum : Float64? = <span class="n">nil</span>, error_distance_history_max : Int32 = <span class="n">10</span>)</a>
+        <a href="#new(mini_net_config:RnnConcerns::MiniNetConfig)-class-method" class="signature"><strong>.new</strong>(mini_net_config : RnnConcerns::MiniNetConfig)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new(height=2,width=1,learning_style:LearningStyle=LS_RELU,deriv_scale=rand/100.0,bias_disabled:Bool?=nil,bias_scale:Float64=rand,learning_rate:Float64?=nil,momentum:Float64?=nil,error_distance_history_max:Int32=10)-class-method" class="signature"><strong>.new</strong>(height = <span class="n">2</span>, width = <span class="n">1</span>, learning_style : LearningStyle = <span class="t">LS_RELU</span>, deriv_scale = rand <span class="o">/</span> <span class="n">100.0</span>, bias_disabled : Bool? = <span class="n">nil</span>, bias_scale : Float64 = rand, learning_rate : Float64? = <span class="n">nil</span>, momentum : Float64? = <span class="n">nil</span>, error_distance_history_max : Int32 = <span class="n">10</span>)</a>
         
       </li>
     
@@ -495,18 +500,34 @@
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(height,width,learning_style:LearningStyle=LS_RELU,deriv_scale=rand/100.0,bias_disabled:Bool?=nil,bias_scale:Float64=rand,learning_rate:Float64?=nil,momentum:Float64?=nil,error_distance_history_max:Int32=10)-class-method">
+    <div class="entry-detail" id="new(mini_net_config:RnnConcerns::MiniNetConfig)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(height, width, learning_style : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a> = <span class="t">LS_RELU</span>, deriv_scale = rand <span class="o">/</span> <span class="n">100.0</span>, bias_disabled : Bool? = <span class="n">nil</span>, bias_scale : Float64 = rand, learning_rate : Float64? = <span class="n">nil</span>, momentum : Float64? = <span class="n">nil</span>, error_distance_history_max : Int32 = <span class="n">10</span>)
+        def self.<strong>new</strong>(mini_net_config : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/MiniNetConfig.html">RnnConcerns::MiniNetConfig</a>)
 
-        <a class="method-permalink" href="#new(height,width,learning_style:LearningStyle=LS_RELU,deriv_scale=rand/100.0,bias_disabled:Bool?=nil,bias_scale:Float64=rand,learning_rate:Float64?=nil,momentum:Float64?=nil,error_distance_history_max:Int32=10)-class-method">#</a>
+        <a class="method-permalink" href="#new(mini_net_config:RnnConcerns::MiniNetConfig)-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L33" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L33" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(height=2,width=1,learning_style:LearningStyle=LS_RELU,deriv_scale=rand/100.0,bias_disabled:Bool?=nil,bias_scale:Float64=rand,learning_rate:Float64?=nil,momentum:Float64?=nil,error_distance_history_max:Int32=10)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(height = <span class="n">2</span>, width = <span class="n">1</span>, learning_style : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a> = <span class="t">LS_RELU</span>, deriv_scale = rand <span class="o">/</span> <span class="n">100.0</span>, bias_disabled : Bool? = <span class="n">nil</span>, bias_scale : Float64 = rand, learning_rate : Float64? = <span class="n">nil</span>, momentum : Float64? = <span class="n">nil</span>, error_distance_history_max : Int32 = <span class="n">10</span>)
+
+        <a class="method-permalink" href="#new(height=2,width=1,learning_style:LearningStyle=LS_RELU,deriv_scale=rand/100.0,bias_disabled:Bool?=nil,bias_scale:Float64=rand,learning_rate:Float64?=nil,momentum:Float64?=nil,error_distance_history_max:Int32=10)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L74" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -536,7 +557,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L21" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -552,7 +573,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L21" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L21" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -568,7 +589,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L22" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -584,7 +605,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L22" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -600,7 +621,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -616,7 +637,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -632,7 +653,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L26" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -648,7 +669,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L28" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L28" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -664,7 +685,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L27" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L27" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -685,7 +706,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -706,7 +727,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -722,7 +743,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L9" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L9" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -738,7 +759,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L10" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L10" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -754,7 +775,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L11" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L11" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -770,7 +791,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L83" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L127" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -786,7 +807,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L19" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L19" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -802,7 +823,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L19" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L19" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -818,7 +839,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -834,7 +855,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -850,7 +871,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L14" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L14" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -866,7 +887,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L14" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L14" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -882,7 +903,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -898,7 +919,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -914,7 +935,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L30" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L30" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -930,7 +951,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L30" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L30" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -946,7 +967,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L24" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -962,7 +983,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L24" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -978,7 +999,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L19" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L19" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -994,7 +1015,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L19" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L19" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1010,7 +1031,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L17" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L17" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1026,7 +1047,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L17" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L17" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1042,7 +1063,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1058,7 +1079,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1074,7 +1095,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L115" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L159" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1090,7 +1111,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1106,7 +1127,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L13" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1122,7 +1143,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L9" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L9" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1138,7 +1159,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L11" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/mini_net_concerns/props_and_inits.cr#L11" target="_blank">View source</a>]
         
       </div>
     </div>

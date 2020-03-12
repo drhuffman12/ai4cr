@@ -140,6 +140,11 @@
       
     </li>
   
+  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/MiniNetConfig" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::mininetconfig">
+      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/MiniNetConfig.html">MiniNetConfig</a>
+      
+    </li>
+  
   <li class=" current" data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/NetConfig" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::netconfig">
       <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/NetConfig.html">NetConfig</a>
       
@@ -152,11 +157,6 @@
   
   <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/TrainAndAdjust" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::trainandadjust">
       <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/TrainAndAdjust.html">TrainAndAdjust</a>
-      
-    </li>
-  
-  <li class=" " data-id="github.com/drhuffman12/ai4cr/Ai4cr/NeuralNetwork/Cmn/RnnConcerns/WeightSetConfig" data-name="ai4cr::neuralnetwork::cmn::rnnconcerns::weightsetconfig">
-      <a href="../../../../Ai4cr/NeuralNetwork/Cmn/RnnConcerns/WeightSetConfig.html">WeightSetConfig</a>
       
     </li>
   
@@ -241,7 +241,7 @@
   </h2>
   
     
-      <a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/net_config.cr#L8" target="_blank">
+      <a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/rnn_concerns/net_config.cr#L8" target="_blank">
         ai4cr/neural_network/cmn/rnn_concerns/net_config.cr
       </a>
     
@@ -263,7 +263,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(hidden_layer_qty:Int32=2,hist_qty_max:Int32=2,time_col_qty:Int32=3,input_state_size:Int32=3,hidden_state_size:Int32=4,output_state_size:Int32=2,initial_bias_disabled:Bool=true,initial_bias_scale:Float64=rand,hidden_learing_styles_first:LearningStyle=LS_TANH,hidden_learing_styles_middle:LearningStyle=LS_RELU,output_learing_style:LearningStyle=LS_SIGMOID,learning_rate:Float64?=nil,momentum:Float64?=nil,deriv_scale:Float64=rand/100.0,error_distance_history_max:Int32=10)-class-method" class="signature"><strong>.new</strong>(hidden_layer_qty : Int32 = <span class="n">2</span>, hist_qty_max : Int32 = <span class="n">2</span>, time_col_qty : Int32 = <span class="n">3</span>, input_state_size : Int32 = <span class="n">3</span>, hidden_state_size : Int32 = <span class="n">4</span>, output_state_size : Int32 = <span class="n">2</span>, initial_bias_disabled : Bool = <span class="n">true</span>, initial_bias_scale : Float64 = rand, hidden_learing_styles_first : LearningStyle = <span class="t">LS_TANH</span>, hidden_learing_styles_middle : LearningStyle = <span class="t">LS_RELU</span>, output_learing_style : LearningStyle = <span class="t">LS_SIGMOID</span>, learning_rate : Float64? = <span class="n">nil</span>, momentum : Float64? = <span class="n">nil</span>, deriv_scale : Float64 = rand <span class="o">/</span> <span class="n">100.0</span>, error_distance_history_max : Int32 = <span class="n">10</span>)</a>
+        <a href="#new(hidden_layer_qty:Int32=2,hist_qty_max:Int32=2,time_col_qty:Int32=3,input_state_size:Int32=3,hidden_state_size:Int32=4,output_state_size:Int32=2,initial_bias_disabled:Bool=false,initial_bias_scale:Float64=rand,hidden_learning_styles_first:LearningStyle=LS_TANH,hidden_learning_styles_middle:LearningStyle=LS_RELU,output_learning_style:LearningStyle=LS_SIGMOID,learning_rate:Float64?=nil,momentum:Float64?=nil,deriv_scale:Float64=rand/100.0,error_distance_history_max:Int32=10)-class-method" class="signature"><strong>.new</strong>(hidden_layer_qty : Int32 = <span class="n">2</span>, hist_qty_max : Int32 = <span class="n">2</span>, time_col_qty : Int32 = <span class="n">3</span>, input_state_size : Int32 = <span class="n">3</span>, hidden_state_size : Int32 = <span class="n">4</span>, output_state_size : Int32 = <span class="n">2</span>, initial_bias_disabled : Bool = <span class="n">false</span>, initial_bias_scale : Float64 = rand, hidden_learning_styles_first : LearningStyle = <span class="t">LS_TANH</span>, hidden_learning_styles_middle : LearningStyle = <span class="t">LS_RELU</span>, output_learning_style : LearningStyle = <span class="t">LS_SIGMOID</span>, learning_rate : Float64? = <span class="n">nil</span>, momentum : Float64? = <span class="n">nil</span>, deriv_scale : Float64 = rand <span class="o">/</span> <span class="n">100.0</span>, error_distance_history_max : Int32 = <span class="n">10</span>)</a>
         
       </li>
     
@@ -294,7 +294,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#copy_with(hidden_layer_qty_hidden_layer_qty=@hidden_layer_qty,hist_qty_max_hist_qty_max=@hist_qty_max,time_col_qty_time_col_qty=@time_col_qty,input_state_size_input_state_size=@input_state_size,hidden_state_size_hidden_state_size=@hidden_state_size,output_state_size_output_state_size=@output_state_size,initial_bias_disabled_initial_bias_disabled=@initial_bias_disabled,initial_bias_scale_initial_bias_scale=@initial_bias_scale,hidden_learing_styles_first_hidden_learing_styles_first=@hidden_learing_styles_first,hidden_learing_styles_middle_hidden_learing_styles_middle=@hidden_learing_styles_middle,output_learing_style_output_learing_style=@output_learing_style,learning_rate_learning_rate=@learning_rate,momentum_momentum=@momentum,deriv_scale_deriv_scale=@deriv_scale,error_distance_history_max_error_distance_history_max=@error_distance_history_max)-instance-method" class="signature"><strong>#copy_with</strong>(hidden_layer_qty _hidden_layer_qty = @hidden_layer_qty, hist_qty_max _hist_qty_max = @hist_qty_max, time_col_qty _time_col_qty = @time_col_qty, input_state_size _input_state_size = @input_state_size, hidden_state_size _hidden_state_size = @hidden_state_size, output_state_size _output_state_size = @output_state_size, initial_bias_disabled _initial_bias_disabled = @initial_bias_disabled, initial_bias_scale _initial_bias_scale = @initial_bias_scale, hidden_learing_styles_first _hidden_learing_styles_first = @hidden_learing_styles_first, hidden_learing_styles_middle _hidden_learing_styles_middle = @hidden_learing_styles_middle, output_learing_style _output_learing_style = @output_learing_style, learning_rate _learning_rate = @learning_rate, momentum _momentum = @momentum, deriv_scale _deriv_scale = @deriv_scale, error_distance_history_max _error_distance_history_max = @error_distance_history_max)</a>
+        <a href="#copy_with(hidden_layer_qty_hidden_layer_qty=@hidden_layer_qty,hist_qty_max_hist_qty_max=@hist_qty_max,time_col_qty_time_col_qty=@time_col_qty,input_state_size_input_state_size=@input_state_size,hidden_state_size_hidden_state_size=@hidden_state_size,output_state_size_output_state_size=@output_state_size,initial_bias_disabled_initial_bias_disabled=@initial_bias_disabled,initial_bias_scale_initial_bias_scale=@initial_bias_scale,hidden_learning_styles_first_hidden_learning_styles_first=@hidden_learning_styles_first,hidden_learning_styles_middle_hidden_learning_styles_middle=@hidden_learning_styles_middle,output_learning_style_output_learning_style=@output_learning_style,learning_rate_learning_rate=@learning_rate,momentum_momentum=@momentum,deriv_scale_deriv_scale=@deriv_scale,error_distance_history_max_error_distance_history_max=@error_distance_history_max)-instance-method" class="signature"><strong>#copy_with</strong>(hidden_layer_qty _hidden_layer_qty = @hidden_layer_qty, hist_qty_max _hist_qty_max = @hist_qty_max, time_col_qty _time_col_qty = @time_col_qty, input_state_size _input_state_size = @input_state_size, hidden_state_size _hidden_state_size = @hidden_state_size, output_state_size _output_state_size = @output_state_size, initial_bias_disabled _initial_bias_disabled = @initial_bias_disabled, initial_bias_scale _initial_bias_scale = @initial_bias_scale, hidden_learning_styles_first _hidden_learning_styles_first = @hidden_learning_styles_first, hidden_learning_styles_middle _hidden_learning_styles_middle = @hidden_learning_styles_middle, output_learning_style _output_learning_style = @output_learning_style, learning_rate _learning_rate = @learning_rate, momentum _momentum = @momentum, deriv_scale _deriv_scale = @deriv_scale, error_distance_history_max _error_distance_history_max = @error_distance_history_max)</a>
         
       </li>
     
@@ -314,12 +314,12 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#hidden_learing_styles_first:LearningStyle-instance-method" class="signature"><strong>#hidden_learing_styles_first</strong> : LearningStyle</a>
+        <a href="#hidden_learning_styles_first:LearningStyle-instance-method" class="signature"><strong>#hidden_learning_styles_first</strong> : LearningStyle</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#hidden_learing_styles_middle:LearningStyle-instance-method" class="signature"><strong>#hidden_learing_styles_middle</strong> : LearningStyle</a>
+        <a href="#hidden_learning_styles_middle:LearningStyle-instance-method" class="signature"><strong>#hidden_learning_styles_middle</strong> : LearningStyle</a>
         
       </li>
     
@@ -359,7 +359,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#output_learing_style:LearningStyle-instance-method" class="signature"><strong>#output_learing_style</strong> : LearningStyle</a>
+        <a href="#output_learning_style:LearningStyle-instance-method" class="signature"><strong>#output_learning_style</strong> : LearningStyle</a>
         
       </li>
     
@@ -433,18 +433,18 @@
     Constructor Detail
   </h2>
   
-    <div class="entry-detail" id="new(hidden_layer_qty:Int32=2,hist_qty_max:Int32=2,time_col_qty:Int32=3,input_state_size:Int32=3,hidden_state_size:Int32=4,output_state_size:Int32=2,initial_bias_disabled:Bool=true,initial_bias_scale:Float64=rand,hidden_learing_styles_first:LearningStyle=LS_TANH,hidden_learing_styles_middle:LearningStyle=LS_RELU,output_learing_style:LearningStyle=LS_SIGMOID,learning_rate:Float64?=nil,momentum:Float64?=nil,deriv_scale:Float64=rand/100.0,error_distance_history_max:Int32=10)-class-method">
+    <div class="entry-detail" id="new(hidden_layer_qty:Int32=2,hist_qty_max:Int32=2,time_col_qty:Int32=3,input_state_size:Int32=3,hidden_state_size:Int32=4,output_state_size:Int32=2,initial_bias_disabled:Bool=false,initial_bias_scale:Float64=rand,hidden_learning_styles_first:LearningStyle=LS_TANH,hidden_learning_styles_middle:LearningStyle=LS_RELU,output_learning_style:LearningStyle=LS_SIGMOID,learning_rate:Float64?=nil,momentum:Float64?=nil,deriv_scale:Float64=rand/100.0,error_distance_history_max:Int32=10)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(hidden_layer_qty : Int32 = <span class="n">2</span>, hist_qty_max : Int32 = <span class="n">2</span>, time_col_qty : Int32 = <span class="n">3</span>, input_state_size : Int32 = <span class="n">3</span>, hidden_state_size : Int32 = <span class="n">4</span>, output_state_size : Int32 = <span class="n">2</span>, initial_bias_disabled : Bool = <span class="n">true</span>, initial_bias_scale : Float64 = rand, hidden_learing_styles_first : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a> = <span class="t">LS_TANH</span>, hidden_learing_styles_middle : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a> = <span class="t">LS_RELU</span>, output_learing_style : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a> = <span class="t">LS_SIGMOID</span>, learning_rate : Float64? = <span class="n">nil</span>, momentum : Float64? = <span class="n">nil</span>, deriv_scale : Float64 = rand <span class="o">/</span> <span class="n">100.0</span>, error_distance_history_max : Int32 = <span class="n">10</span>)
+        def self.<strong>new</strong>(hidden_layer_qty : Int32 = <span class="n">2</span>, hist_qty_max : Int32 = <span class="n">2</span>, time_col_qty : Int32 = <span class="n">3</span>, input_state_size : Int32 = <span class="n">3</span>, hidden_state_size : Int32 = <span class="n">4</span>, output_state_size : Int32 = <span class="n">2</span>, initial_bias_disabled : Bool = <span class="n">false</span>, initial_bias_scale : Float64 = rand, hidden_learning_styles_first : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a> = <span class="t">LS_TANH</span>, hidden_learning_styles_middle : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a> = <span class="t">LS_RELU</span>, output_learning_style : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a> = <span class="t">LS_SIGMOID</span>, learning_rate : Float64? = <span class="n">nil</span>, momentum : Float64? = <span class="n">nil</span>, deriv_scale : Float64 = rand <span class="o">/</span> <span class="n">100.0</span>, error_distance_history_max : Int32 = <span class="n">10</span>)
 
-        <a class="method-permalink" href="#new(hidden_layer_qty:Int32=2,hist_qty_max:Int32=2,time_col_qty:Int32=3,input_state_size:Int32=3,hidden_state_size:Int32=4,output_state_size:Int32=2,initial_bias_disabled:Bool=true,initial_bias_scale:Float64=rand,hidden_learing_styles_first:LearningStyle=LS_TANH,hidden_learing_styles_middle:LearningStyle=LS_RELU,output_learing_style:LearningStyle=LS_SIGMOID,learning_rate:Float64?=nil,momentum:Float64?=nil,deriv_scale:Float64=rand/100.0,error_distance_history_max:Int32=10)-class-method">#</a>
+        <a class="method-permalink" href="#new(hidden_layer_qty:Int32=2,hist_qty_max:Int32=2,time_col_qty:Int32=3,input_state_size:Int32=3,hidden_state_size:Int32=4,output_state_size:Int32=2,initial_bias_disabled:Bool=false,initial_bias_scale:Float64=rand,hidden_learning_styles_first:LearningStyle=LS_TANH,hidden_learning_styles_middle:LearningStyle=LS_RELU,output_learning_style:LearningStyle=LS_SIGMOID,learning_rate:Float64?=nil,momentum:Float64?=nil,deriv_scale:Float64=rand/100.0,error_distance_history_max:Int32=10)-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/net_config.cr#L8" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/rnn_concerns/net_config.cr#L8" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -460,7 +460,7 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/net_config.cr#L28" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/rnn_concerns/net_config.cr#L28" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -490,23 +490,23 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/net_config.cr#L8" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/rnn_concerns/net_config.cr#L8" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="copy_with(hidden_layer_qty_hidden_layer_qty=@hidden_layer_qty,hist_qty_max_hist_qty_max=@hist_qty_max,time_col_qty_time_col_qty=@time_col_qty,input_state_size_input_state_size=@input_state_size,hidden_state_size_hidden_state_size=@hidden_state_size,output_state_size_output_state_size=@output_state_size,initial_bias_disabled_initial_bias_disabled=@initial_bias_disabled,initial_bias_scale_initial_bias_scale=@initial_bias_scale,hidden_learing_styles_first_hidden_learing_styles_first=@hidden_learing_styles_first,hidden_learing_styles_middle_hidden_learing_styles_middle=@hidden_learing_styles_middle,output_learing_style_output_learing_style=@output_learing_style,learning_rate_learning_rate=@learning_rate,momentum_momentum=@momentum,deriv_scale_deriv_scale=@deriv_scale,error_distance_history_max_error_distance_history_max=@error_distance_history_max)-instance-method">
+    <div class="entry-detail" id="copy_with(hidden_layer_qty_hidden_layer_qty=@hidden_layer_qty,hist_qty_max_hist_qty_max=@hist_qty_max,time_col_qty_time_col_qty=@time_col_qty,input_state_size_input_state_size=@input_state_size,hidden_state_size_hidden_state_size=@hidden_state_size,output_state_size_output_state_size=@output_state_size,initial_bias_disabled_initial_bias_disabled=@initial_bias_disabled,initial_bias_scale_initial_bias_scale=@initial_bias_scale,hidden_learning_styles_first_hidden_learning_styles_first=@hidden_learning_styles_first,hidden_learning_styles_middle_hidden_learning_styles_middle=@hidden_learning_styles_middle,output_learning_style_output_learning_style=@output_learning_style,learning_rate_learning_rate=@learning_rate,momentum_momentum=@momentum,deriv_scale_deriv_scale=@deriv_scale,error_distance_history_max_error_distance_history_max=@error_distance_history_max)-instance-method">
       <div class="signature">
         
-        def <strong>copy_with</strong>(hidden_layer_qty _hidden_layer_qty = @hidden_layer_qty, hist_qty_max _hist_qty_max = @hist_qty_max, time_col_qty _time_col_qty = @time_col_qty, input_state_size _input_state_size = @input_state_size, hidden_state_size _hidden_state_size = @hidden_state_size, output_state_size _output_state_size = @output_state_size, initial_bias_disabled _initial_bias_disabled = @initial_bias_disabled, initial_bias_scale _initial_bias_scale = @initial_bias_scale, hidden_learing_styles_first _hidden_learing_styles_first = @hidden_learing_styles_first, hidden_learing_styles_middle _hidden_learing_styles_middle = @hidden_learing_styles_middle, output_learing_style _output_learing_style = @output_learing_style, learning_rate _learning_rate = @learning_rate, momentum _momentum = @momentum, deriv_scale _deriv_scale = @deriv_scale, error_distance_history_max _error_distance_history_max = @error_distance_history_max)
+        def <strong>copy_with</strong>(hidden_layer_qty _hidden_layer_qty = @hidden_layer_qty, hist_qty_max _hist_qty_max = @hist_qty_max, time_col_qty _time_col_qty = @time_col_qty, input_state_size _input_state_size = @input_state_size, hidden_state_size _hidden_state_size = @hidden_state_size, output_state_size _output_state_size = @output_state_size, initial_bias_disabled _initial_bias_disabled = @initial_bias_disabled, initial_bias_scale _initial_bias_scale = @initial_bias_scale, hidden_learning_styles_first _hidden_learning_styles_first = @hidden_learning_styles_first, hidden_learning_styles_middle _hidden_learning_styles_middle = @hidden_learning_styles_middle, output_learning_style _output_learning_style = @output_learning_style, learning_rate _learning_rate = @learning_rate, momentum _momentum = @momentum, deriv_scale _deriv_scale = @deriv_scale, error_distance_history_max _error_distance_history_max = @error_distance_history_max)
 
-        <a class="method-permalink" href="#copy_with(hidden_layer_qty_hidden_layer_qty=@hidden_layer_qty,hist_qty_max_hist_qty_max=@hist_qty_max,time_col_qty_time_col_qty=@time_col_qty,input_state_size_input_state_size=@input_state_size,hidden_state_size_hidden_state_size=@hidden_state_size,output_state_size_output_state_size=@output_state_size,initial_bias_disabled_initial_bias_disabled=@initial_bias_disabled,initial_bias_scale_initial_bias_scale=@initial_bias_scale,hidden_learing_styles_first_hidden_learing_styles_first=@hidden_learing_styles_first,hidden_learing_styles_middle_hidden_learing_styles_middle=@hidden_learing_styles_middle,output_learing_style_output_learing_style=@output_learing_style,learning_rate_learning_rate=@learning_rate,momentum_momentum=@momentum,deriv_scale_deriv_scale=@deriv_scale,error_distance_history_max_error_distance_history_max=@error_distance_history_max)-instance-method">#</a>
+        <a class="method-permalink" href="#copy_with(hidden_layer_qty_hidden_layer_qty=@hidden_layer_qty,hist_qty_max_hist_qty_max=@hist_qty_max,time_col_qty_time_col_qty=@time_col_qty,input_state_size_input_state_size=@input_state_size,hidden_state_size_hidden_state_size=@hidden_state_size,output_state_size_output_state_size=@output_state_size,initial_bias_disabled_initial_bias_disabled=@initial_bias_disabled,initial_bias_scale_initial_bias_scale=@initial_bias_scale,hidden_learning_styles_first_hidden_learning_styles_first=@hidden_learning_styles_first,hidden_learning_styles_middle_hidden_learning_styles_middle=@hidden_learning_styles_middle,output_learning_style_output_learning_style=@output_learning_style,learning_rate_learning_rate=@learning_rate,momentum_momentum=@momentum,deriv_scale_deriv_scale=@deriv_scale,error_distance_history_max_error_distance_history_max=@error_distance_history_max)-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/drhuffman12/ai4cr/blob/d64782a62f9b93e6a64fea1d0088484e93fda85f/src/ai4cr/neural_network/cmn/rnn_concerns/net_config.cr#L8" target="_blank">View source</a>]
+          [<a href="https://github.com/drhuffman12/ai4cr/blob/1d7813ddb6e3782a48ea73cfb30c62440fe664e2/src/ai4cr/neural_network/cmn/rnn_concerns/net_config.cr#L8" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -553,12 +553,12 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="hidden_learing_styles_first:LearningStyle-instance-method">
+    <div class="entry-detail" id="hidden_learning_styles_first:LearningStyle-instance-method">
       <div class="signature">
         
-        def <strong>hidden_learing_styles_first</strong> : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a>
+        def <strong>hidden_learning_styles_first</strong> : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a>
 
-        <a class="method-permalink" href="#hidden_learing_styles_first:LearningStyle-instance-method">#</a>
+        <a class="method-permalink" href="#hidden_learning_styles_first:LearningStyle-instance-method">#</a>
       </div>
       
       <br/>
@@ -567,12 +567,12 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="hidden_learing_styles_middle:LearningStyle-instance-method">
+    <div class="entry-detail" id="hidden_learning_styles_middle:LearningStyle-instance-method">
       <div class="signature">
         
-        def <strong>hidden_learing_styles_middle</strong> : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a>
+        def <strong>hidden_learning_styles_middle</strong> : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a>
 
-        <a class="method-permalink" href="#hidden_learing_styles_middle:LearningStyle-instance-method">#</a>
+        <a class="method-permalink" href="#hidden_learning_styles_middle:LearningStyle-instance-method">#</a>
       </div>
       
       <br/>
@@ -679,12 +679,12 @@
       </div>
     </div>
   
-    <div class="entry-detail" id="output_learing_style:LearningStyle-instance-method">
+    <div class="entry-detail" id="output_learning_style:LearningStyle-instance-method">
       <div class="signature">
         
-        def <strong>output_learing_style</strong> : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a>
+        def <strong>output_learning_style</strong> : <a href="../../../../Ai4cr/NeuralNetwork/Cmn/LearningStyle.html">LearningStyle</a>
 
-        <a class="method-permalink" href="#output_learing_style:LearningStyle-instance-method">#</a>
+        <a class="method-permalink" href="#output_learning_style:LearningStyle-instance-method">#</a>
       </div>
       
       <br/>
