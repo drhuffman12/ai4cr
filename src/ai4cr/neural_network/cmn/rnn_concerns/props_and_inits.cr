@@ -24,9 +24,6 @@ module Ai4cr
             @time_col_index_max = @config.time_col_qty - 1
             @time_col_range = (0..@time_col_index_max).to_a
 
-            # @input_bias_size = @config.initial_bias_scale.nil? 0 : 1
-            # @input_bias_enabled = !@config.initial_bias_scale.nil?
-
             @weight_set_configs = init_weight_set_configs
 
             # @net_set = init_net_set # TODO
@@ -46,21 +43,27 @@ module Ai4cr
                                 @config.hidden_learing_styles_middle
                               end
 
+              # We only need to monitor error hist at final output
+              error_distance_history_max = (h == 0) ? 0 : @config.error_distance_history_max
+
               @time_col_range.map do |t|
                 hist_qty = (@config.hist_qty_max > t) ? @config.hist_qty_max - t : @config.hist_qty_max
                 input_hist_set_sizes = (0..hist_qty - 1).to_a.map { hist_state_size }
 
                 RnnConcerns::WeightSetConfig.new(
-                  initial_bias_enabled: @config.initial_bias_enabled,
-                  initial_bias_scale: @config.initial_bias_scale,
-
                   output_state_size: output_state_size,
-
                   input_prev_layer_size: input_prev_layer_size,
-
                   input_hist_set_sizes: input_hist_set_sizes,
 
-                  learing_style: learing_style
+                  # Bias, if any, is only at first level; not needed elsewhere
+                  bias_disabled: (h == 0) ? @config.initial_bias_disabled : false,
+                  bias_scale: (h == 0) ? @config.initial_bias_scale : 0.0,
+
+                  learing_style: learing_style,
+                  learning_rate: @config.learning_rate,
+                  momentum: @config.momentum,
+                  deriv_scale: @config.deriv_scale,
+                  error_distance_history_max: error_distance_history_max,
                 )
               end
             end

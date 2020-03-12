@@ -19,6 +19,7 @@ module Ai4cr
           property input_deltas : Array(Float64), output_deltas : Array(Float64)
 
           property disable_bias : Bool
+          property bias_scale : Float64
           property learning_rate : Float64
           property momentum : Float64
 
@@ -40,14 +41,16 @@ module Ai4cr
             # @deriv_scale = 0.001,
             @deriv_scale = rand / 100.0,
 
-            disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil,
+            disable_bias : Bool? = nil, @bias_scale : Float64 = rand,
+            learning_rate : Float64? = nil, momentum : Float64? = nil,
             error_distance_history_max : Int32 = 10
           )
             # @learning_style = Common::LearningStyle::Relu
 
             @disable_bias = !!disable_bias
-            @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
-            @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
+            @bias_scale = (bias_scale < 0.0) ? [1.0, bias_scale].min : 0.0
+            @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : [1.0, learning_rate.as(Float64)].min
+            @momentum = momentum && momentum.as(Float64) > 0.0 ? [1.0, momentum.as(Float64)].min : rand
 
             # init_network:
             @height_considering_bias = @height + (@disable_bias ? 0 : 1)

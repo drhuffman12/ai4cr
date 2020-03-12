@@ -6,9 +6,6 @@ module Ai4cr
     module Cmn
       module RnnConcerns
         record WeightSetConfig,
-          initial_bias_enabled : Bool = true,
-          initial_bias_scale : Float64 = rand,
-
           output_state_size : Int32 = 2,
 
           input_prev_layer_size : Int32 = -1,
@@ -16,8 +13,26 @@ module Ai4cr
           # i.e.: use outputs of previous N nodes in layer starting w/ closest previous later
           input_hist_set_sizes : Array(Int32) = [-1],
 
-          learing_style : LearningStyle = LS_RELU do
+          bias_disabled : Bool = false,
+          bias_scale : Float64 = rand,
+
+          learing_style : LearningStyle = LS_RELU,
+          learning_rate : Float64? = nil,
+          momentum : Float64? = nil,
+          deriv_scale : Float64 = rand / 100.0,
+          error_distance_history_max : Int32 = 10 do
+
           include JSON::Serializable
+
+          def height
+            input_prev_layer_size + input_hist_set_sizes.sum
+          end
+
+          def width
+            output_state_size
+          end
+
+
         end
       end
     end
