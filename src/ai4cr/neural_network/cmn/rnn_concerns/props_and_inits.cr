@@ -39,13 +39,13 @@ module Ai4cr
               bias_scale = (h == 0) ? @config.initial_bias_scale : 0.0
 
               learning_style = case h
-                              when 0
-                                @config.hidden_learning_styles_first
-                              when @layer_index_max
-                                @config.output_learning_style
-                              else
-                                @config.hidden_learning_styles_middle
-                              end
+                               when 0
+                                 @config.hidden_learning_styles_first
+                               when @layer_index_max
+                                 @config.output_learning_style
+                               else
+                                 @config.hidden_learning_styles_middle
+                               end
 
               # We only need to monitor error hist at final output
               error_distance_history_max = (h == 0) ? 0 : @config.error_distance_history_max
@@ -80,7 +80,6 @@ module Ai4cr
               end
             end
           end
-
         end
       end
     end

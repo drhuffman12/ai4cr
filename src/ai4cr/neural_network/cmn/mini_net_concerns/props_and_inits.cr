@@ -39,7 +39,7 @@ module Ai4cr
             @bias_scale = (mini_net_config.bias_scale < 0.0) ? [1.0, mini_net_config.bias_scale].min : 0.0
             @learning_rate = mini_net_config.learning_rate.nil? || mini_net_config.learning_rate.as(Float64) <= 0.0 ? rand : [1.0, mini_net_config.learning_rate.as(Float64)].min
             @momentum = mini_net_config.momentum && mini_net_config.momentum.as(Float64) > 0.0 ? [1.0, mini_net_config.momentum.as(Float64)].min : rand
-            
+
             @error_distance_history_max = (mini_net_config.error_distance_history_max < 0 ? 0 : mini_net_config.error_distance_history_max)
 
             # TODO: consolidate 'init_network' code
