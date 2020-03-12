@@ -45,14 +45,14 @@ describe Ai4cr::NeuralNetwork::Cmn::Rnn do
     time_col_qty = 3
     config = Ai4cr::NeuralNetwork::Cmn::RnnConcerns::NetConfig.new(
       input_state_size: 11, hidden_state_size: 22, output_state_size: 11,
-      time_col_qty: time_col_qty      
+      time_col_qty: time_col_qty
     )
     rnn = Ai4cr::NeuralNetwork::Cmn::Rnn.new(config)
 
     puts "\nBEFORE:\n"
     puts rnn.to_json.pretty_inspect
 
-    simple_wave_rise = (0..10).to_a.map{ |i| (0..10).to_a.map{ |j| i == j ? 1.0 : 0.0 } }
+    simple_wave_rise = (0..10).to_a.map { |i| (0..10).to_a.map { |j| i == j ? 1.0 : 0.0 } }
     training_data = simple_wave_rise + simple_wave_rise.reverse + simple_wave_rise + simple_wave_rise.reverse
 
     # eval
@@ -60,7 +60,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Rnn do
     time_col_from = offset
     time_col_to = offset + time_col_qty - 1
     rnn.eval(training_data[time_col_from..time_col_to])
-    
+
     puts "\nAFTER:\n"
     puts rnn.to_json.pretty_inspect
     puts "\nrnn.outputs_guessed:\n"
@@ -70,7 +70,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Rnn do
     # # train
     # training_data_size = training_data.size
     # time_col_qty
-    
+
   end
 
   describe "#train" do

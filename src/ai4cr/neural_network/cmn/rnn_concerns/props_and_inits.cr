@@ -16,7 +16,7 @@ module Ai4cr
           property mini_net_configs : Array(Array(MiniNetConcerns::MiniNetConfig))
 
           property mini_net_set : Array(Array(MiniNet))
-          
+
           getter outputs_guessed : Array(Array(Float64))
 
           def initialize(@config = RnnConcerns::NetConfig.new)
