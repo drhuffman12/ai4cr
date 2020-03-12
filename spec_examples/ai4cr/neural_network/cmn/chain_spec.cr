@@ -49,10 +49,10 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
           cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
           puts "\n--------\n"
-          puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
+          puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.mini_net_set.map { |n| n.learning_style }}:"
 
-          describe "using #{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}" do
-            describe "and training #{qty} times each at a learning rate of #{cns.net_set.last.learning_rate.round(6)}" do
+          describe "using #{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.mini_net_set.map { |n| n.learning_style }}" do
+            describe "and training #{qty} times each at a learning rate of #{cns.mini_net_set.last.learning_rate.round(6)}" do
               puts "\nTRAINING:\n"
               timestamp_before = Time.utc
               qty.times do |i|
@@ -63,15 +63,15 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
                   when :tr
                     errors[:tr] = cns.train(tr_input, is_a_triangle)
                     # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.mini_net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
                   when :sq
                     errors[:sq] = cns.train(sq_input, is_a_square)
                     # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.mini_net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
                   when :cr
                     errors[:cr] = cns.train(cr_input, is_a_cross)
                     # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.mini_net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
                   end
                 end
                 error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -89,11 +89,11 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
               inverted_colors = false
 
               charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: inverted_colors)
-              plot = charter.plot(cns.net_set.last.error_distance_history, prefixed)
+              plot = charter.plot(cns.mini_net_set.last.error_distance_history, prefixed)
 
-              puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
+              puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.mini_net_set.map { |n| n.learning_style }}:"
               puts "  plot: '#{plot}'"
-              puts "  error_distance_history: '#{cns.net_set.last.error_distance_history.map { |e| e.round(6) }}'"
+              puts "  error_distance_history: '#{cns.mini_net_set.last.error_distance_history.map { |e| e.round(6) }}'"
 
               puts "\n--------\n"
 
@@ -206,10 +206,10 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
           cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
           puts "\n--------\n"
-          puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
+          puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.mini_net_set.map { |n| n.learning_style }}:"
 
-          describe "using #{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}" do
-            describe "and training #{qty} times each at a learning rate of #{cns.net_set.last.learning_rate.round(6)}" do
+          describe "using #{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.mini_net_set.map { |n| n.learning_style }}" do
+            describe "and training #{qty} times each at a learning rate of #{cns.mini_net_set.last.learning_rate.round(6)}" do
               puts "\nTRAINING:\n"
               timestamp_before = Time.utc
               qty.times do |i|
@@ -220,15 +220,15 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
                   when :tr
                     errors[:tr] = cns.train(tr_input, is_a_triangle)
                     # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.mini_net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
                   when :sq
                     errors[:sq] = cns.train(sq_input, is_a_square)
                     # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.mini_net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
                   when :cr
                     errors[:cr] = cns.train(cr_input, is_a_cross)
                     # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.mini_net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
                   end
                 end
                 error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -246,10 +246,10 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
               inverted_colors = false
 
               charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: inverted_colors)
-              plot = charter.plot(cns.net_set.last.error_distance_history, prefixed)
+              plot = charter.plot(cns.mini_net_set.last.error_distance_history, prefixed)
 
               puts "  plot: '#{plot}'"
-              puts "  error_distance_history: '#{cns.net_set.last.error_distance_history.map { |e| e.round(6) }}'"
+              puts "  error_distance_history: '#{cns.mini_net_set.last.error_distance_history.map { |e| e.round(6) }}'"
 
               puts "\n--------\n"
 

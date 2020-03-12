@@ -105,7 +105,7 @@ end
 
 def graph(ios_list, charter_high_is_red, charter_high_is_blue, net)
   net_set_types = if net.is_a?(Ai4cr::NeuralNetwork::Cmn::Chain)
-                    net.net_set.map { |ns| ns.class.name.split("::").last }.join(",")
+                    net.mini_net_set.map { |ns| ns.class.name.split("::").last }.join(",")
                   else
                     ""
                   end

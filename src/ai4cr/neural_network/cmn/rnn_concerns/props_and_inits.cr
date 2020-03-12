@@ -51,8 +51,12 @@ module Ai4cr
               error_distance_history_max = (h == 0) ? 0 : @config.error_distance_history_max
 
               @time_col_range.map do |t|
-                hist_qty = (@config.hist_qty_max > t) ? [t - @config.hist_qty_max + 1, @config.hist_qty_max].min : 0
-                input_hist_set_sizes = (0..hist_qty - 1).to_a.map { hist_state_size }
+                # NOTE: enable pulling from at most 1 previous historical nodes for this class
+                input_hist_set_sizes = Array(Int32).new
+                input_hist_set_sizes << hist_state_size if (t > 0)
+                # TODO: enable pulling from multiple historical nodes (in RnnAdvanced)
+                # hist_qty = (@config.hist_qty_max > t) ? [t - @config.hist_qty_max + 1, @config.hist_qty_max].min : 0
+                # input_hist_set_sizes = (0..hist_qty - 1).to_a.map { hist_state_size }
 
                 MiniNetConcerns::MiniNetConfig.new(
                   output_state_size: output_state_size,

@@ -7,7 +7,7 @@ module Ai4cr
       module RnnConcerns
         record NetConfig,
           hidden_layer_qty : Int32 = 2,
-          hist_qty_max : Int32 = 2,
+          hist_qty_max : Int32 = 1,
           time_col_qty : Int32 = 3,
 
           input_state_size : Int32 = 3,

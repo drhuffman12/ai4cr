@@ -82,10 +82,10 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
 
       puts "\ncns (BEFORE): #{cns.to_json}\n"
 
-      # outputs_guessed_before = cns.net_set.last.outputs_guessed.clone
+      # outputs_guessed_before = cns.mini_net_set.last.outputs_guessed.clone
 
       cns.eval(inputs)
-      outputs_guessed_after = cns.net_set.last.outputs_guessed.clone
+      outputs_guessed_after = cns.mini_net_set.last.outputs_guessed.clone
       puts "\ncns (AFTER): #{cns.to_json}\n"
 
       assert_approximate_equality_of_nested_list outputs_guessed_after, expected_outputs_guessed_after
@@ -127,7 +127,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
     end
 
     it "updates last net's outputs when guessing" do
-      cns.net_set.each { |net| net.init_network }
+      cns.mini_net_set.each { |net| net.init_network }
 
       (cns.guesses_best).should eq(expected_inital_outputs)
 

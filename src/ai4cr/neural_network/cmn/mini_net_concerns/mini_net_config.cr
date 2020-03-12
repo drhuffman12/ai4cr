@@ -11,7 +11,7 @@ module Ai4cr
           input_prev_layer_size : Int32 = -1,
 
           # i.e.: use outputs of previous N nodes in layer starting w/ closest previous later
-          input_hist_set_sizes : Array(Int32) = [-1],
+          input_hist_set_sizes : Array(Int32) = Array(Int32).new,
 
           bias_disabled : Bool = false,
           bias_scale : Float64 = rand,
