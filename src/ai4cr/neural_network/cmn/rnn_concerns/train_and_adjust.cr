@@ -16,37 +16,58 @@ module Ai4cr
                 puts "train .. h: #{h}, t: #{t}"
                 
                 net = @mini_net_set[h][t]
+                index_size = @mini_net_set[h][t].width
+                outputs_expected_summed = Array.new(index_size) { |i| 0.0 }
 
                 puts "1"
 
-                outputs_all = Array(Array(Float64)).new
+                # A) collect inputs:
+                # outputs_all = Array(Array(Float64)).new
                 # add next layer outputs
                 if h == layer_index_max
-                  outputs_all << output_sets_expected[t]
+                  outputs_expected_summed.map_with_index!{|d, i| d + output_sets_expected[t][i] }
+                  # outputs_all << output_sets_expected[t]
                 else
-                  index_to = @mini_net_set[h][t].width - 1
-                  outputs_all << @mini_net_set[h + 1][t].input_deltas[0..index_to]
+                  index_offset = t > 0 ? @mini_net_set[h + 1][t - 1].outputs_guessed.size : 0
+                  index_to = index_offset + index_size - 1
+                  input_deltas = @mini_net_set[h + 1][t].input_deltas[index_offset..index_to]
+                  outputs_expected_summed.map_with_index!{|d, i| d + input_deltas[i] }
+                  # outputs_all << @mini_net_set[h + 1][t].input_deltas[index_offset..index_to]
                 end
 
                 puts "2"
 
-                # # add next time col input_deltas
-                if h < layer_index_max && t < @time_col_index_max
-                  # prev_layer_next_time_col_output
-                  index_from = (h > 0) ? @mini_net_set[h - 1][t + 1].width : 0
-                  index_to = index_from + @mini_net_set[h][t].width - 1
-                  # input_delta_range_max_next_layer = @mini_net_set[h][t].width - 1
-                  # input_delta_range_max_next_time_col = (@mini_net_set[h + 1][t].width - 1) + input_delta_range_max_next_layer
-
-                  outputs_all << @mini_net_set[h][t + 1].input_deltas[index_from..index_to]
+                if t < @time_col_index_max
+                  index_offset = 0
+                  index_to = index_offset + index_size - 1
+                  input_deltas = @mini_net_set[h][t+1].input_deltas[index_offset..index_to]
+                  outputs_expected_summed.map_with_index!{|d, i| d + input_deltas[i] }
                 end
 
+
+                # if h < layer_index_max && t < @time_col_index_max
+                #   # prev_layer_next_time_col_output
+
+                #   index_from = index_size
+                #   index_to = index_from + index_size - 1
+
+                #   index_from = (h > 0) ? @mini_net_set[h - 1][t + 1].width : 0
+                #   index_to = index_from + @mini_net_set[h][t].width - 1
+                #   # input_delta_range_max_next_layer = @mini_net_set[h][t].width - 1
+                #   # input_delta_range_max_next_time_col = (@mini_net_set[h + 1][t].width - 1) + input_delta_range_max_next_layer
+
+                #   outputs_all << @mini_net_set[h][t + 1].input_deltas[index_from..index_to]
+                # end
+
+                # B) do calc's:
                 puts "3"
                 
-                puts "\n outputs_all: #{outputs_all} \n"
+                puts "\n step_load_outputs .. start .. h: #{h}, t: #{t} outputs_expected_summed: #{outputs_expected_summed} \n"
 
                 # net.step_load_inputs(inputs_all.flatten)
-                net.step_load_outputs(outputs_all.flatten)
+                net.step_load_outputs(outputs_expected_summed)
+
+                puts "\n step_load_outputs .. done .. h: #{h}, t: #{t} net.outputs_expected: #{net.outputs_expected} \n"
 
                 puts "4"
                 

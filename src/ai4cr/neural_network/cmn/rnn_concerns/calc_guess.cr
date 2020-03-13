@@ -10,6 +10,7 @@ module Ai4cr
               @time_col_range.map do |t|
                 net = @mini_net_set[h][t]
 
+                # A) collect inputs:
                 inputs_all = Array(Array(Float64)).new
                 # add prev layer inputs
                 if h == 0
@@ -21,6 +22,7 @@ module Ai4cr
                 # add prev time col inputs
                 inputs_all << @mini_net_set[h][t - 1].outputs_guessed if t > 0
 
+                # B) do calc's:
                 net.step_load_inputs(inputs_all.flatten)
                 net.step_calc_forward
               end

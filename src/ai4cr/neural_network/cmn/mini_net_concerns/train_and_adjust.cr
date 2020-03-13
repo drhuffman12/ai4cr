@@ -22,7 +22,7 @@ module Ai4cr
           end
 
           def step_load_outputs(outputs_expected)
-            raise "Invalid outputs_expected size; outputs_expected.size: #{outputs_expected.size}, width: #{@width}" if outputs_expected.size != @width
+            raise "Invalid outputs_expected size; GIVEN (outputs_expected.size): #{outputs_expected.size}, EXPECTED (width): #{@width}" if outputs_expected.size != @width
             load_outputs_expected(outputs_expected)
           end
 
