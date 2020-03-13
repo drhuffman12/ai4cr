@@ -16,7 +16,8 @@ module Ai4cr
 
           property outputs_expected : Array(Float64)
 
-          property input_deltas : Array(Float64), output_deltas : Array(Float64)
+          property input_deltas : Array(Float64)
+          property output_deltas : Array(Float64)
 
           property bias_disabled : Bool
           property bias_scale : Float64

@@ -9,11 +9,35 @@ module Ai4cr
 
           # # training steps
           # TODO: utilize until_min_avg_error
-          def train(inputs_given, outputs_expected, until_min_avg_error = 0.1)
+          def train(as_output, inputs_given, outputs_expected, output_deltas, until_min_avg_error = 0.1)
+            if as_output
+              train_output_layer(inputs_given, outputs_expected, until_min_avg_error)
+            else
+              train_hidden_layer(inputs_given, output_deltas, until_min_avg_error)
+            end
+          end
+
+          def train_output_layer(inputs_given, outputs_expected, until_min_avg_error = 0.1)
             step_load_inputs(inputs_given)
             step_calc_forward
 
             step_load_outputs(outputs_expected)
+            step_calculate_output_deltas
+
+            step_calculate_error
+
+            step_backpropagate
+
+            @error_total
+          end
+
+          def train_hidden_layer(inputs_given, output_deltas, until_min_avg_error = 0.1)
+            step_load_inputs(inputs_given)
+            step_calc_forward
+
+            step_load_chained_output_deltas(output_deltas)
+            step_calculate_outputs_expected
+
             step_calculate_error
 
             step_backpropagate
@@ -23,42 +47,51 @@ module Ai4cr
 
           def step_load_outputs(outputs_expected)
             raise "Invalid outputs_expected size; GIVEN (outputs_expected.size): #{outputs_expected.size}, EXPECTED (width): #{@width}" if outputs_expected.size != @width
-            load_outputs_expected(outputs_expected)
+            # load_outputs_expected(outputs_expected)
+            @outputs_expected.map_with_index! { |_, i| outputs_expected[i] }
+          end
+
+          # This would be a chained MiniNet's input_deltas
+          # e.g.: mini_net_A feeds is chained into mini_net_B
+          #    So you would mini_net_A.step_load_chained_output_deltas(mini_net_B.input_deltas)
+          def step_load_chained_output_deltas(output_deltas)
+            raise "Invalid output_deltas size" if outputs_expected.size != @width
+            # load_output_deltas(output_deltas)
+            @output_deltas.map_with_index! { |_, i| output_deltas[i] }
+          end
+
+          def step_calculate_outputs_expected
+            @outputs_expected.map_with_index! { |_, i| outputs_guessed[i] + output_deltas[i] }
+          end
+
+          def step_calculate_output_deltas
+            @output_deltas = @outputs_expected.map_with_index do |oe, iw|
+              oe - @outputs_guessed[iw]
+            end
           end
 
           def step_calculate_error
             error = 0.0
             @outputs_expected.map_with_index do |oe, iw|
-              error += 0.5*(oe - @outputs_guessed[iw])**2
+              error += 0.5*(@output_deltas[iw])**2
             end
             @error_total = error
-            @error_total
           end
 
           def step_backpropagate
-            step_calculate_output_deltas
-
             step_calc_input_deltas
             step_update_weights
           end
 
-          # This would be a chained MiniNet's input_deltas
-          # e.g.: mini_net_A feeds is chained into mini_net_B
-          #    So you would mini_net_A.step_load_chained_outputs_deltas(mini_net_B.input_deltas)
-          def step_load_chained_outputs_deltas(outputs_deltas)
-            raise "Invalid outputs_deltas size" if outputs_expected.size != @width
-            load_outputs_deltas(outputs_deltas)
-          end
-
           # private
 
-          def load_outputs_expected(outputs_expected)
-            @outputs_expected.map_with_index! { |_, i| outputs_expected[i] }
-          end
+          # def load_outputs_expected(outputs_expected)
+          #   @outputs_expected.map_with_index! { |_, i| outputs_expected[i] }
+          # end
 
-          def load_outputs_deltas(outputs_deltas)
-            @outputs_deltas.map_with_index! { |_, i| outputs_deltas[i] }
-          end
+          # def load_output_deltas(output_deltas)
+          #   @output_deltas.map_with_index! { |_, i| output_deltas[i] }
+          # end
 
           # Calculate deltas for output layer
           def step_calculate_output_deltas # (outputs_expected)
