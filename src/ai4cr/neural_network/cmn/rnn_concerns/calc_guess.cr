@@ -18,7 +18,7 @@ module Ai4cr
                   inputs_all << @mini_net_set[h - 1][t].outputs_guessed
                 end
 
-                # add prev layer inputs
+                # add prev time col inputs
                 inputs_all << @mini_net_set[h][t - 1].outputs_guessed if t > 0
 
                 net.step_load_inputs(inputs_all.flatten)

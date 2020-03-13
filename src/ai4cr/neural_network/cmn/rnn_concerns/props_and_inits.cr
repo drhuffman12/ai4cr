@@ -10,27 +10,35 @@ module Ai4cr
 
           getter layer_index_max : Int32
           getter layer_range : Array(Int32)
+          getter layer_range_reversed : Array(Int32)
           getter time_col_index_max : Int32
           getter time_col_range : Array(Int32)
+          getter time_col_range_reversed : Array(Int32)
 
           property mini_net_configs : Array(Array(MiniNetConcerns::MiniNetConfig))
 
           property mini_net_set : Array(Array(MiniNet))
 
           getter outputs_guessed : Array(Array(Float64))
+          getter input_deltas : Array(Array(Float64))
+          getter error_total : Array(Float64)
 
           def initialize(@config = RnnConcerns::NetConfig.new)
             @layer_index_max = @config.hidden_layer_qty
             @layer_range = (0..@layer_index_max).to_a
+            @layer_range_reversed = @layer_range.reverse
 
             @time_col_index_max = @config.time_col_qty - 1
             @time_col_range = (0..@time_col_index_max).to_a
+            @time_col_range_reversed = @time_col_range.reverse
 
             @mini_net_configs = init_mini_net_configs
 
             @mini_net_set = init_mini_net_set
 
             @outputs_guessed = Array(Array(Float64)).new
+            @input_deltas = Array(Array(Float64)).new
+            @error_total = Array(Float64).new
           end
 
           def init_mini_net_configs
