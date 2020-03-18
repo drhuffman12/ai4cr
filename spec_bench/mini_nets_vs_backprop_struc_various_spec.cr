@@ -130,7 +130,8 @@ def graph(ios_list, charter_high_is_red, charter_high_is_blue, net, initial_weig
   puts "    error_distance_history: '#{net.error_distance_history.map { |e| e.round(6) }}'"
 
   precision = 0.1
-  net_set_types = if net.is_a?(Ai4cr::NeuralNetwork::Cmn::Chain)
+  # net_set_types =
+  if net.is_a?(Ai4cr::NeuralNetwork::Cmn::Chain)
     net.mini_net_set.each_with_index do |mn, i|
       plot_histogram("    weight histogram [#{i}]", mn.weights, precision)
     end
@@ -144,7 +145,6 @@ def graph(ios_list, charter_high_is_red, charter_high_is_blue, net, initial_weig
   initial_weights_per_layer.each_with_index do |w, i|
     plot_histogram("    initial_weights_per_layer histogram [#{i}]", w, precision)
   end
-  
 
   puts "  Guessed-Wrong Percentages:"
   wrong_percentages = eval(net, ios_list)
@@ -180,7 +180,7 @@ def bench_train_no_hidden(ios_list, qty_loops, charter_high_is_red, charter_high
   # initial_weights_per_layer = [net_relu.weights]
   initial_weights_per_layer = [net_sigm.weights]
 
-  initial_weights_per_layer.each_with_index do |weights, i|    
+  initial_weights_per_layer.each_with_index do |weights, i|
     raise "Weight Mismatch re net_bp" if net_bp.weights[i].size != weights.size && net_bp.weights[i].flatten.size != weights.flatten.size
     raise "Weight Mismatch re net_tanh : i: #{i}, net_tanh.weights.size: #{net_tanh.weights.size}, weights.size: #{weights.size}, net_tanh.weights.flatten.size: #{net_tanh.weights.flatten.size}, weights.flatten.size: #{weights.flatten.size}" if net_tanh.weights.size != weights.size && net_tanh.weights.flatten.size != weights.flatten.size
     net_bp.weights[i] = weights.clone
@@ -260,12 +260,12 @@ def bench_train_hidden1(ios_list, qty_loops, charter_high_is_red, charter_high_i
   arr << net1_relu_sigm
   cns_relu_sigm = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
-  # initial_weights_per_layer = net_relu.mini_net_set.map_with_index do |mn, i|   
-  initial_weights_per_layer = cns_sigm_sigm.mini_net_set.map_with_index do |mn, i|    
+  # initial_weights_per_layer = net_relu.mini_net_set.map_with_index do |mn, i|
+  initial_weights_per_layer = cns_sigm_sigm.mini_net_set.map_with_index do |mn, i|
     net_bp.weights[i] = mn.weights
   end
 
-  initial_weights_per_layer.each_with_index do |weights, i|    
+  initial_weights_per_layer.each_with_index do |weights, i|
     raise "Weight Mismatch re net_bp" if net_bp.weights[i].size != weights.size && net_bp.weights[i].flatten.size != weights.flatten.size
     raise "Weight Mismatch re cns_tanh_tanh : i: #{i}, cns_tanh_tanh.mini_net_set[i].weights.size: #{cns_tanh_tanh.mini_net_set[i].weights.size}, weights.size: #{weights.size}, cns_tanh_tanh.mini_net_set[i].weights.flatten.size: #{cns_tanh_tanh.mini_net_set[i].weights.flatten.size}, weights.flatten.size: #{weights.flatten.size}" if cns_tanh_tanh.mini_net_set[i].weights.size != weights.size && cns_tanh_tanh.mini_net_set[i].weights.flatten.size != weights.flatten.size
 
@@ -374,8 +374,8 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
   # File.write("tmp/cns_234b.json", cns_234b.to_pretty_json(indent: "  "))
   puts cns_234.to_pretty_json(indent: "  ")
 
-  # initial_weights_per_layer = net_relu.mini_net_set.map_with_index do |mn, i|   
-  initial_weights_per_layer = cns_sigm_sigm_sigm.mini_net_set.map_with_index do |mn, i|    
+  # initial_weights_per_layer = net_relu.mini_net_set.map_with_index do |mn, i|
+  initial_weights_per_layer = cns_sigm_sigm_sigm.mini_net_set.map_with_index do |mn, i|
     net_bp.weights[i] = mn.weights
   end
 

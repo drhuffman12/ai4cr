@@ -6,7 +6,7 @@ module Ai4cr
     module ChartingAndPlotting
       def histogram(arr, precision = 0)
         arr_flattened = arr.flatten
-        hist = histogram_condensed(arr_flattened, precision = 0)
+        hist = histogram_condensed(arr_flattened, precision)
 
         min = hist.keys.min
         max = hist.keys.max

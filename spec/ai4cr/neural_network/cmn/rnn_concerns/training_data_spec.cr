@@ -10,7 +10,14 @@ describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainingData do
   simple_wave_rise = (0..10).to_a.map { |i| (0..10).to_a.map { |j| i == j ? 1.0 : 0.0 } }
   training_data = simple_wave_rise + simple_wave_rise.reverse + simple_wave_rise + simple_wave_rise.reverse
 
-  puts "TrainingData.new: #{Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainingData.new}"
+  td = Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainingData.new(
+    sequenced_inputs: training_data,
+    output_offset: 3,
+    time_col_qty: 3
+  )
+
+  puts "config: #{config}"
+  puts "TrainingData.new(..): #{td}"
 
   # describe "when importing and exporting as JSON" do
   #   rnn = Ai4cr::NeuralNetwork::Cmn::Rnn.new

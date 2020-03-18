@@ -16,8 +16,8 @@ module Ai4cr
                 puts "train .. h: #{h}, t: #{t}"
 
                 net = @mini_net_set[h][t]
-                index_size = @mini_net_set[h][t].width
-                outputs_expected_summed = Array.new(index_size) { |i| 0.0 }
+                # index_size = @mini_net_set[h][t].width
+                # outputs_expected_summed = Array.new(index_size) { |i| 0.0 }
 
                 puts "1"
 
@@ -26,9 +26,9 @@ module Ai4cr
                   net.step_load_outputs(output_sets_expected[t])
                   net.step_calculate_output_deltas
                 else
-                  input_deltas_from =
-                    input_deltas_to =
-                      net.step_load_output_deltas_from_chained_input_deltas(@mini_net_set[h + 1][t].input_deltas)
+                  # input_deltas_from =
+                  #   input_deltas_to =
+                  net.step_load_output_deltas_from_chained_input_deltas(@mini_net_set[h + 1][t].input_deltas)
                 end
 
                 # add prev time col inputs

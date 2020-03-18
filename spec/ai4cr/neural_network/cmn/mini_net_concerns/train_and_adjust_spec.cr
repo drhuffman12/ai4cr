@@ -1,7 +1,6 @@
 require "./../../../../spec_helper"
 
 describe Ai4cr::NeuralNetwork::Cmn::MiniNetConcerns::TrainAndAdjust do
- 
   describe "#train" do
     describe "when given a net with structure of [3, 2]" do
       # before_each do

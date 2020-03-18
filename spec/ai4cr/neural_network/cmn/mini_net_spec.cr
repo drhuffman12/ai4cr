@@ -56,5 +56,4 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
       end
     end
   end
-
 end

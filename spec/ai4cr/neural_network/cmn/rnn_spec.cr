@@ -109,7 +109,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Rnn do
       output_time_col_from = input_time_col_to + 1
       output_time_col_to = output_time_col_from + time_col_qty - 1
 
-      time_col_to = offset + time_col_qty - 1
+      # time_col_to = offset + time_col_qty - 1
       rnn.train(training_data[input_time_col_from..input_time_col_to], training_data[output_time_col_from..output_time_col_to])
       (rnn.input_deltas).should_not eq(input_deltas_before)
 
@@ -135,7 +135,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Rnn do
       output_time_col_from = input_time_col_to + 1
       output_time_col_to = output_time_col_from + time_col_qty - 1
 
-      time_col_to = offset + time_col_qty - 1
+      # time_col_to = offset + time_col_qty - 1
       rnn.train(training_data[input_time_col_from..input_time_col_to], training_data[output_time_col_from..output_time_col_to])
       (rnn.error_total).should_not eq(error_total_before)
 
@@ -184,7 +184,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Rnn do
       output_time_col_from = input_time_col_to + 1
       output_time_col_to = output_time_col_from + time_col_qty - 1
 
-      time_col_to = offset + time_col_qty - 1
+      # time_col_to = offset + time_col_qty - 1
       rnn.train(training_data[input_time_col_from..input_time_col_to], training_data[output_time_col_from..output_time_col_to])
       (rnn.input_deltas).should_not eq(input_deltas_before)
 
@@ -200,7 +200,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Rnn do
       output_time_col_from = input_time_col_to + 1
       output_time_col_to = output_time_col_from + time_col_qty - 1
 
-      time_col_to = offset + time_col_qty - 1
+      # time_col_to = offset + time_col_qty - 1
       rnn.train(training_data[input_time_col_from..input_time_col_to], training_data[output_time_col_from..output_time_col_to])
       (rnn.input_deltas).should_not eq(input_deltas_before)
       (rnn.input_deltas).should_not eq(input_deltas_before2)
@@ -232,7 +232,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Rnn do
       output_time_col_from = input_time_col_to + 1
       output_time_col_to = output_time_col_from + time_col_qty - 1
 
-      time_col_to = offset + time_col_qty - 1
+      # time_col_to = offset + time_col_qty - 1
       rnn.train(training_data[input_time_col_from..input_time_col_to], training_data[output_time_col_from..output_time_col_to])
       (rnn.error_total).should_not eq(error_total_before)
 
@@ -248,7 +248,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Rnn do
       output_time_col_from = input_time_col_to + 1
       output_time_col_to = output_time_col_from + time_col_qty - 1
 
-      time_col_to = offset + time_col_qty - 1
+      # time_col_to = offset + time_col_qty - 1
       rnn.train(training_data[input_time_col_from..input_time_col_to], training_data[output_time_col_from..output_time_col_to])
       (rnn.error_total).should_not eq(error_total_before)
       (rnn.error_total).should_not eq(error_total_before2)

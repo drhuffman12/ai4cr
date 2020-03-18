@@ -1,7 +1,6 @@
 require "./../../../../spec_helper"
 
 describe Ai4cr::NeuralNetwork::Cmn::MiniNetConcerns::CalcGuess do
- 
   # NOTE Below are all for learing style Sigmoid; tests should be added to cover the other learning styles
   describe "#eval" do
     describe "when given a net with structure of [3, 2]" do
@@ -9,11 +8,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNetConcerns::CalcGuess do
       # structure = [3, 2]
       # net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
       bias_scale = 1
-      net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(
-        height: 3, width: 2,
-        bias_scale: bias_scale,
-        learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID
-      )
+      net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new( height: 3, width: 2, bias_scale: bias_scale, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID )
 
       inputs = [0.1, 0.2, 0.3]
       hard_coded_weights = [
@@ -54,5 +49,4 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNetConcerns::CalcGuess do
       end
     end
   end
-
 end
