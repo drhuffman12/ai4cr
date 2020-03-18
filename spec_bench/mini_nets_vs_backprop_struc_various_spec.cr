@@ -5,6 +5,8 @@ require "./../src/ai4cr.cr"
 
 require "./../spec_examples/support/neural_network/data/*"
 
+include Ai4cr::NeuralNetwork::ChartingAndPlotting
+
 # To dig deeper into performance refinement:
 # crystal build --release src/mini_nets_vs_backprop
 # mkdir -p tmp/
@@ -68,6 +70,11 @@ def train(net, ios_list, qty_loops)
     ios = ios_list.sample
     ins = ios[:ins_arr].first # first is for training; all are for guessing
     outs = ios[:outs]
+    # if net.class == Ai4cr::NeuralNetwork::Backpropagation
+    #   net.train(ins, outs)
+    # else
+    #   net.train(ins, outs) # , [] of Float64, false)
+    # end
     net.train(ins, outs)
     # puts net.error_distance_history
     net.step_calculate_error_distance_history if i % qty_10_percent == 0 # if (i % ten_percent == 0)
@@ -103,14 +110,17 @@ def eval(net, ios_list)
   wrong_answers
 end
 
-def graph(ios_list, charter_high_is_red, charter_high_is_blue, net)
+def graph(ios_list, charter_high_is_red, charter_high_is_blue, net, initial_weights_per_layer)
   net_set_types = if net.is_a?(Ai4cr::NeuralNetwork::Cmn::Chain)
-                    net.mini_net_set.map { |ns| ns.class.name.split("::").last }.join(",")
+                    # net.mini_net_set.map { |mn| mn.class.name.split("::").last }.join(",")
+                    net.mini_net_set.map { |mn| mn.learning_style }.join(",")
+                  elsif net.is_a?(Ai4cr::NeuralNetwork::Cmn::MiniNet)
+                    net.learning_style
                   else
-                    ""
+                    "n/a"
                   end
 
-  puts "#{net.class.name} with structure of #{net.structure} #{net_set_types}:"
+  puts "#{net.class.name} with structure of #{net.structure} (#{net_set_types}):"
 
   puts "\n--------\n"
 
@@ -118,6 +128,23 @@ def graph(ios_list, charter_high_is_red, charter_high_is_blue, net)
   plot_error_rates = charter_high_is_red.plot(net.error_distance_history, false) # false i.e.: NOT prefixed
   puts "    plot: '#{plot_error_rates}'"
   puts "    error_distance_history: '#{net.error_distance_history.map { |e| e.round(6) }}'"
+
+  precision = 0.1
+  net_set_types = if net.is_a?(Ai4cr::NeuralNetwork::Cmn::Chain)
+    net.mini_net_set.each_with_index do |mn, i|
+      plot_histogram("    weight histogram [#{i}]", mn.weights, precision)
+    end
+  elsif net.is_a?(Ai4cr::NeuralNetwork::Cmn::MiniNet)
+    plot_histogram("    weight histogram", net.weights, precision)
+  else
+    net.weights.each_with_index do |w, i|
+      plot_histogram("    weight histogram [#{i}]", w, precision)
+    end
+  end
+  initial_weights_per_layer.each_with_index do |w, i|
+    plot_histogram("    initial_weights_per_layer histogram [#{i}]", w, precision)
+  end
+  
 
   puts "  Guessed-Wrong Percentages:"
   wrong_percentages = eval(net, ios_list)
@@ -148,6 +175,20 @@ def bench_train_no_hidden(ios_list, qty_loops, charter_high_is_red, charter_high
   net_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: width, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH)
   net_sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: width, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
   net_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: width, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
+  net_prelu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: width, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+
+  # initial_weights_per_layer = [net_relu.weights]
+  initial_weights_per_layer = [net_sigm.weights]
+
+  initial_weights_per_layer.each_with_index do |weights, i|    
+    raise "Weight Mismatch re net_bp" if net_bp.weights[i].size != weights.size && net_bp.weights[i].flatten.size != weights.flatten.size
+    raise "Weight Mismatch re net_tanh : i: #{i}, net_tanh.weights.size: #{net_tanh.weights.size}, weights.size: #{weights.size}, net_tanh.weights.flatten.size: #{net_tanh.weights.flatten.size}, weights.flatten.size: #{weights.flatten.size}" if net_tanh.weights.size != weights.size && net_tanh.weights.flatten.size != weights.flatten.size
+    net_bp.weights[i] = weights.clone
+    net_tanh.weights = weights.clone
+    net_sigm.weights = weights.clone
+    net_relu.weights = weights.clone
+    net_prelu.weights = weights.clone
+  end
 
   puts "\n--------\n"
   Benchmark.ips do |x|
@@ -166,12 +207,17 @@ def bench_train_no_hidden(ios_list, qty_loops, charter_high_is_red, charter_high
     x.report("Training of MiniNet (Relu) w/ structure of #{structure}") do
       train(net_relu, ios_list, qty_loops)
     end
+
+    x.report("Training of MiniNet (Prelu) w/ structure of #{structure}") do
+      train(net_prelu, ios_list, qty_loops)
+    end
   end
 
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, net_bp)
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, net_tanh)
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, net_sigm)
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, net_relu)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, net_bp, initial_weights_per_layer)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, net_tanh, initial_weights_per_layer)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, net_sigm, initial_weights_per_layer)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, net_relu, initial_weights_per_layer)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, net_prelu, initial_weights_per_layer)
 end
 
 def bench_train_hidden1(ios_list, qty_loops, charter_high_is_red, charter_high_is_blue, height, hidden, width)
@@ -200,6 +246,13 @@ def bench_train_hidden1(ios_list, qty_loops, charter_high_is_red, charter_high_i
   arr << net1_relu
   cns_relu_relu = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
+  net0_prelu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: hidden, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+  net1_prelu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden, width: width, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
+  arr << net0_prelu
+  arr << net1_prelu
+  cns_prelu_prelu = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+
   net0_relu_sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: hidden, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
   net1_relu_sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden, width: width, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
   arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
@@ -207,11 +260,28 @@ def bench_train_hidden1(ios_list, qty_loops, charter_high_is_red, charter_high_i
   arr << net1_relu_sigm
   cns_relu_sigm = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
+  # initial_weights_per_layer = net_relu.mini_net_set.map_with_index do |mn, i|   
+  initial_weights_per_layer = cns_sigm_sigm.mini_net_set.map_with_index do |mn, i|    
+    net_bp.weights[i] = mn.weights
+  end
+
+  initial_weights_per_layer.each_with_index do |weights, i|    
+    raise "Weight Mismatch re net_bp" if net_bp.weights[i].size != weights.size && net_bp.weights[i].flatten.size != weights.flatten.size
+    raise "Weight Mismatch re cns_tanh_tanh : i: #{i}, cns_tanh_tanh.mini_net_set[i].weights.size: #{cns_tanh_tanh.mini_net_set[i].weights.size}, weights.size: #{weights.size}, cns_tanh_tanh.mini_net_set[i].weights.flatten.size: #{cns_tanh_tanh.mini_net_set[i].weights.flatten.size}, weights.flatten.size: #{weights.flatten.size}" if cns_tanh_tanh.mini_net_set[i].weights.size != weights.size && cns_tanh_tanh.mini_net_set[i].weights.flatten.size != weights.flatten.size
+
+    net_bp.weights[i] = weights.clone
+    cns_tanh_tanh.mini_net_set[i].weights = weights.clone
+    cns_sigm_sigm.mini_net_set[i].weights = weights.clone
+    cns_relu_relu.mini_net_set[i].weights = weights.clone
+    cns_prelu_prelu.mini_net_set[i].weights = weights.clone
+    cns_relu_sigm.mini_net_set[i].weights = weights.clone
+  end
+
   puts "\n--------\n"
   Benchmark.ips do |x|
-    x.report("Training of Backpropagation w/ structure of #{structure}") do
-      train(net_bp, ios_list, qty_loops)
-    end
+    # x.report("Training of Backpropagation w/ structure of #{structure}") do
+    #   train(net_bp, ios_list, qty_loops)
+    # end
 
     x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Tanh, Tanh)") do
       train(cns_tanh_tanh, ios_list, qty_loops)
@@ -225,16 +295,20 @@ def bench_train_hidden1(ios_list, qty_loops, charter_high_is_red, charter_high_i
       train(cns_relu_relu, ios_list, qty_loops)
     end
 
+    x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Prelu, Prelu)") do
+      train(cns_prelu_prelu, ios_list, qty_loops)
+    end
+
     x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Relu, Sigmoid)") do
       train(cns_relu_sigm, ios_list, qty_loops)
     end
   end
 
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, net_bp)
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_tanh_tanh)
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_sigm_sigm)
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_relu_relu)
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_relu_sigm)
+  # graph(ios_list, charter_high_is_red, charter_high_is_blue, net_bp, initial_weights_per_layer)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_tanh_tanh, initial_weights_per_layer)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_sigm_sigm, initial_weights_per_layer)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_relu_relu, initial_weights_per_layer)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_relu_sigm, initial_weights_per_layer)
 end
 
 def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_is_blue, height, hidden1, hidden2, width)
@@ -269,6 +343,15 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
   arr << net2_relu
   cns_relu_relu_relu = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
+  net0_prelu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: hidden1, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+  net1_prelu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden1, width: hidden2, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+  net2_prelu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden2, width: width, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+  arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
+  arr << net0_prelu
+  arr << net1_prelu
+  arr << net2_prelu
+  cns_prelu_prelu_prelu = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+
   net0_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: hidden1, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH)
   net1_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden1, width: hidden2, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
   net2_sigm = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden2, width: width, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
@@ -291,11 +374,28 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
   # File.write("tmp/cns_234b.json", cns_234b.to_pretty_json(indent: "  "))
   puts cns_234.to_pretty_json(indent: "  ")
 
+  # initial_weights_per_layer = net_relu.mini_net_set.map_with_index do |mn, i|   
+  initial_weights_per_layer = cns_sigm_sigm_sigm.mini_net_set.map_with_index do |mn, i|    
+    net_bp.weights[i] = mn.weights
+  end
+
+  initial_weights_per_layer.each_with_index do |weights, i|
+    raise "Weight Mismatch re net_bp" if net_bp.weights[i].size != weights.size && net_bp.weights[i].flatten.size != weights.flatten.size
+    raise "Weight Mismatch re cns_tanh_tanh_tanh : i: #{i}, cns_tanh_tanh_tanh.mini_net_set[i].weights.size: #{cns_tanh_tanh_tanh.mini_net_set[i].weights.size}, weights.size: #{weights.size}, cns_tanh_tanh_tanh.mini_net_set[i].weights.flatten.size: #{cns_tanh_tanh_tanh.mini_net_set[i].weights.flatten.size}, weights.flatten.size: #{weights.flatten.size}" if cns_tanh_tanh_tanh.mini_net_set[i].weights.size != weights.size && cns_tanh_tanh_tanh.mini_net_set[i].weights.flatten.size != weights.flatten.size
+
+    net_bp.weights[i] = weights.clone
+    cns_tanh_tanh_tanh.mini_net_set[i].weights = weights.clone
+    cns_sigm_sigm_sigm.mini_net_set[i].weights = weights.clone
+    cns_relu_relu_relu.mini_net_set[i].weights = weights.clone
+    cns_prelu_prelu_prelu.mini_net_set[i].weights = weights.clone
+    cns_tanh_relu_sigm.mini_net_set[i].weights = weights.clone
+  end
+
   puts "\n--------\n"
   Benchmark.ips do |x|
-    x.report("Training of Backpropagation w/ structure of #{structure}") do
-      train(net_bp, ios_list, qty_loops)
-    end
+    # x.report("Training of Backpropagation w/ structure of #{structure}") do
+    #   train(net_bp, ios_list, qty_loops)
+    # end
 
     x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Tanh, Tanh, Tanh)") do
       train(cns_tanh_tanh_tanh, ios_list, qty_loops)
@@ -309,16 +409,21 @@ def bench_train_hidden2(ios_list, qty_loops, charter_high_is_red, charter_high_i
       train(cns_relu_relu_relu, ios_list, qty_loops)
     end
 
+    x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Relu, Relu, Relu)") do
+      train(cns_prelu_prelu_prelu, ios_list, qty_loops)
+    end
+
     x.report("Training of ConnectedNetSet::Chain w/ structure of #{structure} (Tanh, Relu, Sigmoid)") do
       train(cns_tanh_relu_sigm, ios_list, qty_loops)
     end
   end
 
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, net_bp)
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_tanh_tanh_tanh)
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_sigm_sigm_sigm)
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_relu_relu_relu)
-  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_tanh_relu_sigm)
+  # graph(ios_list, charter_high_is_red, charter_high_is_blue, net_bp, initial_weights_per_layer)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_tanh_tanh_tanh, initial_weights_per_layer)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_sigm_sigm_sigm, initial_weights_per_layer)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_relu_relu_relu, initial_weights_per_layer)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_prelu_prelu_prelu, initial_weights_per_layer)
+  graph(ios_list, charter_high_is_red, charter_high_is_blue, cns_tanh_relu_sigm, initial_weights_per_layer)
 end
 
 # # BENCHMARK 1a
@@ -397,6 +502,7 @@ Benchmark.ips do |x|
   x.report("Initialization of MiniNet (Sigmoid) w/ structure of #{structure}") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: width, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID) }
   x.report("Initialization of MiniNet (Tanh) w/ structure of #{structure}") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: width, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH) }
   x.report("Initialization of MiniNet (Relu) w/ structure of #{structure}") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: width, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU) }
+  x.report("Initialization of MiniNet (Prelu) w/ structure of #{structure}") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: width, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU) }
 end
 
 # # BENCHMARK 1b
@@ -413,6 +519,7 @@ Benchmark.ips do |x|
   x.report("Initialization of MiniNet (Sigmoid) w/ structure of #{structure}") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: width, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID) }
   x.report("Initialization of MiniNet (Tanh) w/ structure of #{structure}") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: width, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH) }
   x.report("Initialization of MiniNet (Relu) w/ structure of #{structure}") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: width, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU) }
+  x.report("Initialization of MiniNet (Prelu) w/ structure of #{structure}") { Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: width, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU) }
 end
 
 # # BENCHMARK 2a
@@ -449,6 +556,15 @@ Benchmark.ips do |x|
   x.report("Initialization of ConnectedNetSet::Chain (Relu, Relu") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: hidden, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden, width: width, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
+
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
+    arr << net0
+    arr << net1
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+  end
+  x.report("Initialization of ConnectedNetSet::Chain (Prelu, PrRelu") do
+    net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: hidden, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+    net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden, width: width, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
 
     arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
     arr << net0
@@ -500,6 +616,16 @@ Benchmark.ips do |x|
   x.report("Initialization of ConnectedNetSet::Chain (Relu, Relu") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: hidden, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden, width: width, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
+
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
+    arr << net0
+    arr << net1
+    # arr << net2
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+  end
+  x.report("Initialization of ConnectedNetSet::Chain (Prelu, Prelu") do
+    net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: hidden, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+    net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden, width: width, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
 
     arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
     arr << net0
@@ -565,6 +691,17 @@ Benchmark.ips do |x|
     arr << net2
     Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
+  x.report("Initialization of ConnectedNetSet::Chain (Prelu, Prelu") do
+    net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: hidden1, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+    net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden1, width: hidden2, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+    net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden2, width: width, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
+    arr << net0
+    arr << net1
+    arr << net2
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+  end
   x.report("Initialization of ConnectedNetSet::Chain (Tanh, Relu, Sigmoid") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: hidden1, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH)
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden1, width: hidden2, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
@@ -614,10 +751,21 @@ Benchmark.ips do |x|
     arr << net2
     Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
   end
-  x.report("Initialization of ConnectedNetSet::Chain (Relu, Relu") do
+  x.report("Initialization of ConnectedNetSet::Chain (Relu, Relu, Relu") do
     net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: hidden1, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
     net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden1, width: hidden2, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden2, width: width, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
+
+    arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
+    arr << net0
+    arr << net1
+    arr << net2
+    Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+  end
+  x.report("Initialization of ConnectedNetSet::Chain (Prelu, Prelu, Prelu") do
+    net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: height, width: hidden1, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+    net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden1, width: hidden2, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
+    net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden2, width: width, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
 
     arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
     arr << net0

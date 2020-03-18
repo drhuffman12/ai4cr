@@ -216,6 +216,8 @@ module Ai4cr
       # This method returns the network error:
       # => 0.5 * sum( (expected_value[i] - output_value[i])**2 )
       def train(inputs, outputs)
+        raise "Mismatch re inputs size; given: #{inputs.size}, expected: #{@structure[0]}" if inputs.size != @structure[0]
+        raise "Mismatch re outputs size; given: #{outputs.size}, expected: #{@structure[-1]}" if outputs.size != @structure[-1]
         # inputs = inputs.map { |v| v.to_f }
         outputs = outputs.map { |v| v.to_f }
         eval(inputs)

@@ -5,14 +5,48 @@ module Ai4cr
     module Cmn
       module MiniNetConcerns
         module CalcGuess
-          # ####
-          # # TODO: Move prop and deriv methods to subclass and split method pairs per sub-class
-          # def propagation_function
-          #   ->(x : Float64) { x } # { 1/(1 + Math.exp(-1*(x))) } # lambda { |x| Math.tanh(x) }
-          # end
-          abstract def propagation_function
+          # steps for 'eval' aka 'guess':
+          def eval(inputs_given) # aka eval
+            step_load_inputs(inputs_given)
+            step_calc_forward
 
-          # ####
+            @outputs_guessed
+          end
+
+          def step_load_inputs(inputs_given)
+            raise "Invalid inputs_given size: #{inputs_given.size}; should be height: #{@height}" if inputs_given.size != @height
+            # Network could have a bias, which is tacked onto to the end of the inputs, so we must account for that.
+            inputs_given.each_with_index { |v, i| @inputs_given[i] = v.to_f }
+            @height_indexes
+          end
+
+          def step_calc_forward # aka feedforward # step_calc_forward_1
+            # 1nd place WINNER w/ 100x100 i's and o's
+
+            # close tie beteen step_calc_forward_1 and step_calc_forward_2 as fastest
+            @outputs_guessed = @width_indexes.map do |w|
+              # sum = @height_indexes.map { |h| @inputs_given[h]*@weights[h][w] }.sum
+              sum = 0.0
+              @height_indexes.each { |h| sum += @inputs_given[h]*@weights[h][w] }
+              propagation_function.call(sum)
+              # sum
+            end
+          end
+
+          def propagation_function
+            case @learning_style
+            when LS_PRELU # LearningStyle::Prelu
+              ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
+            when LS_RELU # LearningStyle::Rel
+              ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
+            when LS_SIGMOID                                # LearningStyle::Sigmoid
+              ->(x : Float64) { 1/(1 + Math.exp(-1*(x))) } # lambda { |x| Math.tanh(x) }
+            when LS_TANH                                   # LearningStyle::Tanh
+              ->(x : Float64) { Math.tanh(x) }
+            else
+              raise "Unsupported LearningStyle"
+            end
+          end
 
           # pseudo-abstract
           # default set below, but might be different per subclass
@@ -43,39 +77,6 @@ module Ai4cr
 
           def guesses_bottom_n(n = @outputs_guessed.size)
             guesses_sorted.reverse[0..(n - 1)]
-          end
-
-          # steps for 'eval' aka 'guess':
-          def eval(inputs_given) # aka eval
-            step_load_inputs(inputs_given)
-            step_calc_forward
-            # ...
-
-            @outputs_guessed
-          end
-
-          def step_load_inputs(inputs)
-            raise "Invalid inputs_given size: #{inputs.size}; should be height: #{@height}" if inputs.size != @height
-            load_inputs(inputs)
-          end
-
-          def load_inputs(inputs_given)
-            # Network could have a bias, which is racked onto to the end of the inputs, so we must account for that.
-            inputs_given.each_with_index { |v, i| @inputs_given[i] = v.to_f }
-          end
-
-          def step_calc_forward # aka feedforward # step_calc_forward_1
-            # 1nd place WINNER w/ 100x100 i's and o's
-
-            # close tie beteen step_calc_forward_1 and step_calc_forward_2 as fastest
-            @outputs_guessed = @width_indexes.map do |w|
-              sum = 0.0
-              @height_indexes.each do |h|
-                sum += @inputs_given[h]*@weights[h][w]
-              end
-              propagation_function.call(sum)
-              # sum
-            end
           end
         end
       end

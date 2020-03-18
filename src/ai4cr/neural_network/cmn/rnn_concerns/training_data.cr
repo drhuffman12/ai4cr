@@ -12,12 +12,12 @@ module Ai4cr
           getter io_set_qty : Int32
           getter io_set_index_max : Int32
           getter io_set_index_ids : Array(Int32)
+
           def initialize(
-            @sequenced_inputs : Array(Array(Float64)) = [[0.0,0.1,0.2],[1.0,1.1,1.2],[2.0,2.1,2.2]],
+            @sequenced_inputs : Array(Array(Float64)) = [[0.0, 0.1, 0.2], [1.0, 1.1, 1.2], [2.0, 2.1, 2.2]],
             @output_offset = 1,
             @time_col_qty = 2
           )
-
             # This assumes that you have:
             # * sis = max time cols (aka sequenced_inputs.size)
             # * oo = offset of inputs to outputs (aka output_offset)
@@ -43,7 +43,7 @@ module Ai4cr
             # sis - 2 | n/a | sis - (oo - 2)
             # sis - 1 | n/a | sis - (oo - 1)
             # sis | n/a | sis - (oo)
-              
+
             @input_sets = Array(Array(Array(Float64))).new
             @output_sets = Array(Array(Array(Float64))).new
             @io_set_qty = sequenced_inputs.size - output_offset - (time_col_qty - 1)
@@ -59,11 +59,10 @@ module Ai4cr
 
               input_set = sequenced_inputs[input_index_from..input_index_to]
               @input_sets << input_set
-              
+
               output_set = sequenced_inputs[output_index_from..output_index_to]
               @output_sets << output_set
             end
-            
           end
         end
       end

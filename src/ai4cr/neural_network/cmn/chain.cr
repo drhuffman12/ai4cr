@@ -100,12 +100,14 @@ module Ai4cr
         end
 
         # TODO: utilize until_min_avg_error
-        def train(inputs_given, outputs_expected, until_min_avg_error = 0.1)
+        def train(inputs_given, outputs_expected) # , until_min_avg_error = 0.1)
+          # guess each sequentially
           @mini_net_set.each_with_index do |net, index|
             index == 0 ? net.step_load_inputs(inputs_given) : net.step_load_inputs(@mini_net_set[index - 1].outputs_guessed)
             net.step_calc_forward
           end
 
+          # adjust each sequentially (in reverse order)
           index_max = @mini_net_set.size - 1
           (0..index_max).to_a.reverse.each do |index|
             net = @mini_net_set[index]
@@ -115,7 +117,7 @@ module Ai4cr
             #   net.step_load_outputs(outputs_expected)
             #   net.step_calculate_error
             # else
-            #   net.step_load_chained_output_deltas(@mini_net_set[index + 1].input_deltas)
+            #   net.step_load_output_deltas_from_chained_input_deltas(@mini_net_set[index + 1].input_deltas)
             # end
 
             # net.step_calculate_error
@@ -126,8 +128,8 @@ module Ai4cr
               net.step_calculate_output_deltas
               # net.train_output_layer(inputs_given, outputs_expected, until_min_avg_error = 0.1)
             else
-              net.step_load_chained_output_deltas(@mini_net_set[index + 1].input_deltas)
-              net.step_calculate_outputs_expected
+              net.step_load_output_deltas_from_chained_input_deltas(@mini_net_set[index + 1].input_deltas)
+              # net.step_calculate_outputs_expected
               # net.train_hidden_layer(inputs_given, @mini_net_set[index + 1].input_deltas, until_min_avg_error = 0.1)
             end
 
@@ -138,6 +140,46 @@ module Ai4cr
 
           @mini_net_set.last.error_total
         end
+
+        # # TODO: utilize until_min_avg_error
+        # def train(inputs_given, outputs_expected) #, until_min_avg_error = 0.1)
+        #   @mini_net_set.each_with_index do |net, index|
+        #     index == 0 ? net.step_load_inputs(inputs_given) : net.step_load_inputs(@mini_net_set[index - 1].outputs_guessed)
+        #     net.step_calc_forward
+        #   end
+
+        #   index_max = @mini_net_set.size - 1
+        #   (0..index_max).to_a.reverse.each do |index|
+        #     net = @mini_net_set[index]
+
+        #     # # index == index_max ? net.step_load_outputs(outputs_expected) : net.step_load_outputs(@mini_net_set[index + 1].input_deltas[0..@mini_net_set[index + 1].height - 1])
+        #     # if index == index_max
+        #     #   net.step_load_outputs(outputs_expected)
+        #     #   net.step_calculate_error
+        #     # else
+        #     #   net.step_load_output_deltas_from_chained_input_deltas(@mini_net_set[index + 1].input_deltas)
+        #     # end
+
+        #     # net.step_calculate_error
+        #     # net.step_backpropagate
+
+        #     if index == index_max
+        #       net.step_load_outputs(outputs_expected)
+        #       net.step_calculate_output_deltas
+        #       # net.train_output_layer(inputs_given, outputs_expected, until_min_avg_error = 0.1)
+        #     else
+        #       net.step_load_output_deltas_from_chained_input_deltas(@mini_net_set[index + 1].input_deltas)
+        #       net.step_calculate_outputs_expected
+        #       # net.train_hidden_layer(inputs_given, @mini_net_set[index + 1].input_deltas, until_min_avg_error = 0.1)
+        #     end
+
+        #     net.step_calculate_error
+
+        #     net.step_backpropagate
+        #   end
+
+        #   @mini_net_set.last.error_total
+        # end
 
         def guesses_best
           @mini_net_set.last.guesses_best

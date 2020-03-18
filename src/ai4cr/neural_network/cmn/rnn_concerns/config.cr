@@ -5,7 +5,7 @@ module Ai4cr
   module NeuralNetwork
     module Cmn
       module RnnConcerns
-        record NetConfig,
+        record Config,
           hidden_layer_qty : Int32 = 2,
           hist_qty_max : Int32 = 1,
           time_col_qty : Int32 = 3,

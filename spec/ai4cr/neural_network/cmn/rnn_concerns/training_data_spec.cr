@@ -1,19 +1,17 @@
 require "./../../../../spec_helper"
 
 describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainingData do
-
   time_col_qty = 3
-  config = Ai4cr::NeuralNetwork::Cmn::RnnConcerns::NetConfig.new(
+  config = Ai4cr::NeuralNetwork::Cmn::RnnConcerns::Config.new(
     input_state_size: 11, hidden_state_size: 22, output_state_size: 11,
     time_col_qty: time_col_qty
   )
 
   simple_wave_rise = (0..10).to_a.map { |i| (0..10).to_a.map { |j| i == j ? 1.0 : 0.0 } }
   training_data = simple_wave_rise + simple_wave_rise.reverse + simple_wave_rise + simple_wave_rise.reverse
-  
+
   puts "TrainingData.new: #{Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainingData.new}"
 
-  
   # describe "when importing and exporting as JSON" do
   #   rnn = Ai4cr::NeuralNetwork::Cmn::Rnn.new
   #   rnn_to_json = rnn.to_json

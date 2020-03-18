@@ -42,6 +42,26 @@ net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
 assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
 ```
 
+Ai4cr::NeuralNetwork::Backpropagation has been re-written w/ no hidden layers (but chainable) as Ai4cr::NeuralNetwork::Cmn::MiniNet
+
+```
+# Create and save a net
+net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(...)
+File.write("../ai4cr_ui/db/seeds/BackpropagationNet.new.json",net.to_json)
+
+# Train and save a net
+net.train(some_input, expected_output, output_deltas, as_output) # The last two params are for chaining
+File.write("../ai4cr_ui/db/seeds/Cmn_MiniNet.trained.json",net.to_json)
+
+# Verify serialization in a spec
+json = net.to_json
+net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(json)
+assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
+```
+
+
+
+
 ## Comparison benchmarks
 
 To build and run them:

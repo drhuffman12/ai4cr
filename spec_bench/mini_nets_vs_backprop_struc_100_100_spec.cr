@@ -4,6 +4,8 @@ require "benchmark"
 require "ascii_bar_charter"
 require "./../src/ai4cr.cr"
 
+include Ai4cr::NeuralNetwork::ChartingAndPlotting
+
 width = 100
 height = 100
 structure = [width, height]
@@ -26,80 +28,6 @@ net_ls_prelu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: heig
 net_ls_relu = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
 net_ls_sigmoid = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
 net_ls_tanh = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(width: width, height: height, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_TANH)
-
-def histogram(arr, precision = 0) # , keys = [] of Float64)
-  h = Hash(Float64, Int32).new
-  # keys.each {|k| h[k] = 0}
-  arr.flatten.group_by { |v| v.round(precision) }
-    .each { |elem| h[elem[0]] = elem[1].size }
-  h.to_a.sort { |a, b| a[0] <=> b[0] }.to_h
-end
-
-def plot_errors(name, net)
-  puts "\n--------\n"
-  puts name
-
-  min = 0.0
-  max = 1.0
-  precision = 2.to_i8
-  in_bw = false
-  prefixed = false
-  inverted_colors = false
-
-  charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: inverted_colors)
-  plot = charter.plot(net.error_distance_history, prefixed)
-
-  puts "  plot: '#{plot}'"
-  puts "  error_distance_history: '#{net.error_distance_history.map { |e| e.round(6) }}'"
-
-  puts "\n--------\n"
-end
-
-def plot_weights(name, weights, verbose = false)
-  puts "\n--------\n"
-  puts name
-
-  min = -1.0
-  max = 1.0
-  precision = 3.to_i8
-  in_bw = false
-  prefixed = false
-  inverted_colors = true
-
-  char_box = '\u2588' # 'x' # '\u25A0'
-  # bar_chars = 11.times.to_a.map{ '\u25A0' }
-
-  bar_colors = [:red, :black, :dark_gray, :yellow, :light_gray, :white, :green]
-  # bar_chars = bar_colors.size.times.to_a.map{ '\u25A0' }
-  bar_chars = bar_colors.size.times.to_a.map { char_box }
-
-  charter = AsciiBarCharter.new(
-    min: min, max: max, precision: precision,
-
-    # bar_chars: AsciiBarCharter::BAR_CHARS,
-    # bar_colors: AsciiBarCharter::BAR_COLORS,
-    bar_chars: bar_chars,
-
-    # bar_chars: AsciiBarCharter::BAR_CHARS_ALT,
-    # bar_colors: AsciiBarCharter::BAR_COLORS_ALT,
-    bar_colors: bar_colors,
-
-    in_bw: in_bw, inverted_colors: inverted_colors
-  )
-
-  weights_flattened = weights.flatten
-  puts "  TOTALS:: min: #{weights_flattened.min.round(precision*2)}, max: #{weights_flattened.max.round(precision*2)}, avg: #{(1.0 * weights_flattened.sum / weights_flattened.size).round(precision*2)}, stddev: #{weights_flattened.standard_deviation}"
-  # puts "  HISTOGRAM:: #{histogram(weights_flattened)}"
-  puts "  ROWS::"
-  weights.each do |row|
-    plot = charter.plot(row, prefixed)
-
-    puts "  plot: '#{plot}', min: #{row.min.round(precision*2)}, max: #{row.max.round(precision*2)}, avg: #{(1.0 * row.sum / weights_flattened.size).round(precision*2)}, stddev: #{row.standard_deviation}"
-    puts "  row: '#{row.map { |e| e.round(precision*2) }}'" if verbose
-  end
-
-  puts "\n--------\n"
-end
 
 puts "\n========\n"
 
@@ -198,19 +126,36 @@ puts "\n========\n"
 
 puts "Errors and Trained Weights:"
 
-plot_errors("net_backprop", net_backprop)
-plot_weights("net_backprop(last)", net_backprop.weights.first)
-
-plot_errors("net_ls_prelu", net_ls_prelu)
-plot_weights("net_ls_prelu", net_ls_prelu.weights)
-
-plot_errors("net_ls_relu", net_ls_relu)
-plot_weights("net_ls_relu", net_ls_relu.weights)
-
-plot_errors("net_ls_sigmoid", net_ls_sigmoid)
-plot_weights("net_ls_sigmoid", net_ls_sigmoid.weights)
-
-plot_errors("net_ls_tanh", net_ls_tanh)
-plot_weights("net_ls_tanh", net_ls_tanh.weights)
+precision = 0.1
 
 puts "\n--------\n"
+plot_errors("net_backprop", net_backprop)
+# puts histogram(net_backprop.weights.first, precision)
+plot_histogram("weight histogram", net_backprop.weights.first, precision)
+plot_weights("net_backprop(last)", net_backprop.weights.first)
+
+puts "\n--------\n"
+plot_errors("net_ls_prelu", net_ls_prelu)
+# puts histogram(net_ls_prelu.weights, precision)
+plot_histogram("weight histogram", net_ls_prelu.weights, precision)
+plot_weights("net_ls_prelu", net_ls_prelu.weights)
+
+puts "\n--------\n"
+plot_errors("net_ls_relu", net_ls_relu)
+# puts histogram(net_ls_relu.weights, precision)
+plot_histogram("weight histogram", net_ls_relu.weights, precision)
+plot_weights("net_ls_relu", net_ls_relu.weights)
+
+puts "\n--------\n"
+plot_errors("net_ls_sigmoid", net_ls_sigmoid)
+# puts histogram(net_ls_sigmoid.weights, precision)
+plot_histogram("weight histogram", net_ls_sigmoid.weights, precision)
+plot_weights("net_ls_sigmoid", net_ls_sigmoid.weights)
+
+puts "\n--------\n"
+plot_errors("net_ls_tanh", net_ls_tanh)
+# puts histogram(net_ls_tanh.weights, precision)
+plot_histogram("weight histogram", net_ls_tanh.weights, precision)
+plot_weights("net_ls_tanh", net_ls_tanh.weights)
+
+puts "\n========\n"

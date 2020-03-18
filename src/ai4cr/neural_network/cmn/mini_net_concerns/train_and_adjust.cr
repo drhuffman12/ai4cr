@@ -9,37 +9,38 @@ module Ai4cr
 
           # # training steps
           # TODO: utilize until_min_avg_error
-          def train(as_output, inputs_given, outputs_expected, output_deltas, until_min_avg_error = 0.1)
-            if as_output
-              train_output_layer(inputs_given, outputs_expected, until_min_avg_error)
-            else
-              train_hidden_layer(inputs_given, output_deltas, until_min_avg_error)
-            end
-          end
+          # def train(inputs_given, outputs_expected, input_deltas = [] of Float64, as_output = false) # , until_min_avg_error = 0.1)
+          #   if as_output
+          #     train_output_layer(inputs_given, outputs_expected)
+          #   else
+          #     train_hidden_layer(inputs_given, input_deltas)
+          #   end
+          # end
 
-          def train_output_layer(inputs_given, outputs_expected, until_min_avg_error = 0.1)
+          # def train_hidden_layer(inputs_given, input_deltas)
+          #   # step_load_inputs(inputs_given)
+          #   # step_calc_forward
+          #   eval(inputs_given)
+
+          #   step_load_output_deltas_from_chained_input_deltas(input_deltas)
+          #   # step_calculate_outputs_expected
+
+          #   step_calculate_error
+          #   step_backpropagate
+
+          #   @error_total
+          # end
+
+          # def train_output_layer(inputs_given, outputs_expected)
+          def train(inputs_given, outputs_expected)
             step_load_inputs(inputs_given)
             step_calc_forward
+            # eval(inputs_given)
 
             step_load_outputs(outputs_expected)
             step_calculate_output_deltas
 
             step_calculate_error
-
-            step_backpropagate
-
-            @error_total
-          end
-
-          def train_hidden_layer(inputs_given, output_deltas, until_min_avg_error = 0.1)
-            step_load_inputs(inputs_given)
-            step_calc_forward
-
-            step_load_chained_output_deltas(output_deltas)
-            step_calculate_outputs_expected
-
-            step_calculate_error
-
             step_backpropagate
 
             @error_total
@@ -53,16 +54,22 @@ module Ai4cr
 
           # This would be a chained MiniNet's input_deltas
           # e.g.: mini_net_A feeds is chained into mini_net_B
-          #    So you would mini_net_A.step_load_chained_output_deltas(mini_net_B.input_deltas)
-          def step_load_chained_output_deltas(output_deltas)
-            raise "Invalid output_deltas size" if outputs_expected.size != @width
-            # load_output_deltas(output_deltas)
-            @output_deltas.map_with_index! { |_, i| output_deltas[i] }
+          #    So you would mini_net_A.step_load_output_deltas_from_chained_input_deltas(mini_net_B.input_deltas)
+          def step_load_output_deltas_from_chained_input_deltas(in_deltas)
+            raise "Invalid in_deltas size; GIVEN (in_deltas.size): #{in_deltas.size}, EXPECTED (width): #{@width}" if in_deltas.size != @width
+            # load_output_deltas(in_deltas)
+            @output_deltas.map_with_index! { |_, i| in_deltas[i] }
           end
 
-          def step_calculate_outputs_expected
-            @outputs_expected.map_with_index! { |_, i| outputs_guessed[i] + output_deltas[i] }
+          def append_output_deltas_from_chained_input_deltas(input_deltas)
+            raise "Invalid input_deltas size; GIVEN (input_deltas.size): #{input_deltas.size}, EXPECTED (width): #{@width}" if input_deltas.size != @width
+            # load_output_deltas(input_deltas)
+            @output_deltas.map_with_index! { |od, i| od + input_deltas[i] }
           end
+
+          # def step_calculate_outputs_expected
+          #   @outputs_expected.map_with_index! { |_, i| outputs_guessed[i] + output_deltas[i] }
+          # end
 
           def step_calculate_output_deltas
             @output_deltas = @outputs_expected.map_with_index do |oe, iw|
@@ -72,7 +79,7 @@ module Ai4cr
 
           def step_calculate_error
             error = 0.0
-            @outputs_expected.map_with_index do |oe, iw|
+            @width_indexes.each do |iw|
               error += 0.5*(@output_deltas[iw])**2
             end
             @error_total = error
@@ -152,21 +159,6 @@ module Ai4cr
           # Per Learning Style:
           def set_deriv_scale_prelu(scale)
             @deriv_scale = scale
-          end
-
-          def propagation_function
-            case @learning_style
-            when LS_PRELU # LearningStyle::Prelu
-              ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
-            when LS_RELU # LearningStyle::Rel
-              ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
-            when LS_SIGMOID                                # LearningStyle::Sigmoid
-              ->(x : Float64) { 1/(1 + Math.exp(-1*(x))) } # lambda { |x| Math.tanh(x) }
-            when LS_TANH                                   # LearningStyle::Tanh
-              ->(x : Float64) { Math.tanh(x) }
-            else
-              raise "Unsupported LearningStyle"
-            end
           end
 
           def derivative_propagation_function

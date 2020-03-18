@@ -31,7 +31,7 @@ module Ai4cr
           property learning_style : LearningStyle
           property deriv_scale : Float64
 
-          def initialize(mini_net_config : MiniNetConcerns::MiniNetConfig)
+          def initialize(mini_net_config : MiniNetConcerns::Config)
             @height = mini_net_config.height
             @width = mini_net_config.width
             @learning_style = mini_net_config.learning_style
@@ -60,9 +60,19 @@ module Ai4cr
             @output_deltas = Array.new(width, 0.0)
 
             # TODO: set weights based on learning_type
-            # @weights = @height_indexes.map { @width_indexes.map { rand*2 - 1 } }
+            # See: https://medium.com/datadriveninvestor/deep-learning-best-practices-activation-functions-weight-initialization-methods-part-1-c235ff976ed
             # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(2.0/(height_considering_bias + width))) } }
-            @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(height_considering_bias/2.0)) } }
+            @weights = case @learning_style
+                       when LS_TANH, LS_SIGMOID
+                         # Xavier initialization mostly used with tanh and logistic activation function
+                         @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(2.0/(height_considering_bias + width))) } }
+                       when LS_RELU, LS_PRELU
+                         # He-initialization mostly used with ReLU or it’s variants — Leaky ReLU.
+                         @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(height_considering_bias/2.0)) / 100.0 } }
+                       else
+                        #  raise "Unsupported Learning Style: #{@learning_style}"
+                         @height_indexes.map { @width_indexes.map { rand*2 - 1 } }
+                       end
 
             @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
 
@@ -93,7 +103,8 @@ module Ai4cr
             # @learning_style = Common::LearningStyle::Relu
 
             @bias_disabled = !!bias_disabled
-            @bias_scale = (bias_scale < 0.0) ? [1.0, bias_scale].min : 0.0
+            # keep bias_scale between -1 and 1
+            @bias_scale = (bias_scale < -1.0) ? -1.0 : [1.0, bias_scale].min
             @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : [1.0, learning_rate.as(Float64)].min
             @momentum = momentum && momentum.as(Float64) > 0.0 ? [1.0, momentum.as(Float64)].min : rand
 
@@ -102,8 +113,7 @@ module Ai4cr
             @height_indexes = Array.new(@height_considering_bias) { |i| i }
 
             @inputs_given = Array.new(@height_considering_bias, 0.0)
-            @inputs_given[-1] = 1.0 unless @bias_disabled
-            # @inputs_given[-1] = 0.1 unless @bias_disabled
+            @inputs_given[-1] = bias_scale unless @bias_disabled
             @input_deltas = Array.new(@height_considering_bias, 0.0)
 
             @width_indexes = Array.new(width) { |i| i }

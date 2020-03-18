@@ -5,7 +5,7 @@ module Ai4cr
   module NeuralNetwork
     module Cmn
       module MiniNetConcerns
-        record MiniNetConfig,
+        record Config,
           output_state_size : Int32 = 2,
 
           input_prev_layer_size : Int32 = -1,

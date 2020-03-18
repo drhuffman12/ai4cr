@@ -6,7 +6,7 @@ module Ai4cr
     module Cmn
       module RnnConcerns
         module PropsAndInits
-          getter config : RnnConcerns::NetConfig
+          getter config : RnnConcerns::Config
 
           getter layer_index_max : Int32
           getter layer_range : Array(Int32)
@@ -15,7 +15,7 @@ module Ai4cr
           getter time_col_range : Array(Int32)
           getter time_col_range_reversed : Array(Int32)
 
-          property mini_net_configs : Array(Array(MiniNetConcerns::MiniNetConfig))
+          property mini_net_configs : Array(Array(MiniNetConcerns::Config))
 
           property mini_net_set : Array(Array(MiniNet))
 
@@ -23,7 +23,7 @@ module Ai4cr
           getter input_deltas : Array(Array(Float64))
           getter error_total : Array(Float64)
 
-          def initialize(@config = RnnConcerns::NetConfig.new)
+          def initialize(@config = RnnConcerns::Config.new)
             @layer_index_max = @config.hidden_layer_qty
             @layer_range = (0..@layer_index_max).to_a
             @layer_range_reversed = @layer_range.reverse
@@ -70,7 +70,7 @@ module Ai4cr
                 # hist_qty = (@config.hist_qty_max > t) ? [t - @config.hist_qty_max + 1, @config.hist_qty_max].min : 0
                 # input_hist_set_sizes = (0..hist_qty - 1).to_a.map { hist_state_size }
 
-                MiniNetConcerns::MiniNetConfig.new(
+                MiniNetConcerns::Config.new(
                   output_state_size: output_state_size,
                   input_prev_layer_size: input_prev_layer_size,
                   input_hist_set_sizes: input_hist_set_sizes,
