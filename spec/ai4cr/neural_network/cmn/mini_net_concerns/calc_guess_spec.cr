@@ -7,8 +7,8 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNetConcerns::CalcGuess do
       # before_each do
       # structure = [3, 2]
       # net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
-      bias_scale = 1
-      net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new( height: 3, width: 2, bias_scale: bias_scale, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID )
+      bias_scale = 1.0
+      net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 3, width: 2, bias_scale: bias_scale, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
 
       inputs = [0.1, 0.2, 0.3]
       hard_coded_weights = [

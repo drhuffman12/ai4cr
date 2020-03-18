@@ -32,7 +32,7 @@ module Ai4cr
           property deriv_scale : Float64
 
           def initialize(
-            @height = 2, @width = 1,
+            @height : Int32 = 2, @width : Int32 = 1,
             @learning_style : LearningStyle = LS_RELU, #  LearningStyle::Relu,
 
             # for Prelu
@@ -40,7 +40,7 @@ module Ai4cr
             # @deriv_scale = 0.1,
             # @deriv_scale = 0.01,
             # @deriv_scale = 0.001,
-            @deriv_scale = rand / 100.0,
+            @deriv_scale : Float64 = rand / 100.0,
 
             bias_disabled : Bool? = nil,
             @bias_scale : Float64 = rand,
