@@ -22,9 +22,9 @@ jobs:
       run: crystal -v
     - name: Show repo version
       run: scripts/version_info
+    #   # TODO: re-enable ameba after that shard is updated for Crystal 1.0 compatibility
     # - name: Run static code analysis
     #   run: bin/ameba --no-color
-    #   # TODO: re-enable ameba after that shard is updated for Crystal 1.0 compatibility
     - name: Run tests
       run: scripts/test_always
       # run: crystal spec
