@@ -45,7 +45,7 @@ module Ai4cr
           )
             # @learning_style = Common::LearningStyle::Relu
 
-            @disable_bias = !!disable_bias
+            @disable_bias = disable_bias.nil? ? false : !!disable_bias # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
             @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
             @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
 

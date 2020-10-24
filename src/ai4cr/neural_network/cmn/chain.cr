@@ -38,6 +38,9 @@ module Ai4cr
         #   cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
         def initialize(@net_set)
           @structure = calc_structure
+
+          # puts "chain .. initialize .. structure: #{@structure}"
+
           # @weight_height_mismatches = Array(Hash(Symbol,UInt32)).new
           @weight_height_mismatches = Array(Hash(Symbol, Int32)).new
         end
@@ -83,9 +86,13 @@ module Ai4cr
         end
 
         def eval(inputs_given)
+          # puts "\nvvv\n" + "eval .. inputs_given.size: #{inputs_given.size} .. inputs_given: #{inputs_given}" + "\n---\n"
+
           @net_set.each_with_index do |net, index|
             # index == 0 ? net.step_load_inputs(inputs_given) : net.step_load_inputs(@net_set[index - 1].outputs_guessed)
 
+            # puts "\nvvv\n" + "eval .. net.height: #{net.height} .. net.width: #{net.width}" + "\n---\n"
+            
             # load inputs
             if index == 0
               net.step_load_inputs(inputs_given)
@@ -101,8 +108,13 @@ module Ai4cr
 
         # TODO: utilize until_min_avg_error
         def train(inputs_given, outputs_expected, until_min_avg_error = 0.1)
+
+          # puts "\nvvv\n" + "train .. inputs_given.size: #{inputs_given.size} .. inputs_given: #{inputs_given} .. outputs_expected.size: #{outputs_expected.size} .. outputs_expected: #{outputs_expected}" + "\n---\n"
+
           @net_set.each_with_index do |net, index|
+            # puts "\nvvv\n" + "train .. index: #{index}" + "\n---\n"
             index == 0 ? net.step_load_inputs(inputs_given) : net.step_load_inputs(@net_set[index - 1].outputs_guessed)
+
             net.step_calc_forward
           end
 
