@@ -34,7 +34,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
         # net.learning_rate = rand
-        qty = 10000
+        qty = 20000
         qty_x_percent = qty // 5
 
         describe "using net of types of: Sigmoid" do

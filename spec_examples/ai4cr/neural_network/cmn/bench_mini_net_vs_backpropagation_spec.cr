@@ -8,7 +8,7 @@ width = 100
 height = 100
 structure = [width, height]
 
-training_io_qty = 10000
+training_io_qty = 20000
 graph_sample_percent = training_io_qty // 20
 training_io_indexes = training_io_qty.times.to_a
 

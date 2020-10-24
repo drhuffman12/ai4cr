@@ -27,7 +27,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         net = Ai4cr::NeuralNetwork::Backpropagation.new([256, 3], error_distance_history_max: 60)
 
         # net.learning_rate = rand
-        qty = 10000
+        qty = 20000
         qty_x_percent = qty // 5
 
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
@@ -187,7 +187,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         net = Ai4cr::NeuralNetwork::Backpropagation.new([256, hidden_size, hidden_size, 3], error_distance_history_max: 60)
 
         # net.learning_rate = rand
-        qty = 10000
+        qty = 20000
         qty_x_percent = qty // 5
 
         puts "\n--------\n"
