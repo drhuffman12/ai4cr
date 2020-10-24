@@ -8,7 +8,7 @@ width = 100
 height = 100
 structure = [width, height]
 
-training_io_qty = 100
+training_io_qty = 10000
 graph_sample_percent = training_io_qty // 20
 training_io_indexes = training_io_qty.times.to_a
 
@@ -60,7 +60,7 @@ def plot_errors(name, net)
   prefixed = false
   reversed = false
 
-  charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
+  charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
   plot = charter.plot(net.error_distance_history, prefixed)
 
   puts "  plot: '#{plot}'"
@@ -88,7 +88,7 @@ def plot_weights(name, weights, verbose = false)
   # bar_chars = bar_colors.size.times.to_a.map{ '\u25A0' }
   bar_chars = bar_colors.size.times.to_a.map{ char_box }
 
-  charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
+  charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: inverted_colors)
 
   weights_flattened = weights.flatten
   puts "  TOTALS:: min: #{weights_flattened.min.round(precision*2)}, max: #{weights_flattened.max.round(precision*2)}, avg: #{(1.0 * weights_flattened.sum / weights_flattened.size).round(precision*2)}, stddev: #{weights_flattened.standard_deviation}"

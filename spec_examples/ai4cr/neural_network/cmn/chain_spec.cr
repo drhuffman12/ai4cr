@@ -34,7 +34,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
         # net.learning_rate = rand
-        qty = 100
+        qty = 10000
         qty_x_percent = qty // 5
 
         describe "using net of types of: Sigmoid" do
@@ -88,7 +88,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
               prefixed = false
               reversed = false
 
-              charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
+              charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
               plot = charter.plot(cns.net_set.last.error_distance_history, prefixed)
 
               puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
@@ -245,7 +245,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
               prefixed = false
               reversed = false
 
-              charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
+              charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
               plot = charter.plot(cns.net_set.last.error_distance_history, prefixed)
 
               puts "  plot: '#{plot}'"

@@ -1,6 +1,7 @@
 require "./../../spec_helper"
 require "../../support/neural_network/data/*"
 require "json"
+require "ascii_bar_charter"
 
 describe Ai4cr::NeuralNetwork::Backpropagation do
   describe "#train" do
@@ -26,7 +27,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         net = Ai4cr::NeuralNetwork::Backpropagation.new([256, 3], error_distance_history_max: 60)
 
         # net.learning_rate = rand
-        qty = 100
+        qty = 10000
         qty_x_percent = qty // 5
 
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
@@ -57,7 +58,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
           prefixed = false
           reversed = false
 
-          charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
+          charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
           plot = charter.plot(net.error_distance_history, prefixed)
 
           puts "#{net.class.name} with structure of #{net.structure}:"
@@ -186,7 +187,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         net = Ai4cr::NeuralNetwork::Backpropagation.new([256, hidden_size, hidden_size, 3], error_distance_history_max: 60)
 
         # net.learning_rate = rand
-        qty = 100
+        qty = 10000
         qty_x_percent = qty // 5
 
         puts "\n--------\n"
@@ -225,7 +226,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
           prefixed = false
           reversed = false
 
-          charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
+          charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
           plot = charter.plot(net.error_distance_history, prefixed)
 
           puts "  plot: '#{plot}'"

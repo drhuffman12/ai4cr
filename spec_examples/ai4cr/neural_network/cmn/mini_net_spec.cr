@@ -32,7 +32,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
       cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
       # net.learning_rate = rand
-      qty = 100 # 100_000
+      qty = 10000 # 100_000
       qty_x_percent = qty // 5
 
       [
@@ -72,7 +72,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
           prefixed = false
           reversed = false
 
-          charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
+          charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
           plot = charter.plot(net.error_distance_history, prefixed)
 
           puts "#{net.class.name}:"
