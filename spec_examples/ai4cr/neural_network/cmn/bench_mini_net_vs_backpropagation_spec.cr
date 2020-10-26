@@ -1,6 +1,8 @@
 # Yeah, technicallu not a spec, but let's roll with this for now ...
 # require "./../../../../spec_helper"
+# require "./../../../../spec/spec_helper"
 require "./../../../../src/ai4cr.cr"
+require "../../../spec_examples_helper"
 require "benchmark"
 require "ascii_bar_charter"
 
@@ -8,8 +10,8 @@ width = 100
 height = 100
 structure = [width, height]
 
-training_io_qty = 20000
-graph_sample_percent = training_io_qty // 20
+training_io_qty = MULTI_TYPE_TEST_QTY
+graph_sample_percent = training_io_qty // 5 # 20
 training_io_indexes = training_io_qty.times.to_a
 
 height_indexes = height.times.to_a
@@ -202,19 +204,19 @@ puts "\n========\n"
 puts "Errors and Trained Weights:"
 
 plot_errors("net_backprop", net_backprop)
-plot_weights("net_backprop(last)", net_backprop.weights.first)
+# plot_weights("net_backprop(last)", net_backprop.weights.first)
 
 plot_errors("net_ls_prelu", net_ls_prelu)
-plot_weights("net_ls_prelu", net_ls_prelu.weights)
+# plot_weights("net_ls_prelu", net_ls_prelu.weights)
 
 plot_errors("net_ls_relu", net_ls_relu)
-plot_weights("net_ls_relu", net_ls_relu.weights)
+# plot_weights("net_ls_relu", net_ls_relu.weights)
 
 plot_errors("net_ls_sigmoid", net_ls_sigmoid)
-plot_weights("net_ls_sigmoid", net_ls_sigmoid.weights)
+# plot_weights("net_ls_sigmoid", net_ls_sigmoid.weights)
 
 plot_errors("net_ls_tanh", net_ls_tanh)
-plot_weights("net_ls_tanh", net_ls_tanh.weights)
+# plot_weights("net_ls_tanh", net_ls_tanh.weights)
 
 puts "\n--------\n"
 

@@ -1,4 +1,6 @@
-require "./../../spec_helper"
+
+# require "./../../../spec/spec_helper"
+require "../../spec_examples_helper"
 require "../../support/neural_network/data/*"
 require "json"
 require "ascii_bar_charter"
@@ -27,7 +29,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         net = Ai4cr::NeuralNetwork::Backpropagation.new([256, 3], error_distance_history_max: 60)
 
         # net.learning_rate = rand
-        qty = 20000
+        qty = MULTI_TYPE_TEST_QTY
         qty_x_percent = qty // 5
 
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
@@ -187,7 +189,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         net = Ai4cr::NeuralNetwork::Backpropagation.new([256, hidden_size, hidden_size, 3], error_distance_history_max: 60)
 
         # net.learning_rate = rand
-        qty = 20000
+        qty = MULTI_TYPE_TEST_QTY
         qty_x_percent = qty // 5
 
         puts "\n--------\n"
