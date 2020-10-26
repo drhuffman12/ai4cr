@@ -1,6 +1,5 @@
 require "json"
 require "ascii_bar_charter"
-# require "./../../../../spec/spec_helper"
 require "../../../spec_examples_helper"
 require "../../../support/neural_network/data/*"
 
@@ -33,8 +32,8 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
       cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
       # net.learning_rate = rand
-      qty = MULTI_TYPE_TEST_QTY # 100_000
-      qty_x_percent = qty // 5
+      qty = MULTI_TYPE_TEST_QTY
+      qty_x_percent = qty // QTY_X_PERCENT_DENOMINATOR
 
       [
         Ai4cr::NeuralNetwork::Cmn::LS_PRELU,

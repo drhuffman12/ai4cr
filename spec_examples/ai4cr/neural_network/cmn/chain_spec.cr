@@ -1,16 +1,7 @@
 require "json"
 require "ascii_bar_charter"
-# require "./../../../../spec/spec_helper"
 require "../../../spec_examples_helper"
 require "../../../support/neural_network/data/*"
-
-def mini_net_exp_best_guess(net, raw_in)
-  # result = net.eval(raw_in)
-  # result.map { |v| v.round(6) }
-
-  net.eval(raw_in)
-  net.guesses_best
-end
 
 describe Ai4cr::NeuralNetwork::Cmn::Chain do
   describe "#train" do
@@ -36,7 +27,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
 
         # net.learning_rate = rand
         qty = MULTI_TYPE_TEST_QTY
-        qty_x_percent = qty // 5
+        qty_x_percent = qty // QTY_X_PERCENT_DENOMINATOR
 
         describe "using net of types of: Sigmoid" do
           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)

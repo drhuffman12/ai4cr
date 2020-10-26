@@ -1,5 +1,3 @@
-
-# require "./../../../spec/spec_helper"
 require "../../spec_examples_helper"
 require "../../support/neural_network/data/*"
 require "json"
@@ -30,7 +28,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
 
         # net.learning_rate = rand
         qty = MULTI_TYPE_TEST_QTY
-        qty_x_percent = qty // 5
+        qty_x_percent = qty // QTY_X_PERCENT_DENOMINATOR
 
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
           qty.times do |i|
@@ -190,7 +188,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
 
         # net.learning_rate = rand
         qty = MULTI_TYPE_TEST_QTY
-        qty_x_percent = qty // 5
+        qty_x_percent = qty // QTY_X_PERCENT_DENOMINATOR
 
         puts "\n--------\n"
         puts "#{net.class.name} with structure of #{net.structure}:"
