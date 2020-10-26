@@ -63,7 +63,11 @@ charter_high_is_blue = AsciiBarCharter.new(min, max, precision, in_bw, reversed:
 def train(net, ios_list, qty_loops)
   # ins, outs
   qty_10_percent = qty_loops // 10
-  (0..qty_loops).to_a.each do |i|
+
+  # x.report("Array.new") { Array.new(height_considering_bias) { |i| i } }
+  # x.report("to_a") { (0..(height_considering_bias - 1)).to_a }
+  # (0..qty_loops).to_a.each do |i|
+  (Array.new(qty_loops) { |i| i }).each do |i|
     ios = ios_list.sample
     ins = ios[:ins_arr].first # first is for training; all are for guessing
     outs = ios[:outs]

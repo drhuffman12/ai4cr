@@ -16,6 +16,8 @@ module Ai4cr
         # getter weight_height_mismatches : type_of({from_index: 1, to_index: 2, from_width: 3, to_height_considering_bias: 4, from_bias: false, to_bias: true})
         # getter weight_height_mismatches : NamedTuple(from_index: Int32, to_index: Int32, from_width: Int32, to_height_considering_bias: Int32, from_bias: Bool, to_bias: Bool)
         # getter weight_height_mismatches : Array(Hash(Symbol,UInt32))
+        getter net_set_size : Int32
+        getter net_set_indexes_reversed : Array(Int32)
         getter weight_height_mismatches : Array(Hash(Symbol, Int32))
 
         # UINT_FALSE = 0_u32
@@ -38,6 +40,8 @@ module Ai4cr
         #   cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
         def initialize(@net_set)
           @structure = calc_structure
+          @net_set_size = @net_set.size
+          @net_set_indexes_reversed = Array.new(@net_set_size) { |i| @net_set_size - i - 1}
 
           # puts "chain .. initialize .. structure: #{@structure}"
 
@@ -46,7 +50,7 @@ module Ai4cr
         end
 
         def validate
-          index_max = @net_set.size - 1
+          index_max = @net_set_size - 1
 
           # @weight_height_mismatches = Array(Hash(Symbol,UInt32)).new
           @weight_height_mismatches = Array(Hash(Symbol, Int32)).new
@@ -118,8 +122,8 @@ module Ai4cr
             net.step_calc_forward
           end
 
-          index_max = @net_set.size - 1
-          (0..index_max).to_a.reverse.each do |index|
+          index_max = @net_set_size - 1
+          @net_set_indexes_reversed.each do |index|
             net = @net_set[index]
 
             # index == index_max ? net.step_load_outputs(outputs_expected) : net.step_load_outputs(@net_set[index + 1].input_deltas[0..@net_set[index + 1].height - 1])

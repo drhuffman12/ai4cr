@@ -147,3 +147,12 @@ Benchmark.ips do |x|
   x.report("Array.new") { Array.new(height_considering_bias) { |i| i } }
   x.report("to_a") { (0..(height_considering_bias - 1)).to_a }
 end
+
+Benchmark.ips do |x|
+  # x.report("Array.new") { Array.new(height_considering_bias) { |i| i } }
+  x.report("Array.new reversed") { Array.new(height_considering_bias) { |i| i }.reverse }
+  x.report("Array.new max minus") { Array.new(height_considering_bias) { |i| height_considering_bias - i - 1 } }
+  # x.report("to_a") { (0..(height_considering_bias - 1)).to_a.reverse }
+  x.report("to_a reversed") { (0..(height_considering_bias - 1)).to_a.reverse }
+  x.report("to_a downto") { (height_considering_bias - 1).downto(0).to_a.reverse }
+end

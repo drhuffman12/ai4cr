@@ -2,7 +2,7 @@ require "spec"
 require "../src/ai4cr"
 require "../spec/test_helper"
 
-QTY_X_PERCENT_DENOMINATOR = 5
+QTY_X_PERCENT_DENOMINATOR = 20
 # Be sure that MULTI_TYPE_TEST_QTY >= QTY_X_PERCENT_DENOMINATOR
 MULTI_TYPE_TEST_QTY = 100 # 100000
 
