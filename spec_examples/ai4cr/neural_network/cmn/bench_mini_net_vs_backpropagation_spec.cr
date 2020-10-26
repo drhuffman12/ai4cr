@@ -4,10 +4,14 @@ require "../../../spec_examples_helper"
 require "benchmark"
 require "ascii_bar_charter"
 
-# NOTE: The example input and output data is all random.
+# TODO: Adjust the data (from 'just' training to also include guessing); then adjust below comments accordingly!
+# NOTE: These are NOT a test of learning (i.e.: guessing and checking of guesses)!
+# The example input and output data is all random!
+# This currently uses ALL data for training, so
+# it is really more about which net can memorize the best.
 # This is less about successfully learning the data and more
 # about comparing the speeds of the various network combo's.
-# Surprisingly, RELU does seem to catch on and Sigmoid does make some effort,
+# Surprisingly, RELU does seem to 'memorize' and Sigmoid does make some effort,
 # at least for smaller values of MULTI_TYPE_TEST_QTY;
 # i.e.: around 100 is good; around 1000 is bad
 # So, I guess don't 'overtrain'.
