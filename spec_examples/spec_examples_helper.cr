@@ -4,7 +4,8 @@ require "../spec/test_helper"
 
 QTY_X_PERCENT_DENOMINATOR = 20
 # Be sure that MULTI_TYPE_TEST_QTY >= QTY_X_PERCENT_DENOMINATOR
-MULTI_TYPE_TEST_QTY = 100 # 100000
+# For more training, you'll probably want to dial up the "* 1" to "* 1000" or so.
+MULTI_TYPE_TEST_QTY = QTY_X_PERCENT_DENOMINATOR # * 5 * 10
 
 def histogram(arr, precision = 0) # , keys = [] of Float64)
   h = Hash(Float64, Int32).new

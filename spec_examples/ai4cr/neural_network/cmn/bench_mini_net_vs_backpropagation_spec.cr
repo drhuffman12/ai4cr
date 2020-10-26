@@ -4,6 +4,14 @@ require "../../../spec_examples_helper"
 require "benchmark"
 require "ascii_bar_charter"
 
+# NOTE: The example input and output data is all random.
+# This is less about successfully learning the data and more
+# about comparing the speeds of the various network combo's.
+# Surprisingly, RELU does seem to catch on and Sigmoid does make some effort,
+# at least for smaller values of MULTI_TYPE_TEST_QTY;
+# i.e.: around 100 is good; around 1000 is bad
+# So, I guess don't 'overtrain'.
+
 width = 100
 height = 100
 structure = [width, height]
@@ -18,6 +26,8 @@ width_indexes = width.times.to_a
 example_input_set = training_io_indexes.map { height_indexes.map { rand().to_f } }
 example_output_set = training_io_indexes.map { width_indexes.map { rand().round.to_f } }
 
+# TODO: example_input_set_tanh should be based on example_input_set mapped from 0..1 to -1..1 ranges.
+# Likewise for example_output_set_tanh (should be based on example_output_set)
 example_input_set_tanh = training_io_indexes.map { height_indexes.map { (rand()*2 - 1).to_f } }
 example_output_set_tanh = training_io_indexes.map { width_indexes.map { (rand()*2 - 1).round.to_f } }
 
