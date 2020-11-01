@@ -1,11 +1,33 @@
+# NOTE: Some of the files in `spec_bench` folder use the 'spec' functionality.
+# But, these files are more for testing the 'learning' capability, so some failures are assumed.
+# For 'expect to succeed' files, see the regular 'spec' folder.
+
 require "spec"
 require "../src/ai4cr"
 require "../spec/test_helper"
 
+# class Counter
+#   def initialize
+#     @@count = 0
+#     puts "=================== @@count : #{@@count} ==================="
+#   end
+  
+#   def self.count
+#     @@count
+#   end
+
+#   def self.increment
+#     @@count += 1
+#   end    
+# end
+
+# counter = Counter.new
+# puts "******************** counter : #{counter.pretty_inspect} ********************"
+
 QTY_X_PERCENT_DENOMINATOR = 20
 # Be sure that MULTI_TYPE_TEST_QTY >= QTY_X_PERCENT_DENOMINATOR
 # For more training, you'll probably want to dial up the "* 1" to "* 1000" or so.
-MULTI_TYPE_TEST_QTY = QTY_X_PERCENT_DENOMINATOR # * 5 * 10
+MULTI_TYPE_TEST_QTY = QTY_X_PERCENT_DENOMINATOR * 5 * 10 # * 5 * 10
 
 def histogram(arr, precision = 0) # , keys = [] of Float64)
   h = Hash(Float64, Int32).new

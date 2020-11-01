@@ -1,4 +1,4 @@
-require "../../spec_examples_helper"
+require "../../spec_bench_helper"
 require "../../support/neural_network/data/*"
 require "json"
 require "ascii_bar_charter"
