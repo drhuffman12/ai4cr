@@ -1,13 +1,11 @@
 require "option_parser"
 require "benchmark"
 require "ascii_bar_charter"
-require "../ai4cr.cr"
-require "../../spec_examples/support/neural_network/data/*"
+require "../../src/ai4cr"
+require "../support/neural_network/data/*"
 
-# To dig deeper into performance refinement:
-# crystal build --release src/mini_nets_vs_backprop
-# mkdir -p tmp/
-# valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/mini_nets_vs_backprop.out ./mini_nets_vs_backprop
+# TODO: refactor 'Ai4cr::NeuralNetwork::Cmn::MiniNet::Tanh.new(...)' to 'Ai4cr::NeuralNetwork::Cmn::MiniNet.new(..., learning_style: ...)'
+# TODO: Cleanup/consolidate
 
 in_bw = false
 
@@ -17,12 +15,6 @@ OptionParser.parse do |parser|
   parser.on("-b", "--in_bw", "Charts are in black and white") { in_bw = true }
   parser.on("-h", "--help", "Show this help") { puts parser }
 end
-
-# struct Ai4cr::NeuralNetwork::Backpropagation
-#   def skipped_training_history
-#     [false]
-#   end
-# end
 
 is_a_triangle = [1.0, 0.0, 0.0]
 is_a_square = [0.0, 1.0, 0.0]
@@ -53,20 +45,14 @@ qty_loops = 100
 min = 0.0
 max = 1.0
 precision = 2.to_i8
-# in_bw = true
-# in_bw = false
-# prefixed = false
-# reversed = false
-charter_high_is_red = AsciiBarCharter.new(min, max, precision, in_bw, reversed: false)
-charter_high_is_blue = AsciiBarCharter.new(min, max, precision, in_bw, reversed: true)
+
+charter_high_is_red = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: false)
+charter_high_is_blue = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: true)
 
 def train(net, ios_list, qty_loops)
   # ins, outs
   qty_10_percent = qty_loops // 10
 
-  # x.report("Array.new") { Array.new(height_considering_bias) { |i| i } }
-  # x.report("to_a") { (0..(height_considering_bias - 1)).to_a }
-  # (0..qty_loops).to_a.each do |i|
   (Array.new(qty_loops) { |i| i }).each do |i|
     ios = ios_list.sample
     ins = ios[:ins_arr].first # first is for training; all are for guessing
@@ -89,20 +75,15 @@ end
 # end
 
 def eval(net, ios_list)
-  # puts "eval(net, ios_list) ... start"
   wrong_answers = Array(Float64).new
   ios_list.each do |ios|
     outs = ios[:outs]
     ios[:ins_arr].each do |ins|
       net.eval(ins)
-      # puts "#{net.class.name}: expected: #{outs}, guesses_best: #{net.guesses_best || "error"}"
-      # wrong_answers << ((outs ==  net.guesses_best) ? 0.0 : 1.0)
       wrong_answers << array_mismatch_percentage(outs, net.guesses_best)
       # wrong_answers << (assert_approximate_equality_of_nested_list(outs, net.guesses_best) ? 0.0 : 1.0)
     end
   end
-  # puts "eval(net, ios_list) ... wrong_answers: #{wrong_answers}"
-  # puts "eval(net, ios_list) ... end"
   wrong_answers
 end
 

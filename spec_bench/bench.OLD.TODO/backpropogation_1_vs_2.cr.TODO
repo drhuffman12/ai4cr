@@ -1,11 +1,11 @@
 require "benchmark"
-
-require "../ai4cr"
+require "../../src/ai4cr"
 # require "spec/test_helper"
 require "../../spec/spec_helper"
-require "../../spec_examples/support/neural_network/data/training_patterns"
-require "../../spec_examples/support/neural_network/data/patterns_with_noise"
-require "../../spec_examples/support/neural_network/data/patterns_with_base_noise"
+require "../support/neural_network/data/*"
+# require "../../spec_examples/support/neural_network/data/training_patterns"
+# require "../../spec_examples/support/neural_network/data/patterns_with_noise"
+# require "../../spec_examples/support/neural_network/data/patterns_with_base_noise"
 
 # USAGE:
 # time crystal build --release src/bench/backpropogation_1_vs_2.cr -o bin/bench/backpropogation_1_vs_2
@@ -19,8 +19,10 @@ require "../../spec_examples/support/neural_network/data/patterns_with_base_nois
 # valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/bench/backpropogation_1_vs_2.callgrind.out bin/bench/backpropogation_1_vs_2
 
 def verbose?
-  v = ENV["VERBOSE"].to_s.downcase
-  v.size > 0 && v[0] == 't'
+  # v = ENV.keys.include?("VERBOSE") && ENV["VERBOSE"].to_s == 'true'
+  # v = (!!ENV["VERBOSE"]).to_s.downcase
+  # v.size > 0 && v[0] == 't'
+  ENV.keys.includes?("VERBOSE") && ENV["VERBOSE"].to_s[1] == "true"
 end
 
 VERBOSE = verbose?

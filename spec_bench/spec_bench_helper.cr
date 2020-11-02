@@ -6,28 +6,10 @@ require "spec"
 require "../src/ai4cr"
 require "../spec/test_helper"
 
-# class Counter
-#   def initialize
-#     @@count = 0
-#     puts "=================== @@count : #{@@count} ==================="
-#   end
-  
-#   def self.count
-#     @@count
-#   end
-
-#   def self.increment
-#     @@count += 1
-#   end    
-# end
-
-# counter = Counter.new
-# puts "******************** counter : #{counter.pretty_inspect} ********************"
-
 QTY_X_PERCENT_DENOMINATOR = 20
 # Be sure that MULTI_TYPE_TEST_QTY >= QTY_X_PERCENT_DENOMINATOR
 # For more training, you'll probably want to dial up the "* 1" to "* 1000" or so.
-MULTI_TYPE_TEST_QTY = QTY_X_PERCENT_DENOMINATOR * 5 * 10 # * 5 * 10
+MULTI_TYPE_TEST_QTY = QTY_X_PERCENT_DENOMINATOR * 5 # * 5 * 10
 
 def histogram(arr, precision = 0) # , keys = [] of Float64)
   h = Hash(Float64, Int32).new
@@ -68,11 +50,8 @@ def plot_weights(name, weights, verbose = false)
   inverted_colors = true
 
   char_box = '\u2588' # 'x' # '\u25A0'
-  # bar_chars = 11.times.to_a.map{ '\u25A0' }
-
 
   bar_colors = [:red, :black, :dark_gray, :yellow, :light_gray, :white, :green]
-  # bar_chars = bar_colors.size.times.to_a.map{ '\u25A0' }
   bar_chars = bar_colors.size.times.to_a.map{ char_box }
 
   charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: inverted_colors)
@@ -92,9 +71,11 @@ def plot_weights(name, weights, verbose = false)
 end
 
 def mini_net_exp_best_guess(net, raw_in)
-  # result = net.eval(raw_in)
-  # result.map { |v| v.round(6) }
+  net.eval(raw_in)
+  net.guesses_best
+end
 
+def mini_net_relu_best_guess(net, raw_in)
   net.eval(raw_in)
   net.guesses_best
 end

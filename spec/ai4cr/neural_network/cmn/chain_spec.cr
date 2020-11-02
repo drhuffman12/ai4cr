@@ -11,25 +11,17 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
       [-0.4, 0.9, -0.4, -0.7], # index 0
       [0.1, 0.8, 0.9, -0.0], # index 1
       [-0.7, -0.3, -0.6, -0.7], # index bias
-      # [1.0, 0.2, 0.6, -0.5],
     ]
     hard_coded_weights1 = [
       [-0.4, 0.8, 0.2],
       [-1.0, -0.3, 0.4],
       [-0.6, 0.6, 0.6],
       [0.2, -0.3, 0.8],
-      # [1.0, -0.1],
     ]
 
-    # puts "hard_coded_weights0: #{hard_coded_weights0.pretty_inspect}"
-    # puts "hard_coded_weights1: #{hard_coded_weights1.pretty_inspect}"
-
     expected_outputs_guessed_before = [0.0, 0.0, 0.0]
-    # expected_outputs_guessed_after = [0.454759979898907, 0.635915600435646]
     expected_outputs_guessed_after = [0.3127367832076713, 0.5628929575130488, 0.6782747272874269]
     expected_outputs_guessed_trained = [1.0, 0.1, 0.5]
-      #  Expected 0.42809735352948664 to be within 0.01 of 0.635915600435646
-      #  Expected 0.7010058764829652 to be within 0.01 of 0.454759979898907
 
     context "#init_network" do
       it "the 'outputs_guessed' start as zeros" do 
@@ -89,7 +81,6 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
 
         cns.eval(inputs)
         outputs_guessed_after = cns.net_set.last.outputs_guessed.clone
-        # puts "\ncns (AFTER): #{cns.to_json}\n"
 
         assert_approximate_equality_of_nested_list expected_outputs_guessed_after, outputs_guessed_after
       end
@@ -123,7 +114,6 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         cns.train(inputs, expected_outputs_guessed_trained)
         
         outputs_guessed_after = cns.net_set.last.outputs_guessed.clone
-        # puts "\ncns (AFTER): #{cns.to_json}\n"
 
         assert_approximate_equality_of_nested_list expected_outputs_guessed_after, outputs_guessed_after
 

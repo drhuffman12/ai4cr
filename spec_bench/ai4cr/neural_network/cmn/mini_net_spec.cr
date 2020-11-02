@@ -3,14 +3,6 @@ require "ascii_bar_charter"
 require "../../../spec_bench_helper"
 require "../../../support/neural_network/data/*"
 
-def mini_net_relu_best_guess(net, raw_in)
-  # result = net.eval(raw_in)
-  # result.map { |v| v.round(6) }
-
-  net.eval(raw_in)
-  net.guesses_best
-end
-
 describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
   describe "#train" do
     describe "using image data (input) and shape flags (output) for triangle, square, and cross" do

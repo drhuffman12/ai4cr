@@ -32,7 +32,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
 
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
           qty.times do |i|
-            print "." if i % qty_x_percent == 0 # 1000 == 0
+            print "." if i % qty_x_percent == 0
             errors = {} of Symbol => Float64
             [:tr, :sq, :cr].shuffle.each do |s|
               case s

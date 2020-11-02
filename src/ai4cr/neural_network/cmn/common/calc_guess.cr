@@ -12,15 +12,13 @@ module Ai4cr
           # end
           abstract def propagation_function
 
-          # ####
-
           # pseudo-abstract
           # default set below, but might be different per subclass
           def guesses_best
             guesses_as_is
           end
 
-          # # To get the sorted/top/bottom n output results
+          # sorted/top/bottom n output results
           def guesses_as_is
             @outputs_guessed
           end
@@ -49,15 +47,11 @@ module Ai4cr
           def eval(inputs_given) # aka eval
             step_load_inputs(inputs_given)
             step_calc_forward
-            # ...
 
             @outputs_guessed
           end
 
           def validate_inputs(inputs, height_expected)
-            # if inputs.size != height_expected
-            #   raise "Invalid inputs given size: #{inputs.size}; should be height_expected: #{height_expected}"
-            # end
             if (inputs.size > height_expected)
               raise "Invalid inputs given size: #{inputs.size}; should be no more than height_expected: #{height_expected}"
             end
@@ -67,13 +61,9 @@ module Ai4cr
             if outputs.size != width_expected
               raise "Invalid outputs size: #{outputs.size}; should be width_expected: #{width_expected}"
             end
-            # if (outputs.size > width_expected)
-            #   raise "Invalid outputs given size: #{outputs.size}; should be no more than width_expected: #{width_expected}"
-            # end
           end
 
           def step_load_inputs(inputs_given)
-            # raise "Invalid inputs_given size: #{inputs.size}; should be height: #{@height}" if inputs.size != @height
             validate_inputs(inputs_given, @height_considering_bias)
             load_inputs(inputs_given)
           end
@@ -84,33 +74,18 @@ module Ai4cr
             inputs_given.each_with_index { |v, i| @inputs_given[i] = v.to_f }
           end
 
-          def step_calc_forward # aka feedforward # step_calc_forward_1
-            # 1nd place WINNER w/ 100x100 i's and o's
-
-            # puts "validate_inputs(@inputs_given, @height_considering_bias)"
+          def step_calc_forward # aka feedforward
             validate_inputs(@inputs_given, @height_considering_bias)
 
-            # puts "validate_inputs(@inputs_given, @height_indexes.size)"
-            # validate_inputs(@inputs_given, @height_indexes.size)
-
-            # puts "validate_outputs(@inputs_given, @height_considering_bias)"
             validate_outputs(@outputs_guessed, @width)
             validate_outputs(@outputs_guessed, @width_indexes.size)
 
-            # close tie beteen step_calc_forward_1 and step_calc_forward_2 as fastest
             @outputs_guessed = @width_indexes.map do |w|
               sum = 0.0
               @height_indexes.each do |h|
-                # puts "v"*10
-                # puts "@inputs_given: #{@inputs_given}"
-                # puts "@weights: #{@weights}"
-                # puts "h: #{h}, w: #{w}"
-                # puts "-"*10
-
                 sum += @inputs_given[h]*@weights[h][w]
               end
               propagation_function.call(sum)
-              # sum
             end
 
             validate_outputs(@outputs_guessed, @width)
