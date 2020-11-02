@@ -18,6 +18,7 @@ module Ai4cr
 
           property input_deltas : Array(Float64), output_deltas : Array(Float64)
 
+          property disable_bias_default : Float64
           property disable_bias : Bool
           property learning_rate : Float64
           property momentum : Float64
@@ -44,8 +45,9 @@ module Ai4cr
             error_distance_history_max : Int32 = 10
           )
             # @learning_style = Common::LearningStyle::Relu
+            @disable_bias_default = 1.0
 
-            @disable_bias = !!disable_bias
+            @disable_bias = disable_bias.nil? ? false : !!disable_bias # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
             @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
             @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
 
@@ -83,10 +85,9 @@ module Ai4cr
             @height_indexes = Array.new(@height_considering_bias) { |i| i }
 
             @inputs_given = Array.new(@height_considering_bias, 0.0)
-            @inputs_given[-1] = 1.0 unless @disable_bias
-            # @inputs_given[-1] = 0.1 unless @disable_bias
+            @inputs_given[-1] = disable_bias_default unless @disable_bias
             @input_deltas = Array.new(@height_considering_bias, 0.0)
-
+            
             @width_indexes = Array.new(width) { |i| i }
 
             @outputs_guessed = Array.new(width, 0.0)
@@ -98,6 +99,7 @@ module Ai4cr
             # * He-initialization mostly used with ReLU or it’s variants — Leaky ReLU.
 
             @weights = @height_indexes.map { @width_indexes.map { rand*2 - 1 } }
+            # @weights = Array.new(height_considering_bias) { Array.new(width) { (rand*2 - 1) } }
             # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(2.0/(height_considering_bias + width))) } }
             # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(height_considering_bias/2.0)) } }
 

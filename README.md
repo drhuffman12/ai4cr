@@ -55,6 +55,14 @@ Example output:
 
 ![docs/mini_nets_vs_backprop.example.png](docs/mini_nets_vs_backprop.example.png)
 
+To dig deeper into performance refinement:
+
+```
+crystal build --release src/mini_nets_vs_backprop
+mkdir -p tmp/
+valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/mini_nets_vs_backprop.out ./mini_nets_vs_backprop
+```
+
 ## Roadmap
 
 - [x] Generate an error history plot using `AsciiBarCharter` and `error_distance_history` , e.g.:

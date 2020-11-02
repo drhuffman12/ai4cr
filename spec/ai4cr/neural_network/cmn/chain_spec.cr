@@ -1,94 +1,124 @@
 require "./../../../spec_helper"
 
 describe Ai4cr::NeuralNetwork::Cmn::Chain do
-  describe "when given two nets with structure of [3, 4] and [4, 2]" do
+  describe "when given two nets with structure of [2, 4] and [4, 3]" do
     # before_each do
     # structure = [3, 2]
     # net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
-    inputs = [0.1, 0.2, 0.3]
+    inputs = [0.1, 0.2]
 
     hard_coded_weights0 = [
-      [-0.4, 0.9, -0.4, -0.7],
-      [0.1, 0.8, 0.9, -0.0],
-      [-0.7, -0.3, -0.6, -0.7],
-      [1.0, 0.2, 0.6, -0.5],
+      [-0.4, 0.9, -0.4, -0.7], # index 0
+      [0.1, 0.8, 0.9, -0.0], # index 1
+      [-0.7, -0.3, -0.6, -0.7], # index bias
     ]
     hard_coded_weights1 = [
-      [-0.4, 0.8],
-      [-1.0, -0.3],
-      [-0.6, 0.6],
-      [0.2, -0.3],
-      [1.0, -0.1],
+      [-0.4, 0.8, 0.2],
+      [-1.0, -0.3, 0.4],
+      [-0.6, 0.6, 0.6],
+      [0.2, -0.3, 0.8],
     ]
 
-    puts "hard_coded_weights0: #{hard_coded_weights0.each { |a| puts a.join("\t") }}"
-    puts "hard_coded_weights1: #{hard_coded_weights1.each { |a| puts a.join("\t") }}"
+    expected_outputs_guessed_before = [0.0, 0.0, 0.0]
+    expected_outputs_guessed_after = [0.3127367832076713, 0.5628929575130488, 0.6782747272874269]
+    expected_outputs_guessed_trained = [1.0, 0.1, 0.5]
 
-    expected_outputs_guessed_before = [0.0, 0.0]
-    expected_outputs_guessed_after = [0.454759979898907, 0.635915600435646]
+    context "#init_network" do
+      it "the 'outputs_guessed' start as zeros" do 
+        # prep net vvv
+        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 2, width: 4, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID, disable_bias: false)
+        net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 3, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID, disable_bias: true)
 
-    it "the 'outputs_guessed' start as zeros" do
-      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 3, width: 4, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
-      arr << net0
-      arr << net1
-      cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+        net0.init_network
+        net0.learning_rate = 0.25
+        net0.momentum = 0.1
+        net0.weights = hard_coded_weights0.clone
 
-      puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
-      puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
+        net1.init_network
+        net1.learning_rate = 0.25
+        net1.momentum = 0.1
+        net1.weights = hard_coded_weights1.clone
 
-      net0.init_network
-      net0.learning_rate = 0.25
-      net0.momentum = 0.1
-      net0.weights = hard_coded_weights0.clone
-      # puts "\nnet0 (BEFORE): #{net0.to_json}\n"
+        arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
+        arr << net0
+        arr << net1
+        cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+        # prep net ^^^
+     
+        cns.validate.should be_true
+        cns.weight_height_mismatches.should be_empty
 
-      net1.init_network
-      net1.learning_rate = 0.25
-      net1.momentum = 0.1
-      net1.weights = hard_coded_weights1.clone
-      # puts "\nnet1 (BEFORE): #{net1.to_json}\n"
+        outputs_guessed_before = cns.net_set.last.outputs_guessed.clone
 
-      puts "\ncns (BEFORE): #{cns.to_json}\n"
-
-      outputs_guessed_before = net1.outputs_guessed.clone
-
-      assert_equality_of_nested_list outputs_guessed_before, expected_outputs_guessed_before
+        assert_equality_of_nested_list expected_outputs_guessed_before, outputs_guessed_before
+      end
     end
 
-    it "the 'outputs_guessed' start are updated as expected" do
-      net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 3, width: 4, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-      net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-      arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
-      arr << net0
-      arr << net1
-      cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+    context "#eval" do
+      it "the 'outputs_guessed' are updated as expected" do
+        # prep net vvv
+        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 2, width: 4, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID, disable_bias: false)
+        net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 3, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID, disable_bias: true)
 
-      puts "net0.weights: #{net0.weights.map { |a| a.map { |b| b.round(1) } }}"
-      puts "net1.weights: #{net1.weights.map { |a| a.map { |b| b.round(1) } }}"
+        net0.init_network
+        net0.learning_rate = 0.25
+        net0.momentum = 0.1
+        net0.weights = hard_coded_weights0.clone
 
-      net0.init_network
-      net0.learning_rate = 0.25
-      net0.momentum = 0.1
-      net0.weights = hard_coded_weights0.clone
-      # puts "\nnet0 (BEFORE): #{net0.to_json}\n"
+        net1.init_network
+        net1.learning_rate = 0.25
+        net1.momentum = 0.1
+        net1.weights = hard_coded_weights1.clone
 
-      net1.init_network
-      net1.learning_rate = 0.25
-      net1.momentum = 0.1
-      net1.weights = hard_coded_weights1.clone
-      # puts "\nnet1 (BEFORE): #{net1.to_json}\n"
+        arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
+        arr << net0
+        arr << net1
+        cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+        # prep net ^^^
+     
+        cns.validate.should be_true
+        cns.weight_height_mismatches.should be_empty
 
-      puts "\ncns (BEFORE): #{cns.to_json}\n"
+        cns.eval(inputs)
+        outputs_guessed_after = cns.net_set.last.outputs_guessed.clone
 
-      # outputs_guessed_before = cns.net_set.last.outputs_guessed.clone
+        assert_approximate_equality_of_nested_list expected_outputs_guessed_after, outputs_guessed_after
+      end
+    end
 
-      cns.eval(inputs)
-      outputs_guessed_after = cns.net_set.last.outputs_guessed.clone
-      puts "\ncns (AFTER): #{cns.to_json}\n"
+    context "#train" do
+      it "the 'outputs_guessed' are updated as expected" do
+        # prep net vvv
+        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 2, width: 4, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID, disable_bias: false)
+        net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 3, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID, disable_bias: true)
 
-      assert_approximate_equality_of_nested_list outputs_guessed_after, expected_outputs_guessed_after
+        net0.init_network
+        net0.learning_rate = 0.25
+        net0.momentum = 0.1
+        net0.weights = hard_coded_weights0.clone
+
+        net1.init_network
+        net1.learning_rate = 0.25
+        net1.momentum = 0.1
+        net1.weights = hard_coded_weights1.clone
+
+        arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
+        arr << net0
+        arr << net1
+        cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
+        # prep net ^^^
+     
+        cns.validate.should be_true
+        cns.weight_height_mismatches.should be_empty
+
+        cns.train(inputs, expected_outputs_guessed_trained)
+        
+        outputs_guessed_after = cns.net_set.last.outputs_guessed.clone
+
+        assert_approximate_equality_of_nested_list expected_outputs_guessed_after, outputs_guessed_after
+
+        assert_approximate_inequality_of_nested_list(hard_coded_weights0, net0.weights, delta = 0.001)
+      end
     end
   end
 
@@ -127,15 +157,24 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
     end
 
     it "updates last net's outputs when guessing" do
-      cns.net_set.each { |net| net.init_network }
 
+      last_net_output_before = cns.net_set.last.outputs_guessed.clone
       (cns.guesses_best).should eq(expected_inital_outputs)
+      (cns.guesses_best.size).should eq(expected_inital_outputs.size)
 
       cns.eval(initial_inputs)
+      last_net_output_after = cns.net_set.last.outputs_guessed.clone
 
-      (cns.guesses_best.size).should eq(expected_inital_outputs.size)
+      assert_approximate_inequality_of_nested_list(last_net_output_before, last_net_output_after, delta = 0.001)
       (cns.guesses_best).should_not eq(expected_inital_outputs)
     end
+
+    # TODO: Fix below error when importing/exporting classes:
+    #
+    #   In /usr/share/crystal/src/json/from_json.cr:189:20
+    #     189 | parsed_key = K.from_json_object_key?(key)
+    #                         ^--------------------
+    #     Error: undefined method 'from_json_object_key?' for Symbol.class
 
     # it "exports to json without raising an error" do
     #   json_exported = cns.to_json
@@ -150,6 +189,5 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
     #   # below should match
     #   (cns2.to_json).should eq(json_exported)
     # end
-
   end
 end

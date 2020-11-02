@@ -1,4 +1,5 @@
-require "../ai4cr"
+require "../../src/ai4cr"
+require "../support/neural_network/data/*"
 
 shape = [256, 3]
 # shape = [256, 1000, 3]

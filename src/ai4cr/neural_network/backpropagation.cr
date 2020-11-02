@@ -147,6 +147,10 @@ module Ai4cr
         ->(y : Float64) { y*(1 - y) } # lambda { |y| 1.0 - y**2 }
       end
 
+      def learning_style
+        :sigmoid
+      end
+
       def initialize(
         @structure : Array(Int32),
         disable_bias : Bool? = nil,
@@ -154,7 +158,7 @@ module Ai4cr
         momentum : Float64? = nil,
         error_distance_history_max : Int32 = 10
       )
-        @disable_bias = !!disable_bias
+        @disable_bias = !!disable_bias # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
         @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? 0.25 : learning_rate.as(Float64)
         @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : 0.1
         # Below are set via #init_network, but must be initialized in the 'initialize' method to avoid being nilable:

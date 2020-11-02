@@ -13,13 +13,9 @@ module Ai4cr
 
         getter structure : Array(Int32)
         property net_set : Array(MiniNet)
-        # getter weight_height_mismatches : type_of({from_index: 1, to_index: 2, from_width: 3, to_height_considering_bias: 4, from_bias: false, to_bias: true})
-        # getter weight_height_mismatches : NamedTuple(from_index: Int32, to_index: Int32, from_width: Int32, to_height_considering_bias: Int32, from_bias: Bool, to_bias: Bool)
-        # getter weight_height_mismatches : Array(Hash(Symbol,UInt32))
+        getter net_set_size : Int32
+        getter net_set_indexes_reversed : Array(Int32)
         getter weight_height_mismatches : Array(Hash(Symbol, Int32))
-
-        # UINT_FALSE = 0_u32
-        # UINT_TRUE = 1_u32
 
         # NOTE: When passing in the array for net_set,
         # .. if you're including just one type of MiniNet, e.g.:
@@ -38,14 +34,15 @@ module Ai4cr
         #   cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
         def initialize(@net_set)
           @structure = calc_structure
-          # @weight_height_mismatches = Array(Hash(Symbol,UInt32)).new
+          @net_set_size = @net_set.size
+          @net_set_indexes_reversed = Array.new(@net_set_size) { |i| @net_set_size - i - 1}
+
           @weight_height_mismatches = Array(Hash(Symbol, Int32)).new
         end
 
         def validate
-          index_max = @net_set.size - 1
+          index_max = @net_set_size - 1
 
-          # @weight_height_mismatches = Array(Hash(Symbol,UInt32)).new
           @weight_height_mismatches = Array(Hash(Symbol, Int32)).new
           @weight_height_mismatches = @net_set.map_with_index do |net_from, index|
             if index >= index_max
@@ -84,9 +81,6 @@ module Ai4cr
 
         def eval(inputs_given)
           @net_set.each_with_index do |net, index|
-            # index == 0 ? net.step_load_inputs(inputs_given) : net.step_load_inputs(@net_set[index - 1].outputs_guessed)
-
-            # load inputs
             if index == 0
               net.step_load_inputs(inputs_given)
             else
@@ -103,14 +97,14 @@ module Ai4cr
         def train(inputs_given, outputs_expected, until_min_avg_error = 0.1)
           @net_set.each_with_index do |net, index|
             index == 0 ? net.step_load_inputs(inputs_given) : net.step_load_inputs(@net_set[index - 1].outputs_guessed)
+
             net.step_calc_forward
           end
 
-          index_max = @net_set.size - 1
-          (0..index_max).to_a.reverse.each do |index|
+          index_max = @net_set_size - 1
+          @net_set_indexes_reversed.each do |index|
             net = @net_set[index]
 
-            # index == index_max ? net.step_load_outputs(outputs_expected) : net.step_load_outputs(@net_set[index + 1].input_deltas[0..@net_set[index + 1].height - 1])
             index == index_max ? net.step_load_outputs(outputs_expected) : net.step_load_outputs(@net_set[index + 1].input_deltas)
 
             net.step_calculate_error
@@ -132,7 +126,6 @@ module Ai4cr
           @net_set.last.error_distance_history
         end
       end
-      # end
     end
   end
 end

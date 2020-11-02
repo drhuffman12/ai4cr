@@ -1,15 +1,7 @@
 require "json"
 require "ascii_bar_charter"
-require "./../../../spec_helper"
+require "../../../spec_bench_helper"
 require "../../../support/neural_network/data/*"
-
-def mini_net_relu_best_guess(net, raw_in)
-  # result = net.eval(raw_in)
-  # result.map { |v| v.round(6) }
-
-  net.eval(raw_in)
-  net.guesses_best
-end
 
 describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
   describe "#train" do
@@ -32,8 +24,8 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
       cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
       # net.learning_rate = rand
-      qty = 100 # 100_000
-      qty_x_percent = qty // 5
+      qty = MULTI_TYPE_TEST_QTY
+      qty_x_percent = qty // QTY_X_PERCENT_DENOMINATOR
 
       [
         Ai4cr::NeuralNetwork::Cmn::LS_PRELU,
@@ -72,7 +64,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
           prefixed = false
           reversed = false
 
-          charter = AsciiBarCharter.new(min, max, precision, in_bw, reversed)
+          charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
           plot = charter.plot(net.error_distance_history, prefixed)
 
           puts "#{net.class.name}:"
