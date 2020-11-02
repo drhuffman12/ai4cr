@@ -145,13 +145,6 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
     expected_inital_outputs = (arr.last.width.times.to_a.map { 0.0 })
 
     it "is valid" do
-      puts "*"*8
-
-      puts "cns: #{cns.pretty_inspect}"
-      puts "*"*8
-
-      puts "cns.validate!: #{cns.validate!}"
-      puts "*"*8
       (cns.validate!).should be_true
       (cns.errors.empty?).should be_true
     end

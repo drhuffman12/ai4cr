@@ -60,9 +60,6 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
   # NOTE Below are all for learing style Sigmoid; tests should be added to cover the other learning styles
   describe "#eval" do
     describe "when given a net with structure of [3, 2]" do
-      # before_each do
-      # structure = [3, 2]
-      # net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
       net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 3, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
 
       inputs = [0.1, 0.2, 0.3]
@@ -80,7 +77,6 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
         net.learning_rate = 0.25
         net.momentum = 0.1
         net.weights = hard_coded_weights.clone
-        puts "\nnet (BEFORE): #{net.to_json}\n"
 
         outputs_guessed_before = net.outputs_guessed.clone
 
@@ -92,13 +88,9 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
         net.learning_rate = 0.25
         net.momentum = 0.1
         net.weights = hard_coded_weights.clone
-        puts "\nnet (BEFORE): #{net.to_json}\n"
-
-        # outputs_guessed_before = net.outputs_guessed.clone
 
         net.eval(inputs)
         outputs_guessed_after = net.outputs_guessed.clone
-        puts "\nnet (AFTER): #{net.to_json}\n"
 
         assert_approximate_equality_of_nested_list outputs_guessed_after, expected_outputs_guessed_after
       end
@@ -107,9 +99,6 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
 
   describe "#train" do
     describe "when given a net with structure of [3, 2]" do
-      # before_each do
-      # structure = [3, 2]
-      # net = Ai4cr::NeuralNetwork::Backpropagation.new([3, 2])
       net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 3, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
       hard_coded_weights = [
         [-0.9, 0.7],
@@ -129,14 +118,12 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
 
       inputs = [0.1, 0.2, 0.3]
       outputs = [0.4, 0.5]
-      # end
 
       it "output_deltas start as zeros" do
         net.init_network
         net.learning_rate = 0.25
         net.momentum = 0.1
         net.weights = hard_coded_weights.clone
-        puts "\nnet (BEFORE): #{net.to_json}\n"
 
         deltas_before = net.output_deltas.clone
 
@@ -148,12 +135,10 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
         net.learning_rate = 0.25
         net.momentum = 0.1
         net.weights = hard_coded_weights.clone
-        puts "\nnet (BEFORE): #{net.to_json}\n"
 
         deltas_before = net.output_deltas.clone
         net.train(inputs, outputs)
         deltas_after = net.output_deltas.clone
-        puts "\nnet (AFTER): #{net.to_json}\n"
 
         assert_equality_of_nested_list deltas_before, expected_deltas_before
         assert_approximate_equality_of_nested_list deltas_after, expected_after_deltas, 0.0000001
@@ -178,17 +163,13 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
         net.weights = hard_coded_weights.clone
 
         weights_before = net.weights.clone
-        puts "\nnet (BEFORE): #{net.to_json}\n"
 
         net.train(inputs, outputs)
 
         weights_after = net.weights.clone
-        puts "\nnet (AFTER): #{net.to_json}\n"
 
         weights_before.should eq(hard_coded_weights)
 
-        # weights_after.should eq(expected_after_weights)
-        # assert_approximate_equality_of_nested_list weights_after, expected_after_weights, 0.0000001
         assert_approximate_equality_of_nested_list weights_after, expected_after_weights, 0.01
       end
 
