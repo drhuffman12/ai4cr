@@ -40,6 +40,10 @@ module Ai4cr
           @weight_height_mismatches = Array(Hash(Symbol, Int32)).new
         end
 
+        ## TODO: init via calc @net_set params based on @structure and learning_style(s)
+        # def initialize(@structure, @learning_style : LearningStyle, @learning_styles : Array(LearningStyle))
+        # end
+
         def validate
           index_max = @net_set_size - 1
 
