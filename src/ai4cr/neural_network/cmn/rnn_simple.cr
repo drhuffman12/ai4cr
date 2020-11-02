@@ -13,8 +13,63 @@ module Ai4cr
 
         include JSON::Serializable
 
+        TIME_COL_QTY_MIN = 2
+        HIDDEN_LAYER_QTY_MIN = 1
+        INPUT_SIZE_MIN = 2
+        OUTPUT_SIZE_MIN = 1
+        HIDDEN_SIZE_GIVEN_MIN = INPUT_SIZE_MIN + OUTPUT_SIZE_MIN
 
-        def initialize()
+
+        getter time_col_qty : Int32
+        getter hidden_layer_qty : Int32
+        getter input_size : Int32
+        getter output_size : Int32
+        getter hidden_size : Int32
+        getter hidden_size_given : Int32?
+        
+        getter errors : Hash(Symbol, String)
+        getter valid : Bool
+
+        def initialize(
+          @time_col_qty = TIME_COL_QTY_MIN,
+          @hidden_layer_qty = HIDDEN_LAYER_QTY_MIN,
+          @input_size = INPUT_SIZE_MIN,
+          @output_size = OUTPUT_SIZE_MIN,
+          @hidden_size_given = nil
+        )
+          if hidden_size_given.is_a?(Int32)
+          # unless hidden_size_given.nil?
+            @hidden_size = @hidden_size_given.as(Int32)
+          else
+            @hidden_size = @input_size + @output_size
+          end
+
+          @valid = false
+          @errors = Hash(Symbol, String).new
+          validate
+
+          # raise "INVALID" unless @valid
+        end
+
+        def valid?
+          @valid
+        end
+
+        def validate
+          @errors = Hash(Symbol, String).new
+
+          @errors[:time_col_qty] = "time_col_qty must be at least #{TIME_COL_QTY_MIN}!" if time_col_qty < TIME_COL_QTY_MIN
+          @errors[:hidden_layer_qty] = "hidden_layer_qty must be at least #{HIDDEN_LAYER_QTY_MIN}!" if hidden_layer_qty < HIDDEN_LAYER_QTY_MIN
+
+          @errors[:input_size] = "input_size must be at least #{INPUT_SIZE_MIN}" if input_size < INPUT_SIZE_MIN
+          @errors[:output_size] = "output_size must be at least #{OUTPUT_SIZE_MIN}" if output_size < OUTPUT_SIZE_MIN
+
+          if hidden_size_given.is_a?(Int32)
+          # unless hidden_size_given.nil?
+            @errors[:hidden_size_given] = "hidden_size_given must be at least #{HIDDEN_SIZE_GIVEN_MIN} if supplied (otherwise it defaults to sum of @input_size and @output_size" if hidden_size_given.as(Int32) < HIDDEN_SIZE_GIVEN_MIN
+          end
+
+          @valid = errors.empty?
         end
 
         # getter structure : Array(Int32)
