@@ -6,6 +6,8 @@ module Ai4cr
     module Cmn
       # module ConnectedNetSet
       class RnnSimple # TODO!!!
+        # Simple RNN w/ inputs, hidden forward-feeding recurrent layer(s), and outputs
+
         # NOTE: The first net should have a bias; the others should not.
         # TODO: Force bias only on 1st and none on others
 
