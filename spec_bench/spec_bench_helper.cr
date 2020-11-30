@@ -52,7 +52,7 @@ def plot_weights(name, weights, verbose = false)
   char_box = '\u2588' # 'x' # '\u25A0'
 
   bar_colors = [:red, :black, :dark_gray, :yellow, :light_gray, :white, :green]
-  bar_chars = bar_colors.size.times.to_a.map{ char_box }
+  bar_chars = bar_colors.size.times.to_a.map { char_box }
 
   charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: inverted_colors)
 

@@ -35,12 +35,12 @@ module Ai4cr
         def initialize(@net_set)
           @structure = calc_structure
           @net_set_size = @net_set.size
-          @net_set_indexes_reversed = Array.new(@net_set_size) { |i| @net_set_size - i - 1}
+          @net_set_indexes_reversed = Array.new(@net_set_size) { |i| @net_set_size - i - 1 }
 
           @weight_height_mismatches = Array(Hash(Symbol, Int32)).new
         end
 
-        ## TODO: init via calc @net_set params based on @structure and learning_style(s)
+        # # TODO: init via calc @net_set params based on @structure and learning_style(s)
         # def initialize(@structure, @learning_style : LearningStyle, @learning_styles : Array(LearningStyle))
         # end
 

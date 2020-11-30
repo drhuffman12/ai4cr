@@ -8,8 +8,8 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
     inputs = [0.1, 0.2]
 
     hard_coded_weights0 = [
-      [-0.4, 0.9, -0.4, -0.7], # index 0
-      [0.1, 0.8, 0.9, -0.0], # index 1
+      [-0.4, 0.9, -0.4, -0.7],  # index 0
+      [0.1, 0.8, 0.9, -0.0],    # index 1
       [-0.7, -0.3, -0.6, -0.7], # index bias
     ]
     hard_coded_weights1 = [
@@ -24,7 +24,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
     expected_outputs_guessed_trained = [1.0, 0.1, 0.5]
 
     context "#init_network" do
-      it "the 'outputs_guessed' start as zeros" do 
+      it "the 'outputs_guessed' start as zeros" do
         # prep net vvv
         net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 2, width: 4, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID, disable_bias: false)
         net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 3, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID, disable_bias: true)
@@ -44,7 +44,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         arr << net1
         cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
         # prep net ^^^
-     
+
         cns.validate.should be_true
         cns.weight_height_mismatches.should be_empty
 
@@ -75,7 +75,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         arr << net1
         cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
         # prep net ^^^
-     
+
         cns.validate.should be_true
         cns.weight_height_mismatches.should be_empty
 
@@ -107,12 +107,12 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         arr << net1
         cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
         # prep net ^^^
-     
+
         cns.validate.should be_true
         cns.weight_height_mismatches.should be_empty
 
         cns.train(inputs, expected_outputs_guessed_trained)
-        
+
         outputs_guessed_after = cns.net_set.last.outputs_guessed.clone
 
         assert_approximate_equality_of_nested_list expected_outputs_guessed_after, outputs_guessed_after
@@ -150,7 +150,6 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
     end
 
     it "updates last net's outputs when guessing" do
-
       last_net_output_before = cns.net_set.last.outputs_guessed.clone
       (cns.guesses_best).should eq(expected_inital_outputs)
       (cns.guesses_best.size).should eq(expected_inital_outputs.size)

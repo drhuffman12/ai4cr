@@ -2,7 +2,7 @@ require "./../../../spec_helper"
 require "./../../../spectator_helper"
 
 Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
-# describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
+  # describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
   # subject { Ai4cr::NeuralNetwork::Cmn::RnnSimple }
   describe "#initialize" do
     context "when NOT passing in any values" do
@@ -58,7 +58,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
           expect(rnn_simple.hidden_size).to eq(3)
         end
       end
-
     end
 
     # # context "when passing in valid values" do
@@ -207,10 +206,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
     # #     end
     # #   end
     # # end
-  end  
+  end
 end
-
-
 
 # context "as json" do
 #   rnn_json = rnn_simple.to_json
@@ -222,7 +219,7 @@ end
 #   # it "rnn_reformed" do
 #   #   rnn_reformed.should eq("")
 #   # end
-  
+
 #   context "has expected value for key" do
 #     it "time_col_qty" do
 #       rnn_json["time_col_qty"].should eq("") # 2)

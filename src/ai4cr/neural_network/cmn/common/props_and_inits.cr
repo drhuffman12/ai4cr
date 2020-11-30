@@ -87,7 +87,7 @@ module Ai4cr
             @inputs_given = Array.new(@height_considering_bias, 0.0)
             @inputs_given[-1] = disable_bias_default unless @disable_bias
             @input_deltas = Array.new(@height_considering_bias, 0.0)
-            
+
             @width_indexes = Array.new(width) { |i| i }
 
             @outputs_guessed = Array.new(width, 0.0)

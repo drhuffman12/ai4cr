@@ -73,7 +73,7 @@ module Ai4cr
 
     def compare_training
       Benchmark.ips do |x|
-      x.report("Training (on random data) Backpropagation") do
+        x.report("Training (on random data) Backpropagation") do
           calc_training(net_backprop)
         end
         x.report("Training (on random data) MiniNet (PRELU)") do
@@ -92,9 +92,9 @@ module Ai4cr
     end
 
     def compare_learning
-      calc_learning(net_backprop, net_name: "net_backprop")      
-      calc_learning(net_ls_prelu)      
-      calc_learning(net_ls_relu)      
+      calc_learning(net_backprop, net_name: "net_backprop")
+      calc_learning(net_ls_prelu)
+      calc_learning(net_ls_relu)
       calc_learning(net_ls_sigmoid)
       calc_learning(net_ls_tanh, inputs: example_input_set_tanh, outputs: example_output_set_tanh)
     end
@@ -122,5 +122,5 @@ module Ai4cr
   end
 end
 
-cnb = Ai4cr::CrossNetBencherRandomData.new(100,100)
+cnb = Ai4cr::CrossNetBencherRandomData.new(100, 100)
 cnb.run

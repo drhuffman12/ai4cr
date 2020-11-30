@@ -1,5 +1,6 @@
 require "json"
 require "./learning_style.cr"
+
 # require "./rnn_concerns/*"
 
 module Ai4cr
@@ -14,12 +15,11 @@ module Ai4cr
 
         include JSON::Serializable
 
-        TIME_COL_QTY_MIN = 2
-        HIDDEN_LAYER_QTY_MIN = 1
-        INPUT_SIZE_MIN = 2
-        OUTPUT_SIZE_MIN = 1
+        TIME_COL_QTY_MIN      = 2
+        HIDDEN_LAYER_QTY_MIN  = 1
+        INPUT_SIZE_MIN        = 2
+        OUTPUT_SIZE_MIN       = 1
         HIDDEN_SIZE_GIVEN_MIN = INPUT_SIZE_MIN + OUTPUT_SIZE_MIN
-
 
         getter hidden_layer_qty : Int32
         getter layer_qty : Int32
@@ -28,7 +28,7 @@ module Ai4cr
         getter output_size : Int32
         getter hidden_size : Int32
         getter hidden_size_given : Int32?
-        
+
         getter errors : Hash(Symbol, String)
         getter valid : Bool
 
@@ -50,7 +50,7 @@ module Ai4cr
         )
           @layer_qty = 1 + hidden_layer_qty + 1 # in, hiddens, out
           if hidden_size_given.is_a?(Int32)
-          # unless hidden_size_given.nil?
+            # unless hidden_size_given.nil?
             @hidden_size = @hidden_size_given.as(Int32)
           else
             @hidden_size = @input_size + @output_size
@@ -59,7 +59,7 @@ module Ai4cr
           @valid = false
           @errors = Hash(Symbol, String).new
           validate!
-          
+
           @layer_indexes = calc_layer_indexes
           @time_col_indexes = calc_time_col_indexes
           @layer_index_last = @valid ? @layer_indexes.last : -1
@@ -93,13 +93,12 @@ module Ai4cr
           @errors[:output_size] = "output_size must be at least #{OUTPUT_SIZE_MIN}" if output_size < OUTPUT_SIZE_MIN
 
           if hidden_size_given.is_a?(Int32)
-          # unless hidden_size_given.nil?
+            # unless hidden_size_given.nil?
             @errors[:hidden_size_given] = "hidden_size_given must be at least #{HIDDEN_SIZE_GIVEN_MIN} if supplied (otherwise it defaults to sum of @input_size and @output_size" if hidden_size_given.as(Int32) < HIDDEN_SIZE_GIVEN_MIN
           end
 
           @valid = errors.empty?
         end
-
 
         def calc_layer_indexes
           if @valid
@@ -108,7 +107,7 @@ module Ai4cr
             [] of Int32
           end
         end
-        
+
         def calc_time_col_indexes
           if @valid
             Array.new(@time_col_qty) { |i| i }
@@ -116,7 +115,7 @@ module Ai4cr
             [] of Int32
           end
         end
-        
+
         # def pre_init_network
         #   if @valid
         #     puts "pre_init_network .. valid"
