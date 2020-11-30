@@ -13,7 +13,7 @@ jobs:
             crystal -v > test-results/crystal_version.txt
             scripts/version_info > test-results/app_version.txt
             ## TODO: re-enable ameba after that shard is updated for Crystal 1.0 compatibility
-            # time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
+            time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
             time scripts/test_always > test-results/spec/results.txt
             time scripts/test_always_junit_format
 
