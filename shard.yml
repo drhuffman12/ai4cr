@@ -10,13 +10,6 @@ crystal: 1.0
 license: MIT
 
 development_dependencies:
-  ## TODO: re-enable ameba after that shard is updated for Crystal 1.0 compatibility
-  # ameba:
-  #   path: ../ameba
-  #   github: crystal-ameba/ameba
-  #   # version: ~> 0.11.0
-  #   version: ~> 0.13.0
-
   ameba:
     # github: crystal-ameba/ameba
     # version: ~> 0.13.3
@@ -27,18 +20,22 @@ development_dependencies:
 
   ascii_bar_charter:
     github: drhuffman12/ascii_bar_charter
-    # branch: master
-    # version: ~> 1.3
+
+  ## Un-comment after Crystal 1.0 compatible:
+  # icr:
+  #   github: crystal-community/icr
+  #   branch: master
 
   spectator:
     # gitlab: arctic-fox/spectator
     github: drhuffman12/spectator
     branch: drhuffman12/bump_crystal_version_to_1
 
+  ## Un-comment after Crystal 1.0 compatible:
   # aasm:
   #   github: veelenga/aasm.cr
   #   # version: 0.11.0
-#     # github: drhuffman12/aasm.cr
-#     branch: master
-#     # version: 0.1.1
-#     # # https://github.com/veelenga/aasm.cr
+  #   # github: drhuffman12/aasm.cr
+  #   branch: master
+  #   # version: 0.1.1
+  #   # # https://github.com/veelenga/aasm.cr
