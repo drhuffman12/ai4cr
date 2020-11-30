@@ -1,4 +1,4 @@
-FROM crystallang/crystal:nightly
+FROM crystallang/crystal:nightly-alpine-build
 
 WORKDIR /app
 ADD . /app

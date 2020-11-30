@@ -1,24 +1,39 @@
 name: ai4cr
-version: 0.1.13
+version: 0.1.14
 
 authors:
   - Daniel Huffman <drhuffman12@yahoo.com>
 
 crystal: 1.0
+# crystal: 0.35
 
 license: MIT
 
 development_dependencies:
   ## TODO: re-enable ameba after that shard is updated for Crystal 1.0 compatibility
   # ameba:
+  #   path: ../ameba
   #   github: crystal-ameba/ameba
   #   # version: ~> 0.11.0
   #   version: ~> 0.13.0
 
+  ameba:
+    # github: crystal-ameba/ameba
+    # version: ~> 0.13.3
+    ## REVERT to crystal-ameba/ameba after it is Crystal 1.0 compatible.
+    ## See also: https://github.com/crystal-ameba/ameba/pull/173
+    github: drhuffman12/ameba
+    branch: drhuffman12/bump_crystal_version_to_1
+
   ascii_bar_charter:
     github: drhuffman12/ascii_bar_charter
-    branch: master
+    # branch: master
     # version: ~> 1.3
+
+  spectator:
+    # gitlab: arctic-fox/spectator
+    github: drhuffman12/spectator
+    branch: drhuffman12/bump_crystal_version_to_1
 
   # aasm:
   #   github: veelenga/aasm.cr

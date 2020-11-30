@@ -1,5 +1,6 @@
 require "json"
 require "./learning_style.cr"
+# require "./rnn_concerns/*"
 
 module Ai4cr
   module NeuralNetwork
@@ -20,8 +21,9 @@ module Ai4cr
         HIDDEN_SIZE_GIVEN_MIN = INPUT_SIZE_MIN + OUTPUT_SIZE_MIN
 
 
-        getter time_col_qty : Int32
         getter hidden_layer_qty : Int32
+        getter layer_qty : Int32
+        getter time_col_qty : Int32
         getter input_size : Int32
         getter output_size : Int32
         getter hidden_size : Int32
@@ -30,13 +32,23 @@ module Ai4cr
         getter errors : Hash(Symbol, String)
         getter valid : Bool
 
+        getter layer_indexes : Array(Int32)
+        getter time_col_indexes : Array(Int32)
+
+        getter layer_index_last : Int32
+        getter time_col_index_last : Int32
+
+        property node_output_sizes : Array(Int32)
+        property node_input_sizes : Array(Array(NamedTuple(current_tc: Int32, prev_tc: Int32)))
+
         def initialize(
-          @time_col_qty = TIME_COL_QTY_MIN,
           @hidden_layer_qty = HIDDEN_LAYER_QTY_MIN,
+          @time_col_qty = TIME_COL_QTY_MIN,
           @input_size = INPUT_SIZE_MIN,
           @output_size = OUTPUT_SIZE_MIN,
           @hidden_size_given = nil
         )
+          @layer_qty = 1 + hidden_layer_qty + 1 # in, hiddens, out
           if hidden_size_given.is_a?(Int32)
           # unless hidden_size_given.nil?
             @hidden_size = @hidden_size_given.as(Int32)
@@ -46,8 +58,24 @@ module Ai4cr
 
           @valid = false
           @errors = Hash(Symbol, String).new
-          validate
+          validate!
+          
+          @layer_indexes = calc_layer_indexes
+          @time_col_indexes = calc_time_col_indexes
+          @layer_index_last = @valid ? @layer_indexes.last : -1
+          @time_col_index_last = @valid ? @time_col_indexes.last : -1
+          @node_output_sizes = calc_node_output_sizes
+          @node_input_sizes = calc_node_input_sizes
 
+          # pin = pre_init_network
+          # @time_col_indexes = pin[:time_col_indexes]
+          # @layer_indexes = pin[:layer_indexes]
+          # @layer_index_last = pin[:layer_index_last]
+          # @time_col_index_last = pin[:time_col_index_last]
+          # @node_input_sizes = pin[:node_input_sizes]
+          # @node_output_sizes = pin[:node_output_sizes]
+
+          # init_network if valid?
           # raise "INVALID" unless @valid
         end
 
@@ -55,7 +83,7 @@ module Ai4cr
           @valid
         end
 
-        def validate
+        def validate!
           @errors = Hash(Symbol, String).new
 
           @errors[:time_col_qty] = "time_col_qty must be at least #{TIME_COL_QTY_MIN}!" if time_col_qty < TIME_COL_QTY_MIN
@@ -72,105 +100,86 @@ module Ai4cr
           @valid = errors.empty?
         end
 
-        # getter structure : Array(Int32)
-        # property net_set : Array(MiniNet)
-        # getter net_set_size : Int32
-        # getter net_set_indexes_reversed : Array(Int32)
-        # getter weight_height_mismatches : Array(Hash(Symbol, Int32))
 
-        # def initialize(@net_set)
-        #   @structure = calc_structure
-        #   @net_set_size = @net_set.size
-        #   @net_set_indexes_reversed = Array.new(@net_set_size) { |i| @net_set_size - i - 1}
+        def calc_layer_indexes
+          if @valid
+            Array.new(@layer_qty) { |i| i }
+          else
+            [] of Int32
+          end
+        end
+        
+        def calc_time_col_indexes
+          if @valid
+            Array.new(@time_col_qty) { |i| i }
+          else
+            [] of Int32
+          end
+        end
+        
+        # def pre_init_network
+        #   if @valid
+        #     puts "pre_init_network .. valid"
+        #     @layer_indexes = Array.new(@layer_qty) { |i| i }
+        #     @time_col_indexes = Array.new(@time_col_qty) { |i| i }
 
-        #   @weight_height_mismatches = Array(Hash(Symbol, Int32)).new
-        # end
+        #     @layer_index_last = @layer_indexes.last
+        #     @time_col_index_last = @time_col_indexes.last
 
-        # def validate
-        #   index_max = @net_set_size - 1
-
-        #   @weight_height_mismatches = Array(Hash(Symbol, Int32)).new
-        #   @weight_height_mismatches = @net_set.map_with_index do |net_from, index|
-        #     if index >= index_max
-        #       nil # There is no 'next' net after the last net, so we don't need to compare any sizes
-        #     else
-        #       net_to = @net_set[index + 1]
-        #       if net_from.width != net_to.height_considering_bias
-        #         {
-        #           :from_index                 => index,
-        #           :to_index                   => index + 1,
-        #           :from_width                 => net_from.width,
-        #           :to_height_considering_bias => @net_set[index + 1].height_considering_bias,
-        #           :from_disable_bias          => (net_from.disable_bias ? 1 : 0),
-        #           :to_disable_bias            => (@net_set[index + 1].disable_bias ? 1 : 0),
-        #         }
-        #       end
-        #     end
-        #   end.compact
-
-        #   @weight_height_mismatches.any? ? false : true
-        # end
-
-        # def errors
-        #   @weight_height_mismatches
-        # end
-
-        # def validate!
-        #   validate ? true : raise "Invalid net set (width vs height mismatch), errors: #{errors}"
-        # end
-
-        # def calc_structure
-        #   @net_set.map do |net|
-        #     net.height
-        #   end << @net_set.last.width
-        # end
-
-        # def eval(inputs_given)
-        #   @net_set.each_with_index do |net, index|
-        #     if index == 0
-        #       net.step_load_inputs(inputs_given)
-        #     else
-        #       net.step_load_inputs(@net_set[index - 1].outputs_guessed)
-        #     end
-
-        #     net.step_calc_forward
+        #     # node_output_sizes # TODO: move to method
+        #     @node_output_sizes = calc_node_output_sizes
+        #     @node_input_sizes = calc_node_input_sizes
+        #   else
+        #     puts "pre_init_network .. invalid"
+        #     @time_col_indexes = [] of Int32
+        #     @layer_indexes = [] of Int32
+        #     @layer_index_last = 0
+        #     @time_col_index_last = 0
+        #     @node_input_sizes = [[{current_tc: 0, prev_tc: 0}]]
+        #     # @node_input_sizes = [[NamedTuple(current_tc: Int32, prev_tc: Int32).new]]
+        #     @node_output_sizes = [] of Int32
         #   end
 
-        #   @net_set.last.outputs_guessed
+        #   {
+        #     time_col_indexes: @time_col_indexes,
+        #     layer_indexes: @layer_indexes,
+        #     layer_index_last: @layer_index_last,
+        #     time_col_index_last: @time_col_index_last,
+        #     node_input_sizes: @node_input_sizes,
+        #     time_col_indnode_output_sizesexes: @node_output_sizes,
+        #   }
         # end
 
-        # # TODO: utilize until_min_avg_error
-        # def train(inputs_given, outputs_expected, until_min_avg_error = 0.1)
-        #   @net_set.each_with_index do |net, index|
-        #     index == 0 ? net.step_load_inputs(inputs_given) : net.step_load_inputs(@net_set[index - 1].outputs_guessed)
+        def calc_node_output_sizes
+          if @valid
+            layer_indexes.map do |li|
+              li == layer_index_last ? output_size : hidden_size
+            end
+          else
+            [] of Int32
+          end
+        end
 
-        #     net.step_calc_forward
-        #   end
-
-        #   index_max = @net_set_size - 1
-        #   @net_set_indexes_reversed.each do |index|
-        #     net = @net_set[index]
-
-        #     index == index_max ? net.step_load_outputs(outputs_expected) : net.step_load_outputs(@net_set[index + 1].input_deltas)
-
-        #     net.step_calculate_error
-        #     net.step_backpropagate
-        #   end
-
-        #   @net_set.last.error_total
-        # end
-
-        # def guesses_best
-        #   @net_set.last.guesses_best
-        # end
-
-        # def step_calculate_error_distance_history
-        #   @net_set.last.step_calculate_error_distance_history
-        # end
-
-        # def error_distance_history
-        #   @net_set.last.error_distance_history
-        # end
+        def calc_node_input_sizes
+          if @valid
+            input_sizes = [input_size] + node_output_sizes[0..-2]
+            layer_indexes.map do |li|
+              in_size = input_sizes[li]
+              output_size = node_output_sizes[li]
+              time_col_indexes.map do |ti|
+                if ti == 0
+                  {current_tc: in_size, prev_tc: 0}
+                  # {current_tc: node_output_sizes[li], prev_tc: 0}
+                else
+                  # {current_tc: input_size, prev_tc: output_size}
+                  {current_tc: in_size, prev_tc: output_size}
+                end
+              end
+            end
+          else
+            [[{current_tc: 0, prev_tc: 0}]]
+          end
+        end
       end
     end
   end
