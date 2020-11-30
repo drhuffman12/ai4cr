@@ -112,12 +112,12 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         cns.weight_height_mismatches.should be_empty
 
         cns.train(inputs, expected_outputs_guessed_trained)
-
         outputs_guessed_after = cns.net_set.last.outputs_guessed.clone
 
         assert_approximate_equality_of_nested_list expected_outputs_guessed_after, outputs_guessed_after
 
-        assert_approximate_inequality_of_nested_list(hard_coded_weights0, net0.weights, delta = 0.001)
+        delta = 0.001
+        assert_approximate_inequality_of_nested_list(hard_coded_weights0, net0.weights, delta)
       end
     end
   end
@@ -157,7 +157,8 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
       cns.eval(initial_inputs)
       last_net_output_after = cns.net_set.last.outputs_guessed.clone
 
-      assert_approximate_inequality_of_nested_list(last_net_output_before, last_net_output_after, delta = 0.001)
+      delta = 0.001
+      assert_approximate_inequality_of_nested_list(last_net_output_before, last_net_output_after, delta)
       (cns.guesses_best).should_not eq(expected_inital_outputs)
     end
 
