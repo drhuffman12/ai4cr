@@ -169,6 +169,13 @@ docker-compose build
 docker-compose run app scripts/version_info
 ```
 
+### Add Ameba bin file
+
+TODO: Find out why `bin/ameba` runs fine in CI but not locally.
+```sh
+docker-compose run app shards update
+```
+
 ### Test
 
 ```sh
