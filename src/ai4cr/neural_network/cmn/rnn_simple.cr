@@ -10,6 +10,19 @@ module Ai4cr
       class RnnSimple # TODO!!!
         # Simple RNN w/ inputs, hidden forward-feeding recurrent layer(s), and outputs
 
+        # The 'io_offset' param is for setting, for a given time column, how much the inputs and outputs should be offset.
+        #   For example, let's say the inputs and outputs are weather data and you want to guess tomorrow's weather based
+        #     on today's and the past weather.
+        #     * Setting 'io_offset' value to '-1' would mean that the outputs in tc # 0 would also represent weather data
+        #       for day # -1 (which would be guessing yesterday's weather, which would overlap with the input data and
+        #       probably not be of much help)
+        #     * Setting 'io_offset' value to '0' would mean that the outputs in tc # 0 would also represent weather data
+        #       for day # 0 (straight pass-thru; not good for guessing the future, but good for translating one set of data
+        #       to another, like English to Spanish or speech to text)
+        #     * Setting 'io_offset' value to '1' would mean that the outputs in tc # 0 would also represent weather data
+        #       for day # 1 (and would let you guess tomorrow's weather based on today's and the past weather)
+        IO_OFFSET_DEFAULT     = 1
+
         # NOTE: The first net should have a bias; the others should not.
         # TODO: Force bias only on 1st and none on others
 
@@ -22,35 +35,47 @@ module Ai4cr
         HIDDEN_SIZE_GIVEN_MIN = INPUT_SIZE_MIN + OUTPUT_SIZE_MIN
 
         getter hidden_layer_qty : Int32
-        getter layer_qty : Int32
+        # getter nodal_layer_qty : Int32
+        getter synaptic_layer_qty : Int32
         getter time_col_qty : Int32
         getter input_size : Int32
         getter output_size : Int32
         getter hidden_size : Int32
         getter hidden_size_given : Int32?
+        getter io_offset : Int32
 
         getter errors : Hash(Symbol, String)
         getter valid : Bool
 
-        getter layer_indexes : Array(Int32)
+        # getter nodal_layer_indexes : Array(Int32)
+        getter synaptic_layer_indexes : Array(Int32)
         getter time_col_indexes : Array(Int32)
 
-        getter layer_index_last : Int32
+        # getter nodal_layer_index_last : Int32
+        getter synaptic_layer_index_last : Int32
         getter time_col_index_last : Int32
 
         property node_output_sizes : Array(Int32)
-        property node_input_sizes : Array(Array(NamedTuple(current_tc: Int32, prev_tc: Int32)))
+        property node_input_sizes : Array(Array(NamedTuple(previous_synaptic_layer: Int32, previous_time_column: Int32)))
+
+        # TODO: Handle usage of a 'structure' param in 'initialize'
+        # def initialize(@time_col_qty = TIME_COL_QTY_MIN, @structure = [INPUT_SIZE_MIN, OUTPUT_SIZE_MIN])
+        #   initialize(time_col_qty, structure[0], structure[-1], structure[1..-2], )
+        # end
 
         def initialize(
-          @hidden_layer_qty = HIDDEN_LAYER_QTY_MIN,
+          @io_offset = IO_OFFSET_DEFAULT,
           @time_col_qty = TIME_COL_QTY_MIN,
           @input_size = INPUT_SIZE_MIN,
           @output_size = OUTPUT_SIZE_MIN,
+          @hidden_layer_qty = HIDDEN_LAYER_QTY_MIN,
           @hidden_size_given = nil
         )
-          @layer_qty = 1 + hidden_layer_qty + 1 # in, hiddens, out
+          @synaptic_layer_qty = hidden_layer_qty + 1
+          # @nodal_layer_qty = 1 + synaptic_layer_qty
+
+          # TODO: Handle differing hidden layer output sizes
           if hidden_size_given.is_a?(Int32)
-            # unless hidden_size_given.nil?
             @hidden_size = @hidden_size_given.as(Int32)
           else
             @hidden_size = @input_size + @output_size
@@ -60,23 +85,14 @@ module Ai4cr
           @errors = Hash(Symbol, String).new
           validate!
 
-          @layer_indexes = calc_layer_indexes
+          # @nodal_layer_indexes = calc_nodal_layer_indexes
+          @synaptic_layer_indexes = calc_synaptic_layer_indexes
           @time_col_indexes = calc_time_col_indexes
-          @layer_index_last = @valid ? @layer_indexes.last : -1
+          # @nodal_layer_index_last = @valid ? @nodal_layer_indexes.last : -1
+          @synaptic_layer_index_last = @valid ? @synaptic_layer_indexes.last : -1
           @time_col_index_last = @valid ? @time_col_indexes.last : -1
           @node_output_sizes = calc_node_output_sizes
           @node_input_sizes = calc_node_input_sizes
-
-          # pin = pre_init_network
-          # @time_col_indexes = pin[:time_col_indexes]
-          # @layer_indexes = pin[:layer_indexes]
-          # @layer_index_last = pin[:layer_index_last]
-          # @time_col_index_last = pin[:time_col_index_last]
-          # @node_input_sizes = pin[:node_input_sizes]
-          # @node_output_sizes = pin[:node_output_sizes]
-
-          # init_network if valid?
-          # raise "INVALID" unless @valid
         end
 
         def valid?
@@ -93,16 +109,25 @@ module Ai4cr
           @errors[:output_size] = "output_size must be at least #{OUTPUT_SIZE_MIN}" if output_size < OUTPUT_SIZE_MIN
 
           if hidden_size_given.is_a?(Int32)
-            # unless hidden_size_given.nil?
             @errors[:hidden_size_given] = "hidden_size_given must be at least #{HIDDEN_SIZE_GIVEN_MIN} if supplied (otherwise it defaults to sum of @input_size and @output_size" if hidden_size_given.as(Int32) < HIDDEN_SIZE_GIVEN_MIN
           end
+
+          @errors[:io_offset] = "io_offset must be a non-negative integer" if io_offset < 0
 
           @valid = errors.empty?
         end
 
-        def calc_layer_indexes
+        # def calc_nodal_layer_indexes
+        #   if @valid
+        #     Array.new(@nodal_layer_qty) { |i| i }
+        #   else
+        #     [] of Int32
+        #   end
+        # end
+
+        def calc_synaptic_layer_indexes
           if @valid
-            Array.new(@layer_qty) { |i| i }
+            Array.new(@synaptic_layer_qty) { |i| i }
           else
             [] of Int32
           end
@@ -116,43 +141,10 @@ module Ai4cr
           end
         end
 
-        # def pre_init_network
-        #   if @valid
-        #     puts "pre_init_network .. valid"
-        #     @layer_indexes = Array.new(@layer_qty) { |i| i }
-        #     @time_col_indexes = Array.new(@time_col_qty) { |i| i }
-
-        #     @layer_index_last = @layer_indexes.last
-        #     @time_col_index_last = @time_col_indexes.last
-
-        #     # node_output_sizes # TODO: move to method
-        #     @node_output_sizes = calc_node_output_sizes
-        #     @node_input_sizes = calc_node_input_sizes
-        #   else
-        #     puts "pre_init_network .. invalid"
-        #     @time_col_indexes = [] of Int32
-        #     @layer_indexes = [] of Int32
-        #     @layer_index_last = 0
-        #     @time_col_index_last = 0
-        #     @node_input_sizes = [[{current_tc: 0, prev_tc: 0}]]
-        #     # @node_input_sizes = [[NamedTuple(current_tc: Int32, prev_tc: Int32).new]]
-        #     @node_output_sizes = [] of Int32
-        #   end
-
-        #   {
-        #     time_col_indexes: @time_col_indexes,
-        #     layer_indexes: @layer_indexes,
-        #     layer_index_last: @layer_index_last,
-        #     time_col_index_last: @time_col_index_last,
-        #     node_input_sizes: @node_input_sizes,
-        #     time_col_indnode_output_sizesexes: @node_output_sizes,
-        #   }
-        # end
-
         def calc_node_output_sizes
           if @valid
-            layer_indexes.map do |li|
-              li == layer_index_last ? output_size : hidden_size
+            synaptic_layer_indexes.map do |li|
+              li == synaptic_layer_index_last ? output_size : hidden_size
             end
           else
             [] of Int32
@@ -162,21 +154,19 @@ module Ai4cr
         def calc_node_input_sizes
           if @valid
             input_sizes = [input_size] + node_output_sizes[0..-2]
-            layer_indexes.map do |li|
+            synaptic_layer_indexes.map do |li|
               in_size = input_sizes[li]
               output_size = node_output_sizes[li]
               time_col_indexes.map do |ti|
                 if ti == 0
-                  {current_tc: in_size, prev_tc: 0}
-                  # {current_tc: node_output_sizes[li], prev_tc: 0}
+                  {previous_synaptic_layer: in_size, previous_time_column: 0}
                 else
-                  # {current_tc: input_size, prev_tc: output_size}
-                  {current_tc: in_size, prev_tc: output_size}
+                  {previous_synaptic_layer: in_size, previous_time_column: output_size}
                 end
               end
             end
           else
-            [[{current_tc: 0, prev_tc: 0}]]
+            [[{previous_synaptic_layer: 0, previous_time_column: 0}]]
           end
         end
       end
