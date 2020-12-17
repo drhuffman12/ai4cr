@@ -21,7 +21,7 @@ module Ai4cr
         #       to another, like English to Spanish or speech to text)
         #     * Setting 'io_offset' value to '1' would mean that the outputs in tc # 0 would also represent weather data
         #       for day # 1 (and would let you guess tomorrow's weather based on today's and the past weather)
-        IO_OFFSET_DEFAULT     = 1
+        IO_OFFSET_DEFAULT = 1
 
         # NOTE: The first net should have a bias; the others should not.
         # TODO: Force bias only on 1st and none on others

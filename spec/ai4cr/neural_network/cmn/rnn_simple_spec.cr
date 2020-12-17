@@ -35,23 +35,23 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
             [
               {
                 "previous_synaptic_layer": rnn_simple.input_size, # 2,
-                "previous_time_column": 0
+                "previous_time_column":    0,
               },
               {
                 "previous_synaptic_layer": rnn_simple.input_size, # 2,
-                "previous_time_column": 3
-              }
+                "previous_time_column":    3,
+              },
             ],
             [
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # 3,
-                "previous_time_column": 0
+                "previous_time_column":    0,
               },
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # 3,
-                "previous_time_column": rnn_simple.output_size # 1
-              }
-            ]
+                "previous_time_column":    rnn_simple.output_size, # 1
+              },
+            ],
           ]
         }
 
@@ -80,15 +80,15 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
         end
 
         it "@synaptic_layer_indexes" do
-          expect(rnn_simple.synaptic_layer_indexes).to eq([0,1])          
+          expect(rnn_simple.synaptic_layer_indexes).to eq([0, 1])
         end
-          
+
         it "@node_input_sizes" do
-          expect(rnn_simple.node_input_sizes).to eq(expected_slis)          
+          expect(rnn_simple.node_input_sizes).to eq(expected_slis)
         end
       end
     end
-    
+
     context "when passing in hidden_size_given of 10" do
       let(hidden_size_given) { 10 }
       let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new(hidden_size_given: hidden_size_given) }
@@ -121,23 +121,23 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
             [
               {
                 "previous_synaptic_layer": rnn_simple.input_size, # 2,
-                "previous_time_column": 0
+                "previous_time_column":    0,
               },
               {
                 "previous_synaptic_layer": rnn_simple.input_size, # 2,
-                "previous_time_column": 10
-              }
+                "previous_time_column":    10,
+              },
             ],
             [
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # 10,
-                "previous_time_column": 0
+                "previous_time_column":    0,
               },
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column": rnn_simple.output_size # 1
-              }
-            ]
+                "previous_time_column":    rnn_simple.output_size, # 1
+              },
+            ],
           ]
         }
 
@@ -166,15 +166,15 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
         end
 
         it "@synaptic_layer_indexes" do
-          expect(rnn_simple.synaptic_layer_indexes).to eq([0,1])          
+          expect(rnn_simple.synaptic_layer_indexes).to eq([0, 1])
         end
-          
+
         it "@node_input_sizes" do
-          expect(rnn_simple.node_input_sizes).to eq(expected_slis)          
+          expect(rnn_simple.node_input_sizes).to eq(expected_slis)
         end
       end
     end
-    
+
     context "when passing in hidden_layer_qty of 2, hidden_size_given of 10" do
       let(hidden_layer_qty) { 2 }
       let(hidden_size_given) { 10 }
@@ -208,33 +208,33 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
             [
               {
                 "previous_synaptic_layer": rnn_simple.input_size, # 2,
-                "previous_time_column": 0
+                "previous_time_column":    0,
               },
               {
                 "previous_synaptic_layer": rnn_simple.input_size, # 2,
-                "previous_time_column": 10
-              }
+                "previous_time_column":    10,
+              },
             ],
             [
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # 10,
-                "previous_time_column": 0
+                "previous_time_column":    0,
               },
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column": rnn_simple.hidden_size # 1
-              }
+                "previous_time_column":    rnn_simple.hidden_size, # 1
+              },
             ],
             [
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # 10,
-                "previous_time_column": 0
+                "previous_time_column":    0,
               },
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column": rnn_simple.output_size # 1
-              }
-            ]
+                "previous_time_column":    rnn_simple.output_size, # 1
+              },
+            ],
           ]
         }
 
@@ -263,15 +263,15 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
         end
 
         it "@synaptic_layer_indexes" do
-          expect(rnn_simple.synaptic_layer_indexes).to eq((0..hidden_layer_qty).to_a)          
+          expect(rnn_simple.synaptic_layer_indexes).to eq((0..hidden_layer_qty).to_a)
         end
-          
+
         it "@node_input_sizes" do
-          expect(rnn_simple.node_input_sizes).to eq(expected_slis)          
+          expect(rnn_simple.node_input_sizes).to eq(expected_slis)
         end
       end
     end
-    
+
     context "when passing in time_col_qty of 3, hidden_layer_qty of 2, hidden_size_given of 10" do
       let(time_col_qty) { 3 }
       let(hidden_layer_qty) { 2 }
@@ -306,45 +306,45 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
             [
               {
                 "previous_synaptic_layer": rnn_simple.input_size, # 2,
-                "previous_time_column": 0
+                "previous_time_column":    0,
               },
               {
                 "previous_synaptic_layer": rnn_simple.input_size, # 2,
-                "previous_time_column": 10
+                "previous_time_column":    10,
               },
               {
                 "previous_synaptic_layer": rnn_simple.input_size, # 2,
-                "previous_time_column": 10
-              }
+                "previous_time_column":    10,
+              },
             ],
             [
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # 10,
-                "previous_time_column": 0
+                "previous_time_column":    0,
               },
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column": rnn_simple.hidden_size # 1
+                "previous_time_column":    rnn_simple.hidden_size, # 1
               },
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column": rnn_simple.hidden_size # 1
-              }
+                "previous_time_column":    rnn_simple.hidden_size, # 1
+              },
             ],
             [
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # 10,
-                "previous_time_column": 0
+                "previous_time_column":    0,
               },
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column": rnn_simple.output_size # 1
+                "previous_time_column":    rnn_simple.output_size, # 1
               },
               {
                 "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column": rnn_simple.output_size # 1
-              }
-            ]
+                "previous_time_column":    rnn_simple.output_size, # 1
+              },
+            ],
           ]
         }
 
@@ -373,11 +373,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
         end
 
         it "@synaptic_layer_indexes" do
-          expect(rnn_simple.synaptic_layer_indexes).to eq((0..hidden_layer_qty).to_a)          
+          expect(rnn_simple.synaptic_layer_indexes).to eq((0..hidden_layer_qty).to_a)
         end
-          
+
         it "@node_input_sizes" do
-          expect(rnn_simple.node_input_sizes).to eq(expected_slis)          
+          expect(rnn_simple.node_input_sizes).to eq(expected_slis)
         end
       end
     end
