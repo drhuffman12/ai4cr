@@ -241,7 +241,6 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         net.learning_rate = 0.25
         net.momentum = 0.1
         net.weights = hard_coded_weights.clone
-        puts "\nnet (BEFORE): #{net.to_json}\n"
 
         deltas_before = net.deltas.clone
 
@@ -253,12 +252,10 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         net.learning_rate = 0.25
         net.momentum = 0.1
         net.weights = hard_coded_weights.clone
-        puts "\nnet (BEFORE): #{net.to_json}\n"
 
         deltas_before = net.deltas.clone
         net.train(inputs, outputs)
         deltas_after = net.deltas.clone
-        puts "\nnet (AFTER): #{net.to_json}\n"
 
         assert_equality_of_nested_list deltas_before, expected_deltas_before
         assert_approximate_equality_of_nested_list deltas_after, expected_after_deltas, 0.0000001
@@ -283,12 +280,10 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         net.weights = hard_coded_weights.clone
 
         weights_before = net.weights.clone
-        puts "\nnet (BEFORE): #{net.to_json}\n"
 
         net.train(inputs, outputs)
 
         weights_after = net.weights.clone
-        puts "\nnet (AFTER): #{net.to_json}\n"
 
         weights_before.should eq(hard_coded_weights)
 

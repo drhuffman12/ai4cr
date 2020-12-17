@@ -1,3 +1,3 @@
 module Ai4cr
-  VERSION = "0.1.13"
+  VERSION = {{ `shards version "#{__DIR__}"`.chomp.stringify }}
 end

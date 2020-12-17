@@ -1,0 +1,11 @@
+Globs:
+  - src/**/*.cr
+  - spec/**/*.cr
+#   - !lib
+  
+# Excluded:
+#   # - .circleci
+#   # - .github
+#   - bin
+#   - docs
+#   - scripts

@@ -149,13 +149,13 @@ If you'd like another class of Ai4r ported, feel free to submit a [new issue](ht
 
 ### (Re-)Format
 
-```bash
+```sh
 docker-compose run app scripts/reformat
 ```
 
 ### Build
 
-```bash
+```sh
 # for a cleaner build:
 docker-compose build --force-rm --no-cache --pull
 
@@ -165,25 +165,33 @@ docker-compose build
 
 ### Show version
 
-```bash
+```sh
 docker-compose run app scripts/version_info
+```
+
+### Add Ameba bin file
+
+TODO: Find out why `bin/ameba` runs fine in CI but not locally.
+```sh
+docker-compose run app shards update
 ```
 
 ### Test
 
-```bash
+```sh
 docker-compose run app crystal spec
 ```
 
 ### Docker console
 
-```bash
-docker-compose run app /bin/bash
+```sh
+docker-compose run app sh
 ```
 
 ### ICR console
 
-```bash
+NOTE: This isn't yet Crystal 1.0 compatible!
+```sh
 icr -r ./src/ai4cr
 ```
 
@@ -207,7 +215,7 @@ Below is an example of the net successfully recognizing all nine test cases.
 
 ### Setup
 
-```bash
+```sh
 $ cd $MY_DEV_FOLDER
 
 $ git clone https://github.com/drhuffman12/ai4cr.git
@@ -221,7 +229,7 @@ $ docker-compose build
 
 For any tests that should NEVER fail (e.g.: in spite of sufficient training), put them into `spec`, and run them via:
 
-```bash
+```sh
 $ docker-compose run app scripts/test_always
 ..............................
 
@@ -234,7 +242,7 @@ Execute: 00:00:00.010855717
 
 For any tests that could fails sometimes (e.g.: if not trained enough), put them into `spec_examples`, and run them via:
 
-```bash
+```sh
 $ docker-compose run app scripts/test_sometimes
 .............
 
