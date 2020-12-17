@@ -1,9 +1,0 @@
-language: crystal
-
-crystal:
-  - latest
-  - nightly
-
-jobs:
-  allow_failures:
-    - crystal: latest
