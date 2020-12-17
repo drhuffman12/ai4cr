@@ -1,6 +1,11 @@
 require "./../../../spec_helper"
 require "./../../../spectator_helper"
 
+# add simple RNN functionality
+# - [x] Phase 1: initial prototype/skeleton (w/ basic structure calc's)
+# - [ ] Phase 2: expand proyotype/skeleton (to include the associated 'mini_net' objects) (in a later PR)
+# - [ ] Phase 3: expand proyotype/skeleton (to include the methods to 'guess' and 'train') (in a later PR)
+
 Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
   describe "#initialize" do
     context "when NOT passing in any values" do
@@ -382,4 +387,5 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
       end
     end
   end
+
 end
