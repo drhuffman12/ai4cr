@@ -1,28 +1,11 @@
-require "./../../../spec_helper"
-require "./../../../spectator_helper"
+require "./../../../../../spec_helper"
+require "./../../../../../spectator_helper"
 
-# add simple RNN functionality
-# - [x] Phase 1: initial prototype/skeleton (w/ basic structure calc's)
-# - [ ] Phase 2: expand proyotype/skeleton (to include the associated 'mini_net' objects) (in a later PR)
-# - [ ] Phase 3: expand proyotype/skeleton (to include the methods to 'guess' and 'train') (in a later PR)
-
-Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
+# Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
+Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits do
   describe "#initialize" do
     context "when NOT passing in any values" do
       let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new }
-
-      it "just some debugging" do
-        puts rnn_simple.to_pretty_json
-
-        # rnn_simple.nodal_layer_indexes.map do |li|
-        rnn_simple.synaptic_layer_indexes.map do |li|
-          rnn_simple.time_col_indexes.map do |ti|
-            # debug_info = {"li": li, "ti": ti, "rnn_simple.node_input_sizes[li][ti]": rnn_simple.node_input_sizes[li][ti]}
-            debug_info = {"li": li, "ti": ti, "node_input_sizes": rnn_simple.node_input_sizes[li][ti]}
-            puts debug_info.to_json
-          end
-        end
-      end
 
       it "has no errors" do
         expect(rnn_simple.errors.empty?).to be_true
@@ -39,22 +22,22 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
           [
             [
               {
-                "previous_synaptic_layer": rnn_simple.input_size, # 2,
+                "previous_synaptic_layer": rnn_simple.input_size,
                 "previous_time_column":    0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.input_size, # 2,
+                "previous_synaptic_layer": rnn_simple.input_size,
                 "previous_time_column":    3,
               },
             ],
             [
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # 3,
+                "previous_synaptic_layer": rnn_simple.hidden_size,
                 "previous_time_column":    0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # 3,
-                "previous_time_column":    rnn_simple.output_size, # 1
+                "previous_synaptic_layer": rnn_simple.hidden_size,
+                "previous_time_column":    rnn_simple.output_size,
               },
             ],
           ]
@@ -98,18 +81,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
       let(hidden_size_given) { 10 }
       let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new(hidden_size_given: hidden_size_given) }
 
-      it "just some debugging" do
-        puts rnn_simple.to_pretty_json
-
-        # rnn_simple.nodal_layer_indexes.map do |li|
-        rnn_simple.synaptic_layer_indexes.map do |li|
-          rnn_simple.time_col_indexes.map do |ti|
-            debug_info = {"li": li, "ti": ti, "node_input_sizes": rnn_simple.node_input_sizes[li][ti]}
-            puts debug_info.to_json
-          end
-        end
-      end
-
       it "has no errors" do
         expect(rnn_simple.errors.empty?).to be_true
         expect(rnn_simple.errors.is_a?(Hash(Symbol, String))).to be_true
@@ -125,22 +96,22 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
           [
             [
               {
-                "previous_synaptic_layer": rnn_simple.input_size, # 2,
+                "previous_synaptic_layer": rnn_simple.input_size,
                 "previous_time_column":    0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.input_size, # 2,
+                "previous_synaptic_layer": rnn_simple.input_size,
                 "previous_time_column":    10,
               },
             ],
             [
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # 10,
+                "previous_synaptic_layer": rnn_simple.hidden_size,
                 "previous_time_column":    0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column":    rnn_simple.output_size, # 1
+                "previous_synaptic_layer": rnn_simple.hidden_size,
+                "previous_time_column":    rnn_simple.output_size,
               },
             ],
           ]
@@ -185,18 +156,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
       let(hidden_size_given) { 10 }
       let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new(hidden_layer_qty: hidden_layer_qty, hidden_size_given: hidden_size_given) }
 
-      it "just some debugging" do
-        puts rnn_simple.to_pretty_json
-
-        # rnn_simple.nodal_layer_indexes.map do |li|
-        rnn_simple.synaptic_layer_indexes.map do |li|
-          rnn_simple.time_col_indexes.map do |ti|
-            debug_info = {"li": li, "ti": ti, "node_input_sizes": rnn_simple.node_input_sizes[li][ti]}
-            puts debug_info.to_json
-          end
-        end
-      end
-
       it "has no errors" do
         expect(rnn_simple.errors.empty?).to be_true
         expect(rnn_simple.errors.is_a?(Hash(Symbol, String))).to be_true
@@ -212,32 +171,32 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
           [
             [
               {
-                "previous_synaptic_layer": rnn_simple.input_size, # 2,
+                "previous_synaptic_layer": rnn_simple.input_size,
                 "previous_time_column":    0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.input_size, # 2,
+                "previous_synaptic_layer": rnn_simple.input_size,
                 "previous_time_column":    10,
               },
             ],
             [
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # 10,
+                "previous_synaptic_layer": rnn_simple.hidden_size,
                 "previous_time_column":    0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column":    rnn_simple.hidden_size, # 1
+                "previous_synaptic_layer": rnn_simple.hidden_size,
+                "previous_time_column":    rnn_simple.hidden_size,
               },
             ],
             [
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # 10,
+                "previous_synaptic_layer": rnn_simple.hidden_size,
                 "previous_time_column":    0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column":    rnn_simple.output_size, # 1
+                "previous_synaptic_layer": rnn_simple.hidden_size,
+                "previous_time_column":    rnn_simple.output_size,
               },
             ],
           ]
@@ -283,18 +242,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
       let(hidden_size_given) { 10 }
       let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new(time_col_qty: time_col_qty, hidden_layer_qty: hidden_layer_qty, hidden_size_given: hidden_size_given) }
 
-      it "just some debugging" do
-        puts rnn_simple.to_pretty_json
-
-        # rnn_simple.nodal_layer_indexes.map do |li|
-        rnn_simple.synaptic_layer_indexes.map do |li|
-          rnn_simple.time_col_indexes.map do |ti|
-            debug_info = {"li": li, "ti": ti, "node_input_sizes": rnn_simple.node_input_sizes[li][ti]}
-            puts debug_info.to_json
-          end
-        end
-      end
-
       it "has no errors" do
         expect(rnn_simple.errors.empty?).to be_true
         expect(rnn_simple.errors.is_a?(Hash(Symbol, String))).to be_true
@@ -310,44 +257,44 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
           [
             [
               {
-                "previous_synaptic_layer": rnn_simple.input_size, # 2,
+                "previous_synaptic_layer": rnn_simple.input_size,
                 "previous_time_column":    0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.input_size, # 2,
+                "previous_synaptic_layer": rnn_simple.input_size,
                 "previous_time_column":    10,
               },
               {
-                "previous_synaptic_layer": rnn_simple.input_size, # 2,
+                "previous_synaptic_layer": rnn_simple.input_size,
                 "previous_time_column":    10,
               },
             ],
             [
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # 10,
+                "previous_synaptic_layer": rnn_simple.hidden_size,
                 "previous_time_column":    0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column":    rnn_simple.hidden_size, # 1
+                "previous_synaptic_layer": rnn_simple.hidden_size,
+                "previous_time_column":    rnn_simple.hidden_size,
               },
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column":    rnn_simple.hidden_size, # 1
+                "previous_synaptic_layer": rnn_simple.hidden_size,
+                "previous_time_column":    rnn_simple.hidden_size,
               },
             ],
             [
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # 10,
+                "previous_synaptic_layer": rnn_simple.hidden_size,
                 "previous_time_column":    0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column":    rnn_simple.output_size, # 1
+                "previous_synaptic_layer": rnn_simple.hidden_size,
+                "previous_time_column":    rnn_simple.output_size,
               },
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size, # ,
-                "previous_time_column":    rnn_simple.output_size, # 1
+                "previous_synaptic_layer": rnn_simple.hidden_size,
+                "previous_time_column":    rnn_simple.output_size,
               },
             ],
           ]
@@ -386,6 +333,34 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
         end
       end
     end
-  end
 
+    # it "just some debugging" do # TODO: REMOVE before merging!
+    #   puts rnn_simple.to_pretty_json
+
+    #   # rnn_simple.nodal_layer_indexes.map do |li|
+    #   rnn_simple.synaptic_layer_indexes.map do |li|
+    #     rnn_simple.time_col_indexes.map do |ti|
+    #       # debug_info = {"li": li, "ti": ti, "rnn_simple.node_input_sizes[li][ti]": rnn_simple.node_input_sizes[li][ti]}
+    #       debug_info = {"li": li, "ti": ti, "node_input_sizes": rnn_simple.node_input_sizes[li][ti]}
+    #       puts debug_info.to_json
+    #     end
+    #   end
+    # end
+
+    context "mini_net_set" do
+      it "each are of the expected width and height" do
+        rnn_simple.synaptic_layer_indexes.map do |li|
+          rnn_simple.time_col_indexes.map do |ti|
+            mini_net = rnn_simple.mini_net_set[li][ti]
+  
+            expected_input_size = rnn_simple.node_input_sizes[li][ti].values.sum
+            expect(mini_net.height).to eq(expected_input_size)
+  
+            expected_output_size = rnn_simple.node_output_sizes[li]
+            expect(mini_net.width).to eq(expected_output_size)
+          end
+        end
+      end
+    end
+  end
 end

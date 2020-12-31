@@ -79,7 +79,7 @@ plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
     - [x] Sigmoid
     - [x] Tanh
   - [x] MiniNet
-    - [x] Common modules
+    - [x] MiniNetConcerns modules
     - [x] JSON importable/exportable
     - [x] can use various 'Learning Styles'
     - [ ] (?) move 'Learning Styles'-specific methods from MiniNet into Enum

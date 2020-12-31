@@ -3,7 +3,7 @@ require "json"
 module Ai4cr
   module NeuralNetwork
     module Cmn
-      module Common
+      module MiniNetConcerns
         module TrainAndAdjust
           # abstract def derivative_propagation_function
 

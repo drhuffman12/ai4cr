@@ -2,7 +2,7 @@ module Ai4cr
   module NeuralNetwork
     module Cmn
       # module MiniNet
-      #   module Common
+      #   module MiniNetConcerns
       # Ai4cr::NeuralNetwork::Cmn::LearningStyle.values
       # => [Prelu, Relu, Sigmoid, Tanh]
       #

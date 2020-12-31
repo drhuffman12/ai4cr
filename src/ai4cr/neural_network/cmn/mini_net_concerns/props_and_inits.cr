@@ -4,7 +4,7 @@ require "./../learning_style.cr"
 module Ai4cr
   module NeuralNetwork
     module Cmn
-      module Common
+      module MiniNetConcerns
         module PropsAndInits
           getter width : Int32, height : Int32
           getter height_considering_bias : Int32
@@ -44,7 +44,7 @@ module Ai4cr
             disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil,
             error_distance_history_max : Int32 = 10
           )
-            # @learning_style = Common::LearningStyle::Relu
+            # @learning_style = MiniNetConcerns::LearningStyle::Relu
             @disable_bias_default = 1.0
 
             @disable_bias = disable_bias.nil? ? false : !!disable_bias # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
