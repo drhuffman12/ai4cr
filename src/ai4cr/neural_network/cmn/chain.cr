@@ -11,6 +11,8 @@ module Ai4cr
 
         include JSON::Serializable
 
+        # use_json_discriminator learning_style
+
         getter structure : Array(Int32)
         property net_set : Array(MiniNet)
         getter net_set_size : Int32

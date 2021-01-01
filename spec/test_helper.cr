@@ -17,6 +17,8 @@
 # Mozilla Foundation at http://www.mozilla.org/MPL/MPL-1.1.txt
 #
 
+# TODO: add JSON-friendly versions of below!
+
 def assert_approximate_equality(expected, real, delta = 0.01)
   if expected.responds_to?(:abs) && real.responds_to?(:abs)
     real.should be_close(expected, delta)
