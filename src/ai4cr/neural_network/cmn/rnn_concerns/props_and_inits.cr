@@ -19,7 +19,6 @@ module Ai4cr
           # NOTE: The first net should have a bias; the others should not.
           # TODO: Force bias only on 1st and none on others
 
-
           TIME_COL_QTY_MIN      = 2
           HIDDEN_LAYER_QTY_MIN  = 1
           INPUT_SIZE_MIN        = 2
@@ -65,8 +64,8 @@ module Ai4cr
             @hidden_layer_qty = HIDDEN_LAYER_QTY_MIN,
             @hidden_size_given = nil
           )
+            # init_network
             @synaptic_layer_qty = hidden_layer_qty + 1
-            # @nodal_layer_qty = 1 + synaptic_layer_qty
 
             # TODO: Handle differing hidden layer output sizes
             if hidden_size_given.is_a?(Int32)
@@ -79,16 +78,37 @@ module Ai4cr
             @errors = Hash(Symbol, String).new
             validate!
 
-            # @nodal_layer_indexes = calc_nodal_layer_indexes
             @synaptic_layer_indexes = calc_synaptic_layer_indexes
             @time_col_indexes = calc_time_col_indexes
-            # @nodal_layer_index_last = @valid ? @nodal_layer_indexes.last : -1
             @synaptic_layer_index_last = @valid ? @synaptic_layer_indexes.last : -1
             @time_col_index_last = @valid ? @time_col_indexes.last : -1
             @node_output_sizes = calc_node_output_sizes
             @node_input_sizes = calc_node_input_sizes
 
-            # @mini_net_set = Array(Array(MiniNet)).new
+            @mini_net_set = init_mini_net_set
+          end
+
+          def init_network
+            @synaptic_layer_qty = hidden_layer_qty + 1
+
+            # TODO: Handle differing hidden layer output sizes
+            if hidden_size_given.is_a?(Int32)
+              @hidden_size = @hidden_size_given.as(Int32)
+            else
+              @hidden_size = @input_size + @output_size
+            end
+
+            @valid = false
+            @errors = Hash(Symbol, String).new
+            validate!
+
+            @synaptic_layer_indexes = calc_synaptic_layer_indexes
+            @time_col_indexes = calc_time_col_indexes
+            @synaptic_layer_index_last = @valid ? @synaptic_layer_indexes.last : -1
+            @time_col_index_last = @valid ? @time_col_indexes.last : -1
+            @node_output_sizes = calc_node_output_sizes
+            @node_input_sizes = calc_node_input_sizes
+
             @mini_net_set = init_mini_net_set
           end
 

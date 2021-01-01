@@ -348,6 +348,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits do
     # end
 
     context "mini_net_set" do
+      let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new }
+      
       it "each are of the expected width and height" do
         rnn_simple.synaptic_layer_indexes.map do |li|
           rnn_simple.time_col_indexes.map do |ti|
