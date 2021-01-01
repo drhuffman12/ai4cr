@@ -15,7 +15,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
         [0.3, 0.4]
       ]
     }
-    let(guess) { rnn_simple.eval(input_set_given) }
+    # let(guess) { rnn_simple.eval(input_set_given) }
 
     context "before" do
       it "outputs_guessed start off all zero's" do
@@ -25,20 +25,21 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
 
     context "during" do
       it "calls 'step_load_inputs'"do
+        allow(rnn_simple).to receive(:step_load_inputs).with(input_set_given).and_call_original
         expect(rnn_simple).to receive(:step_load_inputs).with(input_set_given)
 
         rnn_simple.eval(input_set_given)
       end
 
       it "calls 'step_calc_forward'"do
-        expect(rnn_simple).to receive(:step_calc_forward).with(input_set_given)
+        expect(rnn_simple).to receive(:step_calc_forward)
 
         rnn_simple.eval(input_set_given)
       end
     end
 
     context "after" do
-      it "returns exprected outputs" do
+      it "returns expected outputs" do
         expect(rnn_simple.outputs_guessed).to eq(expected_outputs_guessed_before)
 
         # guess = 
