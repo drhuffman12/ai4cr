@@ -20,8 +20,7 @@ module Ai4cr
             step_load_inputs(input_set_given)
             step_calc_forward
 
-            # outputs_guessed
-            [[-10.0], [-20.0]] 
+            outputs_guessed
           end
 
           def step_load_inputs(input_set_given)

@@ -7,7 +7,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
     let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new }
 
     let(expected_outputs_guessed_before) { [[0.0], [0.0]] }
-    let(expected_outputs_guessed_after) { [[0.0], [0.1]] }
+    let(expected_outputs_guessed_after) { [[0.1], [0.2]] }
     
     let(input_set_given) {
       [
