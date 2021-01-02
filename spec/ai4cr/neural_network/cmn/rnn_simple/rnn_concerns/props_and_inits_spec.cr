@@ -349,15 +349,15 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits do
 
     context "mini_net_set" do
       let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new }
-      
+
       it "each are of the expected width and height" do
         rnn_simple.synaptic_layer_indexes.map do |li|
           rnn_simple.time_col_indexes.map do |ti|
             mini_net = rnn_simple.mini_net_set[li][ti]
-  
+
             expected_input_size = rnn_simple.node_input_sizes[li][ti].values.sum
             expect(mini_net.height).to eq(expected_input_size)
-  
+
             expected_output_size = rnn_simple.node_output_sizes[li]
             expect(mini_net.width).to eq(expected_output_size)
           end

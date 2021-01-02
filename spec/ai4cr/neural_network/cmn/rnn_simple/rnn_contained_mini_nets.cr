@@ -18,7 +18,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
           end
         end
       end
-
     end
   end
 end

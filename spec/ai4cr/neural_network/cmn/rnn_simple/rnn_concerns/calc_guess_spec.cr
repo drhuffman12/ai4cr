@@ -7,10 +7,10 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
   let(input_set_given) {
     [
       [0.1, 0.2],
-      [0.3, 0.4]
+      [0.3, 0.4],
     ]
   }
-  
+
   describe "#eval" do
     let(expected_outputs_guessed_before) { [[0.0], [0.0]] }
 
@@ -23,32 +23,32 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
         weights = [
           [
             [
-              [-0.4,-0.3,-0.2],
+              [-0.4, -0.3, -0.2],
               [-0.1, 0.0, 0.1],
-              [ 0.2, 0.3, 0.4],
+              [0.2, 0.3, 0.4],
             ],
             [
-              [-0.4,-0.3,-0.2],
+              [-0.4, -0.3, -0.2],
               [-0.1, 0.0, 0.1],
-              [ 0.2, 0.3, 0.4],
-              [-0.4,-0.3,-0.2],
+              [0.2, 0.3, 0.4],
+              [-0.4, -0.3, -0.2],
               [-0.1, 0.0, 0.1],
-              [ 0.2, 0.3, 0.4],
-            ]
+              [0.2, 0.3, 0.4],
+            ],
           ],
           [
             [
               [-0.2],
-              [ 0.1],
-              [ 0.3],
+              [0.1],
+              [0.3],
             ],
             [
               [-0.4],
               [-0.2],
-              [ 0.2],
-              [ 0.4],
-            ]
-          ]
+              [0.2],
+              [0.4],
+            ],
+          ],
         ]
         rnn_simple.synaptic_layer_indexes.map do |li|
           rnn_simple.time_col_indexes.map do |ti|
@@ -64,15 +64,15 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
       end
 
       context "during" do
-        pending "calls 'step_load_inputs'"do
+        pending "calls 'step_load_inputs'" do
           expect(rnn_simple).to receive(:step_load_inputs)
-  
+
           rnn_simple.eval(input_set_given)
         end
-  
-        pending "calls 'step_calc_forward'"do
+
+        pending "calls 'step_calc_forward'" do
           expect(rnn_simple).to receive(:step_calc_forward)
-  
+
           rnn_simple.eval(input_set_given)
         end
       end
@@ -94,7 +94,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
       let(input_set_given) {
         [
           [0.1, 0.2],
-          [0.3, 0.4]
+          [0.3, 0.4],
         ]
       }
 
@@ -102,12 +102,12 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
         [
           [
             [0.0, 0.0, 0.0],
-            [0.0, 0.0, 0.0]
+            [0.0, 0.0, 0.0],
           ],
           [
             [0.0],
-            [0.0]
-          ]
+            [0.0],
+          ],
         ]
       }
 
@@ -119,12 +119,12 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
         [
           [
             [0.14, 0.27, 0.4],
-            [0.04000000000000001, 0.21, 0.38]
+            [0.04000000000000001, 0.21, 0.38],
           ],
           [
             [0.119],
-            [0.0656]
-          ]
+            [0.0656],
+          ],
         ]
       }
 
@@ -132,32 +132,32 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
         weights = [
           [
             [
-              [-0.4,-0.3,-0.2],
+              [-0.4, -0.3, -0.2],
               [-0.1, 0.0, 0.1],
-              [ 0.2, 0.3, 0.4],
+              [0.2, 0.3, 0.4],
             ],
             [
-              [-0.4,-0.3,-0.2],
+              [-0.4, -0.3, -0.2],
               [-0.1, 0.0, 0.1],
-              [ 0.2, 0.3, 0.4],
-              [-0.4,-0.3,-0.2],
+              [0.2, 0.3, 0.4],
+              [-0.4, -0.3, -0.2],
               [-0.1, 0.0, 0.1],
-              [ 0.2, 0.3, 0.4],
-            ]
+              [0.2, 0.3, 0.4],
+            ],
           ],
           [
             [
               [-0.2],
-              [ 0.1],
-              [ 0.3],
+              [0.1],
+              [0.3],
             ],
             [
               [-0.4],
               [-0.2],
-              [ 0.2],
-              [ 0.4],
-            ]
-          ]
+              [0.2],
+              [0.4],
+            ],
+          ],
         ]
         rnn_simple.synaptic_layer_indexes.map do |li|
           rnn_simple.time_col_indexes.map do |ti|
@@ -175,7 +175,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
       context "after #eval" do
         it "returns expected non-zero outputs" do
           rnn_simple.eval(input_set_given)
-    
+
           assert_approximate_equality_of_nested_list(expected_all_mini_net_outputs_after, rnn_simple.all_mini_net_outputs)
         end
       end

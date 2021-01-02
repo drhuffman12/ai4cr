@@ -6,7 +6,7 @@ Spectator.describe "from_json" do
     context "LS_PRELU" do
       let(ls_prelu) { Ai4cr::NeuralNetwork::Cmn::LS_PRELU }
       let(ls) { ls_prelu }
-      
+
       it "exports and imports" do
         fj = ls.to_json
         tj = Ai4cr::NeuralNetwork::Cmn::LearningStyle.from_json(fj)
@@ -17,8 +17,8 @@ Spectator.describe "from_json" do
 
     context "LS_PRELU" do
       let(ls_prelu) { Ai4cr::NeuralNetwork::Cmn::LS_PRELU }
-      let(ls_set) { [ ls_prelu ] }
-      
+      let(ls_set) { [ls_prelu] }
+
       it "exports and imports" do
         fj = ls_set.to_json
         tj = Array(Ai4cr::NeuralNetwork::Cmn::LearningStyle).from_json(fj)
@@ -31,8 +31,8 @@ Spectator.describe "from_json" do
     context "LS_PRELU" do
       let(ls_prelu) { Ai4cr::NeuralNetwork::Cmn::LS_PRELU }
       let(ls_relu) { Ai4cr::NeuralNetwork::Cmn::LS_RELU }
-      let(ls_set) { [ ls_prelu, ls_relu ] }
-      
+      let(ls_set) { [ls_prelu, ls_relu] }
+
       it "exports and imports" do
         fj = ls_set.to_json
         tj = Array(Ai4cr::NeuralNetwork::Cmn::LearningStyle).from_json(fj)

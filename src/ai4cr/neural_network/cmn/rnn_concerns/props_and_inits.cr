@@ -23,7 +23,7 @@ module Ai4cr
           HIDDEN_SIZE_GIVEN_MIN = INPUT_SIZE_MIN + OUTPUT_SIZE_MIN
 
           getter hidden_layer_qty : Int32
-          
+
           getter synaptic_layer_qty : Int32
           getter time_col_qty : Int32
           getter input_size : Int32
@@ -42,12 +42,9 @@ module Ai4cr
           getter time_col_index_last : Int32
 
           property node_output_sizes : Array(Int32)
-          property node_input_sizes : Array(Array(
-            NamedTuple(
-              previous_synaptic_layer: Int32,
-              previous_time_column: Int32
-              )
-            ))
+          property node_input_sizes : Array(Array(NamedTuple(
+            previous_synaptic_layer: Int32,
+            previous_time_column: Int32)))
 
           property mini_net_set : Array(Array(MiniNet))
 
@@ -58,12 +55,12 @@ module Ai4cr
 
           def config
             {
-              io_offset: @io_offset,
-              time_col_qty: @time_col_qty,
-              input_size: @input_size,
-              output_size: @output_size,
-              hidden_layer_qty: @hidden_layer_qty,
-              hidden_size_given: @hidden_size_given
+              io_offset:         @io_offset,
+              time_col_qty:      @time_col_qty,
+              input_size:        @input_size,
+              output_size:       @output_size,
+              hidden_layer_qty:  @hidden_layer_qty,
+              hidden_size_given: @hidden_size_given,
             }
           end
 
@@ -202,7 +199,7 @@ module Ai4cr
             # TODO: Add more params to feed MiniNet's. (For now, use defaults.)
             synaptic_layer_indexes.map do |li|
               # NOTE: It should suffice to have bias only on the first li nets.
-              #   So, force bias only on 1st and none on others    
+              #   So, force bias only on 1st and none on others
               disable_bias = li != 0
 
               mn_output_size = node_output_sizes[li]

@@ -9,7 +9,7 @@ module Ai4cr
           getter width : Int32, height : Int32
           getter height_considering_bias : Int32
           getter width_indexes : Array(Int32), height_indexes : Array(Int32)
-          
+
           property inputs_given : Array(Float64), outputs_guessed : Array(Float64)
           property weights : Array(Array(Float64))
           property last_changes : Array(Array(Float64)) # aka previous weights
@@ -59,7 +59,7 @@ module Ai4cr
 
             @inputs_given = Array.new(@height_considering_bias, 0.0)
             @inputs_given[-1] = 1.0 unless @disable_bias
-            
+
             @input_deltas = Array.new(@height_considering_bias, 0.0)
 
             @width_indexes = Array.new(width) { |i| i }

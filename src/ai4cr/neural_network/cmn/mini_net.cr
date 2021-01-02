@@ -25,7 +25,7 @@ module Ai4cr
 
         # def copy_trained_info(some_json)
         #   hashed = JSON.parse(some_json)
-        #   inputs_given = 
+        #   inputs_given =
         # end
       end
       # end

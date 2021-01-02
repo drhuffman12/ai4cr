@@ -6,7 +6,7 @@ module Ai4cr
       module RnnConcerns
         module CalcGuess
           EMPTY_1D_ARRAY_FLOAT64 = Array(Float64).new
-          
+
           # steps for 'eval' aka 'guess':
           def eval(input_set_given)
             step_load_inputs(input_set_given)
