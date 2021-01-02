@@ -64,17 +64,22 @@ module Ai4cr
           end
 
           def step_load_inputs(inputs_given)
+            # Network could have a bias, which is tacked onto to the end of the inputs,
+            # so we must account for that.
             validate_inputs(inputs_given, @height_considering_bias)
+
             load_inputs(inputs_given)
           end
 
           def load_inputs(inputs_given)
-            # Network could have a bias, which is racked onto to the end of the inputs, so we must account for that.
-            validate_inputs(inputs_given, @height_considering_bias)
+            # Avoid calling this directly; use 'step_load_inputs' instead.
             inputs_given.each_with_index { |v, i| @inputs_given[i] = v.to_f }
           end
 
           def step_calc_forward # aka feedforward
+            # TODO: Any removable dupe calls to these 'validate_*' methods?
+            # TODO: Or, maybe move these to the 'validate!' method?
+
             validate_inputs(@inputs_given, @height_considering_bias)
 
             validate_outputs(@outputs_guessed, @width)

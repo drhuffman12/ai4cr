@@ -16,9 +16,6 @@ module Ai4cr
           #       for day # 1 (and would let you guess tomorrow's weather based on today's and the past weather)
           IO_OFFSET_DEFAULT = 1
 
-          # NOTE: The first net should have a bias; the others should not.
-          # TODO: Force bias only on 1st and none on others
-
           TIME_COL_QTY_MIN      = 2
           HIDDEN_LAYER_QTY_MIN  = 1
           INPUT_SIZE_MIN        = 2
@@ -26,7 +23,7 @@ module Ai4cr
           HIDDEN_SIZE_GIVEN_MIN = INPUT_SIZE_MIN + OUTPUT_SIZE_MIN
 
           getter hidden_layer_qty : Int32
-          # getter nodal_layer_qty : Int32
+          
           getter synaptic_layer_qty : Int32
           getter time_col_qty : Int32
           getter input_size : Int32
@@ -38,16 +35,19 @@ module Ai4cr
           getter errors : Hash(Symbol, String)
           getter valid : Bool
 
-          # getter nodal_layer_indexes : Array(Int32)
           getter synaptic_layer_indexes : Array(Int32)
           getter time_col_indexes : Array(Int32)
 
-          # getter nodal_layer_index_last : Int32
           getter synaptic_layer_index_last : Int32
           getter time_col_index_last : Int32
 
           property node_output_sizes : Array(Int32)
-          property node_input_sizes : Array(Array(NamedTuple(previous_synaptic_layer: Int32, previous_time_column: Int32)))
+          property node_input_sizes : Array(Array(
+            NamedTuple(
+              previous_synaptic_layer: Int32,
+              previous_time_column: Int32
+              )
+            ))
 
           property mini_net_set : Array(Array(MiniNet))
 
@@ -55,6 +55,17 @@ module Ai4cr
           # def initialize(@time_col_qty = TIME_COL_QTY_MIN, @structure = [INPUT_SIZE_MIN, OUTPUT_SIZE_MIN])
           #   initialize(time_col_qty, structure[0], structure[-1], structure[1..-2], )
           # end
+
+          def config
+            {
+              io_offset: @io_offset,
+              time_col_qty: @time_col_qty,
+              input_size: @input_size,
+              output_size: @output_size,
+              hidden_layer_qty: @hidden_layer_qty,
+              hidden_size_given: @hidden_size_given
+            }
+          end
 
           def initialize(
             @io_offset = IO_OFFSET_DEFAULT,
@@ -190,10 +201,18 @@ module Ai4cr
           def init_mini_net_set
             # TODO: Add more params to feed MiniNet's. (For now, use defaults.)
             synaptic_layer_indexes.map do |li|
+              # NOTE: It should suffice to have bias only on the first li nets.
+              #   So, force bias only on 1st and none on others    
+              disable_bias = li != 0
+
               mn_output_size = node_output_sizes[li]
               time_col_indexes.map do |ti|
                 mn_input_size = node_input_sizes[li][ti].values.sum
-                MiniNet.new(height: mn_input_size, width: mn_output_size)
+                MiniNet.new(
+                  height: mn_input_size,
+                  width: mn_output_size,
+                  disable_bias: disable_bias
+                )
               end
             end
           end
