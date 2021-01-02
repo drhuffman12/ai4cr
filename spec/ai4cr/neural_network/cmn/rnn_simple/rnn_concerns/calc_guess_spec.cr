@@ -78,7 +78,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
       end
 
       context "after" do
-        it "returns expected outputs" do
+        it "calculates expected outputs" do
           rnn_simple.eval(input_set_given)
 
           assert_approximate_equality_of_nested_list(expected_outputs_guessed, rnn_simple.outputs_guessed)

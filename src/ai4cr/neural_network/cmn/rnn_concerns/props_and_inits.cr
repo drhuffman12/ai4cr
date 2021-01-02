@@ -38,6 +38,9 @@ module Ai4cr
           getter synaptic_layer_indexes : Array(Int32)
           getter time_col_indexes : Array(Int32)
 
+          getter synaptic_layer_indexes_reversed : Array(Int32)
+          getter time_col_indexes_reversed : Array(Int32)
+
           getter synaptic_layer_index_last : Int32
           getter time_col_index_last : Int32
 
@@ -47,6 +50,9 @@ module Ai4cr
             previous_time_column: Int32)))
 
           property mini_net_set : Array(Array(MiniNet))
+
+          getter error_total : Float64
+          getter error_per_ti : Array(Float64)
 
           # TODO: Handle usage of a 'structure' param in 'initialize'
           # def initialize(@time_col_qty = TIME_COL_QTY_MIN, @structure = [INPUT_SIZE_MIN, OUTPUT_SIZE_MIN])
@@ -88,12 +94,19 @@ module Ai4cr
 
             @synaptic_layer_indexes = calc_synaptic_layer_indexes
             @time_col_indexes = calc_time_col_indexes
+            
+            @synaptic_layer_indexes_reversed = @synaptic_layer_indexes.reverse
+            @time_col_indexes_reversed = @time_col_indexes.reverse
+            
             @synaptic_layer_index_last = @valid ? @synaptic_layer_indexes.last : -1
             @time_col_index_last = @valid ? @time_col_indexes.last : -1
             @node_output_sizes = calc_node_output_sizes
             @node_input_sizes = calc_node_input_sizes
 
             @mini_net_set = init_mini_net_set
+
+            @error_total = 0.0
+            @error_per_ti = Array(Float64).new
           end
 
           def init_network
@@ -112,6 +125,10 @@ module Ai4cr
 
             @synaptic_layer_indexes = calc_synaptic_layer_indexes
             @time_col_indexes = calc_time_col_indexes
+            
+            @synaptic_layer_indexes_reversed = @synaptic_layer_indexes.reverse
+            @time_col_indexes_reversed = @time_col_indexes.reverse
+            
             @synaptic_layer_index_last = @valid ? @synaptic_layer_indexes.last : -1
             @time_col_index_last = @valid ? @time_col_indexes.last : -1
             @node_output_sizes = calc_node_output_sizes
