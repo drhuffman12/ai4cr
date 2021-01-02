@@ -40,12 +40,8 @@ module Ai4cr
           end
 
           def step_backpropagate
-            # Buggy ameba re Lint/ShadowingOuterLocalVar?
-            # (Supposed to be fixed as per https://github.com/crystal-ameba/ameba/issues/147)
-            # ameba:disable Lint/ShadowingOuterLocalVar
             synaptic_layer_indexes_reversed.each do |li|
               time_col_indexes_reversed.map do |ti|
-    
                 # TODO: Should I be collecting 'input_deltas' or sum of 'inputs' and 'input_deltas'?
 
                 if li == synaptic_layer_indexes_reversed.first && ti == time_col_indexes_reversed.first
@@ -56,7 +52,7 @@ module Ai4cr
                   ods = mini_net_set[li][ti].step_calculate_output_deltas
                   id_nli = step_input_deltas_from_next_li(li, ti)
                   id_nti = step_input_deltas_from_next_tc(li, ti)
-  
+
                   puts "----"
                   puts "BEFORE:: mini_net_set[li][ti].output_deltas: #{mini_net_set[li][ti].output_deltas}"
                   puts "VS"
@@ -81,7 +77,6 @@ module Ai4cr
                 end
               end
             end
-            # ameba:enable Lint/ShadowingOuterLocalVar
           end
 
           private def step_input_deltas_from_next_tc(li, ti)
@@ -90,7 +85,7 @@ module Ai4cr
               psl = nis[:previous_synaptic_layer]
               ptc = nis[:previous_time_column]
               # input_deltas = mini_net_set[li][ti + 1].input_deltas[0..psl-1]
-              input_deltas = mini_net_set[li][ti + 1].input_deltas[psl..psl+ptc-1]  
+              mini_net_set[li][ti + 1].input_deltas[psl..psl + ptc - 1]
             else
               # Should never get called!?
               # EMPTY_1D_ARRAY_FLOAT64
@@ -102,9 +97,9 @@ module Ai4cr
             if li < synaptic_layer_indexes.last
               nis = node_input_sizes[li + 1][ti]
               psl = nis[:previous_synaptic_layer]
-              ptc = nis[:previous_time_column]
-              input_deltas = mini_net_set[li + 1][ti].input_deltas[0..psl-1]
-              # input_deltas = mini_net_set[li][ti + 1].input_deltas[psl..psl+ptc-1]  
+              # ptc = nis[:previous_time_column]
+              mini_net_set[li + 1][ti].input_deltas[0..psl - 1]
+              # input_deltas = mini_net_set[li][ti + 1].input_deltas[psl..psl+ptc-1]
             else
               # Should never get called!?
               # EMPTY_1D_ARRAY_FLOAT64

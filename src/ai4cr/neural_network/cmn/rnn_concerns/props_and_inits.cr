@@ -94,10 +94,10 @@ module Ai4cr
 
             @synaptic_layer_indexes = calc_synaptic_layer_indexes
             @time_col_indexes = calc_time_col_indexes
-            
+
             @synaptic_layer_indexes_reversed = @synaptic_layer_indexes.reverse
             @time_col_indexes_reversed = @time_col_indexes.reverse
-            
+
             @synaptic_layer_index_last = @valid ? @synaptic_layer_indexes.last : -1
             @time_col_index_last = @valid ? @time_col_indexes.last : -1
             @node_output_sizes = calc_node_output_sizes
@@ -125,10 +125,10 @@ module Ai4cr
 
             @synaptic_layer_indexes = calc_synaptic_layer_indexes
             @time_col_indexes = calc_time_col_indexes
-            
+
             @synaptic_layer_indexes_reversed = @synaptic_layer_indexes.reverse
             @time_col_indexes_reversed = @time_col_indexes.reverse
-            
+
             @synaptic_layer_index_last = @valid ? @synaptic_layer_indexes.last : -1
             @time_col_index_last = @valid ? @time_col_indexes.last : -1
             @node_output_sizes = calc_node_output_sizes

@@ -12,8 +12,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
   }
 
   describe "#train" do
-  let(expected_outputs_guessed_before) { [[0.0], [0.0]] }
-  let(expected_outputs_trained) { [[0.4], [0.6]] }
+    let(expected_outputs_guessed_before) { [[0.0], [0.0]] }
+    let(expected_outputs_trained) { [[0.4], [0.6]] }
 
     context "with hard-coded weights" do
       let(expected_outputs_guessed) {
@@ -115,7 +115,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
 
         it "adjusts weights" do
           rnn_simple.train(input_set_given, expected_outputs_trained)
-
 
           puts "----"
           puts "hard_coded_weights: #{hard_coded_weights}"
