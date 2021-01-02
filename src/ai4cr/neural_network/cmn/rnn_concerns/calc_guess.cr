@@ -87,11 +87,11 @@ module Ai4cr
             end
           end
 
-          def private step_load_previous_tc(li, ti)
+          private def step_load_previous_tc(li, ti)
             ti > 0 ? mini_net_set[li][ti - 1].outputs_guessed : EMPTY_1D_ARRAY_FLOAT64
           end
 
-          def private step_load_previous_li(li, ti)
+          private def step_load_previous_li(li, ti)
             li > 0 ? mini_net_set[li - 1][ti].outputs_guessed : EMPTY_1D_ARRAY_FLOAT64
           end
         end
