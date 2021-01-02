@@ -30,6 +30,9 @@ module Ai4cr
               mini_net_set[li][ti].step_calc_forward
             end
 
+            # Buggy ameba re Lint/ShadowingOuterLocalVar?
+            # (Supposed to be fixed as per https://github.com/crystal-ameba/ameba/issues/147)
+            # ameba:disable Lint/ShadowingOuterLocalVar
             synaptic_layer_indexes[1..-1].each do |li|
               time_col_indexes.map do |ti|
                 inputs = (step_load_previous_li(li, ti) + step_load_previous_tc(li, ti)).flatten
@@ -37,6 +40,7 @@ module Ai4cr
                 mini_net_set[li][ti].step_calc_forward
               end
             end
+            # ameba:enable Lint/ShadowingOuterLocalVar
           end
 
           def all_mini_net_outputs

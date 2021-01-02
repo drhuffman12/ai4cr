@@ -23,8 +23,7 @@ Spectator.describe "from_json" do
         fj = ls_set.to_json
         tj = Array(Ai4cr::NeuralNetwork::Cmn::LearningStyle).from_json(fj)
 
-        expect(tj.to_json).to eq(
-          ls = ls_set.to_json)
+        expect(tj.to_json).to eq(ls_set.to_json)
       end
     end
 
@@ -37,8 +36,7 @@ Spectator.describe "from_json" do
         fj = ls_set.to_json
         tj = Array(Ai4cr::NeuralNetwork::Cmn::LearningStyle).from_json(fj)
 
-        expect(tj.to_json).to eq(
-          ls = ls_set.to_json)
+        expect(tj.to_json).to eq(ls_set.to_json)
       end
     end
   end
