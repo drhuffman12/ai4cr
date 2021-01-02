@@ -113,7 +113,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           assert_approximate_equality_of_nested_list(expected_outputs_guessed, rnn_simple.outputs_guessed)
         end
 
-        it "adjusts weights" do
+        pending "adjusts weights" do
           rnn_simple.train(input_set_given, expected_outputs_trained)
 
           puts "----"
