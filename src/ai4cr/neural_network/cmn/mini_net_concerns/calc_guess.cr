@@ -73,6 +73,8 @@ module Ai4cr
 
           def load_inputs(inputs_given)
             # Avoid calling this directly; use 'step_load_inputs' instead.
+            # Auto-convert non-float input values to float (using system default number of bits).
+            # Also the inputs should NOT overwrite the bias slot, if any.
             inputs_given.each_with_index { |v, i| @inputs_given[i] = v.to_f }
           end
 
