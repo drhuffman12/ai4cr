@@ -55,7 +55,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
       before_each do
         rnn_simple.synaptic_layer_indexes.map do |li|
           rnn_simple.time_col_indexes.map do |ti|
-            rnn_simple.mini_net_set[li][ti].weights = hard_coded_weights[li][ti]
+            rnn_simple.mini_net_set[li][ti].weights = hard_coded_weights[li][ti].clone
           end
         end
       end
