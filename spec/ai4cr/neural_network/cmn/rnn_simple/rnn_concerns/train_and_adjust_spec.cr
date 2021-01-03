@@ -122,7 +122,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           puts "rnn_simple.all_mini_net_weights: #{rnn_simple.all_mini_net_weights}"
           puts "----"
 
-          assert_approximate_inequality_of_nested_list(hard_coded_weights, rnn_simple.all_mini_net_weights)
+          assert_approximate_inequality_of_nested_list(hard_coded_weights, rnn_simple.all_mini_net_weights, 0.000_000_1)
         end
       end
     end
