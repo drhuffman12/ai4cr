@@ -12,37 +12,6 @@ module Ai4cr
           # end
           abstract def propagation_function
 
-          # pseudo-abstract
-          # default set below, but might be different per subclass
-          def guesses_best
-            guesses_as_is
-          end
-
-          # sorted/top/bottom n output results
-          def guesses_as_is
-            @outputs_guessed
-          end
-
-          def guesses_sorted
-            @outputs_guessed.map_with_index { |o, idx| [idx, o].sort }
-          end
-
-          def guesses_rounded # good for MiniNet::Sigmoid; and maybe MiniNetRanh
-            @outputs_guessed.map { |v| v.round }
-          end
-
-          def guesses_ceiled # good for MiniNetRelu
-            @outputs_guessed.map { |v| v.ceil }
-          end
-
-          def guesses_top_n(n = @outputs_guessed.size)
-            guesses_sorted[0..(n - 1)]
-          end
-
-          def guesses_bottom_n(n = @outputs_guessed.size)
-            guesses_sorted.reverse[0..(n - 1)]
-          end
-
           # steps for 'eval' aka 'guess':
           def eval(inputs_given) # aka eval
             step_load_inputs(inputs_given)
@@ -97,6 +66,37 @@ module Ai4cr
 
             validate_outputs(@outputs_guessed, @width)
             validate_outputs(@outputs_guessed, @width_indexes.size)
+          end
+
+          # guesses
+          def guesses_best
+            # default set below, but might be different per subclass
+            guesses_as_is
+          end
+
+          # outputs_guessed in sorted/top/bottom/etc order
+          def guesses_as_is
+            @outputs_guessed
+          end
+
+          def guesses_sorted
+            @outputs_guessed.map_with_index { |o, idx| [idx, o].sort }
+          end
+
+          def guesses_rounded # good for MiniNet::Sigmoid; and maybe MiniNetRanh
+            @outputs_guessed.map { |v| v.round }
+          end
+
+          def guesses_ceiled # good for MiniNetRelu
+            @outputs_guessed.map { |v| v.ceil }
+          end
+
+          def guesses_top_n(n = @outputs_guessed.size)
+            guesses_sorted[0..(n - 1)]
+          end
+
+          def guesses_bottom_n(n = @outputs_guessed.size)
+            guesses_sorted.reverse[0..(n - 1)]
           end
         end
       end

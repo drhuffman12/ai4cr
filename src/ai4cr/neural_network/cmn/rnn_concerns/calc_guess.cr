@@ -5,42 +5,31 @@ module Ai4cr
     module Cmn
       module RnnConcerns
         module CalcGuess
-          # EMPTY_1D_ARRAY_FLOAT64 = Array(Float64).new
-
           # steps for 'eval' aka 'guess':
           def eval(input_set_given)
-            step_load_inputs(input_set_given)
-            step_calc_forward
+            @input_set_given = input_set_given
+
+            synaptic_layer_indexes.each do |li|
+              time_col_indexes.each do |ti|
+                mini_net_set[li][ti].step_load_inputs(inputs_for(li, ti))
+                mini_net_set[li][ti].step_calc_forward
+              end
+            end
 
             outputs_guessed
           end
 
-          def step_load_inputs(input_set_given)
-            li = 0
-
-            time_col_indexes.map do |ti|
-              inputs = (input_set_given[ti] + step_outputs_guessed_from_previous_tc(li, ti)).flatten
-              mini_net_set[li][ti].step_load_inputs(inputs)
+          def inputs_for(li, ti)
+            case
+            when li == 0 && ti == 0
+              @input_set_given[ti]
+            when li == 0 && ti > 0
+              @input_set_given[ti] + step_outputs_guessed_from_previous_tc(li, ti)
+            when li > 0 && ti == 0
+              step_outputs_guessed_from_previous_li(li, ti)
+            else
+              step_outputs_guessed_from_previous_li(li, ti) + step_outputs_guessed_from_previous_tc(li, ti)
             end
-          end
-
-          def step_calc_forward
-            li = 0
-            time_col_indexes.map do |ti|
-              mini_net_set[li][ti].step_calc_forward
-            end
-
-            # Buggy ameba re Lint/ShadowingOuterLocalVar?
-            # (Supposed to be fixed as per https://github.com/crystal-ameba/ameba/issues/147)
-            # ameba:disable Lint/ShadowingOuterLocalVar
-            synaptic_layer_indexes[1..-1].each do |li|
-              time_col_indexes.map do |ti|
-                inputs = (step_outputs_guessed_from_previous_li(li, ti) + step_outputs_guessed_from_previous_tc(li, ti)).flatten
-                mini_net_set[li][ti].step_load_inputs(inputs)
-                mini_net_set[li][ti].step_calc_forward
-              end
-            end
-            # ameba:enable Lint/ShadowingOuterLocalVar
           end
 
           def outputs_guessed
@@ -51,6 +40,15 @@ module Ai4cr
             end
           end
 
+          private def step_outputs_guessed_from_previous_tc(li, ti)
+            ti > 0 ? mini_net_set[li][ti - 1].outputs_guessed : Array(Float64).new
+          end
+
+          private def step_outputs_guessed_from_previous_li(li, ti)
+            li > 0 ? mini_net_set[li - 1][ti].outputs_guessed : Array(Float64).new
+          end
+
+          # guesses
           def guesses_sorted
             li = synaptic_layer_indexes.last
 
@@ -81,14 +79,6 @@ module Ai4cr
             time_col_indexes.map do |ti|
               mini_net_set[li][ti].guesses_top_n(n)
             end
-          end
-
-          private def step_outputs_guessed_from_previous_tc(li, ti)
-            ti > 0 ? mini_net_set[li][ti - 1].outputs_guessed : Array(Float64).new
-          end
-
-          private def step_outputs_guessed_from_previous_li(li, ti)
-            li > 0 ? mini_net_set[li - 1][ti].outputs_guessed : Array(Float64).new
           end
         end
       end

@@ -19,6 +19,8 @@ module Ai4cr
 
           property input_deltas : Array(Float64), output_deltas : Array(Float64)
 
+          property learning_style : LearningStyle
+          property deriv_scale : Float64
           property bias_default : Float64
           property disable_bias : Bool
           property learning_rate : Float64
@@ -27,9 +29,6 @@ module Ai4cr
           getter error_distance : Float64
           getter error_distance_history_max : Int32
           getter error_distance_history : Array(Float64)
-
-          property learning_style : LearningStyle
-          property deriv_scale : Float64
 
           def initialize(
             @height, @width,
@@ -42,11 +41,11 @@ module Ai4cr
             # @deriv_scale = 0.001,
             @deriv_scale = rand / 2.0,
 
-            disable_bias : Bool? = nil, learning_rate : Float64? = nil, momentum : Float64? = nil,
+            disable_bias : Bool? = nil, @bias_default = 1.0,
+
+            learning_rate : Float64? = nil, momentum : Float64? = nil,
             error_distance_history_max : Int32 = 10
           )
-            @bias_default = 1.0
-
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
             @disable_bias = disable_bias.nil? ? false : !!disable_bias
 
@@ -58,7 +57,7 @@ module Ai4cr
             @height_indexes = Array.new(@height_considering_bias) { |i| i }
 
             @inputs_given = Array.new(@height_considering_bias, 0.0)
-            @inputs_given[-1] = 1.0 unless @disable_bias
+            @inputs_given[-1] = bias_default unless @disable_bias
 
             @input_deltas = Array.new(@height_considering_bias, 0.0)
 
@@ -77,7 +76,7 @@ module Ai4cr
 
             @error_total = 0.0
             @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-            @error_distance = 1.0
+            @error_distance = 0.0
             @error_distance_history = Array.new(0, 0.0)
           end
 

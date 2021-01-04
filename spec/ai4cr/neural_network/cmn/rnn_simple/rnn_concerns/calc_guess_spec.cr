@@ -16,7 +16,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
 
     context "with hard-coded weights" do
       let(expected_outputs_guessed) {
-        [[0.119], [0.0656]]
+        [[0.119], [0.09780000000000003]]
       }
 
       before_each do
@@ -119,11 +119,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::CalcGuess do
         [
           [
             [0.14, 0.27, 0.4],
-            [0.04000000000000001, 0.21, 0.38],
+            [0.0, 0.17099999999999999, 0.42200000000000004],
           ],
           [
             [0.119],
-            [0.0656],
+            [0.09780000000000003],
           ],
         ]
       }

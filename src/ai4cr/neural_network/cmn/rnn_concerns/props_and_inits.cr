@@ -22,15 +22,22 @@ module Ai4cr
           OUTPUT_SIZE_MIN       = 1
           HIDDEN_SIZE_GIVEN_MIN = INPUT_SIZE_MIN + OUTPUT_SIZE_MIN
 
-          getter hidden_layer_qty : Int32
-
-          getter synaptic_layer_qty : Int32
+          getter io_offset : Int32
           getter time_col_qty : Int32
+          getter hidden_layer_qty : Int32
           getter input_size : Int32
           getter output_size : Int32
           getter hidden_size : Int32
           getter hidden_size_given : Int32?
-          getter io_offset : Int32
+
+          property learning_style : LearningStyle
+          property deriv_scale : Float64
+          property bias_default : Float64
+          property disable_bias : Bool
+          property learning_rate : Float64
+          property momentum : Float64
+
+          getter synaptic_layer_qty : Int32
 
           getter errors : Hash(Symbol, String)
           getter valid : Bool
@@ -54,6 +61,9 @@ module Ai4cr
           getter error_total : Float64
           getter error_per_ti : Array(Float64)
 
+          getter input_set_given : Array(Array(Float64))
+          getter output_set_expected : Array(Array(Float64))
+
           # TODO: Handle usage of a 'structure' param in 'initialize'
           # def initialize(@time_col_qty = TIME_COL_QTY_MIN, @structure = [INPUT_SIZE_MIN, OUTPUT_SIZE_MIN])
           #   initialize(time_col_qty, structure[0], structure[-1], structure[1..-2], )
@@ -61,12 +71,19 @@ module Ai4cr
 
           def config
             {
-              io_offset:         @io_offset,
-              time_col_qty:      @time_col_qty,
+              io_offset:    @io_offset,
+              time_col_qty: @time_col_qty,
+
               input_size:        @input_size,
               output_size:       @output_size,
               hidden_layer_qty:  @hidden_layer_qty,
               hidden_size_given: @hidden_size_given,
+
+              learning_style: @learning_style,
+              deriv_scale:    @deriv_scale,
+              disable_bias:   @disable_bias,
+              learning_rate:  @learning_rate,
+              momentum:       @momentum,
             }
           end
 
@@ -76,9 +93,30 @@ module Ai4cr
             @input_size = INPUT_SIZE_MIN,
             @output_size = OUTPUT_SIZE_MIN,
             @hidden_layer_qty = HIDDEN_LAYER_QTY_MIN,
-            @hidden_size_given = nil
+            @hidden_size_given = nil,
+
+            @learning_style : LearningStyle = LS_RELU,
+
+            # for Prelu
+            # TODO: set deriv_scale based on ?
+            # @deriv_scale = 0.1,
+            # @deriv_scale = 0.01,
+            # @deriv_scale = 0.001,
+            @deriv_scale = rand / 2.0,
+
+            disable_bias : Bool? = nil, @bias_default = 1.0,
+
+            learning_rate : Float64? = nil, momentum : Float64? = nil
+            # _error_distance_history_max_ : Int32 = 10
           )
             # init_network
+
+            # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
+            @disable_bias = disable_bias.nil? ? false : disable_bias
+
+            @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
+            @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
+
             @synaptic_layer_qty = hidden_layer_qty + 1
 
             # TODO: Handle differing hidden layer output sizes
@@ -107,9 +145,18 @@ module Ai4cr
 
             @error_total = 0.0
             @error_per_ti = Array(Float64).new
+
+            @input_set_given = Array(Array(Float64)).new
+            @output_set_expected = Array(Array(Float64)).new
           end
 
           def init_network
+            # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
+            @disable_bias = disable_bias.nil? ? false : !!disable_bias
+
+            @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
+            @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
+
             @synaptic_layer_qty = hidden_layer_qty + 1
 
             # TODO: Handle differing hidden layer output sizes
@@ -135,6 +182,12 @@ module Ai4cr
             @node_input_sizes = calc_node_input_sizes
 
             @mini_net_set = init_mini_net_set
+
+            @error_total = 0.0
+            @error_per_ti = Array(Float64).new
+
+            @input_set_given = Array(Array(Float64)).new
+            @output_set_expected = Array(Array(Float64)).new
           end
 
           def valid?
@@ -217,7 +270,7 @@ module Ai4cr
             synaptic_layer_indexes.map do |li|
               # NOTE: It should suffice to have bias only on the first li nets.
               #   So, force bias only on 1st and none on others
-              disable_bias = li != 0
+              li_gt_0 = li != 0
 
               mn_output_size = node_output_sizes[li]
               time_col_indexes.map do |ti|
@@ -225,7 +278,15 @@ module Ai4cr
                 MiniNet.new(
                   height: mn_input_size,
                   width: mn_output_size,
-                  disable_bias: disable_bias
+
+                  learning_style: @learning_style,
+                  deriv_scale: @deriv_scale,
+
+                  disable_bias: li_gt_0,
+                  bias_default: @bias_default,
+
+                  learning_rate: @learning_rate,
+                  momentum: @momentum,
                 )
               end
             end
