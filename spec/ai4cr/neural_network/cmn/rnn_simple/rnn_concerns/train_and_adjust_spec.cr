@@ -163,12 +163,12 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
         [
           [
             [0.14, 0.27, 0.4],
-            [0.0, 0.17099999999999999, 0.42200000000000004]
+            [0.0, 0.17099999999999999, 0.42200000000000004],
           ],
           [
             [0.119],
-            [0.09780000000000003]
-          ]
+            [0.09780000000000003],
+          ],
         ]
       }
 
@@ -219,7 +219,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
       context "after #eval" do
         it "returns expected non-zero outputs" do
           rnn_simple.eval(input_set_given)
-          
+
           assert_approximate_equality_of_nested_list(expected_all_mini_net_outputs_after, rnn_simple.all_mini_net_outputs, delta_1_thousandths**3)
         end
       end
