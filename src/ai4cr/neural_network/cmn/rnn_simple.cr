@@ -4,6 +4,7 @@ require "./rnn_concerns/calc_guess.cr"
 require "./rnn_concerns/props_and_inits.cr"
 require "./rnn_concerns/train_and_adjust.cr"
 require "./rnn_concerns/roll_ups.cr"
+require "./rnn_concerns/split_training_data.cr"
 
 module Ai4cr
   module NeuralNetwork
@@ -19,6 +20,8 @@ module Ai4cr
         include RnnConcerns::CalcGuess
         include RnnConcerns::TrainAndAdjust
         include RnnConcerns::RollUps
+        include RnnConcerns::SplitTrainingData
+        # include RnnConcerns::TrainInSequence
       end
     end
   end
