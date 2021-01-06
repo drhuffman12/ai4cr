@@ -27,7 +27,7 @@ module Ai4cr
           property learning_rate : Float64
           property momentum : Float64
 
-          getter error_distance : Float64
+          # getter error_distance : Float64
           getter error_distance_history_max : Int32
           getter error_distance_history : Array(Float64)
 
@@ -78,7 +78,7 @@ module Ai4cr
 
             @error_total = 0.0
             @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-            @error_distance = 0.0 # aka error_total
+            # @error_distance = 0.0 # aka error_total
             @error_distance_history = Array.new(0, 0.0)
           end
 
@@ -110,7 +110,7 @@ module Ai4cr
 
             @error_total = 0.0
             @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-            @error_distance = 0.0
+            # @error_distance = 0.0
             @error_distance_history = Array.new(0, 0.0)
           end
 

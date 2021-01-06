@@ -12,8 +12,8 @@ module Ai4cr
           def train(inputs_given, outputs_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT)
             step_load_inputs(inputs_given)
             step_calc_forward
-            step_load_outputs(outputs_expected)
 
+            step_load_outputs(outputs_expected)
             step_calc_output_errors
             step_backpropagate
 
@@ -54,7 +54,7 @@ module Ai4cr
           # private
 
           def load_outputs_expected(outputs_expected)
-            @outputs_expected.map_with_index! { |_, i| outputs_expected[i] }
+            @outputs_expected.map_with_index! { |_, i| outputs_expected[i].to_f }
           end
 
           def load_outputs_deltas(outputs_deltas)
@@ -67,7 +67,7 @@ module Ai4cr
             @output_deltas.map_with_index! do |_, i|
               # error = @outputs_expected[i] - @outputs_guessed[i]
               # derivative_propagation_function.call(@outputs_guessed[i]) * error
-              derivative_propagation_function.call(@outputs_guessed[i]) * @output_errors[i]
+              derivative_propagation_function.call(@outputs_guessed[i].clone) * @output_errors[i].clone
               # # TODO: Research ReLU and why I'm not seeing performance gain in my code
               # # For Relu performance gain, check for 0.0
               # der_val = derivative_propagation_function.call(@outputs_guessed[i])

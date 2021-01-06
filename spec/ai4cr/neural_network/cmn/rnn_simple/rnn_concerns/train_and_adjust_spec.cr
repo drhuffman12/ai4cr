@@ -64,6 +64,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
   let(expected_outputs_guessed_before) { [[0.0], [0.0]] }
   let(expected_outputs_guessed) {
     # NOTE: The guessed value is closer to 'output_set_expected' than 'expected_outputs_guessed_before'!
+    # TODO: WHY is the last ti's value in outputs_guessed reset to '0.0' after training (but NOT after eval'ing)??? (and NOT reset to '0.0' after next round of training???)
     [[0.14193], [0.0]]
   }
   let(expected_outputs_guessed_2nd) {
@@ -339,7 +340,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
 
         context "after #train" do
           pending "returns expected non-zero outputs (variation 1)" do
-            rnn_simple.train(input_set_given, output_set_expected)
+            rnn_simple.train(input_set_given, output_set_expected, debug_msg: "train (variation 1)")
 
             puts
             puts "TODO: Why are these NOT all showing the same values for rnn_simple.all_mini_net_outputs?"
@@ -353,7 +354,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
 
         context "after #train" do
           it "returns expected non-zero outputs (variation 2)" do
-            rnn_simple.train(input_set_given, output_set_expected)
+            rnn_simple.train(input_set_given, output_set_expected, debug_msg: "train (variation 2)")
 
             assert_approximate_equality_of_nested_list(expected_all_mini_net_outputs_after_training, rnn_simple.all_mini_net_outputs, delta_1_thousandths**3)
           end
