@@ -71,6 +71,10 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
     # NOTE: The guessed value is closer to 'output_set_expected' than 'expected_outputs_guessed'!
     [[0.1748345741196996], [0.10429156621331176]]
   }
+  let(expected_outputs_guessed_3rd) {
+    # NOTE: The guessed value is closer to 'output_set_expected' than 'expected_outputs_guessed'!
+    [[0.21826186465048797], [0.30529551569555924]]
+  }
   let(output_set_expected) { [[0.4], [0.6]] }
 
   let(expected_all_mini_net_outputs_before) {
@@ -112,11 +116,28 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
       ],
     ]
   }
+  let(expected_all_output_errors_3rd) {
+    # NOTE: the '*_2nd' errors are (generally) smaller!
+    [
+      [
+        [0.005583232402864197, 0.030036194212820607, 0.06041925268166688],
+        [-0.10307038662111832, -0.015834344115453265, 0.14015472212062996]
+      ],
+      [
+        [0.18367381123542686],
+        [0.29470448430444074]
+      ]
+    ]
+  }
 
   let(expected_error_total) { 0.01680627208738801 }
   let(expected_error_total_2nd) {
     # NOTE: the '*_2nd' error IS smaller!
     0.00800202291515254
+  }
+  let(expected_error_total_3rd) {
+    # NOTE: the '*_3nd' error IS smaller!
+    0.0010851465227188321
   }
   let(delta_1_thousandths) { 0.000_1 }
 
@@ -281,6 +302,101 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
 
           after_error_total = rnn_simple.train(input_set_given, output_set_expected)
           expect(after_error_total).to eq(expected_error_total_2nd)
+        end
+      end
+
+      context "after 3nd training session" do
+        it "guesses expected outputs" do
+          rnn_simple.train(input_set_given, output_set_expected)
+          rnn_simple.train(input_set_given, output_set_expected)
+          rnn_simple.train(input_set_given, output_set_expected)
+
+          expect(rnn_simple.outputs_guessed).to eq(expected_outputs_guessed_3rd)
+        end
+
+        it "calcs expected all_output_errors" do
+          rnn_simple.train(input_set_given, output_set_expected)
+          mid_output_errors = rnn_simple.all_output_errors
+          expect(mid_output_errors).to eq(expected_all_output_errors) # TODO
+
+          rnn_simple.train(input_set_given, output_set_expected)
+          after_output_errors = rnn_simple.all_output_errors
+          expect(after_output_errors).to eq(expected_all_output_errors_2nd)
+
+          rnn_simple.train(input_set_given, output_set_expected)
+          after_output_errors = rnn_simple.all_output_errors
+          expect(after_output_errors).to eq(expected_all_output_errors_3rd)
+        end
+
+        it "returns expected error_total" do
+          mid_error_total = rnn_simple.train(input_set_given, output_set_expected)
+          expect(mid_error_total).to eq(expected_error_total)
+
+          after_error_total = rnn_simple.train(input_set_given, output_set_expected)
+          expect(after_error_total).to eq(expected_error_total_2nd)
+
+          after_error_total = rnn_simple.train(input_set_given, output_set_expected)
+          expect(after_error_total).to eq(expected_error_total_3rd)
+        end
+      end
+
+      context "after Nth training session" do
+        it "guesses output_set_expected (w/in 0.01)" do
+          # | N  | Pass/Fail | outputs_guessed |
+          # |-|-|-|
+          # |  8 | Fail (both) | [[0.311782877597154], [0.6108554486598115]] |
+          # |  9 | Fail (0.4) | [[0.3197988600958788], [0.6095658375569459]] |
+          # | 29 | Fail (0.4) | [[0.38987579553409946], [0.6013225862149179]] |
+          # | 30 | Pass (both) | [0.39090807634681657], [0.6011895962521628]] |
+          n = 30
+          n.times { rnn_simple.train(input_set_given, output_set_expected) }
+
+          puts
+          puts "n: #{n}"
+          puts "output_set_expected: #{output_set_expected}"
+          puts "rnn_simple.outputs_guessed: #{rnn_simple.outputs_guessed}"
+          puts
+          
+          # expect(rnn_simple.outputs_guessed).to eq(output_set_expected)
+          assert_approximate_equality_of_nested_list(output_set_expected, rnn_simple.outputs_guessed, 0.01)
+        end
+
+        it "guesses output_set_expected (w/in 0.001)" do
+          # | N  | Pass/Fail | outputs_guessed |
+          # |-|-|-|
+          # | 30 | Fail (both) | [0.39090807634681657], [0.6011895962521628]] |
+          # | 31 | Fail (0.4) | [[0.392671177186273], [0.6009614781128381]] |
+          # | 50 | Fail (0.4) | [[0.3989630687402738], [0.6001373364811919]] |
+          # | 51 | Pass (both) | [[0.39907018068490613], [0.6001231699145197]] |
+          n = 51
+          n.times { rnn_simple.train(input_set_given, output_set_expected) }
+
+          # puts
+          # puts "output_set_expected: #{output_set_expected}"
+          # puts "rnn_simple.outputs_guessed: #{rnn_simple.outputs_guessed}"
+          # puts
+          
+          # expect(rnn_simple.outputs_guessed).to eq(output_set_expected)
+          assert_approximate_equality_of_nested_list(output_set_expected, rnn_simple.outputs_guessed, 0.001)
+        end
+
+        it "guesses output_set_expected (w/in 0.0001)" do
+          # | N  | Pass/Fail | outputs_guessed |
+          # |-|-|-|
+          # | 52 | Fail (both) | [[0.3991662430363312], [0.6001104608646772]] |
+          # | 53 | Fail (0.4)  | [[0.3992523927734073], [0.6000990601198036]] |
+          # | 71 | Fail (0.4)  | [[0.39989517749397047], [0.6000139027440714]] |
+          # | 72 | Pass        | [[0.39990601983578655], [0.600012464913882]] |
+          n = 72
+          n.times { rnn_simple.train(input_set_given, output_set_expected) }
+
+          # puts
+          # puts "output_set_expected: #{output_set_expected}"
+          # puts "rnn_simple.outputs_guessed: #{rnn_simple.outputs_guessed}"
+          # puts
+          
+          # expect(rnn_simple.outputs_guessed).to eq(output_set_expected)
+          assert_approximate_equality_of_nested_list(output_set_expected, rnn_simple.outputs_guessed, delta_1_thousandths)
         end
       end
     end
