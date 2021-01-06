@@ -89,9 +89,9 @@ Spectator.describe "from_json" do
           assert_approximate_equality(orig.momentum, fj.momentum)
         end
 
-        it "error_distance" do
-          assert_approximate_equality(orig.error_distance, fj.error_distance)
-        end
+        # it "error_distance" do
+        #   assert_approximate_equality(orig.error_distance, fj.error_distance)
+        # end
 
         it "error_distance_history_max" do
           assert_approximate_equality(orig.error_distance_history_max, fj.error_distance_history_max)
