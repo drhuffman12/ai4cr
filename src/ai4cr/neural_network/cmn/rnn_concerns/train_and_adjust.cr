@@ -12,8 +12,8 @@ module Ai4cr
 
           #   @output_set_expected = output_set_expected
 
-          #   
-          #   
+          #
+          #
 
           #   li = synaptic_layer_index_last
           #   time_col_indexes_reversed.each do |ti|
@@ -31,9 +31,6 @@ module Ai4cr
             eval(input_set_given)
 
             @output_set_expected = output_set_expected
-
-            
-            
 
             synaptic_layer_indexes_reversed.each do |li|
               time_col_indexes_reversed.each do |ti|
@@ -53,7 +50,6 @@ module Ai4cr
 
                   mini_net_set[li][ti].step_load_outputs(@output_set_expected[ti]) # 'regular' step_load_outputs
                   step_calculate_output_errors_at(li, ti)
-                  
 
                   # step_backpropagate
                   step_calculate_output_deltas(li, ti) # combo (add? or *avg*?) of 'regular' output_deltas and next_ti's input_deltas
@@ -79,7 +75,7 @@ module Ai4cr
                   # In this case, to calculate the 'outputs_expected', use outputs_guessed (of current [li][ti]) + input_deltas of (matching parts of next [li][ti])
                   #   TODO: Should this be plus or minus?
                   # Also, this is calc'd as a combo (sum or avg) in both li and ti directions.
-                  
+
                   step_calculate_output_errors_at(li, ti)
                   mini_net_set[li][ti].step_load_outputs(calc_hidden_outputs_expected(li, ti))
 
@@ -101,29 +97,26 @@ module Ai4cr
           private def step_calculate_output_errors_at(li, ti)
             mns = mini_net_set[li][ti]
 
-            
-            
-
             local_errors = case
-            when li == synaptic_layer_index_last && ti == time_col_index_last
-              # Only case where the RNN error is calc'd exactly the same as the MN error!
-              # mns.step_calc_output_errors
-              step_calculate_output_error_along_li(li, ti)
-            when li == synaptic_layer_index_last && ti < time_col_index_last
-              # We have 2 errors to deal with; we will average them.
-              error_along_li = step_calculate_output_error_along_li(li, ti)
-              error_along_ti = step_calculate_output_error_along_ti(li, ti)
-              error_along_li.map_with_index { |eli, i| 0.5 * (eli + error_along_ti[i]) }
-            when li < synaptic_layer_index_last && ti == time_col_index_last
-              step_calculate_output_error_along_li(li, ti)
-            when li < synaptic_layer_index_last && ti < time_col_index_last
-              # We have 2 errors to deal with; we will average them.
-              error_along_li = step_calculate_output_error_along_li(li, ti)
-              error_along_ti = step_calculate_output_error_along_ti(li, ti)
-              error_along_li.map_with_index { |eli, i| 0.5 * (eli + error_along_ti[i]) }
-            else
-              raise "Index error! (Range Mis-match!) li: #{li}, ti: #{ti}"
-            end
+                           when li == synaptic_layer_index_last && ti == time_col_index_last
+                             # Only case where the RNN error is calc'd exactly the same as the MN error!
+                             # mns.step_calc_output_errors
+                             step_calculate_output_error_along_li(li, ti)
+                           when li == synaptic_layer_index_last && ti < time_col_index_last
+                             # We have 2 errors to deal with; we will average them.
+                             error_along_li = step_calculate_output_error_along_li(li, ti)
+                             error_along_ti = step_calculate_output_error_along_ti(li, ti)
+                             error_along_li.map_with_index { |eli, i| 0.5 * (eli + error_along_ti[i]) }
+                           when li < synaptic_layer_index_last && ti == time_col_index_last
+                             step_calculate_output_error_along_li(li, ti)
+                           when li < synaptic_layer_index_last && ti < time_col_index_last
+                             # We have 2 errors to deal with; we will average them.
+                             error_along_li = step_calculate_output_error_along_li(li, ti)
+                             error_along_ti = step_calculate_output_error_along_ti(li, ti)
+                             error_along_li.map_with_index { |eli, i| 0.5 * (eli + error_along_ti[i]) }
+                           else
+                             raise "Index error! (Range Mis-match!) li: #{li}, ti: #{ti}"
+                           end
 
             mns.output_errors = local_errors
           end
@@ -137,12 +130,13 @@ module Ai4cr
               mini_net_set[li + 1][ti].input_deltas[from..to]
             end
           end
+
           private def step_calculate_output_error_along_ti(li, ti)
             raise "Index error" if ti == time_col_index_last
-            
+
             from = node_input_sizes[li][ti + 1][:previous_synaptic_layer]
             to = from + mini_net_set[li][ti].width - 1
-            
+
             mini_net_set[li][ti + 1].input_deltas[from..to]
           end
 
@@ -171,7 +165,7 @@ module Ai4cr
           #   to = from + mini_net_set[li][ti].width - 1
 
           #   mns_next_ti = mini_net_set[li][ti + 1]
-          #   indexes = (from..to).to_a # TODO: cache for re-use 
+          #   indexes = (from..to).to_a # TODO: cache for re-use
           #   indexes.map do |i|
           #     mns_next_ti.inputs_given[i] + mns_next_ti.input_deltas[i]
           #   end

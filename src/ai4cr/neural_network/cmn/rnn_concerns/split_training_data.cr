@@ -65,13 +65,13 @@ module Ai4cr
               from_percent = 1.0 * (v - from_min) / from_denom
               to_v = (0.0 + to_min_i + from_percent * to_denom).round.to_i
               to_v = case
-              when to_v < to_min_i
-                to_min_i
-              when to_v > to_max_i
-                to_max_i
-              else
-                to_v
-              end
+                     when to_v < to_min_i
+                       to_min_i
+                     when to_v > to_max_i
+                       to_max_i
+                     else
+                       to_v
+                     end
 
               (to_min_i..to_max_i).to_a.map do |i|
                 i == to_v ? 1.0 : 0.0

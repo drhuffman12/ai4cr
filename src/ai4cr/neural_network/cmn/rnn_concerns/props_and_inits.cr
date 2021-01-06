@@ -146,7 +146,7 @@ module Ai4cr
 
             @error_total = 0.0
             # @error_per_ti = time_col_indexes.map { 0.0 }
-            @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 }}
+            @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }
 
             @input_set_given = Array(Array(Float64)).new
             @output_set_expected = Array(Array(Float64)).new
@@ -187,7 +187,7 @@ module Ai4cr
 
             @error_total = 0.0
             # @error_per_ti = time_col_indexes.map { 0.0 }
-            @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 }}
+            @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }
 
             @input_set_given = Array(Array(Float64)).new
             @output_set_expected = Array(Array(Float64)).new

@@ -16,7 +16,7 @@ module Ai4cr
 
             step_calc_output_errors
             step_backpropagate
-            
+
             # @error_total
             step_calculate_error
           end

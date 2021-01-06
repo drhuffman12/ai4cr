@@ -13,7 +13,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
   let(sin_data) {
     (0..2*steps).to_a.map do |i|
       theta = (2 * Math::PI * (i / steps.to_f))
-      alt = Math.sin(theta) # .round(4)
+      alt = Math.sin(theta)
       ((alt + 1) / (2))
     end
   }
@@ -21,7 +21,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
   let(sin_data_offset) {
     (0..2*steps).to_a.map do |i|
       theta = (2 * Math::PI * ((i + noise_offset_t) / steps.to_f))
-      alt = Math.sin(theta) # .round(4)
+      alt = Math.sin(theta)
       ((alt + 1) / (2))
     end
   }
@@ -33,7 +33,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
 
       i_with_noise = (i + rnd_noise_t)
       theta = (2 * Math::PI * (i_with_noise / steps.to_f))
-      alt = Math.sin(theta) + rnd_noise_y # .round(4)
+      alt = Math.sin(theta) + rnd_noise_y
       ((alt + 1) / (2))
     end
   }
@@ -45,7 +45,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
 
       i_with_noise = (i + rnd_noise_t)
       theta = (2 * Math::PI * ((i_with_noise + noise_offset_t) / steps.to_f))
-      alt = Math.sin(theta) + rnd_noise_y # .round(4)
+      alt = Math.sin(theta) + rnd_noise_y
       ((alt + 1) / (2))
     end
   }
@@ -72,16 +72,10 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
 
   let(split_sin_data) { rnn_simple.split(sin_data, eval_qty) }
 
-  # let(split_sin_data_with_noise) {
-  #   rnn_simple.split_as_all_eval(sin_data_with_noise)
-  # }
-
   describe "#split" do
     context "given sin_data" do
       context "returns" do
         it "expected type" do
-          # puts "split_sin_data: #{split_sin_data.to_pretty_json}"
-
           expect(split_sin_data).to be_an(
             NamedTuple(
               training_data_size: Int32,
@@ -109,7 +103,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
           end
 
           it "io_pairs_tc_size" do
-            expect(split_sin_data[:io_pairs_tc_size]).to eq(io_offset + time_col_qty) # assuming inputs are not
+            expect(split_sin_data[:io_pairs_tc_size]).to eq(io_offset + time_col_qty)
           end
 
           it "io_pairs_qty" do
@@ -121,13 +115,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
             expect(split_sin_data[:io_pairs_indexes]).to eq(expected_indexes)
           end
 
-          # it "io_sets_size" do
-          #   # expected_io_sets_size = io_pairs_qty # (expected_io_pairs_qty - 1) - eval_qty
-          #   expect(split_sin_data[:io_sets_size]).to eq(split_sin_data[:io_pairs_qty])
-          # end
-
           it "training_qty" do
-            expected_training_qty = split_sin_data[:io_pairs_qty] - eval_qty # (expected_io_pairs_qty - 1) - eval_qty
+            expected_training_qty = split_sin_data[:io_pairs_qty] - eval_qty
             expect(split_sin_data[:training_qty]).to eq(expected_training_qty)
           end
 
@@ -235,12 +224,12 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
     let(to_min_i) { 0 }
     let(to_max_i) { 10 }
     let(from_min) { 0.0 }
-    
+
     let(input_size) { to_max_i - to_min_i + 1 }
     let(output_size) { to_max_i - to_min_i + 1 }
     let(hidden_layer_qty) { 1 }
-    
-    it "foo" do
+
+    pending "foo" do
       # to_min_i = 0
       # to_max_i = 10
       # from_min = 0.0
@@ -248,7 +237,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
       # 'sin_data' already mapped to range 0..1
       value_states = rnn_simple.float_to_state(values: sin_data, to_min_i: to_min_i, to_max_i: to_max_i, from_min: from_min)
 
-    
       puts
       puts "value_states: #{value_states.pretty_inspect}"
 
@@ -269,15 +257,4 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
       # puts "----"
     end
   end
-
-  # describe "#train_in_sequence" do
-  #   context "given sin_data" do
-  #     # TODO: tests for 'train_in_sequence'
-
-  #   end
-
-  #   context "given sin_data_with_noise" do
-  #     # TODO: tests for 'train_in_sequence'
-  #   end
-  # end
 end

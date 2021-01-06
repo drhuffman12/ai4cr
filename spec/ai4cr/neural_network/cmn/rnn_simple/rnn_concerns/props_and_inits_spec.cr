@@ -1,7 +1,6 @@
 require "./../../../../../spec_helper"
 require "./../../../../../spectator_helper"
 
-# Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
 Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits do
   describe "#initialize" do
     context "when NOT passing in any values" do

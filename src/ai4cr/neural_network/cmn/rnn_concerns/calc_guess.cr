@@ -7,6 +7,8 @@ module Ai4cr
         module CalcGuess
           # steps for 'eval' aka 'guess':
           def eval(input_set_given)
+            # TODO: Review/compare w/ 'train' and adjust as applicable!
+
             @input_set_given = input_set_given
 
             synaptic_layer_indexes.each do |li|
@@ -41,11 +43,17 @@ module Ai4cr
           end
 
           private def step_outputs_guessed_from_previous_tc(li, ti)
-            ti > 0 ? mini_net_set[li][ti - 1].outputs_guessed : Array(Float64).new
+            # ti > 0 ? mini_net_set[li][ti - 1].outputs_guessed : Array(Float64).new
+            raise "Index error" if ti == 0
+
+            mini_net_set[li][ti - 1].outputs_guessed
           end
 
           private def step_outputs_guessed_from_previous_li(li, ti)
-            li > 0 ? mini_net_set[li - 1][ti].outputs_guessed : Array(Float64).new
+            # li > 0 ? mini_net_set[li - 1][ti].outputs_guessed : Array(Float64).new
+            raise "Index error" if li == 0
+
+            mini_net_set[li - 1][ti].outputs_guessed
           end
 
           # guesses

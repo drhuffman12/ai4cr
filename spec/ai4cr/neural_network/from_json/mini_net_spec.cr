@@ -45,42 +45,34 @@ Spectator.describe "from_json" do
         end
 
         it "inputs_given" do
-          # expect(fj.inputs_given).to eq(orig.inputs_given)
           assert_approximate_equality_of_nested_list(orig.inputs_given, fj.inputs_given)
         end
 
         it "outputs_guessed" do
-          # expect(fj.outputs_guessed).to eq(orig.outputs_guessed)
           assert_approximate_equality_of_nested_list(orig.outputs_guessed, fj.outputs_guessed)
         end
 
         it "weights" do
-          # expect(fj.weights).to eq(orig.weights)
           assert_approximate_equality_of_nested_list(orig.weights, fj.weights)
         end
 
         it "last_changes" do
-          # expect(fj.last_changes).to eq(orig.last_changes)
           assert_approximate_equality_of_nested_list(orig.last_changes, fj.last_changes)
         end
 
         it "error_total" do
-          # expect(fj.error_total).to eq(orig.error_total)
           assert_approximate_equality_of_nested_list(orig.error_total, fj.error_total)
         end
 
         it "outputs_expected" do
-          # expect(fj.outputs_expected).to eq(orig.outputs_expected)
           assert_approximate_equality_of_nested_list(orig.outputs_expected, fj.outputs_expected)
         end
 
         it "input_deltas" do
-          # expect(fj.input_deltas).to eq(orig.input_deltas)
           assert_approximate_equality_of_nested_list(orig.input_deltas, fj.input_deltas)
         end
 
         it "output_deltas" do
-          # expect(fj.output_deltas).to eq(orig.output_deltas)
           assert_approximate_equality_of_nested_list(orig.output_deltas, fj.output_deltas)
         end
 
@@ -94,22 +86,18 @@ Spectator.describe "from_json" do
         end
 
         it "momentum" do
-          # expect(fj.momentum).to eq(orig.momentum)
           assert_approximate_equality(orig.momentum, fj.momentum)
         end
 
         it "error_distance" do
-          # expect(fj.error_distance).to eq(orig.error_distance)
           assert_approximate_equality(orig.error_distance, fj.error_distance)
         end
 
         it "error_distance_history_max" do
-          # expect(fj.error_distance_history_max).to eq(orig.error_distance_history_max)
           assert_approximate_equality(orig.error_distance_history_max, fj.error_distance_history_max)
         end
 
         it "error_distance_history" do
-          # expect(fj.error_distance_history).to eq(orig.error_distance_history)
           assert_approximate_equality_of_nested_list(orig.error_distance_history, fj.error_distance_history)
         end
 
@@ -118,27 +106,9 @@ Spectator.describe "from_json" do
         end
 
         it "deriv_scale" do
-          # expect(fj.deriv_scale).to eq(orig.deriv_scale)
           assert_approximate_equality(orig.deriv_scale, fj.deriv_scale)
         end
       end
     end
-
-    # context "array" do
-    #   let(height) { 3 }
-    #   let(width) { 2 }
-
-    #   let(mini_net_1) { klass.new(height: height, width: width) }
-    #   let(mini_net_2) { klass.new(height: width, width: height) }
-
-    #   let(orig) { [mini_net_1, mini_net_2] }
-    #   let(tj) { orig.to_json }
-    #   let(fj) { klass.from_json(tj) }
-
-    #   it "converts" do
-    #     expect(fj.to_json).to eq(orig.to_json)
-    #     # expect(fj).to eq(orig)
-    #   end
-    # end
   end
 end
