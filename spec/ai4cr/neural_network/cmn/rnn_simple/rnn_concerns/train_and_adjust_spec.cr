@@ -2,7 +2,16 @@ require "./../../../../../spec_helper"
 require "./../../../../../spectator_helper"
 
 Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
-  let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new }
+  let(deriv_scale) { 0.1 }
+  let(learning_rate) { 0.2 }
+  let(momentum) { 0.3 }
+  let(rnn_simple) {
+    Ai4cr::NeuralNetwork::Cmn::RnnSimple.new(
+      deriv_scale: deriv_scale,
+      learning_rate: learning_rate,
+      momentum: momentum,
+    )
+  }
 
   let(input_set_given) {
     [
@@ -78,12 +87,31 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
       end
 
       context "after" do
-        let(expected_error_total) { 0.016805353667424198 }
+        let(expected_error_total) { 0.01680627208738801 }
+        let(expected_all_output_errors) {
+          [
+            [
+              [-0.05086850000000001, 0.0797935, 0.0629835],
+              [-0.264, -0.144, 0.144] # , 0.264]
+            ],
+            [
+              [0.2639],
+              [0.6]
+            ]
+          ]
+        }
 
         it "guesses expected outputs" do
           rnn_simple.train(input_set_given, expected_outputs_trained)
 
           assert_approximate_equality_of_nested_list(expected_outputs_guessed, rnn_simple.outputs_guessed)
+        end
+
+        it "sets expected all_output_errors" do
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+          all_output_errors = rnn_simple.all_output_errors
+
+          expect(all_output_errors).to eq(expected_all_output_errors)
         end
 
         it "calculates output_deltas" do
@@ -122,10 +150,144 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           assert_approximate_inequality_of_nested_list(before_all_mini_net_last_changes, after_all_mini_net_last_changes, delta_1_thousandths)
         end
 
+        it "calcs expected all_output_errors" do
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+          all_output_errors = rnn_simple.all_output_errors
+
+          expect(all_output_errors).to eq(expected_all_output_errors)
+        end
+
         it "returns expected error_total" do
           error_total = rnn_simple.train(input_set_given, expected_outputs_trained)
 
           expect(error_total).to eq(expected_error_total)
+        end
+      end
+
+      context "after 2nd training session" do
+        # let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new }
+
+        let(expected_outputs_guessed_2nd) {
+          [[0.1748345741196996], [0.10429156621331176]]
+        }
+        let(expected_error_total) { 0.01680627208738801 }
+        let(expected_error_total_2nd) { 0.00800202291515254 }
+        let(expected_all_output_errors) {
+          [
+            [
+              [-0.05086850000000001, 0.0797935, 0.0629835],
+              [-0.264, -0.144, 0.144]
+            ],
+            [
+              [0.2639],
+              [0.6]
+            ]
+          ]
+        }
+        let(expected_all_output_errors_2nd) {
+          # [
+          #   [
+          #     [0.0025360797083354286, 0.010592034318506409, 0.02973469735998057],
+          #     [-0.025985534533164822, 0.005527280460422763, 0.055271111289300526]
+          #   ],
+          #   [
+          #     [0.092503233903734855],
+          #     [0.09353174500913009]
+          #   ]
+          # ]
+
+          [
+            [
+              [-0.015259420733033626, 0.056563972082894265, 0.07359704509032028],
+              [-0.20026620724982205, -0.06840776386256296, 0.18111996470324498]
+            ],
+            [
+              [0.24553369771547515],
+              [0.4957084337866882]
+            ]
+          ]
+        }
+
+        it "guesses expected outputs" do
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+
+          # assert_approximate_equality_of_nested_list(expected_outputs_guessed_2nd, rnn_simple.outputs_guessed)
+          expect(rnn_simple.outputs_guessed).to eq(expected_outputs_guessed_2nd)
+        end
+
+        it "calculates output_deltas" do
+          before_all_mini_net_output_deltas = rnn_simple.all_mini_net_output_deltas.clone
+
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+
+          mid_all_mini_net_output_deltas = rnn_simple.all_mini_net_output_deltas.clone
+
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+
+          after_all_mini_net_output_deltas = rnn_simple.all_mini_net_output_deltas.clone
+
+          assert_approximate_inequality_of_nested_list(before_all_mini_net_output_deltas, mid_all_mini_net_output_deltas, delta_1_thousandths)
+          assert_approximate_inequality_of_nested_list(mid_all_mini_net_output_deltas, after_all_mini_net_output_deltas, delta_1_thousandths)
+        end
+
+        it "calculates input_deltas" do
+          before_all_mini_net_input_deltas = rnn_simple.all_mini_net_input_deltas.clone
+
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+
+          mid_all_mini_net_input_deltas = rnn_simple.all_mini_net_input_deltas.clone
+
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+
+          after_all_mini_net_input_deltas = rnn_simple.all_mini_net_input_deltas.clone
+
+          assert_approximate_inequality_of_nested_list(before_all_mini_net_input_deltas, mid_all_mini_net_input_deltas, delta_1_thousandths)
+          assert_approximate_inequality_of_nested_list(mid_all_mini_net_input_deltas, after_all_mini_net_input_deltas, delta_1_thousandths)
+        end
+
+        it "adjusts weights" do
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+          mid_all_mini_net_input_deltas = rnn_simple.all_mini_net_weights.clone
+
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+          after_all_mini_net_input_deltas = rnn_simple.all_mini_net_weights.clone
+
+          assert_approximate_inequality_of_nested_list(hard_coded_weights, mid_all_mini_net_input_deltas, delta_1_thousandths)
+          assert_approximate_inequality_of_nested_list(mid_all_mini_net_input_deltas, after_all_mini_net_input_deltas, delta_1_thousandths)
+        end
+
+        it "caches last_changes" do
+          before_all_mini_net_last_changes = rnn_simple.all_mini_net_last_changes.clone
+
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+
+          mid_all_mini_net_last_changes = rnn_simple.all_mini_net_last_changes.clone
+
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+
+          after_all_mini_net_last_changes = rnn_simple.all_mini_net_last_changes.clone
+
+          assert_approximate_inequality_of_nested_list(before_all_mini_net_last_changes, mid_all_mini_net_last_changes, delta_1_thousandths)
+          assert_approximate_inequality_of_nested_list(mid_all_mini_net_last_changes, after_all_mini_net_last_changes, delta_1_thousandths)
+        end
+
+        it "calcs expected all_output_errors" do
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+          mid_output_errors = rnn_simple.all_output_errors
+          expect(mid_output_errors).to eq(expected_all_output_errors) # TODO
+
+          rnn_simple.train(input_set_given, expected_outputs_trained)
+          after_output_errors = rnn_simple.all_output_errors
+          expect(after_output_errors).to eq(expected_all_output_errors_2nd)
+        end
+
+        it "returns expected error_total" do
+          mid_error_total = rnn_simple.train(input_set_given, expected_outputs_trained)
+          expect(mid_error_total).to eq(expected_error_total)
+
+          after_error_total = rnn_simple.train(input_set_given, expected_outputs_trained)
+          expect(after_error_total).to eq(expected_error_total_2nd)
         end
       end
     end

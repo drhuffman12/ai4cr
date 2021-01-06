@@ -59,7 +59,8 @@ module Ai4cr
           property mini_net_set : Array(Array(MiniNet))
 
           getter error_total : Float64
-          getter error_per_ti : Array(Float64)
+          # getter error_per_ti : Array(Float64)
+          getter all_output_errors : Array(Array(Float64))
 
           getter input_set_given : Array(Array(Float64))
           getter output_set_expected : Array(Array(Float64))
@@ -144,7 +145,8 @@ module Ai4cr
             @mini_net_set = init_mini_net_set
 
             @error_total = 0.0
-            @error_per_ti = Array(Float64).new
+            # @error_per_ti = time_col_indexes.map { 0.0 }
+            @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 }}
 
             @input_set_given = Array(Array(Float64)).new
             @output_set_expected = Array(Array(Float64)).new
@@ -184,7 +186,8 @@ module Ai4cr
             @mini_net_set = init_mini_net_set
 
             @error_total = 0.0
-            @error_per_ti = Array(Float64).new
+            # @error_per_ti = time_col_indexes.map { 0.0 }
+            @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 }}
 
             @input_set_given = Array(Array(Float64)).new
             @output_set_expected = Array(Array(Float64)).new

@@ -6,7 +6,10 @@ require "./../../../../spec/spectator_helper"
 Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
   let(steps) { 20 }
   let(scale) { 100 }
-  let(noise_delta) { 0.1 }
+  let(noise_delta_t) { 0.1 }
+  let(noise_delta_y) { 0.1 }
+  let(noise_offset_t) { 0.5 }
+
   let(sin_data) {
     (0..2*steps).to_a.map do |i|
       theta = (2 * Math::PI * (i / steps.to_f))
@@ -15,11 +18,34 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
     end
   }
 
+  let(sin_data_offset) {
+    (0..2*steps).to_a.map do |i|
+      theta = (2 * Math::PI * ((i + noise_offset_t) / steps.to_f))
+      alt = Math.sin(theta) # .round(4)
+      ((alt + 1) / (2))
+    end
+  }
+
   let(sin_data_with_noise) {
     (0..2*steps).to_a.map do |i|
-      i_with_noise = (i + 2*noise_delta*rand - noise_delta)
+      rnd_noise_t = 2*noise_delta_t*rand - noise_delta_t
+      rnd_noise_y = 2*noise_delta_y*rand - noise_delta_y
+
+      i_with_noise = (i + rnd_noise_t)
       theta = (2 * Math::PI * (i_with_noise / steps.to_f))
-      alt = Math.sin(theta) # .round(4)
+      alt = Math.sin(theta) + rnd_noise_y # .round(4)
+      ((alt + 1) / (2))
+    end
+  }
+
+  let(sin_data_offset_with_noise) {
+    (0..2*steps).to_a.map do |i|
+      rnd_noise_t = 2*noise_delta_t*rand - noise_delta_t
+      rnd_noise_y = 2*noise_delta_y*rand - noise_delta_y
+
+      i_with_noise = (i + rnd_noise_t)
+      theta = (2 * Math::PI * ((i_with_noise + noise_offset_t) / steps.to_f))
+      alt = Math.sin(theta) + rnd_noise_y # .round(4)
       ((alt + 1) / (2))
     end
   }
@@ -29,6 +55,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
 
   let(input_size) { 1 }
   let(output_size) { 1 }
+  let(hidden_layer_qty) { 1 }
 
   let(eval_qty) { 3 }
 
@@ -37,9 +64,9 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
       io_offset: io_offset,
       time_col_qty: time_col_qty,
 
-      input_size: 1,
-      output_size: 1,
-      hidden_layer_qty: 1,
+      input_size: input_size,
+      output_size: output_size,
+      hidden_layer_qty: hidden_layer_qty,
     )
   }
 
@@ -204,13 +231,53 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
     end
   end
 
-  describe "#train_in_sequence" do
-    context "given sin_data" do
-      # TODO: tests for 'train_in_sequence'
+  describe "#float_to_state" do
+    let(to_min_i) { 0 }
+    let(to_max_i) { 10 }
+    let(from_min) { 0.0 }
+    
+    let(input_size) { to_max_i - to_min_i + 1 }
+    let(output_size) { to_max_i - to_min_i + 1 }
+    let(hidden_layer_qty) { 1 }
+    
+    it "foo" do
+      # to_min_i = 0
+      # to_max_i = 10
+      # from_min = 0.0
 
-      context "given sin_data_with_noise" do
-        # TODO: tests for 'train_in_sequence'
-      end
+      # 'sin_data' already mapped to range 0..1
+      value_states = rnn_simple.float_to_state(values: sin_data, to_min_i: to_min_i, to_max_i: to_max_i, from_min: from_min)
+
+    
+      puts
+      puts "value_states: #{value_states.pretty_inspect}"
+
+      split_values = rnn_simple.split(value_states, eval_qty: 3)
+
+      puts
+      puts "split_values: #{split_values.pretty_inspect}"
+      puts
+
+      puts
+      puts "node_input_sizes:
+      #{rnn_simple.node_input_sizes.pretty_inspect}"
+      puts
+
+      # results = rnn_simple.train_in_sequence(split_values)
+      # puts "vvvv"
+      # puts "results: #{results.pretty_inspect}"
+      # puts "----"
     end
   end
+
+  # describe "#train_in_sequence" do
+  #   context "given sin_data" do
+  #     # TODO: tests for 'train_in_sequence'
+
+  #   end
+
+  #   context "given sin_data_with_noise" do
+  #     # TODO: tests for 'train_in_sequence'
+  #   end
+  # end
 end

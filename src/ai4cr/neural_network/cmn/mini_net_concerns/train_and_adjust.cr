@@ -13,7 +13,11 @@ module Ai4cr
             step_load_inputs(inputs_given)
             step_calc_forward
             step_load_outputs(outputs_expected)
+
+            step_calc_output_errors
             step_backpropagate
+            
+            # @error_total
             step_calculate_error
           end
 
@@ -23,12 +27,13 @@ module Ai4cr
           end
 
           def step_calculate_error
-            error = 0.0
-            @outputs_expected.each_with_index do |oe, iw|
-              error += 0.5*(oe - @outputs_guessed[iw])**2
-            end
-            @error_total = error
-            @error_total
+            # radial error
+            # error = 0.0
+            # @outputs_expected.each_with_index do |oe, iw|
+            #   error += 0.5*(oe - @outputs_guessed[iw])**2
+            # end
+            # @error_total = error
+            @error_total = @output_errors.map { |e| 0.5 * e ** 2 }.sum
           end
 
           def step_backpropagate
@@ -58,9 +63,11 @@ module Ai4cr
 
           # Calculate deltas for output layer
           def step_calculate_output_deltas # (outputs_expected)
+            # step_calc_output_errors
             @output_deltas.map_with_index! do |_, i|
-              error = @outputs_expected[i] - @outputs_guessed[i]
-              derivative_propagation_function.call(@outputs_guessed[i]) * error
+              # error = @outputs_expected[i] - @outputs_guessed[i]
+              # derivative_propagation_function.call(@outputs_guessed[i]) * error
+              derivative_propagation_function.call(@outputs_guessed[i]) * @output_errors[i]
               # # TODO: Research ReLU and why I'm not seeing performance gain in my code
               # # For Relu performance gain, check for 0.0
               # der_val = derivative_propagation_function.call(@outputs_guessed[i])
@@ -68,8 +75,16 @@ module Ai4cr
             end
           end
 
+          def step_calc_output_errors
+            # @outputs_expected[i] - @outputs_guessed[i]
+            @output_errors = @outputs_guessed.map_with_index do |og, i|
+              @outputs_expected[i] - og
+            end
+          end
+
           # Calculate deltas for hidden layers
           def step_calc_input_deltas # aka calculate_internal_deltas
+            # NOTE: This takes into account the specified 'bias' value (where applicable)
             layer_deltas = [] of Float64
             height_indexes.each do |j|
               error = 0.0
@@ -87,11 +102,11 @@ module Ai4cr
 
           # Update weights after @deltas have been calculated.
           def step_update_weights
+            # NOTE: This takes into account the specified 'bias' value (where applicable)
             height_indexes.each do |j|
               @weights[j].each_with_index do |_elem, k|
                 change = @output_deltas[k]*@inputs_given[j]
                 weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
-
                 @weights[j][k] += weight_delta
                 @last_changes[j][k] = change
               end

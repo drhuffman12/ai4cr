@@ -13,6 +13,7 @@ module Ai4cr
           property inputs_given : Array(Float64), outputs_guessed : Array(Float64)
           property weights : Array(Array(Float64))
           property last_changes : Array(Array(Float64)) # aka previous weights
+          property output_errors : Array(Float64)
           property error_total : Float64
 
           property outputs_expected : Array(Float64)
@@ -73,10 +74,11 @@ module Ai4cr
             # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(height_considering_bias/2.0)) } }
 
             @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
+            @output_errors = @width_indexes.map { 0.0 }
 
             @error_total = 0.0
             @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-            @error_distance = 0.0
+            @error_distance = 0.0 # aka error_total
             @error_distance_history = Array.new(0, 0.0)
           end
 
@@ -104,6 +106,7 @@ module Ai4cr
             # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(height_considering_bias/2.0)) } }
 
             @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
+            @output_errors = @width_indexes.map { 0.0 }
 
             @error_total = 0.0
             @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)

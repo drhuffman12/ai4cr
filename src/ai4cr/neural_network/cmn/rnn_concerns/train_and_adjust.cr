@@ -7,118 +7,199 @@ module Ai4cr
         module TrainAndAdjust
           UNTIL_MIN_AVG_ERROR_DEFAULT = 0.1
 
+          # def eval_and_compare(input_set_given, output_set_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT)
+          #   eval(input_set_given)
+
+          #   @output_set_expected = output_set_expected
+
+          #   
+          #   
+
+          #   li = synaptic_layer_index_last
+          #   time_col_indexes_reversed.each do |ti|
+          #     mini_net_set[li][ti].step_load_outputs(@output_set_expected[ti])
+
+          #     step_calculate_output_deltas(li, ti)
+
+          #     mini_net_set[li][ti].step_calculate_error
+          #   end
+          #   # error_total
+          #   final_output_error_totals_radius
+          # end
+
           def train(input_set_given, output_set_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT)
             eval(input_set_given)
 
             @output_set_expected = output_set_expected
 
-            li_max = synaptic_layer_indexes_reversed.first
-            ti_max = time_col_indexes_reversed.first
+            
+            
 
             synaptic_layer_indexes_reversed.each do |li|
               time_col_indexes_reversed.each do |ti|
                 case
-                when li == li_max && ti == ti_max
+                when li == synaptic_layer_index_last && ti == time_col_index_last
+                  # In this case, to calculate the 'outputs_expected', we just use @output_set_expected[ti].
+                  # 'regular' for all sub-parts
+                  # e.g.:
+                  # * 'regular' output_deltas
                   mini_net_set[li][ti].train(input_set_given[ti], @output_set_expected[ti], until_min_avg_error)
-                when li == li_max && ti < ti_max
-                  mini_net_set[li][ti].step_load_outputs(@output_set_expected[ti])
+                when li == synaptic_layer_index_last && ti < time_col_index_last
+                  # This is an odd situation.
+                  # In this case, to calculate the 'outputs_expected', we just use @output_set_expected[ti], which must 'rule' the 'outputs_expected' values.
+                  # However, we also need to consider error adjustments coming from the next time column index.
+                  # We want to combine the error deltas coming from both li and ti directions,
+                  #   but we must first load the 'output_set_expected' values to be able to calculate the deltas along the li axis.
+
+                  mini_net_set[li][ti].step_load_outputs(@output_set_expected[ti]) # 'regular' step_load_outputs
+                  step_calculate_output_errors_at(li, ti)
+                  
 
                   # step_backpropagate
-                  step_calculate_output_deltas(li, ti)
+                  step_calculate_output_deltas(li, ti) # combo (add? or *avg*?) of 'regular' output_deltas and next_ti's input_deltas
                   mini_net_set[li][ti].step_calc_input_deltas
                   mini_net_set[li][ti].step_update_weights
 
                   mini_net_set[li][ti].step_calculate_error
-                when li < li_max && ti == ti_max
-                  mini_net_set[li][ti].step_load_outputs(hidden_outputs_expected(li, ti))
+                when li < synaptic_layer_index_last && ti == time_col_index_last
+                  # In this case, to calculate the 'outputs_expected', use outputs_guessed (of current [li][ti]) + input_deltas of (matching parts of next [li][ti])
+                  #   TODO: Should this be plus or minus?
+                  # Also, this is calc'd only in the li direction.
+
+                  step_calculate_output_errors_at(li, ti)
+                  mini_net_set[li][ti].step_load_outputs(calc_hidden_outputs_expected(li, ti))
 
                   # step_backpropagate
-                  step_calculate_output_deltas(li, ti)
+                  step_calculate_output_deltas(li, ti) # only next_li's input_deltas
                   mini_net_set[li][ti].step_calc_input_deltas
                   mini_net_set[li][ti].step_update_weights
 
-                  # # step_calculate_error # N/A for li < li_max
+                  mini_net_set[li][ti].step_calculate_error
+                when li < synaptic_layer_index_last && ti < time_col_index_last
+                  # In this case, to calculate the 'outputs_expected', use outputs_guessed (of current [li][ti]) + input_deltas of (matching parts of next [li][ti])
+                  #   TODO: Should this be plus or minus?
+                  # Also, this is calc'd as a combo (sum or avg) in both li and ti directions.
+                  
+                  step_calculate_output_errors_at(li, ti)
+                  mini_net_set[li][ti].step_load_outputs(calc_hidden_outputs_expected(li, ti))
+
+                  # step_backpropagate
+                  step_calculate_output_deltas(li, ti) # combo (add? or *avg*?) of next_li's input_deltas (in place of 'regular' output_deltas) and next_ti's input_deltas
+                  mini_net_set[li][ti].step_calc_input_deltas
+                  mini_net_set[li][ti].step_update_weights
+
+                  mini_net_set[li][ti].step_calculate_error
                 else
-                  mini_net_set[li][ti].step_load_outputs(hidden_outputs_expected(li, ti))
-
-                  # step_backpropagate
-                  step_calculate_output_deltas(li, ti)
-                  mini_net_set[li][ti].step_calc_input_deltas
-                  mini_net_set[li][ti].step_update_weights
-
-                  # # step_calculate_error # N/A for li < li_max
+                  raise "Index error! (Range Mis-match!) li: #{li}, ti: #{ti}"
                 end
               end
             end
 
-            error_total
+            final_output_error_totals_radius
           end
 
-          private def hidden_outputs_expected(li, ti)
-            # Average of sums of (applicable) inputs_given and input_deltas from both forward directions
-            # Only applicable for hidden outputs
+          private def step_calculate_output_errors_at(li, ti)
+            mns = mini_net_set[li][ti]
 
-            # raise "Only applicable for hidden outputs" if li == synaptic_layer_indexes_reversed.first
+            
+            
 
-            outputs_expected = hidden_outputs_expected_from_next_li(li, ti)
-
-            if ti < time_col_indexes_reversed.first
-              hoefnti = hidden_outputs_expected_from_next_ti(li, ti)
-
-              raise "oe discrepancy; li: #{li}, ti: #{ti}, hoefnti.size: #{hoefnti.size}, outputs_expected.size: #{outputs_expected.size}" if hoefnti.size != outputs_expected.size
-
-              outputs_expected.map_with_index! do |oe, i|
-                oe + hoefnti[i]
-              end
+            local_errors = case
+            when li == synaptic_layer_index_last && ti == time_col_index_last
+              # Only case where the RNN error is calc'd exactly the same as the MN error!
+              # mns.step_calc_output_errors
+              step_calculate_output_error_along_li(li, ti)
+            when li == synaptic_layer_index_last && ti < time_col_index_last
+              # We have 2 errors to deal with; we will average them.
+              error_along_li = step_calculate_output_error_along_li(li, ti)
+              error_along_ti = step_calculate_output_error_along_ti(li, ti)
+              error_along_li.map_with_index { |eli, i| 0.5 * (eli + error_along_ti[i]) }
+            when li < synaptic_layer_index_last && ti == time_col_index_last
+              step_calculate_output_error_along_li(li, ti)
+            when li < synaptic_layer_index_last && ti < time_col_index_last
+              # We have 2 errors to deal with; we will average them.
+              error_along_li = step_calculate_output_error_along_li(li, ti)
+              error_along_ti = step_calculate_output_error_along_ti(li, ti)
+              error_along_li.map_with_index { |eli, i| 0.5 * (eli + error_along_ti[i]) }
+            else
+              raise "Index error! (Range Mis-match!) li: #{li}, ti: #{ti}"
             end
 
-            outputs_expected
+            mns.output_errors = local_errors
           end
 
-          private def hidden_outputs_expected_from_next_li(li, ti)
-            mini_net_set[li][ti].width_indexes.map do |i|
-              mini_net_set[li + 1][ti].inputs_given[i] + mini_net_set[li + 1][ti].input_deltas[i]
+          private def step_calculate_output_error_along_li(li, ti)
+            if li == synaptic_layer_index_last
+              mini_net_set[li][ti].step_calc_output_errors
+            else
+              from = 0
+              to = mini_net_set[li][ti].width - 1
+              mini_net_set[li + 1][ti].input_deltas[from..to]
             end
           end
-
-          private def hidden_outputs_expected_from_next_ti(li, ti)
+          private def step_calculate_output_error_along_ti(li, ti)
+            raise "Index error" if ti == time_col_index_last
+            
             from = node_input_sizes[li][ti + 1][:previous_synaptic_layer]
             to = from + mini_net_set[li][ti].width - 1
-
-            (from..to).to_a.map do |i|
-              mini_net_set[li][ti + 1].inputs_given[i] + mini_net_set[li][ti + 1].input_deltas[i]
-            end
+            
+            mini_net_set[li][ti + 1].input_deltas[from..to]
           end
+
+          private def calc_hidden_outputs_expected(li, ti) # TODO: review and revise?
+            # This is ONLY valid AFTER 'step_calculate_output_errors_at' is called!!!!
+            og = mini_net_set[li][ti].outputs_guessed
+            oe = mini_net_set[li][ti].output_errors
+            og.map_with_index { |o, i| o + oe[i] }
+          end
+
+          # private def calc_hidden_outputs_expected_along_li(li, ti)
+          #   raise "Index Error! ..." if li == synaptic_layer_index_last
+
+          #   mns_next_li = mini_net_set[li + 1][ti]
+          #   mini_net_set[li][ti].width_indexes.map do |i|
+          #     mns_next_li.inputs_given[i] + mns_next_li.input_deltas[i]
+          #   end
+
+          #   # mini_net_set[li][ti].outputs_guessed.
+          # end
+
+          # private def calc_hidden_outputs_expected_along_ti(li, ti)
+          #   raise "Index Error! ..." if ti == time_col_index_last
+
+          #   from = node_input_sizes[li][ti + 1][:previous_synaptic_layer]
+          #   to = from + mini_net_set[li][ti].width - 1
+
+          #   mns_next_ti = mini_net_set[li][ti + 1]
+          #   indexes = (from..to).to_a # TODO: cache for re-use 
+          #   indexes.map do |i|
+          #     mns_next_ti.inputs_given[i] + mns_next_ti.input_deltas[i]
+          #   end
+          # end
+
+          # private def step_calculate_output_deltas_next_ti(li, ti, ods)
+          #   from = node_input_sizes[li][ti + 1][:previous_synaptic_layer]
+          #   to = from + mini_net_set[li][ti].width - 1
+
+          #   # ods = mini_net_set[li][ti].step_calculate_output_deltas
+          #   ods_next_ti = mini_net_set[li][ti + 1].input_deltas[from..to]
+          #   ods.map_with_index do |od, i|
+          #     od + ods_next_ti[i]
+          #   end
+          # end
 
           private def step_calculate_output_deltas(li, ti)
-            slirf = synaptic_layer_indexes_reversed.first
-            tcirf = time_col_indexes_reversed.first
+            # NOTE: We must use a modified logic compared to MiniNet, which is:
+            # ```
+            # @output_deltas.map_with_index! do |_, i|
+            #   error = @outputs_expected[i] - @outputs_guessed[i]
+            #   derivative_propagation_function.call(@outputs_guessed[i]) * error
+            # end
+            # ```
 
-            output_deltas = case
-                            when li == slirf && ti == tcirf
-                              # mini_net_set[li][ti].step_calculate_output_deltas
-                              raise "Should never get here due to short-circuiting of logic"
-                            when li == tcirf && ti < tcirf
-                              ods = mini_net_set[li][ti].step_calculate_output_deltas
-                              step_calculate_output_deltas_next_ti(li, ti, ods)
-                            when li < tcirf && ti == tcirf
-                              mini_net_set[li + 1][ti].input_deltas
-                            else
-                              ods = mini_net_set[li + 1][ti].input_deltas
-                              step_calculate_output_deltas_next_ti(li, ti, ods)
-                            end
-
-            mini_net_set[li][ti].output_deltas = output_deltas
-          end
-
-          private def step_calculate_output_deltas_next_ti(li, ti, ods)
-            from = node_input_sizes[li][ti + 1][:previous_synaptic_layer]
-            to = from + mini_net_set[li][ti].width - 1
-
-            # ods = mini_net_set[li][ti].step_calculate_output_deltas
-            ods_next_ti = mini_net_set[li][ti + 1].input_deltas[from..to]
-            ods.map_with_index do |od, i|
-              od + ods_next_ti[i]
+            mns = mini_net_set[li][ti]
+            mns.output_deltas.map_with_index! do |_, i|
+              mns.derivative_propagation_function.call(mns.outputs_guessed[i]) * mns.output_errors[i]
             end
           end
         end

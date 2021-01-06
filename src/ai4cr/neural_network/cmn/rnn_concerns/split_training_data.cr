@@ -57,6 +57,27 @@ module Ai4cr
 
           # def split_as_all_eval(training_data)
           # end
+
+          def float_to_state(values, to_min_i, to_max_i, from_min = -1.0, from_max = 1.0)
+            from_denom = (from_max - from_min)
+            to_denom = (to_max_i - to_min_i)
+            values.map do |v|
+              from_percent = 1.0 * (v - from_min) / from_denom
+              to_v = (0.0 + to_min_i + from_percent * to_denom).round.to_i
+              to_v = case
+              when to_v < to_min_i
+                to_min_i
+              when to_v > to_max_i
+                to_max_i
+              else
+                to_v
+              end
+
+              (to_min_i..to_max_i).to_a.map do |i|
+                i == to_v ? 1.0 : 0.0
+              end
+            end
+          end
         end
       end
     end
