@@ -121,12 +121,12 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
     [
       [
         [0.005583232402864197, 0.030036194212820607, 0.06041925268166688],
-        [-0.10307038662111832, -0.015834344115453265, 0.14015472212062996]
+        [-0.10307038662111832, -0.015834344115453265, 0.14015472212062996],
       ],
       [
         [0.18367381123542686],
-        [0.29470448430444074]
-      ]
+        [0.29470448430444074],
+      ],
     ]
   }
 
@@ -356,7 +356,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           puts "output_set_expected: #{output_set_expected}"
           puts "rnn_simple.outputs_guessed: #{rnn_simple.outputs_guessed}"
           puts
-          
+
           # expect(rnn_simple.outputs_guessed).to eq(output_set_expected)
           assert_approximate_equality_of_nested_list(output_set_expected, rnn_simple.outputs_guessed, 0.01)
         end
@@ -375,7 +375,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           # puts "output_set_expected: #{output_set_expected}"
           # puts "rnn_simple.outputs_guessed: #{rnn_simple.outputs_guessed}"
           # puts
-          
+
           # expect(rnn_simple.outputs_guessed).to eq(output_set_expected)
           assert_approximate_equality_of_nested_list(output_set_expected, rnn_simple.outputs_guessed, 0.001)
         end
@@ -394,7 +394,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           # puts "output_set_expected: #{output_set_expected}"
           # puts "rnn_simple.outputs_guessed: #{rnn_simple.outputs_guessed}"
           # puts
-          
+
           # expect(rnn_simple.outputs_guessed).to eq(output_set_expected)
           assert_approximate_equality_of_nested_list(output_set_expected, rnn_simple.outputs_guessed, delta_1_thousandths)
         end
