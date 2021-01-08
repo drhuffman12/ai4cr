@@ -132,26 +132,6 @@ module Ai4cr
             @deriv_scale = scale
           end
 
-          def propagation_function
-            # TODO: Make this JSON-loadable and customizable
-            case @learning_style
-            when LS_PRELU
-              # LearningStyle::Prelu
-              ->(x : Float64) { x < 0 ? 0.0 : x }
-            when LS_RELU
-              # LearningStyle::Rel
-              ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
-            when LS_SIGMOID
-              # LearningStyle::Sigmoid
-              ->(x : Float64) { 1/(1 + Math.exp(-1*(x))) }
-            when LS_TANH
-              # LearningStyle::Tanh
-              ->(x : Float64) { Math.tanh(x) }
-            else
-              raise "Unsupported LearningStyle"
-            end
-          end
-
           def derivative_propagation_function
             # TODO: Make this JSON-loadable and customizable
             case @learning_style
