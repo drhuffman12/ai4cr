@@ -1,8 +1,10 @@
 name: ai4cr
-version: 0.1.15
+version: 0.1.16
 
 authors:
   - Daniel Huffman <drhuffman12@yahoo.com>
+
+# crystal: ">= 0.35"
 
 license: MIT
 
@@ -24,9 +26,11 @@ development_dependencies:
   #   branch: master
 
   spectator:
-    gitlab: arctic-fox/spectator
-    # github: drhuffman12/spectator
-    # branch: drhuffman12/bump_crystal_version_to_1
+    ## Un-comment after Crystal 1.0 compatible:
+    # gitlab: arctic-fox/spectator
+    # Meanwhile, you can use my fork:
+    github: drhuffman12/spectator
+    branch: drhuffman12/bump_crystal_version_to_1
 
   ## Un-comment after Crystal 1.0 compatible:
   # aasm:
