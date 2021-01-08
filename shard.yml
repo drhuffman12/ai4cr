@@ -24,9 +24,9 @@ development_dependencies:
   #   branch: master
 
   spectator:
-    # gitlab: arctic-fox/spectator
-    github: drhuffman12/spectator
-    branch: drhuffman12/bump_crystal_version_to_1
+    gitlab: arctic-fox/spectator
+    # github: drhuffman12/spectator
+    # branch: drhuffman12/bump_crystal_version_to_1
 
   ## Un-comment after Crystal 1.0 compatible:
   # aasm:
