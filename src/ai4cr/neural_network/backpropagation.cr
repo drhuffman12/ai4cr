@@ -181,7 +181,7 @@ module Ai4cr
 
         @expected_outputs = Array.new(width, 0.0)
         @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-        @error_distance = 0.0
+        # @error_distance = 0.0 # aka @calculated_error_total
         @error_distance_history = Array.new(0, 0.0)
 
         init_network
@@ -237,7 +237,7 @@ module Ai4cr
 
         @expected_outputs = Array.new(width, 0.0)
         @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-        @error_distance = 0.0
+        # @error_distance = 0.0 # aka @calculated_error_total
         @error_distance_history = Array.new(0, 0.0)
 
         self
@@ -372,12 +372,12 @@ module Ai4cr
       def step_calculate_error_distance_history
         # @error_distance_history_max = error_distance_history_max
         return @error_distance_history = [-1.0] if @error_distance_history_max < 1
-        error = 0.0
-        output_values = @activation_nodes.last
-        @expected_outputs.map_with_index do |oe, iw|
-          error += (oe - output_values[iw])**2
-        end
-        @error_distance = Math.sqrt(error)
+        # error = 0.0
+        # output_values = @activation_nodes.last
+        # @expected_outputs.map_with_index do |oe, iw|
+        #   error += (oe - output_values[iw])**2
+        # end
+        # @error_distance = Math.sqrt(error)
         if @error_distance_history.size < @error_distance_history_max - 1
           # Array not 'full' yet, so add latest value to end
           @error_distance_history << @calculated_error_total

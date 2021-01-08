@@ -11,6 +11,8 @@ module Ai4cr
 
         include JSON::Serializable
 
+        # use_json_discriminator learning_style
+
         getter structure : Array(Int32)
         property net_set : Array(MiniNet)
         getter net_set_size : Int32
@@ -99,6 +101,9 @@ module Ai4cr
 
         # TODO: utilize until_min_avg_error
         def train(inputs_given, outputs_expected, until_min_avg_error = 0.1)
+          # TODO: Am I training these out of sync?
+          # TODO: Should I be collecting 'input_deltas' or sum of 'inputs' and 'input_deltas'?
+
           @net_set.each_with_index do |net, index|
             index == 0 ? net.step_load_inputs(inputs_given) : net.step_load_inputs(@net_set[index - 1].outputs_guessed)
 
