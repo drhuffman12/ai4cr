@@ -115,12 +115,12 @@ plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
   - [ ] misc Connected Net Sets (WIP)
     - [x] Chain
     - [ ] RNN
+      - [x] RnnSimple
+      - [ ] Code to split and train on a 'sequence of input and output data'
     - [ ] (TBD)
     - [ ] ...
   - [ ] (TBD)
   - [ ] ...
-
-- [ ] Add RNN
 
 - [ ] Port from `ai4r`:
   - [ ] classifiers
