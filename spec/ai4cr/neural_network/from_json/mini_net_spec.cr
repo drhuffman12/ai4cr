@@ -111,8 +111,8 @@ Spectator.describe "from_json" do
           it "deriv_scale" do
             assert_approximate_equality(orig.deriv_scale, a_copy.deriv_scale)
           end
-        end        
-      end        
-    end     
-  end     
+        end
+      end
+    end
+  end
 end

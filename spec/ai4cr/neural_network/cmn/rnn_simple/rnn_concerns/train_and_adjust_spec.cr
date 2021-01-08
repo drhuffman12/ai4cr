@@ -455,7 +455,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
         end
 
         context "after #train" do
-          pending "returns expected non-zero outputs (variation 1)" do
+          it "returns expected non-zero outputs (variation 1)" do
             rnn_simple.train(input_set_given, output_set_expected, debug_msg: "train (variation 1)")
 
             puts

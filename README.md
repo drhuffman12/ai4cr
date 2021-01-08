@@ -63,6 +63,32 @@ mkdir -p tmp/
 valgrind --tool=callgrind --cache-sim=yes --branch-sim=yes --callgrind-out-file=tmp/mini_nets_vs_backprop.out ./mini_nets_vs_backprop
 ```
 
+## Importing and Exporting as JSON data
+
+NOTE: Parsing to/from JSON can cause slight discrepancies in the float values. This difference shouldn't matter much, but in case you're interested:
+
+  Parsing Float64 values to/from JSON is sometimes slightly off, but only by about 0.0000000000000001%. This seems more likely when scientific notation gets involved, which could happen during the first training session, but becomes more likely the more times the net is trained.
+
+For example, see below example code and note discrepancies after the "033410668390063" parts:
+
+```
+require "json"
+
+# a = 6.033410668390063e-5
+# a = 6.0334106683900631e-5
+# a = 0.60334106683900634
+a = 0.60334106683900631
+      
+b = a.to_json
+c = JSON.parse(b)
+puts "a,b,c == #{[a, b, c]}"
+      
+# GIVEN "a = 6.033410668390063e-5", puts => a == 6.033410668390063e-5; b == "6.033410668390063e-5"; c == 6.0334106683900634e-5 (off)
+# GIVEN "a = 6.0334106683900631e-5", puts => a == 6.033410668390063e-5 (off); b == "6.033410668390063e-5" (off); c == 6.0334106683900634e-5 (off)
+# GIVEN "a = 0.60334106683900634", puts => a == 0.6033410668390063 (off); b == "0.6033410668390063" (off); c == 0.6033410668390063 (off)
+# GIVEN "a = 0.60334106683900631", puts => a == 0.6033410668390063 (off); b == "0.6033410668390063" (off); c == 0.6033410668390063 (off)
+```
+
 ## Roadmap
 
 - [x] Generate an error history plot using `AsciiBarCharter` and `error_distance_history` , e.g.:

@@ -220,41 +220,41 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
     end
   end
 
-  describe "#float_to_state" do
-    let(to_min_i) { 0 }
-    let(to_max_i) { 10 }
-    let(from_min) { 0.0 }
+  # describe "#float_to_state" do
+  #   let(to_min_i) { 0 }
+  #   let(to_max_i) { 10 }
+  #   let(from_min) { 0.0 }
 
-    let(input_size) { to_max_i - to_min_i + 1 }
-    let(output_size) { to_max_i - to_min_i + 1 }
-    let(hidden_layer_qty) { 1 }
+  #   let(input_size) { to_max_i - to_min_i + 1 }
+  #   let(output_size) { to_max_i - to_min_i + 1 }
+  #   let(hidden_layer_qty) { 1 }
 
-    pending "foo" do
-      # to_min_i = 0
-      # to_max_i = 10
-      # from_min = 0.0
+  #   pending "foo" do
+  #     # to_min_i = 0
+  #     # to_max_i = 10
+  #     # from_min = 0.0
 
-      # 'sin_data' already mapped to range 0..1
-      value_states = rnn_simple.float_to_state(values: sin_data, to_min_i: to_min_i, to_max_i: to_max_i, from_min: from_min)
+  #     # 'sin_data' already mapped to range 0..1
+  #     value_states = rnn_simple.float_to_state(values: sin_data, to_min_i: to_min_i, to_max_i: to_max_i, from_min: from_min)
 
-      puts
-      puts "value_states: #{value_states.pretty_inspect}"
+  #     puts
+  #     puts "value_states: #{value_states.pretty_inspect}"
 
-      split_values = rnn_simple.split(value_states, eval_qty: 3)
+  #     split_values = rnn_simple.split(value_states, eval_qty: 3)
 
-      puts
-      puts "split_values: #{split_values.pretty_inspect}"
-      puts
+  #     puts
+  #     puts "split_values: #{split_values.pretty_inspect}"
+  #     puts
 
-      puts
-      puts "node_input_sizes:
-      #{rnn_simple.node_input_sizes.pretty_inspect}"
-      puts
+  #     puts
+  #     puts "node_input_sizes:
+  #     #{rnn_simple.node_input_sizes.pretty_inspect}"
+  #     puts
 
-      # results = rnn_simple.train_in_sequence(split_values)
-      # puts "vvvv"
-      # puts "results: #{results.pretty_inspect}"
-      # puts "----"
-    end
-  end
+  #     # results = rnn_simple.train_in_sequence(split_values)
+  #     # puts "vvvv"
+  #     # puts "results: #{results.pretty_inspect}"
+  #     # puts "----"
+  #   end
+  # end
 end
