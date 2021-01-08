@@ -44,7 +44,7 @@ assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.00000000
 
 ## Comparison benchmarks
 
-NOTE: Running Crystal in a Docker container (at least used to) runs slower than running Crystal on bare-metal.
+REMINDER: Running Crystal in a Docker container (at least used to) runs slower than running Crystal on bare-metal.
 So, for more performance, run it outside of a Docker container.
 
 To build and run them:
