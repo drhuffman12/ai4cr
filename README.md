@@ -281,3 +281,4 @@ Execute: 00:00:06.769663359
 ```
 
 NOTE: That time, it took less than a second to build. I did notice that it took about 10 seconds to build the first run and only less than a second each successive run.
+
