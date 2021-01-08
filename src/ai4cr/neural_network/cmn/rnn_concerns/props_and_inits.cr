@@ -39,6 +39,7 @@ module Ai4cr
 
           getter synaptic_layer_qty : Int32
 
+          # TODO: For 'errors', research using a key of an Enum instead of String. (Using Symbol's seems incompatible with 'from_json'.)
           getter errors : Hash(String, String)
           getter valid : Bool
 

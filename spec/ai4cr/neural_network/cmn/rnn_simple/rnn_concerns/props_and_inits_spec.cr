@@ -8,8 +8,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits do
 
       it "has no errors" do
         expect(rnn_simple.errors.empty?).to be_true
-        expect(rnn_simple.errors.is_a?(Hash(Symbol, String))).to be_true
-        expect(rnn_simple.errors).to eq(Hash(Symbol, String).new)
+        expect(rnn_simple.errors.is_a?(Hash(String, String))).to be_true
+        expect(rnn_simple.errors).to eq(Hash(String, String).new)
       end
 
       it "is valid" do
@@ -82,8 +82,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits do
 
       it "has no errors" do
         expect(rnn_simple.errors.empty?).to be_true
-        expect(rnn_simple.errors.is_a?(Hash(Symbol, String))).to be_true
-        expect(rnn_simple.errors).to eq(Hash(Symbol, String).new)
+        expect(rnn_simple.errors.is_a?(Hash(String, String))).to be_true
+        expect(rnn_simple.errors).to eq(Hash(String, String).new)
       end
 
       it "is valid" do
@@ -157,8 +157,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits do
 
       it "has no errors" do
         expect(rnn_simple.errors.empty?).to be_true
-        expect(rnn_simple.errors.is_a?(Hash(Symbol, String))).to be_true
-        expect(rnn_simple.errors).to eq(Hash(Symbol, String).new)
+        expect(rnn_simple.errors.is_a?(Hash(String, String))).to be_true
+        expect(rnn_simple.errors).to eq(Hash(String, String).new)
       end
 
       it "is valid" do
@@ -243,8 +243,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits do
 
       it "has no errors" do
         expect(rnn_simple.errors.empty?).to be_true
-        expect(rnn_simple.errors.is_a?(Hash(Symbol, String))).to be_true
-        expect(rnn_simple.errors).to eq(Hash(Symbol, String).new)
+        expect(rnn_simple.errors.is_a?(Hash(String, String))).to be_true
+        expect(rnn_simple.errors).to eq(Hash(String, String).new)
       end
 
       it "is valid" do
