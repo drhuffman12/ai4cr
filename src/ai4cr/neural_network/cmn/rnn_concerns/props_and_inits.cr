@@ -39,7 +39,7 @@ module Ai4cr
 
           getter synaptic_layer_qty : Int32
 
-          getter errors : Hash(Symbol, String)
+          getter errors : Hash(String, String)
           getter valid : Bool
 
           getter synaptic_layer_indexes : Array(Int32)
@@ -59,7 +59,6 @@ module Ai4cr
           property mini_net_set : Array(Array(MiniNet))
 
           getter error_total : Float64
-          # getter error_per_ti : Array(Float64)
           getter all_output_errors : Array(Array(Float64))
 
           getter input_set_given : Array(Array(Float64))
@@ -128,7 +127,7 @@ module Ai4cr
             end
 
             @valid = false
-            @errors = Hash(Symbol, String).new
+            @errors = Hash(String, String).new
             validate!
 
             @synaptic_layer_indexes = calc_synaptic_layer_indexes
@@ -145,7 +144,6 @@ module Ai4cr
             @mini_net_set = init_mini_net_set
 
             @error_total = 0.0
-            # @error_per_ti = time_col_indexes.map { 0.0 }
             @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }
 
             @input_set_given = Array(Array(Float64)).new
@@ -169,7 +167,7 @@ module Ai4cr
             end
 
             @valid = false
-            @errors = Hash(Symbol, String).new
+            @errors = Hash(String, String).new
             validate!
 
             @synaptic_layer_indexes = calc_synaptic_layer_indexes
@@ -186,7 +184,6 @@ module Ai4cr
             @mini_net_set = init_mini_net_set
 
             @error_total = 0.0
-            # @error_per_ti = time_col_indexes.map { 0.0 }
             @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }
 
             @input_set_given = Array(Array(Float64)).new
@@ -198,30 +195,22 @@ module Ai4cr
           end
 
           def validate!
-            @errors = Hash(Symbol, String).new
+            @errors = Hash(String, String).new
 
-            @errors[:time_col_qty] = "time_col_qty must be at least #{TIME_COL_QTY_MIN}!" if time_col_qty < TIME_COL_QTY_MIN
-            @errors[:hidden_layer_qty] = "hidden_layer_qty must be at least #{HIDDEN_LAYER_QTY_MIN}!" if hidden_layer_qty < HIDDEN_LAYER_QTY_MIN
+            @errors["time_col_qty"] = "time_col_qty must be at least #{TIME_COL_QTY_MIN}!" if time_col_qty < TIME_COL_QTY_MIN
+            @errors["hidden_layer_qty"] = "hidden_layer_qty must be at least #{HIDDEN_LAYER_QTY_MIN}!" if hidden_layer_qty < HIDDEN_LAYER_QTY_MIN
 
-            @errors[:input_size] = "input_size must be at least #{INPUT_SIZE_MIN}" if input_size < INPUT_SIZE_MIN
-            @errors[:output_size] = "output_size must be at least #{OUTPUT_SIZE_MIN}" if output_size < OUTPUT_SIZE_MIN
+            @errors["input_size"] = "input_size must be at least #{INPUT_SIZE_MIN}" if input_size < INPUT_SIZE_MIN
+            @errors["output_size"] = "output_size must be at least #{OUTPUT_SIZE_MIN}" if output_size < OUTPUT_SIZE_MIN
 
             if hidden_size_given.is_a?(Int32)
-              @errors[:hidden_size_given] = "hidden_size_given must be at least #{HIDDEN_SIZE_GIVEN_MIN} if supplied (otherwise it defaults to sum of @input_size and @output_size" if hidden_size_given.as(Int32) < HIDDEN_SIZE_GIVEN_MIN
+              @errors["hidden_size_given"] = "hidden_size_given must be at least #{HIDDEN_SIZE_GIVEN_MIN} if supplied (otherwise it defaults to sum of @input_size and @output_size" if hidden_size_given.as(Int32) < HIDDEN_SIZE_GIVEN_MIN
             end
 
-            @errors[:io_offset] = "io_offset must be a non-negative integer" if io_offset < 0
+            @errors["io_offset"] = "io_offset must be a non-negative integer" if io_offset < 0
 
             @valid = errors.empty?
           end
-
-          # def calc_nodal_layer_indexes
-          #   if @valid
-          #     Array.new(@nodal_layer_qty) { |i| i }
-          #   else
-          #     [] of Int32
-          #   end
-          # end
 
           def calc_synaptic_layer_indexes
             if @valid
@@ -269,7 +258,6 @@ module Ai4cr
           end
 
           def init_mini_net_set
-            # TODO: Add more params to feed MiniNet's. (For now, use defaults.)
             synaptic_layer_indexes.map do |li|
               # NOTE: It should suffice to have bias only on the first li nets.
               #   So, force bias only on 1st and none on others
