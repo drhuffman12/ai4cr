@@ -15,7 +15,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainInSequence do
   let(momentum) { 0.3 }
 
   let(rnn_simple) {
-    net = Ai4cr::NeuralNetwork::Cmn::RnnSimple.new(
+    Ai4cr::NeuralNetwork::Cmn::RnnSimple.new(
       io_offset: io_offset,
       time_col_qty: time_col_qty,
 
