@@ -6,34 +6,12 @@ jobs:
     steps:
       - checkout
       - run: shards install
-      # - run:
-      #     name: run tests
-      #     command: |
-      #       mkdir -p test-results/spec
-      #       crystal -v > test-results/crystal_version.txt
-      #       scripts/version_info > test-results/app_version.txt
-      #       time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
-      #       time scripts/test_always > test-results/spec/results.txt
-      #       time scripts/test_always_junit_format
-
-      - run:
-          name: mkdir -p test-results/spec
-          command: mkdir -p test-results/spec
-      - run:
-          name: crystal -v > test-results/crystal_version.txt
-          command: crystal -v > test-results/crystal_version.txt
-      - run:
-          name: scripts/version_info > test-results/app_version.txt
-          command: scripts/version_info > test-results/app_version.txt
-      - run:
-          name: time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
-          command: time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
-      - run:
-          name: time scripts/test_always > test-results/spec/results.txt
-          command: time scripts/test_always > test-results/spec/results.txt
-      - run:
-          name: time scripts/test_always_junit_format
-          command: time scripts/test_always_junit_format
+      - run: mkdir -p test-results/spec
+      - run: crystal -v > test-results/crystal_version.txt
+      - run: scripts/version_info > test-results/app_version.txt
+      - run: time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
+      - run: time scripts/test_always > test-results/spec/results.txt
+      - run: time scripts/test_always_junit_format
 
       # collect reports
       - store_test_results:
