@@ -26,8 +26,8 @@ jobs:
           name: scripts/version_info > test-results/app_version.txt
           command: scripts/version_info > test-results/app_version.txt
       - run:
-          name: time bin/ameba --no-color > test-results/
-          command: time bin/ameba --no-color > test-results/
+          name: time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
+          command: time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
       - run:
           name: static_code_analysis.ameba.txt
           command: static_code_analysis.ameba.txt
