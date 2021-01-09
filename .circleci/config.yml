@@ -29,9 +29,6 @@ jobs:
           name: time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
           command: time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
       - run:
-          name: static_code_analysis.ameba.txt
-          command: static_code_analysis.ameba.txt
-      - run:
           name: time scripts/test_always > test-results/spec/results.txt
           command: time scripts/test_always > test-results/spec/results.txt
       - run:
