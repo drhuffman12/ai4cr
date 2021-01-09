@@ -12,7 +12,7 @@ module Ai4cr
             training_data_size = training_data.size
             io_pairs_tc_size = io_offset + time_col_qty
             io_pairs_qty = training_data_size - io_pairs_tc_size + 1
-            (0..io_pairs_qty - 1).to_a.map do |i|
+            @io_pairs = (0..io_pairs_qty - 1).to_a.map do |i|
               from = i
               to = i + time_col_qty - 1
               ins = training_data[from..to]

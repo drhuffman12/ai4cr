@@ -65,8 +65,8 @@ module Ai4cr
           getter input_set_given : Array(Array(Float64))
           getter output_set_expected : Array(Array(Float64))
 
-          # property io_sets_pairs : Array(Hash(Symbol, Array(Float64)))
-          property io_sets_pairs : Array(NamedTuple(
+          # property io_pairs : Array(Hash(Symbol, Array(Float64)))
+          property io_pairs : Array(NamedTuple(
             ins: Array(Array(Float64)),
             outs: Array(Array(Float64))))
 
@@ -155,7 +155,7 @@ module Ai4cr
             @input_set_given = Array(Array(Float64)).new
             @output_set_expected = Array(Array(Float64)).new
 
-            @io_sets_pairs = Array(NamedTuple(
+            @io_pairs = Array(NamedTuple(
               ins: Array(Array(Float64)),
               outs: Array(Array(Float64)))).new
           end
@@ -199,7 +199,7 @@ module Ai4cr
             @input_set_given = Array(Array(Float64)).new
             @output_set_expected = Array(Array(Float64)).new
 
-            @io_sets_pairs = Array(NamedTuple(
+            @io_pairs = Array(NamedTuple(
               ins: Array(Array(Float64)),
               outs: Array(Array(Float64)))).new
           end
