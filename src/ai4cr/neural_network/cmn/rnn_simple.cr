@@ -5,8 +5,7 @@ require "./rnn_concerns/props_and_inits.cr"
 require "./rnn_concerns/train_and_adjust.cr"
 require "./rnn_concerns/roll_ups.cr"
 require "./rnn_concerns/split_training_data.cr"
-
-# require "./rnn_concerns/train_in_sequence.cr" # TODO!
+require "./rnn_concerns/train_in_sequence.cr" # TODO!
 
 module Ai4cr
   module NeuralNetwork
@@ -24,7 +23,7 @@ module Ai4cr
         include RnnConcerns::TrainAndAdjust
         include RnnConcerns::RollUps
         include RnnConcerns::SplitTrainingData
-        # include RnnConcerns::TrainInSequence # TODO!
+        include RnnConcerns::TrainInSequence # TODO!
       end
     end
   end

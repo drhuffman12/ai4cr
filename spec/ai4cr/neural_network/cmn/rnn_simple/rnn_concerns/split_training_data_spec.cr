@@ -5,8 +5,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::SplitTrainingData do
   let(time_col_qty) { 4 }
   let(io_offset) { time_col_qty }
 
-  let(input_size) { 1 }
-  let(output_size) { 1 }
+  let(input_size) { 21 }
+  let(output_size) { 21 }
   let(hidden_layer_qty) { 1 }
 
   let(rnn_simple) {
@@ -22,9 +22,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::SplitTrainingData do
 
   let(steps) { 20 }
   let(scale) { 100 }
-  let(noise_delta_t) { 0.1 }
-  let(noise_delta_y) { 0.1 }
-  let(noise_offset_t) { 0.5 }
 
   let(sine_data) {
     (0..2*steps).to_a.map do |i|
@@ -36,6 +33,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::SplitTrainingData do
   }
 
   let(sine_data_state_values) { rnn_simple.float_to_state_values(sine_data) }
+  let(io_pairs) { rnn_simple.split_for_training(sine_data_state_values) }
+
   let(expected_sine_data_state_values) {
     [
       # First ins:
@@ -89,8 +88,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::SplitTrainingData do
       [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
     ]
   }
-
-  let(io_pairs) { rnn_simple.split_for_training(sine_data_state_values) }
 
   describe "#split_for_training" do
     context "given sine_data_state_values" do
