@@ -10,6 +10,10 @@ require "./rnn_concerns/split_training_data.cr"
 module Ai4cr
   module NeuralNetwork
     module Cmn
+      alias TrainingData = Array(NamedTuple(
+        ins: Array(Array(Float64)),
+        outs: Array(Array(Float64))))
+        
       class RnnSimple
         # Simple RNN w/ inputs, hidden forward-feeding recurrent layer(s), outputs, and some other params
         include JSON::Serializable
