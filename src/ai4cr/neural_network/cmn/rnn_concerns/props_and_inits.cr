@@ -66,9 +66,8 @@ module Ai4cr
           getter output_set_expected : Array(Array(Float64))
 
           property io_pairs : Array(NamedTuple(
-              ins: Array(Array(Float64)),
-              outs: Array(Array(Float64))
-          ))
+            ins: Array(Array(Float64)),
+            outs: Array(Array(Float64))))
 
           # TODO: Handle usage of a 'structure' param in 'initialize'
           # def initialize(@time_col_qty = TIME_COL_QTY_MIN, @structure = [INPUT_SIZE_MIN, OUTPUT_SIZE_MIN])
@@ -156,8 +155,7 @@ module Ai4cr
             @output_set_expected = Array(Array(Float64)).new
             @io_pairs = Array(NamedTuple(
               ins: Array(Array(Float64)),
-              outs: Array(Array(Float64))
-            )).new
+              outs: Array(Array(Float64)))).new
           end
 
           def init_network
@@ -200,8 +198,7 @@ module Ai4cr
             @output_set_expected = Array(Array(Float64)).new
             @io_pairs = Array(NamedTuple(
               ins: Array(Array(Float64)),
-              outs: Array(Array(Float64))
-            )).new
+              outs: Array(Array(Float64)))).new
           end
 
           def valid?
