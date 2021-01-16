@@ -5,46 +5,46 @@ module Ai4cr
     module Cmn
       module RnnConcerns
         module TrainInSequence
-          def train_and_guess_in_sequence(io_pairs, training_rounds = 1, guess_ahead_qty = 3)
-            # io_pairs = split_for_training(training_data)
-            # @io_pairs = io_pairs
+          # def train_and_guess_in_sequence(io_pairs, training_rounds = 1, guess_ahead_qty = 3)
+          #   # io_pairs = split_for_training(training_data)
+          #   # @io_pairs = io_pairs
 
-            training_rounds.times.each { train_in_sequence(io_pairs) }
+          #   training_rounds.times.each { train_in_sequence(io_pairs) }
 
-            io_pairs_last = io_pairs.last
+          #   io_pairs_last = io_pairs.last
 
-            guess_ahead_qty.times.to_a.map do
-              next_inputs = shifted_inputs(io_pairs_last)
+          #   guess_ahead_qty.times.to_a.map do
+          #     next_inputs = shifted_inputs(io_pairs_last)
 
-              last_guess_set = eval(next_inputs)
+          #     last_guess_set = eval(next_inputs)
 
-              next_outputs = shifted_outputs(io_pairs_last)
+          #     next_outputs = shifted_outputs(io_pairs_last)
 
-              io_pairs_last = {
-                ins:  next_inputs,
-                outs: next_outputs,
-              }
-              # io_pairs_last[:ins] = next_inputs
-              # io_pairs_last[:outs] = next_outputs
+          #     io_pairs_last = {
+          #       ins:  next_inputs,
+          #       outs: next_outputs,
+          #     }
+          #     # io_pairs_last[:ins] = next_inputs
+          #     # io_pairs_last[:outs] = next_outputs
 
-              last_guess_set
-            end
-          end
+          #     last_guess_set
+          #   end
+          # end
 
-          def train_in_sequence(io_pairs)
-            io_pairs.map do |io_pair|
-              train(io_pair[:ins], io_pair[:outs])
-            end
-          end
+          # def train_in_sequence(io_pairs)
+          #   io_pairs.map do |io_pair|
+          #     train(io_pair[:ins], io_pair[:outs])
+          #   end
+          # end
 
-          def shifted_inputs(io_pair)
-            io_pair[:ins][1..-1] << io_pair[:outs][0]
-          end
+          # def shifted_inputs(io_pair)
+          #   io_pair[:ins][1..-1] << io_pair[:outs][0]
+          # end
 
-          def shifted_outputs(io_pair)
-            latest_guess = mini_net_set[synaptic_layer_index_last][time_col_index_last].outputs_guessed
-            io_pair[:outs][1..-1] << latest_guess
-          end
+          # def shifted_outputs(io_pair)
+          #   latest_guess = mini_net_set[synaptic_layer_index_last][time_col_index_last].outputs_guessed
+          #   io_pair[:outs][1..-1] << latest_guess
+          # end
         end
       end
     end

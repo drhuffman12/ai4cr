@@ -10,9 +10,14 @@ require "./rnn_concerns/train_in_sequence.cr" # TODO!
 module Ai4cr
   module NeuralNetwork
     module Cmn
-      alias TrainingData = Array(NamedTuple(
-        ins: Array(Array(Float64)),
-        outs: Array(Array(Float64))))
+      alias TrainingData = NamedTuple(
+        training_ins: Array(Array(Array(Float64))),
+        training_outs: Array(Array(Array(Float64))),
+        next_eval_ins: Array(Array(Float64)))
+      NamedTuple(
+        training_ins: Array(Array(Array(Float64))),
+        training_outs: Array(Array(Array(Float64))),
+        next_eval_ins: Array(Array(Float64))) # .new
 
       class RnnSimple
         # Simple RNN w/ inputs, hidden forward-feeding recurrent layer(s), outputs, and some other params
@@ -23,7 +28,7 @@ module Ai4cr
         include RnnConcerns::TrainAndAdjust
         include RnnConcerns::RollUps
         include RnnConcerns::SplitTrainingData
-        include RnnConcerns::TrainInSequence # TODO!
+        # include RnnConcerns::TrainInSequence # TODO!
       end
     end
   end
