@@ -5,54 +5,29 @@ module Ai4cr
     module Cmn
       module RnnConcerns
         module SplitTrainingData
-          def split_for_training(training_data) # : TrainingData
+          def indexes_for_training_and_eval(training_data) # training_data # : TrainingData
             # TODO: slice up for easier more granular testing
+            # This leads into io data via `training_data[from..to]`
 
             training_data_size = training_data.size
             io_pairs_tc_size = io_offset + time_col_qty
             io_pairs_qty = training_data_size - io_pairs_tc_size + 1
 
-            # training_ins = Array(Array(Array(Float64))).new
-            # training_outs = Array(Array(Array(Float64))).new
-
-            # training_pairs = (0..io_pairs_qty - 1).to_a.map do |i|
-            #   from = i
-            #   to = i + time_col_qty - 1
-            #   ins = training_data[from..to]
-
-            #   from = io_offset + i
-            #   to = io_offset + i + time_col_qty - 1
-            #   outs = training_data[from..to]
-
-            #   {
-            #     ins:  ins,
-            #     outs: outs,
-            #   }
-            # end
-
-            training_ins = (0..io_pairs_qty - 1).to_a.map do |i|
-              from = i
-              to = i + time_col_qty - 1
-              training_data[from..to]
+            training_in_indexes = (0..io_pairs_qty - 1).to_a.map do |i|
+              {i_from: i, i_to: i + time_col_qty - 1}
             end
 
-            training_outs = (0..io_pairs_qty - 1).to_a.map do |i|
-              from = io_offset + i
-              to = io_offset + i + time_col_qty - 1
-              training_data[from..to]
+            training_out_indexes = (0..io_pairs_qty - 1).to_a.map do |i|
+              {i_from: io_offset + i, i_to: io_offset + i + time_col_qty - 1}
             end
 
             i = io_pairs_qty
-            from = i
-            to = i + time_col_qty - 1
-            next_eval_ins = training_data[from..to]
+            next_eval_in_indexes = {i_from: i, i_to: i + time_col_qty - 1}
 
-            # @io_sets =
             {
-              # training_pairs: training_pairs,
-              training_ins:  training_ins,
-              training_outs: training_outs,
-              next_eval_ins: next_eval_ins,
+              training_in_indexes:  training_in_indexes,
+              training_out_indexes: training_out_indexes,
+              next_eval_in_indexes: next_eval_in_indexes,
             }
           end
 

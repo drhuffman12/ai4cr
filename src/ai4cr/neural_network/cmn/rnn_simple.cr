@@ -10,15 +10,12 @@ require "./rnn_concerns/train_in_sequence.cr" # TODO!
 module Ai4cr
   module NeuralNetwork
     module Cmn
-      alias TrainingData = NamedTuple(
-        training_ins: Array(Array(Array(Float64))),
-        training_outs: Array(Array(Array(Float64))),
-        next_eval_ins: Array(Array(Float64)))
-      NamedTuple(
-        training_ins: Array(Array(Array(Float64))),
-        training_outs: Array(Array(Array(Float64))),
-        next_eval_ins: Array(Array(Float64))) # .new
-
+      alias TrainingIndexes = NamedTuple(
+        training_in_indexes: Array(NamedTuple(i_from: Int32, i_to: Int32)),
+        training_out_indexes: Array(NamedTuple(i_from: Int32, i_to: Int32)),
+        next_eval_in_indexes: NamedTuple(i_from: Int32, i_to: Int32)
+      )
+  
       class RnnSimple
         # Simple RNN w/ inputs, hidden forward-feeding recurrent layer(s), outputs, and some other params
         include JSON::Serializable
