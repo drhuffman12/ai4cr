@@ -65,9 +65,10 @@ module Ai4cr
           getter input_set_given : Array(Array(Float64))
           getter output_set_expected : Array(Array(Float64))
 
-          property io_pairs : Array(NamedTuple(
-            ins: Array(Array(Float64)),
-            outs: Array(Array(Float64))))
+          # property io_pairs : TrainingData
+          # property io_pairs : NamedTuple(training_ins: Array(Array(Array(Float64))), training_outs: Array(Array(Array(Float64))), next_eval_ins: Array(Array(Float64)))
+
+          # getter training_ins
 
           # TODO: Handle usage of a 'structure' param in 'initialize'
           # def initialize(@time_col_qty = TIME_COL_QTY_MIN, @structure = [INPUT_SIZE_MIN, OUTPUT_SIZE_MIN])
@@ -153,9 +154,26 @@ module Ai4cr
 
             @input_set_given = Array(Array(Float64)).new
             @output_set_expected = Array(Array(Float64)).new
-            @io_pairs = Array(NamedTuple(
-              ins: Array(Array(Float64)),
-              outs: Array(Array(Float64)))).new
+            # @io_pairs = TrainingData.new
+            # @io_pairs = NamedTuple(training_ins: Array(Array(Array(Float64))), training_outs: Array(Array(Array(Float64))), next_eval_ins: Array(Array(Float64))).new
+
+            # NamedTuple(
+            #   training_pairs: Array(NamedTuple(
+            #     ins: Array(Array(Float64)),
+            #     outs: Array(Array(Float64))
+            #   )),
+            #   next_eval_ins: Array(Array(Float64))
+            # ).new
+
+            # {
+            #   training_pairs: Array(NamedTuple(
+            #     ins: Array(Array(Float64)),
+            #     outs: Array(Array(Float64)))),
+            #   next_eval_ins: Array(Array(Float64))
+            # }
+            # Array(NamedTuple(
+            #   ins: Array(Array(Float64)),
+            #   outs: Array(Array(Float64)))).new
           end
 
           def init_network
@@ -196,9 +214,8 @@ module Ai4cr
 
             @input_set_given = Array(Array(Float64)).new
             @output_set_expected = Array(Array(Float64)).new
-            @io_pairs = Array(NamedTuple(
-              ins: Array(Array(Float64)),
-              outs: Array(Array(Float64)))).new
+            # @io_pairs = TrainingData.new
+            # @io_pairs = NamedTuple(training_ins: Array(Array(Array(Float64))), training_outs: Array(Array(Array(Float64))), next_eval_ins: Array(Array(Float64))).new
           end
 
           def valid?
