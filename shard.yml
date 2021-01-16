@@ -7,14 +7,14 @@ authors:
 license: MIT
 
 development_dependencies:
-  ameba:
-    github: crystal-ameba/ameba
-    branch: master
-    # version: ~> 0.13.3
-    ## REVERT to crystal-ameba/ameba after it is Crystal 1.0 compatible.
-    ## See also: https://github.com/crystal-ameba/ameba/pull/173
-    # github: drhuffman12/ameba
-    # branch: drhuffman12/bump_crystal_version_to_1
+  # ameba:
+  #   github: crystal-ameba/ameba
+  #   branch: master
+  #   # version: ~> 0.13.3
+  #   ## REVERT to crystal-ameba/ameba after it is Crystal 1.0 compatible.
+  #   ## See also: https://github.com/crystal-ameba/ameba/pull/173
+  #   # github: drhuffman12/ameba
+  #   # branch: drhuffman12/bump_crystal_version_to_1
 
   ascii_bar_charter:
     github: drhuffman12/ascii_bar_charter
