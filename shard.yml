@@ -9,7 +9,7 @@ license: MIT
 development_dependencies:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.13.3
+    # version: ~> 0.13.3
     ## REVERT to crystal-ameba/ameba after it is Crystal 1.0 compatible.
     ## See also: https://github.com/crystal-ameba/ameba/pull/173
     # github: drhuffman12/ameba
