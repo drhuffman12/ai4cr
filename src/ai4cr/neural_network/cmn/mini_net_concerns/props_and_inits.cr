@@ -1,5 +1,5 @@
 require "json"
-require "./../learning_style.cr"
+require "./../../learning_style.cr"
 
 module Ai4cr
   module NeuralNetwork

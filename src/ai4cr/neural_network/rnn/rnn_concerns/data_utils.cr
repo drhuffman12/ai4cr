@@ -2,9 +2,9 @@ require "json"
 
 module Ai4cr
   module NeuralNetwork
-    module Cmn
+    module Rnn
       module RnnConcerns
-        module SplitTrainingData
+        module DataUtils
           def indexes_for_training_and_eval(training_data) # training_data # : TrainingData
             # TODO: slice up for easier more granular testing
             # This leads into io data via `training_data[from..to]`

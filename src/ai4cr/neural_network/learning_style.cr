@@ -1,21 +1,21 @@
 module Ai4cr
   module NeuralNetwork
-    module Cmn
+    # module Cmn
       # module MiniNet
       #   module MiniNetConcerns
-      # Ai4cr::NeuralNetwork::Cmn::LearningStyle.values
+      # Ai4cr::NeuralNetwork::LearningStyle.values
       # => [Prelu, Relu, Sigmoid, Tanh]
       #
-      # Ai4cr::NeuralNetwork::Cmn::LearningStyle.values.map{|v|v.to_s}
+      # Ai4cr::NeuralNetwork::LearningStyle.values.map{|v|v.to_s}
       # => ["Prelu", "Relu", "Sigmoid", "Tanh"]
       #
-      # Ai4cr::NeuralNetwork::Cmn::LearningStyle.values.map{|v|v.value}
+      # Ai4cr::NeuralNetwork::LearningStyle.values.map{|v|v.value}
       # => [10, 11, 12, 13]
       #
-      # Ai4cr::NeuralNetwork::Cmn::LearningStyle::Prelu.value
+      # Ai4cr::NeuralNetwork::LearningStyle::Prelu.value
       # => 10
       #
-      # Ai4cr::NeuralNetwork::Cmn::LS_PRELU.value
+      # Ai4cr::NeuralNetwork::LS_PRELU.value
       # => 10
       #
       enum LearningStyle
@@ -32,6 +32,6 @@ module Ai4cr
       LS_RELU    = LearningStyle::Relu
       LS_SIGMOID = LearningStyle::Sigmoid
       LS_TANH    = LearningStyle::Tanh
-    end
+    # end
   end
 end

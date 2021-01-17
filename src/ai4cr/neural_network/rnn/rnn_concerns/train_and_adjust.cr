@@ -2,7 +2,7 @@ require "json"
 
 module Ai4cr
   module NeuralNetwork
-    module Cmn
+    module Rnn
       module RnnConcerns
         module TrainAndAdjust
           UNTIL_MIN_AVG_ERROR_DEFAULT = 0.1

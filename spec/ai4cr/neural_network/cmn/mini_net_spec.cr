@@ -3,10 +3,10 @@ require "./../../../spec_helper"
 describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
   describe "when importing and exporting as JSON" do
     [
-      Ai4cr::NeuralNetwork::Cmn::LS_PRELU,
-      Ai4cr::NeuralNetwork::Cmn::LS_RELU,
-      Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID,
-      Ai4cr::NeuralNetwork::Cmn::LS_TANH,
+      Ai4cr::NeuralNetwork::LS_PRELU,
+      Ai4cr::NeuralNetwork::LS_RELU,
+      Ai4cr::NeuralNetwork::LS_SIGMOID,
+      Ai4cr::NeuralNetwork::LS_TANH,
     ].each do |learning_style|
       context "when given height: 2, width: 3, learning_style: #{learning_style}" do
         context "when exporting to JSON" do
@@ -60,7 +60,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
   # NOTE Below are all for learing style Sigmoid; tests should be added to cover the other learning styles
   describe "#eval" do
     describe "when given a net with structure of [3, 2]" do
-      net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 3, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+      net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 3, width: 2, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
 
       inputs = [0.1, 0.2, 0.3]
       hard_coded_weights = [
@@ -99,7 +99,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
 
   describe "#train" do
     describe "when given a net with structure of [3, 2]" do
-      net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 3, width: 2, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+      net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 3, width: 2, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
       hard_coded_weights = [
         [-0.9, 0.7],
         [-0.9, 0.6],

@@ -2,7 +2,7 @@ require "json"
 
 module Ai4cr
   module NeuralNetwork
-    module Cmn
+    module Rnn
       module RnnConcerns
         module CalcGuess
           # steps for 'eval' aka 'guess':

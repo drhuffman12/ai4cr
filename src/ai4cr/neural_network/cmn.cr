@@ -1,4 +1,5 @@
 require "json"
+require "./learning_style.cr"
 require "./cmn/*"
 
 # require "./cmn/mini_net/common/learning_style.cr"

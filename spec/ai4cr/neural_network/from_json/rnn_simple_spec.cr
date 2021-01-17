@@ -3,7 +3,7 @@ require "./../../../spectator_helper"
 
 Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
   context "correctly exports and imports" do
-    let(orig) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new } # (input_size: input_size, output_size: output_size) }
+    let(orig) { Ai4cr::NeuralNetwork::Rnn::RnnSimple.new } # (input_size: input_size, output_size: output_size) }
 
     let(input_set_given) {
       [

@@ -1,6 +1,6 @@
 module Ai4cr
   module NeuralNetwork
-    module Cmn
+    module Rnn
       module RnnConcerns
         module PropsAndInits
           # The 'io_offset' param is for setting, for a given time column, how much the inputs and outputs should be offset.
@@ -57,7 +57,7 @@ module Ai4cr
             previous_synaptic_layer: Int32,
             previous_time_column: Int32)))
 
-          property mini_net_set : Array(Array(MiniNet))
+          property mini_net_set : Array(Array(Cmn::MiniNet))
 
           getter error_total : Float64
           getter all_output_errors : Array(Array(Float64))
@@ -294,7 +294,7 @@ module Ai4cr
               mn_output_size = node_output_sizes[li]
               time_col_indexes.map do |ti|
                 mn_input_size = node_input_sizes[li][ti].values.sum
-                MiniNet.new(
+                Cmn::MiniNet.new(
                   height: mn_input_size,
                   width: mn_output_size,
 

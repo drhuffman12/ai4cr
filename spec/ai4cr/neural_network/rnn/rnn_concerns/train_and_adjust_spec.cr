@@ -1,5 +1,5 @@
-require "./../../../../../spec_helper"
-require "./../../../../../spectator_helper"
+require "./../../../../spec_helper"
+require "./../../../../spectator_helper"
 
 Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
   let(deriv_scale) { 0.1 }
@@ -38,7 +38,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
     ]
   }
   let(rnn_simple) {
-    rnn = Ai4cr::NeuralNetwork::Cmn::RnnSimple.new(
+    rnn = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new(
       deriv_scale: deriv_scale,
       learning_rate: learning_rate,
       momentum: momentum,

@@ -2,7 +2,7 @@
 # require "./../../../../../spectator_helper"
 # require "./../../../../../support/hard_coded_weights.cr"
 
-# Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainInSequence do
+# Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainingUtils do
 #   let(time_col_qty) { 4 }
 #   let(io_offset) { time_col_qty }
 
@@ -15,7 +15,7 @@
 #   let(momentum) { 0.3 }
 
 #   let(rnn_simple) {
-#     Ai4cr::NeuralNetwork::Cmn::RnnSimple.new(
+#     Ai4cr::NeuralNetwork::Rnn::RnnSimple.new(
 #       io_offset: io_offset,
 #       time_col_qty: time_col_qty,
 

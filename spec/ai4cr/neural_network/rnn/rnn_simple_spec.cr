@@ -1,10 +1,10 @@
-require "./../../../../spec_helper"
-require "./../../../../spectator_helper"
+require "./../../../spec_helper"
+require "./../../../spectator_helper"
 
-Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimple do
+Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimple do
   context "RNN Contained Mini Nets" do
     describe "#initialize" do
-      let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new }
+      let(rnn_simple) { Ai4cr::NeuralNetwork::Rnn::RnnSimple.new }
 
       it "just some debugging" do # TODO: REMOVE before merging!
         puts rnn_simple.to_pretty_json

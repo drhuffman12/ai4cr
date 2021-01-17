@@ -28,10 +28,10 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
       qty_x_percent = qty // QTY_X_PERCENT_DENOMINATOR
 
       [
-        Ai4cr::NeuralNetwork::Cmn::LS_PRELU,
-        Ai4cr::NeuralNetwork::Cmn::LS_RELU,
-        Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID,
-        Ai4cr::NeuralNetwork::Cmn::LS_TANH,
+        Ai4cr::NeuralNetwork::LS_PRELU,
+        Ai4cr::NeuralNetwork::LS_RELU,
+        Ai4cr::NeuralNetwork::LS_SIGMOID,
+        Ai4cr::NeuralNetwork::LS_TANH,
       ].each do |learning_style|
         net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: 3, error_distance_history_max: 60, learning_style: learning_style)
 
