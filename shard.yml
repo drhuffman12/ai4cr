@@ -18,7 +18,8 @@ development_dependencies:
 
   ascii_bar_charter:
     github: drhuffman12/ascii_bar_charter
-    version: ~> 1.3.0
+    # version: ~> 1.4.0
+    branch: master
 
   ## Un-comment after Crystal 1.0 compatible:
   # icr:
