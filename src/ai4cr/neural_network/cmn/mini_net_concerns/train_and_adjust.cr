@@ -1,5 +1,3 @@
-require "json"
-
 module Ai4cr
   module NeuralNetwork
     module Cmn

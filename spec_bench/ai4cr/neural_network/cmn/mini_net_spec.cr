@@ -1,5 +1,3 @@
-require "json"
-require "ascii_bar_charter"
 require "../../../spec_bench_helper"
 require "../../../support/neural_network/data/*"
 

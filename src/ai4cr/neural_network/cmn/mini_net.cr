@@ -1,9 +1,6 @@
-require "json"
 require "./mini_net_concerns/calc_guess.cr"
 require "./mini_net_concerns/props_and_inits.cr"
 require "./mini_net_concerns/train_and_adjust.cr"
-
-# require "./../learning_style.cr"
 
 module Ai4cr
   module NeuralNetwork

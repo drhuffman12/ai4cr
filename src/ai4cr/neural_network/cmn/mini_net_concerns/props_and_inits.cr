@@ -1,6 +1,3 @@
-require "json"
-require "./../../learning_style.cr"
-
 module Ai4cr
   module NeuralNetwork
     module Cmn

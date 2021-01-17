@@ -1,4 +1,3 @@
-require "json"
 require "./rnn_simple.cr"
 
 module Ai4cr

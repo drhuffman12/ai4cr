@@ -11,7 +11,6 @@
 # You can redistribute it and/or modify it under the terms of
 # the Mozilla Public License version 1.1  as published by the
 # Mozilla Foundation at http://www.mozilla.org/MPL/MPL-1.1.txt
-require "json"
 
 module Ai4cr
   # Artificial Neural Networks are mathematical or computational models based on

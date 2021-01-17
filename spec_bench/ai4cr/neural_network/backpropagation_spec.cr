@@ -1,7 +1,5 @@
 require "../../spec_bench_helper"
 require "../../support/neural_network/data/*"
-require "json"
-require "ascii_bar_charter"
 
 describe Ai4cr::NeuralNetwork::Backpropagation do
   describe "#train" do

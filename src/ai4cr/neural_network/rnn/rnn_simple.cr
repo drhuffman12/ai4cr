@@ -1,4 +1,3 @@
-require "json"
 require "./rnn_training_indexes.cr"
 require "./rnn_concerns/calc_guess.cr"
 require "./rnn_concerns/props_and_inits.cr"

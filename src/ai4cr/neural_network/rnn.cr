@@ -1,4 +1,3 @@
-require "json"
 require "./learning_style.cr"
 require "./rnn/*"
 
