@@ -1,13 +1,10 @@
 require "json"
-# require "./../learning_style.cr"
 require "./rnn_training_indexes.cr"
 require "./rnn_concerns/calc_guess.cr"
 require "./rnn_concerns/props_and_inits.cr"
 require "./rnn_concerns/train_and_adjust.cr"
 require "./rnn_concerns/roll_ups.cr"
 require "./rnn_concerns/data_utils.cr"
-
-# require "./rnn_concerns/training_utils.cr" # TODO!
 
 module Ai4cr
   module NeuralNetwork
@@ -21,7 +18,6 @@ module Ai4cr
         include RnnConcerns::TrainAndAdjust
         include RnnConcerns::RollUps
         include RnnConcerns::DataUtils
-        # include RnnConcerns::TrainingUtils # TODO!
       end
     end
   end
