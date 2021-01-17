@@ -5,9 +5,9 @@ jobs:
       - image: crystallang/crystal:nightly
     steps:
       - checkout
-      - run: shards install
       - run: mkdir -p test-results/spec
       - run: crystal -v > test-results/crystal_version.txt
+      - run: shards install
       - run: scripts/version_info > test-results/app_version.txt
       # - run: time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
       - run: time scripts/test_always > test-results/spec/results.txt
