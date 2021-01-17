@@ -11,7 +11,7 @@ license: MIT
 
 development_dependencies:
 
-  ## Un-comment after Crystal 0.36.0 or 1.0 compatible:
+  ## Un-comment/edit after Crystal 0.36.0 or 1.0 compatible:
   # ameba:
     # github: crystal-ameba/ameba
     # branch: master
@@ -26,11 +26,12 @@ development_dependencies:
     # version: ~> 1.4.0
     branch: master
 
-  ## Un-comment after Crystal 0.36.0 or 1.0 compatible:
+  ## Un-comment/edit after Crystal 0.36.0 or 1.0 compatible:
   # icr:
   #   github: crystal-community/icr
   #   branch: master
 
+  ## Un-comment/edit after Crystal 0.36.0 or 1.0 compatible:
   spectator:
     # gitlab: arctic-fox/spectator
     # branch: master
