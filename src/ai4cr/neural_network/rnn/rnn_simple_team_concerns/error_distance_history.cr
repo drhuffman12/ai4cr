@@ -42,7 +42,7 @@ module Ai4cr
             precision = 2.to_i8,
             in_bw = false,
             prefixed = false,
-            reversed = false,
+            reversed = false
           )
             team_members.map do |rnn_simple|
               charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)

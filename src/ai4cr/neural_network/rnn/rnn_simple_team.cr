@@ -2,6 +2,7 @@ require "./rnn_simple.cr"
 require "./rnn_simple_team_concerns/props_and_inits.cr"
 require "./rnn_simple_team_concerns/calc_guess.cr"
 require "./rnn_simple_team_concerns/error_distance_history.cr"
+
 # require "./rnn_simple_team_concerns/train_and_adjust.cr"
 
 module Ai4cr

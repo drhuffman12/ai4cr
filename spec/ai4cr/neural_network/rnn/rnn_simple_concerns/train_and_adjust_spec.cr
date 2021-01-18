@@ -487,7 +487,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
         context "after #train" do
           pending "returns expected non-zero outputs (variation 1)" do
             # TODO: Why are these NOT all showing the same values for rnn_simple.all_mini_net_outputs?
-            rnn_simple.train(input_set_given, output_set_expected) #, debug_msg: "train (variation 1)")
+            rnn_simple.train(input_set_given, output_set_expected) # , debug_msg: "train (variation 1)")
 
             # puts
             # puts "TODO: Why are these NOT all showing the same values for rnn_simple.all_mini_net_outputs?"
@@ -502,7 +502,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
         context "after #train" do
           it "returns expected non-zero outputs (variation 2)" do
             # TODO: Why are these NOT all showing the same values for rnn_simple.all_mini_net_outputs?
-            rnn_simple.train(input_set_given, output_set_expected) #, debug_msg: "train (variation 2)")
+            rnn_simple.train(input_set_given, output_set_expected) # , debug_msg: "train (variation 2)")
 
             assert_approximate_equality_of_nested_list(expected_all_mini_net_outputs_after_training, rnn_simple.all_mini_net_outputs, delta_1_thousandths**3)
           end

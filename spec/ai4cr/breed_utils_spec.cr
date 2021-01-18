@@ -7,9 +7,8 @@ require "./../../src/ai4cr/breed_utils.cr"
 # end
 
 Spectator.describe Ai4cr::BreedUtils do
-
-  let(parents1) {  (-10..0).to_a.map{|i| i/10.0}  }
-  let(parents2) {  (0..10).to_a.map{|i| i/10.0}  }
+  let(parents1) { (-10..0).to_a.map { |i| i/10.0 } }
+  let(parents2) { (0..10).to_a.map { |i| i/10.0 } }
 
   let(breeder) {
     Ai4cr::Breeder.new
@@ -28,34 +27,34 @@ Spectator.describe Ai4cr::BreedUtils do
 
     context "debug" do
       it "p_dist" do
-        expect(p_dist).to eq(1.0)      
+        expect(p_dist).to eq(1.0)
       end
 
       it "c_min" do
-        expect(c_min).to eq(-0.5)      
+        expect(c_min).to eq(-0.5)
       end
 
       it "c_max" do
-        expect(c_max).to eq(1.5)      
+        expect(c_max).to eq(1.5)
       end
     end
 
     context "returns" do
       it "a Float64" do
-        child = breeder.breed_value(0,1)
+        child = breeder.breed_value(0, 1)
 
         expect(child).to be_a(Float64)
       end
 
       context "between" do
         it "expected 'min'" do
-          child = breeder.breed_value(0,1)
+          child = breeder.breed_value(0, 1)
 
           expect(child).to be >= c_min
         end
 
         it "expected 'max'" do
-          child = breeder.breed_value(0,1)
+          child = breeder.breed_value(0, 1)
 
           expect(c_max).to be >= child
         end
@@ -73,7 +72,7 @@ Spectator.describe Ai4cr::BreedUtils do
           breeder.breed_nested(parent_a, parent_b)
         }.not_to raise_error
       end
-      
+
       context "returns" do
         it "a Float64" do
           child = breeder.breed_nested(parent_a, parent_b)
@@ -92,7 +91,7 @@ Spectator.describe Ai4cr::BreedUtils do
           breeder.breed_nested(parent_a, parent_b)
         }.not_to raise_error
       end
-      
+
       context "returns" do
         it "a Float64" do
           child = breeder.breed_nested(parent_a, parent_b)
@@ -111,7 +110,7 @@ Spectator.describe Ai4cr::BreedUtils do
           breeder.breed_nested(parent_a, parent_b)
         }.not_to raise_error
       end
-      
+
       context "returns" do
         it "a Float64" do
           child = breeder.breed_nested(parent_a, parent_b)
@@ -134,7 +133,7 @@ Spectator.describe Ai4cr::BreedUtils do
     #       breeder.breed_nested(parent_a, parent_b)
     #     }.not_to raise_error
     #   end
-      
+
     #   context "returns" do
     #     it "a Float64" do
     #       child = breeder.breed_nested(parent_a, parent_b)

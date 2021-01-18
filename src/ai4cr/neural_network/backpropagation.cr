@@ -223,7 +223,7 @@ module Ai4cr
         outputs = outputs.map { |v| v.to_f }
         eval(inputs)
         load_expected_outputs(outputs)
-        backpropagate   # (outputs)
+        backpropagate            # (outputs)
         calculate_error_distance # (outputs)
       end
 

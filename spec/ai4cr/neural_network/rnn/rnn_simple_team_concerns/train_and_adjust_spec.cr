@@ -2,7 +2,6 @@ require "./../../../../spec_helper"
 require "./../../../../spectator_helper"
 
 Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust do
-
   let(rnn_simple_team) { Ai4cr::NeuralNetwork::Rnn::RnnSimpleTeam.new }
 
   let(input_set_given) {
@@ -77,9 +76,9 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
 
       context "after" do
         pending "calculates differing outputs" do
-        # it "calculates expected outputs" do
+          # it "calculates expected outputs" do
           rnn_simple_team.train(input_set_given, expected_outputs_guessed)
-          
+
           puts
           puts "rnn_simple_team.plot_error_distance_history:"
           rnn_simple_team.plot_error_distance_history.each { |h| puts h }
@@ -90,7 +89,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
 
         let(expected_error_history) {
           a = Array(Float64).new
-          arr = [a, a, a, a, a, a, a, a, a, a]
+          [a, a, a, a, a, a, a, a, a, a]
         }
 
         it "does add to 'error_distance_history' (since just doing an 'train')" do
@@ -105,7 +104,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
           eh_combined = rnn_simple_team.plot_error_distance_history.zip(rnn_simple_team.error_distance_history)
           puts "eh_combined: #{eh_combined}"
           puts
-          eh_combined.each { |eh| puts eh[0] ; puts eh[1] ; puts }
+          eh_combined.each { |eh| puts eh[0]; puts eh[1]; puts }
           puts
 
           expect(rnn_simple_team.error_distance_history.size).to be >= 0
@@ -127,7 +126,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
       context "after" do
         it "calculates differing outputs per team member" do
           rnn_simple_team.train(input_set_given, expected_outputs_guessed)
-          
+
           puts
           puts "rnn_simple_team.outputs_guessed: #{rnn_simple_team.outputs_guessed.pretty_inspect}"
           puts
@@ -136,7 +135,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
           rnn_simple_team.team_members.map_with_index do |rnn_simple_i, i|
             rnn_simple_team.team_members.map_with_index do |rnn_simple_j, j|
               return nil if i == j
-              
+
               # rnn_simple_i.outputs_guessed == rnn_simple_j.outputs_guessed
               assert_approximate_inequality_of_nested_list(rnn_simple_i.outputs_guessed, rnn_simple_j.outputs_guessed)
             end
@@ -145,7 +144,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
 
         let(expected_error_history) {
           a = Array(Float64).new
-          arr = [a, a, a, a, a, a, a, a, a, a]
+          [a, a, a, a, a, a, a, a, a, a]
         }
 
         it "does add to 'error_distance_history' (since just doing an 'train')" do
@@ -162,7 +161,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
           expect(rnn_simple_team.error_distance_history.size).to be >= 0
           expect(rnn_simple_team.error_distance_history).not_to eq(expected_error_history)
           expect(rnn_simple_team.error_distance_history.first).to be <= rnn_simple_team.error_distance_history.last
-
 
           # assert_approximate_equality_of_nested_list(expected_outputs_guessed_team, rnn_simple_team.outputs_guessed)
         end

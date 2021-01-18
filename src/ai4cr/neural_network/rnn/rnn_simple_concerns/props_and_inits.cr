@@ -24,7 +24,7 @@ module Ai4cr
 
           getter io_offset : Int32
           getter time_col_qty : Int32
-          
+
           getter input_size : Int32
           getter output_size : Int32
           getter hidden_layer_qty : Int32
@@ -93,14 +93,14 @@ module Ai4cr
               hidden_layer_qty:  @hidden_layer_qty,
               hidden_size_given: @hidden_size_given,
 
-              disable_bias:   @disable_bias,
-              bias_default:   @bias_default,
+              disable_bias: @disable_bias,
+              bias_default: @bias_default,
 
               learning_style: @learning_style,
 
-              learning_rate:  @learning_rate,
-              momentum:       @momentum,
-              deriv_scale:    @deriv_scale,
+              learning_rate: @learning_rate,
+              momentum:      @momentum,
+              deriv_scale:   @deriv_scale,
             }
           end
 
@@ -124,7 +124,7 @@ module Ai4cr
 
             error_distance_history_max : Int32 = 10
           )
-            ## init_network
+            # # init_network
 
             # TODO: Handle differing hidden layer output sizes
             if hidden_size_given.is_a?(Int32)

@@ -74,7 +74,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleTeamConcerns::CalcGuess d
       context "after" do
         it "calculates expected outputs" do
           rnn_simple_team.eval(input_set_given)
-          
+
           puts
           puts "rnn_simple_team.plot_error_distance_history: #{rnn_simple_team.plot_error_distance_history}"
           puts
@@ -84,7 +84,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleTeamConcerns::CalcGuess d
 
         let(expected_error_history) {
           a = Array(Float64).new
-          arr = [a, a, a, a, a, a, a, a, a, a]
+          [a, a, a, a, a, a, a, a, a, a]
         }
 
         it "does not add to 'error_distance_history' (since just doing an 'eval')" do
@@ -113,7 +113,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleTeamConcerns::CalcGuess d
       context "after" do
         it "calculates differing outputs per team member" do
           rnn_simple_team.eval(input_set_given)
-          
+
           puts
           puts "rnn_simple_team.outputs_guessed: #{rnn_simple_team.outputs_guessed.pretty_inspect}"
           puts
@@ -122,7 +122,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleTeamConcerns::CalcGuess d
           rnn_simple_team.team_members.map_with_index do |rnn_simple_i, i|
             rnn_simple_team.team_members.map_with_index do |rnn_simple_j, j|
               return nil if i == j
-              
+
               # rnn_simple_i.outputs_guessed == rnn_simple_j.outputs_guessed
               assert_approximate_inequality_of_nested_list(rnn_simple_i.outputs_guessed, rnn_simple_j.outputs_guessed)
             end
@@ -131,7 +131,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleTeamConcerns::CalcGuess d
 
         let(expected_error_history) {
           a = Array(Float64).new
-          arr = [a, a, a, a, a, a, a, a, a, a]
+          [a, a, a, a, a, a, a, a, a, a]
         }
 
         it "does not add to 'error_distance_history' (since just doing an 'eval')" do
