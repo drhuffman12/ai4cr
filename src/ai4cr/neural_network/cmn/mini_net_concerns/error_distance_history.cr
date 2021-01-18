@@ -33,7 +33,7 @@ module Ai4cr
             reversed = false,
           )
             charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
-            plot = charter.plot(net.error_distance_history, prefixed)
+            charter.plot(error_distance_history, prefixed)
           end
         end
       end

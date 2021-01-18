@@ -36,13 +36,13 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
               case s
               when :tr
                 errors[:tr] = net.train(tr_input, is_a_triangle)
-                net.step_calculate_error_distance_history if i % qty_x_percent == 0
+                net.calculate_error_distance_history if i % qty_x_percent == 0
               when :sq
                 errors[:sq] = net.train(sq_input, is_a_square)
-                net.step_calculate_error_distance_history if i % qty_x_percent == 0
+                net.calculate_error_distance_history if i % qty_x_percent == 0
               when :cr
                 errors[:cr] = net.train(cr_input, is_a_cross)
-                net.step_calculate_error_distance_history if i % qty_x_percent == 0
+                net.calculate_error_distance_history if i % qty_x_percent == 0
               end
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -201,13 +201,13 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
               case s
               when :tr
                 errors[:tr] = net.train(tr_input, is_a_triangle)
-                net.step_calculate_error_distance_history if i % qty_x_percent == 0
+                net.calculate_error_distance_history if i % qty_x_percent == 0
               when :sq
                 errors[:sq] = net.train(sq_input, is_a_square)
-                net.step_calculate_error_distance_history if i % qty_x_percent == 0
+                net.calculate_error_distance_history if i % qty_x_percent == 0
               when :cr
                 errors[:cr] = net.train(cr_input, is_a_cross)
-                net.step_calculate_error_distance_history if i % qty_x_percent == 0
+                net.calculate_error_distance_history if i % qty_x_percent == 0
               end
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0

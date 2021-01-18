@@ -111,7 +111,7 @@ module Ai4cr
         training_io_indexes.each do |i|
           net.train(example_input_set[i], example_output_set[i])
           if i % graph_sample_percent == 0
-            net.step_calculate_error_distance_history
+            net.calculate_error_distance_history
           end
         end
         name = net_name.nil? ? net.learning_style : net_name

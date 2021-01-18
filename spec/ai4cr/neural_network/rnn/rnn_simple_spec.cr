@@ -7,7 +7,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimple do
       let(rnn_simple) { Ai4cr::NeuralNetwork::Rnn::RnnSimple.new }
 
       it "just some debugging" do # TODO: REMOVE before merging!
-        puts rnn_simple.to_pretty_json
+        # puts rnn_simple.to_pretty_json
 
         rnn_simple.synaptic_layer_indexes.map do |li|
           rnn_simple.time_col_indexes.map do |ti|

@@ -13,7 +13,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleTeam do
       }
 
       it "just some debugging" do # TODO: REMOVE before merging!
-        puts rnn_simple_team.to_pretty_json
+        # puts rnn_simple_team.to_pretty_json
 
         # rnn_simple_team.synaptic_layer_indexes.map do |li|
         #   rnn_simple_team.time_col_indexes.map do |ti|
