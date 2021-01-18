@@ -18,7 +18,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleTeam do
         # rnn_simple_team.synaptic_layer_indexes.map do |li|
         #   rnn_simple_team.time_col_indexes.map do |ti|
         #     debug_info = {"li": li, "ti": ti, "node_input_sizes": rnn_simple_team.node_input_sizes[li][ti]}
-        #     puts debug_info.to_json
+        #     # puts debug_info.to_json
         #   end
         # end
       end

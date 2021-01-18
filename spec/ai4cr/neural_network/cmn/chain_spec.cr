@@ -120,10 +120,10 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
 
         delta = 0.001
 
-        puts
-        puts "hard_coded_weights0: #{hard_coded_weights0.pretty_inspect}"
-        puts "net0.weights: #{net0.weights.pretty_inspect}"
-        puts
+        # puts
+        # puts "hard_coded_weights0: #{hard_coded_weights0.pretty_inspect}"
+        # puts "net0.weights: #{net0.weights.pretty_inspect}"
+        # puts
         assert_approximate_inequality_of_nested_list(hard_coded_weights0, net0.weights, delta)
       end
     end

@@ -334,14 +334,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
     end
 
     # it "just some debugging" do # TODO: REMOVE before merging!
-    #   puts rnn_simple.to_pretty_json
+    #   # puts rnn_simple.to_pretty_json
 
     #   # rnn_simple.nodal_layer_indexes.map do |li|
     #   rnn_simple.synaptic_layer_indexes.map do |li|
     #     rnn_simple.time_col_indexes.map do |ti|
     #       # debug_info = {"li": li, "ti": ti, "rnn_simple.node_input_sizes[li][ti]": rnn_simple.node_input_sizes[li][ti]}
     #       debug_info = {"li": li, "ti": ti, "node_input_sizes": rnn_simple.node_input_sizes[li][ti]}
-    #       puts debug_info.to_json
+    #       # puts debug_info.to_json
     #     end
     #   end
     # end
