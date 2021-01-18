@@ -25,7 +25,7 @@ module Ai4cr
           #   calculate_error_distance
           # end
 
-          def train(input_set_given, output_set_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT, debug_msg = "")
+          def train(input_set_given, output_set_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT) # , debug_msg = "")
             # TODO: WHY is the last ti's value in outputs_guessed reset to '0.0' after training (but NOT after eval'ing)??? (and NOT reset to '0.0' after next round of training???)
 
             # puts "***** #{debug_msg} *****"
