@@ -3,7 +3,7 @@ module Ai4cr
     module Cmn
       module MiniNetConcerns
         module TrainAndAdjust
-          UNTIL_MIN_AVG_ERROR_DEFAULT = 0.1
+          # UNTIL_MIN_AVG_ERROR_DEFAULT = 0.1
 
           # # training steps
           # TODO: utilize until_min_avg_error

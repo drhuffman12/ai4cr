@@ -24,6 +24,12 @@ module Ai4cr
           #   @error_distance_history
           # end
 
+          def error_distance
+            team_members.map do |rnn_simple|
+              rnn_simple.error_distance
+            end
+          end
+
           def error_distance_history
             team_members.map do |rnn_simple|
               rnn_simple.error_distance_history

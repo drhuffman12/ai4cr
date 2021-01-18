@@ -3,7 +3,7 @@ module Ai4cr
     module Rnn
       module RnnSimpleConcerns
         module TrainAndAdjust
-          UNTIL_MIN_AVG_ERROR_DEFAULT = 0.1
+          # UNTIL_MIN_AVG_ERROR_DEFAULT = 0.1
 
           # def eval_and_compare(input_set_given, output_set_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT)
           #   eval(input_set_given)

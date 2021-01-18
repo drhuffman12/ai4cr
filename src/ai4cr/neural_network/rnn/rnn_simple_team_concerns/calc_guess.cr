@@ -27,7 +27,7 @@ module Ai4cr
             # puts "sum: #{sum}, ids: #{ids}"
             # puts
 
-            team_members.map{|rnn_simple| rnn_simple.outputs_guessed}
+            outputs_guessed
           end
 
           def outputs_guessed
