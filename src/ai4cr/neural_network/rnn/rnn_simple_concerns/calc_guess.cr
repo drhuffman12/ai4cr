@@ -1,7 +1,7 @@
 module Ai4cr
   module NeuralNetwork
     module Rnn
-      module RnnConcerns
+      module RnnSimpleConcerns
         module CalcGuess
           # steps for 'eval' aka 'guess':
           def eval(input_set_given)

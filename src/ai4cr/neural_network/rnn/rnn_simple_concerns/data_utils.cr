@@ -1,7 +1,7 @@
 module Ai4cr
   module NeuralNetwork
     module Rnn
-      module RnnConcerns
+      module RnnSimpleConcerns
         module DataUtils
           def indexes_for_training_and_eval(training_data) # training_data # : TrainingData
             # TODO: slice up for easier more granular testing

@@ -1,9 +1,10 @@
 require "./rnn_training_indexes.cr"
-require "./rnn_concerns/calc_guess.cr"
-require "./rnn_concerns/props_and_inits.cr"
-require "./rnn_concerns/train_and_adjust.cr"
-require "./rnn_concerns/roll_ups.cr"
-require "./rnn_concerns/data_utils.cr"
+require "./rnn_simple_concerns/calc_guess.cr"
+require "./rnn_simple_concerns/props_and_inits.cr"
+require "./rnn_simple_concerns/train_and_adjust.cr"
+require "./rnn_simple_concerns/roll_ups.cr"
+require "./rnn_simple_concerns/data_utils.cr"
+# require "./mini_net_concerns/error_distance_history.cr"
 
 module Ai4cr
   module NeuralNetwork
@@ -12,11 +13,12 @@ module Ai4cr
         # Simple RNN w/ inputs, hidden forward-feeding recurrent layer(s), outputs, and some other params
         include JSON::Serializable
 
-        include RnnConcerns::PropsAndInits
-        include RnnConcerns::CalcGuess
-        include RnnConcerns::TrainAndAdjust
-        include RnnConcerns::RollUps
-        include RnnConcerns::DataUtils
+        include RnnSimpleConcerns::PropsAndInits
+        include RnnSimpleConcerns::CalcGuess
+        # include MiniNetConcerns::ErrorDistanceHistory
+        include RnnSimpleConcerns::TrainAndAdjust
+        include RnnSimpleConcerns::RollUps
+        include RnnSimpleConcerns::DataUtils
       end
     end
   end

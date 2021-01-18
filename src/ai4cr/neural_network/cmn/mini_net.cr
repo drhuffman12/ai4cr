@@ -1,5 +1,6 @@
 require "./mini_net_concerns/calc_guess.cr"
 require "./mini_net_concerns/props_and_inits.cr"
+require "./mini_net_concerns/error_distance_history.cr"
 require "./mini_net_concerns/train_and_adjust.cr"
 
 module Ai4cr
@@ -14,6 +15,7 @@ module Ai4cr
         # MiniNet code (based on original ai4r Backpropagation) is split up into modules and abstract-/sub-classes to be more manageable
         include MiniNetConcerns::PropsAndInits
         include MiniNetConcerns::CalcGuess
+        include MiniNetConcerns::ErrorDistanceHistory
         include MiniNetConcerns::TrainAndAdjust
 
         # def from_json(some_json)

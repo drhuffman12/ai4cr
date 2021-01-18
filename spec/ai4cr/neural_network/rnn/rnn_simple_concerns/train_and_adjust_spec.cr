@@ -1,7 +1,7 @@
 require "./../../../../spec_helper"
 require "./../../../../spectator_helper"
 
-Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
+Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust do
   let(deriv_scale) { 0.1 }
   let(learning_rate) { 0.2 }
   let(momentum) { 0.3 }
@@ -215,10 +215,10 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           expect(all_output_errors).to eq(expected_all_output_errors)
         end
 
-        it "returns expected error_total" do
-          error_total = rnn_simple.train(input_set_given, output_set_expected)
+        it "returns expected error_distance" do
+          error_distance = rnn_simple.train(input_set_given, output_set_expected)
 
-          expect(error_total).to eq(expected_error_total)
+          expect(error_distance).to eq(expected_error_total)
         end
       end
 
@@ -296,7 +296,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           expect(after_output_errors).to eq(expected_all_output_errors_2nd)
         end
 
-        it "returns expected error_total" do
+        it "returns expected error_distance" do
           mid_error_total = rnn_simple.train(input_set_given, output_set_expected)
           expect(mid_error_total).to eq(expected_error_total)
 
@@ -328,7 +328,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           expect(after_output_errors).to eq(expected_all_output_errors_3rd)
         end
 
-        it "returns expected error_total" do
+        it "returns expected error_distance" do
           mid_error_total = rnn_simple.train(input_set_given, output_set_expected)
           expect(mid_error_total).to eq(expected_error_total)
 

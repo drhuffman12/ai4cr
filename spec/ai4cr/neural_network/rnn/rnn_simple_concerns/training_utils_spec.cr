@@ -2,7 +2,7 @@
 # require "./../../../../../spectator_helper"
 # require "./../../../../../support/hard_coded_weights.cr"
 
-# Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainingUtils do
+# Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainingUtils do
 #   let(time_col_qty) { 4 }
 #   let(io_offset) { time_col_qty }
 

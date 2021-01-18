@@ -1,7 +1,7 @@
 require "./../../../../spec_helper"
 require "./../../../../spectator_helper"
 
-Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::DataUtils do
+Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::DataUtils do
   let(time_col_qty) { 4 }
   let(io_offset) { time_col_qty }
 

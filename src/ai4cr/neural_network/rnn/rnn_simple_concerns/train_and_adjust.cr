@@ -1,7 +1,7 @@
 module Ai4cr
   module NeuralNetwork
     module Rnn
-      module RnnConcerns
+      module RnnSimpleConcerns
         module TrainAndAdjust
           UNTIL_MIN_AVG_ERROR_DEFAULT = 0.1
 
@@ -19,10 +19,10 @@ module Ai4cr
 
           #     step_calculate_output_deltas(li, ti)
 
-          #     mini_net_set[li][ti].step_calculate_error
+          #     mini_net_set[li][ti].step_calculate_error_distance
           #   end
-          #   # error_total
-          #   final_output_error_totals_radius
+          #   # error_distance
+          #   calculate_error_distance
           # end
 
           def train(input_set_given, output_set_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT, debug_msg = "")
@@ -63,7 +63,7 @@ module Ai4cr
                   # mini_net_set[li][ti].step_calc_input_deltas
                   # mini_net_set[li][ti].step_update_weights
 
-                  # mini_net_set[li][ti].step_calculate_error
+                  # mini_net_set[li][ti].step_calculate_error_distance
                   step_backpropagate(li, ti)
                 when li < synaptic_layer_index_last && ti == time_col_index_last
                   # In this case, to calculate the 'outputs_expected', use outputs_guessed (of current [li][ti]) + input_deltas of (matching parts of next [li][ti])
@@ -79,7 +79,7 @@ module Ai4cr
                   # mini_net_set[li][ti].step_calc_input_deltas
                   # mini_net_set[li][ti].step_update_weights
 
-                  # mini_net_set[li][ti].step_calculate_error
+                  # mini_net_set[li][ti].step_calculate_error_distance
                   step_backpropagate(li, ti)
                 when li < synaptic_layer_index_last && ti < time_col_index_last
                   # In this case, to calculate the 'outputs_expected', use outputs_guessed (of current [li][ti]) + input_deltas of (matching parts of next [li][ti])
@@ -94,7 +94,7 @@ module Ai4cr
                   # mini_net_set[li][ti].step_calc_input_deltas
                   # mini_net_set[li][ti].step_update_weights
 
-                  # mini_net_set[li][ti].step_calculate_error
+                  # mini_net_set[li][ti].step_calculate_error_distance
                   step_backpropagate(li, ti)
                 else
                   raise "Index error! (Range Mis-match!) li: #{li}, ti: #{ti}"
@@ -105,14 +105,14 @@ module Ai4cr
             # puts "AFTER:: all_mini_net_outputs: #{all_mini_net_outputs}"
             # puts "----------"
 
-            final_output_error_totals_radius
+            calculate_error_distance
           end
 
           private def step_backpropagate(li, ti)
             step_calculate_output_deltas(li, ti) # combo (add? or *avg*?) of next_li's input_deltas (in place of 'regular' output_deltas) and next_ti's input_deltas
             mini_net_set[li][ti].step_calc_input_deltas
             mini_net_set[li][ti].step_update_weights
-            mini_net_set[li][ti].step_calculate_error
+            mini_net_set[li][ti].step_calculate_error_distance
           end
 
           private def step_calculate_output_errors_at(li, ti)

@@ -93,7 +93,7 @@ module Ai4cr
 
       property structure, disable_bias, learning_rate, momentum
       property weights, last_changes, activation_nodes
-      property calculated_error_total : Float64
+      property error_distance : Float64
       getter height, hidden_qty, width, deltas
 
       property expected_outputs : Array(Float64)
@@ -176,12 +176,12 @@ module Ai4cr
           (0..(@structure[idl] - 1)).to_a.map { 0.0 }
         end
 
-        @calculated_error_total = 0.0
+        @error_distance = 0.0
 
         @expected_outputs = Array.new(width, 0.0)
         @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-        # @error_distance = 0.0 # aka @calculated_error_total
         @error_distance_history = Array.new(0, 0.0)
+        @error_distance_history_score = 0.0
 
         init_network
       end
@@ -224,7 +224,7 @@ module Ai4cr
         eval(inputs)
         load_expected_outputs(outputs)
         backpropagate   # (outputs)
-        calculate_error # (outputs)
+        calculate_error_distance # (outputs)
       end
 
       # Initialize (or reset) activation nodes and weights, with the
@@ -236,8 +236,8 @@ module Ai4cr
 
         @expected_outputs = Array.new(width, 0.0)
         @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-        # @error_distance = 0.0 # aka @calculated_error_total
         @error_distance_history = Array.new(0, 0.0)
+        @error_distance_history_score = 0.0
 
         self
       end
@@ -358,33 +358,35 @@ module Ai4cr
 
       # Calculate quadratic error for a expected output value
       # Error = 0.5 * sum( (expected_value[i] - output_value[i])**2 )
-      def calculate_error # (expected_outputs)
+      def calculate_error_distance # (expected_outputs)
         output_values = @activation_nodes.last
         error = 0.0
         @expected_outputs.each_with_index do |_elem, output_index|
           error += 0.5*(output_values[output_index] - @expected_outputs[output_index])**2
         end
-        @calculated_error_total = error
+        @error_distance = error
+        step_calculate_error_distance_history
+        @error_distance
       end
 
       # Calculate the radius of the error as if each output cell is an value in a coordinate set
       def step_calculate_error_distance_history
         # @error_distance_history_max = error_distance_history_max
         return @error_distance_history = [-1.0] if @error_distance_history_max < 1
-        # error = 0.0
-        # output_values = @activation_nodes.last
-        # @expected_outputs.map_with_index do |oe, iw|
-        #   error += (oe - output_values[iw])**2
-        # end
-        # @error_distance = Math.sqrt(error)
+
         if @error_distance_history.size < @error_distance_history_max - 1
           # Array not 'full' yet, so add latest value to end
-          @error_distance_history << @calculated_error_total
+          @error_distance_history << @error_distance
         else
           # Array 'full', so rotate end to front and then put new value at last index
           @error_distance_history.rotate!
-          @error_distance_history[-1] = @calculated_error_total
+          @error_distance_history[-1] = @error_distance
         end
+
+        @error_distance_history_score = error_distance_history.map_with_index do |e, i|
+          e / (2.0 ** (@error_distance_history_max - i))
+        end.sum
+
         @error_distance_history
       end
 

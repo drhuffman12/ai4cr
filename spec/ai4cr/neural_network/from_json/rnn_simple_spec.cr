@@ -1,7 +1,7 @@
 require "./../../../spec_helper"
 require "./../../../spectator_helper"
 
-Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
+Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnSimpleConcerns::TrainAndAdjust do
   context "correctly exports and imports" do
     let(orig) { Ai4cr::NeuralNetwork::Rnn::RnnSimple.new } # (input_size: input_size, output_size: output_size) }
 
