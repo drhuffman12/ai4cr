@@ -365,12 +365,12 @@ module Ai4cr
           error += 0.5*(output_values[output_index] - @expected_outputs[output_index])**2
         end
         @error_distance = error
-        step_calculate_error_distance_history
+        calculate_error_distance_history
         @error_distance
       end
 
       # Calculate the radius of the error as if each output cell is an value in a coordinate set
-      def step_calculate_error_distance_history
+      def calculate_error_distance_history
         # @error_distance_history_max = error_distance_history_max
         return @error_distance_history = [-1.0] if @error_distance_history_max < 1
 

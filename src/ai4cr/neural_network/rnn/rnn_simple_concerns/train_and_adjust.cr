@@ -19,7 +19,7 @@ module Ai4cr
 
           #     step_calculate_output_deltas(li, ti)
 
-          #     mini_net_set[li][ti].step_calculate_error_distance
+          #     mini_net_set[li][ti].calculate_error_distance
           #   end
           #   # error_distance
           #   calculate_error_distance
@@ -63,7 +63,7 @@ module Ai4cr
                   # mini_net_set[li][ti].step_calc_input_deltas
                   # mini_net_set[li][ti].step_update_weights
 
-                  # mini_net_set[li][ti].step_calculate_error_distance
+                  # mini_net_set[li][ti].calculate_error_distance
                   step_backpropagate(li, ti)
                 when li < synaptic_layer_index_last && ti == time_col_index_last
                   # In this case, to calculate the 'outputs_expected', use outputs_guessed (of current [li][ti]) + input_deltas of (matching parts of next [li][ti])
@@ -79,7 +79,7 @@ module Ai4cr
                   # mini_net_set[li][ti].step_calc_input_deltas
                   # mini_net_set[li][ti].step_update_weights
 
-                  # mini_net_set[li][ti].step_calculate_error_distance
+                  # mini_net_set[li][ti].calculate_error_distance
                   step_backpropagate(li, ti)
                 when li < synaptic_layer_index_last && ti < time_col_index_last
                   # In this case, to calculate the 'outputs_expected', use outputs_guessed (of current [li][ti]) + input_deltas of (matching parts of next [li][ti])
@@ -94,7 +94,7 @@ module Ai4cr
                   # mini_net_set[li][ti].step_calc_input_deltas
                   # mini_net_set[li][ti].step_update_weights
 
-                  # mini_net_set[li][ti].step_calculate_error_distance
+                  # mini_net_set[li][ti].calculate_error_distance
                   step_backpropagate(li, ti)
                 else
                   raise "Index error! (Range Mis-match!) li: #{li}, ti: #{ti}"
@@ -112,7 +112,7 @@ module Ai4cr
             step_calculate_output_deltas(li, ti) # combo (add? or *avg*?) of next_li's input_deltas (in place of 'regular' output_deltas) and next_ti's input_deltas
             mini_net_set[li][ti].step_calc_input_deltas
             mini_net_set[li][ti].step_update_weights
-            mini_net_set[li][ti].step_calculate_error_distance
+            mini_net_set[li][ti].calculate_error_distance
           end
 
           private def step_calculate_output_errors_at(li, ti)

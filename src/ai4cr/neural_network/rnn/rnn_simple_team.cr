@@ -1,6 +1,6 @@
 require "./rnn_simple.cr"
 require "./rnn_simple_team_concerns/props_and_inits.cr"
-# require "./mini_net_concerns/error_distance_history.cr"
+# require "./../cmn/mini_net_concerns/error_distance_history.cr"
 
 module Ai4cr
   module NeuralNetwork
@@ -10,7 +10,7 @@ module Ai4cr
         include JSON::Serializable
 
         include RnnSimpleTeamConcerns::PropsAndInits
-        # include MiniNetConcerns::ErrorDistanceHistory
+        # include Cmn::MiniNetConcerns::ErrorDistanceHistory
       end
     end
   end

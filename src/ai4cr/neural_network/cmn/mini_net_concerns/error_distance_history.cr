@@ -6,7 +6,7 @@ module Ai4cr
       module MiniNetConcerns
         module ErrorDistanceHistory
           # Calculate the radius of the error as if each output cell is an value in a coordinate set
-          def step_calculate_error_distance_history
+          def calculate_error_distance_history
             return @error_distance_history = [-1.0] if @error_distance_history_max < 1
             if @error_distance_history.size < @error_distance_history_max - 1
               # Array not 'full' yet, so add latest value to end

@@ -11,7 +11,6 @@ module Ai4cr
           property weights : Array(Array(Float64))
           property last_changes : Array(Array(Float64)) # aka previous weights
           property output_errors : Array(Float64)
-          property error_distance : Float64
 
           property outputs_expected : Array(Float64)
 
@@ -24,6 +23,7 @@ module Ai4cr
           property learning_rate : Float64
           property momentum : Float64
 
+          getter error_distance : Float64
           getter error_distance_history_max : Int32
           getter error_distance_history : Array(Float64)
           getter error_distance_history_score : Float64

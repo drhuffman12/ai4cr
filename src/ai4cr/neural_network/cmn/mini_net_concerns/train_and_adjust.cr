@@ -16,7 +16,7 @@ module Ai4cr
             step_backpropagate
 
             # @error_distance
-            step_calculate_error_distance
+            calculate_error_distance
           end
 
           def step_load_outputs(outputs_expected)
@@ -24,7 +24,7 @@ module Ai4cr
             load_outputs_expected(outputs_expected)
           end
 
-          def step_calculate_error_distance
+          def calculate_error_distance
             # radial error
             # error = 0.0
             # @outputs_expected.each_with_index do |oe, iw|
@@ -33,12 +33,12 @@ module Ai4cr
             # @error_distance = error
             @error_distance = @output_errors.map { |e| 0.5 * e ** 2 }.sum
 
-            step_calculate_error_distance_history
+            calculate_error_distance_history
             @error_distance
           end
 
           # # Calculate the radius of the error as if each output cell is an value in a coordinate set
-          # def step_calculate_error_distance_history
+          # def calculate_error_distance_history
           #   return @error_distance_history = [-1.0] if @error_distance_history_max < 1
           #   if @error_distance_history.size < @error_distance_history_max - 1
           #     # Array not 'full' yet, so add latest value to end

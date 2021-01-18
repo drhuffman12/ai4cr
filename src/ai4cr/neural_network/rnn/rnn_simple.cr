@@ -4,7 +4,7 @@ require "./rnn_simple_concerns/props_and_inits.cr"
 require "./rnn_simple_concerns/train_and_adjust.cr"
 require "./rnn_simple_concerns/roll_ups.cr"
 require "./rnn_simple_concerns/data_utils.cr"
-# require "./mini_net_concerns/error_distance_history.cr"
+require "./../cmn/mini_net_concerns/error_distance_history.cr"
 
 module Ai4cr
   module NeuralNetwork
@@ -15,7 +15,7 @@ module Ai4cr
 
         include RnnSimpleConcerns::PropsAndInits
         include RnnSimpleConcerns::CalcGuess
-        # include MiniNetConcerns::ErrorDistanceHistory
+        include Cmn::MiniNetConcerns::ErrorDistanceHistory
         include RnnSimpleConcerns::TrainAndAdjust
         include RnnSimpleConcerns::RollUps
         include RnnSimpleConcerns::DataUtils

@@ -113,7 +113,7 @@ module Ai4cr
 
             index == index_max ? net.step_load_outputs(outputs_expected) : net.step_load_outputs(@net_set[index + 1].input_deltas)
 
-            net.step_calculate_error_distance
+            net.calculate_error_distance
             net.step_backpropagate
           end
 
@@ -124,8 +124,8 @@ module Ai4cr
           @net_set.last.guesses_best
         end
 
-        def step_calculate_error_distance_history
-          @net_set.last.step_calculate_error_distance_history
+        def calculate_error_distance_history
+          @net_set.last.calculate_error_distance_history
         end
 
         def error_distance_history
