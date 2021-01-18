@@ -162,11 +162,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
         it "guesses expected outputs" do
           rnn_simple.train(input_set_given, output_set_expected)
 
-          # puts
-          # puts "rnn_simple.error_distance_history_score: #{rnn_simple.error_distance_history_score}"
-          # puts "rnn_simple.error_distance_history: #{rnn_simple.error_distance_history}"
-          # puts "rnn_simple.plot_error_distance_history: #{rnn_simple.plot_error_distance_history}"
-          # puts
+          puts
+          puts "rnn_simple.error_distance_history_score: #{rnn_simple.error_distance_history_score}"
+          puts "rnn_simple.error_distance_history: #{rnn_simple.error_distance_history}"
+          puts "rnn_simple.plot_error_distance_history: #{rnn_simple.plot_error_distance_history}"
+          puts
 
           assert_approximate_equality_of_nested_list(expected_outputs_guessed, rnn_simple.outputs_guessed)
         end
@@ -233,11 +233,13 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
           rnn_simple.train(input_set_given, output_set_expected)
           rnn_simple.train(input_set_given, output_set_expected)
 
-          # puts
-          # puts "rnn_simple.error_distance_history_score: #{rnn_simple.error_distance_history_score}"
-          # puts "rnn_simple.error_distance_history: #{rnn_simple.error_distance_history}"
-          # puts "rnn_simple.plot_error_distance_history: #{rnn_simple.plot_error_distance_history}"
-          # puts
+          puts
+          puts "rnn_simple.error_distance_history_score: #{rnn_simple.error_distance_history_score}"
+          puts "rnn_simple.error_distance_history: #{rnn_simple.error_distance_history}"
+          puts "rnn_simple.plot_error_distance_history: #{rnn_simple.plot_error_distance_history}"
+          puts
+
+          expect(rnn_simple.error_distance_history.first).to be >= rnn_simple.error_distance_history.last
 
           expect(rnn_simple.outputs_guessed).to eq(expected_outputs_guessed_2nd)
         end
@@ -323,11 +325,13 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
           rnn_simple.train(input_set_given, output_set_expected)
           rnn_simple.train(input_set_given, output_set_expected)
 
-          # puts
-          # puts "rnn_simple.error_distance_history_score: #{rnn_simple.error_distance_history_score}"
-          # puts "rnn_simple.error_distance_history: #{rnn_simple.error_distance_history}"
-          # puts "rnn_simple.plot_error_distance_history: #{rnn_simple.plot_error_distance_history}"
-          # puts
+          puts
+          puts "rnn_simple.error_distance_history_score: #{rnn_simple.error_distance_history_score}"
+          puts "rnn_simple.error_distance_history: #{rnn_simple.error_distance_history}"
+          puts "rnn_simple.plot_error_distance_history: #{rnn_simple.plot_error_distance_history}"
+          puts
+
+          expect(rnn_simple.error_distance_history.first).to be >= rnn_simple.error_distance_history.last
 
           expect(rnn_simple.outputs_guessed).to eq(expected_outputs_guessed_3rd)
         end
@@ -375,11 +379,13 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
           # puts "rnn_simple.outputs_guessed: #{rnn_simple.outputs_guessed}"
           # puts
 
-          # puts
-          # puts "rnn_simple.error_distance_history_score: #{rnn_simple.error_distance_history_score}"
-          # puts "rnn_simple.error_distance_history: #{rnn_simple.error_distance_history}"
-          # puts "rnn_simple.plot_error_distance_history: #{rnn_simple.plot_error_distance_history}"
-          # puts
+          puts
+          puts "rnn_simple.error_distance_history_score: #{rnn_simple.error_distance_history_score}"
+          puts "rnn_simple.error_distance_history: #{rnn_simple.error_distance_history}"
+          puts "rnn_simple.plot_error_distance_history: #{rnn_simple.plot_error_distance_history}"
+          puts
+
+          expect(rnn_simple.error_distance_history.first).to be >= rnn_simple.error_distance_history.last
 
           # expect(rnn_simple.outputs_guessed).to eq(output_set_expected)
           assert_approximate_equality_of_nested_list(output_set_expected, rnn_simple.outputs_guessed, 0.01)
