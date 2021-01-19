@@ -1,10 +1,5 @@
 require "./../spec_helper"
 require "./../spectator_helper"
-require "./../../src/ai4cr/breed_utils.cr"
-
-# class Breeder
-#   include Ai4cr::BreedUtils
-# end
 
 Spectator.describe Ai4cr::BreedUtils do
   let(parents1) { (-10..0).to_a.map { |i| i/10.0 } }
@@ -13,10 +8,6 @@ Spectator.describe Ai4cr::BreedUtils do
   let(breeder) {
     Ai4cr::Breeder.new
   }
-
-  # before(:each) do
-  #   include Ai4cr::BreedUtils
-  # end
 
   describe "breed_value" do
     let(parent_a) { 0.0 }
