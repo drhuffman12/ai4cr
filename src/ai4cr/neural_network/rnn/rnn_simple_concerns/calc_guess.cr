@@ -1,9 +1,7 @@
-require "json"
-
 module Ai4cr
   module NeuralNetwork
-    module Cmn
-      module RnnConcerns
+    module Rnn
+      module RnnSimpleConcerns
         module CalcGuess
           # steps for 'eval' aka 'guess':
           def eval(input_set_given)

@@ -1,7 +1,7 @@
 module Ai4cr
   module NeuralNetwork
-    module Cmn
-      module RnnConcerns
+    module Rnn
+      module RnnSimpleConcerns
         module PropsAndInits
           # The 'io_offset' param is for setting, for a given time column, how much the inputs and outputs should be offset.
           #   For example, let's say the inputs and outputs are weather data and you want to guess tomorrow's weather based
@@ -24,18 +24,22 @@ module Ai4cr
 
           getter io_offset : Int32
           getter time_col_qty : Int32
-          getter hidden_layer_qty : Int32
+
           getter input_size : Int32
           getter output_size : Int32
-          getter hidden_size : Int32
+          getter hidden_layer_qty : Int32
           getter hidden_size_given : Int32?
 
-          property learning_style : LearningStyle
-          property deriv_scale : Float64
-          property bias_default : Float64
+          getter hidden_size : Int32
+
           property disable_bias : Bool
+          property bias_default : Float64
+
+          property learning_style : LearningStyle
+
           property learning_rate : Float64
           property momentum : Float64
+          property deriv_scale : Float64
 
           getter synaptic_layer_qty : Int32
 
@@ -57,17 +61,22 @@ module Ai4cr
             previous_synaptic_layer: Int32,
             previous_time_column: Int32)))
 
-          property mini_net_set : Array(Array(MiniNet))
+          property mini_net_set : Array(Array(Cmn::MiniNet))
 
-          getter error_total : Float64
+          getter error_distance : Float64
+          getter error_distance_history_max : Int32
+          getter error_distance_history : Array(Float64)
+          getter error_distance_history_score : Float64
+
           getter all_output_errors : Array(Array(Float64))
 
           getter input_set_given : Array(Array(Float64))
           getter output_set_expected : Array(Array(Float64))
 
-          property io_pairs : Array(NamedTuple(
-            ins: Array(Array(Float64)),
-            outs: Array(Array(Float64))))
+          # property io_pairs : TrainingData
+          # property io_pairs : NamedTuple(training_ins: Array(Array(Array(Float64))), training_outs: Array(Array(Array(Float64))), next_eval_ins: Array(Array(Float64)))
+
+          # getter training_ins
 
           # TODO: Handle usage of a 'structure' param in 'initialize'
           # def initialize(@time_col_qty = TIME_COL_QTY_MIN, @structure = [INPUT_SIZE_MIN, OUTPUT_SIZE_MIN])
@@ -84,37 +93,45 @@ module Ai4cr
               hidden_layer_qty:  @hidden_layer_qty,
               hidden_size_given: @hidden_size_given,
 
+              disable_bias: @disable_bias,
+              bias_default: @bias_default,
+
               learning_style: @learning_style,
-              deriv_scale:    @deriv_scale,
-              disable_bias:   @disable_bias,
-              learning_rate:  @learning_rate,
-              momentum:       @momentum,
+
+              learning_rate: @learning_rate,
+              momentum:      @momentum,
+              deriv_scale:   @deriv_scale,
             }
           end
 
           def initialize(
             @io_offset = IO_OFFSET_DEFAULT,
             @time_col_qty = TIME_COL_QTY_MIN,
+
             @input_size = INPUT_SIZE_MIN,
             @output_size = OUTPUT_SIZE_MIN,
             @hidden_layer_qty = HIDDEN_LAYER_QTY_MIN,
             @hidden_size_given = nil,
 
+            disable_bias : Bool? = nil,
+            @bias_default = 1.0,
+
             @learning_style : LearningStyle = LS_RELU,
 
-            # for Prelu
-            # TODO: set deriv_scale based on ?
-            # @deriv_scale = 0.1,
-            # @deriv_scale = 0.01,
-            # @deriv_scale = 0.001,
-            @deriv_scale = rand / 2.0,
+            learning_rate : Float64? = nil,
+            momentum : Float64? = nil,
+            @deriv_scale = rand / 2.0, # for Prelu
 
-            disable_bias : Bool? = nil, @bias_default = 1.0,
-
-            learning_rate : Float64? = nil, momentum : Float64? = nil
-            # _error_distance_history_max_ : Int32 = 10
+            error_distance_history_max : Int32 = 10
           )
-            # init_network
+            # # init_network
+
+            # TODO: Handle differing hidden layer output sizes
+            if hidden_size_given.is_a?(Int32)
+              @hidden_size = @hidden_size_given.as(Int32)
+            else
+              @hidden_size = @input_size + @output_size
+            end
 
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
             @disable_bias = disable_bias.nil? ? false : disable_bias
@@ -122,18 +139,11 @@ module Ai4cr
             @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
             @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
 
-            @synaptic_layer_qty = hidden_layer_qty + 1
-
-            # TODO: Handle differing hidden layer output sizes
-            if hidden_size_given.is_a?(Int32)
-              @hidden_size = @hidden_size_given.as(Int32)
-            else
-              @hidden_size = @input_size + @output_size
-            end
-
             @valid = false
             @errors = Hash(String, String).new
             validate!
+
+            @synaptic_layer_qty = hidden_layer_qty + 1
 
             @synaptic_layer_indexes = calc_synaptic_layer_indexes
             @time_col_indexes = calc_time_col_indexes
@@ -148,35 +158,36 @@ module Ai4cr
 
             @mini_net_set = init_mini_net_set
 
-            @error_total = 0.0
+            @error_distance = 0.0
+            @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
+            @error_distance_history = Array.new(0, 0.0)
+            @error_distance_history_score = 0.0
+
             @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }
 
             @input_set_given = Array(Array(Float64)).new
             @output_set_expected = Array(Array(Float64)).new
-            @io_pairs = Array(NamedTuple(
-              ins: Array(Array(Float64)),
-              outs: Array(Array(Float64)))).new
           end
 
           def init_network
+            # TODO: Handle differing hidden layer output sizes
+            if hidden_size_given.is_a?(Int32)
+              @hidden_size = @hidden_size_given.as(Int32)
+            else
+              @hidden_size = @input_size + @output_size
+            end
+
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
             @disable_bias = disable_bias.nil? ? false : !!disable_bias
 
             @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
             @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
 
-            @synaptic_layer_qty = hidden_layer_qty + 1
-
-            # TODO: Handle differing hidden layer output sizes
-            if hidden_size_given.is_a?(Int32)
-              @hidden_size = @hidden_size_given.as(Int32)
-            else
-              @hidden_size = @input_size + @output_size
-            end
-
             @valid = false
             @errors = Hash(String, String).new
             validate!
+
+            @synaptic_layer_qty = hidden_layer_qty + 1
 
             @synaptic_layer_indexes = calc_synaptic_layer_indexes
             @time_col_indexes = calc_time_col_indexes
@@ -191,14 +202,15 @@ module Ai4cr
 
             @mini_net_set = init_mini_net_set
 
-            @error_total = 0.0
+            @error_distance = 0.0
+            @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
+            @error_distance_history = Array.new(0, 0.0)
+            @error_distance_history_score = 0.0
+
             @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }
 
             @input_set_given = Array(Array(Float64)).new
             @output_set_expected = Array(Array(Float64)).new
-            @io_pairs = Array(NamedTuple(
-              ins: Array(Array(Float64)),
-              outs: Array(Array(Float64)))).new
           end
 
           def valid?
@@ -277,7 +289,7 @@ module Ai4cr
               mn_output_size = node_output_sizes[li]
               time_col_indexes.map do |ti|
                 mn_input_size = node_input_sizes[li][ti].values.sum
-                MiniNet.new(
+                Cmn::MiniNet.new(
                   height: mn_input_size,
                   width: mn_output_size,
 

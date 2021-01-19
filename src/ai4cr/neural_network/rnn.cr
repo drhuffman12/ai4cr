@@ -1,9 +1,9 @@
 require "./learning_style.cr"
-require "./cmn/*"
+require "./rnn/*"
 
 module Ai4cr
   module NeuralNetwork
-    module Cmn # aka Connected MiniNets
+    module Rnn # aka RNN specific code
     end
   end
 end

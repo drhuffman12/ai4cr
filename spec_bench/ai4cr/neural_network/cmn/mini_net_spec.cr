@@ -1,5 +1,3 @@
-require "json"
-require "ascii_bar_charter"
 require "../../../spec_bench_helper"
 require "../../../support/neural_network/data/*"
 
@@ -28,10 +26,10 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
       qty_x_percent = qty // QTY_X_PERCENT_DENOMINATOR
 
       [
-        Ai4cr::NeuralNetwork::Cmn::LS_PRELU,
-        Ai4cr::NeuralNetwork::Cmn::LS_RELU,
-        Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID,
-        Ai4cr::NeuralNetwork::Cmn::LS_TANH,
+        Ai4cr::NeuralNetwork::LS_PRELU,
+        Ai4cr::NeuralNetwork::LS_RELU,
+        Ai4cr::NeuralNetwork::LS_SIGMOID,
+        Ai4cr::NeuralNetwork::LS_TANH,
       ].each do |learning_style|
         net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: 3, error_distance_history_max: 60, learning_style: learning_style)
 
@@ -44,13 +42,13 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
               case s
               when :tr
                 errors[:tr] = net.train(tr_input, is_a_triangle)
-                net.step_calculate_error_distance_history if i % qty_x_percent == 0
+                net.calculate_error_distance_history if i % qty_x_percent == 0
               when :sq
                 errors[:sq] = net.train(sq_input, is_a_square)
-                net.step_calculate_error_distance_history if i % qty_x_percent == 0
+                net.calculate_error_distance_history if i % qty_x_percent == 0
               when :cr
                 errors[:cr] = net.train(cr_input, is_a_cross)
-                net.step_calculate_error_distance_history if i % qty_x_percent == 0
+                net.calculate_error_distance_history if i % qty_x_percent == 0
               end
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -74,11 +72,11 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
           puts "\n--------\n"
 
           # describe "JSON (de-)serialization works" do
-          #   it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
+          #   it "@error_distance of the dumped net approximately matches @error_distance of the loaded net" do
           #     json = net.to_json
           #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(json)
 
-          #     assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total, 0.000000001
+          #     assert_approximate_equality_of_nested_list net.error_distance, net2.error_distance, 0.000000001
           #   end
 
           #   it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do

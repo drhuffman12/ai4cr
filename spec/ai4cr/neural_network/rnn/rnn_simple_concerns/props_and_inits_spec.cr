@@ -1,10 +1,10 @@
-require "./../../../../../spec_helper"
-require "./../../../../../spectator_helper"
+require "./../../../../spec_helper"
+require "./../../../../spectator_helper"
 
-Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits do
+Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits do
   describe "#initialize" do
     context "when NOT passing in any values" do
-      let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new }
+      let(rnn_simple) { Ai4cr::NeuralNetwork::Rnn::RnnSimple.new }
 
       it "has no errors" do
         expect(rnn_simple.errors.empty?).to be_true
@@ -78,7 +78,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits do
 
     context "when passing in hidden_size_given of 10" do
       let(hidden_size_given) { 10 }
-      let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new(hidden_size_given: hidden_size_given) }
+      let(rnn_simple) { Ai4cr::NeuralNetwork::Rnn::RnnSimple.new(hidden_size_given: hidden_size_given) }
 
       it "has no errors" do
         expect(rnn_simple.errors.empty?).to be_true
@@ -153,7 +153,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits do
     context "when passing in hidden_layer_qty of 2, hidden_size_given of 10" do
       let(hidden_layer_qty) { 2 }
       let(hidden_size_given) { 10 }
-      let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new(hidden_layer_qty: hidden_layer_qty, hidden_size_given: hidden_size_given) }
+      let(rnn_simple) { Ai4cr::NeuralNetwork::Rnn::RnnSimple.new(hidden_layer_qty: hidden_layer_qty, hidden_size_given: hidden_size_given) }
 
       it "has no errors" do
         expect(rnn_simple.errors.empty?).to be_true
@@ -239,7 +239,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits do
       let(time_col_qty) { 3 }
       let(hidden_layer_qty) { 2 }
       let(hidden_size_given) { 10 }
-      let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new(time_col_qty: time_col_qty, hidden_layer_qty: hidden_layer_qty, hidden_size_given: hidden_size_given) }
+      let(rnn_simple) { Ai4cr::NeuralNetwork::Rnn::RnnSimple.new(time_col_qty: time_col_qty, hidden_layer_qty: hidden_layer_qty, hidden_size_given: hidden_size_given) }
 
       it "has no errors" do
         expect(rnn_simple.errors.empty?).to be_true
@@ -334,20 +334,20 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::PropsAndInits do
     end
 
     # it "just some debugging" do # TODO: REMOVE before merging!
-    #   puts rnn_simple.to_pretty_json
+    #   # puts rnn_simple.to_pretty_json
 
     #   # rnn_simple.nodal_layer_indexes.map do |li|
     #   rnn_simple.synaptic_layer_indexes.map do |li|
     #     rnn_simple.time_col_indexes.map do |ti|
     #       # debug_info = {"li": li, "ti": ti, "rnn_simple.node_input_sizes[li][ti]": rnn_simple.node_input_sizes[li][ti]}
     #       debug_info = {"li": li, "ti": ti, "node_input_sizes": rnn_simple.node_input_sizes[li][ti]}
-    #       puts debug_info.to_json
+    #       # puts debug_info.to_json
     #     end
     #   end
     # end
 
     context "mini_net_set" do
-      let(rnn_simple) { Ai4cr::NeuralNetwork::Cmn::RnnSimple.new }
+      let(rnn_simple) { Ai4cr::NeuralNetwork::Rnn::RnnSimple.new }
 
       it "each are of the expected width and height" do
         rnn_simple.synaptic_layer_indexes.map do |li|

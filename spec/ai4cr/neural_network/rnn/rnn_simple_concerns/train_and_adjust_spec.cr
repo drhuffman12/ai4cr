@@ -1,7 +1,7 @@
-require "./../../../../../spec_helper"
-require "./../../../../../spectator_helper"
+require "./../../../../spec_helper"
+require "./../../../../spectator_helper"
 
-Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
+Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust do
   let(deriv_scale) { 0.1 }
   let(learning_rate) { 0.2 }
   let(momentum) { 0.3 }
@@ -38,7 +38,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
     ]
   }
   let(rnn_simple) {
-    rnn = Ai4cr::NeuralNetwork::Cmn::RnnSimple.new(
+    rnn = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new(
       deriv_scale: deriv_scale,
       learning_rate: learning_rate,
       momentum: momentum,
@@ -162,6 +162,12 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
         it "guesses expected outputs" do
           rnn_simple.train(input_set_given, output_set_expected)
 
+          puts
+          puts "rnn_simple.error_distance_history_score: #{rnn_simple.error_distance_history_score}"
+          puts "rnn_simple.error_distance_history: #{rnn_simple.error_distance_history}"
+          puts "rnn_simple.plot_error_distance_history: #{rnn_simple.plot_error_distance_history}"
+          puts
+
           assert_approximate_equality_of_nested_list(expected_outputs_guessed, rnn_simple.outputs_guessed)
         end
 
@@ -215,10 +221,10 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           expect(all_output_errors).to eq(expected_all_output_errors)
         end
 
-        it "returns expected error_total" do
-          error_total = rnn_simple.train(input_set_given, output_set_expected)
+        it "returns expected error_distance" do
+          error_distance = rnn_simple.train(input_set_given, output_set_expected)
 
-          expect(error_total).to eq(expected_error_total)
+          expect(error_distance).to eq(expected_error_total)
         end
       end
 
@@ -226,6 +232,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
         it "guesses expected outputs" do
           rnn_simple.train(input_set_given, output_set_expected)
           rnn_simple.train(input_set_given, output_set_expected)
+
+          puts
+          puts "rnn_simple.error_distance_history_score: #{rnn_simple.error_distance_history_score}"
+          puts "rnn_simple.error_distance_history: #{rnn_simple.error_distance_history}"
+          puts "rnn_simple.plot_error_distance_history: #{rnn_simple.plot_error_distance_history}"
+          puts
+
+          expect(rnn_simple.error_distance_history.first).to be >= rnn_simple.error_distance_history.last
 
           expect(rnn_simple.outputs_guessed).to eq(expected_outputs_guessed_2nd)
         end
@@ -296,7 +310,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           expect(after_output_errors).to eq(expected_all_output_errors_2nd)
         end
 
-        it "returns expected error_total" do
+        it "returns expected error_distance" do
           mid_error_total = rnn_simple.train(input_set_given, output_set_expected)
           expect(mid_error_total).to eq(expected_error_total)
 
@@ -310,6 +324,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           rnn_simple.train(input_set_given, output_set_expected)
           rnn_simple.train(input_set_given, output_set_expected)
           rnn_simple.train(input_set_given, output_set_expected)
+
+          puts
+          puts "rnn_simple.error_distance_history_score: #{rnn_simple.error_distance_history_score}"
+          puts "rnn_simple.error_distance_history: #{rnn_simple.error_distance_history}"
+          puts "rnn_simple.plot_error_distance_history: #{rnn_simple.plot_error_distance_history}"
+          puts
+
+          expect(rnn_simple.error_distance_history.first).to be >= rnn_simple.error_distance_history.last
 
           expect(rnn_simple.outputs_guessed).to eq(expected_outputs_guessed_3rd)
         end
@@ -328,7 +350,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           expect(after_output_errors).to eq(expected_all_output_errors_3rd)
         end
 
-        it "returns expected error_total" do
+        it "returns expected error_distance" do
           mid_error_total = rnn_simple.train(input_set_given, output_set_expected)
           expect(mid_error_total).to eq(expected_error_total)
 
@@ -351,11 +373,19 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
           n = 30
           n.times { rnn_simple.train(input_set_given, output_set_expected) }
 
+          # puts
+          # puts "n: #{n}"
+          # puts "output_set_expected: #{output_set_expected}"
+          # puts "rnn_simple.outputs_guessed: #{rnn_simple.outputs_guessed}"
+          # puts
+
           puts
-          puts "n: #{n}"
-          puts "output_set_expected: #{output_set_expected}"
-          puts "rnn_simple.outputs_guessed: #{rnn_simple.outputs_guessed}"
+          puts "rnn_simple.error_distance_history_score: #{rnn_simple.error_distance_history_score}"
+          puts "rnn_simple.error_distance_history: #{rnn_simple.error_distance_history}"
+          puts "rnn_simple.plot_error_distance_history: #{rnn_simple.plot_error_distance_history}"
           puts
+
+          expect(rnn_simple.error_distance_history.first).to be >= rnn_simple.error_distance_history.last
 
           # expect(rnn_simple.outputs_guessed).to eq(output_set_expected)
           assert_approximate_equality_of_nested_list(output_set_expected, rnn_simple.outputs_guessed, 0.01)
@@ -457,14 +487,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
         context "after #train" do
           pending "returns expected non-zero outputs (variation 1)" do
             # TODO: Why are these NOT all showing the same values for rnn_simple.all_mini_net_outputs?
-            rnn_simple.train(input_set_given, output_set_expected, debug_msg: "train (variation 1)")
+            rnn_simple.train(input_set_given, output_set_expected) # , debug_msg: "train (variation 1)")
 
-            puts
-            puts "TODO: Why are these NOT all showing the same values for rnn_simple.all_mini_net_outputs?"
-            puts "expected_all_mini_net_outputs_after: #{expected_all_mini_net_outputs_after.inspect}"
-            puts "expected_all_mini_net_outputs_after_training: #{expected_all_mini_net_outputs_after_training.inspect}"
-            puts "rnn_simple.all_mini_net_outputs: #{rnn_simple.all_mini_net_outputs.inspect}"
-            puts
+            # puts
+            # puts "TODO: Why are these NOT all showing the same values for rnn_simple.all_mini_net_outputs?"
+            # puts "expected_all_mini_net_outputs_after: #{expected_all_mini_net_outputs_after.inspect}"
+            # puts "expected_all_mini_net_outputs_after_training: #{expected_all_mini_net_outputs_after_training.inspect}"
+            # puts "rnn_simple.all_mini_net_outputs: #{rnn_simple.all_mini_net_outputs.inspect}"
+            # puts
             assert_approximate_equality_of_nested_list(expected_all_mini_net_outputs_after, rnn_simple.all_mini_net_outputs, delta_1_thousandths**3)
           end
         end
@@ -472,7 +502,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::RnnConcerns::TrainAndAdjust do
         context "after #train" do
           it "returns expected non-zero outputs (variation 2)" do
             # TODO: Why are these NOT all showing the same values for rnn_simple.all_mini_net_outputs?
-            rnn_simple.train(input_set_given, output_set_expected, debug_msg: "train (variation 2)")
+            rnn_simple.train(input_set_given, output_set_expected) # , debug_msg: "train (variation 2)")
 
             assert_approximate_equality_of_nested_list(expected_all_mini_net_outputs_after_training, rnn_simple.all_mini_net_outputs, delta_1_thousandths**3)
           end

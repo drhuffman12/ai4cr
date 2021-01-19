@@ -1,3 +1,4 @@
+# FROM crystallang/crystal:nightly-build
 FROM crystallang/crystal:nightly-alpine-build
 
 WORKDIR /app

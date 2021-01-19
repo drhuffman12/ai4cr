@@ -1,9 +1,8 @@
-require "json"
-require "ascii_bar_charter"
 require "../../../spec_bench_helper"
 require "../../../support/neural_network/data/*"
 
 describe Ai4cr::NeuralNetwork::Cmn::Chain do
+  # TODO: Review and then revise?/fix? Chain after Finishing Rnn!
   describe "#train" do
     hidden_size = 500
     describe "with a shape of [256,#{hidden_size},#{hidden_size},3]" do
@@ -30,9 +29,9 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         qty_x_percent = qty // QTY_X_PERCENT_DENOMINATOR
 
         describe "using net of types of: Sigmoid" do
-          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
+          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
+          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
 
           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
           arr << net0
@@ -54,16 +53,16 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
                   case s
                   when :tr
                     errors[:tr] = cns.train(tr_input, is_a_triangle)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   when :sq
                     errors[:sq] = cns.train(sq_input, is_a_square)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   when :cr
                     errors[:cr] = cns.train(cr_input, is_a_cross)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   end
                 end
                 error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -90,11 +89,11 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
               puts "\n--------\n"
 
               # describe "JSON (de-)serialization works" do
-              #   it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
+              #   it "@error_distance of the dumped net approximately matches @error_distance of the loaded net" do
               #     json = net.to_json
               #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(json)
 
-              #     assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total, 0.000000001
+              #     assert_approximate_equality_of_nested_list net.error_distance, net2.error_distance, 0.000000001
               #   end
 
               #   it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
@@ -187,9 +186,9 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         end
 
         describe "using net of types of: (mixed: Relu, Prelu, Sigmoid)" do
-          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
-          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_PRELU)
-          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_PRELU)
+          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
 
           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
           arr << net0
@@ -211,16 +210,16 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
                   case s
                   when :tr
                     errors[:tr] = cns.train(tr_input, is_a_triangle)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   when :sq
                     errors[:sq] = cns.train(sq_input, is_a_square)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   when :cr
                     errors[:cr] = cns.train(cr_input, is_a_cross)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   end
                 end
                 error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -246,11 +245,11 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
               puts "\n--------\n"
 
               # describe "JSON (de-)serialization works" do
-              #   it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
+              #   it "@error_distance of the dumped net approximately matches @error_distance of the loaded net" do
               #     json = net.to_json
               #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(json)
 
-              #     assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total, 0.000000001
+              #     assert_approximate_equality_of_nested_list net.error_distance, net2.error_distance, 0.000000001
               #   end
 
               #   it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
@@ -343,9 +342,9 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         end
 
         describe "using net of types of: (mixed: Relu, Relu, Sigmoid)" do
-          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
-          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
-          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
+          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
 
           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
           arr << net0
@@ -367,16 +366,16 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
                   case s
                   when :tr
                     errors[:tr] = cns.train(tr_input, is_a_triangle)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   when :sq
                     errors[:sq] = cns.train(sq_input, is_a_square)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   when :cr
                     errors[:cr] = cns.train(cr_input, is_a_cross)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   end
                 end
                 error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -402,11 +401,11 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
               puts "\n--------\n"
 
               # describe "JSON (de-)serialization works" do
-              #   it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
+              #   it "@error_distance of the dumped net approximately matches @error_distance of the loaded net" do
               #     json = net.to_json
               #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(json)
 
-              #     assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total, 0.000000001
+              #     assert_approximate_equality_of_nested_list net.error_distance, net2.error_distance, 0.000000001
               #   end
 
               #   it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
@@ -499,9 +498,9 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         end
 
         describe "using net of types of: (mixed: Relu, Relu, Relu)" do
-          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
-          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
-          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
+          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
 
           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
           arr << net0
@@ -523,16 +522,16 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
                   case s
                   when :tr
                     errors[:tr] = cns.train(tr_input, is_a_triangle)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   when :sq
                     errors[:sq] = cns.train(sq_input, is_a_square)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   when :cr
                     errors[:cr] = cns.train(cr_input, is_a_cross)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   end
                 end
                 error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -558,11 +557,11 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
               puts "\n--------\n"
 
               # describe "JSON (de-)serialization works" do
-              #   it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
+              #   it "@error_distance of the dumped net approximately matches @error_distance of the loaded net" do
               #     json = net.to_json
               #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(json)
 
-              #     assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total, 0.000000001
+              #     assert_approximate_equality_of_nested_list net.error_distance, net2.error_distance, 0.000000001
               #   end
 
               #   it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
@@ -655,9 +654,9 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         end
 
         describe "using net of types of: (mixed: Sigmoid, Relu, Relu)" do
-          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_SIGMOID)
-          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
-          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::Cmn::LS_RELU)
+          net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, error_distance_history_max: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
+          net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+          net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, error_distance_history_max: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
 
           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
           arr << net0
@@ -679,16 +678,16 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
                   case s
                   when :tr
                     errors[:tr] = cns.train(tr_input, is_a_triangle)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   when :sq
                     errors[:sq] = cns.train(sq_input, is_a_square)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   when :cr
                     errors[:cr] = cns.train(cr_input, is_a_cross)
-                    # net0.step_calculate_error_distance_history if i % qty_x_percent == 0
-                    cns.net_set.last.step_calculate_error_distance_history if i % qty_x_percent == 0
+                    # net0.calculate_error_distance_history if i % qty_x_percent == 0
+                    cns.net_set.last.calculate_error_distance_history if i % qty_x_percent == 0
                   end
                 end
                 error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -714,11 +713,11 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
               puts "\n--------\n"
 
               # describe "JSON (de-)serialization works" do
-              #   it "@calculated_error_total of the dumped net approximately matches @calculated_error_total of the loaded net" do
+              #   it "@error_distance of the dumped net approximately matches @error_distance of the loaded net" do
               #     json = net.to_json
               #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(json)
 
-              #     assert_approximate_equality_of_nested_list net.calculated_error_total, net2.calculated_error_total, 0.000000001
+              #     assert_approximate_equality_of_nested_list net.error_distance, net2.error_distance, 0.000000001
               #   end
 
               #   it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do

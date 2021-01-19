@@ -1,6 +1,3 @@
-require "json"
-require "./learning_style.cr"
-
 module Ai4cr
   module NeuralNetwork
     module Cmn
@@ -116,19 +113,19 @@ module Ai4cr
 
             index == index_max ? net.step_load_outputs(outputs_expected) : net.step_load_outputs(@net_set[index + 1].input_deltas)
 
-            net.step_calculate_error
+            net.calculate_error_distance
             net.step_backpropagate
           end
 
-          @net_set.last.error_total
+          @net_set.last.error_distance
         end
 
         def guesses_best
           @net_set.last.guesses_best
         end
 
-        def step_calculate_error_distance_history
-          @net_set.last.step_calculate_error_distance_history
+        def calculate_error_distance_history
+          @net_set.last.calculate_error_distance_history
         end
 
         def error_distance_history

@@ -1,6 +1,3 @@
-require "json"
-require "./../learning_style.cr"
-
 module Ai4cr
   module NeuralNetwork
     module Cmn
@@ -14,7 +11,6 @@ module Ai4cr
           property weights : Array(Array(Float64))
           property last_changes : Array(Array(Float64)) # aka previous weights
           property output_errors : Array(Float64)
-          property error_total : Float64
 
           property outputs_expected : Array(Float64)
 
@@ -27,9 +23,10 @@ module Ai4cr
           property learning_rate : Float64
           property momentum : Float64
 
-          # getter error_distance : Float64
+          getter error_distance : Float64
           getter error_distance_history_max : Int32
           getter error_distance_history : Array(Float64)
+          getter error_distance_history_score : Float64
 
           def initialize(
             @height, @width,
@@ -76,10 +73,10 @@ module Ai4cr
             @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
             @output_errors = @width_indexes.map { 0.0 }
 
-            @error_total = 0.0
+            @error_distance = 0.0
             @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-            # @error_distance = 0.0 # aka error_total
             @error_distance_history = Array.new(0, 0.0)
+            @error_distance_history_score = 0.0
           end
 
           def init_network(error_distance_history_max : Int32 = 10)
@@ -108,10 +105,10 @@ module Ai4cr
             @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
             @output_errors = @width_indexes.map { 0.0 }
 
-            @error_total = 0.0
+            @error_distance = 0.0
             @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-            # @error_distance = 0.0
             @error_distance_history = Array.new(0, 0.0)
+            @error_distance_history_score = 0.0
           end
 
           def structure

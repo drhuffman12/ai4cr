@@ -59,7 +59,7 @@ def train(net, ios_list, qty_loops)
     outs = ios[:outs]
     net.train(ins, outs)
     # puts net.error_distance_history
-    net.step_calculate_error_distance_history if i % qty_10_percent == 0 # if (i % ten_percent == 0)
+    net.calculate_error_distance_history if i % qty_10_percent == 0 # if (i % ten_percent == 0)
   end
   net.error_distance_history
 end

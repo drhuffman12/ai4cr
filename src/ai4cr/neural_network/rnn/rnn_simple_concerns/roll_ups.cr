@@ -1,9 +1,7 @@
-require "json"
-
 module Ai4cr
   module NeuralNetwork
-    module Cmn
-      module RnnConcerns
+    module Rnn
+      module RnnSimpleConcerns
         module RollUps
           def all_mini_net_outputs
             synaptic_layer_indexes.map do |li|
@@ -77,15 +75,17 @@ module Ai4cr
             end.flatten.sum
           end
 
-          def final_output_error_totals
+          def final_li_output_error_totals
             li = synaptic_layer_indexes.last
             time_col_indexes.map do |ti|
-              mini_net_set[li][ti].error_total
+              mini_net_set[li][ti].error_distance
             end
           end
 
-          def final_output_error_totals_radius
-            @error_total = final_output_error_totals.map { |e| 0.5*(e)**2 }.sum
+          def calculate_error_distance
+            @error_distance = final_li_output_error_totals.map { |e| 0.5*(e)**2 }.sum
+            calculate_error_distance_history
+            @error_distance
           end
 
           def all_output_errors
