@@ -1,12 +1,16 @@
 require "./../spec_helper"
 require "./../spectator_helper"
 
+class Breeder
+  include Ai4cr::BreedUtils
+end
+
 Spectator.describe Ai4cr::BreedUtils do
   let(parents1) { (-10..0).to_a.map { |i| i/10.0 } }
   let(parents2) { (0..10).to_a.map { |i| i/10.0 } }
 
   let(breeder) {
-    Ai4cr::Breeder.new
+    Breeder.new
   }
 
   describe "breed_value" do
@@ -66,6 +70,10 @@ Spectator.describe Ai4cr::BreedUtils do
 
       context "returns" do
         it "a Float64" do
+          # puts
+          # puts "given two Int32 values"
+          # puts
+
           child = breeder.breed_nested(parent_a, parent_b)
 
           expect(child).to be_a(Float64)
@@ -85,6 +93,10 @@ Spectator.describe Ai4cr::BreedUtils do
 
       context "returns" do
         it "a Float64" do
+          # puts
+          # puts "given two Float64 values"
+          # puts
+
           child = breeder.breed_nested(parent_a, parent_b)
 
           expect(child).to be_a(Float64)
@@ -104,6 +116,10 @@ Spectator.describe Ai4cr::BreedUtils do
 
       context "returns" do
         it "a Float64" do
+          # puts
+          # puts "given two Array(Float64) values"
+          # puts
+          
           child = breeder.breed_nested(parent_a, parent_b)
 
           expect(child).to be_a(Array(Float64))
@@ -127,6 +143,10 @@ Spectator.describe Ai4cr::BreedUtils do
 
     #   context "returns" do
     #     it "a Float64" do
+    #       # puts
+    #       # puts "given two Hash(String, Float64) values"
+    #       # puts
+          
     #       child = breeder.breed_nested(parent_a, parent_b)
 
     #       expect(child).to be_a(parent_a.class)
