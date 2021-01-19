@@ -1,4 +1,3 @@
-require "./rnn_training_indexes.cr"
 require "./rnn_simple_concerns/calc_guess.cr"
 require "./rnn_simple_concerns/props_and_inits.cr"
 require "./rnn_simple_concerns/train_and_adjust.cr"

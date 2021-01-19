@@ -1,9 +1,16 @@
+# require "./rnn_training_indexes.cr"
+
 module Ai4cr
   module NeuralNetwork
     module Rnn
+      alias RnnTrainingIndexes = NamedTuple(
+        training_in_indexes: Array(NamedTuple(i_from: Int32, i_to: Int32)),
+        training_out_indexes: Array(NamedTuple(i_from: Int32, i_to: Int32)),
+        next_eval_in_indexes: NamedTuple(i_from: Int32, i_to: Int32))
+
       module RnnSimpleConcerns
         module DataUtils
-          def indexes_for_training_and_eval(training_data) # training_data # : TrainingData
+          def indexes_for_training_and_eval(training_data) : RnnTrainingIndexes
             # TODO: slice up for easier more granular testing
             # This leads into io data via `training_data[from..to]`
 
