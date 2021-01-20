@@ -58,7 +58,8 @@ module Ai4cr
       puts "\n==== compare_training ====\n"
       compare_training
       puts "\n==== compare_learning ====\n"
-      compare_learning
+      # TODO: refactor Chain based on code cleanup doen for RnnSimple; then, refactor this test file (w/ Spectator)
+      # compare_learning
     end
 
     def compare_initialization
