@@ -16,10 +16,12 @@ module Ai4cr
         getter net_set_indexes_reversed : Array(Int32)
         getter weight_height_mismatches : Array(Hash(Symbol, Int32))
 
+        # getter error_stats : Ai4cr::ErrorStats
+
         # NOTE: When passing in the array for net_set,
         # .. if you're including just one type of MiniNet, e.g.:
-        #   net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 256, width: 300, error_distance_history_max: 60)
-        #   net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 300, width: 3, error_distance_history_max: 60)
+        #   net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 256, width: 300, history_size: 60)
+        #   net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 300, width: 3, history_size: 60)
         #
         # ... and you try to pass in like below, you'll get a type error:
         #   cns = Ai4cr::NeuralNetwork::Cmn::Chain.new([net0, net1])
@@ -113,23 +115,28 @@ module Ai4cr
 
             index == index_max ? net.step_load_outputs(outputs_expected) : net.step_load_outputs(@net_set[index + 1].input_deltas)
 
-            net.calculate_error_distance
+            # net.calculate_error_distance
             net.step_backpropagate
           end
 
-          @net_set.last.error_distance
+          @net_set.last.error_stats.distance
         end
 
         def guesses_best
           @net_set.last.guesses_best
         end
 
-        def calculate_error_distance_history
-          @net_set.last.calculate_error_distance_history
-        end
+        # def calculate_error_distance_history
+        #   # @net_set.last.calculate_error_distance_history
+        #   @net_set.last.error_stats.history
+        # end
 
-        def error_distance_history
-          @net_set.last.error_distance_history
+        # def error_stats.history
+        #   @net_set.last.error_stats.history
+        # end
+
+        def error_stats
+          @net_set.last.error_stats
         end
       end
     end

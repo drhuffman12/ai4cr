@@ -23,10 +23,18 @@ module Ai4cr
           property learning_rate : Float64
           property momentum : Float64
 
-          getter error_distance : Float64
-          getter error_distance_history_max : Int32
-          getter error_distance_history : Array(Float64)
-          getter error_distance_history_score : Float64
+          # getter error_stats.distance : Float64
+          # getter history_size : Int32
+          # getter error_stats.history : Array(Float64)
+          # getter error_stats.score : Float64
+          getter error_stats : Ai4cr::ErrorStats
+
+          include Ai4cr::BreedParent(self.class)
+
+          # RENAME: error_stats.distance => error_stats.distance
+          # RENAME: error_stats.history_size => error_stats.history_size
+          # RENAME: error_stats.history => error_stats.history
+          # RENAME: error_stats.score => error_stats.score
 
           def initialize(
             @height, @width,
@@ -42,8 +50,12 @@ module Ai4cr
             disable_bias : Bool? = nil, @bias_default = 1.0,
 
             learning_rate : Float64? = nil, momentum : Float64? = nil,
-            error_distance_history_max : Int32 = 10
+            history_size : Int32 = 10,
+
+            name_suffix = ""
           )
+            @name = init_name(name_suffix)
+
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
             @disable_bias = disable_bias.nil? ? false : !!disable_bias
 
@@ -73,13 +85,14 @@ module Ai4cr
             @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
             @output_errors = @width_indexes.map { 0.0 }
 
-            @error_distance = 0.0
-            @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-            @error_distance_history = Array.new(0, 0.0)
-            @error_distance_history_score = 0.0
+            # @error_stats.distance = 0.0
+            # @error_stats.history_size = (error_stats.history_size < 0 ? 0 : error_stats.history_size)
+            # @error_stats.history = Array.new(0, 0.0)
+            # @error_stats.score = 0.0
+            @error_stats = Ai4cr::ErrorStats.new(history_size)
           end
 
-          def init_network(error_distance_history_max : Int32 = 10)
+          def init_network(history_size : Int32 = 10)
             # init_network:
             @height_considering_bias = @height + (@disable_bias ? 0 : 1)
             @height_indexes = Array.new(@height_considering_bias) { |i| i }
@@ -105,10 +118,11 @@ module Ai4cr
             @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
             @output_errors = @width_indexes.map { 0.0 }
 
-            @error_distance = 0.0
-            @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-            @error_distance_history = Array.new(0, 0.0)
-            @error_distance_history_score = 0.0
+            # @error_stats.distance = 0.0
+            # @error_stats.history_size = (error_stats.history_size < 0 ? 0 : error_stats.history_size)
+            # @error_stats.history = Array.new(0, 0.0)
+            # @error_stats.score = 0.0
+            @error_stats = Ai4cr::ErrorStats.new(history_size)
           end
 
           def structure

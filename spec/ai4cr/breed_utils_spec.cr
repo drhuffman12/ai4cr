@@ -119,7 +119,7 @@ Spectator.describe Ai4cr::BreedUtils do
           # puts
           # puts "given two Array(Float64) values"
           # puts
-          
+
           child = breeder.breed_nested(parent_a, parent_b)
 
           expect(child).to be_a(Array(Float64))
@@ -146,7 +146,7 @@ Spectator.describe Ai4cr::BreedUtils do
     #       # puts
     #       # puts "given two Hash(String, Float64) values"
     #       # puts
-          
+
     #       child = breeder.breed_nested(parent_a, parent_b)
 
     #       expect(child).to be_a(parent_a.class)

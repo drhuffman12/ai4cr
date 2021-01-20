@@ -91,14 +91,18 @@ module Ai4cr
       # class Backpropagation
       include ::JSON::Serializable
 
+      # property name : String
+      include Ai4cr::BreedParent(self.class)
+
       property structure, disable_bias, learning_rate, momentum
       property weights, last_changes, activation_nodes
-      property error_distance : Float64
+      # property error_stats.distance : Float64
       getter height, hidden_qty, width, deltas
 
       property expected_outputs : Array(Float64)
-      property error_distance_history_max : Int32
-      property error_distance_history : Array(Float64)
+      # property history_size : Int32
+      # property error_stats.history : Array(Float64)
+      getter error_stats : Ai4cr::ErrorStats
 
       # Creates a new network specifying the its architecture.
       # E.g.
@@ -155,8 +159,11 @@ module Ai4cr
         disable_bias : Bool? = nil,
         learning_rate : Float64? = nil,
         momentum : Float64? = nil,
-        error_distance_history_max : Int32 = 10
+        history_size : Int32 = 10,
+        name_suffix = ""
       )
+        @name = init_name(name_suffix)
+
         @disable_bias = !!disable_bias # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
         @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? 0.25 : learning_rate.as(Float64)
         @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : 0.1
@@ -176,12 +183,13 @@ module Ai4cr
           (0..(@structure[idl] - 1)).to_a.map { 0.0 }
         end
 
-        @error_distance = 0.0
-
         @expected_outputs = Array.new(width, 0.0)
-        @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-        @error_distance_history = Array.new(0, 0.0)
-        @error_distance_history_score = 0.0
+
+        # @error_stats.distance = 0.0
+        # @error_stats.history_size = (error_stats.history_size < 0 ? 0 : error_stats.history_size)
+        # @error_stats.history = Array.new(0, 0.0)
+        # @error_stats.score = 0.0
+        @error_stats = Ai4cr::ErrorStats.new(history_size)
 
         init_network
       end
@@ -229,15 +237,16 @@ module Ai4cr
 
       # Initialize (or reset) activation nodes and weights, with the
       # provided net structure and parameters.
-      def init_network
+      def init_network(history_size = 10)
         init_activation_nodes
         init_weights
         init_last_changes
 
-        @expected_outputs = Array.new(width, 0.0)
-        @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-        @error_distance_history = Array.new(0, 0.0)
-        @error_distance_history_score = 0.0
+        # @expected_outputs = Array.new(width, 0.0)
+        # @error_stats.history_size = (error_stats.history_size < 0 ? 0 : error_stats.history_size)
+        # @error_stats.history = Array.new(0, 0.0)
+        # @error_stats.score = 0.0
+        @error_stats = Ai4cr::ErrorStats.new(history_size)
 
         self
       end
@@ -364,31 +373,31 @@ module Ai4cr
         @expected_outputs.each_with_index do |_elem, output_index|
           error += 0.5*(output_values[output_index] - @expected_outputs[output_index])**2
         end
-        @error_distance = error
-        calculate_error_distance_history
-        @error_distance
+        @error_stats.distance = error
+        # calculate_error_distance_history
+        @error_stats.distance
       end
 
       # Calculate the radius of the error as if each output cell is an value in a coordinate set
-      def calculate_error_distance_history
-        # @error_distance_history_max = error_distance_history_max
-        return @error_distance_history = [-1.0] if @error_distance_history_max < 1
+      # def calculate_error_distance_history
+      #   # @error_stats.history_size = error_stats.history_size
+      #   return @error_stats.history = [-1.0] if @error_stats.history_size < 1
 
-        if @error_distance_history.size < @error_distance_history_max - 1
-          # Array not 'full' yet, so add latest value to end
-          @error_distance_history << @error_distance
-        else
-          # Array 'full', so rotate end to front and then put new value at last index
-          @error_distance_history.rotate!
-          @error_distance_history[-1] = @error_distance
-        end
+      #   if @error_stats.history.size < @error_stats.history_size - 1
+      #     # Array not 'full' yet, so add latest value to end
+      #     @error_stats.history << @error_stats.distance
+      #   else
+      #     # Array 'full', so rotate end to front and then put new value at last index
+      #     @error_stats.history.rotate!
+      #     @error_stats.history[-1] = @error_stats.distance
+      #   end
 
-        @error_distance_history_score = error_distance_history.map_with_index do |e, i|
-          e / (2.0 ** (@error_distance_history_max - i))
-        end.sum
+      #   @error_stats.score = error_stats.history.map_with_index do |e, i|
+      #     e / (2.0 ** (@error_stats.history_size - i))
+      #   end.sum
 
-        @error_distance_history
-      end
+      #   @error_stats.history
+      # end
 
       def check_input_dimension(inputs)
         if inputs != @structure.first

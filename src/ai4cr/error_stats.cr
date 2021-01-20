@@ -3,21 +3,31 @@ module Ai4cr
     include ::JSON::Serializable
 
     # TODO: Update other clases so as to use ErrorStats, e.g.: replace usage as shown...
-    #   error_distance_history_max   => history_size
-    #   error_distance               => distance
-    #   error_distance_history       => history
-    #   error_distance_history_score => score
-    
+    #   error_stats.history_size   => history_size
+    #   error_stats.distance               => distance
+    #   error_stats.history       => history
+    #   error_stats.score => score
+
     # Must init @score, so set it big enough but not too big (so ErrorStats works w/ to/from JSON)
-    INITIAL_SCORE = Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Float64::MAX))))
-    
+    INITIAL_SCORE        = Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Float64::MAX))))
+    DEFAULT_HISTORY_SIZE = 10
+
     getter history_size : Int32
     getter distance : Float64
     getter history : Array(Float64)
     getter score : Float64
 
-    def initialize(@history_size = 10)
-      raise "Invalid size" if history_size < 0
+    def initialize(history_size = DEFAULT_HISTORY_SIZE)
+      @history_size = case
+                      when history_size.nil?
+                        DEFAULT_HISTORY_SIZE
+                      when history_size < 0
+                        raise "Invalid history_size; must be positive."
+                      else
+                        history_size
+                      end
+
+      DEFAULT_HISTORY_SIZE
 
       @distance = -1.0
       @history = Array(Float64).new
@@ -47,7 +57,7 @@ module Ai4cr
     end
 
     private def update_history
-      if @history.size < @history_size  #- 1
+      if @history.size < @history_size # - 1
         # Array not 'full' yet, so add latest value to end
         @history << @distance
       else

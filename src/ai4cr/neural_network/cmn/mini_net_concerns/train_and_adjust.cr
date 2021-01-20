@@ -15,7 +15,7 @@ module Ai4cr
             step_calc_output_errors
             step_backpropagate
 
-            # @error_distance
+            # @error_stats.distance
             calculate_error_distance
           end
 
@@ -30,30 +30,30 @@ module Ai4cr
             # @outputs_expected.each_with_index do |oe, iw|
             #   error += 0.5*(oe - @outputs_guessed[iw])**2
             # end
-            # @error_distance = error
-            @error_distance = @output_errors.map { |e| 0.5 * e ** 2 }.sum
+            # @error_stats.distance = error
+            @error_stats.distance = @output_errors.map { |e| 0.5 * e ** 2 }.sum
 
-            calculate_error_distance_history
-            @error_distance
+            # calculate_error_distance_history
+            @error_stats.distance
           end
 
           # # Calculate the radius of the error as if each output cell is an value in a coordinate set
           # def calculate_error_distance_history
-          #   return @error_distance_history = [-1.0] if @error_distance_history_max < 1
-          #   if @error_distance_history.size < @error_distance_history_max - 1
+          #   return @error_stats.history = [-1.0] if @error_stats.history_size < 1
+          #   if @error_stats.history.size < @error_stats.history_size - 1
           #     # Array not 'full' yet, so add latest value to end
-          #     @error_distance_history << @error_distance
+          #     @error_stats.history << @error_stats.distance
           #   else
           #     # Array 'full', so rotate end to front and then put new value at last index
-          #     @error_distance_history.rotate!
-          #     @error_distance_history[-1] = @error_distance
+          #     @error_stats.history.rotate!
+          #     @error_stats.history[-1] = @error_stats.distance
           #   end
 
-          #   @error_distance_history_score = error_distance_history.map_with_index do |e, i|
-          #     e / (2.0 ** (@error_distance_history_max - i))
+          #   @error_stats.score = error_stats.history.map_with_index do |e, i|
+          #     e / (2.0 ** (@error_stats.history_size - i))
           #   end.sum
 
-          #   @error_distance_history
+          #   @error_stats.history
           # end
 
           # def plot_error_distance_history(
@@ -65,7 +65,7 @@ module Ai4cr
           #   reversed = false,
           # )
           #   charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
-          #   plot = charter.plot(net.error_distance_history, prefixed)
+          #   plot = charter.plot(net.error_stats.history, prefixed)
           # end
 
           def step_backpropagate

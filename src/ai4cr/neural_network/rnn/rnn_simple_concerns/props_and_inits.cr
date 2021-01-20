@@ -63,10 +63,11 @@ module Ai4cr
 
           property mini_net_set : Array(Array(Cmn::MiniNet))
 
-          getter error_distance : Float64
-          getter error_distance_history_max : Int32
-          getter error_distance_history : Array(Float64)
-          getter error_distance_history_score : Float64
+          # getter error_stats.distance : Float64
+          # getter history_size : Int32
+          # getter error_stats.history : Array(Float64)
+          # getter error_stats.score : Float64
+          getter error_stats : Ai4cr::ErrorStats
 
           getter all_output_errors : Array(Array(Float64))
 
@@ -122,7 +123,7 @@ module Ai4cr
             momentum : Float64? = nil,
             @deriv_scale = rand / 2.0, # for Prelu
 
-            error_distance_history_max : Int32 = 10
+            history_size : Int32 = 10
           )
             # # init_network
 
@@ -158,10 +159,11 @@ module Ai4cr
 
             @mini_net_set = init_mini_net_set
 
-            @error_distance = 0.0
-            @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-            @error_distance_history = Array.new(0, 0.0)
-            @error_distance_history_score = 0.0
+            # @error_stats.distance = 0.0
+            # @error_stats.history_size = (error_stats.history_size < 0 ? 0 : error_stats.history_size)
+            # @error_stats.history = Array.new(0, 0.0)
+            # @error_stats.score = 0.0
+            @error_stats = Ai4cr::ErrorStats.new(history_size)
 
             @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }
 
@@ -202,10 +204,11 @@ module Ai4cr
 
             @mini_net_set = init_mini_net_set
 
-            @error_distance = 0.0
-            @error_distance_history_max = (error_distance_history_max < 0 ? 0 : error_distance_history_max)
-            @error_distance_history = Array.new(0, 0.0)
-            @error_distance_history_score = 0.0
+            # @error_stats.distance = 0.0
+            # @error_stats.history_size = (error_stats.history_size < 0 ? 0 : error_stats.history_size)
+            # @error_stats.history = Array.new(0, 0.0)
+            # @error_stats.score = 0.0
+            @error_stats = Ai4cr::ErrorStats.new(history_size)
 
             @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }
 

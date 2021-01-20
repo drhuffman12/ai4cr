@@ -80,7 +80,7 @@ Spectator.describe Ai4cr::ErrorStats do
         context "and re-exported to_json" do
           it "returns json matching original converted to_json" do
             error_stats.distance = given_value
-            
+
             expect(Ai4cr::ErrorStats.from_json(to_json).to_json).to eq(expected_later_json)
           end
         end
@@ -108,7 +108,7 @@ Spectator.describe Ai4cr::ErrorStats do
 
         it "returns expected string" do
           plot = error_stats.plot_error_distance_history(in_bw: true).clone
-          
+
           # puts plot
 
           expect(plot).to eq(expected_plot_first_4)
@@ -116,7 +116,7 @@ Spectator.describe Ai4cr::ErrorStats do
 
         it "plot size is less than history_size" do
           plot = error_stats.plot_error_distance_history(in_bw: true).clone
-          
+
           # puts plot
           expect(plot.size).to be < error_stats.history_size
         end
@@ -131,7 +131,7 @@ Spectator.describe Ai4cr::ErrorStats do
 
         it "returns expected string" do
           plot = error_stats.plot_error_distance_history(in_bw: true).clone
-          
+
           # puts plot
 
           expect(plot).to eq(expected_plot_all)
@@ -139,7 +139,7 @@ Spectator.describe Ai4cr::ErrorStats do
 
         it "plot size maxes out at history_size" do
           plot = error_stats.plot_error_distance_history(in_bw: true).clone
-          
+
           # puts plot
           expect(plot.size).to eq(error_stats.history_size)
         end

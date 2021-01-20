@@ -21,7 +21,7 @@ module Ai4cr
 
           #     mini_net_set[li][ti].calculate_error_distance
           #   end
-          #   # error_distance
+          #   # error_stats.distance
           #   calculate_error_distance
           # end
 
