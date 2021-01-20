@@ -1,8 +1,8 @@
 module Ai4cr
   module NeuralNetwork
     module Cmn
-      # module ConnectedNetSet
       class Chain
+        # Chain of ConnectableNetSets
         # NOTE: The first net should have a bias; the others should not.
         # TODO: Force bias only on 1st and none on others
 
@@ -10,14 +10,13 @@ module Ai4cr
 
         include Ai4cr::BreedParent(self.class)
 
-        # use_json_discriminator learning_style
-
         getter structure : Array(Int32)
         property net_set : Array(MiniNet)
         getter net_set_size : Int32
         getter net_set_indexes_reversed : Array(Int32)
         getter weight_height_mismatches : Array(Hash(Symbol, Int32))
 
+        # This clas doesn't need an 'error_stats' variable; instead, it relies on that of the last node.
         # getter error_stats : Ai4cr::ErrorStats
 
         # NOTE: When passing in the array for net_set,
@@ -35,10 +34,9 @@ module Ai4cr
         #
         # ... and then pass it in like:
         #   cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
-        def initialize(@net_set,
-          name_suffix = ""
-        )
+        def initialize(@net_set, name_suffix = "")
           @name = init_name(name_suffix)
+
           @structure = calc_structure
           @net_set_size = @net_set.size
           @net_set_indexes_reversed = Array.new(@net_set_size) { |i| @net_set_size - i - 1 }
@@ -120,7 +118,6 @@ module Ai4cr
 
             index == index_max ? net.step_load_outputs(outputs_expected) : net.step_load_outputs(@net_set[index + 1].input_deltas)
 
-            # net.calculate_error_distance
             net.step_backpropagate
           end
 
@@ -130,15 +127,6 @@ module Ai4cr
         def guesses_best
           @net_set.last.guesses_best
         end
-
-        # def calculate_error_distance_history
-        #   # @net_set.last.calculate_error_distance_history
-        #   @net_set.last.error_stats.history
-        # end
-
-        # def error_stats.history
-        #   @net_set.last.error_stats.history
-        # end
 
         def error_stats
           @net_set.last.error_stats

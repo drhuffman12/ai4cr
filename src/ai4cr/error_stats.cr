@@ -2,14 +2,10 @@ module Ai4cr
   class ErrorStats
     include ::JSON::Serializable
 
-    # TODO: Update other clases so as to use ErrorStats, e.g.: replace usage as shown...
-    #   error_stats.history_size   => history_size
-    #   error_stats.distance               => distance
-    #   error_stats.history       => history
-    #   error_stats.score => score
-
     # Must init @score, so set it big enough but not too big (so ErrorStats works w/ to/from JSON)
-    INITIAL_SCORE        = Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Float64::MAX))))
+    # INITIAL_SCORE        = Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Float64::MAX))))
+    INITIAL_SCORE = Float64::MAX ** (1.0/16)
+
     DEFAULT_HISTORY_SIZE = 10
 
     getter history_size : Int32

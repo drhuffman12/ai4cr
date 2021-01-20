@@ -21,7 +21,6 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
       sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
       cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-      # net.learning_rate = rand
       qty = MULTI_TYPE_TEST_QTY
       qty_x_percent = qty // QTY_X_PERCENT_DENOMINATOR
 
@@ -42,13 +41,10 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
               case s
               when :tr
                 errors[:tr] = net.train(tr_input, is_a_triangle)
-                # net.calculate_error_distance_history if i % qty_x_percent == 0
               when :sq
                 errors[:sq] = net.train(sq_input, is_a_square)
-                # net.calculate_error_distance_history if i % qty_x_percent == 0
               when :cr
                 errors[:cr] = net.train(cr_input, is_a_cross)
-                # net.calculate_error_distance_history if i % qty_x_percent == 0
               end
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0

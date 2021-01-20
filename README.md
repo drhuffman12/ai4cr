@@ -94,7 +94,7 @@ puts "a,b,c == #{[a, b, c]}"
 
 ## Roadmap
 
-- [x] Generate an error history plot using `AsciiBarCharter` and `error_distance_history` , e.g.:
+- [x] Generate an error history plot using `AsciiBarCharter` and `ErrorStats#history` , e.g.:
 ```
 plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
 ```
@@ -112,7 +112,7 @@ plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
     - [x] JSON importable/exportable
     - [x] can use various 'Learning Styles'
     - [ ] (?) move 'Learning Styles'-specific methods from MiniNet into Enum
-  - [ ] misc Connected Net Sets (WIP)
+  - [ ] misc Connectable Net Sets (WIP)
     - [x] Chain
     - [ ] RNN
       - [x] RnnSimple

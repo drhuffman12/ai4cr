@@ -110,13 +110,9 @@ module Ai4cr
         net.init_network
         training_io_indexes.each do |i|
           net.train(example_input_set[i], example_output_set[i])
-          # if i % graph_sample_percent == 0
-          #   net.calculate_error_distance_history
-          # end
         end
         name = net_name.nil? ? net.learning_style : net_name
         plot_errors(name, net)
-        # plot_errors(net.learning_style, net)
       end
     end
   end

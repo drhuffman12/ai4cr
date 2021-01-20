@@ -63,21 +63,12 @@ module Ai4cr
 
           property mini_net_set : Array(Array(Cmn::MiniNet))
 
-          # getter error_stats.distance : Float64
-          # getter history_size : Int32
-          # getter error_stats.history : Array(Float64)
-          # getter error_stats.score : Float64
           getter error_stats : Ai4cr::ErrorStats
 
           getter all_output_errors : Array(Array(Float64))
 
           getter input_set_given : Array(Array(Float64))
           getter output_set_expected : Array(Array(Float64))
-
-          # property io_pairs : TrainingData
-          # property io_pairs : NamedTuple(training_ins: Array(Array(Array(Float64))), training_outs: Array(Array(Array(Float64))), next_eval_ins: Array(Array(Float64)))
-
-          # getter training_ins
 
           # TODO: Handle usage of a 'structure' param in 'initialize'
           # def initialize(@time_col_qty = TIME_COL_QTY_MIN, @structure = [INPUT_SIZE_MIN, OUTPUT_SIZE_MIN])
@@ -127,7 +118,7 @@ module Ai4cr
             name_suffix = ""
           )
             @name = init_name(name_suffix)
-            
+
             # # init_network
 
             # TODO: Handle differing hidden layer output sizes
@@ -162,10 +153,6 @@ module Ai4cr
 
             @mini_net_set = init_mini_net_set
 
-            # @error_stats.distance = 0.0
-            # @error_stats.history_size = (error_stats.history_size < 0 ? 0 : error_stats.history_size)
-            # @error_stats.history = Array.new(0, 0.0)
-            # @error_stats.score = 0.0
             @error_stats = Ai4cr::ErrorStats.new(history_size)
 
             @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }
@@ -207,10 +194,6 @@ module Ai4cr
 
             @mini_net_set = init_mini_net_set
 
-            # @error_stats.distance = 0.0
-            # @error_stats.history_size = (error_stats.history_size < 0 ? 0 : error_stats.history_size)
-            # @error_stats.history = Array.new(0, 0.0)
-            # @error_stats.score = 0.0
             @error_stats = Ai4cr::ErrorStats.new(history_size)
 
             @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }

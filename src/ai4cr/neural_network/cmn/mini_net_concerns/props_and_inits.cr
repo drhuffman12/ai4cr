@@ -23,18 +23,9 @@ module Ai4cr
           property learning_rate : Float64
           property momentum : Float64
 
-          # getter error_stats.distance : Float64
-          # getter history_size : Int32
-          # getter error_stats.history : Array(Float64)
-          # getter error_stats.score : Float64
           getter error_stats : Ai4cr::ErrorStats
 
           include Ai4cr::BreedParent(self.class)
-
-          # RENAME: error_stats.distance => error_stats.distance
-          # RENAME: error_stats.history_size => error_stats.history_size
-          # RENAME: error_stats.history => error_stats.history
-          # RENAME: error_stats.score => error_stats.score
 
           def initialize(
             @height, @width,
@@ -84,10 +75,6 @@ module Ai4cr
             @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
             @output_errors = @width_indexes.map { 0.0 }
 
-            # @error_stats.distance = 0.0
-            # @error_stats.history_size = (error_stats.history_size < 0 ? 0 : error_stats.history_size)
-            # @error_stats.history = Array.new(0, 0.0)
-            # @error_stats.score = 0.0
             @error_stats = Ai4cr::ErrorStats.new(history_size)
           end
 
@@ -117,10 +104,6 @@ module Ai4cr
             @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
             @output_errors = @width_indexes.map { 0.0 }
 
-            # @error_stats.distance = 0.0
-            # @error_stats.history_size = (error_stats.history_size < 0 ? 0 : error_stats.history_size)
-            # @error_stats.history = Array.new(0, 0.0)
-            # @error_stats.score = 0.0
             @error_stats = Ai4cr::ErrorStats.new(history_size)
           end
 

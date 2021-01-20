@@ -8,15 +8,13 @@ Spectator.describe Ai4cr::ErrorStats do
   let(expected_initial_distance) { -1.0 }
 
   let(expected_initial_score) {
-    # Float64::MAX / (2.0)*4
-    # Math.sqrt(Float64::MAX) # 2.0**16
-    1.844674407370955e+19
+    1.8446744073709552e+19 # Float64::MAX ** (1.0/16)
   }
   let(expected_initial_history) {
     [] of Float64
   }
   let(to_json) { error_stats.to_json }
-  let(expected_initial_json) { "{\"history_size\":8,\"distance\":-1.0,\"history\":[],\"score\":1.844674407370955e+19}" }
+  let(expected_initial_json) { "{\"history_size\":8,\"distance\":-1.0,\"history\":[],\"score\":1.8446744073709552e+19}" }
   let(expected_later_json) { "{\"history_size\":8,\"distance\":10.0,\"history\":[10.0],\"score\":5.0}" }
 
   describe "#initialize" do

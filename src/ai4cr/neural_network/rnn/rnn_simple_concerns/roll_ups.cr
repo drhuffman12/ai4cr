@@ -67,25 +67,12 @@ module Ai4cr
             end
           end
 
-          def calculate_error_distance
-            @error_stats.distance = final_li_output_error_distances.map { |e| 0.5*(e)**2 }.sum
-            # calculate_error_distance_history
-            # @error_stats.distance
-          end
-
           def all_error_distance_radius
             synaptic_layer_indexes.map do |li|
               time_col_indexes.map do |ti|
                 0.5*(all_error_distances[li][ti])**2
               end
             end.flatten.sum
-          end
-
-          def final_li_output_error_distances
-            li = synaptic_layer_indexes.last
-            time_col_indexes.map do |ti|
-              mini_net_set[li][ti].error_stats.distance
-            end
           end
 
           def all_output_errors

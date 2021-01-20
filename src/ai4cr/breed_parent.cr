@@ -1,7 +1,6 @@
 require "json"
 require "./error_stats.cr"
 
-# include Ai4cr::BreedParent(T)
 module Ai4cr
   module BreedParent(T)
     getter name : String

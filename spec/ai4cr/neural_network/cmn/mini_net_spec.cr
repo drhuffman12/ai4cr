@@ -15,14 +15,11 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
           "width_indexes", "height_indexes",
           "inputs_given", "outputs_guessed",
           "weights", "last_changes",
-          # "error_stats.distance",
           "error_stats",
           "outputs_expected",
           "input_deltas", "output_deltas",
           "disable_bias", "learning_rate",
           "momentum",
-          # "error_stats.history_size",
-          # "error_stats.history",
           "learning_style", "deriv_scale",
         ]
 

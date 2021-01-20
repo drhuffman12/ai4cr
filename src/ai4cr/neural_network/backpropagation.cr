@@ -91,17 +91,14 @@ module Ai4cr
       # class Backpropagation
       include ::JSON::Serializable
 
-      # property name : String
       include Ai4cr::BreedParent(self.class)
 
       property structure, disable_bias, learning_rate, momentum
       property weights, last_changes, activation_nodes
-      # property error_stats.distance : Float64
       getter height, hidden_qty, width, deltas
 
       property expected_outputs : Array(Float64)
-      # property history_size : Int32
-      # property error_stats.history : Array(Float64)
+
       getter error_stats : Ai4cr::ErrorStats
 
       # Creates a new network specifying the its architecture.
@@ -134,10 +131,6 @@ module Ai4cr
         @structure.last.to_i
       end
 
-      # def deltas
-      #   @structure.last.to_i
-      # end
-
       def initial_weight_function
         ->(_n : Int32, _i : Int32, _j : Int32) { 2*rand - 1 }
       end
@@ -167,28 +160,18 @@ module Ai4cr
         @disable_bias = !!disable_bias # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
         @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? 0.25 : learning_rate.as(Float64)
         @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : 0.1
+
         # Below are set via #init_network, but must be initialized in the 'initialize' method to avoid being nilable:
         @activation_nodes = [[0.0]]
         @weights = [[[0.0]]]
         @last_changes = [[[0.0]]]
-        # @deltas = [[0.0]]
-        # hidden_layer_count = (@structure.size - 2)
-        # @deltas = hidden_layer_count.last.times.to_a.map_with_index { @structure.last.times.to_a.map { 0.0 } }
 
-        # hidden_layer_count = (@structure.size - 2)
-        # @deltas = (hidden_layer_count.downto(0).to_a.map do |idl|
-        #   ((0..@structure[idl+1]).to_a.map { |idc| 0.0 }).as(Array((Float64)))
-        # end).as(Array(Array(Float64)))
         @deltas = (@structure.size - 1).downto(1).to_a.map do |idl|
           (0..(@structure[idl] - 1)).to_a.map { 0.0 }
         end
 
         @expected_outputs = Array.new(width, 0.0)
 
-        # @error_stats.distance = 0.0
-        # @error_stats.history_size = (error_stats.history_size < 0 ? 0 : error_stats.history_size)
-        # @error_stats.history = Array.new(0, 0.0)
-        # @error_stats.score = 0.0
         @error_stats = Ai4cr::ErrorStats.new(history_size)
 
         init_network
@@ -242,10 +225,6 @@ module Ai4cr
         init_weights
         init_last_changes
 
-        # @expected_outputs = Array.new(width, 0.0)
-        # @error_stats.history_size = (error_stats.history_size < 0 ? 0 : error_stats.history_size)
-        # @error_stats.history = Array.new(0, 0.0)
-        # @error_stats.score = 0.0
         @error_stats = Ai4cr::ErrorStats.new(history_size)
 
         self
@@ -374,30 +353,8 @@ module Ai4cr
           error += 0.5*(output_values[output_index] - @expected_outputs[output_index])**2
         end
         @error_stats.distance = error
-        # calculate_error_distance_history
         @error_stats.distance
       end
-
-      # Calculate the radius of the error as if each output cell is an value in a coordinate set
-      # def calculate_error_distance_history
-      #   # @error_stats.history_size = error_stats.history_size
-      #   return @error_stats.history = [-1.0] if @error_stats.history_size < 1
-
-      #   if @error_stats.history.size < @error_stats.history_size - 1
-      #     # Array not 'full' yet, so add latest value to end
-      #     @error_stats.history << @error_stats.distance
-      #   else
-      #     # Array 'full', so rotate end to front and then put new value at last index
-      #     @error_stats.history.rotate!
-      #     @error_stats.history[-1] = @error_stats.distance
-      #   end
-
-      #   @error_stats.score = error_stats.history.map_with_index do |e, i|
-      #     e / (2.0 ** (@error_stats.history_size - i))
-      #   end.sum
-
-      #   @error_stats.history
-      # end
 
       def check_input_dimension(inputs)
         if inputs != @structure.first
