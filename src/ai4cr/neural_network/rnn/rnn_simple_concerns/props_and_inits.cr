@@ -123,8 +123,11 @@ module Ai4cr
             momentum : Float64? = nil,
             @deriv_scale = rand / 2.0, # for Prelu
 
-            history_size : Int32 = 10
+            history_size : Int32 = 10,
+            name_suffix = ""
           )
+            @name = init_name(name_suffix)
+            
             # # init_network
 
             # TODO: Handle differing hidden layer output sizes

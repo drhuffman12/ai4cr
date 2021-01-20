@@ -9,6 +9,8 @@ module Ai4cr
       # module MiniNet
       class MiniNet
         include JSON::Serializable
+        
+        include Ai4cr::BreedParent(self.class)
 
         # use_json_discriminator learning_style
 

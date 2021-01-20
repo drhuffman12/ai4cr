@@ -51,7 +51,6 @@ module Ai4cr
 
             learning_rate : Float64? = nil, momentum : Float64? = nil,
             history_size : Int32 = 10,
-
             name_suffix = ""
           )
             @name = init_name(name_suffix)

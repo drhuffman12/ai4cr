@@ -8,6 +8,8 @@ module Ai4cr
 
         include JSON::Serializable
 
+        include Ai4cr::BreedParent(self.class)
+
         # use_json_discriminator learning_style
 
         getter structure : Array(Int32)
@@ -33,7 +35,10 @@ module Ai4cr
         #
         # ... and then pass it in like:
         #   cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
-        def initialize(@net_set)
+        def initialize(@net_set,
+          name_suffix = ""
+        )
+          @name = init_name(name_suffix)
           @structure = calc_structure
           @net_set_size = @net_set.size
           @net_set_indexes_reversed = Array.new(@net_set_size) { |i| @net_set_size - i - 1 }

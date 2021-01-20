@@ -12,6 +12,8 @@ module Ai4cr
       class RnnSimple
         # Simple RNN w/ inputs, hidden forward-feeding recurrent layer(s), outputs, and some other params
         include JSON::Serializable
+        
+        include Ai4cr::BreedParent(self.class)
 
         include RnnSimpleConcerns::PropsAndInits
         include RnnSimpleConcerns::CalcGuess
