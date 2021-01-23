@@ -12,7 +12,7 @@ module Ai4cr
 
         include JSON::Serializable
 
-        include Ai4cr::BreedParent(self.class)
+        # include Ai4cr::BreedParent(self.class)
 
         include RnnSimpleConcerns::PropsAndInits
         include RnnSimpleConcerns::CalcGuess

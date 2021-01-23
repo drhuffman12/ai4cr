@@ -22,6 +22,8 @@ module Ai4cr
           OUTPUT_SIZE_MIN       = 1
           HIDDEN_SIZE_GIVEN_MIN = INPUT_SIZE_MIN + OUTPUT_SIZE_MIN
 
+          # include Ai4cr::BreedParent
+
           getter io_offset : Int32
           getter time_col_qty : Int32
 
@@ -115,9 +117,9 @@ module Ai4cr
             @deriv_scale = rand / 2.0, # for Prelu
 
             history_size : Int32 = 10,
-            name_suffix = ""
+            # name_suffix = ""
           )
-            @name = init_name(name_suffix)
+            # @name = init_name(name_suffix)
 
             # # init_network
 

@@ -87,19 +87,19 @@ Spectator.describe Ai4cr::ErrorStats do
   end
 
   describe "#plot_error_distance_history" do
-    let(given_values) { [4.0, 2.0, 3.0, 1.0, 0.5, 0.3, 0.1, 0.4, 0.01] }
+    let(given_error_distance_history) { [4.0, 2.0, 3.0, 1.0, 0.5, 0.3, 0.1, 0.4, 0.01] }
 
     let(expected_plot_first_4) { "▴▴▴▴" }
     let(expected_plot_all) { "▴▴▴▄▂_▃▿" }
 
-    context "when given_values.size > history_size" do
-      it "given_values.size > history_size" do
-        expect(given_values.size).to be > error_stats.history_size
+    context "when given_error_distance_history.size > history_size" do
+      it "given_error_distance_history.size > history_size" do
+        expect(given_error_distance_history.size).to be > error_stats.history_size
       end
 
-      context "after loading less than history_size of given_values" do
+      context "after loading less than history_size of given_error_distance_history" do
         before_each do
-          given_values[0..3].each do |value|
+          given_error_distance_history[0..3].each do |value|
             error_stats.distance = value
           end
         end
@@ -120,9 +120,9 @@ Spectator.describe Ai4cr::ErrorStats do
         end
       end
 
-      context "after loading first all of given_values" do
+      context "after loading at least history_size of given_error_distance_history" do
         before_each do
-          given_values.each do |value|
+          given_error_distance_history.each do |value|
             error_stats.distance = value
           end
         end

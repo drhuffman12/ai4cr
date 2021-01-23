@@ -50,3 +50,6 @@ development_dependencies:
   #   branch: master
   #   # version: 0.1.1
   #   # # https://github.com/veelenga/aasm.cr
+
+  faker:
+    github: askn/faker

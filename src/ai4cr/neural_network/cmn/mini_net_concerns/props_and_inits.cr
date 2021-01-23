@@ -23,9 +23,11 @@ module Ai4cr
           property learning_rate : Float64
           property momentum : Float64
 
+          getter name : String
+          # getter error_stats = Ai4cr::ErrorStats.new
           getter error_stats : Ai4cr::ErrorStats
 
-          include Ai4cr::BreedParent(self.class)
+          # include Ai4cr::BreedParent(self.class)
 
           def initialize(
             @height, @width,
@@ -44,6 +46,7 @@ module Ai4cr
             history_size : Int32 = 10,
             name_suffix = ""
           )
+            # super(name_suffix: name_suffix)
             @name = init_name(name_suffix)
 
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly

@@ -91,7 +91,7 @@ module Ai4cr
       # class Backpropagation
       include ::JSON::Serializable
 
-      include Ai4cr::BreedParent(self.class)
+      # include Ai4cr::BreedParent(self.class)
 
       property structure, disable_bias, learning_rate, momentum
       property weights, last_changes, activation_nodes
@@ -153,9 +153,9 @@ module Ai4cr
         learning_rate : Float64? = nil,
         momentum : Float64? = nil,
         history_size : Int32 = 10,
-        name_suffix = ""
+        # name_suffix = ""
       )
-        @name = init_name(name_suffix)
+        # @name = init_name(name_suffix)
 
         @disable_bias = !!disable_bias # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
         @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? 0.25 : learning_rate.as(Float64)

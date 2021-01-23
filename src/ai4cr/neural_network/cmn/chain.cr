@@ -8,7 +8,7 @@ module Ai4cr
 
         include JSON::Serializable
 
-        include Ai4cr::BreedParent(self.class)
+        # include Ai4cr::BreedParent(self.class)
 
         getter structure : Array(Int32)
         property net_set : Array(MiniNet)
@@ -34,8 +34,8 @@ module Ai4cr
         #
         # ... and then pass it in like:
         #   cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
-        def initialize(@net_set, name_suffix = "")
-          @name = init_name(name_suffix)
+        def initialize(@net_set) # , name_suffix = "")
+          # @name = init_name(name_suffix)
 
           @structure = calc_structure
           @net_set_size = @net_set.size
