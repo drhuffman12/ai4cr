@@ -48,7 +48,7 @@ module Ai4cr
 
       sum = 0
       expecteed_sum = @team_members.size ** 2 # TODO: cache
-      (1.expecteed_sum).each do |member|
+      (1.expecteed_sum).each do
         new_team_members << channel.receive
         sum += 1
       end
@@ -77,7 +77,7 @@ module Ai4cr
         end
 
         sum = 0
-        @team_members.each do |member|
+        @team_members.each do
           sum += channel.receive
         end
         raise "Missing a thread" if sum != @team_members.Size

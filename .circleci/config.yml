@@ -10,7 +10,7 @@ jobs:
       # - run: shards install
       - run: shards install --ignore-crystal-version
       - run: scripts/version_info > test-results/app_version.txt
-      # - run: time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
+      - run: time bin/ameba --no-color > test-results/static_code_analysis.ameba.txt
       - run: time scripts/test_always > test-results/spec/results.txt
       - run: time scripts/test_always_junit_format
 
