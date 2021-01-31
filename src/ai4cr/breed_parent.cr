@@ -3,16 +3,49 @@ require "./error_stats.cr"
 require "./breed_utils.cr"
 
 module Ai4cr
-  module BreedParent # (T)
-  # abstract class BreedParent
-    # getter name : String
-    # getter error_stats = Ai4cr::ErrorStats.new
+  class BreedMismatch < Exception
+    getter parent_a_class_name : String
+    getter parent_b_class_name : String
+    def initialize(parent_a, parent_b) # , @message : String? = nil, @cause : Exception? = nil)
+      @parent_a_class_name = parent_a.class.name
+      @parent_b_class_name = parent_b.class.name
 
+      super(message: class_miss_match_error_message) # , cause: cause)
+    end
+
+    def class_miss_match_error_message
+      "Breed Class Mis-match; parent_a.class.name: #{parent_a_class_name},  parent_b.class.name: #{parent_b_class_name}"
+    end
+  end
+
+  module BreedParent
+    # Classes that implement 'Ai4cr::BreedParent' must do at least the following:
+    # * getter for 'name'
+    # * include JSON::Serializable
+    # * include Ai4cr::BreedParent
+    # * init 'name' in the contructor
+    #
+    # For example:
+    # ```
+    # class Bp1
+    #   getter name : String 
+    #
+    #   include JSON::Serializable
+    #   include Ai4cr::BreedParent 
+    #
+    #   def initialize(name_suffix = "one") # Time.utc.to_s
+    #     @name = init_name(name_suffix)
+    #   end
+    # end
+    # ```
+    #
+    # Additionally, the `#parts_to_copy(..)` and `#mix_parts(..)` methods should be implemented
+    
     include Ai4cr::BreedUtils
 
-    # def initialize(name_suffix = "")
-    #   @name = init_name(name_suffix)
-    # end
+    # getter amount_vector = 0.0
+    getter amount_a : Float64 = 1.0
+    getter amount_b : Float64 = 0.0
 
     def init_name(name_suffix : String)
       {
@@ -22,29 +55,37 @@ module Ai4cr
       }.to_json
     end
 
-    # def 
+    def breed_with(parent_b, delta = (rand*2 - 0.5), name_suffix = "")
+      check_partner_class(self, parent_b)
 
-    def breed_with(parent_b, delta = (rand*2 - 0.5),
-      name_suffix = "")
-      raise "TO BE IMPLEMENTED IN REAL CLASS"
-      # self.clone
-      # breed_non_changing_values(my_clone : T, other_parent : T, delta)
+      child = parts_to_copy(parent_b)
+      mix_parts(child, parent_b, delta)
     end
 
-    # def breed(parent_b, delta = (rand*2 - 0.5),
-    #   name_suffix = "")
-    #   raise "TO BE IMPLEMENTED IN REAL CLASS"
-    #   # self.clone
-    #   # breed_non_changing_values(my_clone : T, other_parent : T, delta)
-    # end
+    protected def calc_amounts(delta)
+      @amount_a = 1.0 - delta
+      @amount_b = delta
+    end
 
-    # def self.train_next_gen(next_gen : Array(T), inputs_given, outputs_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT))
-    #   raise "TO BE IMPLEMENTED IN REAL CLASS"
-    #   # self.clone
-    #   # breed_non_changing_values(my_clone : T, other_parent : T, delta)
-    # end
+    protected def check_partner_class(parent_a, parent_b)
+      return if parent_a.class == parent_b.class
+      raise Ai4cr::BreedMismatch.new(parent_a, parent_b)
+    end
 
-    # def self.breed_non_changing_values(my_clone : T, other_parent : T, delta) : T
-    # end
+    protected def parts_to_copy(parent_b)
+      # By default, we just copy everything from parent_a.
+      # Since `self.clone` is erroring, we'll use from/to_json methods.
+      # Hence, `include JSON::Serializable` is required in parent methods
+      self.class.from_json(self.to_json)
+    end
+
+    protected def mix_parts(child, parent_b, delta)
+      # Instead of returning 'child', sub-classes should do some sort of property mixing based on delta and both parents
+      child
+    end
+
+    protected def mix_one_part(parent_a_part, parent_b_part, delta)
+
+    end
   end
 end

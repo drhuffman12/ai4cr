@@ -1,12 +1,29 @@
 require "./../spec_helper"
 require "./../spectator_helper"
 
-class Bp
+class Bp1
+  getter name : String
+
+  include JSON::Serializable
   include Ai4cr::BreedParent
+
+  def initialize(name_suffix = "one") # Time.utc.to_s
+    @name = init_name(name_suffix)
+  end
+end
+class Bp2
+  getter name : String
+
+  include JSON::Serializable
+  include Ai4cr::BreedParent
+
+  def initialize(name_suffix = "one") # Time.utc.to_s
+    @name = init_name(name_suffix)
+  end
 end
 
 Spectator.describe Ai4cr::BreedParent do
-  let(breed_parent) { Bp.new }
+  let(breed_parent) { Bp1.new }
 
   describe "#init_name" do
     context "given a string for 'name_suffix'" do
@@ -26,7 +43,7 @@ Spectator.describe Ai4cr::BreedParent do
         context "a JSON string with key" do
           it "klass" do
             expect(json_any["klass"]?).not_to be_nil
-            expect(json_any["klass"]?).to eq("Bp")
+            expect(json_any["klass"]?).to eq("Bp1")
           end
 
           # before_each do
@@ -48,16 +65,38 @@ Spectator.describe Ai4cr::BreedParent do
     end
   end
 
-  describe ".breed" do
-    let(parent_a) { "Some Object" }
-    let(parent_b) { "Other Object" }
+  describe ".breed_with" do
     let(delta) { (rand*2 - 0.5) }
     let(name_suffix) { "#{Faker::Name.name}#{rand(1000)}" }
 
-    it "foo" do
-      expect {
-        breed_parent.breed_with(parent_b)
-      }.to raise_error("TO BE IMPLEMENTED IN REAL CLASS")
+    let(parent_a) { Bp1.new }
+    let(parent_b) { Bp2.new }
+    let(parent_c) { Bp1.new }
+
+    context "an instance of a MIS-matching class" do
+      it "RAISES a Ai4cr::BreedMismatch exception" do
+        error_message_expected = "Breed Class Mis-match; parent_a.class.name: #{parent_a.class.name},  parent_b.class.name: #{parent_b.class.name}"
+  
+        expect {
+          parent_a.breed_with(parent_b)
+        }.to raise_error(Ai4cr::BreedMismatch, error_message_expected)
+      end
+    end
+
+    context "an instance of a MATCHING class" do
+      it "does NOT raise a Ai4cr::BreedMismatch exception" do
+        expect {
+          parent_a.breed_with(parent_c)
+        }.not_to raise_error
+      end
+
+      context "returns" do
+        it "a child of a matching class" do
+          child = parent_a.breed_with(parent_c)
+          expect(child).to be_a(Bp1)
+          expect(child).to be_a(Bp1)
+        end
+      end
     end
   end
 end
