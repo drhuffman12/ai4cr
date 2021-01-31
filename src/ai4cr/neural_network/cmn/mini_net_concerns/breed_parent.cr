@@ -4,21 +4,20 @@ module Ai4cr
       module MiniNetConcerns
         # abstract class BreedParent
         module BreedParent
-          
           # include Ai4cr::BreedParent
 
-          # def initialize(name_suffix = "")
-          #   super(name_suffix: name_suffix)
+          # def initialize(name_instance = "")
+          #   super(name_instance: name_instance)
           # end
 
           def self.breed(
             parent_a : Ai4cr::NeuralNetwork::Cmn::MiniNet,
-            parent_b : Ai4cr::NeuralNetwork::Cmn::MiniNet, 
+            parent_b : Ai4cr::NeuralNetwork::Cmn::MiniNet,
             delta = (rand*2 - 0.5),
-            name_suffix = ""
+            name_instance = ""
           )
             parent_c = parent_a.clone
-            parent_c.name = init_name(name_suffix)
+            parent_c.name = init_name(name_instance)
 
             parent_c.deriv_scale = breed_value(parent_a.deriv_scale, parent_b.deriv_scale, delta)
             parent_c.bias_default = breed_value(parent_a.bias_default, parent_b.bias_default, delta)
@@ -52,20 +51,20 @@ module Ai4cr
 
             # learning_rate : Float64? = nil, momentum : Float64? = nil,
             history_size : Int32 = 10,
-            name_suffix = "",
+            name_instance = "",
             training_round_qty = 1
           )
             member_config = {
-              height: height,
-              width: width,
+              height:         height,
+              width:          width,
               learning_style: learning_style,
               # deriv_scale: deriv_scale,
               disable_bias: disable_bias,
               # bias_default: bias_default,
               # learning_rate: learning_rate,
               # momentum: momentum,
-              history_size: history_size,
-              name_suffix: name_suffix,
+              history_size:  history_size,
+              name_instance: name_instance,
             }
             Ai4cr::Team(Ai4cr::NeuralNetwork::Cmn::MiniNetConcerns::BreedParent).new(team_size, member_config, training_round_qty)
           end

@@ -23,7 +23,7 @@ module Ai4cr
           property learning_rate : Float64
           property momentum : Float64
 
-          getter name : String
+          # # getter name : Ai4cr::BreededName
           # getter error_stats = Ai4cr::ErrorStats.new
           getter error_stats : Ai4cr::ErrorStats
 
@@ -43,11 +43,11 @@ module Ai4cr
             disable_bias : Bool? = nil, @bias_default = 1.0,
 
             learning_rate : Float64? = nil, momentum : Float64? = nil,
-            history_size : Int32 = 10,
-            name_suffix = ""
+            history_size : Int32 = 10
+            # name_instance = ""
           )
-            # super(name_suffix: name_suffix)
-            @name = init_name(name_suffix)
+            # super(name_instance: name_instance)
+            # @name = init_name(name_instance)
 
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
             @disable_bias = disable_bias.nil? ? false : !!disable_bias

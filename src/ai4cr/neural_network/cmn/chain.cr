@@ -34,8 +34,8 @@ module Ai4cr
         #
         # ... and then pass it in like:
         #   cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
-        def initialize(@net_set) # , name_suffix = "")
-          # @name = init_name(name_suffix)
+        def initialize(@net_set) # , name_instance = "")
+          # @name = init_name(name_instance)
 
           @structure = calc_structure
           @net_set_size = @net_set.size

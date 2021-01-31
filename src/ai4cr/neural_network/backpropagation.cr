@@ -152,10 +152,10 @@ module Ai4cr
         disable_bias : Bool? = nil,
         learning_rate : Float64? = nil,
         momentum : Float64? = nil,
-        history_size : Int32 = 10,
-        # name_suffix = ""
+        history_size : Int32 = 10
+        # name_instance = ""
       )
-        # @name = init_name(name_suffix)
+        # @name = init_name(name_instance)
 
         @disable_bias = !!disable_bias # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
         @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? 0.25 : learning_rate.as(Float64)
