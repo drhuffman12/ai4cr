@@ -3,7 +3,6 @@ module Ai4cr
     module Cmn
       module MiniNetConcerns
         module PropsAndInits
-
           # include Ai4cr::BreedParent(self.class)
 
           def initialize(
