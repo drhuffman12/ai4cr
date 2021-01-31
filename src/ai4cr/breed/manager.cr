@@ -22,8 +22,8 @@ module Ai4cr
       #   property some_array = Array(Float64).new(2) { rand }
       #
       #   ALLOWED_STRING_FIRST = "a" # 'a' # .ord
-      #   ALLOWED_STRING_LAST = "z" # 'z' # .ord
-      #   ALLOWED_STRINGS = (ALLOWED_STRING_FIRST..ALLOWED_STRING_LAST).to_a
+      #   ALLOWED_STRING_LAST  = "z" # 'z' # .ord
+      #   ALLOWED_STRINGS      = (ALLOWED_STRING_FIRST..ALLOWED_STRING_LAST).to_a
       #   property some_string : String = (ALLOWED_STRINGS.sample) * 2
       #
       #   def initialize(@name, @some_value)
@@ -74,7 +74,7 @@ module Ai4cr
 
       def breed(parent_a : T, parent_b : T, delta = (rand*2 - 0.5), **params)
         raise "Must be a Breed Client!" unless T < Breed::Client
-        
+
         # i.e.: VIA parents
         channel = Channel(Int32).new
         spawn do

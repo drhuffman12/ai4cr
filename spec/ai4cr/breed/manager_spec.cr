@@ -16,8 +16,8 @@ class MyBreed
   property some_array = Array(Float64).new(2) { rand }
 
   ALLOWED_STRING_FIRST = "a" # 'a' # .ord
-  ALLOWED_STRING_LAST = "z" # 'z' # .ord
-  ALLOWED_STRINGS = (ALLOWED_STRING_FIRST..ALLOWED_STRING_LAST).to_a
+  ALLOWED_STRING_LAST  = "z" # 'z' # .ord
+  ALLOWED_STRINGS      = (ALLOWED_STRING_FIRST..ALLOWED_STRING_LAST).to_a
   property some_string : String = (ALLOWED_STRINGS.sample) * 2
 
   def initialize(@name, @some_value)
@@ -51,10 +51,10 @@ Spectator.describe Ai4cr::Breed::Manager do
     let(parallel_universe_breeder) { MyBreeder.new }
     let(delta_child_1) { (rand*2 - 0.5) }
     let(delta_child_2) { (rand*2 - 0.5) }
-  
+
     let(ancestor_adam_value) { 0.0 }
     let(ancestor_eve_value) { 1.0 }
-  
+
     let(ancestor_adam_in_parallel_universe) { parallel_universe_breeder.create(name: "Adam", some_value: ancestor_adam_value) }
     let(ancestor_adam) { my_breeder.create(name: "Adam", some_value: ancestor_adam_value) }
     let(ancestor_eve) { my_breeder.create(name: "Eve", some_value: ancestor_eve_value) }
@@ -90,7 +90,7 @@ Spectator.describe Ai4cr::Breed::Manager do
 
       delta_child_2 < 0.5 ? parent_a_part : parent_b_part
     }
-  
+
     it "birth_id's are in the correct order (when birthed in correct order" do
       expected_birth_counter = 0
       puts_debug
