@@ -25,10 +25,10 @@ module Ai4cr
     #   include JSON::Serializable
     #
     #   def initialize(
-    #     @birth_id = -1,
     #     @name = "tbd",                # to be set per child
     #     @some_value : Float64? = -1.0 # to be adjusted by 'mix_parts(..)'
     #   )
+    #     @birth_id = -1
     #     @parent_a_id = -1
     #     @parent_b_id = -1
     #     @breed_delta = 0.0
@@ -48,11 +48,11 @@ module Ai4cr
     include JSON::Serializable
     include Ai4cr::BreedUtils
 
-    property ancestry : Array(Int32)
-
     def initialize
+      # NOTE: We probably should convert the 'birth_id' from an instance variable to a class variable!
+      #   Otherwise, you could get multiple instances with separate counters,
+      #   which might or might not be desirable!
       @counter = SafeCounter.new
-      @ancestry = Array(Int32).new
     end
 
     def create(**params)
@@ -63,8 +63,11 @@ module Ai4cr
         channel.send(@counter.inc(T.name))
       end
       birth_id = channel.receive
+
       child = T.new(**params)
+
       child.birth_id = birth_id
+
       child
     end
 
@@ -80,6 +83,7 @@ module Ai4cr
       child = parts_to_copy(parent_a, parent_b, delta)
 
       child = mix_parts(child, parent_a, parent_b, delta)
+
       child.birth_id = birth_id
       child.parent_a_id = parent_a.birth_id
       child.parent_b_id = parent_b.birth_id

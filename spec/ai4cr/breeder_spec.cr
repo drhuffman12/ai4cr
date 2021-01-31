@@ -42,10 +42,10 @@ class MyClass
   include JSON::Serializable
 
   def initialize(
-    @birth_id = -1,
     @name = "tbd",                # to be set per child
     @some_value : Float64? = -1.0 # to be adjusted by 'mix_parts(..)'
   )
+    @birth_id = -1
     @parent_a_id = -1
     @parent_b_id = -1
     @breed_delta = 0.0
@@ -63,12 +63,14 @@ end
 
 Spectator.describe Ai4cr::Breeder do
   let(my_breeder) { MyBreeder.new }
+  let(parallel_universe_breeder) { MyBreeder.new }
   let(delta_child_1) { (rand*2 - 0.5) }
   let(delta_child_2) { (rand*2 - 0.5) }
 
   let(ancestor_adam_value) { 0.0 }
   let(ancestor_eve_value) { 1.0 }
 
+  let(ancestor_adam_in_parallel_universe) { parallel_universe_breeder.create(name: "Adam", some_value: ancestor_adam_value) }
   let(ancestor_adam) { my_breeder.create(name: "Adam", some_value: ancestor_adam_value) }
   let(ancestor_eve) { my_breeder.create(name: "Eve", some_value: ancestor_eve_value) }
 
@@ -77,10 +79,19 @@ Spectator.describe Ai4cr::Breeder do
       it "birth_id's are in the correct order (when birthed in correct order" do
         birth_counter = 0
         puts
+        puts "ancestor_adam_in_parallel_universe: #{ancestor_adam_in_parallel_universe.to_json}"
         puts "ancestor_adam: #{ancestor_adam.to_json}"
+        puts
         puts "ancestor_eve: #{ancestor_eve.to_json}"
 
-        expect(ancestor_adam.birth_id).to eq(birth_counter += 1)
+        birth_counter += 1
+
+        # NOTE: We probably should convert the 'birth_id' from an instance variable to a class variable!
+        #   Otherwise, you could get multiple instances with separate counters,
+        #   which might or might not be desirable:
+        expect(ancestor_adam_in_parallel_universe.birth_id).to eq(birth_counter)
+        expect(ancestor_adam.birth_id).to eq(birth_counter)
+
         expect(ancestor_adam.some_value).to eq(ancestor_adam_value)
 
         expect(ancestor_eve.birth_id).to eq(birth_counter += 1)
