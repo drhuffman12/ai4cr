@@ -15,8 +15,8 @@ class MyBreed
   property some_value : Float64 = -1.0
   property some_array = Array(Float64).new(2) { rand }
 
-  ALLOWED_STRING_FIRST = "a" # 'a' # .ord
-  ALLOWED_STRING_LAST  = "z" # 'z' # .ord
+  ALLOWED_STRING_FIRST = "a"
+  ALLOWED_STRING_LAST  = "z"
   ALLOWED_STRINGS      = (ALLOWED_STRING_FIRST..ALLOWED_STRING_LAST).to_a
   property some_string : String = (ALLOWED_STRINGS.sample) * 2
 
