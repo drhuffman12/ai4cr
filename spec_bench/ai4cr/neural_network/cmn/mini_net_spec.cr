@@ -21,7 +21,6 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
       sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
       cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-      # net.learning_rate = rand
       qty = MULTI_TYPE_TEST_QTY
       qty_x_percent = qty // QTY_X_PERCENT_DENOMINATOR
 
@@ -31,7 +30,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
         Ai4cr::NeuralNetwork::LS_SIGMOID,
         Ai4cr::NeuralNetwork::LS_TANH,
       ].each do |learning_style|
-        net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: 3, error_distance_history_max: 60, learning_style: learning_style)
+        net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: 3, history_size: 60, learning_style: learning_style)
 
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)} using learning_style: #{learning_style}" do
           puts "\nTRAINING (learning_style: #{learning_style}):\n"
@@ -42,13 +41,10 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
               case s
               when :tr
                 errors[:tr] = net.train(tr_input, is_a_triangle)
-                net.calculate_error_distance_history if i % qty_x_percent == 0
               when :sq
                 errors[:sq] = net.train(sq_input, is_a_square)
-                net.calculate_error_distance_history if i % qty_x_percent == 0
               when :cr
                 errors[:cr] = net.train(cr_input, is_a_cross)
-                net.calculate_error_distance_history if i % qty_x_percent == 0
               end
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -63,20 +59,20 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
           reversed = false
 
           charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
-          plot = charter.plot(net.error_distance_history, prefixed)
+          plot = charter.plot(net.error_stats.history, prefixed)
 
           puts "#{net.class.name}:"
           puts "  plot: '#{plot}'"
-          puts "  error_distance_history: '#{net.error_distance_history.map { |e| e.round(6) }}'"
+          puts "  error_stats.history: '#{net.error_stats.history.map { |e| e.round(6) }}'"
 
           puts "\n--------\n"
 
           # describe "JSON (de-)serialization works" do
-          #   it "@error_distance of the dumped net approximately matches @error_distance of the loaded net" do
+          #   it "@error_stats.distance of the dumped net approximately matches @error_stats.distance of the loaded net" do
           #     json = net.to_json
           #     net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(json)
 
-          #     assert_approximate_equality_of_nested_list net.error_distance, net2.error_distance, 0.000000001
+          #     assert_approximate_equality_of_nested_list net.error_stats.distance, net2.error_stats.distance, 0.000000001
           #   end
 
           #   it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do

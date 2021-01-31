@@ -1,14 +1,14 @@
 module Ai4cr
   module NeuralNetwork
     module Cmn
-      # module ConnectedNetSet
       class Chain
+        # Chain of ConnectableNetSets
         # NOTE: The first net should have a bias; the others should not.
         # TODO: Force bias only on 1st and none on others
 
         include JSON::Serializable
 
-        # use_json_discriminator learning_style
+        # include Ai4cr::BreedParent(self.class)
 
         getter structure : Array(Int32)
         property net_set : Array(MiniNet)
@@ -16,10 +16,13 @@ module Ai4cr
         getter net_set_indexes_reversed : Array(Int32)
         getter weight_height_mismatches : Array(Hash(Symbol, Int32))
 
+        # This clas doesn't need an 'error_stats' variable; instead, it relies on that of the last node.
+        # getter error_stats : Ai4cr::ErrorStats
+
         # NOTE: When passing in the array for net_set,
         # .. if you're including just one type of MiniNet, e.g.:
-        #   net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 256, width: 300, error_distance_history_max: 60)
-        #   net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 300, width: 3, error_distance_history_max: 60)
+        #   net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 256, width: 300, history_size: 60)
+        #   net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet::Sigmoid.new(height: 300, width: 3, history_size: 60)
         #
         # ... and you try to pass in like below, you'll get a type error:
         #   cns = Ai4cr::NeuralNetwork::Cmn::Chain.new([net0, net1])
@@ -31,7 +34,9 @@ module Ai4cr
         #
         # ... and then pass it in like:
         #   cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
-        def initialize(@net_set)
+        def initialize(@net_set) # , name_instance = "")
+          # @name = init_name(name_instance)
+
           @structure = calc_structure
           @net_set_size = @net_set.size
           @net_set_indexes_reversed = Array.new(@net_set_size) { |i| @net_set_size - i - 1 }
@@ -113,23 +118,18 @@ module Ai4cr
 
             index == index_max ? net.step_load_outputs(outputs_expected) : net.step_load_outputs(@net_set[index + 1].input_deltas)
 
-            net.calculate_error_distance
             net.step_backpropagate
           end
 
-          @net_set.last.error_distance
+          @net_set.last.error_stats.distance
         end
 
         def guesses_best
           @net_set.last.guesses_best
         end
 
-        def calculate_error_distance_history
-          @net_set.last.calculate_error_distance_history
-        end
-
-        def error_distance_history
-          @net_set.last.error_distance_history
+        def error_stats
+          @net_set.last.error_stats
         end
       end
     end

@@ -42,6 +42,14 @@ net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
 assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
 ```
 
+## Multithreading
+
+Use the `-Dpreview_mt` flag for multithreading.
+
+See also:
+* https://crystal-lang.org/2019/09/23/crystal-0.31.0-released.html
+* https://crystal-lang.org/2019/09/06/parallelism-in-crystal.html
+
 ## Comparison benchmarks
 
 REMINDER: Running Crystal in a Docker container (at least used to) runs slower than running Crystal on bare-metal.
@@ -94,7 +102,7 @@ puts "a,b,c == #{[a, b, c]}"
 
 ## Roadmap
 
-- [x] Generate an error history plot using `AsciiBarCharter` and `error_distance_history` , e.g.:
+- [x] Generate an error history plot using `AsciiBarCharter` and `ErrorStats#history` , e.g.:
 ```
 plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
 ```
@@ -112,7 +120,7 @@ plot: '▇▊▂_▅▅▅_▅_▅▅▅▅_▅▅__▅_▅____▅___'
     - [x] JSON importable/exportable
     - [x] can use various 'Learning Styles'
     - [ ] (?) move 'Learning Styles'-specific methods from MiniNet into Enum
-  - [ ] misc Connected Net Sets (WIP)
+  - [ ] misc Connectable Net Sets (WIP)
     - [x] Chain
     - [ ] RNN
       - [x] RnnSimple
@@ -256,7 +264,7 @@ $ docker-compose build
 
 ### These should NEVER fail!
 
-For any tests that should NEVER fail (e.g.: in spite of sufficient training), put them into `spec`, and run them via:
+For any tests that should (well, usually) NEVER fail (e.g.: in spite of sufficient training), put them into `spec`, and run them via:
 
 ```sh
 $ docker-compose run app scripts/test_always
@@ -282,3 +290,12 @@ Execute: 00:00:06.769663359
 
 NOTE: That time, it took less than a second to build. I did notice that it took about 10 seconds to build the first run and only less than a second each successive run.
 
+### More debug info
+
+TODO: Convert this to using the logger.
+ 
+To see more debug info (all those extra puts commands) during testing, Set the `DEBUG` env variable to `1`, e.g.
+
+```
+DEBUG=1 crystal spec
+```

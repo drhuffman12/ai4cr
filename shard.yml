@@ -1,5 +1,5 @@
 name: ai4cr
-version: 0.1.18
+version: 0.1.19
 
 authors:
   - Daniel Huffman <drhuffman12@yahoo.com>
@@ -9,22 +9,25 @@ crystal: ">= 0.36.0"
 
 license: MIT
 
+dependencies:
+
+  ascii_bar_charter:
+    github: drhuffman12/ascii_bar_charter
+    # version: ~> 1.4.0
+    branch: master
+
 development_dependencies:
 
   ## Un-comment/edit after Crystal 0.36.0 or 1.0 compatible:
-  # ameba:
-    # github: crystal-ameba/ameba
+  ameba:
+    github: crystal-ameba/ameba
+    version: ~> 0.13.4
     # branch: master
     #   # version: ~> 0.13.3
     #   ## REVERT to crystal-ameba/ameba after it is Crystal 1.0 compatible.
     #   ## See also: https://github.com/crystal-ameba/ameba/pull/173
     # github: drhuffman12/ameba
     #   # branch: drhuffman12/bump_crystal_version_to_1
-
-  ascii_bar_charter:
-    github: drhuffman12/ascii_bar_charter
-    # version: ~> 1.4.0
-    branch: master
 
   ## Un-comment/edit after Crystal 0.36.0 or 1.0 compatible:
   # icr:
@@ -44,9 +47,28 @@ development_dependencies:
 
   ## Un-comment after Crystal 1.0 compatible:
   # aasm:
+  
   #   github: veelenga/aasm.cr
   #   # version: 0.11.0
   #   # github: drhuffman12/aasm.cr
   #   branch: master
   #   # version: 0.1.1
   #   # # https://github.com/veelenga/aasm.cr
+
+  faker:
+    github: askn/faker
+
+  # # TODO: Fix ameba dependencies or wait for newer version of anykeyh/crystal-coverage
+  # # Error is:
+  # # ```
+  # # 12 | new(YAML::ParseContext.new, parse_yaml(string_or_io))
+  # #       ^--
+  # # Error: wrong number of arguments for 'Ameba::Rule::Lint::Syntax.new' (given 2, expected 0..1)
+
+  # # Overloads are:
+  # # - Ameba::Rule::Lint::Syntax.new(config = nil)
+
+  # # make[1]: *** [Makefile:8: bin/ameba] Error 1
+  # # ```
+  # coverage:
+  #   github: anykeyh/crystal-coverage

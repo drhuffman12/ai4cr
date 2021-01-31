@@ -15,7 +15,6 @@ module Ai4cr
             step_calc_output_errors
             step_backpropagate
 
-            # @error_distance
             calculate_error_distance
           end
 
@@ -25,48 +24,11 @@ module Ai4cr
           end
 
           def calculate_error_distance
-            # radial error
-            # error = 0.0
-            # @outputs_expected.each_with_index do |oe, iw|
-            #   error += 0.5*(oe - @outputs_guessed[iw])**2
-            # end
-            # @error_distance = error
-            @error_distance = @output_errors.map { |e| 0.5 * e ** 2 }.sum
+            @error_stats.distance = @output_errors.map { |e| 0.5 * e ** 2 }.sum
 
-            calculate_error_distance_history
-            @error_distance
+            # calculate_error_distance_history
+            @error_stats.distance
           end
-
-          # # Calculate the radius of the error as if each output cell is an value in a coordinate set
-          # def calculate_error_distance_history
-          #   return @error_distance_history = [-1.0] if @error_distance_history_max < 1
-          #   if @error_distance_history.size < @error_distance_history_max - 1
-          #     # Array not 'full' yet, so add latest value to end
-          #     @error_distance_history << @error_distance
-          #   else
-          #     # Array 'full', so rotate end to front and then put new value at last index
-          #     @error_distance_history.rotate!
-          #     @error_distance_history[-1] = @error_distance
-          #   end
-
-          #   @error_distance_history_score = error_distance_history.map_with_index do |e, i|
-          #     e / (2.0 ** (@error_distance_history_max - i))
-          #   end.sum
-
-          #   @error_distance_history
-          # end
-
-          # def plot_error_distance_history(
-          #   min = 0.0,
-          #   max = 1.0,
-          #   precision = 2.to_i8,
-          #   in_bw = false,
-          #   prefixed = false,
-          #   reversed = false,
-          # )
-          #   charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
-          #   plot = charter.plot(net.error_distance_history, prefixed)
-          # end
 
           def step_backpropagate
             step_calculate_output_deltas
@@ -97,18 +59,11 @@ module Ai4cr
           def step_calculate_output_deltas # (outputs_expected)
             # step_calc_output_errors
             @output_deltas.map_with_index! do |_, i|
-              # error = @outputs_expected[i] - @outputs_guessed[i]
-              # derivative_propagation_function.call(@outputs_guessed[i]) * error
               derivative_propagation_function.call(@outputs_guessed[i].clone) * @output_errors[i].clone
-              # # TODO: Research ReLU and why I'm not seeing performance gain in my code
-              # # For Relu performance gain, check for 0.0
-              # der_val = derivative_propagation_function.call(@outputs_guessed[i])
-              # der_val == 0.0 ? 0.0 : der_val * error
             end
           end
 
           def step_calc_output_errors
-            # @outputs_expected[i] - @outputs_guessed[i]
             @output_errors = @outputs_guessed.map_with_index do |og, i|
               @outputs_expected[i] - og
             end
@@ -124,10 +79,6 @@ module Ai4cr
                 error += @output_deltas[k] * @weights[j][k]
               end
               layer_deltas << (derivative_propagation_function.call(@inputs_given[j]) * error)
-              # # TODO: Research ReLU and why I'm not seeing performance gain in my code
-              # # For Relu performance gain, check for 0.0
-              # der_val = derivative_propagation_function.call(@inputs_given[j])
-              # layer_deltas << (der_val == 0.0 ? 0.0 : der_val * error)
             end
             @input_deltas = layer_deltas
           end

@@ -59,33 +59,20 @@ module Ai4cr
             end
           end
 
-          def all_error_totals
+          def all_error_distances
             synaptic_layer_indexes.map do |li|
               time_col_indexes.map do |ti|
-                mini_net_set[li][ti].error_totals
+                mini_net_set[li][ti].error_stats.distances
               end
             end
           end
 
-          def all_error_totals_radius
+          def all_error_distance_radius
             synaptic_layer_indexes.map do |li|
               time_col_indexes.map do |ti|
-                0.5*(all_error_totals[li][ti])**2
+                0.5*(all_error_distances[li][ti])**2
               end
             end.flatten.sum
-          end
-
-          def final_li_output_error_totals
-            li = synaptic_layer_indexes.last
-            time_col_indexes.map do |ti|
-              mini_net_set[li][ti].error_distance
-            end
-          end
-
-          def calculate_error_distance
-            @error_distance = final_li_output_error_totals.map { |e| 0.5*(e)**2 }.sum
-            calculate_error_distance_history
-            @error_distance
           end
 
           def all_output_errors

@@ -3,7 +3,7 @@ require "./cmn/*"
 
 module Ai4cr
   module NeuralNetwork
-    module Cmn # aka Connected MiniNets
+    module Cmn # aka Connectable MiniNets
     end
   end
 end

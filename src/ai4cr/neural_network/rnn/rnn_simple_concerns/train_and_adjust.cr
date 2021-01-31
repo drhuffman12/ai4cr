@@ -3,6 +3,8 @@ module Ai4cr
     module Rnn
       module RnnSimpleConcerns
         module TrainAndAdjust
+          # TODO: Finish refactoring this and 'Ai4cr::Team' and then do code cleanup!
+
           # UNTIL_MIN_AVG_ERROR_DEFAULT = 0.1
 
           # def eval_and_compare(input_set_given, output_set_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT)
@@ -21,7 +23,7 @@ module Ai4cr
 
           #     mini_net_set[li][ti].calculate_error_distance
           #   end
-          #   # error_distance
+          #   # error_stats.distance
           #   calculate_error_distance
           # end
 

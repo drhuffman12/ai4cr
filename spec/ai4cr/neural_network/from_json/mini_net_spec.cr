@@ -63,8 +63,8 @@ Spectator.describe "from_json" do
             assert_approximate_equality_of_nested_list(orig.last_changes, a_copy.last_changes)
           end
 
-          it "error_distance" do
-            assert_approximate_equality_of_nested_list(orig.error_distance, a_copy.error_distance)
+          it "error_stats.distance" do
+            assert_approximate_equality_of_nested_list(orig.error_stats.distance, a_copy.error_stats.distance)
           end
 
           it "outputs_expected" do
@@ -92,12 +92,12 @@ Spectator.describe "from_json" do
             assert_approximate_equality(orig.momentum, a_copy.momentum)
           end
 
-          it "error_distance_history_max" do
-            assert_approximate_equality(orig.error_distance_history_max, a_copy.error_distance_history_max)
+          it "error_stats.history_size" do
+            assert_approximate_equality(orig.error_stats.history_size, a_copy.error_stats.history_size)
           end
 
-          it "error_distance_history" do
-            assert_approximate_equality_of_nested_list(orig.error_distance_history, a_copy.error_distance_history)
+          it "error_stats.history" do
+            assert_approximate_equality_of_nested_list(orig.error_stats.history, a_copy.error_stats.history)
           end
 
           it "learning_style" do

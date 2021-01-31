@@ -58,7 +58,8 @@ module Ai4cr
       puts "\n==== compare_training ====\n"
       compare_training
       puts "\n==== compare_learning ====\n"
-      compare_learning
+      # TODO: refactor Chain based on code cleanup doen for RnnSimple; then, refactor this test file (w/ Spectator)
+      # compare_learning
     end
 
     def compare_initialization
@@ -110,13 +111,9 @@ module Ai4cr
         net.init_network
         training_io_indexes.each do |i|
           net.train(example_input_set[i], example_output_set[i])
-          if i % graph_sample_percent == 0
-            net.calculate_error_distance_history
-          end
         end
         name = net_name.nil? ? net.learning_style : net_name
         plot_errors(name, net)
-        # plot_errors(net.learning_style, net)
       end
     end
   end

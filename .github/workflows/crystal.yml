@@ -21,13 +21,14 @@ jobs:
       run: crystal -v
 
     - name: Install dependencies
-      run: shards install && shards update
+      # run: shards install && shards update
+      run: shards install --ignore-crystal-version && shards update --ignore-crystal-version
 
     - name: Show repo version
       run: scripts/version_info
 
-    # - name: Run static code analysis
-    #   run: bin/ameba --no-color
+    - name: Run static code analysis
+      run: bin/ameba --no-color
     - name: Run tests
       run: scripts/test_always
 

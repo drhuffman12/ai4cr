@@ -30,10 +30,10 @@ def plot_errors(name, net)
   reversed = false
 
   charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
-  plot = charter.plot(net.error_distance_history, prefixed)
+  plot = charter.plot(net.error_stats.history, prefixed)
 
   puts "  plot: '#{plot}'"
-  puts "  error_distance_history: '#{net.error_distance_history.map { |e| e.round(6) }}'"
+  puts "  error_stats.history: '#{net.error_stats.history.map { |e| e.round(6) }}'"
 
   puts "\n--------\n"
 end

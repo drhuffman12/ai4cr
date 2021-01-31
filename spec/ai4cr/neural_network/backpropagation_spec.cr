@@ -201,8 +201,8 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         assert_approximate_equality_of_nested_list net.activation_nodes, net2.activation_nodes
       end
 
-      it "@error_distance of the dumped net approximately matches @error_distance of the loaded net" do
-        assert_approximate_equality_of_nested_list net.error_distance, net2.error_distance
+      it "@error_stats.distance of the dumped net approximately matches @error_stats.distance of the loaded net" do
+        assert_approximate_equality_of_nested_list net.error_stats.distance, net2.error_stats.distance
       end
     end
   end

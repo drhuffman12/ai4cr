@@ -22,7 +22,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
         cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-        net = Ai4cr::NeuralNetwork::Backpropagation.new([256, 3], error_distance_history_max: 60)
+        net = Ai4cr::NeuralNetwork::Backpropagation.new([256, 3], history_size: 60)
 
         # net.learning_rate = rand
         qty = MULTI_TYPE_TEST_QTY
@@ -36,13 +36,10 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
               case s
               when :tr
                 errors[:tr] = net.train(tr_input, is_a_triangle)
-                net.calculate_error_distance_history if i % qty_x_percent == 0
               when :sq
                 errors[:sq] = net.train(sq_input, is_a_square)
-                net.calculate_error_distance_history if i % qty_x_percent == 0
               when :cr
                 errors[:cr] = net.train(cr_input, is_a_cross)
-                net.calculate_error_distance_history if i % qty_x_percent == 0
               end
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -57,20 +54,20 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
           reversed = false
 
           charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
-          plot = charter.plot(net.error_distance_history, prefixed)
+          plot = charter.plot(net.error_stats.history, prefixed)
 
           puts "#{net.class.name} with structure of #{net.structure}:"
           puts "  plot: '#{plot}'"
-          puts "  error_distance_history: '#{net.error_distance_history.map { |e| e.round(6) }}'"
+          puts "  error_stats.history: '#{net.error_stats.history.map { |e| e.round(6) }}'"
 
           puts "\n--------\n"
 
           describe "JSON (de-)serialization works" do
-            it "@error_distance of the dumped net approximately matches @error_distance of the loaded net" do
+            it "@error_stats.distance of the dumped net approximately matches @error_stats.distance of the loaded net" do
               json = net.to_json
               net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
 
-              assert_approximate_equality_of_nested_list net.error_distance, net2.error_distance, 0.000000001
+              assert_approximate_equality_of_nested_list net.error_stats.distance, net2.error_stats.distance, 0.000000001
             end
 
             it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
@@ -182,7 +179,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         sq_with_base_noise = SQUARE_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
         cr_with_base_noise = CROSS_WITH_BASE_NOISE.flatten.map { |input| input.to_f / 5.0 }
 
-        net = Ai4cr::NeuralNetwork::Backpropagation.new([256, hidden_size, hidden_size, 3], error_distance_history_max: 60)
+        net = Ai4cr::NeuralNetwork::Backpropagation.new([256, hidden_size, hidden_size, 3], history_size: 60)
 
         # net.learning_rate = rand
         qty = MULTI_TYPE_TEST_QTY
@@ -201,13 +198,10 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
               case s
               when :tr
                 errors[:tr] = net.train(tr_input, is_a_triangle)
-                net.calculate_error_distance_history if i % qty_x_percent == 0
               when :sq
                 errors[:sq] = net.train(sq_input, is_a_square)
-                net.calculate_error_distance_history if i % qty_x_percent == 0
               when :cr
                 errors[:cr] = net.train(cr_input, is_a_cross)
-                net.calculate_error_distance_history if i % qty_x_percent == 0
               end
             end
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
@@ -225,19 +219,19 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
           reversed = false
 
           charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
-          plot = charter.plot(net.error_distance_history, prefixed)
+          plot = charter.plot(net.error_stats.history, prefixed)
 
           puts "  plot: '#{plot}'"
-          puts "  error_distance_history: '#{net.error_distance_history.map { |e| e.round(6) }}'"
+          puts "  error_stats.history: '#{net.error_stats.history.map { |e| e.round(6) }}'"
 
           puts "\n--------\n"
 
           describe "JSON (de-)serialization works" do
-            it "@error_distance of the dumped net approximately matches @error_distance of the loaded net" do
+            it "@error_stats.distance of the dumped net approximately matches @error_stats.distance of the loaded net" do
               json = net.to_json
               net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
 
-              assert_approximate_equality_of_nested_list net.error_distance, net2.error_distance, 0.000000001
+              assert_approximate_equality_of_nested_list net.error_stats.distance, net2.error_stats.distance, 0.000000001
             end
 
             it "@activation_nodes of the dumped net approximately matches @activation_nodes of the loaded net" do
