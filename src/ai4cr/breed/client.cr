@@ -1,8 +1,6 @@
 module Ai4cr
   module Breed
     module Client
-      include JSON::Serializable
-
       # These are for breed relationship tracking:
       property birth_id : Int32 = -1
       property parent_a_id : Int32 = -1

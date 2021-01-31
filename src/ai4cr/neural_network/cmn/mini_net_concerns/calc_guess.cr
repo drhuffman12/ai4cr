@@ -10,6 +10,32 @@ module Ai4cr
           # end
           abstract def propagation_function
 
+          property learning_style = LS_RELU
+
+          property bias_default = 1.0
+          property disable_bias = false
+          property learning_rate : Float64 = rand
+          property momentum : Float64 = rand
+
+          # for Prelu
+          # TODO: set deriv_scale based on ?
+          # @deriv_scale = 0.1,
+          # @deriv_scale = 0.01,
+          # @deriv_scale = 0.001,
+          property deriv_scale : Float64 = rand / 2.0
+
+          getter width = -1
+          getter height = -1
+
+          getter height_considering_bias = -1
+          getter width_indexes = Array(Int32).new
+          getter height_indexes = Array(Int32).new
+
+          property weights = Array(Array(Float64)).new
+
+          property inputs_given = Array(Float64).new
+          property outputs_guessed = Array(Float64).new
+
           # steps for 'eval' aka 'guess':
           def eval(inputs_given) # aka eval
             step_load_inputs(inputs_given)

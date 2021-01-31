@@ -5,6 +5,14 @@ module Ai4cr
         module TrainAndAdjust
           # UNTIL_MIN_AVG_ERROR_DEFAULT = 0.1
 
+          property last_changes = Array(Array(Float64)).new # aka previous weights
+          property output_errors = Array(Float64).new
+          property outputs_expected = Array(Float64).new
+          property input_deltas = Array(Float64).new
+          property output_deltas = Array(Float64).new
+
+          getter error_stats : Ai4cr::ErrorStats
+
           # # training steps
           # TODO: utilize until_min_avg_error
           def train(inputs_given, outputs_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT)

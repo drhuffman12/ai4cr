@@ -1,7 +1,3 @@
-require "json"
-
-# require "./breed_utils.cr"
-
 module Ai4cr
   module Breed
     abstract class Manager(T)

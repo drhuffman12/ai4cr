@@ -42,7 +42,13 @@ net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
 assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
 ```
 
-## Multithreading
+## Optimiaztions
+
+* Compiler
+
+Use `--release` for more code optimizations during the compilation steps.
+
+* Multithreading
 
 Use the `-Dpreview_mt` flag for multithreading.
 
