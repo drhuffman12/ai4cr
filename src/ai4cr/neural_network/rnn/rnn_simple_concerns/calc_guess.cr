@@ -49,7 +49,7 @@ module Ai4cr
           getter time_col_indexes_reversed = Array(Int32).new
 
           getter synaptic_layer_index_last = -1 # Int32.new
-          getter time_col_index_last = -1 #Int32.new
+          getter time_col_index_last = -1       # Int32.new
 
           property node_output_sizes = Array(Int32).new
           property node_input_sizes = Array(Array(NamedTuple(
@@ -57,7 +57,7 @@ module Ai4cr
             previous_time_column: Int32))).new
 
           property mini_net_set = Array(Array(Cmn::MiniNet)).new
-          
+
           getter input_set_given = Array(Array(Float64)).new
 
           # steps for 'eval' aka 'guess':

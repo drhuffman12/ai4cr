@@ -54,7 +54,7 @@ module Ai4cr
             learning_rate : Float64? = nil,
             momentum : Float64? = nil,
             deriv_scale : Float64? = nil,
-            
+
             history_size : Int32? = 10
           )
             init_network(hidden_size_given, disable_bias, learning_rate, momentum, deriv_scale, history_size)
@@ -68,6 +68,19 @@ module Ai4cr
             momentum : Float64? = nil,
             deriv_scale : Float64? = nil,
             history_size : Int32? = 10
+          )
+            init_network_config(hidden_size_given, disable_bias, learning_rate, momentum, deriv_scale)
+            init_network_mini_net_set
+
+            @error_stats = Ai4cr::ErrorStats.new(history_size)
+          end
+
+          def init_network_config(
+            hidden_size_given : Int32? = 10,
+            disable_bias : Bool? = nil,
+            learning_rate : Float64? = nil,
+            momentum : Float64? = nil,
+            deriv_scale : Float64? = nil
           )
             # TODO: Handle differing hidden layer output sizes
             if hidden_size_given.is_a?(Int32)
@@ -88,7 +101,9 @@ module Ai4cr
             validate!
 
             @synaptic_layer_qty = hidden_layer_qty + 1
+          end
 
+          def init_network_mini_net_set
             @synaptic_layer_indexes = calc_synaptic_layer_indexes
             @time_col_indexes = calc_time_col_indexes
 
