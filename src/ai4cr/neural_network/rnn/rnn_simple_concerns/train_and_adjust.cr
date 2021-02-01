@@ -5,41 +5,30 @@ module Ai4cr
         module TrainAndAdjust
           # TODO: Finish refactoring this and 'Ai4cr::Team' and then do code cleanup!
 
-          # UNTIL_MIN_AVG_ERROR_DEFAULT = 0.1
+          getter output_set_expected = Array(Array(Float64)).new
+          getter all_output_errors = Array(Array(Float64)).new
+
+          # getter history_size : Int32 = 10 # Instead, refer to error_stats.history_size
+          getter error_stats : Ai4cr::ErrorStats
 
           # def eval_and_compare(input_set_given, output_set_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT)
           #   eval(input_set_given)
-
           #   @output_set_expected = output_set_expected
-
-          #
-          #
-
           #   li = synaptic_layer_index_last
           #   time_col_indexes_reversed.each do |ti|
           #     mini_net_set[li][ti].step_load_outputs(@output_set_expected[ti])
-
           #     step_calculate_output_deltas(li, ti)
-
           #     mini_net_set[li][ti].calculate_error_distance
           #   end
           #   # error_stats.distance
           #   calculate_error_distance
           # end
 
-          def train(input_set_given, output_set_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT) # , debug_msg = "")
+          def train(input_set_given, output_set_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT)
             # TODO: WHY is the last ti's value in outputs_guessed reset to '0.0' after training (but NOT after eval'ing)??? (and NOT reset to '0.0' after next round of training???)
 
-            # puts "***** #{debug_msg} *****"
-            # puts "BEFORE:: all_mini_net_outputs: #{all_mini_net_outputs}"
-
             eval(input_set_given)
-
-            # puts "MID:: all_mini_net_outputs: #{all_mini_net_outputs}"
-
             @output_set_expected = output_set_expected
-
-            # puts "MID2:: all_mini_net_outputs: #{all_mini_net_outputs}"
 
             synaptic_layer_indexes_reversed.each do |li|
               time_col_indexes_reversed.each do |ti|
@@ -56,47 +45,22 @@ module Ai4cr
                   # However, we also need to consider error adjustments coming from the next time column index.
                   # We want to combine the error deltas coming from both li and ti directions,
                   #   but we must first load the 'output_set_expected' values to be able to calculate the deltas along the li axis.
-
                   mini_net_set[li][ti].step_load_outputs(@output_set_expected[ti]) # 'regular' step_load_outputs
                   step_calculate_output_errors_at(li, ti)
-
-                  # # step_backpropagate
-                  # step_calculate_output_deltas(li, ti) # combo (add? or *avg*?) of 'regular' output_deltas and next_ti's input_deltas
-                  # mini_net_set[li][ti].step_calc_input_deltas
-                  # mini_net_set[li][ti].step_update_weights
-
-                  # mini_net_set[li][ti].calculate_error_distance
                   step_backpropagate(li, ti)
                 when li < synaptic_layer_index_last && ti == time_col_index_last
                   # In this case, to calculate the 'outputs_expected', use outputs_guessed (of current [li][ti]) + input_deltas of (matching parts of next [li][ti])
                   #   TODO: Should this be plus or minus?
                   # Also, this is calc'd only in the li direction.
-
                   step_calculate_output_errors_at(li, ti)
                   mini_net_set[li][ti].step_load_outputs(calc_hidden_outputs_expected(li, ti))
-                  # mini_net_set[li][ti].step_load_outputs(@output_set_expected[ti])
-
-                  # # step_backpropagate
-                  # step_calculate_output_deltas(li, ti) # only next_li's input_deltas
-                  # mini_net_set[li][ti].step_calc_input_deltas
-                  # mini_net_set[li][ti].step_update_weights
-
-                  # mini_net_set[li][ti].calculate_error_distance
                   step_backpropagate(li, ti)
                 when li < synaptic_layer_index_last && ti < time_col_index_last
                   # In this case, to calculate the 'outputs_expected', use outputs_guessed (of current [li][ti]) + input_deltas of (matching parts of next [li][ti])
                   #   TODO: Should this be plus or minus?
                   # Also, this is calc'd as a combo (sum or avg) in both li and ti directions.
-
                   step_calculate_output_errors_at(li, ti)
                   mini_net_set[li][ti].step_load_outputs(calc_hidden_outputs_expected(li, ti))
-
-                  # # step_backpropagate
-                  # step_calculate_output_deltas(li, ti) # combo (add? or *avg*?) of next_li's input_deltas (in place of 'regular' output_deltas) and next_ti's input_deltas
-                  # mini_net_set[li][ti].step_calc_input_deltas
-                  # mini_net_set[li][ti].step_update_weights
-
-                  # mini_net_set[li][ti].calculate_error_distance
                   step_backpropagate(li, ti)
                 else
                   raise "Index error! (Range Mis-match!) li: #{li}, ti: #{ti}"
@@ -104,14 +68,11 @@ module Ai4cr
               end
             end
 
-            # puts "AFTER:: all_mini_net_outputs: #{all_mini_net_outputs}"
-            # puts "----------"
-
             calculate_error_distance
           end
 
           private def step_backpropagate(li, ti)
-            step_calculate_output_deltas(li, ti) # combo (add? or *avg*?) of next_li's input_deltas (in place of 'regular' output_deltas) and next_ti's input_deltas
+            step_calculate_output_deltas(li, ti)
             mini_net_set[li][ti].step_calc_input_deltas
             mini_net_set[li][ti].step_update_weights
             mini_net_set[li][ti].calculate_error_distance
@@ -183,6 +144,17 @@ module Ai4cr
             mns.output_deltas.map_with_index! do |_, i|
               mns.derivative_propagation_function.call(mns.outputs_guessed[i].clone) * mns.output_errors[i].clone
             end
+          end
+
+          def final_li_output_error_distances
+            li = synaptic_layer_indexes.last
+            time_col_indexes.map do |ti|
+              mini_net_set[li][ti].error_stats.distance
+            end
+          end
+
+          def calculate_error_distance
+            @error_stats.distance = final_li_output_error_distances.map { |e| 0.5*(e)**2 }.sum
           end
         end
       end

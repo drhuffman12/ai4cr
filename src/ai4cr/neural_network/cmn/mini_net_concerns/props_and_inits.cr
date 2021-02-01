@@ -3,8 +3,6 @@ module Ai4cr
     module Cmn
       module MiniNetConcerns
         module PropsAndInits
-          # include Ai4cr::BreedParent(self.class)
-
           def initialize(
             @height, @width,
             @learning_style : LearningStyle = LS_RELU,
@@ -26,6 +24,10 @@ module Ai4cr
             init_network(history_size)
 
             @error_stats = Ai4cr::ErrorStats.new(history_size)
+          end
+
+          def structure
+            [height, width]
           end
 
           def init_network(history_size : Int32 = 10)
@@ -55,10 +57,6 @@ module Ai4cr
             @output_errors = @width_indexes.map { 0.0 }
 
             @error_stats = Ai4cr::ErrorStats.new(history_size)
-          end
-
-          def structure
-            [height, width]
           end
         end
       end
