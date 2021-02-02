@@ -9,8 +9,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
   let(my_breed_manager) { Ai4cr::NeuralNetwork::Cmn::MiniNetManager.new }
 
   describe "For Adam and Eve examples" do
-    let(delta_child_1) { Ai4cr::Data::Utils.rand_excluding(2, -0.5) }
-    let(delta_child_2) { Ai4cr::Data::Utils.rand_excluding(2, -0.5) }
+    let(delta_child_1) { Ai4cr::Data::Utils.rand_neg_half_to_pos_one_and_half_no_zero_no_one }
+    let(delta_child_2) { Ai4cr::Data::Utils.rand_neg_half_to_pos_one_and_half_no_zero_no_one }
 
     let(ancestor_adam_learning_rate_expected) { 0.1 }
     let(ancestor_eve_learning_rate_expected) { 0.9 }

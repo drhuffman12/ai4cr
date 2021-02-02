@@ -30,9 +30,9 @@ module Ai4cr
 
           property learning_style = LS_RELU
 
-          property learning_rate : Float64 = rand
-          property momentum : Float64 = rand
-          property deriv_scale : Float64 = rand / 2.0
+          property learning_rate : Float64 = Ai4cr::Data::Utils.rand_excluding
+          property momentum : Float64 = Ai4cr::Data::Utils.rand_excluding
+          property deriv_scale : Float64 = Ai4cr::Data::Utils.rand_excluding(scale: 0.5)
 
           getter synaptic_layer_qty : Int32
 

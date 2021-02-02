@@ -92,9 +92,9 @@ module Ai4cr
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
             @disable_bias = disable_bias.nil? ? false : !!disable_bias
 
-            @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
-            @momentum = momentum.nil? || momentum.as(Float64) <= 0.0 ? rand : momentum.as(Float64)
-            @deriv_scale = deriv_scale.nil? || deriv_scale.as(Float64) <= 0.0 ? rand / 2.0 : deriv_scale.as(Float64)
+            @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding : learning_rate.as(Float64)
+            @momentum = momentum.nil? || momentum.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding : momentum.as(Float64)
+            @deriv_scale = deriv_scale.nil? || deriv_scale.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding / 2.0 : deriv_scale.as(Float64)
 
             @valid = false
             @errors = Hash(String, String).new

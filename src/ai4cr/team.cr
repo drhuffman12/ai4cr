@@ -60,7 +60,7 @@ module Ai4cr
       new_team_members
     end
 
-    def train(inputs_given, outputs_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT) # , breed_delta = (rand*2 - 0.5))
+    def train(inputs_given, outputs_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT)
       # for X training rounds...
       @training_round_indexes.each do # |ri|
       # breed

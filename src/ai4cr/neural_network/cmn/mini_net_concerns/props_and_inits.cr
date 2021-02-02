@@ -26,7 +26,7 @@ module Ai4cr
             @height = 2, @width = 2,
             @learning_style : LearningStyle = LS_RELU,
 
-            @deriv_scale = rand / 2.0,
+            @deriv_scale = Ai4cr::Data::Utils.rand_excluding(scale: 0.5),
 
             disable_bias : Bool? = nil, @bias_default = 1.0,
 
@@ -38,8 +38,8 @@ module Ai4cr
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
             @disable_bias = disable_bias.nil? ? false : !!disable_bias
 
-            @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
-            @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
+            @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding : learning_rate.as(Float64)
+            @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : Ai4cr::Data::Utils.rand_excluding
 
             @name = name.nil? ? "" : name
 

@@ -85,7 +85,7 @@ module Ai4cr
         vector_a_to_b == 0.0 ? 0.0 : -error_a / vector_a_to_b
       end
 
-      def breed(parent_a : T, parent_b : T, delta = (rand*2 - 0.5), **params)
+      def breed(parent_a : T, parent_b : T, delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5), **params)
         raise "Must be a Breed Client!" unless T < Breed::Client
 
         # i.e.: VIA parents
