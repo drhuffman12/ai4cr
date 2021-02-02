@@ -10,9 +10,10 @@ module Ai4cr
           property last_changes = Array(Array(Float64)).new # aka previous weights
           property output_errors = Array(Float64).new
           property input_deltas = Array(Float64).new
-          getter error_stats : Ai4cr::ErrorStats
+          getter history_size = 0
+          property error_stats : Ai4cr::ErrorStats
 
-          def init_net_re_train(history_size : Int32 = 10)
+          def init_net_re_train # (history_size : Int32 = 10)
             @outputs_expected = Array.new(width, 0.0)
             @output_deltas = Array.new(width, 0.0)
 

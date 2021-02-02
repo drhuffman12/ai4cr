@@ -89,7 +89,7 @@ Spectator.describe Ai4cr::Breed::Manager do
       delta_child_2 < 0.5 ? parent_a_part : parent_b_part
     }
 
-    it "birth_id's are in the correct order (when birthed in correct order" do
+    it "birth_id's are in the consistent order (when birthed in order" do
       expected_birth_counter = 0
       puts_debug
       puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
@@ -132,7 +132,7 @@ Spectator.describe Ai4cr::Breed::Manager do
       puts_debug
       puts_debug "Now, in order or youngest to oldest:"
       [ancestor_adam, ancestor_eve, child_1, child_2].sort_by do |person|
-        (- person.birth_id)
+        (-person.birth_id)
       end.each do |person|
         puts_debug "person: #{person.to_json}"
       end

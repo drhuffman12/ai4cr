@@ -34,7 +34,7 @@ class SafeCounter
     val
   end
 
-  def reset(key : String, val : Int32)
+  def reset(key : String, val : Int32 = 0)
     # Unfortunately, mutex's don't seem to work with to_/from_json, so we'll use a 'reset' method.
     # i.e.: include JSON::Serializable => Error: no overload matches 'Mutex#to_json' with type JSON::Builder
     @mux.lock

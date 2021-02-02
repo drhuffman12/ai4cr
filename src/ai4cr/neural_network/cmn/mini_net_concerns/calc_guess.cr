@@ -44,7 +44,7 @@ module Ai4cr
             # * Xavier initialization mostly used with tanh and logistic activation function
             # * He-initialization mostly used with ReLU or it’s variants — Leaky ReLU.
             @weights = @height_indexes.map { @width_indexes.map { rand*2 - 1 } }
-            # @weights = Array.new(height_considering_bias) { Array.new(width) { (rand*2 - 1) } }
+            # @weights = Array.new(height_considering_bias) { Array.new(width) { (rand*2.0 - 1.0) } }
             # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(2.0/(height_considering_bias + width))) } }
             # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(height_considering_bias/2.0)) } }
           end

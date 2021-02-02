@@ -21,6 +21,7 @@ module Ai4cr
         include MiniNetConcerns::PropsAndInits
         include MiniNetConcerns::CalcGuess
         include MiniNetConcerns::TrainAndAdjust
+        include Ai4cr::Breed::Client
       end
     end
   end

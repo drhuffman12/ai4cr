@@ -53,6 +53,10 @@ module Ai4cr
         @counter = SafeCounter.new
       end
 
+      def counter_reset(value = 0)
+        @counter.reset(T.name, value)
+      end
+
       def create(**params)
         # i.e.: via NO parents
         channel = Channel(Int32).new
@@ -106,10 +110,10 @@ module Ai4cr
 
         # some_array = mix_nested_parts(parent_a.some_array, parent_b.some_array, delta)
         # child.some_array = some_array
-    
+
         # some_string = mix_nested_parts(parent_a.some_string, parent_b.some_string, delta)
         # child.some_string = some_string
-    
+
         # And then be sure to return 'child'
         child
       end

@@ -8,7 +8,7 @@ Spectator.describe SafeCounter do
   #   it "converts to and from json without raising" do
   #     expect{
   #       safe_counter_cloned = safe_counter.class.from_json(safe_counter.to_json)
-  #     }.no_to raise_error     
+  #     }.no_to raise_error
   #   end
   # end
 
@@ -17,17 +17,17 @@ Spectator.describe SafeCounter do
       expect { SafeCounter.new }.not_to raise_error
     end
   end
-  
+
   describe "#value" do
     let(counter) { SafeCounter.new }
     let(key) { Faker::Name.name }
     it "start off at zero" do
       value_before = counter.value(key)
-      
+
       expect(value_before).to eq(0)
     end
   end
-  
+
   describe "#inc" do
     let(counter) { SafeCounter.new }
     let(key) { Faker::Name.name }
@@ -47,12 +47,12 @@ Spectator.describe SafeCounter do
           counter.inc(key)
         end
         value_after = counter.value(key).clone
-  
+
         expect(value_after).to eq(value_before + qty_times)
       end
     end
   end
-  
+
   describe "#reset" do
     let(counter) { SafeCounter.new }
     let(key) { Faker::Name.name }
@@ -62,6 +62,8 @@ Spectator.describe SafeCounter do
         let(a_value) { qty_times - rand(10) }
         it "increments the counter multiple times" do
           value_before = counter.value(key).clone
+          expect(value_before).to eq(0)
+
           qty_times.times do
             counter.inc(key)
           end
@@ -80,12 +82,11 @@ Spectator.describe SafeCounter do
     let(key) { Faker::Name.name }
     let(qty_times) { rand(10) }
     it "shares the counts for same key" do
+      expected_counter = 0
       value1_before = counter1.value(key).clone
       value2_before = counter2.value(key).clone
-
-      expect(value1_before).to eq(value2_before)
-      
-      expected_counter = 0
+      expect(value1_before).to eq(expected_counter)
+      expect(value2_before).to eq(expected_counter)
 
       counter1.inc(key)
       expected_counter += 1
@@ -110,6 +111,6 @@ Spectator.describe SafeCounter do
 
       expect(value1_after).to eq(expected_counter)
       expect(value2_after).to eq(expected_counter)
-    end    
+    end
   end
 end
