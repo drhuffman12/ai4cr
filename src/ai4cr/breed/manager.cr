@@ -72,6 +72,19 @@ module Ai4cr
         child
       end
 
+      def estimate_better_delta(error_a : Float64, error_b : Float64)
+        # An error value of '0.0' is when you're at the soultion.
+        # The error values are assumed to be positive (i.e.: radius from solution), but could be negative.
+        # So, the solution should be where the two errors overlap.
+        # Of course if the solution is not along the line between 'a' and 'b',
+        #   then you'll need to diverge from that line.
+
+        vector_a_to_b = error_b - error_a
+        # zero = error_a + delta * vector_a_to_b
+        # so (avoid div by 0 and then) return ...
+        vector_a_to_b == 0.0 ? 0.0 : -error_a / vector_a_to_b
+      end
+
       def breed(parent_a : T, parent_b : T, delta = (rand*2 - 0.5), **params)
         raise "Must be a Breed Client!" unless T < Breed::Client
 

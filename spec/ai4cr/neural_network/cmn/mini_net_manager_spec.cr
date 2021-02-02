@@ -5,27 +5,12 @@ def puts_debug(message = "")
   puts message if ENV.has_key?("DEBUG") && ENV["DEBUG"] == "1"
 end
 
-def rand_excluding
-  # TODO: make this more generic for init'ing of various net values (where we want to avoid zero's and ones)
-  excludes = [0.0, 1.0]
-  # Try to make sure that the random value is not one of the excluded values.
-  # Below isn't a guarantee, but should be good enough for the tests.
-  d = (rand * 2 - 0.5)
-  excludes.each do |ex|
-    d = (rand * 2 - 0.5) if (ex - d).abs < 0.0001
-  end
-  excludes.each do |ex|
-    d = (rand * 2 - 0.5) if (ex - d).abs < 0.0001
-  end
-  d
-end
-
 Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
   let(my_breed_manager) { Ai4cr::NeuralNetwork::Cmn::MiniNetManager.new }
 
   describe "For Adam and Eve examples" do
-    let(delta_child_1) { rand_excluding }
-    let(delta_child_2) { rand_excluding }
+    let(delta_child_1) { Ai4cr::Data::Utils.rand_excluding(2, -0.5) }
+    let(delta_child_2) { Ai4cr::Data::Utils.rand_excluding(2, -0.5) }
 
     let(ancestor_adam_learning_rate_expected) { 0.1 }
     let(ancestor_eve_learning_rate_expected) { 0.9 }

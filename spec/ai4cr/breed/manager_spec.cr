@@ -138,4 +138,92 @@ Spectator.describe Ai4cr::Breed::Manager do
       end
     end
   end
+
+  describe "#estimate_better_delta" do
+    let(delta_estimated) { my_breed_manager.estimate_better_delta(error_a, error_b) }
+    let(zero_estimated) { error_a + delta_estimated * (error_b - error_a) }
+    let(zero) { 0.0 }
+
+    describe "a before b" do
+      context "0 a b" do
+        let(error_a) { 0.25 }
+        let(error_b) { 0.75 }
+        let(delta_expected) { -0.5 }
+
+        it "estimates a delta" do
+          expect(delta_estimated).to eq(delta_expected)
+        end
+        it "estimates a delta that estimates zero" do
+          expect(zero_estimated).to eq(zero)
+        end
+      end
+
+      context "a 0 b" do
+        let(error_a) { -0.5 }
+        let(error_b) { 0.5 }
+        let(delta_expected) { 0.5 }
+
+        it "estimates a delta" do
+          expect(delta_estimated).to eq(delta_expected)
+        end
+        it "estimates a delta that estimates zero" do
+          expect(zero_estimated).to eq(zero)
+        end
+      end
+
+      context "a b 0" do
+        let(error_a) { -0.75 }
+        let(error_b) { -0.25 }
+        let(delta_expected) { 1.5 }
+
+        it "estimates a delta" do
+          expect(delta_estimated).to eq(delta_expected)
+        end
+        it "estimates a delta that estimates zero" do
+          expect(zero_estimated).to eq(zero)
+        end
+      end
+    end
+
+    describe "b before a" do
+      context "0 b a" do
+        let(error_a) { 0.75 }
+        let(error_b) { 0.25 }
+        let(delta_expected) { 1.5 }
+
+        it "estimates a delta" do
+          expect(delta_estimated).to eq(delta_expected)
+        end
+        it "estimates a delta that estimates zero" do
+          expect(zero_estimated).to eq(zero)
+        end
+      end
+
+      context "a 0 b" do
+        let(error_a) { 0.5 }
+        let(error_b) { -0.5 }
+        let(delta_expected) { 0.5 }
+
+        it "estimates a delta" do
+          expect(delta_estimated).to eq(delta_expected)
+        end
+        it "estimates a delta that estimates zero" do
+          expect(zero_estimated).to eq(zero)
+        end
+      end
+
+      context "b a 0" do
+        let(error_a) { -0.25 }
+        let(error_b) { -0.75 }
+        let(delta_expected) { -0.5 }
+
+        it "estimates a delta" do
+          expect(delta_estimated).to eq(delta_expected)
+        end
+        it "estimates a delta that estimates zero" do
+          expect(zero_estimated).to eq(zero)
+        end
+      end
+    end
+  end
 end
