@@ -27,8 +27,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
     let(delta_child_1) { rand_excluding }
     let(delta_child_2) { rand_excluding }
 
-    let(ancestor_adam_value) { 0.1 }
-    let(ancestor_eve_value) { 0.9 }
+    let(ancestor_adam_learning_rate_expected) { 0.1 }
+    let(ancestor_eve_learning_rate_expected) { 0.9 }
 
     let(config_default_randomized) {
       Ai4cr::NeuralNetwork::Cmn::MiniNet.new.config
@@ -36,13 +36,13 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
 
     let(config_adam) {
       config_default_randomized.merge(
-        name: "Adam", learning_rate: ancestor_adam_value
+        name: "Adam", learning_rate: ancestor_adam_learning_rate_expected
       )
     }
 
     let(config_eve) {
       config_default_randomized.merge(
-        name: "Eve", learning_rate: ancestor_adam_value
+        name: "Eve", learning_rate: ancestor_eve_learning_rate_expected
       )
     }
 
@@ -53,93 +53,99 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
       my_breed_manager.counter_reset
     end
 
-    context "birth_id's are in the consistent order (when birthed in order" do
-      it "first Adam" do
-        expected_birth_counter = 0
-
-        # Adam
-        expected_birth_counter += 1
-        expect(ancestor_adam.birth_id).to eq(expected_birth_counter)
-
-        puts_debug
-        puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
-      end
-
-      it "first Adam then Eve" do
-        expected_birth_counter = 0
-
-        # Adam
-        expected_birth_counter += 1
-        expect(ancestor_adam.birth_id).to eq(expected_birth_counter)
-
-        # Eve
-        expected_birth_counter += 1
-        expect(ancestor_eve.birth_id).to eq(expected_birth_counter)
-
-        puts_debug
-        puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
-        puts_debug
-        puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
-      end
-
-      it "first Adam then Eve followed by Cain" do
-        expected_birth_counter = 0
-
-        # Adam
-        expected_birth_counter += 1
-        expect(ancestor_adam.birth_id).to eq(expected_birth_counter)
-
-        # Eve
-        expected_birth_counter += 1
-        expect(ancestor_eve.birth_id).to eq(expected_birth_counter)
-
-        # Cain
-        expected_birth_counter += 1
-        child_1 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
-        child_1.name = "Cain, child of #{child_1.name} and #{ancestor_eve.name}"
-        expect(child_1.birth_id).to eq(expected_birth_counter)
-
-        puts_debug
-        puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
-        puts_debug
-        puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
-        puts_debug
-        puts_debug "child_1: #{child_1.to_json}"
-      end
-
-      it "first Adam then Eve followed by Cain and then Abel" do
-        expected_birth_counter = 0
-
-        # Adam
-        expected_birth_counter += 1
-        expect(ancestor_adam.birth_id).to eq(expected_birth_counter)
-
-        # Eve
-        expected_birth_counter += 1
-        expect(ancestor_eve.birth_id).to eq(expected_birth_counter)
-
-        # Cain
-        expected_birth_counter += 1
-        child_1 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
-        child_1.name = "Cain, child of #{child_1.name} and #{ancestor_eve.name}"
-        expect(child_1.birth_id).to eq(expected_birth_counter)
-
-        # Abel
-        expected_birth_counter += 1
-        child_2 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_2)
-        child_2.name = "Abel, child of #{child_2.name} and #{ancestor_eve.name}"
-        expect(child_2.birth_id).to eq(expected_birth_counter)
-
-        puts_debug
-        puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
-        puts_debug
-        puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
-        puts_debug
-        puts_debug "child_1: #{child_1.to_json}"
-        puts_debug
-        puts_debug "child_2: #{child_2.to_json}"
-      end
+    it "learning rates of Adam and Eve are different" do
+      expect(ancestor_adam.learning_rate).to eq(ancestor_adam_learning_rate_expected)
+      expect(ancestor_eve.learning_rate).to eq(ancestor_eve_learning_rate_expected)
+      expect(ancestor_adam.learning_rate).not_to eq(ancestor_eve.learning_rate)
     end
+
+    # context "birth_id's are in the consistent order (when birthed in order" do
+    #   it "first Adam" do
+    #     expected_birth_counter = 0
+
+    #     # Adam
+    #     expected_birth_counter += 1
+    #     expect(ancestor_adam.birth_id).to eq(expected_birth_counter)
+
+    #     puts_debug
+    #     puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
+    #   end
+
+    #   it "first Adam then Eve" do
+    #     expected_birth_counter = 0
+
+    #     # Adam
+    #     expected_birth_counter += 1
+    #     expect(ancestor_adam.birth_id).to eq(expected_birth_counter)
+
+    #     # Eve
+    #     expected_birth_counter += 1
+    #     expect(ancestor_eve.birth_id).to eq(expected_birth_counter)
+
+    #     puts_debug
+    #     puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
+    #     puts_debug
+    #     puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
+    #   end
+
+    #   it "first Adam then Eve followed by Cain" do
+    #     expected_birth_counter = 0
+
+    #     # Adam
+    #     expected_birth_counter += 1
+    #     expect(ancestor_adam.birth_id).to eq(expected_birth_counter)
+
+    #     # Eve
+    #     expected_birth_counter += 1
+    #     expect(ancestor_eve.birth_id).to eq(expected_birth_counter)
+
+    #     # Cain
+    #     expected_birth_counter += 1
+    #     child_1 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
+    #     child_1.name = "Cain, child of #{child_1.name} and #{ancestor_eve.name}"
+    #     expect(child_1.birth_id).to eq(expected_birth_counter)
+
+    #     puts_debug
+    #     puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
+    #     puts_debug
+    #     puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
+    #     puts_debug
+    #     puts_debug "child_1: #{child_1.to_json}"
+    #   end
+
+    #   it "first Adam then Eve followed by Cain and then Abel" do
+    #     expected_birth_counter = 0
+
+    #     # Adam
+    #     expected_birth_counter += 1
+    #     expect(ancestor_adam.birth_id).to eq(expected_birth_counter)
+
+    #     # Eve
+    #     expected_birth_counter += 1
+    #     expect(ancestor_eve.birth_id).to eq(expected_birth_counter)
+
+    #     # Cain
+    #     expected_birth_counter += 1
+    #     child_1 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
+    #     child_1.name = "Cain, child of #{child_1.name} and #{ancestor_eve.name}"
+    #     expect(child_1.birth_id).to eq(expected_birth_counter)
+
+    #     # Abel
+    #     expected_birth_counter += 1
+    #     child_2 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_2)
+    #     child_2.name = "Abel, child of #{child_2.name} and #{ancestor_eve.name}"
+    #     expect(child_2.birth_id).to eq(expected_birth_counter)
+
+    #     puts_debug
+    #     puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
+    #     puts_debug
+    #     puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
+    #     puts_debug
+    #     puts_debug "child_1: #{child_1.to_json}"
+    #     puts_debug
+    #     puts_debug "child_2: #{child_2.to_json}"
+    #   end
+    # end
 
     describe "#mix_parts" do
       context "first Adam then Eve followed by Cain" do
@@ -172,6 +178,24 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
 
           # Cain
           child_1.name = "Cain, child of #{child_1.name} and #{ancestor_eve.name}"
+        end
+
+        it "debug" do
+          puts_debug
+          puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
+          puts_debug
+          puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
+          puts_debug
+          puts_debug "child_1: #{child_1.to_json}"
+          puts_debug
+
+          # puts_debug
+          # puts_debug "ancestor_adam: #{ancestor_adam.to_pretty_json}"
+          # puts_debug
+          # puts_debug "ancestor_eve: #{ancestor_eve.to_pretty_json}"
+          # puts_debug
+          # puts_debug "child_1: #{child_1.to_pretty_json}"
+          # puts_debug
         end
 
         context "first child" do
@@ -246,21 +270,21 @@ end
 
 # let(config_cain) {
 #   config_default_randomized.merge(
-#     name: "Cain", learning_rate: ancestor_adam_value
+#     name: "Cain", learning_rate: ancestor_adam_learning_rate_expected
 #   )
 # }
 
 # let(config_abel) {
 #   config_default_randomized.merge(
-#     name: "Abel", learning_rate: ancestor_adam_value
+#     name: "Abel", learning_rate: ancestor_adam_learning_rate_expected
 #   )
 # }
 
-# expect(ancestor_adam.learning_rate).to eq(ancestor_adam_value)
+# expect(ancestor_adam.learning_rate).to eq(ancestor_adam_learning_rate_expected)
 
 # expected_birth_counter += 1
 # expect(ancestor_eve.birth_id).to eq(expected_birth_counter)
-# expect(ancestor_eve.learning_rate).to eq(ancestor_eve_value)
+# expect(ancestor_eve.learning_rate).to eq(ancestor_eve_learning_rate_expected)
 
 # # cain
 # child_1 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
