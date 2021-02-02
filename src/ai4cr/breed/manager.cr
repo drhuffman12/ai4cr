@@ -1,7 +1,3 @@
-require "json"
-
-# require "./breed_utils.cr"
-
 module Ai4cr
   module Breed
     abstract class Manager(T)
@@ -57,6 +53,10 @@ module Ai4cr
         @counter = SafeCounter.new
       end
 
+      def counter_reset(value = 0)
+        @counter.reset(T.name, value)
+      end
+
       def create(**params)
         # i.e.: via NO parents
         channel = Channel(Int32).new
@@ -72,7 +72,20 @@ module Ai4cr
         child
       end
 
-      def breed(parent_a : T, parent_b : T, delta = (rand*2 - 0.5), **params)
+      def estimate_better_delta(error_a : Float64, error_b : Float64)
+        # An error value of '0.0' is when you're at the soultion.
+        # The error values are assumed to be positive (i.e.: radius from solution), but could be negative.
+        # So, the solution should be where the two errors overlap.
+        # Of course if the solution is not along the line between 'a' and 'b',
+        #   then you'll need to diverge from that line.
+
+        vector_a_to_b = error_b - error_a
+        # zero = error_a + delta * vector_a_to_b
+        # so (avoid div by 0 and then) return ...
+        vector_a_to_b == 0.0 ? 0.0 : -error_a / vector_a_to_b
+      end
+
+      def breed(parent_a : T, parent_b : T, delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5), **params)
         raise "Must be a Breed Client!" unless T < Breed::Client
 
         # i.e.: VIA parents
@@ -104,6 +117,15 @@ module Ai4cr
       def mix_parts(child : T, parent_a : T, parent_b : T, delta)
         # Sub-classes should do some sort of property mixing based on delta and both parents.
         # Typically, do something in sub-class's 'mix_one_part_number(..)' ...
+
+        # some_value = mix_one_part_number(parent_a.some_value, parent_b.some_value, delta)
+        # child.some_value = some_value
+
+        # some_array = mix_nested_parts(parent_a.some_array, parent_b.some_array, delta)
+        # child.some_array = some_array
+
+        # some_string = mix_nested_parts(parent_a.some_string, parent_b.some_string, delta)
+        # child.some_string = some_string
 
         # And then be sure to return 'child'
         child

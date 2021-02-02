@@ -132,7 +132,7 @@ module Ai4cr
       end
 
       def initial_weight_function
-        ->(_n : Int32, _i : Int32, _j : Int32) { 2*rand - 1 }
+        ->(_n : Int32, _i : Int32, _j : Int32) { Ai4cr::Data::Utils.rand_neg_one_to_pos_one_no_zero }
       end
 
       def propagation_function

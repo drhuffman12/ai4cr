@@ -15,8 +15,8 @@ class MyBreed
   property some_value : Float64 = -1.0
   property some_array = Array(Float64).new(2) { rand }
 
-  ALLOWED_STRING_FIRST = "a" # 'a' # .ord
-  ALLOWED_STRING_LAST  = "z" # 'z' # .ord
+  ALLOWED_STRING_FIRST = "a"
+  ALLOWED_STRING_LAST  = "z"
   ALLOWED_STRINGS      = (ALLOWED_STRING_FIRST..ALLOWED_STRING_LAST).to_a
   property some_string : String = (ALLOWED_STRINGS.sample) * 2
 
@@ -24,7 +24,7 @@ class MyBreed
   end
 end
 
-class MyBreeder < Ai4cr::Breed::Manager(MyBreed)
+class MyBreedManager < Ai4cr::Breed::Manager(MyBreed)
   def mix_parts(child : T, parent_a : T, parent_b : T, delta)
     some_value = mix_one_part_number(parent_a.some_value, parent_b.some_value, delta)
     child.some_value = some_value
@@ -44,20 +44,18 @@ def puts_debug(message = "")
 end
 
 Spectator.describe Ai4cr::Breed::Manager do
+  let(my_breed_manager) { MyBreedManager.new }
+
   describe "For Adam and Eve examples" do
     # TODO: Split this up into smaller tests!
-
-    let(my_breeder) { MyBreeder.new }
-    let(parallel_universe_breeder) { MyBreeder.new }
     let(delta_child_1) { (rand*2 - 0.5) }
     let(delta_child_2) { (rand*2 - 0.5) }
 
     let(ancestor_adam_value) { 0.0 }
     let(ancestor_eve_value) { 1.0 }
 
-    let(ancestor_adam_in_parallel_universe) { parallel_universe_breeder.create(name: "Adam", some_value: ancestor_adam_value) }
-    let(ancestor_adam) { my_breeder.create(name: "Adam", some_value: ancestor_adam_value) }
-    let(ancestor_eve) { my_breeder.create(name: "Eve", some_value: ancestor_eve_value) }
+    let(ancestor_adam) { my_breed_manager.create(name: "Adam", some_value: ancestor_adam_value) }
+    let(ancestor_eve) { my_breed_manager.create(name: "Eve", some_value: ancestor_eve_value) }
 
     let(some_array_expected_1) {
       ancestor_adam.some_array.map_with_index do |sa, i|
@@ -91,22 +89,16 @@ Spectator.describe Ai4cr::Breed::Manager do
       delta_child_2 < 0.5 ? parent_a_part : parent_b_part
     }
 
-    it "birth_id's are in the correct order (when birthed in correct order" do
+    it "birth_id's are in the consistent order (when birthed in order" do
       expected_birth_counter = 0
       puts_debug
-      puts_debug "ancestor_adam_in_parallel_universe: #{ancestor_adam_in_parallel_universe.to_json}"
       puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
       puts_debug
       puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
 
       expected_birth_counter += 1
 
-      # NOTE: We probably should convert the 'birth_id' from an instance variable to a class variable!
-      #   Otherwise, you could get multiple instances with separate counters,
-      #   which might or might not be desirable:
-      expect(ancestor_adam_in_parallel_universe.birth_id).to eq(expected_birth_counter)
       expect(ancestor_adam.birth_id).to eq(expected_birth_counter)
-
       expect(ancestor_adam.some_value).to eq(ancestor_adam_value)
 
       expected_birth_counter += 1
@@ -114,7 +106,7 @@ Spectator.describe Ai4cr::Breed::Manager do
       expect(ancestor_eve.some_value).to eq(ancestor_eve_value)
 
       # cain
-      child_1 = my_breeder.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
+      child_1 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
       child_1.name = "Cain, child of #{child_1.name} and #{ancestor_eve.name}"
 
       puts_debug "child_1: #{child_1.to_json}"
@@ -126,7 +118,7 @@ Spectator.describe Ai4cr::Breed::Manager do
       expect(child_1.some_string).to eq(some_string_expected_1)
 
       # abel
-      child_2 = my_breeder.breed(ancestor_adam, ancestor_eve, delta: delta_child_2)
+      child_2 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_2)
       child_2.name = "Abel, child of #{child_2.name} and #{ancestor_eve.name}"
 
       puts_debug "child_2: #{child_2.to_json}"
@@ -140,9 +132,97 @@ Spectator.describe Ai4cr::Breed::Manager do
       puts_debug
       puts_debug "Now, in order or youngest to oldest:"
       [ancestor_adam, ancestor_eve, child_1, child_2].sort_by do |person|
-        -person.birth_id
+        (-person.birth_id)
       end.each do |person|
         puts_debug "person: #{person.to_json}"
+      end
+    end
+  end
+
+  describe "#estimate_better_delta" do
+    let(delta_estimated) { my_breed_manager.estimate_better_delta(error_a, error_b) }
+    let(zero_estimated) { error_a + delta_estimated * (error_b - error_a) }
+    let(zero) { 0.0 }
+
+    describe "a before b" do
+      context "0 a b" do
+        let(error_a) { 0.25 }
+        let(error_b) { 0.75 }
+        let(delta_expected) { -0.5 }
+
+        it "estimates a delta" do
+          expect(delta_estimated).to eq(delta_expected)
+        end
+        it "estimates a delta that estimates zero" do
+          expect(zero_estimated).to eq(zero)
+        end
+      end
+
+      context "a 0 b" do
+        let(error_a) { -0.5 }
+        let(error_b) { 0.5 }
+        let(delta_expected) { 0.5 }
+
+        it "estimates a delta" do
+          expect(delta_estimated).to eq(delta_expected)
+        end
+        it "estimates a delta that estimates zero" do
+          expect(zero_estimated).to eq(zero)
+        end
+      end
+
+      context "a b 0" do
+        let(error_a) { -0.75 }
+        let(error_b) { -0.25 }
+        let(delta_expected) { 1.5 }
+
+        it "estimates a delta" do
+          expect(delta_estimated).to eq(delta_expected)
+        end
+        it "estimates a delta that estimates zero" do
+          expect(zero_estimated).to eq(zero)
+        end
+      end
+    end
+
+    describe "b before a" do
+      context "0 b a" do
+        let(error_a) { 0.75 }
+        let(error_b) { 0.25 }
+        let(delta_expected) { 1.5 }
+
+        it "estimates a delta" do
+          expect(delta_estimated).to eq(delta_expected)
+        end
+        it "estimates a delta that estimates zero" do
+          expect(zero_estimated).to eq(zero)
+        end
+      end
+
+      context "a 0 b" do
+        let(error_a) { 0.5 }
+        let(error_b) { -0.5 }
+        let(delta_expected) { 0.5 }
+
+        it "estimates a delta" do
+          expect(delta_estimated).to eq(delta_expected)
+        end
+        it "estimates a delta that estimates zero" do
+          expect(zero_estimated).to eq(zero)
+        end
+      end
+
+      context "b a 0" do
+        let(error_a) { -0.25 }
+        let(error_b) { -0.75 }
+        let(delta_expected) { -0.5 }
+
+        it "estimates a delta" do
+          expect(delta_estimated).to eq(delta_expected)
+        end
+        it "estimates a delta that estimates zero" do
+          expect(zero_estimated).to eq(zero)
+        end
       end
     end
   end

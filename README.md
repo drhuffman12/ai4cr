@@ -42,9 +42,17 @@ net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
 assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
 ```
 
-## Multithreading
+## Optimiaztions
 
-Use the `-Dpreview_mt` flag for multithreading.
+* Compiler
+
+Use `--release` for more code optimizations during the compilation steps.
+
+e.g.: `time crystal spec --release`
+
+* Multithreading
+
+Use the `-Dpreview_mt` (or `-D preview_mt`) flag for multithreading.
 
 See also:
 * https://crystal-lang.org/2019/09/23/crystal-0.31.0-released.html

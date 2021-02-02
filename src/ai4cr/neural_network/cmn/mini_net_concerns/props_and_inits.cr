@@ -3,115 +3,60 @@ module Ai4cr
     module Cmn
       module MiniNetConcerns
         module PropsAndInits
-          getter width : Int32, height : Int32
-          getter height_considering_bias : Int32
-          getter width_indexes : Array(Int32), height_indexes : Array(Int32)
+          def config
+            {
+              height:         @height,
+              width:          @width,
+              learning_style: @learning_style,
 
-          property inputs_given : Array(Float64), outputs_guessed : Array(Float64)
-          property weights : Array(Array(Float64))
-          property last_changes : Array(Array(Float64)) # aka previous weights
-          property output_errors : Array(Float64)
+              deriv_scale: @deriv_scale,
 
-          property outputs_expected : Array(Float64)
+              disable_bias: disable_bias,
+              bias_default: @bias_default,
 
-          property input_deltas : Array(Float64), output_deltas : Array(Float64)
+              learning_rate: learning_rate,
+              momentum:      momentum,
+              history_size:  history_size,
 
-          property learning_style : LearningStyle
-          property deriv_scale : Float64
-          property bias_default : Float64
-          property disable_bias : Bool
-          property learning_rate : Float64
-          property momentum : Float64
-
-          # # getter name : Ai4cr::BreededName
-          # getter error_stats = Ai4cr::ErrorStats.new
-          getter error_stats : Ai4cr::ErrorStats
-
-          # include Ai4cr::BreedParent(self.class)
+              name: name,
+            }
+          end
 
           def initialize(
-            @height, @width,
+            @height = 2, @width = 2,
             @learning_style : LearningStyle = LS_RELU,
 
-            # for Prelu
-            # TODO: set deriv_scale based on ?
-            # @deriv_scale = 0.1,
-            # @deriv_scale = 0.01,
-            # @deriv_scale = 0.001,
-            @deriv_scale = rand / 2.0,
+            @deriv_scale = Ai4cr::Data::Utils.rand_excluding(scale: 0.5),
 
             disable_bias : Bool? = nil, @bias_default = 1.0,
 
             learning_rate : Float64? = nil, momentum : Float64? = nil,
-            history_size : Int32 = 10
-            # name_instance = ""
-          )
-            # super(name_instance: name_instance)
-            # @name = init_name(name_instance)
+            @history_size : Int32 = 10,
 
+            name : String? = ""
+          )
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
             @disable_bias = disable_bias.nil? ? false : !!disable_bias
 
-            @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
-            @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
+            @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding : learning_rate.as(Float64)
+            @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : Ai4cr::Data::Utils.rand_excluding
+
+            @name = name.nil? ? "" : name
 
             # init_network:
-            @height_considering_bias = @height + (@disable_bias ? 0 : 1)
-            @height_indexes = Array.new(@height_considering_bias) { |i| i }
-
-            @inputs_given = Array.new(@height_considering_bias, 0.0)
-            @inputs_given[-1] = bias_default unless @disable_bias
-
-            @input_deltas = Array.new(@height_considering_bias, 0.0)
-
-            @width_indexes = Array.new(width) { |i| i }
-
-            @outputs_guessed = Array.new(width, 0.0)
-            @outputs_expected = Array.new(width, 0.0)
-            @output_deltas = Array.new(width, 0.0)
-
-            # TODO: set weights based on learning_type
-            @weights = @height_indexes.map { @width_indexes.map { rand*2 - 1 } }
-            # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(2.0/(height_considering_bias + width))) } }
-            # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(height_considering_bias/2.0)) } }
-
-            @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
-            @output_errors = @width_indexes.map { 0.0 }
-
-            @error_stats = Ai4cr::ErrorStats.new(history_size)
-          end
-
-          def init_network(history_size : Int32 = 10)
-            # init_network:
-            @height_considering_bias = @height + (@disable_bias ? 0 : 1)
-            @height_indexes = Array.new(@height_considering_bias) { |i| i }
-
-            @inputs_given = Array.new(@height_considering_bias, 0.0)
-            @inputs_given[-1] = bias_default unless @disable_bias
-            @input_deltas = Array.new(@height_considering_bias, 0.0)
-
-            @width_indexes = Array.new(width) { |i| i }
-
-            @outputs_guessed = Array.new(width, 0.0)
-            @outputs_expected = Array.new(width, 0.0)
-            @output_deltas = Array.new(width, 0.0)
-
-            # Weight initialization (https://medium.com/datadriveninvestor/deep-learning-best-practices-activation-functions-weight-initialization-methods-part-1-c235ff976ed)
-            # * Xavier initialization mostly used with tanh and logistic activation function
-            # * He-initialization mostly used with ReLU or it’s variants — Leaky ReLU.
-            @weights = @height_indexes.map { @width_indexes.map { rand*2 - 1 } }
-            # @weights = Array.new(height_considering_bias) { Array.new(width) { (rand*2 - 1) } }
-            # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(2.0/(height_considering_bias + width))) } }
-            # @weights = @height_indexes.map { @width_indexes.map { (rand*2 - 1)*(Math.sqrt(height_considering_bias/2.0)) } }
-
-            @last_changes = Array.new(@height_considering_bias, Array.new(width, 0.0))
-            @output_errors = @width_indexes.map { 0.0 }
+            init_network # (history_size)
 
             @error_stats = Ai4cr::ErrorStats.new(history_size)
           end
 
           def structure
             [height, width]
+          end
+
+          def init_network # (history_size : Int32 = 10)
+            init_net_re_structure
+            init_net_re_guess
+            init_net_re_train # (history_size)
           end
         end
       end

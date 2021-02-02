@@ -3,6 +3,63 @@ module Ai4cr
     module Rnn
       module RnnSimpleConcerns
         module CalcGuess
+          # The 'io_offset' param is for setting, for a given time column, how much the inputs and outputs should be offset.
+          #   For example, let's say the inputs and outputs are weather data and you want to guess tomorrow's weather based
+          #     on today's and the past weather.
+          #     * Setting 'io_offset' value to '-1' would mean that (we're just init'ing it or...) the outputs in tc
+          #       number 0 would also represent weather data for day number -1 (which would be guessing yesterday's
+          #       weather, which would overlap with the input data and probably not be of much help)
+          #     * Setting 'io_offset' value to '0' would mean that the outputs in tc # 0 would also represent weather data
+          #       for day # 0 (straight pass-thru; not good for guessing the future, but good for translating one set of data
+          #       to another, like English to Spanish or speech to text)
+          #     * Setting 'io_offset' value to '1' would mean that the outputs in tc # 0 would also represent weather data
+          #       for day # 1 (and would let you guess tomorrow's weather based on today's and the past weather)
+          getter io_offset = -1
+
+          getter time_col_qty = -1
+
+          getter input_size = -1
+          getter output_size = -1
+          getter hidden_layer_qty = -1
+          getter hidden_size_given : Int32? = nil
+
+          getter hidden_size = -1
+
+          property disable_bias = false
+          property bias_default = 1.0
+
+          property learning_style = LS_RELU
+
+          property learning_rate : Float64 = Ai4cr::Data::Utils.rand_excluding
+          property momentum : Float64 = Ai4cr::Data::Utils.rand_excluding
+          property deriv_scale : Float64 = Ai4cr::Data::Utils.rand_excluding(scale: 0.5)
+
+          getter synaptic_layer_qty : Int32
+
+          # TODO: For 'errors', research using a key of an Enum instead of String. (Using Symbol's seems incompatible with 'from_json'.)
+          getter errors = Hash(String, String).new
+          getter valid = false
+
+          getter synaptic_layer_qty = -1
+
+          getter synaptic_layer_indexes = Array(Int32).new
+          getter time_col_indexes = Array(Int32).new
+
+          getter synaptic_layer_indexes_reversed = Array(Int32).new
+          getter time_col_indexes_reversed = Array(Int32).new
+
+          getter synaptic_layer_index_last = -1 # Int32.new
+          getter time_col_index_last = -1       # Int32.new
+
+          property node_output_sizes = Array(Int32).new
+          property node_input_sizes = Array(Array(NamedTuple(
+            previous_synaptic_layer: Int32,
+            previous_time_column: Int32))).new
+
+          property mini_net_set = Array(Array(Cmn::MiniNet)).new
+
+          getter input_set_given = Array(Array(Float64)).new
+
           # steps for 'eval' aka 'guess':
           def eval(input_set_given)
             # TODO: Review/compare w/ 'train' and adjust as applicable!

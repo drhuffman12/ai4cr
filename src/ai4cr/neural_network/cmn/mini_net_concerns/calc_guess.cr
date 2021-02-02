@@ -8,7 +8,52 @@ module Ai4cr
           # def propagation_function
           #   ->(x : Float64) { x } # { 1/(1 + Math.exp(-1*(x))) } # lambda { |x| Math.tanh(x) }
           # end
-          abstract def propagation_function
+          # abstract def propagation_function
+
+          property learning_style = LS_RELU
+
+          property bias_default = 1.0
+          property disable_bias = false
+          property learning_rate : Float64 = Ai4cr::Data::Utils.rand_excluding
+          property momentum : Float64 = Ai4cr::Data::Utils.rand_excluding
+
+          # for Prelu
+          # TODO: set deriv_scale based on ?
+          # @deriv_scale = 0.1,
+          # @deriv_scale = 0.01,
+          # @deriv_scale = 0.001,
+          property deriv_scale : Float64 = Ai4cr::Data::Utils.rand_excluding(scale: 0.5)
+
+          getter width = -1
+          getter height = -1
+
+          getter height_considering_bias = -1
+          getter width_indexes = Array(Int32).new
+          getter height_indexes = Array(Int32).new
+
+          property weights = Array(Array(Float64)).new
+
+          property inputs_given = Array(Float64).new
+          property outputs_guessed = Array(Float64).new
+
+          def init_net_re_structure
+            @height_considering_bias = @height + (@disable_bias ? 0 : 1)
+            @height_indexes = Array.new(@height_considering_bias) { |i| i }
+            @width_indexes = Array.new(width) { |i| i }
+            # Weight initialization (https://medium.com/datadriveninvestor/deep-learning-best-practices-activation-functions-weight-initialization-methods-part-1-c235ff976ed)
+            # * Xavier initialization mostly used with tanh and logistic activation function
+            # * He-initialization mostly used with ReLU or it’s variants — Leaky ReLU.
+            @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Data::Utils.rand_neg_one_to_pos_one_no_zero } }
+            # @weights = Array.new(height_considering_bias) { Array.new(width) { Ai4cr::Data::Utils.rand_neg_one_to_pos_one_no_zero } }
+            # @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Data::Utils.rand_neg_one_to_pos_one_no_zero*(Math.sqrt(2.0/(height_considering_bias + width))) } }
+            # @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Data::Utils.rand_neg_one_to_pos_one_no_zero*(Math.sqrt(height_considering_bias/2.0)) } }
+          end
+
+          def init_net_re_guess
+            @inputs_given = Array.new(@height_considering_bias, 0.0)
+            @inputs_given[-1] = bias_default unless @disable_bias
+            @outputs_guessed = Array.new(width, 0.0)
+          end
 
           # steps for 'eval' aka 'guess':
           def eval(inputs_given) # aka eval

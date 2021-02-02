@@ -1,5 +1,5 @@
 class SafeCounter
-  # Thanks to https://itnext.io/comparing-crystals-concurrency-with-that-of-go-part-ii-89049701b1a5
+  # Based on and with much thanks to: https://itnext.io/comparing-crystals-concurrency-with-that-of-go-part-ii-89049701b1a5
   #
   # Example Usage:
   # ```
@@ -12,24 +12,35 @@ class SafeCounter
   # puts c.value("someKey")
   # ```
 
-  def initialize
-    @v = Hash(String, Int32).new
-    @mux = Mutex.new
-  end
+  @@v = Hash(String, Int32).new(0)
 
-  def inc(key : String)
-    @mux.lock
-    value = @v.has_key?(key) ? @v[key] + 1 : 1
-    @v[key] = value
-  ensure
-    @mux.unlock
-    value
+  def initialize
+    @mux = Mutex.new
   end
 
   def value(key : String)
     @mux.lock
-    @v[key]
+    @@v[key]
   ensure
     @mux.unlock
+  end
+
+  def inc(key : String)
+    @mux.lock
+    val = @@v.has_key?(key) ? @@v[key] + 1 : 1
+    @@v[key] = val
+  ensure
+    @mux.unlock
+    val
+  end
+
+  def reset(key : String, val : Int32 = 0)
+    # Unfortunately, mutex's don't seem to work with to_/from_json, so we'll use a 'reset' method.
+    # i.e.: include JSON::Serializable => Error: no overload matches 'Mutex#to_json' with type JSON::Builder
+    @mux.lock
+    @@v[key] = val
+  ensure
+    @mux.unlock
+    val
   end
 end

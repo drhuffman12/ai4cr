@@ -3,17 +3,6 @@ module Ai4cr
     module Rnn
       module RnnSimpleConcerns
         module PropsAndInits
-          # The 'io_offset' param is for setting, for a given time column, how much the inputs and outputs should be offset.
-          #   For example, let's say the inputs and outputs are weather data and you want to guess tomorrow's weather based
-          #     on today's and the past weather.
-          #     * Setting 'io_offset' value to '-1' would mean that the outputs in tc # 0 would also represent weather data
-          #       for day # -1 (which would be guessing yesterday's weather, which would overlap with the input data and
-          #       probably not be of much help)
-          #     * Setting 'io_offset' value to '0' would mean that the outputs in tc # 0 would also represent weather data
-          #       for day # 0 (straight pass-thru; not good for guessing the future, but good for translating one set of data
-          #       to another, like English to Spanish or speech to text)
-          #     * Setting 'io_offset' value to '1' would mean that the outputs in tc # 0 would also represent weather data
-          #       for day # 1 (and would let you guess tomorrow's weather based on today's and the past weather)
           IO_OFFSET_DEFAULT = 1
 
           TIME_COL_QTY_MIN      = 2
@@ -21,56 +10,6 @@ module Ai4cr
           INPUT_SIZE_MIN        = 2
           OUTPUT_SIZE_MIN       = 1
           HIDDEN_SIZE_GIVEN_MIN = INPUT_SIZE_MIN + OUTPUT_SIZE_MIN
-
-          # include Ai4cr::BreedParent
-
-          getter io_offset : Int32
-          getter time_col_qty : Int32
-
-          getter input_size : Int32
-          getter output_size : Int32
-          getter hidden_layer_qty : Int32
-          getter hidden_size_given : Int32?
-
-          getter hidden_size : Int32
-
-          property disable_bias : Bool
-          property bias_default : Float64
-
-          property learning_style : LearningStyle
-
-          property learning_rate : Float64
-          property momentum : Float64
-          property deriv_scale : Float64
-
-          getter synaptic_layer_qty : Int32
-
-          # TODO: For 'errors', research using a key of an Enum instead of String. (Using Symbol's seems incompatible with 'from_json'.)
-          getter errors : Hash(String, String)
-          getter valid : Bool
-
-          getter synaptic_layer_indexes : Array(Int32)
-          getter time_col_indexes : Array(Int32)
-
-          getter synaptic_layer_indexes_reversed : Array(Int32)
-          getter time_col_indexes_reversed : Array(Int32)
-
-          getter synaptic_layer_index_last : Int32
-          getter time_col_index_last : Int32
-
-          property node_output_sizes : Array(Int32)
-          property node_input_sizes : Array(Array(NamedTuple(
-            previous_synaptic_layer: Int32,
-            previous_time_column: Int32)))
-
-          property mini_net_set : Array(Array(Cmn::MiniNet))
-
-          getter error_stats : Ai4cr::ErrorStats
-
-          getter all_output_errors : Array(Array(Float64))
-
-          getter input_set_given : Array(Array(Float64))
-          getter output_set_expected : Array(Array(Float64))
 
           # TODO: Handle usage of a 'structure' param in 'initialize'
           # def initialize(@time_col_qty = TIME_COL_QTY_MIN, @structure = [INPUT_SIZE_MIN, OUTPUT_SIZE_MIN])
@@ -114,56 +53,35 @@ module Ai4cr
 
             learning_rate : Float64? = nil,
             momentum : Float64? = nil,
-            @deriv_scale = rand / 2.0, # for Prelu
+            deriv_scale : Float64? = nil,
 
-            history_size : Int32 = 10
-            # name_instance = ""
+            history_size : Int32? = 10
           )
-            # @name = init_name(name_instance)
-
-            # # init_network
-
-            # TODO: Handle differing hidden layer output sizes
-            if hidden_size_given.is_a?(Int32)
-              @hidden_size = @hidden_size_given.as(Int32)
-            else
-              @hidden_size = @input_size + @output_size
-            end
-
-            # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
-            @disable_bias = disable_bias.nil? ? false : disable_bias
-
-            @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
-            @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
-
-            @valid = false
-            @errors = Hash(String, String).new
-            validate!
-
-            @synaptic_layer_qty = hidden_layer_qty + 1
-
-            @synaptic_layer_indexes = calc_synaptic_layer_indexes
-            @time_col_indexes = calc_time_col_indexes
-
-            @synaptic_layer_indexes_reversed = @synaptic_layer_indexes.reverse
-            @time_col_indexes_reversed = @time_col_indexes.reverse
-
-            @synaptic_layer_index_last = @valid ? @synaptic_layer_indexes.last : -1
-            @time_col_index_last = @valid ? @time_col_indexes.last : -1
-            @node_output_sizes = calc_node_output_sizes
-            @node_input_sizes = calc_node_input_sizes
-
-            @mini_net_set = init_mini_net_set
-
+            init_network(hidden_size_given, disable_bias, learning_rate, momentum, deriv_scale, history_size)
             @error_stats = Ai4cr::ErrorStats.new(history_size)
-
-            @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }
-
-            @input_set_given = Array(Array(Float64)).new
-            @output_set_expected = Array(Array(Float64)).new
           end
 
-          def init_network
+          def init_network(
+            hidden_size_given : Int32? = 10,
+            disable_bias : Bool? = nil,
+            learning_rate : Float64? = nil,
+            momentum : Float64? = nil,
+            deriv_scale : Float64? = nil,
+            history_size : Int32? = 10
+          )
+            init_network_config(hidden_size_given, disable_bias, learning_rate, momentum, deriv_scale)
+            init_network_mini_net_set
+
+            @error_stats = Ai4cr::ErrorStats.new(history_size)
+          end
+
+          def init_network_config(
+            hidden_size_given : Int32? = 10,
+            disable_bias : Bool? = nil,
+            learning_rate : Float64? = nil,
+            momentum : Float64? = nil,
+            deriv_scale : Float64? = nil
+          )
             # TODO: Handle differing hidden layer output sizes
             if hidden_size_given.is_a?(Int32)
               @hidden_size = @hidden_size_given.as(Int32)
@@ -174,15 +92,18 @@ module Ai4cr
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
             @disable_bias = disable_bias.nil? ? false : !!disable_bias
 
-            @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? rand : learning_rate.as(Float64)
-            @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : rand
+            @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding : learning_rate.as(Float64)
+            @momentum = momentum.nil? || momentum.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding : momentum.as(Float64)
+            @deriv_scale = deriv_scale.nil? || deriv_scale.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding / 2.0 : deriv_scale.as(Float64)
 
             @valid = false
             @errors = Hash(String, String).new
             validate!
 
             @synaptic_layer_qty = hidden_layer_qty + 1
+          end
 
+          def init_network_mini_net_set
             @synaptic_layer_indexes = calc_synaptic_layer_indexes
             @time_col_indexes = calc_time_col_indexes
 
@@ -195,8 +116,6 @@ module Ai4cr
             @node_input_sizes = calc_node_input_sizes
 
             @mini_net_set = init_mini_net_set
-
-            @error_stats = Ai4cr::ErrorStats.new(history_size)
 
             @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }
 
