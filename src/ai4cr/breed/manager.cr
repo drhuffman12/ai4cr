@@ -95,9 +95,7 @@ module Ai4cr
         end
         birth_id = channel.receive
 
-        child = parts_to_copy(parent_a, parent_b, delta)
-
-        child = mix_parts(child, parent_a, parent_b, delta)
+        child = copy_and_mix(parent_a, parent_b, delta)
 
         child.birth_id = birth_id
         child.parent_a_id = parent_a.birth_id
@@ -105,6 +103,11 @@ module Ai4cr
         child.breed_delta = delta
 
         child
+      end
+
+      def copy_and_mix(parent_a, parent_b, delta)
+        child = parts_to_copy(parent_a, parent_b, delta)
+        mix_parts(child, parent_a, parent_b, delta)
       end
 
       def parts_to_copy(parent_a : T, parent_b : T, delta)

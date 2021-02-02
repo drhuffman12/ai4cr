@@ -17,6 +17,7 @@ module Ai4cr
         include RnnSimpleConcerns::TrainAndAdjust
         include RnnSimpleConcerns::RollUps
         include RnnSimpleConcerns::DataUtils
+        include Ai4cr::Breed::Client
       end
     end
   end
