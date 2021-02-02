@@ -8,7 +8,7 @@ end
 Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
   let(my_breed_manager) { Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager.new }
 
-  # describe "For Adam and Eve examples" do
+  describe "For Adam and Eve examples" do
   #   let(delta_child_1) { Ai4cr::Data::Utils.rand_neg_half_to_pos_one_and_half_no_zero_no_one }
   #   let(delta_child_2) { Ai4cr::Data::Utils.rand_neg_half_to_pos_one_and_half_no_zero_no_one }
 
@@ -212,7 +212,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
   #       end
   #     end
   #   end
-  # end
+  end
 end
 
 # let(weights_expected_1) {
