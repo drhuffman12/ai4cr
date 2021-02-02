@@ -101,6 +101,15 @@ module Ai4cr
         # Sub-classes should do some sort of property mixing based on delta and both parents.
         # Typically, do something in sub-class's 'mix_one_part_number(..)' ...
 
+        # some_value = mix_one_part_number(parent_a.some_value, parent_b.some_value, delta)
+        # child.some_value = some_value
+
+        # some_array = mix_nested_parts(parent_a.some_array, parent_b.some_array, delta)
+        # child.some_array = some_array
+    
+        # some_string = mix_nested_parts(parent_a.some_string, parent_b.some_string, delta)
+        # child.some_string = some_string
+    
         # And then be sure to return 'child'
         child
       end

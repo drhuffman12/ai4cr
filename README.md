@@ -48,9 +48,11 @@ assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.00000000
 
 Use `--release` for more code optimizations during the compilation steps.
 
+e.g.: `time crystal spec --release`
+
 * Multithreading
 
-Use the `-Dpreview_mt` flag for multithreading.
+Use the `-Dpreview_mt` (or `-D preview_mt`) flag for multithreading.
 
 See also:
 * https://crystal-lang.org/2019/09/23/crystal-0.31.0-released.html
