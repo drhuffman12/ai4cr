@@ -7,7 +7,6 @@ module Ai4cr
     property training_round_indexes : Array(Int32)
     getter team_indexes : Array(Int32)
     getter team_members : Array(T)
-    # getter team_workers :
 
     property member_config
 
