@@ -37,7 +37,7 @@ module Ai4cr
 
               history_size: @history_size,
 
-              name: name
+              name: name,
             }
           end
 

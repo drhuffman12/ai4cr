@@ -21,8 +21,8 @@ module Ai4cr
             child.time_col_indexes.each do |ti|
               mini_net_a = parent_a.mini_net_set[li][ti]
               mini_net_b = parent_b.mini_net_set[li][ti]
-              
-              child.mini_net_set[li][ti] = mini_net_manager.breed(mini_net_a, mini_net_b, delta)              
+
+              child.mini_net_set[li][ti] = mini_net_manager.breed(mini_net_a, mini_net_b, delta)
             end
           end
 
