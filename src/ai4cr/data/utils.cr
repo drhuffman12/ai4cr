@@ -1,9 +1,9 @@
 module Ai4cr
   module Data
     class Utils
-      SCALE_DEFAULT = 1.0
-      OFFSET_DEFAULT = 0.0
-      EXCLUDES_DEFAULT = [0.0, 1.0]
+      SCALE_DEFAULT     = 1.0
+      OFFSET_DEFAULT    = 0.0
+      EXCLUDES_DEFAULT  = [0.0, 1.0]
       PROXIMITY_DEFAULT = 0.0001
 
       # Ai4cr::Data::Utils.rand_excluding (with defaults), aka: def self.rand_zero_to_one_no_zero

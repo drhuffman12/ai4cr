@@ -5,8 +5,8 @@ def puts_debug(message = "")
   puts message if ENV.has_key?("DEBUG") && ENV["DEBUG"] == "1"
 end
 
-Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
-  let(my_breed_manager) { Ai4cr::NeuralNetwork::Cmn::MiniNetManager.new }
+Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
+  let(my_breed_manager) { Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager.new }
 
   describe "For Adam and Eve examples" do
     let(delta_child_1) { Ai4cr::Data::Utils.rand_neg_half_to_pos_one_and_half_no_zero_no_one }
@@ -16,13 +16,12 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
     let(ancestor_eve_learning_rate_expected) { 0.9 }
 
     let(config_default_randomized) {
-      Ai4cr::NeuralNetwork::Cmn::MiniNet.new.config
+      Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
     }
 
     let(config_adam) {
       config_default_randomized.merge(
-        name: "Adam",
-        learning_rate: ancestor_adam_learning_rate_expected,
+        name: "Adam", learning_rate: ancestor_adam_learning_rate_expected,
         momentum: Ai4cr::Data::Utils.rand_excluding,
         deriv_scale: Ai4cr::Data::Utils.rand_excluding / 2.0
       )
@@ -30,8 +29,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
 
     let(config_eve) {
       config_default_randomized.merge(
-        name: "Eve",
-        learning_rate: ancestor_eve_learning_rate_expected,
+        name: "Eve", learning_rate: ancestor_eve_learning_rate_expected,
         momentum: Ai4cr::Data::Utils.rand_excluding,
         deriv_scale: Ai4cr::Data::Utils.rand_excluding / 2.0
       )
@@ -200,6 +198,37 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
             end
 
             # ... do likewise for other applicable variables
+
+            context "mini_net_set" do
+              let(li) { 0 }
+              let(ti) { li }
+
+              let(ancestor_adam_mini_net) { ancestor_adam.mini_net_set[li][ti] }
+              let(ancestor_eve_mini_net) { ancestor_eve.mini_net_set[li][ti] }
+              let(child_1_mini_net) { child_1.mini_net_set[li][ti] }
+
+              context "gets expected value(s) for" do
+                it "learning_rate" do
+                  expect(ancestor_adam.learning_rate).to eq(ancestor_adam_mini_net.learning_rate)
+                  expect(ancestor_eve.learning_rate).to eq(ancestor_eve_mini_net.learning_rate)
+                  expect(child_1.learning_rate).to eq(child_1_mini_net.learning_rate)
+
+                  expect(child_1_mini_net.learning_rate).to eq(learning_rate_expected_1)
+                end
+
+                it "momentum" do
+                  # expect(child_1.momentum).to eq(momentum_expected_1)
+
+                  expect(ancestor_adam.momentum).to eq(ancestor_adam_mini_net.momentum)
+                  expect(ancestor_eve.momentum).to eq(ancestor_eve_mini_net.momentum)
+                  expect(child_1.momentum).to eq(child_1_mini_net.momentum)
+
+                  expect(child_1_mini_net.momentum).to eq(momentum_expected_1)
+                end
+
+                # ... do likewise for other applicable variables
+              end
+            end
           end
 
           context "does not get exact copy of either parent for values of" do
@@ -214,6 +243,29 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
             end
 
             # ... do likewise for other applicable variables
+
+            context "mini_net_set" do
+              let(li) { 0 }
+              let(ti) { li }
+
+              let(ancestor_adam_mini_net) { ancestor_adam.mini_net_set[li][ti] }
+              let(ancestor_eve_mini_net) { ancestor_eve.mini_net_set[li][ti] }
+              let(child_1_mini_net) { child_1.mini_net_set[li][ti] }
+
+              context "does not get exact copy of either parent for values of" do
+                it "learning_rate" do
+                  expect(child_1_mini_net.learning_rate).not_to eq(ancestor_adam_mini_net)
+                  expect(child_1_mini_net.learning_rate).not_to eq(ancestor_eve_mini_net)
+                end
+
+                it "momentum" do
+                  expect(child_1_mini_net.momentum).not_to eq(ancestor_adam_mini_net)
+                  expect(child_1_mini_net.momentum).not_to eq(ancestor_eve_mini_net)
+                end
+
+                # ... do likewise for other applicable variables
+              end
+            end
           end
         end
       end
