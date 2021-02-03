@@ -85,18 +85,26 @@ module Ai4cr
         vector_a_to_b == 0.0 ? 0.0 : -error_a / vector_a_to_b
       end
 
-      def breed(parent_a : T, parent_b : T, delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5), **params)
+      def breed(parent_a : T, parent_b : T, delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5)) #, **params)
         raise "Must be a Breed Client!" unless T < Breed::Client
 
         # i.e.: VIA parents
+        birth_id = breed_counter_tick
+
+        child = copy_and_mix(parent_a, parent_b, delta)
+
+        breed_id_and_delta(child, birth_id, parent_a, parent_b, delta)
+      end
+
+      def breed_counter_tick
         channel = Channel(Int32).new
         spawn do
           channel.send(@counter.inc(T.name))
         end
-        birth_id = channel.receive
+        channel.receive
+      end
 
-        child = copy_and_mix(parent_a, parent_b, delta)
-
+      def breed_id_and_delta(child, birth_id, parent_a, parent_b, delta)
         child.birth_id = birth_id
         child.parent_a_id = parent_a.birth_id
         child.parent_b_id = parent_b.birth_id
@@ -134,7 +142,7 @@ module Ai4cr
         child
       end
 
-      def mix_one_part_number(parent_a_part : Float64, parent_b_part : Float64, delta)
+      def mix_one_part_number(parent_a_part : Number, parent_b_part : Number, delta)
         vector_a_to_b = parent_b_part - parent_a_part
         parent_a_part + (delta * vector_a_to_b)
       end

@@ -11,12 +11,12 @@ module Ai4cr
 
               deriv_scale: @deriv_scale,
 
-              disable_bias: disable_bias,
+              disable_bias: @disable_bias,
               bias_default: @bias_default,
 
-              learning_rate: learning_rate,
-              momentum:      momentum,
-              history_size:  history_size,
+              learning_rate: @learning_rate,
+              momentum:      @momentum,
+              history_size:  @history_size,
 
               name: name,
             }

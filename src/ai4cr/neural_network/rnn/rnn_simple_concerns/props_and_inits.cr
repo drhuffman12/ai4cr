@@ -34,6 +34,10 @@ module Ai4cr
               learning_rate: @learning_rate,
               momentum:      @momentum,
               deriv_scale:   @deriv_scale,
+
+              history_size: @history_size,
+
+              name: name
             }
           end
 
@@ -55,8 +59,12 @@ module Ai4cr
             momentum : Float64? = nil,
             deriv_scale : Float64? = nil,
 
-            history_size : Int32? = 10
+            history_size : Int32? = 10,
+
+            name : String? = nil
           )
+            @name = name.nil? ? "" : name
+
             init_network(hidden_size_given, disable_bias, learning_rate, momentum, deriv_scale, history_size)
             @error_stats = Ai4cr::ErrorStats.new(history_size)
           end
