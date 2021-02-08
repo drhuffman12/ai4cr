@@ -25,6 +25,12 @@ class MyBreed
 end
 
 class MyBreedManager < Ai4cr::Breed::Manager(MyBreed)
+  include JSON::Serializable
+  class_getter counter : CounterSafe::Exclusive = CounterSafe::Exclusive.new
+
+  def initialize
+  end
+
   def mix_parts(child : T, parent_a : T, parent_b : T, delta)
     some_value = mix_one_part_number(parent_a.some_value, parent_b.some_value, delta)
     child.some_value = some_value

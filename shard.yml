@@ -16,6 +16,9 @@ dependencies:
     # version: ~> 1.4.0
     branch: master
 
+  counter_safe:
+    github: drhuffman12/counter_safe
+
 development_dependencies:
 
   ## Un-comment/edit after Crystal 0.36.0 or 1.0 compatible:
@@ -58,7 +61,7 @@ development_dependencies:
   faker:
     github: askn/faker
 
-  # # TODO: Fix ameba dependencies or wait for newer version of anykeyh/crystal-coverage
+  # # TODO: Fix ameba dependencies or wait for newer version of crystal-coverage (aka https://github.com/anykeyh/crystal-coverage)
   # # Error is:
   # # ```
   # # 12 | new(YAML::ParseContext.new, parse_yaml(string_or_io))

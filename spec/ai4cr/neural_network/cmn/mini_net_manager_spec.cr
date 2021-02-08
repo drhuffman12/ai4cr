@@ -8,6 +8,21 @@ end
 Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
   let(my_breed_manager) { Ai4cr::NeuralNetwork::Cmn::MiniNetManager.new }
 
+  before_each do
+    my_breed_manager.counter.reset!
+  end
+
+  context "when multiple MiniNetManagers" do
+    let(my_breed_manager1) { Ai4cr::NeuralNetwork::Cmn::MiniNetManager.new }
+    let(my_breed_manager2) { Ai4cr::NeuralNetwork::Cmn::MiniNetManager.new }
+
+    it "foo" do
+      to_json = my_breed_manager.to_json
+      expect(to_json).to be_a(String)
+    end
+
+  end
+
   describe "For Adam and Eve examples" do
     let(delta_child_1) { Ai4cr::Data::Utils.rand_neg_half_to_pos_one_and_half_no_zero_no_one }
     let(delta_child_2) { Ai4cr::Data::Utils.rand_neg_half_to_pos_one_and_half_no_zero_no_one }

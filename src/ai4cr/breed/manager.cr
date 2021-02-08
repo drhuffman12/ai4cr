@@ -1,6 +1,8 @@
 module Ai4cr
   module Breed
     abstract class Manager(T)
+      # class MyCounter < Counter::Safe; end
+
       # Implementaion example (taken from 'spec/ai4cr/breed/manager_spec.cr'):
       # ```
       # class MyBreed
@@ -42,26 +44,51 @@ module Ai4cr
       # end
       # ```
 
+      ############################################################################
+      # TODO: WHY is this required?
+      # NOTE: Sub-classes MUST include the following two lines:
       include JSON::Serializable
+      class_getter counter : CounterSafe::Exclusive = CounterSafe::Exclusive.new
+      def initialize; end
+      ############################################################################
 
+#       property team_size : Int32 = 2
+#       property training_round_qty : Int32 = 10
+#       property training_round_indexes = Array(Int32).new
+#       # getter team_indexes : Array(Int32)
+#       getter team_members : Array(T) # .new
+
+#       property team_last_id : Int32
+#       property manager = Manager(T).new
+  
+#       # property member_config
       # include Ai4cr::Breed::Utils
 
-      def initialize
-        # NOTE: We probably should convert the 'birth_id' from an instance variable to a class variable!
-        #   Otherwise, you could get multiple instances with separate counters,
-        #   which might or might not be desirable!
-        @counter = SafeCounter.new
+      # def initialize
+      #   # NOTE: We probably should convert the 'birth_id' from an instance variable to a class variable!
+      #   #   Otherwise, you could get multiple instances with separate counters,
+      #   #   which might or might not be desirable!
+      #   # @@counter = init_counter
+      # end
+
+      # def init_counter
+      #   @@counter = CounterSafe::Exclusive.new
+      # end
+
+      def counter
+        @@counter
       end
 
       def counter_reset(value = 0)
-        @counter.reset(T.name, value)
+        @@counter.reset(T.name, value)
       end
 
       def create(**params)
         # i.e.: via NO parents
         channel = Channel(Int32).new
         spawn do
-          channel.send(@counter.inc(T.name))
+          value = @@counter.inc(T.name)
+          channel.send(value)
         end
         birth_id = channel.receive
 
@@ -99,7 +126,7 @@ module Ai4cr
       def breed_counter_tick
         channel = Channel(Int32).new
         spawn do
-          channel.send(@counter.inc(T.name))
+          channel.send(@@counter.inc(T.name))
         end
         channel.receive
       end

@@ -52,7 +52,7 @@ e.g.: `time crystal spec --release`
 
 * Multithreading
 
-Use the `-Dpreview_mt` (or `-D preview_mt`) flag for multithreading.
+Use the `-Dpreview_mt` (for `crystal build` or `-D preview_mt` for `crystal spec`) flag for multithreading.
 
 See also:
 * https://crystal-lang.org/2019/09/23/crystal-0.31.0-released.html
@@ -60,8 +60,25 @@ See also:
 
 ## Comparison benchmarks
 
+### Clear Crystal cache
+
+* Shards:
+
+```
+rm -rf ~/.cache/shards/
+```
+
+* Compiler:
+
+```
+rm -rf ~/.cache/crystal/
+```
+
+### Run benchmarks
+
 REMINDER: Running Crystal in a Docker container (at least used to) runs slower than running Crystal on bare-metal.
 So, for more performance, run it outside of a Docker container.
+
 
 To build and run them:
 

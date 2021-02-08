@@ -2,7 +2,12 @@ module Ai4cr
   module NeuralNetwork
     module Rnn
       class RnnSimpleManager < Breed::Manager(RnnSimple)
-        getter mini_net_manager = Cmn::MiniNetManager.new
+        include JSON::Serializable
+
+        getter mini_net_manager = NeuralNetwork::Cmn::MiniNetManager.new
+ 
+        class_getter counter : CounterSafe::Exclusive = CounterSafe::Exclusive.new
+        def initialize; end
 
         def mix_parts(child : RnnSimple, parent_a : RnnSimple, parent_b : RnnSimple, delta)
           bias_default = mix_one_part_number(parent_a.bias_default, parent_b.bias_default, delta)

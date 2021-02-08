@@ -2,6 +2,11 @@ module Ai4cr
   module NeuralNetwork
     module Cmn
       class MiniNetManager < Breed::Manager(MiniNet)
+        include JSON::Serializable
+
+        class_getter counter : CounterSafe::Exclusive = CounterSafe::Exclusive.new
+        def initialize; end
+
         def mix_parts(child : MiniNet, parent_a : MiniNet, parent_b : MiniNet, delta)
           # re calc_guess:
           learning_rate = mix_one_part_number(parent_a.learning_rate, parent_b.learning_rate, delta)
