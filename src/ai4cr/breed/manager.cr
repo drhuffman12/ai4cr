@@ -49,19 +49,21 @@ module Ai4cr
       # NOTE: Sub-classes MUST include the following two lines:
       include JSON::Serializable
       class_getter counter : CounterSafe::Exclusive = CounterSafe::Exclusive.new
+
       def initialize; end
+
       ############################################################################
 
-#       property team_size : Int32 = 2
-#       property training_round_qty : Int32 = 10
-#       property training_round_indexes = Array(Int32).new
-#       # getter team_indexes : Array(Int32)
-#       getter team_members : Array(T) # .new
+      #       property team_size : Int32 = 2
+      #       property training_round_qty : Int32 = 10
+      #       property training_round_indexes = Array(Int32).new
+      #       # getter team_indexes : Array(Int32)
+      #       getter team_members : Array(T) # .new
 
-#       property team_last_id : Int32
-#       property manager = Manager(T).new
-  
-#       # property member_config
+      #       property team_last_id : Int32
+      #       property manager = Manager(T).new
+
+      #       # property member_config
       # include Ai4cr::Breed::Utils
 
       # def initialize

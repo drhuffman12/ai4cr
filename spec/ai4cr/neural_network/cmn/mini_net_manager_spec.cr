@@ -20,7 +20,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
       to_json = my_breed_manager.to_json
       expect(to_json).to be_a(String)
     end
-
   end
 
   describe "For Adam and Eve examples" do

@@ -5,8 +5,9 @@ module Ai4cr
         include JSON::Serializable
 
         getter mini_net_manager = NeuralNetwork::Cmn::MiniNetManager.new
- 
+
         class_getter counter : CounterSafe::Exclusive = CounterSafe::Exclusive.new
+
         def initialize; end
 
         def mix_parts(child : RnnSimple, parent_a : RnnSimple, parent_b : RnnSimple, delta)

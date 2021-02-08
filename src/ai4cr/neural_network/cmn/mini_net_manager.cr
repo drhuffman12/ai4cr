@@ -5,6 +5,7 @@ module Ai4cr
         include JSON::Serializable
 
         class_getter counter : CounterSafe::Exclusive = CounterSafe::Exclusive.new
+
         def initialize; end
 
         def mix_parts(child : MiniNet, parent_a : MiniNet, parent_b : MiniNet, delta)
