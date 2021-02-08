@@ -5,8 +5,8 @@ def puts_debug(message = "")
   puts message if ENV.has_key?("DEBUG") && ENV["DEBUG"] == "1"
 end
 
-Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
-  let(my_breed_manager) { Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager.new }
+Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
+  let(my_breed_manager) { Ai4cr::NeuralNetwork::Cmn::MiniNetManager.new }
 
   # before_each do
   #   my_breed_manager.counter.reset!
@@ -30,7 +30,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         #   }
         # }
         # expected_json = expected_hash.to_json
-        expected_json = "{\"mini_net_manager\":{}}"
+        # expected_json = "{\"mini_net_manager\":{}}"
+        expected_json = "{}"
 
         expect(exported_json).to be_a(String)
         expect(exported_json).to eq(expected_json)
