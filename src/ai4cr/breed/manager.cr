@@ -115,8 +115,12 @@ module Ai4cr
       end
 
       def breed(parent_a : T, parent_b : T, delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5)) # , **params)
-        raise "Must be a Breed Client!" unless T < Breed::Client
-
+        raise "Parents must be Breed Clients!" unless T < Breed::Client
+        raise "Parents must be the same width and height" unless (
+          parent_a.width == parent_b.width &&
+          parent_a.height == parent_b.height
+        )
+        
         # i.e.: VIA parents
         birth_id = breed_counter_tick
 
@@ -196,7 +200,7 @@ module Ai4cr
           # NOTE: This works for arrays, but not hashes.
           [parent_a_part, parent_b_part].transpose.map { |tran| va = tran[0]; vb = tran[1]; mix_nested_parts(va, vb, delta) }
         else
-          raise "Unhandled values; parent_a_part, parent_b_part == #{[parent_a_part, parent_b_part]}"
+          raise "Unhandled values; parent_a_part, parent_b_part == #{[parent_a_part, parent_b_part]}, classes: #{[parent_a_part.class, parent_b_part.class]}"
         end
       end
     end

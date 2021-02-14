@@ -113,7 +113,7 @@ Spectator.describe Ai4cr::Breed::Manager do
 
       # cain
       child_1 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
-      child_1.name = "Cain, child of #{child_1.name} and #{ancestor_eve.name}"
+      child_1.name = "Cain, child of #{ancestor_adam.name} and #{ancestor_eve.name}"
 
       puts_debug "child_1: #{child_1.to_json}"
       expected_birth_counter += 1
@@ -125,7 +125,7 @@ Spectator.describe Ai4cr::Breed::Manager do
 
       # abel
       child_2 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_2)
-      child_2.name = "Abel, child of #{child_2.name} and #{ancestor_eve.name}"
+      child_2.name = "Abel, child of #{ancestor_adam.name} and #{ancestor_eve.name}"
 
       puts_debug "child_2: #{child_2.to_json}"
       expected_birth_counter += 1

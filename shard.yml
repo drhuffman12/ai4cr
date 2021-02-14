@@ -13,8 +13,7 @@ dependencies:
 
   ascii_bar_charter:
     github: drhuffman12/ascii_bar_charter
-    # version: ~> 1.4.0
-    branch: master
+    # branch: master
 
   counter_safe:
     github: drhuffman12/counter_safe
