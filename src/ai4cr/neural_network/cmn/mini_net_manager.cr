@@ -13,8 +13,8 @@ module Ai4cr
 
           # re error_stats:
           child.error_stats = Ai4cr::ErrorStats.new(parent_a.error_stats.history_size)
-    
-          child  
+
+          child
         end
 
         def mix_parts(child : MiniNet, parent_a : MiniNet, parent_b : MiniNet, delta)

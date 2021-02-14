@@ -21,11 +21,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
           puts
           puts "counter.to_json: #{counter.to_json}"
           puts
-  
+
           # NOTE: 'exported' vs 'expected'
           exported_json = my_breed_manager.to_json
           expected_json = "{}"
-  
+
           expect(exported_json).to be_a(String)
           expect(exported_json).to eq(expected_json)
         end
@@ -68,11 +68,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
         deriv_scale: ancestor_adam_value / 4.0
       )
       ancestor.weights = [
-        [-0.1,0.2],
-        [-0.3,0.4],
-        [-0.5,0.6]
+        [-0.1, 0.2],
+        [-0.3, 0.4],
+        [-0.5, 0.6],
       ]
-      ancestor.train(inputs,outputs)
+      ancestor.train(inputs, outputs)
       ancestor
     }
     let(ancestor_eve) {
@@ -84,11 +84,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
         deriv_scale: ancestor_eve_value / 4.0
       )
       ancestor.weights = [
-        [0.1,-0.2],
-        [0.3,-0.4],
-        [0.5,-0.6]
+        [0.1, -0.2],
+        [0.3, -0.4],
+        [0.5, -0.6],
       ]
-      ancestor.train(inputs,outputs)
+      ancestor.train(inputs, outputs)
       ancestor
     }
 
@@ -141,7 +141,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
       }
 
       let(ancestor_adam_json) { JSON.parse(ancestor_adam.to_json) }
-      let(ancestor_eve_json) {JSON.parse( ancestor_eve.to_json) }
+      let(ancestor_eve_json) { JSON.parse(ancestor_eve.to_json) }
       let(child_1_json) { JSON.parse(child_1.to_json) }
 
       describe "#to_json" do
@@ -159,18 +159,18 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
               puts
               puts "my_breed_manager.to_json: #{my_breed_manager.to_json}"
               puts
-      
+
               # NOTE: 'exported' vs 'expected'
               exported_json = my_breed_manager.to_json
               expected_json = "{}"
-      
+
               expect(exported_json).to be_a(String)
               expect(exported_json).to eq(expected_json)
             end
           end
         end
       end
-      
+
       it "#parts_to_copy stay the same, such as" do
         puts_debug
         puts_debug "  ancestor_adam.to_json: #{ancestor_adam.to_json}"
@@ -181,7 +181,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
         [
           "width", "height", "height_considering_bias", "width_indexes", "height_indexes",
           "learning_style", "disable_bias", "outputs_expected",
-          "history_size"
+          "history_size",
         ].each do |var|
           puts_debug
           puts_debug "var: #{var}"
@@ -209,7 +209,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
           expect(ancestor_adam.learning_rate).not_to eq(ancestor_eve.learning_rate)
           expect(child_1.learning_rate).to eq(expected_child_1_value)
         end
-        
+
         it "momentum" do
           ancestor_adam_value = ancestor_adam.momentum
           ancestor_eve_value = ancestor_eve.momentum
@@ -311,7 +311,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
             ancestor_eve_value = ancestor_eve.error_stats.history_size
             # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
             expected_child_1_value = ancestor_adam_value
-            
+
             expect(ancestor_adam_value).to eq(ancestor_eve_value)
             expect(child_1.error_stats.history_size).to eq(expected_child_1_value)
           end
@@ -322,36 +322,34 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
             ancestor_eve_value = ancestor_eve.error_stats.distance
             # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
             expected_child_1_value = -1.0
-            
+
             expect(ancestor_adam_value).not_to eq(ancestor_eve_value)
             expect(child_1.error_stats.distance).to eq(expected_child_1_value)
           end
-  
+
           it "history.size" do
             # TODO: Adjust to compare error_stats
             ancestor_adam_value = ancestor_adam.error_stats.history.size
             ancestor_eve_value = ancestor_eve.error_stats.history.size
             # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
             expected_child_1_value = 0
-            
+
             expect(ancestor_adam_value).to eq(ancestor_eve_value)
             expect(child_1.error_stats.history.size).to eq(expected_child_1_value)
           end
-  
+
           it "score" do
             # TODO: Adjust to compare error_stats
             ancestor_adam_value = ancestor_adam.error_stats.score
             ancestor_eve_value = ancestor_eve.error_stats.score
             # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
             expected_child_1_value = 1.8446744073709552e+19
-            
+
             expect(ancestor_adam_value).not_to eq(ancestor_eve_value)
             expect(child_1.error_stats.score).to eq(expected_child_1_value)
           end
         end
       end
-
     end
   end
-
 end
