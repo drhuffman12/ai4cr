@@ -9,6 +9,11 @@ module Ai4cr
         def initialize; end
 
         def breed(parent_a : T, parent_b : T, delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5)) # , **params)
+          raise "Parents must be the same width and height" unless (
+                                                                     parent_a.width == parent_b.width &&
+                                                                     parent_a.height == parent_b.height
+                                                                   )
+
           child = super
 
           # re error_stats:

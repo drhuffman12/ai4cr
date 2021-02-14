@@ -18,9 +18,9 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
         it "the whole initial object" do
           # my_breed_manager.counter.inc("foo")
           counter = my_breed_manager.counter
-          puts
-          puts "counter.to_json: #{counter.to_json}"
-          puts
+          puts_debug
+          puts_debug "counter.to_json: #{counter.to_json}"
+          puts_debug
 
           # NOTE: 'exported' vs 'expected'
           exported_json = my_breed_manager.to_json
@@ -132,6 +132,64 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
       end
     end
 
+    describe "#breed" do
+      let(ancestor_1) { my_breed_manager.create(name: "defaults 1") }
+      let(ancestor_2) { my_breed_manager.create(name: "defaults 2") }
+      let(ancestor_3) {
+        my_breed_manager.create(name: "non-default width", width: 4)
+      }
+      let(ancestor_4) {
+        my_breed_manager.create(name: "non-default height", height: 5)
+      }
+      let(ancestor_5) {
+        my_breed_manager.create(name: "non-default width and height", width: 4, height: 5)
+      }
+      context "when parents have same width and height" do
+        it "does NOT raise" do
+          ancestor_a = ancestor_1
+          ancestor_b = ancestor_2
+
+          expect(ancestor_a.width).to eq(ancestor_b.width)
+          expect(ancestor_a.height).to eq(ancestor_b.height)
+
+          expect { my_breed_manager.breed(ancestor_a, ancestor_b) }.not_to raise_error
+        end
+      end
+      context "when parents have differing width" do
+        it "raises" do
+          ancestor_a = ancestor_1
+          ancestor_b = ancestor_3
+
+          expect(ancestor_a.width).not_to eq(ancestor_b.width)
+          expect(ancestor_a.height).to eq(ancestor_b.height)
+
+          expect { my_breed_manager.breed(ancestor_a, ancestor_b) }.to raise_error("Parents must be the same width and height")
+        end
+      end
+      context "when parents have differing height" do
+        it "raises" do
+          ancestor_a = ancestor_1
+          ancestor_b = ancestor_4
+
+          expect(ancestor_a.width).to eq(ancestor_b.width)
+          expect(ancestor_a.height).not_to eq(ancestor_b.height)
+
+          expect { my_breed_manager.breed(ancestor_a, ancestor_b) }.to raise_error("Parents must be the same width and height")
+        end
+      end
+      context "when parents have differing width and height" do
+        it "raises" do
+          ancestor_a = ancestor_1
+          ancestor_b = ancestor_5
+
+          expect(ancestor_a.width).not_to eq(ancestor_b.width)
+          expect(ancestor_a.height).not_to eq(ancestor_b.height)
+
+          expect { my_breed_manager.breed(ancestor_a, ancestor_b) }.to raise_error("Parents must be the same width and height")
+        end
+      end
+    end
+
     context "children have expected values for" do
       let(child_1) {
         # cain
@@ -154,11 +212,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
 
               # my_breed_manager.counter.inc("foo")
               counter = my_breed_manager.counter
-              puts
-              puts "counter.to_json: #{counter.to_json}"
-              puts
-              puts "my_breed_manager.to_json: #{my_breed_manager.to_json}"
-              puts
+              puts_debug
+              puts_debug "counter.to_json: #{counter.to_json}"
+              puts_debug
+              puts_debug "my_breed_manager.to_json: #{my_breed_manager.to_json}"
+              puts_debug
 
               # NOTE: 'exported' vs 'expected'
               exported_json = my_breed_manager.to_json
