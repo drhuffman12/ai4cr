@@ -100,7 +100,7 @@ module Ai4cr
       property expected_outputs : Array(Float64)
 
       # getter error_stats : Ai4cr::ErrorStats
-      include Ai4cr::Breed::Client 
+      include Ai4cr::Breed::Client
 
       # Creates a new network specifying the its architecture.
       # E.g.

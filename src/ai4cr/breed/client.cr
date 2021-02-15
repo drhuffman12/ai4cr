@@ -12,7 +12,6 @@ module Ai4cr
       def history_size
         error_stats.history_size
       end
-
     end
   end
 end

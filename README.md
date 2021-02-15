@@ -1,6 +1,8 @@
 # ai4cr
 
-CircleCI status: [![CircleCI](https://circleci.com/gh/drhuffman12/ai4cr.svg?style=svg)](https://circleci.com/gh/drhuffman12/ai4cr)
+[![CircleCI](https://circleci.com/gh/drhuffman12/ai4cr.svg?style=svg)](https://circleci.com/gh/drhuffman12/ai4cr)
+
+![example branch parameter](https://github.com/drhuffman12/ai4cr/workflows/Crystal%20CI/badge.svg?branch=master)
 
 [![GitHub release](https://img.shields.io/github/release/drhuffman12/ai4cr.svg)](https://GitHub.com/drhuffman12/ai4cr/releases/)
 
