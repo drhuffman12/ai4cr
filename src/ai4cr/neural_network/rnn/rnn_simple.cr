@@ -12,12 +12,12 @@ module Ai4cr
 
         include JSON::Serializable
 
+        include Ai4cr::Breed::Client
         include RnnSimpleConcerns::PropsAndInits
         include RnnSimpleConcerns::CalcGuess
         include RnnSimpleConcerns::TrainAndAdjust
         include RnnSimpleConcerns::RollUps
         include RnnSimpleConcerns::DataUtils
-        include Ai4cr::Breed::Client
       end
     end
   end

@@ -6,7 +6,7 @@ module Ai4cr
     # INITIAL_SCORE        = Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Float64::MAX))))
     INITIAL_SCORE = Float64::MAX ** (1.0/16)
 
-    DEFAULT_HISTORY_SIZE = 10
+    DEFAULT_HISTORY_SIZE = 2
 
     getter history_size : Int32
     getter distance : Float64
@@ -23,10 +23,8 @@ module Ai4cr
                         history_size
                       end
 
-      DEFAULT_HISTORY_SIZE
-
       @distance = -1.0
-      @history = Array(Float64).new
+      @history = Array(Float64).new(history_size)
 
       # lowest score is best; negatives are effectively invalid
       @score = INITIAL_SCORE

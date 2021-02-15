@@ -17,11 +17,11 @@ module Ai4cr
         # include Ai4cr::BreedParent
         # include MiniNetConcerns::BreedParent
 
+        include Ai4cr::Breed::Client
         # MiniNet code (based on original ai4r Backpropagation) is split up into modules and abstract-/sub-/related-classes to be more manageable
         include MiniNetConcerns::PropsAndInits
         include MiniNetConcerns::CalcGuess
         include MiniNetConcerns::TrainAndAdjust
-        include Ai4cr::Breed::Client
       end
     end
   end

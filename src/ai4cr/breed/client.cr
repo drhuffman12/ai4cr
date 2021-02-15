@@ -7,6 +7,12 @@ module Ai4cr
       property parent_a_id : Int32 = -1
       property parent_b_id : Int32 = -1
       property breed_delta : Float64 = 0.0
+      property error_stats = Ai4cr::ErrorStats.new
+
+      def history_size
+        error_stats.history_size
+      end
+
     end
   end
 end

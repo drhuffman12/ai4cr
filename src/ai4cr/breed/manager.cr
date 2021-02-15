@@ -119,10 +119,11 @@ module Ai4cr
 
         # i.e.: VIA parents
         birth_id = breed_counter_tick
-
         child = copy_and_mix(parent_a, parent_b, delta)
+        child = breed_id_and_delta(child, birth_id, parent_a, parent_b, delta)
+        child.error_stats = Ai4cr::ErrorStats.new(parent_a.error_stats.history_size)
 
-        breed_id_and_delta(child, birth_id, parent_a, parent_b, delta)
+        child
       end
 
       def breed_counter_tick

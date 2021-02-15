@@ -20,7 +20,11 @@ class MyBreed
   ALLOWED_STRINGS      = (ALLOWED_STRING_FIRST..ALLOWED_STRING_LAST).to_a
   property some_string : String = (ALLOWED_STRINGS.sample) * 2
 
-  def initialize(@name, @some_value)
+  property history_size : Int32
+  property error_stats : Ai4cr::ErrorStats
+
+  def initialize(@name, @some_value, @history_size = 2)
+    @error_stats = Ai4cr::ErrorStats.new(history_size)
   end
 end
 

@@ -35,7 +35,7 @@ module Ai4cr
               momentum:      @momentum,
               deriv_scale:   @deriv_scale,
 
-              history_size: @history_size,
+              history_size: history_size,
 
               name: name,
             }
@@ -65,7 +65,7 @@ module Ai4cr
           )
             @name = name.nil? ? "" : name
 
-            init_network(hidden_size_given, disable_bias, learning_rate, momentum, deriv_scale, history_size)
+            init_network(hidden_size_given, disable_bias, learning_rate, momentum, deriv_scale)
             @error_stats = Ai4cr::ErrorStats.new(history_size)
           end
 
@@ -74,13 +74,10 @@ module Ai4cr
             disable_bias : Bool? = nil,
             learning_rate : Float64? = nil,
             momentum : Float64? = nil,
-            deriv_scale : Float64? = nil,
-            history_size : Int32? = 10
+            deriv_scale : Float64? = nil
           )
             init_network_config(hidden_size_given, disable_bias, learning_rate, momentum, deriv_scale)
             init_network_mini_net_set
-
-            @error_stats = Ai4cr::ErrorStats.new(history_size)
           end
 
           def init_network_config(

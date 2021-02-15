@@ -229,23 +229,24 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
         end
       end
 
-      it "#parts_to_copy stay the same, such as" do
-        puts_debug
-        puts_debug "  ancestor_adam.to_json: #{ancestor_adam.to_json}"
-        puts_debug "  ancestor_eve.to_json: #{ancestor_eve.to_json}"
-        puts_debug "  child_1.to_json: #{child_1.to_json}"
-        puts_debug
+      context "#parts_to_copy stay the same, such as" do
+        it "misc instance variables" do
+          puts_debug
+          puts_debug "  ancestor_adam.to_json: #{ancestor_adam.to_json}"
+          puts_debug "  ancestor_eve.to_json: #{ancestor_eve.to_json}"
+          puts_debug "  child_1.to_json: #{child_1.to_json}"
+          puts_debug
 
-        [
-          "width", "height", "height_considering_bias", "width_indexes", "height_indexes",
-          "learning_style", "disable_bias", "outputs_expected",
-          "history_size",
-        ].each do |var|
-          puts_debug
-          puts_debug "var: #{var}"
-          puts_debug
-          expect(ancestor_adam_json[var]).to eq(ancestor_eve_json[var])
-          expect(child_1_json[var]).to eq(ancestor_adam_json[var])
+          [
+            "width", "height", "height_considering_bias", "width_indexes", "height_indexes",
+            "learning_style", "disable_bias", "outputs_expected"
+          ].each do |var|
+            puts_debug
+            puts_debug "var: #{var}"
+            puts_debug
+            expect(ancestor_adam_json[var]).to eq(ancestor_eve_json[var])
+            expect(child_1_json[var]).to eq(ancestor_adam_json[var])
+          end
         end
       end
 

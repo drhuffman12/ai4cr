@@ -99,7 +99,8 @@ module Ai4cr
 
       property expected_outputs : Array(Float64)
 
-      getter error_stats : Ai4cr::ErrorStats
+      # getter error_stats : Ai4cr::ErrorStats
+      include Ai4cr::Breed::Client 
 
       # Creates a new network specifying the its architecture.
       # E.g.
@@ -220,13 +221,10 @@ module Ai4cr
 
       # Initialize (or reset) activation nodes and weights, with the
       # provided net structure and parameters.
-      def init_network(history_size = 10)
+      def init_network
         init_activation_nodes
         init_weights
         init_last_changes
-
-        @error_stats = Ai4cr::ErrorStats.new(history_size)
-
         self
       end
 
