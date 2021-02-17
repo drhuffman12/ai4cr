@@ -4,7 +4,7 @@ module Ai4cr
       module MiniNetConcerns
         module PropsAndInits
           LEARNING_STYLE_DEFAULT = LS_RELU
-          
+
           def config
             {
               height:         @height,

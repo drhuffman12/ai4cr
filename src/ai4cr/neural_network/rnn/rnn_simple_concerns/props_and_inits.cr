@@ -4,11 +4,11 @@ module Ai4cr
       module RnnSimpleConcerns
         module PropsAndInits
           HISTORY_SIZE_DEFAULT   = 10
-          IO_OFFSET_DEFAULT      = 1
-          TIME_COL_QTY_MIN       = 2
-          HIDDEN_LAYER_QTY_MIN   = 1
-          INPUT_SIZE_MIN         = 2
-          OUTPUT_SIZE_MIN        = 1
+          IO_OFFSET_DEFAULT      =  1
+          TIME_COL_QTY_MIN       =  2
+          HIDDEN_LAYER_QTY_MIN   =  1
+          INPUT_SIZE_MIN         =  2
+          OUTPUT_SIZE_MIN        =  1
           LEARNING_STYLE_DEFAULT = LS_RELU
 
           # TODO: Handle usage of a 'structure' param in 'initialize'
@@ -30,11 +30,11 @@ module Ai4cr
               hidden_layer_qty:  @hidden_layer_qty,
               hidden_size_given: @hidden_size_given,
 
-              learning_style:    @learning_style,
+              learning_style: @learning_style,
 
               bias_disabled: @bias_disabled,
-              
-              bias_default:  @bias_default,
+
+              bias_default: @bias_default,
 
               learning_rate: @learning_rate,
               momentum:      @momentum,
@@ -61,7 +61,7 @@ module Ai4cr
 
             learning_rate : Float64? = nil,
             momentum : Float64? = nil,
-            deriv_scale : Float64? = nil,
+            deriv_scale : Float64? = nil
           )
             @name = name.nil? ? "" : name
 

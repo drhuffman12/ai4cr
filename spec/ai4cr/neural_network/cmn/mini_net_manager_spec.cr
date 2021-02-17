@@ -63,7 +63,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
     let(ancestor_5) {
       my_breed_manager.create(name: "non-default width and height", width: 4, height: 5)
     }
-    
+
     context "when parents have same structure params values" do
       it "does NOT raise" do
         ancestor_a = ancestor_1

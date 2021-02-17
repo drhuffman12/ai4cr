@@ -1,7 +1,7 @@
 module Ai4cr
   module Breed
     class StructureError < ArgumentError; end
-    
+
     abstract class Manager(T)
       # class MyCounter < Counter::Safe; end
 

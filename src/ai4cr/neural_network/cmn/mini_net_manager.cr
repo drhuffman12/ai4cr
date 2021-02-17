@@ -11,9 +11,9 @@ module Ai4cr
         def breed_validations(parent_a : T, parent_b : T, delta)
           super
           raise Ai4cr::Breed::StructureError.new unless (
-            parent_a.width == parent_b.width &&
-            parent_a.height == parent_b.height
-          )
+                                                          parent_a.width == parent_b.width &&
+                                                          parent_a.height == parent_b.height
+                                                        )
         end
 
         def mix_parts(child : MiniNet, parent_a : MiniNet, parent_b : MiniNet, delta)

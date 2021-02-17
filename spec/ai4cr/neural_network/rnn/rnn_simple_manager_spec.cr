@@ -10,7 +10,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
   let(ancestor_eve_value) { 0.9 }
   let(expected_child_1_value) { ancestor_adam_value + delta_child_1 * (ancestor_eve_value - ancestor_adam_value) }
 
-
   let(config_default_randomized) {
     Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
   }
@@ -78,14 +77,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
 
   let(inputs) {
     [
-      [0.1,0.2],
-      [0.3,0.4],
+      [0.1, 0.2],
+      [0.3, 0.4],
     ]
   }
   let(outputs) {
     [
       [0.1],
-      [0.9]
+      [0.9],
     ]
   }
 
@@ -149,9 +148,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
             expect { my_breed_manager.breed(ancestor_a, ancestor_b) }.to raise_error(Ai4cr::Breed::StructureError)
           end
         end
-
       end
-
 
       context "children have expected values for" do
         let(child_1) {
@@ -336,40 +333,40 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
               ancestor_eve_value = ancestor_eve.error_stats.history_size
               # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
               expected_child_1_value = ancestor_adam_value
-  
+
               expect(ancestor_adam_value).to eq(ancestor_eve_value)
               expect(child_1.error_stats.history_size).to eq(expected_child_1_value)
             end
-  
+
             it "distance" do
               # TODO: Adjust to compare error_stats
               ancestor_adam_value = ancestor_adam.error_stats.distance
               ancestor_eve_value = ancestor_eve.error_stats.distance
               # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
               expected_child_1_value = -1.0
-  
+
               expect(ancestor_adam_value).not_to eq(ancestor_eve_value)
               expect(child_1.error_stats.distance).to eq(expected_child_1_value)
             end
-  
+
             it "history.size" do
               # TODO: Adjust to compare error_stats
               ancestor_adam_value = ancestor_adam.error_stats.history.size
               ancestor_eve_value = ancestor_eve.error_stats.history.size
               # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
               expected_child_1_value = 0
-  
+
               expect(ancestor_adam_value).to eq(ancestor_eve_value)
               expect(child_1.error_stats.history.size).to eq(expected_child_1_value)
             end
-  
+
             it "score" do
               # TODO: Adjust to compare error_stats
               ancestor_adam_value = ancestor_adam.error_stats.score
               ancestor_eve_value = ancestor_eve.error_stats.score
               # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
               expected_child_1_value = 1.8446744073709552e+19
-  
+
               expect(ancestor_adam_value).not_to eq(ancestor_eve_value)
               expect(child_1.error_stats.score).to eq(expected_child_1_value)
             end
