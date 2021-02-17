@@ -21,12 +21,12 @@ module Ai4cr
           getter input_size = -1
           getter output_size = -1
           getter hidden_layer_qty = -1
-          getter hidden_size_given : Int32? = nil
+          getter hidden_size_given = 0
 
           getter hidden_size = -1
 
           property disable_bias = false
-          property bias_default = 1.0
+          property bias_default : Float64 = 1.0
 
           property learning_style = LS_RELU
 

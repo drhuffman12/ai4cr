@@ -49,10 +49,6 @@ class MyBreedManager < Ai4cr::Breed::Manager(MyBreed)
   end
 end
 
-def puts_debug(message = "")
-  puts message if ENV.has_key?("DEBUG") && ENV["DEBUG"] == "1"
-end
-
 Spectator.describe Ai4cr::Breed::Manager do
   let(my_breed_manager) { MyBreedManager.new }
 

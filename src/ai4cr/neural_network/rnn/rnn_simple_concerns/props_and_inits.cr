@@ -7,9 +7,10 @@ module Ai4cr
 
           TIME_COL_QTY_MIN      = 2
           HIDDEN_LAYER_QTY_MIN  = 1
+          # HIDDEN_SIZE_DEFAULT   = 10
           INPUT_SIZE_MIN        = 2
           OUTPUT_SIZE_MIN       = 1
-          HIDDEN_SIZE_GIVEN_MIN = INPUT_SIZE_MIN + OUTPUT_SIZE_MIN
+          # HIDDEN_SIZE_GIVEN_MIN = INPUT_SIZE_MIN + OUTPUT_SIZE_MIN
 
           # TODO: Handle usage of a 'structure' param in 'initialize'
           # def initialize(@time_col_qty = TIME_COL_QTY_MIN, @structure = [INPUT_SIZE_MIN, OUTPUT_SIZE_MIN])
@@ -20,16 +21,14 @@ module Ai4cr
             {
               io_offset:    @io_offset,
               time_col_qty: @time_col_qty,
-
               input_size:        @input_size,
               output_size:       @output_size,
               hidden_layer_qty:  @hidden_layer_qty,
               hidden_size_given: @hidden_size_given,
+              learning_style: @learning_style,
 
               disable_bias: @disable_bias,
               bias_default: @bias_default,
-
-              learning_style: @learning_style,
 
               learning_rate: @learning_rate,
               momentum:      @momentum,
@@ -44,16 +43,14 @@ module Ai4cr
           def initialize(
             @io_offset = IO_OFFSET_DEFAULT,
             @time_col_qty = TIME_COL_QTY_MIN,
-
             @input_size = INPUT_SIZE_MIN,
             @output_size = OUTPUT_SIZE_MIN,
             @hidden_layer_qty = HIDDEN_LAYER_QTY_MIN,
-            @hidden_size_given = nil,
-
-            disable_bias : Bool? = nil,
-            @bias_default = 1.0,
-
+            @hidden_size_given = 0, # HIDDEN_SIZE_DEFAULT,
             @learning_style : LearningStyle = LS_RELU,
+
+            disable_bias = false,
+            bias_default = 1.0,
 
             learning_rate : Float64? = nil,
             momentum : Float64? = nil,
@@ -65,37 +62,40 @@ module Ai4cr
           )
             @name = name.nil? ? "" : name
 
-            init_network(hidden_size_given, disable_bias, learning_rate, momentum, deriv_scale)
+            init_network(hidden_size_given, disable_bias, bias_default, learning_rate, momentum, deriv_scale)
             @error_stats = Ai4cr::ErrorStats.new(history_size)
           end
 
           def init_network(
-            hidden_size_given : Int32? = 10,
-            disable_bias : Bool? = nil,
+            hidden_size_given = 0, # 10,
+            disable_bias = false,
+            bias_default = 1.0,
             learning_rate : Float64? = nil,
             momentum : Float64? = nil,
             deriv_scale : Float64? = nil
           )
-            init_network_config(hidden_size_given, disable_bias, learning_rate, momentum, deriv_scale)
+            init_network_config(hidden_size_given, disable_bias, bias_default, learning_rate, momentum, deriv_scale)
             init_network_mini_net_set
           end
 
           def init_network_config(
-            hidden_size_given : Int32? = 10,
-            disable_bias : Bool? = nil,
+            hidden_size_given = 0, # : Int32? = 10, # HIDDEN_SIZE_DEFAULT,
+            disable_bias = false,
+            bias_default = 1.0,
             learning_rate : Float64? = nil,
             momentum : Float64? = nil,
             deriv_scale : Float64? = nil
           )
             # TODO: Handle differing hidden layer output sizes
-            if hidden_size_given.is_a?(Int32)
-              @hidden_size = @hidden_size_given.as(Int32)
+            if hidden_size_given > 0
+              @hidden_size = hidden_size_given
             else
               @hidden_size = @input_size + @output_size
             end
 
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
-            @disable_bias = disable_bias.nil? ? false : !!disable_bias
+            @disable_bias = disable_bias # .nil? ? false : !!disable_bias
+            @bias_default = bias_default # .nil? ? 1.0 : bias_default
 
             @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding : learning_rate.as(Float64)
             @momentum = momentum.nil? || momentum.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding : momentum.as(Float64)
@@ -141,9 +141,10 @@ module Ai4cr
             @errors["input_size"] = "input_size must be at least #{INPUT_SIZE_MIN}" if input_size < INPUT_SIZE_MIN
             @errors["output_size"] = "output_size must be at least #{OUTPUT_SIZE_MIN}" if output_size < OUTPUT_SIZE_MIN
 
-            if hidden_size_given.is_a?(Int32)
-              @errors["hidden_size_given"] = "hidden_size_given must be at least #{HIDDEN_SIZE_GIVEN_MIN} if supplied (otherwise it defaults to sum of @input_size and @output_size" if hidden_size_given.as(Int32) < HIDDEN_SIZE_GIVEN_MIN
-            end
+            # if hidden_size_given.is_a?(Int32)
+            #   @errors["hidden_size_given"] = "hidden_size_given must be at least #{HIDDEN_SIZE_GIVEN_MIN} if supplied (otherwise it defaults to sum of @input_size and @output_size" if hidden_size_given.as(Int32) < HIDDEN_SIZE_GIVEN_MIN
+            # end
+            # @errors["hidden_size_given"] = "hidden_size_given must NOT be negative" if hidden_size_given < 0
 
             @errors["io_offset"] = "io_offset must be a non-negative integer" if io_offset < 0
 

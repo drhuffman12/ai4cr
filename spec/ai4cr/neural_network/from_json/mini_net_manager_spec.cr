@@ -1,10 +1,6 @@
 require "./../../../spec_helper"
 require "./../../../spectator_helper"
 
-def puts_debug(message = "")
-  puts message if ENV.has_key?("DEBUG") && ENV["DEBUG"] == "1"
-end
-
 Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
   let(my_breed_manager) { Ai4cr::NeuralNetwork::Cmn::MiniNetManager.new }
 
