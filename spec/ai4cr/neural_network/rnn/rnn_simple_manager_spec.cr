@@ -58,6 +58,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       end
     end
     ancestor.train(inputs, outputs)
+    # ancestor.train(inputs, outputs)
     ancestor
   }
   let(ancestor_eve) {
@@ -66,12 +67,13 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       mini_net_li.each do |mini_net_ti|
         mini_net_ti.weights.map_with_index! do |row, i|
           row.map_with_index! do |col, j|
-            (i + j / 10.0).round(1)
+            -(i + j / 10.0).round(1)
           end
         end
       end
     end
     ancestor.train(inputs, outputs)
+    # ancestor.train(inputs, outputs)
     ancestor
   }
 
@@ -190,126 +192,63 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         end
 
         describe "#parts_to_copy stay the same, such as" do
-          # it "misc instance variables" do
-          #   puts_debug
-          #   puts_debug "  ancestor_adam.to_json: #{ancestor_adam.to_json}"
-          #   puts_debug "  ancestor_eve.to_json: #{ancestor_eve.to_json}"
-          #   puts_debug "  child_1.to_json: #{child_1.to_json}"
-          #   puts_debug
+          it "misc instance variables" do
+            puts_debug
+            puts_debug "  ancestor_adam.to_json: #{ancestor_adam.to_json}"
+            puts_debug "  ancestor_eve.to_json: #{ancestor_eve.to_json}"
+            puts_debug "  child_1.to_json: #{child_1.to_json}"
+            puts_debug
 
-          #   [
-          #     "output_size", "input_size", "height_considering_bias", "width_indexes", "height_indexes",
-          #     "learning_style", "bias_disabled", "outputs_expected",
-          #   ].each do |var|
-          #     puts_debug
-          #     puts_debug "var: #{var}"
-          #     puts_debug
-          #     expect(ancestor_adam_json[var]).to eq(ancestor_eve_json[var])
-          #     expect(child_1_json[var]).to eq(ancestor_adam_json[var])
-          #   end
-          # end
+            # "history_size",
+            [
+              "io_offset", "time_col_qty", "input_size", "output_size",
+              "hidden_layer_qty", "hidden_size_given", "bias_disabled", "learning_style",
+            ].each do |var|
+              puts_debug
+              puts_debug "var: #{var}"
+              puts_debug
+              expect(ancestor_adam_json[var]).to eq(ancestor_eve_json[var])
+              expect(child_1_json[var]).to eq(ancestor_adam_json[var])
+            end
+          end
         end
 
         describe "#mix_parts are delta-mixed, such as" do
-          # it "bias_default" do
-          #   ancestor_adam_value = ancestor_adam.bias_default
-          #   ancestor_eve_value = ancestor_eve.bias_default
-          #   expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
+          it "bias_default" do
+            ancestor_adam_value = ancestor_adam.bias_default
+            ancestor_eve_value = ancestor_eve.bias_default
+            expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
 
-          #   expect(ancestor_adam.bias_default).not_to eq(ancestor_eve.bias_default)
-          #   expect(child_1.bias_default).to eq(expected_child_1_value)
-          # end
+            expect(ancestor_adam.bias_default).not_to eq(ancestor_eve.bias_default)
+            expect(child_1.bias_default).to eq(expected_child_1_value)
+          end
 
-          # it "learning_rate" do
-          #   ancestor_adam_value = ancestor_adam.learning_rate
-          #   ancestor_eve_value = ancestor_eve.learning_rate
-          #   expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
+          it "learning_rate" do
+            ancestor_adam_value = ancestor_adam.learning_rate
+            ancestor_eve_value = ancestor_eve.learning_rate
+            expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
 
-          #   expect(ancestor_adam.learning_rate).not_to eq(ancestor_eve.learning_rate)
-          #   expect(child_1.learning_rate).to eq(expected_child_1_value)
-          # end
+            expect(ancestor_adam.learning_rate).not_to eq(ancestor_eve.learning_rate)
+            expect(child_1.learning_rate).to eq(expected_child_1_value)
+          end
 
-          # it "momentum" do
-          #   ancestor_adam_value = ancestor_adam.momentum
-          #   ancestor_eve_value = ancestor_eve.momentum
-          #   expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
+          it "momentum" do
+            ancestor_adam_value = ancestor_adam.momentum
+            ancestor_eve_value = ancestor_eve.momentum
+            expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
 
-          #   expect(ancestor_adam.momentum).not_to eq(ancestor_eve.momentum)
-          #   expect(child_1.momentum).to eq(expected_child_1_value)
-          # end
+            expect(ancestor_adam.momentum).not_to eq(ancestor_eve.momentum)
+            expect(child_1.momentum).to eq(expected_child_1_value)
+          end
 
-          # it "deriv_scale" do
-          #   ancestor_adam_value = ancestor_adam.deriv_scale
-          #   ancestor_eve_value = ancestor_eve.deriv_scale
-          #   expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
+          it "deriv_scale" do
+            ancestor_adam_value = ancestor_adam.deriv_scale
+            ancestor_eve_value = ancestor_eve.deriv_scale
+            expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
 
-          #   expect(ancestor_adam.deriv_scale).not_to eq(ancestor_eve.deriv_scale)
-          #   expect(child_1.deriv_scale).to eq(expected_child_1_value)
-          # end
-
-          # it "weights" do
-          #   ancestor_adam_value = ancestor_adam.weights
-          #   ancestor_eve_value = ancestor_eve.weights
-          #   expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
-
-          #   expect(ancestor_adam.weights).not_to eq(ancestor_eve.weights)
-          #   expect(child_1.weights).to eq(expected_child_1_value)
-          # end
-
-          # it "inputs_given" do
-          #   ancestor_adam_value = ancestor_adam.inputs_given
-          #   ancestor_eve_value = ancestor_eve.inputs_given
-          #   expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
-
-          #   expect(ancestor_adam.inputs_given).not_to eq(ancestor_eve.inputs_given)
-          #   expect(child_1.inputs_given).to eq(expected_child_1_value)
-          # end
-
-          # it "outputs_guessed" do
-          #   ancestor_adam_value = ancestor_adam.outputs_guessed
-          #   ancestor_eve_value = ancestor_eve.outputs_guessed
-
-          #   expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
-
-          #   expect(ancestor_adam.outputs_guessed).not_to eq(ancestor_eve.outputs_guessed)
-          #   expect(child_1.outputs_guessed).to eq(expected_child_1_value)
-          # end
-
-          # it "output_deltas" do
-          #   ancestor_adam_value = ancestor_adam.output_deltas
-          #   ancestor_eve_value = ancestor_eve.output_deltas
-          #   expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
-
-          #   expect(ancestor_adam.output_deltas).not_to eq(ancestor_eve.output_deltas)
-          #   expect(child_1.output_deltas).to eq(expected_child_1_value)
-          # end
-
-          # it "last_changes" do
-          #   ancestor_adam_value = ancestor_adam.last_changes
-          #   ancestor_eve_value = ancestor_eve.last_changes
-          #   expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
-
-          #   expect(ancestor_adam.last_changes).not_to eq(ancestor_eve.last_changes)
-          #   expect(child_1.last_changes).to eq(expected_child_1_value)
-          # end
-
-          # it "output_errors" do
-          #   ancestor_adam_value = ancestor_adam.output_errors
-          #   ancestor_eve_value = ancestor_eve.output_errors
-          #   expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
-
-          #   expect(ancestor_adam.output_errors).not_to eq(ancestor_eve.output_errors)
-          #   expect(child_1.output_errors).to eq(expected_child_1_value)
-          # end
-
-          # it "input_deltas" do
-          #   ancestor_adam_value = ancestor_adam.input_deltas
-          #   ancestor_eve_value = ancestor_eve.input_deltas
-          #   expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
-
-          #   expect(ancestor_adam.input_deltas).not_to eq(ancestor_eve.input_deltas)
-          #   expect(child_1.input_deltas).to eq(expected_child_1_value)
-          # end
+            expect(ancestor_adam.deriv_scale).not_to eq(ancestor_eve.deriv_scale)
+            expect(child_1.deriv_scale).to eq(expected_child_1_value)
+          end
         end
 
         context "NOT copied and NOT mixed, but instead freshly initialized" do
@@ -328,7 +267,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
 
           context "error_stats" do
             it "history_size" do
-              # TODO: Adjust to compare error_stats
               ancestor_adam_value = ancestor_adam.error_stats.history_size
               ancestor_eve_value = ancestor_eve.error_stats.history_size
               # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
@@ -339,7 +277,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
             end
 
             it "distance" do
-              # TODO: Adjust to compare error_stats
+              # TODO
               ancestor_adam_value = ancestor_adam.error_stats.distance
               ancestor_eve_value = ancestor_eve.error_stats.distance
               # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
@@ -350,7 +288,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
             end
 
             it "history.size" do
-              # TODO: Adjust to compare error_stats
               ancestor_adam_value = ancestor_adam.error_stats.history.size
               ancestor_eve_value = ancestor_eve.error_stats.history.size
               # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
@@ -361,7 +298,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
             end
 
             it "score" do
-              # TODO: Adjust to compare error_stats
+              # TODO
               ancestor_adam_value = ancestor_adam.error_stats.score
               ancestor_eve_value = ancestor_eve.error_stats.score
               # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
