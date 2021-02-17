@@ -12,7 +12,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
 
   let(ancestor_adam_value) { 0.1 }
   let(ancestor_eve_value) { 0.9 }
-  let(expected_child_1_value) { ancestor_adam_value + delta_child_1 * (ancestor_eve_value - ancestor_adam_value) }
+  # let(expected_child_1_value) { ancestor_adam_value + delta_child_1 * (ancestor_eve_value - ancestor_adam_value) }
 
   let(ancestor_adam) {
     ancestor = my_breed_manager.create(
@@ -63,7 +63,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
     let(ancestor_5) {
       my_breed_manager.create(name: "non-default width and height", width: 4, height: 5)
     }
-    context "when parents have same width and height" do
+    
+    context "when parents have same structure params values" do
       it "does NOT raise" do
         ancestor_a = ancestor_1
         ancestor_b = ancestor_2
@@ -74,37 +75,29 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
         expect { my_breed_manager.breed(ancestor_a, ancestor_b) }.not_to raise_error
       end
     end
-    context "when parents have differing width" do
-      it "raises" do
-        ancestor_a = ancestor_1
-        ancestor_b = ancestor_3
 
-        expect(ancestor_a.width).not_to eq(ancestor_b.width)
-        expect(ancestor_a.height).to eq(ancestor_b.height)
+    context "when parents have differing structure param values for" do
+      context "width" do
+        it "raises" do
+          ancestor_a = ancestor_1
+          ancestor_b = ancestor_3
 
-        expect { my_breed_manager.breed(ancestor_a, ancestor_b) }.to raise_error("Parents must be the same width and height")
+          expect(ancestor_a.width).not_to eq(ancestor_b.width)
+          expect(ancestor_a.height).to eq(ancestor_b.height)
+
+          expect { my_breed_manager.breed(ancestor_a, ancestor_b) }.to raise_error(Ai4cr::Breed::StructureError)
+        end
       end
-    end
-    context "when parents have differing height" do
-      it "raises" do
-        ancestor_a = ancestor_1
-        ancestor_b = ancestor_4
+      context "height" do
+        it "raises" do
+          ancestor_a = ancestor_1
+          ancestor_b = ancestor_4
 
-        expect(ancestor_a.width).to eq(ancestor_b.width)
-        expect(ancestor_a.height).not_to eq(ancestor_b.height)
+          expect(ancestor_a.width).to eq(ancestor_b.width)
+          expect(ancestor_a.height).not_to eq(ancestor_b.height)
 
-        expect { my_breed_manager.breed(ancestor_a, ancestor_b) }.to raise_error("Parents must be the same width and height")
-      end
-    end
-    context "when parents have differing width and height" do
-      it "raises" do
-        ancestor_a = ancestor_1
-        ancestor_b = ancestor_5
-
-        expect(ancestor_a.width).not_to eq(ancestor_b.width)
-        expect(ancestor_a.height).not_to eq(ancestor_b.height)
-
-        expect { my_breed_manager.breed(ancestor_a, ancestor_b) }.to raise_error("Parents must be the same width and height")
+          expect { my_breed_manager.breed(ancestor_a, ancestor_b) }.to raise_error(Ai4cr::Breed::StructureError)
+        end
       end
     end
 

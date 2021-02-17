@@ -10,6 +10,22 @@ module Ai4cr
 
         def initialize; end
 
+        def breed_validations(parent_a : T, parent_b : T, delta)
+          super
+          raise Ai4cr::Breed::StructureError.new unless (
+            parent_a.history_size == parent_b.history_size &&
+            parent_a.io_offset == parent_b.io_offset &&
+            parent_a.time_col_qty == parent_b.time_col_qty &&
+            parent_a.input_size == parent_b.input_size &&
+            parent_a.output_size == parent_b.output_size &&
+            parent_a.hidden_layer_qty == parent_b.hidden_layer_qty &&
+            parent_a.hidden_size_given == parent_b.hidden_size_given &&
+            parent_a.bias_disabled == parent_b.bias_disabled &&
+            # parent_a.bias_default == parent_b.bias_default &&
+            parent_a.learning_style == parent_b.learning_style
+          )
+        end
+
         def mix_parts(child : RnnSimple, parent_a : RnnSimple, parent_b : RnnSimple, delta)
           bias_default = mix_one_part_number(parent_a.bias_default, parent_b.bias_default, delta)
           child.bias_default = bias_default

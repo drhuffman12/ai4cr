@@ -8,18 +8,12 @@ module Ai4cr
 
         def initialize; end
 
-        def breed(parent_a : T, parent_b : T, delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5)) # , **params)
-          raise "Parents must be the same width and height" unless (
-                                                                     parent_a.width == parent_b.width &&
-                                                                     parent_a.height == parent_b.height
-                                                                   )
-
-          child = super
-
-          # re error_stats:
-          child.error_stats = Ai4cr::ErrorStats.new(parent_a.error_stats.history_size)
-
-          child
+        def breed_validations(parent_a : T, parent_b : T, delta)
+          super
+          raise Ai4cr::Breed::StructureError.new unless (
+            parent_a.width == parent_b.width &&
+            parent_a.height == parent_b.height
+          )
         end
 
         def mix_parts(child : MiniNet, parent_a : MiniNet, parent_b : MiniNet, delta)

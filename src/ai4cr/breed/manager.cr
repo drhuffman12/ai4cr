@@ -1,5 +1,7 @@
 module Ai4cr
   module Breed
+    class StructureError < ArgumentError; end
+    
     abstract class Manager(T)
       # class MyCounter < Counter::Safe; end
 
@@ -114,8 +116,8 @@ module Ai4cr
         vector_a_to_b == 0.0 ? 0.0 : -error_a / vector_a_to_b
       end
 
-      def breed(parent_a : T, parent_b : T, delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5)) # , **params)
-        raise "Parents must be Breed Clients!" unless T < Breed::Client
+      def breed(parent_a : T, parent_b : T, delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5))
+        breed_validations(parent_a, parent_b, delta)
 
         # i.e.: VIA parents
         birth_id = breed_counter_tick
@@ -124,6 +126,10 @@ module Ai4cr
         child.error_stats = Ai4cr::ErrorStats.new(parent_a.error_stats.history_size)
 
         child
+      end
+
+      def breed_validations(parent_a : T, parent_b : T, delta)
+        raise "Parents must be Breed Clients!" unless T < Breed::Client
       end
 
       def breed_counter_tick

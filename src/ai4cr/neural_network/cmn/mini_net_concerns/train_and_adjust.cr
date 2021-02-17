@@ -41,8 +41,8 @@ module Ai4cr
           def calculate_error_distance
             @error_stats.distance = @output_errors.map { |e| 0.5 * e ** 2 }.sum
 
-            # calculate_error_distance_history
-            @error_stats.distance
+            # # calculate_error_distance_history
+            # @error_stats.distance
           end
 
           def step_backpropagate

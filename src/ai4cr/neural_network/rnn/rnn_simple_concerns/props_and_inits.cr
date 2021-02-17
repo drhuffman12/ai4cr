@@ -3,15 +3,13 @@ module Ai4cr
     module Rnn
       module RnnSimpleConcerns
         module PropsAndInits
-          IO_OFFSET_DEFAULT = 1
-
-          TIME_COL_QTY_MIN     = 2
-          HIDDEN_LAYER_QTY_MIN = 1
-          # HIDDEN_SIZE_DEFAULT   = 10
-          INPUT_SIZE_MIN  = 2
-          OUTPUT_SIZE_MIN = 1
-
-          # HIDDEN_SIZE_GIVEN_MIN = INPUT_SIZE_MIN + OUTPUT_SIZE_MIN
+          HISTORY_SIZE_DEFAULT   = 10
+          IO_OFFSET_DEFAULT      = 1
+          TIME_COL_QTY_MIN       = 2
+          HIDDEN_LAYER_QTY_MIN   = 1
+          INPUT_SIZE_MIN         = 2
+          OUTPUT_SIZE_MIN        = 1
+          LEARNING_STYLE_DEFAULT = LS_RELU
 
           # TODO: Handle usage of a 'structure' param in 'initialize'
           # def initialize(@time_col_qty = TIME_COL_QTY_MIN, @structure = [INPUT_SIZE_MIN, OUTPUT_SIZE_MIN])
@@ -20,46 +18,50 @@ module Ai4cr
 
           def config
             {
+
+              name: name,
+
+              history_size: history_size,
+
               io_offset:         @io_offset,
               time_col_qty:      @time_col_qty,
               input_size:        @input_size,
               output_size:       @output_size,
               hidden_layer_qty:  @hidden_layer_qty,
               hidden_size_given: @hidden_size_given,
+
               learning_style:    @learning_style,
 
               bias_disabled: @bias_disabled,
+              
               bias_default:  @bias_default,
 
               learning_rate: @learning_rate,
               momentum:      @momentum,
               deriv_scale:   @deriv_scale,
-
-              history_size: history_size,
-
-              name: name,
             }
           end
 
           def initialize(
+            name : String? = "",
+
+            history_size : Int32? = HISTORY_SIZE_DEFAULT,
             @io_offset = IO_OFFSET_DEFAULT,
             @time_col_qty = TIME_COL_QTY_MIN,
             @input_size = INPUT_SIZE_MIN,
             @output_size = OUTPUT_SIZE_MIN,
             @hidden_layer_qty = HIDDEN_LAYER_QTY_MIN,
-            @hidden_size_given = 0, # HIDDEN_SIZE_DEFAULT,
-            @learning_style : LearningStyle = LS_RELU,
+            @hidden_size_given = 0,
+
+            @learning_style : LearningStyle = LEARNING_STYLE_DEFAULT,
 
             bias_disabled = false,
+
             bias_default = 1.0,
 
             learning_rate : Float64? = nil,
             momentum : Float64? = nil,
             deriv_scale : Float64? = nil,
-
-            history_size : Int32? = 10,
-
-            name : String? = nil
           )
             @name = name.nil? ? "" : name
 
