@@ -295,7 +295,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
             it "history_size" do
               ancestor_adam_value = ancestor_adam.error_stats.history_size
               ancestor_eve_value = ancestor_eve.error_stats.history_size
-              # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
               expected_child_1_value = ancestor_adam_value
 
               expect(ancestor_adam_value).to eq(ancestor_eve_value)
@@ -306,7 +305,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
               # TODO
               ancestor_adam_value = ancestor_adam.error_stats.distance
               ancestor_eve_value = ancestor_eve.error_stats.distance
-              # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
               expected_child_1_value = -1.0
 
               expect(ancestor_adam_value).not_to eq(ancestor_eve_value)
@@ -316,7 +314,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
             it "history.size" do
               ancestor_adam_value = ancestor_adam.error_stats.history.size
               ancestor_eve_value = ancestor_eve.error_stats.history.size
-              # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
               expected_child_1_value = 0
 
               expect(ancestor_adam_value).to eq(ancestor_eve_value)
@@ -324,89 +321,15 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
             end
 
             it "score" do
-              # TODO
               ancestor_adam_value = ancestor_adam.error_stats.score
               ancestor_eve_value = ancestor_eve.error_stats.score
-              # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
-              expected_child_1_value = 1.8446744073709552e+19
+              expected_child_1_value = 1.8446744073709552e+19 # TODO: Why this value?
 
               expect(ancestor_adam_value).not_to eq(ancestor_eve_value)
               expect(child_1.error_stats.score).to eq(expected_child_1_value)
             end
           end
         end
-      end
-    end
-
-    context "when both parents are trained, then breed, and then all train" do
-      # it "when they have only 1 child, the child has smaller error_stats.distance" do
-      #   # cain
-      #   child = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
-      #   child.name = "Cain, child of #{ancestor_adam.name} and #{ancestor_eve.name}"
-      #   child
-
-      #   ancestor_adam.train(inputs, outputs)
-      #   ancestor_eve.train(inputs, outputs)
-      #   child_1.train(inputs, outputs)
-
-      #   puts_debug
-      #   puts_debug "ancestor_adam.class: #{ancestor_adam.class}"
-      #   puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
-      #   puts_debug
-      #   puts_debug "ancestor_eve.class: #{ancestor_eve.class}"
-      #   puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
-      #   puts_debug
-      #   puts_debug "child_1.class: #{child_1.class}"
-      #   puts_debug "child_1: #{child_1.to_json}"
-      #   puts_debug
-      #   expect(child_1.error_stats.distance).to be < (ancestor_adam.error_stats.distance)
-      #   expect(child_1.error_stats.distance).to be < (ancestor_eve.error_stats.distance)
-
-      # end
-
-      it "when they have N children, at least two of the children have smaller error_stats.distance" do
-        children_qty = 10
-
-        training_rounds = 3.times.to_a
-        training_rounds.each do
-          ancestor_adam.train(inputs, outputs)
-          ancestor_eve.train(inputs, outputs)
-        end
-
-        children = children_qty.times.to_a.map do |i|
-          child = my_breed_manager.breed(ancestor_adam, ancestor_eve)
-          child.name = "Child ##{i} of #{ancestor_adam.name} and #{ancestor_eve.name}"
-          child
-        end
-
-        training_rounds.each do
-          ancestor_adam.train(inputs, outputs)
-          ancestor_eve.train(inputs, outputs)
-          children.each do |child|
-            child.train(inputs, outputs)
-          end
-        end
-
-        qty_better = children.map do |child|
-          puts_debug
-          puts_debug "ancestor_adam.name: #{child.name}, error_stats.distance: #{ancestor_adam.error_stats.distance}"
-          puts_debug "ancestor_eve.name: #{child.name}, error_stats.distance: #{ancestor_eve.error_stats.distance}"
-          puts_debug "child.name: #{child.name}, error_stats.distance: #{child.error_stats.distance}"
-          puts_debug
-          # expect(child.error_stats.distance).to be < (ancestor_adam.error_stats.distance)
-          # expect(child.error_stats.distance).to be < (ancestor_eve.error_stats.distance)
-          is_better = child.error_stats.distance < ancestor_adam.error_stats.distance &&
-                      child.error_stats.distance < ancestor_eve.error_stats.distance
-
-          puts_debug "is_better: #{is_better}"
-
-          is_better ? 1 : 0
-        end.sum
-        puts_debug "children.size: #{children.size}"
-        puts_debug "qty_better: #{qty_better}"
-        puts_debug
-
-        expect(qty_better).to be >= 2
       end
     end
   end
@@ -424,7 +347,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
 
   describe "#train_team" do
     it "successive generations score better (i.e.: lower errors)" do
-      max_members = 5
+      max_members = 10
       qty_new_members = max_members
 
       params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
@@ -462,7 +385,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
 
   describe "#train_team_using_sequence" do
     it "successive generations score better (i.e.: lower errors)" do
-      max_members = 5
+      max_members = 10
       qty_new_members = max_members
 
       params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config

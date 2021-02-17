@@ -46,6 +46,8 @@ module Ai4cr
       # end
       # ```
 
+      MAX_MEMBERS_DEFAULT = 10
+      
       ############################################################################
       # TODO: WHY is this required?
       # NOTE: Sub-classes MUST include the following two lines:
@@ -103,6 +105,14 @@ module Ai4cr
         child
       end
 
+      def estimate_better_delta(ancestor_a : T, ancestor_b : T)
+        # for weighed average of 'recent' distances
+        estimate_better_delta(ancestor_a.error_stats.score, ancestor_b.error_stats.score)
+
+        # # for most recent distance
+        # estimate_better_delta(ancestor_a.error_stats.distance, ancestor_b.error_stats.distance)
+      end
+
       def estimate_better_delta(error_a : Float64, error_b : Float64)
         # An error value of '0.0' is when you're at the soultion.
         # The error values are assumed to be positive (i.e.: radius from solution), but could be negative.
@@ -116,7 +126,7 @@ module Ai4cr
         vector_a_to_b == 0.0 ? 0.0 : -error_a / vector_a_to_b
       end
 
-      def breed(parent_a : T, parent_b : T, delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5))
+      def breed(parent_a : T, parent_b : T, delta = 0.5)
         breed_validations(parent_a, parent_b, delta)
 
         # i.e.: VIA parents
@@ -218,7 +228,7 @@ module Ai4cr
         qty_new_members.times.to_a.map { channel.receive }
       end
 
-      def train_team_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = 2, train_qty = 1)
+      def train_team_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1)
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
@@ -234,7 +244,7 @@ module Ai4cr
         (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
       end
 
-      def train_team(inputs, outputs, team_members : Array(T), max_members = 2, train_qty = 1)
+      def train_team(inputs, outputs, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1)
         team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
         team_members = cross_breed(team_members)
@@ -265,9 +275,16 @@ module Ai4cr
           team_members.each_with_index do |member_j, j|
             spawn do
               contestant = if i == j
+                             # Don't bother breeding a member with itself
                              member_i
+                           elsif i < j
+                             # Try to guess a delta that is closer to a zero error
+                             delta = estimate_better_delta(member_i, member_j)
+                             breed(member_i, member_j, delta)
                            else
-                             breed(member_i, member_j)
+                             # Just take a chance with a random delta
+                             delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5)
+                             breed(member_i, member_j, delta)
                            end
 
               channel.send contestant
