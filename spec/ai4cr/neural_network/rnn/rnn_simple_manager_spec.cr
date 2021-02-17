@@ -51,7 +51,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     ancestor.mini_net_set.each do |mini_net_li|
       mini_net_li.each do |mini_net_ti|
         mini_net_ti.weights.map_with_index! do |row, i|
-          row.map_with_index! do |col, j|
+          row.map_with_index! do |_col, j|
             (i + j / 10.0).round(1)
           end
         end
@@ -66,7 +66,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     ancestor.mini_net_set.each do |mini_net_li|
       mini_net_li.each do |mini_net_ti|
         mini_net_ti.weights.map_with_index! do |row, i|
-          row.map_with_index! do |col, j|
+          row.map_with_index! do |_col, j|
             -(i + j / 10.0).round(1)
           end
         end
