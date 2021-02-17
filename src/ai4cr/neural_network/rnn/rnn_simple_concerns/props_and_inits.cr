@@ -28,8 +28,8 @@ module Ai4cr
               hidden_size_given: @hidden_size_given,
               learning_style:    @learning_style,
 
-              disable_bias: @disable_bias,
-              bias_default: @bias_default,
+              bias_disabled: @bias_disabled,
+              bias_default:  @bias_default,
 
               learning_rate: @learning_rate,
               momentum:      @momentum,
@@ -50,7 +50,7 @@ module Ai4cr
             @hidden_size_given = 0, # HIDDEN_SIZE_DEFAULT,
             @learning_style : LearningStyle = LS_RELU,
 
-            disable_bias = false,
+            bias_disabled = false,
             bias_default = 1.0,
 
             learning_rate : Float64? = nil,
@@ -63,25 +63,25 @@ module Ai4cr
           )
             @name = name.nil? ? "" : name
 
-            init_network(hidden_size_given, disable_bias, bias_default, learning_rate, momentum, deriv_scale)
+            init_network(hidden_size_given, bias_disabled, bias_default, learning_rate, momentum, deriv_scale)
             @error_stats = Ai4cr::ErrorStats.new(history_size)
           end
 
           def init_network(
             hidden_size_given,
-            disable_bias,
+            bias_disabled,
             bias_default,
             learning_rate,
             momentum,
             deriv_scale
           )
-            init_network_config(hidden_size_given, disable_bias, bias_default, learning_rate, momentum, deriv_scale)
+            init_network_config(hidden_size_given, bias_disabled, bias_default, learning_rate, momentum, deriv_scale)
             init_network_mini_net_set
           end
 
           def init_network_config(
             hidden_size_given,
-            disable_bias,
+            bias_disabled,
             bias_default,
             learning_rate,
             momentum,
@@ -95,7 +95,7 @@ module Ai4cr
             end
 
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
-            @disable_bias = disable_bias
+            @bias_disabled = bias_disabled
             @bias_default = bias_default
 
             @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding : learning_rate.as(Float64)
@@ -213,7 +213,7 @@ module Ai4cr
                   learning_style: @learning_style,
                   deriv_scale: @deriv_scale,
 
-                  disable_bias: li_gt_0,
+                  bias_disabled: li_gt_0,
                   bias_default: @bias_default,
 
                   learning_rate: @learning_rate,

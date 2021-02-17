@@ -25,7 +25,7 @@ module Ai4cr
 
           getter hidden_size = -1
 
-          property disable_bias = false
+          property bias_disabled = false
           property bias_default : Float64 = 1.0
 
           property learning_style = LS_RELU

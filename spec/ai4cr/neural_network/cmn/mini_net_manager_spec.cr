@@ -157,7 +157,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
 
           [
             "width", "height", "height_considering_bias", "width_indexes", "height_indexes",
-            "learning_style", "disable_bias", "outputs_expected",
+            "learning_style", "bias_disabled", "outputs_expected",
           ].each do |var|
             puts_debug
             puts_debug "var: #{var}"

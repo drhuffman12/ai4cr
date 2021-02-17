@@ -13,7 +13,7 @@ module Ai4cr
           property learning_style = LS_RELU
 
           property bias_default = 1.0
-          property disable_bias = false
+          property bias_disabled = false
           property learning_rate : Float64 = Ai4cr::Data::Utils.rand_excluding
           property momentum : Float64 = Ai4cr::Data::Utils.rand_excluding
 
@@ -37,7 +37,7 @@ module Ai4cr
           property outputs_guessed = Array(Float64).new
 
           def init_net_re_structure
-            @height_considering_bias = @height + (@disable_bias ? 0 : 1)
+            @height_considering_bias = @height + (@bias_disabled ? 0 : 1)
             @height_indexes = Array.new(@height_considering_bias) { |i| i }
             @width_indexes = Array.new(width) { |i| i }
             # Weight initialization (https://medium.com/datadriveninvestor/deep-learning-best-practices-activation-functions-weight-initialization-methods-part-1-c235ff976ed)
@@ -51,7 +51,7 @@ module Ai4cr
 
           def init_net_re_guess
             @inputs_given = Array.new(@height_considering_bias, 0.0)
-            @inputs_given[-1] = bias_default unless @disable_bias
+            @inputs_given[-1] = bias_default unless @bias_disabled
             @outputs_guessed = Array.new(width, 0.0)
           end
 

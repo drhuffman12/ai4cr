@@ -18,7 +18,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
           "error_stats",
           "outputs_expected",
           "input_deltas", "output_deltas",
-          "disable_bias", "learning_rate",
+          "bias_disabled", "learning_rate",
           "momentum",
           "learning_style", "deriv_scale",
         ]

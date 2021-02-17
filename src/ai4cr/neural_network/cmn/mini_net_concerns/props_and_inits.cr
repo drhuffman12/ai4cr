@@ -11,8 +11,8 @@ module Ai4cr
 
               deriv_scale: @deriv_scale,
 
-              disable_bias: @disable_bias,
-              bias_default: @bias_default,
+              bias_disabled: @bias_disabled,
+              bias_default:  @bias_default,
 
               learning_rate: @learning_rate,
               momentum:      @momentum,
@@ -28,7 +28,7 @@ module Ai4cr
 
             @deriv_scale = Ai4cr::Data::Utils.rand_excluding(scale: 0.5),
 
-            disable_bias : Bool? = nil, @bias_default = 1.0,
+            bias_disabled : Bool? = nil, @bias_default = 1.0,
 
             learning_rate : Float64? = nil, momentum : Float64? = nil,
             history_size : Int32 = 10,
@@ -36,7 +36,7 @@ module Ai4cr
             name : String? = ""
           )
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
-            @disable_bias = disable_bias.nil? ? false : !!disable_bias
+            @bias_disabled = bias_disabled.nil? ? false : !!bias_disabled
 
             @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding : learning_rate.as(Float64)
             @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : Ai4cr::Data::Utils.rand_excluding

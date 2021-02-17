@@ -49,7 +49,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     #   let(ancestor_3) { my_breed_manager.create(name: "non-default hidden_layer_qty", hidden_layer_qty: RnnSimple::HIDDEN_LAYER_QTY_MIN + 1 + rand(2) }
     #   let(ancestor_3) { my_breed_manager.create(name: "non-default hidden_size_given", hidden_size_given: RnnSimple::HIDDEN_SIZE_DEFAULT + 1 + rand(2)) }
     #   let(ancestor_3) { my_breed_manager.create(name: "non-default learning_style", learning_style: RnnSimple::IO_OFFSET_DEFAULT + 1 + rand(2)) }
-    #   let(ancestor_3) { my_breed_manager.create(name: "non-default disable_bias", disable_bias: true) }
+    #   let(ancestor_3) { my_breed_manager.create(name: "non-default bias_disabled", bias_disabled: true) }
 
     #   # let(ancestor_4) {
     #   #   my_breed_manager.create(name: "non-default output_size", output_size: 5)
@@ -156,7 +156,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     #       end
     #     end
 
-    #     context "disable_bias" do
+    #     context "bias_disabled" do
     #       it "raises" do
     #         ancestor_a = ancestor_1
     #         ancestor_b = ancestor_4
@@ -252,7 +252,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
 
     #         [
     #           "output_size", "input_size", "height_considering_bias", "width_indexes", "height_indexes",
-    #           "learning_style", "disable_bias", "outputs_expected",
+    #           "learning_style", "bias_disabled", "outputs_expected",
     #         ].each do |var|
     #           puts_debug
     #           puts_debug "var: #{var}"
