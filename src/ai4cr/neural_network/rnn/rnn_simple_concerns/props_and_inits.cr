@@ -67,24 +67,24 @@ module Ai4cr
           end
 
           def init_network(
-            hidden_size_given = 0, # 10,
-            disable_bias = false,
-            bias_default = 1.0,
-            learning_rate : Float64? = nil,
-            momentum : Float64? = nil,
-            deriv_scale : Float64? = nil
+            hidden_size_given,
+            disable_bias,
+            bias_default,
+            learning_rate,
+            momentum,
+            deriv_scale
           )
             init_network_config(hidden_size_given, disable_bias, bias_default, learning_rate, momentum, deriv_scale)
             init_network_mini_net_set
           end
 
           def init_network_config(
-            hidden_size_given = 0, # : Int32? = 10, # HIDDEN_SIZE_DEFAULT,
-            disable_bias = false,
-            bias_default = 1.0,
-            learning_rate : Float64? = nil,
-            momentum : Float64? = nil,
-            deriv_scale : Float64? = nil
+            hidden_size_given,
+            disable_bias,
+            bias_default,
+            learning_rate,
+            momentum,
+            deriv_scale
           )
             # TODO: Handle differing hidden layer output sizes
             if hidden_size_given > 0
@@ -94,8 +94,8 @@ module Ai4cr
             end
 
             # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
-            @disable_bias = disable_bias # .nil? ? false : !!disable_bias
-            @bias_default = bias_default # .nil? ? 1.0 : bias_default
+            @disable_bias = disable_bias
+            @bias_default = bias_default
 
             @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding : learning_rate.as(Float64)
             @momentum = momentum.nil? || momentum.as(Float64) <= 0.0 ? Ai4cr::Data::Utils.rand_excluding : momentum.as(Float64)
