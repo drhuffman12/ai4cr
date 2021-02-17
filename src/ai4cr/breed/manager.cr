@@ -47,7 +47,7 @@ module Ai4cr
       # ```
 
       MAX_MEMBERS_DEFAULT = 10
-      
+
       ############################################################################
       # TODO: WHY is this required?
       # NOTE: Sub-classes MUST include the following two lines:
