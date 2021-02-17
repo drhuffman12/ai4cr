@@ -46,7 +46,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
     ancestor.train(inputs, outputs)
     ancestor
   }
-  
+
   before_each do
     my_breed_manager.counter.reset!
   end

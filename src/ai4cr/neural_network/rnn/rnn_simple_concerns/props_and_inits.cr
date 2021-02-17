@@ -5,11 +5,12 @@ module Ai4cr
         module PropsAndInits
           IO_OFFSET_DEFAULT = 1
 
-          TIME_COL_QTY_MIN      = 2
-          HIDDEN_LAYER_QTY_MIN  = 1
+          TIME_COL_QTY_MIN     = 2
+          HIDDEN_LAYER_QTY_MIN = 1
           # HIDDEN_SIZE_DEFAULT   = 10
-          INPUT_SIZE_MIN        = 2
-          OUTPUT_SIZE_MIN       = 1
+          INPUT_SIZE_MIN  = 2
+          OUTPUT_SIZE_MIN = 1
+
           # HIDDEN_SIZE_GIVEN_MIN = INPUT_SIZE_MIN + OUTPUT_SIZE_MIN
 
           # TODO: Handle usage of a 'structure' param in 'initialize'
@@ -19,13 +20,13 @@ module Ai4cr
 
           def config
             {
-              io_offset:    @io_offset,
-              time_col_qty: @time_col_qty,
+              io_offset:         @io_offset,
+              time_col_qty:      @time_col_qty,
               input_size:        @input_size,
               output_size:       @output_size,
               hidden_layer_qty:  @hidden_layer_qty,
               hidden_size_given: @hidden_size_given,
-              learning_style: @learning_style,
+              learning_style:    @learning_style,
 
               disable_bias: @disable_bias,
               bias_default: @bias_default,
