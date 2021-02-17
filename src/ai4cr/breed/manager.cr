@@ -206,6 +206,77 @@ module Ai4cr
           raise "Unhandled values; parent_a_part, parent_b_part == #{[parent_a_part, parent_b_part]}, classes: #{[parent_a_part.class, parent_b_part.class]}"
         end
       end
+
+      def build_team(qty_new_members : Int32, **params) : Array(T)
+        channel = Channel(T).new
+        qty_new_members.times.to_a.map do
+          # create(**params)
+          spawn do
+            channel.send(create(**params))
+          end
+        end
+        qty_new_members.times.to_a.map { channel.receive }
+      end
+
+      def train_team_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = 2, train_qty = 1)
+        inputs_sequence.each_with_index do |inputs, i|
+          outputs = outputs_sequence[i]
+          team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+        end
+
+        team_members = cross_breed(team_members)
+
+        inputs_sequence.each_with_index do |inputs, i|
+          outputs = outputs_sequence[i]
+          team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+        end
+
+        (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
+      end
+
+      def train_team(inputs, outputs, team_members : Array(T), max_members = 2, train_qty = 1)
+        team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+
+        team_members = cross_breed(team_members)
+
+        team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+
+        (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
+      end
+
+      def train_team_in_parallel(inputs, outputs, team_members, train_qty)
+        channel = Channel(T).new
+        qty = team_members.size
+        team_members.each do |member|
+          spawn do
+            train_qty == 1 ? member.train(inputs, outputs) : train_qty.times { member.train(inputs, outputs) }
+            channel.send(member)
+          end
+        end
+        qty.times.to_a.map { channel.receive }
+      end
+
+      def cross_breed(team_members : Array(T))
+        qty = team_members.size ** 2
+        # side = team_members.size.times.to_a
+        channel = Channel(T).new
+
+        team_members.each_with_index do |member_i, i|
+          team_members.each_with_index do |member_j, j|
+            spawn do
+              contestant = if i == j
+                             member_i
+                           else
+                             breed(member_i, member_j)
+                           end
+
+              channel.send contestant
+            end
+          end
+        end
+
+        qty.times.to_a.map { channel.receive }
+      end
     end
   end
 end

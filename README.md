@@ -44,7 +44,7 @@ net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
 assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
 ```
 
-## Optimiaztions
+## Optimizations
 
 * Compiler
 
@@ -55,6 +55,8 @@ e.g.: `time crystal spec --release`
 * Multithreading
 
 Use the `-Dpreview_mt` (for `crystal build` or `-D preview_mt` for `crystal spec`) flag for multithreading.
+
+e.g.: `CRYSTAL_WORKERS=16 crystal spec spec/ai4cr/neural_network/rnn/rnn_simple_manager_spec.cr --release -D preview_mt`
 
 See also:
 * https://crystal-lang.org/2019/09/23/crystal-0.31.0-released.html

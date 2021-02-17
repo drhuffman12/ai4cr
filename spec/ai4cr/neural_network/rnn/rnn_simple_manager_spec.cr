@@ -45,7 +45,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       history_size: 3
     )
   }
-
   let(ancestor_adam) {
     ancestor = my_breed_manager.create(**config_adam)
     ancestor.mini_net_set.each do |mini_net_li|
@@ -90,7 +89,47 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     ]
   }
 
-  describe "For Adam and Eve examples" do
+  let(inputs_sequence) {
+    [
+      [
+        [0.1, 0.2],
+        [0.3, 0.4],
+      ],
+      [
+        [0.3, 0.4],
+        [0.5, 0.6],
+      ],
+      [
+        [0.5, 0.6],
+        [0.7, 0.8],
+      ],
+    ]
+  }
+  let(outputs_sequence) {
+    [
+      [
+        [0.1],
+        [0.9],
+      ],
+      [
+        [0.9],
+        [0.5],
+      ],
+      [
+        [0.5],
+        [0.3],
+      ],
+    ]
+  }
+
+  let(child_1) {
+    # cain
+    child = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
+    child.name = "Cain, child of #{ancestor_adam.name} and #{ancestor_eve.name}"
+    child
+  }
+
+  context "For Adam and Eve examples" do
     before_each do
       my_breed_manager.counter_reset
     end
@@ -153,12 +192,12 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       end
 
       context "children have expected values for" do
-        let(child_1) {
-          # cain
-          child = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
-          child.name = "Cain, child of #{ancestor_adam.name} and #{ancestor_eve.name}"
-          child
-        }
+        # let(child_1) {
+        #   # cain
+        #   child = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
+        #   child.name = "Cain, child of #{ancestor_adam.name} and #{ancestor_eve.name}"
+        #   child
+        # }
 
         let(ancestor_adam_json) { JSON.parse(ancestor_adam.to_json) }
         let(ancestor_eve_json) { JSON.parse(ancestor_eve.to_json) }
@@ -252,19 +291,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         end
 
         context "NOT copied and NOT mixed, but instead freshly initialized" do
-          it "foo debug" do
-            puts_debug
-            puts_debug "ancestor_adam.class: #{ancestor_adam.class}"
-            puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
-            puts_debug
-            puts_debug "ancestor_eve.class: #{ancestor_eve.class}"
-            puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
-            puts_debug
-            puts_debug "child_1.class: #{child_1.class}"
-            puts_debug "child_1: #{child_1.to_json}"
-            puts_debug
-          end
-
           context "error_stats" do
             it "history_size" do
               ancestor_adam_value = ancestor_adam.error_stats.history_size
@@ -312,233 +338,163 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       end
     end
 
-    # it "learning rates of Adam and Eve are different" do
-    #   expect(ancestor_adam.learning_rate).to eq(ancestor_adam_value)
-    #   expect(ancestor_eve.learning_rate).to eq(ancestor_eve_value)
-    #   expect(ancestor_adam.learning_rate).not_to eq(ancestor_eve.learning_rate)
-    # end
+    context "when both parents are trained, then breed, and then all train" do
+      # it "when they have only 1 child, the child has smaller error_stats.distance" do
+      #   # cain
+      #   child = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
+      #   child.name = "Cain, child of #{ancestor_adam.name} and #{ancestor_eve.name}"
+      #   child
 
-    context "birth_id's are in the consistent order (when birthed in order" do
-      # it "first Adam" do
-      #   expected_birth_counter = 0
-
-      #   # Adam
-      #   expected_birth_counter += 1
-      #   expect(ancestor_adam.birth_id).to eq(expected_birth_counter)
+      #   ancestor_adam.train(inputs, outputs)
+      #   ancestor_eve.train(inputs, outputs)
+      #   child_1.train(inputs, outputs)
 
       #   puts_debug
-      #   puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
-      # end
-
-      # it "first Adam then Eve" do
-      #   expected_birth_counter = 0
-
-      #   # Adam
-      #   expected_birth_counter += 1
-      #   expect(ancestor_adam.birth_id).to eq(expected_birth_counter)
-
-      #   # Eve
-      #   expected_birth_counter += 1
-      #   expect(ancestor_eve.birth_id).to eq(expected_birth_counter)
-
-      #   puts_debug
+      #   puts_debug "ancestor_adam.class: #{ancestor_adam.class}"
       #   puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
       #   puts_debug
-      #   puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
-      # end
-
-      # it "first Adam then Eve followed by Cain" do
-      #   expected_birth_counter = 0
-
-      #   # Adam
-      #   expected_birth_counter += 1
-      #   expect(ancestor_adam.birth_id).to eq(expected_birth_counter)
-
-      #   # Eve
-      #   expected_birth_counter += 1
-      #   expect(ancestor_eve.birth_id).to eq(expected_birth_counter)
-
-      #   # Cain
-      #   expected_birth_counter += 1
-      #   child_1 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
-      #   child_1.name = "Cain, child of #{child_1.name} and #{ancestor_eve.name}"
-      #   expect(child_1.birth_id).to eq(expected_birth_counter)
-
-      #   puts_debug
-      #   puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
-      #   puts_debug
+      #   puts_debug "ancestor_eve.class: #{ancestor_eve.class}"
       #   puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
       #   puts_debug
-      #   puts_debug "child_1: #{child_1.to_json}"
-      # end
-
-      # it "first Adam then Eve followed by Cain and then Abel" do
-      #   expected_birth_counter = 0
-
-      #   # Adam
-      #   expected_birth_counter += 1
-      #   expect(ancestor_adam.birth_id).to eq(expected_birth_counter)
-
-      #   # Eve
-      #   expected_birth_counter += 1
-      #   expect(ancestor_eve.birth_id).to eq(expected_birth_counter)
-
-      #   # Cain
-      #   expected_birth_counter += 1
-      #   child_1 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
-      #   child_1.name = "Cain, child of #{child_1.name} and #{ancestor_eve.name}"
-      #   expect(child_1.birth_id).to eq(expected_birth_counter)
-
-      #   # Abel
-      #   expected_birth_counter += 1
-      #   child_2 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_2)
-      #   child_2.name = "Abel, child of #{child_2.name} and #{ancestor_eve.name}"
-      #   expect(child_2.birth_id).to eq(expected_birth_counter)
-
-      #   puts_debug
-      #   puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
-      #   puts_debug
-      #   puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
-      #   puts_debug
+      #   puts_debug "child_1.class: #{child_1.class}"
       #   puts_debug "child_1: #{child_1.to_json}"
       #   puts_debug
-      #   puts_debug "child_2: #{child_2.to_json}"
+      #   expect(child_1.error_stats.distance).to be < (ancestor_adam.error_stats.distance)
+      #   expect(child_1.error_stats.distance).to be < (ancestor_eve.error_stats.distance)
+
       # end
+
+      it "when they have N children, at least two of the children have smaller error_stats.distance" do
+        children_qty = 10
+
+        training_rounds = 3.times.to_a
+        training_rounds.each do
+          ancestor_adam.train(inputs, outputs)
+          ancestor_eve.train(inputs, outputs)
+        end
+
+        children = children_qty.times.to_a.map do |i|
+          child = my_breed_manager.breed(ancestor_adam, ancestor_eve)
+          child.name = "Child ##{i} of #{ancestor_adam.name} and #{ancestor_eve.name}"
+          child
+        end
+
+        training_rounds.each do
+          ancestor_adam.train(inputs, outputs)
+          ancestor_eve.train(inputs, outputs)
+          children.each do |child|
+            child.train(inputs, outputs)
+          end
+        end
+
+        qty_better = children.map do |child|
+          puts_debug
+          puts_debug "ancestor_adam.name: #{child.name}, error_stats.distance: #{ancestor_adam.error_stats.distance}"
+          puts_debug "ancestor_eve.name: #{child.name}, error_stats.distance: #{ancestor_eve.error_stats.distance}"
+          puts_debug "child.name: #{child.name}, error_stats.distance: #{child.error_stats.distance}"
+          puts_debug
+          # expect(child.error_stats.distance).to be < (ancestor_adam.error_stats.distance)
+          # expect(child.error_stats.distance).to be < (ancestor_eve.error_stats.distance)
+          is_better = child.error_stats.distance < ancestor_adam.error_stats.distance &&
+                      child.error_stats.distance < ancestor_eve.error_stats.distance
+
+          puts_debug "is_better: #{is_better}"
+
+          is_better ? 1 : 0
+        end.sum
+        puts_debug "children.size: #{children.size}"
+        puts_debug "qty_better: #{qty_better}"
+        puts_debug
+
+        expect(qty_better).to be >= 2
+      end
     end
+  end
 
-    describe "#mix_parts" do
-      # context "first Adam then Eve followed by Cain" do
-      #   let(child_1) { my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1) }
+  describe "#build_team" do
+    context "when using all defaults" do
+      it "creates specified quantity of members" do
+        qty_new_members = 4
+        params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
+        next_gen_members = my_breed_manager.build_team(qty_new_members, **params)
+        expect(next_gen_members.size).to eq(qty_new_members)
+      end
+    end
+  end
 
-      #   let(learning_rate_expected_1) {
-      #     parent_a_part = ancestor_adam.learning_rate
-      #     parent_b_part = ancestor_eve.learning_rate
+  describe "#train_team" do
+    it "successive generations score better (i.e.: lower errors)" do
+      max_members = 5
+      qty_new_members = max_members
 
-      #     vector_a_to_b = parent_b_part - parent_a_part
-      #     parent_a_part + (delta_child_1 * vector_a_to_b)
-      #   }
+      params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
 
-      #   let(momentum_expected_1) {
-      #     parent_a_part = ancestor_adam.momentum
-      #     parent_b_part = ancestor_eve.momentum
+      first_gen_members = my_breed_manager.build_team(qty_new_members, **params)
+      second_gen_members = my_breed_manager.train_team(inputs, outputs, first_gen_members, max_members)
+      third_gen_members = my_breed_manager.train_team(inputs, outputs, second_gen_members, max_members)
 
-      #     vector_a_to_b = parent_b_part - parent_a_part
-      #     parent_a_part + (delta_child_1 * vector_a_to_b)
-      #   }
+      first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+      first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
-      #   before_each do
-      #     # Force variable to be initialized in specific order
+      second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+      second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
-      #     # Adam
-      #     ancestor_adam.name = ancestor_adam.name + ""
+      third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+      third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
-      #     # Eve
-      #     ancestor_eve.name = ancestor_eve.name + ""
+      puts
+      puts "#train_team:"
+      puts
+      puts "first_gen_members_scored: #{first_gen_members_scored}"
+      first_gen_members_stats.each { |m| puts m }
 
-      #     # Cain
-      #     child_1.name = "Cain, child of #{child_1.name} and #{ancestor_eve.name}"
-      #   end
+      puts
+      puts "second_gen_members_scored: #{second_gen_members_scored}"
+      second_gen_members_stats.each { |m| puts m }
+      expect(second_gen_members_scored).to be < first_gen_members_scored
 
-      #   it "debug" do
-      #     puts_debug
-      #     puts_debug "ancestor_adam: #{ancestor_adam.to_json}"
-      #     puts_debug
-      #     puts_debug "ancestor_eve: #{ancestor_eve.to_json}"
-      #     puts_debug
-      #     puts_debug "child_1: #{child_1.to_json}"
-      #     puts_debug
+      puts
+      puts "third_gen_members_scored: #{third_gen_members_scored}"
+      third_gen_members_stats.each { |m| puts m }
+      expect(third_gen_members_scored).to be < second_gen_members_scored
+    end
+  end
 
-      #     # puts_debug
-      #     # puts_debug "ancestor_adam: #{ancestor_adam.to_pretty_json}"
-      #     # puts_debug
-      #     # puts_debug "ancestor_eve: #{ancestor_eve.to_pretty_json}"
-      #     # puts_debug
-      #     # puts_debug "child_1: #{child_1.to_pretty_json}"
-      #     # puts_debug
-      #   end
+  describe "#train_team_using_sequence" do
+    it "successive generations score better (i.e.: lower errors)" do
+      max_members = 5
+      qty_new_members = max_members
 
-      #   context "first child" do
-      #     context "gets expected value(s) for" do
-      #       it "learning_rate" do
-      #         expect(child_1.learning_rate).to eq(learning_rate_expected_1)
-      #       end
+      params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
 
-      #       it "momentum" do
-      #         expect(child_1.momentum).to eq(momentum_expected_1)
-      #       end
+      first_gen_members = my_breed_manager.build_team(qty_new_members, **params)
+      second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, first_gen_members, max_members)
+      third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, second_gen_members, max_members)
 
-      #       # ... do likewise for other applicable variables
+      first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+      first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
-      #       context "mini_net_set" do
-      #         let(li) { 0 }
-      #         let(ti) { li }
+      second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+      second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
-      #         let(ancestor_adam_mini_net) { ancestor_adam.mini_net_set[li][ti] }
-      #         let(ancestor_eve_mini_net) { ancestor_eve.mini_net_set[li][ti] }
-      #         let(child_1_mini_net) { child_1.mini_net_set[li][ti] }
+      third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+      third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
-      #         context "gets expected value(s) for" do
-      #           it "learning_rate" do
-      #             expect(ancestor_adam.learning_rate).to eq(ancestor_adam_mini_net.learning_rate)
-      #             expect(ancestor_eve.learning_rate).to eq(ancestor_eve_mini_net.learning_rate)
-      #             expect(child_1.learning_rate).to eq(child_1_mini_net.learning_rate)
+      puts
+      puts "#train_team_using_sequence:"
+      puts
+      puts "first_gen_members_scored: #{first_gen_members_scored}"
+      first_gen_members_stats.each { |m| puts m }
 
-      #             expect(child_1_mini_net.learning_rate).to eq(learning_rate_expected_1)
-      #           end
+      puts
+      puts "second_gen_members_scored: #{second_gen_members_scored}"
+      second_gen_members_stats.each { |m| puts m }
+      expect(second_gen_members_scored).to be < first_gen_members_scored
 
-      #           it "momentum" do
-      #             # expect(child_1.momentum).to eq(momentum_expected_1)
-
-      #             expect(ancestor_adam.momentum).to eq(ancestor_adam_mini_net.momentum)
-      #             expect(ancestor_eve.momentum).to eq(ancestor_eve_mini_net.momentum)
-      #             expect(child_1.momentum).to eq(child_1_mini_net.momentum)
-
-      #             expect(child_1_mini_net.momentum).to eq(momentum_expected_1)
-      #           end
-
-      #           # ... do likewise for other applicable variables
-      #         end
-      #       end
-      #     end
-
-      #     context "does not get exact copy of either parent for values of" do
-      #       it "learning_rate" do
-      #         expect(child_1.learning_rate).not_to eq(ancestor_adam)
-      #         expect(child_1.learning_rate).not_to eq(ancestor_eve)
-      #       end
-
-      #       it "momentum" do
-      #         expect(child_1.momentum).not_to eq(ancestor_adam)
-      #         expect(child_1.momentum).not_to eq(ancestor_eve)
-      #       end
-
-      #       # ... do likewise for other applicable variables
-
-      #       context "mini_net_set" do
-      #         let(li) { 0 }
-      #         let(ti) { li }
-
-      #         let(ancestor_adam_mini_net) { ancestor_adam.mini_net_set[li][ti] }
-      #         let(ancestor_eve_mini_net) { ancestor_eve.mini_net_set[li][ti] }
-      #         let(child_1_mini_net) { child_1.mini_net_set[li][ti] }
-
-      #         context "does not get exact copy of either parent for values of" do
-      #           it "learning_rate" do
-      #             expect(child_1_mini_net.learning_rate).not_to eq(ancestor_adam_mini_net)
-      #             expect(child_1_mini_net.learning_rate).not_to eq(ancestor_eve_mini_net)
-      #           end
-
-      #           it "momentum" do
-      #             expect(child_1_mini_net.momentum).not_to eq(ancestor_adam_mini_net)
-      #             expect(child_1_mini_net.momentum).not_to eq(ancestor_eve_mini_net)
-      #           end
-
-      #           # ... do likewise for other applicable variables
-      #         end
-      #       end
-      #     end
-      #   end
-      # end
+      puts
+      puts "third_gen_members_scored: #{third_gen_members_scored}"
+      third_gen_members_stats.each { |m| puts m }
+      expect(third_gen_members_scored).to be < second_gen_members_scored
     end
   end
 end
