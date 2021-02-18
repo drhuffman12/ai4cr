@@ -1,6 +1,6 @@
 require "json"
 require "ascii_bar_charter"
-require "./safe_counter.cr"
+require "counter_safe"
 require "./monkeypatches/*"
 require "./ai4cr/*"
 

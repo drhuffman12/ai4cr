@@ -20,11 +20,21 @@ class MyBreed
   ALLOWED_STRINGS      = (ALLOWED_STRING_FIRST..ALLOWED_STRING_LAST).to_a
   property some_string : String = (ALLOWED_STRINGS.sample) * 2
 
-  def initialize(@name, @some_value)
+  property history_size : Int32
+  property error_stats : Ai4cr::ErrorStats
+
+  def initialize(@name, @some_value, @history_size = 2)
+    @error_stats = Ai4cr::ErrorStats.new(history_size)
   end
 end
 
 class MyBreedManager < Ai4cr::Breed::Manager(MyBreed)
+  include JSON::Serializable
+  class_getter counter : CounterSafe::Exclusive = CounterSafe::Exclusive.new
+
+  def initialize
+  end
+
   def mix_parts(child : T, parent_a : T, parent_b : T, delta)
     some_value = mix_one_part_number(parent_a.some_value, parent_b.some_value, delta)
     child.some_value = some_value
@@ -37,10 +47,6 @@ class MyBreedManager < Ai4cr::Breed::Manager(MyBreed)
 
     child
   end
-end
-
-def puts_debug(message = "")
-  puts message if ENV.has_key?("DEBUG") && ENV["DEBUG"] == "1"
 end
 
 Spectator.describe Ai4cr::Breed::Manager do
@@ -107,7 +113,7 @@ Spectator.describe Ai4cr::Breed::Manager do
 
       # cain
       child_1 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
-      child_1.name = "Cain, child of #{child_1.name} and #{ancestor_eve.name}"
+      child_1.name = "Cain, child of #{ancestor_adam.name} and #{ancestor_eve.name}"
 
       puts_debug "child_1: #{child_1.to_json}"
       expected_birth_counter += 1
@@ -119,7 +125,7 @@ Spectator.describe Ai4cr::Breed::Manager do
 
       # abel
       child_2 = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_2)
-      child_2.name = "Abel, child of #{child_2.name} and #{ancestor_eve.name}"
+      child_2.name = "Abel, child of #{ancestor_adam.name} and #{ancestor_eve.name}"
 
       puts_debug "child_2: #{child_2.to_json}"
       expected_birth_counter += 1

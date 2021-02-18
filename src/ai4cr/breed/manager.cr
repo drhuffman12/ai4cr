@@ -1,6 +1,10 @@
 module Ai4cr
   module Breed
+    class StructureError < ArgumentError; end
+
     abstract class Manager(T)
+      # class MyCounter < Counter::Safe; end
+
       # Implementaion example (taken from 'spec/ai4cr/breed/manager_spec.cr'):
       # ```
       # class MyBreed
@@ -42,26 +46,55 @@ module Ai4cr
       # end
       # ```
 
-      include JSON::Serializable
+      MAX_MEMBERS_DEFAULT = 10
 
+      ############################################################################
+      # TODO: WHY is this required?
+      # NOTE: Sub-classes MUST include the following two lines:
+      include JSON::Serializable
+      class_getter counter : CounterSafe::Exclusive = CounterSafe::Exclusive.new
+
+      def initialize; end
+
+      ############################################################################
+
+      #       property team_size : Int32 = 2
+      #       property training_round_qty : Int32 = 10
+      #       property training_round_indexes = Array(Int32).new
+      #       # getter team_indexes : Array(Int32)
+      #       getter team_members : Array(T) # .new
+
+      #       property team_last_id : Int32
+      #       property manager = Manager(T).new
+
+      #       # property member_config
       # include Ai4cr::Breed::Utils
 
-      def initialize
-        # NOTE: We probably should convert the 'birth_id' from an instance variable to a class variable!
-        #   Otherwise, you could get multiple instances with separate counters,
-        #   which might or might not be desirable!
-        @counter = SafeCounter.new
+      # def initialize
+      #   # NOTE: We probably should convert the 'birth_id' from an instance variable to a class variable!
+      #   #   Otherwise, you could get multiple instances with separate counters,
+      #   #   which might or might not be desirable!
+      #   # @@counter = init_counter
+      # end
+
+      # def init_counter
+      #   @@counter = CounterSafe::Exclusive.new
+      # end
+
+      def counter
+        @@counter
       end
 
       def counter_reset(value = 0)
-        @counter.reset(T.name, value)
+        @@counter.reset(T.name, value)
       end
 
       def create(**params)
         # i.e.: via NO parents
         channel = Channel(Int32).new
         spawn do
-          channel.send(@counter.inc(T.name))
+          value = @@counter.inc(T.name)
+          channel.send(value)
         end
         birth_id = channel.receive
 
@@ -70,6 +103,14 @@ module Ai4cr
         child.birth_id = birth_id
 
         child
+      end
+
+      def estimate_better_delta(ancestor_a : T, ancestor_b : T)
+        # for weighed average of 'recent' distances
+        estimate_better_delta(ancestor_a.error_stats.score, ancestor_b.error_stats.score)
+
+        # # for most recent distance
+        # estimate_better_delta(ancestor_a.error_stats.distance, ancestor_b.error_stats.distance)
       end
 
       def estimate_better_delta(error_a : Float64, error_b : Float64)
@@ -81,25 +122,34 @@ module Ai4cr
 
         vector_a_to_b = error_b - error_a
         # zero = error_a + delta * vector_a_to_b
-        # so (avoid div by 0 and then) return ...
-        vector_a_to_b == 0.0 ? 0.0 : -error_a / vector_a_to_b
+        # zero - error_a = delta * vector_a_to_b
+        # - error_a / vector_a_to_b = delta
+        # delta = - error_a / vector_a_to_b
+
+        # Avoid div by 0 with rand, else better guess:
+        vector_a_to_b == 0.0 ? Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5) : -error_a / vector_a_to_b
       end
 
-      def breed(parent_a : T, parent_b : T, delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5)) # , **params)
-        raise "Must be a Breed Client!" unless T < Breed::Client
+      def breed(parent_a : T, parent_b : T, delta = 0.5)
+        breed_validations(parent_a, parent_b, delta)
 
         # i.e.: VIA parents
         birth_id = breed_counter_tick
-
         child = copy_and_mix(parent_a, parent_b, delta)
+        child = breed_id_and_delta(child, birth_id, parent_a, parent_b, delta)
+        child.error_stats = Ai4cr::ErrorStats.new(parent_a.error_stats.history_size)
 
-        breed_id_and_delta(child, birth_id, parent_a, parent_b, delta)
+        child
+      end
+
+      def breed_validations(parent_a : T, parent_b : T, delta)
+        raise "Parents must be Breed Clients!" unless T < Breed::Client
       end
 
       def breed_counter_tick
         channel = Channel(Int32).new
         spawn do
-          channel.send(@counter.inc(T.name))
+          channel.send(@@counter.inc(T.name))
         end
         channel.receive
       end
@@ -167,8 +217,86 @@ module Ai4cr
           # NOTE: This works for arrays, but not hashes.
           [parent_a_part, parent_b_part].transpose.map { |tran| va = tran[0]; vb = tran[1]; mix_nested_parts(va, vb, delta) }
         else
-          raise "Unhandled values; parent_a_part, parent_b_part == #{[parent_a_part, parent_b_part]}"
+          raise "Unhandled values; parent_a_part, parent_b_part == #{[parent_a_part, parent_b_part]}, classes: #{[parent_a_part.class, parent_b_part.class]}"
         end
+      end
+
+      def build_team(qty_new_members : Int32, **params) : Array(T)
+        channel = Channel(T).new
+        qty_new_members.times.to_a.map do
+          # create(**params)
+          spawn do
+            channel.send(create(**params))
+          end
+        end
+        qty_new_members.times.to_a.map { channel.receive }
+      end
+
+      def train_team_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1)
+        inputs_sequence.each_with_index do |inputs, i|
+          outputs = outputs_sequence[i]
+          team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+        end
+
+        team_members = cross_breed(team_members)
+
+        inputs_sequence.each_with_index do |inputs, i|
+          outputs = outputs_sequence[i]
+          team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+        end
+
+        (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
+      end
+
+      def train_team(inputs, outputs, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1)
+        team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+
+        team_members = cross_breed(team_members)
+
+        team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+
+        (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
+      end
+
+      def train_team_in_parallel(inputs, outputs, team_members, train_qty)
+        channel = Channel(T).new
+        qty = team_members.size
+        team_members.each do |member|
+          spawn do
+            train_qty == 1 ? member.train(inputs, outputs) : train_qty.times { member.train(inputs, outputs) }
+            channel.send(member)
+          end
+        end
+        qty.times.to_a.map { channel.receive }
+      end
+
+      def cross_breed(team_members : Array(T))
+        qty = team_members.size ** 2
+        # side = team_members.size.times.to_a
+        channel = Channel(T).new
+
+        team_members.each_with_index do |member_i, i|
+          team_members.each_with_index do |member_j, j|
+            spawn do
+              contestant = if i == j
+                             # Don't bother breeding a member with itself
+                             member_i
+                           elsif i < j
+                             # Try to guess a delta that is closer to a zero error
+                             delta = estimate_better_delta(member_i, member_j)
+                             breed(member_i, member_j, delta)
+                           else
+                             # Just take a chance with a random delta
+                             delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5)
+                             breed(member_i, member_j, delta)
+                           end
+
+              channel.send contestant
+            end
+          end
+        end
+
+        qty.times.to_a.map { channel.receive }
       end
     end
   end

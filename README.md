@@ -1,6 +1,8 @@
 # ai4cr
 
-CircleCI status: [![CircleCI](https://circleci.com/gh/drhuffman12/ai4cr.svg?style=svg)](https://circleci.com/gh/drhuffman12/ai4cr)
+[![CircleCI](https://circleci.com/gh/drhuffman12/ai4cr.svg?style=svg)](https://circleci.com/gh/drhuffman12/ai4cr)
+
+![example branch parameter](https://github.com/drhuffman12/ai4cr/workflows/Crystal%20CI/badge.svg?branch=master)
 
 [![GitHub release](https://img.shields.io/github/release/drhuffman12/ai4cr.svg)](https://GitHub.com/drhuffman12/ai4cr/releases/)
 
@@ -42,7 +44,7 @@ net2 = Ai4cr::NeuralNetwork::Backpropagation.from_json(json)
 assert_approximate_equality_of_nested_list net.weights, net2.weights, 0.000000001
 ```
 
-## Optimiaztions
+## Optimizations
 
 * Compiler
 
@@ -52,7 +54,9 @@ e.g.: `time crystal spec --release`
 
 * Multithreading
 
-Use the `-Dpreview_mt` (or `-D preview_mt`) flag for multithreading.
+Use the `-Dpreview_mt` (for `crystal build` or `-D preview_mt` for `crystal spec`) flag for multithreading.
+
+e.g.: `CRYSTAL_WORKERS=16 crystal spec spec/ai4cr/neural_network/rnn/rnn_simple_manager_spec.cr --release -D preview_mt`
 
 See also:
 * https://crystal-lang.org/2019/09/23/crystal-0.31.0-released.html
@@ -60,8 +64,25 @@ See also:
 
 ## Comparison benchmarks
 
+### Clear Crystal cache
+
+* Shards:
+
+```
+rm -rf ~/.cache/shards/
+```
+
+* Compiler:
+
+```
+rm -rf ~/.cache/crystal/
+```
+
+### Run benchmarks
+
 REMINDER: Running Crystal in a Docker container (at least used to) runs slower than running Crystal on bare-metal.
 So, for more performance, run it outside of a Docker container.
+
 
 To build and run them:
 

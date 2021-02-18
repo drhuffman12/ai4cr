@@ -79,8 +79,8 @@ Spectator.describe "from_json" do
             assert_approximate_equality_of_nested_list(orig.output_deltas, a_copy.output_deltas)
           end
 
-          it "disable_bias" do
-            expect(a_copy.disable_bias).to eq(orig.disable_bias)
+          it "bias_disabled" do
+            expect(a_copy.bias_disabled).to eq(orig.bias_disabled)
           end
 
           it "learning_rate" do

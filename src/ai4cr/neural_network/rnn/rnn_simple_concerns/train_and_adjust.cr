@@ -8,10 +8,6 @@ module Ai4cr
           getter output_set_expected = Array(Array(Float64)).new
           getter all_output_errors = Array(Array(Float64)).new
 
-          # getter history_size : Int32 = 10 # Instead, refer to error_stats.history_size
-          getter error_stats : Ai4cr::ErrorStats
-          getter history_size = 0
-
           # def eval_and_compare(input_set_given, output_set_expected, until_min_avg_error = UNTIL_MIN_AVG_ERROR_DEFAULT)
           #   eval(input_set_given)
           #   @output_set_expected = output_set_expected

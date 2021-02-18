@@ -107,7 +107,7 @@ Rumelhart, Geoffrey E. Hinton and Ronald J. Williams in 1986)</p>
 <p>Use class method get_parameters_info to obtain details on the algorithm
 parameters. Use set_parameters to set values for this parameters.</p>
 
-<ul><li>:disable_bias => If true, the algorithm will not use bias nodes.
+<ul><li>:bias_disabled => If true, the algorithm will not use bias nodes.
   False by default.</li><li>:initial_weight_function => f(n, i, j) must return the initial
   weight for the conection between the node i in layer n, and node j in
   layer n+1. By default a random number in [-1, 1) range.</li><li>:propagation_function => By default:
@@ -248,12 +248,12 @@ Url::       https://github.com/drhuffman12/ai4cr</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#disable_bias%3ABool-instance-method" class="signature"><strong>#disable_bias</strong> : Bool</a>
+        <a href="#bias_disabled%3ABool-instance-method" class="signature"><strong>#bias_disabled</strong> : Bool</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#disable_bias%3D%28disable_bias%29-instance-method" class="signature"><strong>#disable_bias=</strong>(disable_bias)</a>
+        <a href="#bias_disabled%3D%28disable_bias%29-instance-method" class="signature"><strong>#bias_disabled=</strong>(bias_disabled)</a>
         
       </li>
     
@@ -647,12 +647,12 @@ Error = 0.5 <em> sum( (expected_value[i] - output_value[i])*</em>2 )</p></div>
       </div>
     </div>
   
-    <div class="entry-detail" id="disable_bias:Bool-instance-method">
+    <div class="entry-detail" id="bias_disabled:Bool-instance-method">
       <div class="signature">
         
-        def <strong>disable_bias</strong> : Bool
+        def <strong>bias_disabled</strong> : Bool
 
-        <a class="method-permalink" href="#disable_bias%3ABool-instance-method">#</a>
+        <a class="method-permalink" href="#bias_disabled%3ABool-instance-method">#</a>
       </div>
       
       <br/>
@@ -663,12 +663,12 @@ Error = 0.5 <em> sum( (expected_value[i] - output_value[i])*</em>2 )</p></div>
       </div>
     </div>
   
-    <div class="entry-detail" id="disable_bias&#61;&#40;disable_bias&#41;-instance-method">
+    <div class="entry-detail" id="bias_disabled&#61;&#40;bias_disabled&#41;-instance-method">
       <div class="signature">
         
-        def <strong>disable_bias=</strong>(disable_bias)
+        def <strong>bias_disabled=</strong>(bias_disabled)
 
-        <a class="method-permalink" href="#disable_bias%3D%28disable_bias%29-instance-method">#</a>
+        <a class="method-permalink" href="#bias_disabled%3D%28disable_bias%29-instance-method">#</a>
       </div>
       
       <br/>

@@ -1,5 +1,5 @@
 name: ai4cr
-version: 0.1.21
+version: 0.1.22
 
 authors:
   - Daniel Huffman <drhuffman12@yahoo.com>
@@ -13,8 +13,10 @@ dependencies:
 
   ascii_bar_charter:
     github: drhuffman12/ascii_bar_charter
-    # version: ~> 1.4.0
-    branch: master
+    # branch: master
+
+  counter_safe:
+    github: drhuffman12/counter_safe
 
 development_dependencies:
 
@@ -58,7 +60,7 @@ development_dependencies:
   faker:
     github: askn/faker
 
-  # # TODO: Fix ameba dependencies or wait for newer version of anykeyh/crystal-coverage
+  # # TODO: Fix ameba dependencies or wait for newer version of crystal-coverage (aka https://github.com/anykeyh/crystal-coverage)
   # # Error is:
   # # ```
   # # 12 | new(YAML::ParseContext.new, parse_yaml(string_or_io))

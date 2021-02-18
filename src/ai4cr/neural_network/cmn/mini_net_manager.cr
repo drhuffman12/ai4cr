@@ -2,8 +2,25 @@ module Ai4cr
   module NeuralNetwork
     module Cmn
       class MiniNetManager < Breed::Manager(MiniNet)
+        include JSON::Serializable
+
+        class_getter counter : CounterSafe::Exclusive = CounterSafe::Exclusive.new
+
+        def initialize; end
+
+        def breed_validations(parent_a : T, parent_b : T, delta)
+          super
+          raise Ai4cr::Breed::StructureError.new unless (
+                                                          parent_a.width == parent_b.width &&
+                                                          parent_a.height == parent_b.height
+                                                        )
+        end
+
         def mix_parts(child : MiniNet, parent_a : MiniNet, parent_b : MiniNet, delta)
           # re calc_guess:
+          bias_default = mix_one_part_number(parent_a.bias_default, parent_b.bias_default, delta)
+          child.bias_default = bias_default
+
           learning_rate = mix_one_part_number(parent_a.learning_rate, parent_b.learning_rate, delta)
           child.learning_rate = learning_rate
 
@@ -38,8 +55,8 @@ module Ai4cr
           input_deltas = mix_nested_parts(parent_a.input_deltas, parent_b.input_deltas, delta)
           child.input_deltas = input_deltas
 
-          # re error_stats:
-          child.error_stats = Ai4cr::ErrorStats.new(parent_a.error_stats.history_size)
+          # # re error_stats:
+          # child.error_stats = Ai4cr::ErrorStats.new(parent_a.error_stats.history_size)
 
           child
         end

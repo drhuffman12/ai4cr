@@ -31,9 +31,9 @@
 #         qty_x_percent = qty // QTY_X_PERCENT_DENOMINATOR
 
 #         describe "using net of types of: Sigmoid" do
-#           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, history_size: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
-#           net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, history_size: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
-#           net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, history_size: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
+#           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, history_size: 60, bias_disabled: false, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
+#           net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, history_size: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
+#           net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, history_size: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
 
 #           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
 #           arr << net0
@@ -182,9 +182,9 @@
 #         end
 
 #         describe "using net of types of: (mixed: Relu, Prelu, Sigmoid)" do
-#           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, history_size: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
-#           net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, history_size: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_PRELU)
-#           net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, history_size: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
+#           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, history_size: 60, bias_disabled: false, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+#           net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, history_size: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::LS_PRELU)
+#           net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, history_size: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
 
 #           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
 #           arr << net0
@@ -332,9 +332,9 @@
 #         end
 
 #         describe "using net of types of: (mixed: Relu, Relu, Sigmoid)" do
-#           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, history_size: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
-#           net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, history_size: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
-#           net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, history_size: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
+#           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, history_size: 60, bias_disabled: false, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+#           net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, history_size: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+#           net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, history_size: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
 
 #           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
 #           arr << net0
@@ -482,9 +482,9 @@
 #         end
 
 #         describe "using net of types of: (mixed: Relu, Relu, Relu)" do
-#           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, history_size: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
-#           net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, history_size: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
-#           net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, history_size: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+#           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, history_size: 60, bias_disabled: false, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+#           net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, history_size: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+#           net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, history_size: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
 
 #           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
 #           arr << net0
@@ -632,9 +632,9 @@
 #         end
 
 #         describe "using net of types of: (mixed: Sigmoid, Relu, Relu)" do
-#           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, history_size: 60, disable_bias: false, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
-#           net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, history_size: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
-#           net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, history_size: 60, disable_bias: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+#           net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: hidden_size, history_size: 60, bias_disabled: false, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID)
+#           net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: hidden_size, history_size: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
+#           net2 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: hidden_size, width: 3, history_size: 60, bias_disabled: true, learning_style: Ai4cr::NeuralNetwork::LS_RELU)
 
 #           arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
 #           arr << net0

@@ -1,4 +1,5 @@
 module Ai4cr
+  # TODO: update/refactor based on newer Breed::Manager's
   class Team(T)
     property team_size : Int32
     property team_last_id : Int32
@@ -6,7 +7,6 @@ module Ai4cr
     property training_round_indexes : Array(Int32)
     getter team_indexes : Array(Int32)
     getter team_members : Array(T)
-    # getter team_workers :
 
     property member_config
 

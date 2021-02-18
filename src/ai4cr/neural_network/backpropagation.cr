@@ -45,7 +45,7 @@ module Ai4cr
     # Use class method get_parameters_info to obtain details on the algorithm
     # parameters. Use set_parameters to set values for this parameters.
     #
-    # * :disable_bias => If true, the algorithm will not use bias nodes.
+    # * :bias_disabled => If true, the algorithm will not use bias nodes.
     #   False by default.
     # * :initial_weight_function => f(n, i, j) must return the initial
     #   weight for the conection between the node i in layer n, and node j in
@@ -93,13 +93,14 @@ module Ai4cr
 
       # include Ai4cr::BreedParent(self.class)
 
-      property structure, disable_bias, learning_rate, momentum
+      property structure, bias_disabled, learning_rate, momentum
       property weights, last_changes, activation_nodes
       getter height, hidden_qty, width, deltas
 
       property expected_outputs : Array(Float64)
 
-      getter error_stats : Ai4cr::ErrorStats
+      # getter error_stats : Ai4cr::ErrorStats
+      include Ai4cr::Breed::Client
 
       # Creates a new network specifying the its architecture.
       # E.g.
@@ -149,7 +150,7 @@ module Ai4cr
 
       def initialize(
         @structure : Array(Int32),
-        disable_bias : Bool? = nil,
+        bias_disabled : Bool? = nil,
         learning_rate : Float64? = nil,
         momentum : Float64? = nil,
         history_size : Int32 = 10
@@ -157,7 +158,7 @@ module Ai4cr
       )
         # @name = init_name(name_instance)
 
-        @disable_bias = !!disable_bias # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
+        @bias_disabled = !!bias_disabled # TODO: switch 'disabled_bias' to 'enabled_bias' and adjust defaulting accordingly
         @learning_rate = learning_rate.nil? || learning_rate.as(Float64) <= 0.0 ? 0.25 : learning_rate.as(Float64)
         @momentum = momentum && momentum.as(Float64) > 0.0 ? momentum.as(Float64) : 0.1
 
@@ -220,13 +221,10 @@ module Ai4cr
 
       # Initialize (or reset) activation nodes and weights, with the
       # provided net structure and parameters.
-      def init_network(history_size = 10)
+      def init_network
         init_activation_nodes
         init_weights
         init_last_changes
-
-        @error_stats = Ai4cr::ErrorStats.new(history_size)
-
         self
       end
 
@@ -261,7 +259,7 @@ module Ai4cr
         @activation_nodes = (0...@structure.size).map do |n|
           (0...@structure[n]).map { 1.0 }
         end
-        if !disable_bias
+        if !bias_disabled
           @activation_nodes[0...-1].each { |layer| layer << 1.0 }
         end
         @activation_nodes
