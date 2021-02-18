@@ -346,7 +346,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
   end
 
   describe "#train_team" do
-    it "successive generations score better (i.e.: lower errors)" do
+    pending "successive generations score better (i.e.: lower errors)" do
+      # TODO: (a) move to 'spec_bench' and (b) replace here with more 'always' tests
       max_members = 10
       qty_new_members = max_members
 
@@ -384,7 +385,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
   end
 
   describe "#train_team_using_sequence" do
-    it "successive generations score better (i.e.: lower errors)" do
+    pending "successive generations score better (i.e.: lower errors)" do
+      # TODO: (a) move to 'spec_bench' and (b) replace here with more 'always' tests
       max_members = 10
       qty_new_members = max_members
 
