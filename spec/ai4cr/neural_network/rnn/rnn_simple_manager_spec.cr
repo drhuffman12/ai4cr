@@ -327,7 +327,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     end
   end
 
-  describe "gen_params" do
+  describe "#gen_params" do
     let(param_keys) { params.keys.to_a }
     let(expected_keys) {
       [
