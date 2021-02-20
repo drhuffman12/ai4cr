@@ -3,16 +3,16 @@ name: Crystal CI
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  # pull_request:
+  #   branches: [ master ]
 
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: [linux, ARM64]
 
     container:
-      image: crystallang/crystal:nightly
+      image: crystallang/crystal:nightly-alpine
 
     steps:
     - uses: actions/checkout@v2

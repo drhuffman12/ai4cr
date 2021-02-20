@@ -46,7 +46,8 @@ module Ai4cr
       # end
       # ```
 
-      MAX_MEMBERS_DEFAULT = 10
+      QTY_NEW_MEMBERS_DEFAULT = 10
+      MAX_MEMBERS_DEFAULT     = QTY_NEW_MEMBERS_DEFAULT
 
       ############################################################################
       # TODO: WHY is this required?
@@ -87,6 +88,10 @@ module Ai4cr
 
       def counter_reset(value = 0)
         @@counter.reset(T.name, value)
+      end
+
+      def gen_params
+        T.new.config
       end
 
       def create(**params)
@@ -232,6 +237,21 @@ module Ai4cr
         qty_new_members.times.to_a.map { channel.receive }
       end
 
+      def build_team(qty_new_members : Int32 = QTY_NEW_MEMBERS_DEFAULT) : Array(T)
+        params = gen_params
+        build_team(qty_new_members, **params)
+      end
+
+      def train_team(inputs, outputs, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1)
+        team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+
+        team_members = cross_breed(team_members)
+
+        team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+
+        (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
+      end
+
       def train_team_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1)
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
@@ -244,16 +264,6 @@ module Ai4cr
           outputs = outputs_sequence[i]
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
         end
-
-        (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
-      end
-
-      def train_team(inputs, outputs, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1)
-        team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
-
-        team_members = cross_breed(team_members)
-
-        team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
         (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
       end

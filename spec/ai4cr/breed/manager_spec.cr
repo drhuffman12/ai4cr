@@ -1,4 +1,3 @@
-require "./../../spec_helper"
 require "./../../spectator_helper"
 
 class MyBreed

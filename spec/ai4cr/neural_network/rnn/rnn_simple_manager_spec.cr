@@ -1,17 +1,17 @@
-require "./../../../spec_helper"
 require "./../../../spectator_helper"
 
 Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
   let(my_breed_manager) { Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager.new }
   let(delta_child_1) { Ai4cr::Data::Utils.rand_neg_half_to_pos_one_and_half_no_zero_no_one }
-  let(delta_child_2) { Ai4cr::Data::Utils.rand_neg_half_to_pos_one_and_half_no_zero_no_one }
 
   let(ancestor_adam_value) { 0.1 }
   let(ancestor_eve_value) { 0.9 }
   let(expected_child_1_value) { ancestor_adam_value + delta_child_1 * (ancestor_eve_value - ancestor_adam_value) }
 
+  let(params) { my_breed_manager.gen_params }
   let(config_default_randomized) {
-    Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
+    # Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
+    params
   }
 
   let(config_adam) {
@@ -192,13 +192,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       end
 
       context "children have expected values for" do
-        # let(child_1) {
-        #   # cain
-        #   child = my_breed_manager.breed(ancestor_adam, ancestor_eve, delta: delta_child_1)
-        #   child.name = "Cain, child of #{ancestor_adam.name} and #{ancestor_eve.name}"
-        #   child
-        # }
-
         let(ancestor_adam_json) { JSON.parse(ancestor_adam.to_json) }
         let(ancestor_eve_json) { JSON.parse(ancestor_eve.to_json) }
         let(child_1_json) { JSON.parse(child_1.to_json) }
@@ -334,92 +327,131 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     end
   end
 
+  describe "#gen_params" do
+    let(param_keys) { params.keys.to_a }
+    let(expected_keys) {
+      [
+        :name, :history_size, :io_offset, :time_col_qty,
+        :input_size, :output_size, :hidden_layer_qty, :hidden_size_given,
+        :learning_style, :bias_disabled, :bias_default, :learning_rate,
+        :momentum, :deriv_scale,
+      ]
+    }
+    it "which include expected keys" do
+      expect(param_keys).to eq(expected_keys)
+    end
+  end
+
   describe "#build_team" do
-    context "when using all defaults" do
+    context "with defaults" do
+      let(team_members) { my_breed_manager.build_team }
+
+      it "builds a team of expected size" do
+        expect(team_members.size).to eq(10)
+      end
+
+      it "builds a team of expected class" do
+        expect(team_members.class).to eq(Array(Ai4cr::NeuralNetwork::Rnn::RnnSimple))
+      end
+
+      context "creates members with expected values for" do
+        it ":name" do
+          key = :name
+          key_string = key.to_s
+          team_members.each do |member|
+            member_json = JSON.parse(member.to_json)
+            expect(member_json[key_string]).to eq(params[key_string])
+          end
+          # member = team_members.first
+          # member_json = JSON.parse(member.to_json)
+          # expect(member_json[key_string]).to eq(params[key_string])
+        end
+      end
+
+      # context "creates members of specified params for key" do
+      #   let(next_gen_members) { my_breed_manager.build_team }
+      #   it "creates members of specified params" do
+      #     qty_new_members = 4
+      #     params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
+      #     next_gen_members = my_breed_manager.build_team(qty_new_members, **params)
+
+      #     puts
+      #     puts "params.class: #{params.class}"
+      #     puts
+      #     puts "params.keys: #{params.keys}"
+      #     puts
+      #     puts "JSON.parse(next_gen_members.first.to_json)[:name.to_s]: #{JSON.parse(next_gen_members.first.to_json)[:name.to_s]}"
+      #     puts
+
+      #     next_gen_members.each do |member|
+      #       member_json = JSON.parse(next_gen_members.first.to_json)
+      #       (params.keys.to_a - [:history_size, :learning_style]).each do |key|
+      #         key_string = key.to_s
+      #         params_value = params[key]
+
+      #         # expect([key_string, member_json[key_string]]).to eq([key_string, params_value])
+      #         # assert_approximate_equality_of_nested_list([key_string, member_json[key_string]], [key_string, params_value])
+      #       end
+      #     end
+
+      #   end
+      # end
+    end
+
+    context "when given qty_new_members' and using defaults params" do
+      it "creates specified quantity of members" do
+        qty_new_members = 4
+        next_gen_members = my_breed_manager.build_team(qty_new_members)
+        expect(next_gen_members.size).to eq(qty_new_members)
+      end
+
+      it "creates members of specified class" do
+        qty_new_members = 4
+        next_gen_members = my_breed_manager.build_team(qty_new_members)
+        member_classes = next_gen_members.map { |member| member.class.name }.sort.uniq
+        expect(member_classes.size).to eq(1)
+        expect(member_classes.first).to eq(Ai4cr::NeuralNetwork::Rnn::RnnSimple.name)
+      end
+    end
+
+    context "when given qty_new_members' and params" do
       it "creates specified quantity of members" do
         qty_new_members = 4
         params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
         next_gen_members = my_breed_manager.build_team(qty_new_members, **params)
         expect(next_gen_members.size).to eq(qty_new_members)
       end
+
+      it "creates members of specified class" do
+        qty_new_members = 4
+        params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
+        next_gen_members = my_breed_manager.build_team(qty_new_members, **params)
+        member_classes = next_gen_members.map { |member| member.class.name }.sort.uniq
+        expect(member_classes.size).to eq(1)
+        expect(member_classes.first).to eq(Ai4cr::NeuralNetwork::Rnn::RnnSimple.name)
+      end
     end
   end
 
   describe "#train_team" do
-    pending "successive generations score better (i.e.: lower errors)" do
-      # TODO: (a) move to 'spec_bench' and (b) replace here with more 'always' tests
-      max_members = 10
-      qty_new_members = max_members
+    context "with defaults" do
+      # let(qty_new_members) { 3 }
+      let(team_members) { my_breed_manager.build_team } # (qty_new_members) }
 
-      params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
+      # let(inputs) { 3 }
+      # let(outputs) { 3 }
+      # let(max_members) { 3 }
 
-      first_gen_members = my_breed_manager.build_team(qty_new_members, **params)
-      second_gen_members = my_breed_manager.train_team(inputs, outputs, first_gen_members, max_members)
-      third_gen_members = my_breed_manager.train_team(inputs, outputs, second_gen_members, max_members)
-
-      first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-      first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
-
-      second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-      second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
-
-      third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-      third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
-
-      puts
-      puts "#train_team:"
-      puts
-      puts "first_gen_members_scored: #{first_gen_members_scored}"
-      first_gen_members_stats.each { |m| puts m }
-
-      puts
-      puts "second_gen_members_scored: #{second_gen_members_scored}"
-      second_gen_members_stats.each { |m| puts m }
-      expect(second_gen_members_scored).to be < first_gen_members_scored
-
-      puts
-      puts "third_gen_members_scored: #{third_gen_members_scored}"
-      third_gen_members_stats.each { |m| puts m }
-      expect(third_gen_members_scored).to be < second_gen_members_scored
+      # it "" do
+      #   expect(team_members.size).
+      #   next_gen_members = my_breed_manager.train_team(inputs, outputs, team_members) #, max_members)
+      # end
     end
   end
 
   describe "#train_team_using_sequence" do
-    pending "successive generations score better (i.e.: lower errors)" do
-      # TODO: (a) move to 'spec_bench' and (b) replace here with more 'always' tests
-      max_members = 10
-      qty_new_members = max_members
+  end
 
-      params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
-
-      first_gen_members = my_breed_manager.build_team(qty_new_members, **params)
-      second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, first_gen_members, max_members)
-      third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, second_gen_members, max_members)
-
-      first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-      first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
-
-      second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-      second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
-
-      third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-      third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
-
-      puts
-      puts "#train_team_using_sequence:"
-      puts
-      puts "first_gen_members_scored: #{first_gen_members_scored}"
-      first_gen_members_stats.each { |m| puts m }
-
-      puts
-      puts "second_gen_members_scored: #{second_gen_members_scored}"
-      second_gen_members_stats.each { |m| puts m }
-      expect(second_gen_members_scored).to be < first_gen_members_scored
-
-      puts
-      puts "third_gen_members_scored: #{third_gen_members_scored}"
-      third_gen_members_stats.each { |m| puts m }
-      expect(third_gen_members_scored).to be < second_gen_members_scored
-    end
+  describe "#cross_breed" do
   end
 end
