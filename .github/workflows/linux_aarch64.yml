@@ -7,38 +7,9 @@ on:
   #   branches: [ master ]
 
 jobs:
-  build_ubuntu_latest:
+  build:
 
-    runs-on: ubuntu-latest
-
-    container:
-      image: crystallang/crystal:nightly
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Show Crystal version
-      run: crystal -v
-
-    - name: Install dependencies
-      # run: shards install && shards update
-      run: shards install --ignore-crystal-version && shards update --ignore-crystal-version
-
-    - name: Show repo version
-      run: scripts/version_info
-
-    - name: Run static code analysis
-      run: bin/ameba --no-color
-    - name: Run tests
-      run: scripts/test_always
-
-      # run: crystal spec
-    - name: Run tests (w/ junit format)
-      run: scripts/test_always_junit_format
-
-  build_alpine_latest:
-
-    runs-on: alpine-latest
+    runs-on: [linux, ARM64]
 
     container:
       image: crystallang/crystal:nightly-alpine
