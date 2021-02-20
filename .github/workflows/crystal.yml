@@ -7,7 +7,7 @@ on:
   #   branches: [ master ]
 
 jobs:
-  build_ubuntu-latest:
+  build_ubuntu_latest:
 
     runs-on: ubuntu-latest
 
@@ -36,7 +36,7 @@ jobs:
     - name: Run tests (w/ junit format)
       run: scripts/test_always_junit_format
 
-  build:
+  build_alpine_latest:
 
     runs-on: alpine-latest
 
