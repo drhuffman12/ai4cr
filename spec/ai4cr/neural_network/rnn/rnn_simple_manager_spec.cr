@@ -334,11 +334,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         :name, :history_size, :io_offset, :time_col_qty,
         :input_size, :output_size, :hidden_layer_qty, :hidden_size_given,
         :learning_style, :bias_disabled, :bias_default, :learning_rate,
-        :momentum, :deriv_scale
+        :momentum, :deriv_scale,
       ]
     }
     it "which include expected keys" do
-      expect(param_keys).to eq(expected_keys)         
+      expect(param_keys).to eq(expected_keys)
     end
   end
 
@@ -358,7 +358,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         it ":name" do
           key = :name
           key_string = key.to_s
-          team_members.each do |member|     
+          team_members.each do |member|
             member_json = JSON.parse(member.to_json)
             expect(member_json[key_string]).to eq(params[key_string])
           end
@@ -374,7 +374,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       #     qty_new_members = 4
       #     params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
       #     next_gen_members = my_breed_manager.build_team(qty_new_members, **params)
-  
+
       #     puts
       #     puts "params.class: #{params.class}"
       #     puts
@@ -382,18 +382,18 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       #     puts
       #     puts "JSON.parse(next_gen_members.first.to_json)[:name.to_s]: #{JSON.parse(next_gen_members.first.to_json)[:name.to_s]}"
       #     puts
-          
+
       #     next_gen_members.each do |member|
       #       member_json = JSON.parse(next_gen_members.first.to_json)
       #       (params.keys.to_a - [:history_size, :learning_style]).each do |key|
       #         key_string = key.to_s
       #         params_value = params[key]
-              
+
       #         # expect([key_string, member_json[key_string]]).to eq([key_string, params_value])
       #         # assert_approximate_equality_of_nested_list([key_string, member_json[key_string]], [key_string, params_value])
       #       end
       #     end
-          
+
       #   end
       # end
     end
@@ -408,7 +408,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       it "creates members of specified class" do
         qty_new_members = 4
         next_gen_members = my_breed_manager.build_team(qty_new_members)
-        member_classes = next_gen_members.map{ |member| member.class.name }.sort.uniq
+        member_classes = next_gen_members.map { |member| member.class.name }.sort.uniq
         expect(member_classes.size).to eq(1)
         expect(member_classes.first).to eq(Ai4cr::NeuralNetwork::Rnn::RnnSimple.name)
       end
@@ -426,7 +426,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         qty_new_members = 4
         params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
         next_gen_members = my_breed_manager.build_team(qty_new_members, **params)
-        member_classes = next_gen_members.map{ |member| member.class.name }.sort.uniq
+        member_classes = next_gen_members.map { |member| member.class.name }.sort.uniq
         expect(member_classes.size).to eq(1)
         expect(member_classes.first).to eq(Ai4cr::NeuralNetwork::Rnn::RnnSimple.name)
       end
@@ -437,11 +437,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     context "with defaults" do
       # let(qty_new_members) { 3 }
       let(team_members) { my_breed_manager.build_team } # (qty_new_members) }
-  
+
       # let(inputs) { 3 }
       # let(outputs) { 3 }
       # let(max_members) { 3 }
-  
+
       # it "" do
       #   expect(team_members.size).
       #   next_gen_members = my_breed_manager.train_team(inputs, outputs, team_members) #, max_members)

@@ -7,7 +7,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
 
   let(ancestor_adam_value) { 0.1 }
   let(ancestor_eve_value) { 0.9 }
-  
+
   let(config_default_randomized) {
     Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
   }

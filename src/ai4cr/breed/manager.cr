@@ -47,7 +47,7 @@ module Ai4cr
       # ```
 
       QTY_NEW_MEMBERS_DEFAULT = 10
-      MAX_MEMBERS_DEFAULT = QTY_NEW_MEMBERS_DEFAULT
+      MAX_MEMBERS_DEFAULT     = QTY_NEW_MEMBERS_DEFAULT
 
       ############################################################################
       # TODO: WHY is this required?
