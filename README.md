@@ -84,11 +84,10 @@ REMINDER: Running Crystal in a Docker container (at least used to) runs slower t
 So, for more performance, run it outside of a Docker container.
 
 
-To build and run them:
+To build and run them and see the debugging output (DEBUG=1):
 
 ```
-crystal build --release  src/bench/mini_nets_vs_backprop.cr
-./mini_nets_vs_backprop
+DEBUG=1 crystal spec spec_bench
 ```
 
 Example output:

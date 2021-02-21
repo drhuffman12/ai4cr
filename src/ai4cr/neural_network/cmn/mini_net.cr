@@ -22,6 +22,32 @@ module Ai4cr
         include MiniNetConcerns::PropsAndInits
         include MiniNetConcerns::CalcGuess
         include MiniNetConcerns::TrainAndAdjust
+
+        def self.config_rand(
+          name : String = Time.utc.to_s,
+          height : Int32 = 2,
+          width : Int32 = 2,
+          learning_style : LearningStyle = LEARNING_STYLE_DEFAULT,
+          bias_disabled = false,
+          history_size = 10
+        )
+          {
+            height:         height,
+            width:          width,
+            learning_style: learning_style,
+
+            deriv_scale: Ai4cr::Data::Utils.rand_excluding(scale: 0.5),
+
+            bias_disabled: bias_disabled,
+            bias_default:  Ai4cr::Data::Utils.rand_excluding,
+
+            learning_rate: Ai4cr::Data::Utils.rand_excluding,
+            momentum:      Ai4cr::Data::Utils.rand_excluding,
+            history_size:  history_size,
+
+            name: name,
+          }
+        end
       end
     end
   end
