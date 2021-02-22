@@ -56,7 +56,7 @@ e.g.: `time crystal spec --release`
 
 Use the `-Dpreview_mt` (for `crystal build` or `-D preview_mt` for `crystal spec`) flag for multithreading.
 
-e.g.: `CRYSTAL_WORKERS=16 crystal spec spec/ai4cr/neural_network/rnn/rnn_simple_manager_spec.cr --release -D preview_mt`
+e.g.: `CRYSTAL_WORKERS=14 crystal spec spec/ai4cr/neural_network/rnn/rnn_simple_manager_spec.cr --release -D preview_mt`
 
 See also:
 * https://crystal-lang.org/2019/09/23/crystal-0.31.0-released.html

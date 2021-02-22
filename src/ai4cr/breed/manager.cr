@@ -276,61 +276,35 @@ module Ai4cr
         (1..team_members.size).map { team_members.map { channel.receive } }.flatten
       end
 
-      # def eval_team_in_parallel_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT)
-      #   channel = Channel(T).new
-      #   qty = team_members.size
-      #   team_members.each do |member|
-      #     spawn do
-      #       error_distance = member.eval_and_calc_errors(inputs, expected_outputs)
-      #       channel.send({member: member, error_distance: error_distance})
-      #     end
-      #   end
-      #   qty.times.to_a.map { channel.receive }
-      # end
-
-      # def eval_team_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT)
-      #   inputs_sequence.each_with_index do |inputs, i|
-      #     outputs = outputs_sequence[i]
-      #     team_members = eval_team_in_parallel(team_members, inputs, outputs)
-      #   end
-
-      #   (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
-      # end
-
-      def eval_team_in_parallel(team_members, inputs) # , expected_outputs)
-        # channel = Channel(T).new
-        channel = Channel(Array(Float64)).new
-        team_members.each do |member|
-          spawn do
-            # error_distance = member.eval_and_calc_errors(inputs, expected_outputs)
-            # channel.send({member: member, error_distance: error_distance})
-            guess = member.eval(inputs)
-            # channel.send({
-            #   # birth_id: member.birth_id,
-            #   guess: guess
-            # }) # , member: member})
-            channel.send(guess)
-          end
-        end
-        guesses = (1..team_members.size).map { channel.receive }
-        # {
-        #   learning_style: team_members.first.learning_style,
-        #   guesses: guesses # .sort_by { |result| result[:birth_id] }
-        # }
-        guesses
-      end
-
-      def eval_team(team_members, inputs) # , expected_outputs)
+      def eval_team(team_members, inputs)
         team_members.map do |member|
           member.eval(inputs)
         end
       end
 
-      def eval_team_in_parallel_using_sequence(team_members, inputs_sequence) # , expected_outputs)
+      def eval_team_in_parallel_using_sequence(team_members, inputs_sequence)
         inputs_sequence.map do |inputs|
-          eval_team(team_members, inputs)
-          # eval_team_in_parallel(team_members, inputs)
+          eval_team_in_parallel(team_members, inputs)
         end
+      end
+
+      def eval_team_in_parallel(team_members, inputs)
+        channel = Channel(Hash(Int32, Array(Float64))).new
+        team_members.each_with_index do |member, i|
+          spawn do
+            guess = member.eval(inputs)
+            channel.send({i => guess})
+          end
+        end
+
+        guesses = Hash(Int32, Array(Float64)).new
+        (1..team_members.size).map do
+          hash = channel.receive
+          raise "OOPS; too many channel.receive's at once!!!" if hash.keys.size > 1
+          guesses[hash.keys.first] = hash[hash.keys.first]
+        end
+
+        guesses.keys.sort.map { |k| guesses[k] }
       end
     end
   end

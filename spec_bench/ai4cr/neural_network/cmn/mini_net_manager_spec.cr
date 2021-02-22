@@ -78,7 +78,7 @@ def train_and_and_cross_breed_team_set_using_sequence(
   }
 end
 
-def eval_team_set_using_sequence(team_members_set_generation, inputs_sequence_for_guessing, outputs_sequence_expected)
+def eval_team_set_using_sequence(my_manager, team_members_set_generation, inputs_sequence_for_guessing, outputs_sequence_expected)
   puts_debug "  learning_style: #{team_members_set_generation.first.first.learning_style}"
 
   inputs_sequence_for_guessing.each_with_index do |inputs, i|
@@ -101,6 +101,22 @@ def eval_team_set_using_sequence(team_members_set_generation, inputs_sequence_fo
 
         score
       end
+
+      # guesses = my_manager.eval_team_in_parallel(team_members, inputs)
+
+      # error_summaries = guesses.map do |guess|
+      #   output_errors = guess.map_with_index do |og, l|
+      #     outputs_expected[l] - og
+      #   end
+
+      #   error_distance = output_errors.map { |e| 0.5 * e ** 2 }.sum
+
+      #   score = [error_distance].map_with_index do |e, i|
+      #     e / (2.0 ** ([error_distance].size - i))
+      #   end.sum.round(4)
+
+      #   score
+      # end
 
       team_score = error_summaries.map_with_index do |e, i|
         e / (2.0 ** (error_summaries.size - i))
@@ -198,6 +214,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
           puts_debug "-"*10
           puts_debug "resulting_teams_with_cross_breeding guesses:"
           eval_team_set_using_sequence(
+            mnm_prelu,
             resulting_teams_with_cross_breeding[:members_per_generation],
             inputs_sequence_for_guessing, outputs_sequence_expected
           )
@@ -206,6 +223,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
           puts_debug "-"*10
           puts_debug "resulting_teams_without_cross_breeding guesses:"
           eval_team_set_using_sequence(
+            mnm_prelu,
             resulting_teams_without_cross_breeding[:members_per_generation],
             inputs_sequence_for_guessing, outputs_sequence_expected
           )
@@ -230,6 +248,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
           puts_debug "-"*10
           puts_debug "resulting_teams_with_cross_breeding guesses:"
           eval_team_set_using_sequence(
+            mnm_relu,
             resulting_teams_with_cross_breeding[:members_per_generation],
             inputs_sequence_for_guessing, outputs_sequence_expected
           )
@@ -238,6 +257,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
           puts_debug "-"*10
           puts_debug "resulting_teams_without_cross_breeding guesses:"
           eval_team_set_using_sequence(
+            mnm_relu,
             resulting_teams_without_cross_breeding[:members_per_generation],
             inputs_sequence_for_guessing, outputs_sequence_expected
           )
@@ -262,6 +282,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
           puts_debug "-"*10
           puts_debug "resulting_teams_with_cross_breeding guesses:"
           eval_team_set_using_sequence(
+            mnm_sigmoid,
             resulting_teams_with_cross_breeding[:members_per_generation],
             inputs_sequence_for_guessing, outputs_sequence_expected
           )
@@ -270,6 +291,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
           puts_debug "-"*10
           puts_debug "resulting_teams_without_cross_breeding guesses:"
           eval_team_set_using_sequence(
+            mnm_sigmoid,
             resulting_teams_without_cross_breeding[:members_per_generation],
             inputs_sequence_for_guessing, outputs_sequence_expected
           )
@@ -293,6 +315,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
           puts_debug "-"*10
           puts_debug "resulting_teams_with_cross_breeding guesses:"
           eval_team_set_using_sequence(
+            mnm_tanh,
             resulting_teams_with_cross_breeding[:members_per_generation],
             inputs_sequence_for_guessing, outputs_sequence_expected
           )
@@ -301,6 +324,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
           puts_debug "-"*10
           puts_debug "resulting_teams_without_cross_breeding guesses:"
           eval_team_set_using_sequence(
+            mnm_tanh,
             resulting_teams_without_cross_breeding[:members_per_generation],
             inputs_sequence_for_guessing, outputs_sequence_expected
           )
