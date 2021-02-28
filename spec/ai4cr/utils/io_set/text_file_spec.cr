@@ -207,4 +207,115 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
       end
     end
   end
+
+  describe "#iod_to_io_set_with_offset" do
+    let(offset) { 3 }
+    let(ios) { io_set_text_file.iod_to_io_set_with_offset(offset) }
+
+    context "returns expected data for" do
+      context ":inputs" do
+        context "start with" do
+          it "raw" do
+            snippet = ios[:inputs][0..2]
+            expect(snippet).to be_a(Array(Array(Float64)))
+
+            raw_text_expected = "﻿Th"
+
+            snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+            expect(snippet_as_text).to eq(raw_text_expected)
+          end
+        end
+        context "end with" do
+          it "raw" do
+            snippet = ios[:inputs][-3..-1]
+            expect(snippet).to be_a(Array(Array(Float64)))
+            raw_text_expected = "day"
+
+            snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+            expect(snippet_as_text).to eq(raw_text_expected)
+          end
+        end
+      end
+      context ":outputs" do
+        context "start with" do
+          it "raw" do
+            snippet = ios[:outputs][0..2]
+            expect(snippet).to be_a(Array(Array(Float64)))
+
+            raw_text_expected = "e F"
+
+            snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+            expect(snippet_as_text).to eq(raw_text_expected)
+          end
+        end
+        context "end with" do
+          it "raw" do
+            snippet = ios[:outputs][-3..-1]
+            expect(snippet).to be_a(Array(Array(Float64)))
+
+            raw_text_expected = ". \n"
+
+            snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+            expect(snippet_as_text).to eq(raw_text_expected)
+          end
+        end
+      end
+    end
+  end
+
+  # describe "#iod_to_io_set_with_offset_time_cols" do
+  #   let(offset) { 3 }
+  #   let(time_cols) { 4 }
+  #   let(ios) { io_set_text_file.iod_to_io_set_with_offset_time_cols(time_cols, offset) }
+
+  #   context "returns expected data for" do
+  #     context ":input_set" do
+  #       context "start with" do
+  #         it "raw" do
+  #           snippet = ios[:input_set][0..2]
+  #           expect(snippet).to be_a(Array(Array(Float64)))
+
+  #           raw_text_expected = "﻿Th"
+
+  #           snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+  #           expect(snippet_as_text).to eq(raw_text_expected)
+  #         end
+  #       end
+  #       context "end with" do
+  #         it "raw" do
+  #           snippet = ios[:input_set][-3..-1]
+  #           expect(snippet).to be_a(Array(Array(Float64)))
+  #           raw_text_expected = "day"
+
+  #           snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+  #           expect(snippet_as_text).to eq(raw_text_expected)
+  #         end
+  #       end
+  #     end
+  #     context ":output_set" do
+  #       context "start with" do
+  #         it "raw" do
+  #           snippet = ios[:output_set][0..2]
+  #           expect(snippet).to be_a(Array(Array(Float64)))
+
+  #           raw_text_expected = "e F"
+
+  #           snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+  #           expect(snippet_as_text).to eq(raw_text_expected)
+  #         end
+  #       end
+  #       context "end with" do
+  #         it "raw" do
+  #           snippet = ios[:output_set][-3..-1]
+  #           expect(snippet).to be_a(Array(Array(Float64)))
+
+  #           raw_text_expected = ". \n"
+
+  #           snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+  #           expect(snippet_as_text).to eq(raw_text_expected)
+  #         end
+  #       end
+  #     end
+  #   end
+  # end
 end
