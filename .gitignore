@@ -8,3 +8,4 @@
 /shard.lock
 
 /test-results/
+spec/tmp/

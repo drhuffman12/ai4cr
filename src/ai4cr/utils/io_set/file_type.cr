@@ -3,7 +3,7 @@ module Ai4cr
     module IoSet
       enum FileType
         Raw
-        IoFormatted
+        Ios
       end
     end
   end

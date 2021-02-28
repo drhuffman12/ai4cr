@@ -9,26 +9,31 @@ module Ai4cr
         property ios = Array(Array(Float64)).new
 
         def initialize(@file_path : String, file_content_type : FileType)
-          if file_content_type == FileType::Raw
+          case file_content_type
+          when FileType::Raw
             @raw = File.read(file_path)
-            converted = convert_raw_to_ios(@raw)
-            @ios = converted
-          else
+            @ios = convert_raw_to_ios(@raw)
+          when FileType::Ios
             contents = File.read(file_path)
             @ios = Array(Array(Float64)).from_json(contents)
-            converted = convert_ios_to_raw(@ios)
-            @raw = converted
+            @raw = convert_ios_to_raw(@ios)
           end
         end
 
         def convert_raw_to_ios(raw) : Array(Array(Float64))
           raise "Must be implemented in subclass"
-          Array(Array(Float64)).new
         end
 
         def convert_ios_to_raw(ios) : String
           raise "Must be implemented in subclass"
-          ""
+        end
+
+        def save_raw(to_file_path : String)
+          File.write(to_file_path, raw)
+        end
+
+        def save_ios(to_file_path : String)
+          File.write(to_file_path, ios.to_json)
         end
       end
     end
