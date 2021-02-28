@@ -113,18 +113,6 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
           let(prefix_bits) { io_set_text_file.convert_raw_to_iod(prefix_raw_char) }
           let(prefix) { prefix_bits + prefix_bits }
 
-          it "foo" do
-            puts
-            puts "prefix_bits: \n#{prefix_bits}"
-            puts
-            puts "prefix: \n#{prefix}"
-            puts
-            puts "iod[0..3]: \n#{iod[0..3]}"
-            puts
-            puts "raw: \n#{raw}"
-            puts
-          end
-
           it "starts as expected" do
             expect(iod[0..2]).to eq((prefix + start_expected_3_iod)[0..2])
           end
