@@ -356,4 +356,84 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
       end
     end
   end
+
+  describe "(un)certainty)" do
+    let(iod_guess_high_confidence) {
+      [
+        [
+          0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        ],
+        [
+          0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        ],
+        [
+          0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        ],
+      ]
+    }
+    let(iod_guess_low_confidence) {
+      [
+        [
+          -0.5, 1.5, -1.5, 1.5, -0.5, 1.5, -0.5, 0.35,
+          0.15, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.25,
+          -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.15,
+          0.25, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.15,
+        ],
+        [
+          -0.35, 0.5, 0.5, -0.5, 0.5, -1.5, 0.5, -0.25,
+          0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.35,
+          -0.45, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.45,
+          0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.55,
+        ],
+        [
+          -0.5, -1.5, -0.5, -1.5, -0.5, -0.5, -0.5, -0.65,
+          0.55, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.75,
+          -0.65, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.85,
+          0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.95,
+        ],
+      ]
+    }
+
+    describe "#iod_uncertainty" do
+      context "for a guess with a mix of only '0.0' and '1.0'" do
+        it "returns '0.0'" do
+          uncertainty = io_set_text_file.iod_uncertainty(iod_guess_high_confidence)
+          expect(uncertainty).to eq(0.0)
+        end
+      end
+      context "for a guess with a mix of values, not just '0.0' and '1.0'" do
+        it "returns > '0.0'" do
+          uncertainty = io_set_text_file.iod_uncertainty(iod_guess_low_confidence)
+          expect(uncertainty).to be > 0.0
+        end
+      end
+    end
+
+    describe "#iod_certainty" do
+      context "for a guess with a mix of only '0.0' and '1.0'" do
+        it "returns '1.0'" do
+          uncertainty = io_set_text_file.iod_certainty(iod_guess_high_confidence)
+          puts_debug "uncertainty: #{uncertainty}"
+          expect(uncertainty).to eq(1.0)
+        end
+      end
+      context "for a guess with a mix of values, not just '0.0' and '1.0'" do
+        it "returns < '1.0'" do
+          certainty = io_set_text_file.iod_certainty(iod_guess_low_confidence)
+          puts_debug "certainty: #{certainty}"
+          expect(certainty).to be < 1.0
+          expect(certainty).to eq(0.4843750000000001)
+        end
+      end
+    end
+  end
 end
