@@ -2,7 +2,7 @@ require "./../../../spectator_helper"
 
 Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
   let(my_breed_manager) { Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager.new }
-  let(delta_child_1) { Ai4cr::Data::Utils.rand_neg_half_to_pos_one_and_half_no_zero_no_one }
+  let(delta_child_1) { Ai4cr::Utils::Rand.rand_neg_half_to_pos_one_and_half_no_zero_no_one }
 
   let(ancestor_adam_value) { 0.1 }
   let(ancestor_eve_value) { 0.9 }

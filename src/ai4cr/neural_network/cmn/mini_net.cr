@@ -36,13 +36,13 @@ module Ai4cr
             width:          width,
             learning_style: learning_style,
 
-            deriv_scale: Ai4cr::Data::Utils.rand_excluding(scale: 0.5),
+            deriv_scale: Ai4cr::Utils::Rand.rand_excluding(scale: 0.5),
 
             bias_disabled: bias_disabled,
-            bias_default:  Ai4cr::Data::Utils.rand_excluding,
+            bias_default:  Ai4cr::Utils::Rand.rand_excluding,
 
-            learning_rate: Ai4cr::Data::Utils.rand_excluding,
-            momentum:      Ai4cr::Data::Utils.rand_excluding,
+            learning_rate: Ai4cr::Utils::Rand.rand_excluding,
+            momentum:      Ai4cr::Utils::Rand.rand_excluding,
             history_size:  history_size,
 
             name: name,

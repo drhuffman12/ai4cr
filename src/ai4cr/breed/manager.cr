@@ -89,7 +89,7 @@ module Ai4cr
         # So, return: - error_a / vector_a_to_b (but avoid div by zero)
 
         # Avoid div by 0 with rand, else better guess:
-        vector_a_to_b == 0.0 ? Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5) : -error_a / vector_a_to_b
+        vector_a_to_b == 0.0 ? Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -0.5) : -error_a / vector_a_to_b
       end
 
       def breed(parent_a : T, parent_b : T, delta = 0.5)
@@ -264,7 +264,7 @@ module Ai4cr
                              breed(member_i, member_j, delta)
                            else
                              # Just take a chance with a random delta
-                             delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5)
+                             delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -0.5)
                              breed(member_i, member_j, delta)
                            end
 
