@@ -1,66 +1,44 @@
+require "./abstract"
+
 module Ai4cr
   module Utils
     module IoSet
-      class TextFile
-        ################
-        include Ai4cr::Utils::IoSet::Common
-
-        property contents
-        property ios
-
-        # def source_contents
-        #   @contents
-        # end
-
-        def contents_to_ios
-        end
-
-        # def ios
-        #   @ios
-        # end
-
-        def ios_to_contents
-        end
-
-        ################
-
-        property file_path : String
-
+      class TextFile < Ai4cr::Utils::IoSet::Abstract
         BIT_32_INDEXES = (0..31).to_a
 
-        def initialize(@file_path : String)
-          @contents = File.read(file_path)
-          @ios = Array(Array(Float64)).new
-        end
+        # include Ai4cr::Utils::IoSet::Common
 
-        def self.file_to_text(file_path : String)
-          File.read(file_path)
-        end
+        ################
 
-        def self.text_file_to_fios(contents)
-          chars_as_bytes_of_bits = Array(Array(Float64)).new(contents.size)
-          contents.each_char { |char| chars_as_bytes_of_bits << char_to_bits(char) }
+        # def self.text_file_to_fios(raw)
+        def convert_raw_to_ios(raw)
+          chars_as_bytes_of_bits = Array(Array(Float64)).new(raw.size)
+          raw.each_char { |char| chars_as_bytes_of_bits << char_to_bits(char) }
           chars_as_bytes_of_bits
         end
 
-        def self.char_to_bits(char)
+        def char_to_bits(char)
           bytes = char.ord
           BIT_32_INDEXES.map { |i| bytes.bit(i) * 1.0 }
         end
 
         ################
 
-        def self.bits_to_char(bits)
+        def bits_to_char(bits)
           bytes = BIT_32_INDEXES.map { |i| bits[i] * (2.0**i) }.sum.to_i
           bytes.chr
         end
 
-        def self.bytes_to_char(bytes)
+        def bytes_to_char(bytes)
           bytes.map { |bits| bits_to_char(bits) }
         end
 
-        def self.chars_to_text(chars)
+        def chars_to_text(chars)
           chars.join
+        end
+
+        def convert_ios_to_raw(ios)
+          "TBD"
         end
 
         ################
