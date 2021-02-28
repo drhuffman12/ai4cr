@@ -2,8 +2,8 @@ require "./abstract"
 
 module Ai4cr
   module Utils
-    module IoSet
-      class TextFile < Ai4cr::Utils::IoSet::Abstract
+    module IoData
+      class TextFile < Ai4cr::Utils::IoData::Abstract
         BIT_32_INDEXES = (0..31).to_a
 
         def convert_raw_to_ios(raw)
@@ -26,8 +26,8 @@ module Ai4cr
           bytes.map { |bits| bits_to_char(bits) }
         end
 
-        def convert_ios_to_raw(ios)
-          bytes_to_chars(ios).join
+        def convert_ios_to_raw(iod)
+          bytes_to_chars(iod).join
         end
       end
     end

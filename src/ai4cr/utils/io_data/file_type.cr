@@ -1,9 +1,9 @@
 module Ai4cr
   module Utils
-    module IoSet
+    module IoData
       enum FileType
         Raw
-        Ios
+        Iod
       end
     end
   end

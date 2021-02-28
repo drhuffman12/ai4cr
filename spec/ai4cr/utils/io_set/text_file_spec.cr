@@ -1,20 +1,20 @@
 require "./../../../spectator_helper"
 
-Spectator.describe Ai4cr::Utils::IoSet::FileText do
+Spectator.describe Ai4cr::Utils::IoData::FileText do
   let(temp_folder) { "spec/tmp" }
 
   before_each do
     Dir.mkdir_p(temp_folder)
   end
 
-  let(file_type_raw) { Ai4cr::Utils::IoSet::FileType::Raw }
-  let(file_type_ios) { Ai4cr::Utils::IoSet::FileType::Ios }
+  let(file_type_raw) { Ai4cr::Utils::IoData::FileType::Raw }
+  let(file_type_ios) { Ai4cr::Utils::IoData::FileType::Iod }
 
   let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_01_read.txt" }
-  let(io_set_text_file) { Ai4cr::Utils::IoSet::TextFile.new(file_path, file_type_raw) }
+  let(io_set_text_file) { Ai4cr::Utils::IoData::TextFile.new(file_path, file_type_raw) }
 
   let(raw) { io_set_text_file.raw }
-  let(ios) { io_set_text_file.ios }
+  let(iod) { io_set_text_file.iod }
 
   let(start_expected_10_chars) { "﻿The First" }
   let(end_expected_10_chars) { "sixth day. \n" }
@@ -79,23 +79,23 @@ Spectator.describe Ai4cr::Utils::IoSet::FileText do
           end
         end
 
-        describe "ios, which" do
+        describe "iod, which" do
           it "starts as expected" do
-            expect(ios[0..2]).to eq(start_expected_3_ios)
+            expect(iod[0..2]).to eq(start_expected_3_ios)
           end
           it "ends as expected" do
-            expect(ios[-3..-1]).to eq(end_expected_3_ios)
+            expect(iod[-3..-1]).to eq(end_expected_3_ios)
           end
         end
       end
     end
 
-    describe "when given ios data" do
+    describe "when given iod data" do
       let(temp_file_path) { "#{temp_folder}/temp_text_file_spec.#{Time.utc}.#{rand(1000)}.json" }
 
       let(ios_file) do
         io_set_text_file.save_ios(temp_file_path)
-        Ai4cr::Utils::IoSet::TextFile.new(temp_file_path, file_type_ios)
+        Ai4cr::Utils::IoData::TextFile.new(temp_file_path, file_type_ios)
       end
 
       describe "assigns" do
@@ -108,12 +108,12 @@ Spectator.describe Ai4cr::Utils::IoSet::FileText do
           end
         end
 
-        describe "ios, which" do
+        describe "iod, which" do
           it "starts as expected" do
-            expect(ios[0..2]).to eq(start_expected_3_ios)
+            expect(iod[0..2]).to eq(start_expected_3_ios)
           end
           it "ends as expected" do
-            expect(ios[-3..-1]).to eq(end_expected_3_ios)
+            expect(iod[-3..-1]).to eq(end_expected_3_ios)
           end
         end
       end
@@ -122,14 +122,14 @@ Spectator.describe Ai4cr::Utils::IoSet::FileText do
 
   describe "#convert_raw_to_ios" do
     context "when given the first 3 raw charaters" do
-      it "correctly converts to ios" do
+      it "correctly converts to iod" do
         converted = io_set_text_file.convert_raw_to_ios(start_expected_3_chars)
         expect(converted).to eq(start_expected_3_ios)
       end
     end
 
     context "when given the last 3 raw charaters" do
-      it "correctly converts to ios" do
+      it "correctly converts to iod" do
         converted = io_set_text_file.convert_raw_to_ios(end_expected_3_chars)
         expect(converted).to eq(end_expected_3_ios)
       end
@@ -137,14 +137,14 @@ Spectator.describe Ai4cr::Utils::IoSet::FileText do
   end
 
   describe "#convert_ios_to_raw" do
-    context "when given the first 3 ios charaters" do
+    context "when given the first 3 iod charaters" do
       it "correctly converts to raw" do
         converted = io_set_text_file.convert_ios_to_raw(start_expected_3_ios)
         expect(converted).to eq(start_expected_3_chars)
       end
     end
 
-    context "when given the last 3 ios charaters" do
+    context "when given the last 3 iod charaters" do
       it "correctly converts to raw" do
         converted = io_set_text_file.convert_ios_to_raw(end_expected_3_ios)
         expect(converted).to eq(end_expected_3_chars)
@@ -163,11 +163,11 @@ Spectator.describe Ai4cr::Utils::IoSet::FileText do
   end
 
   describe "#bytes_to_chars" do
-    let(ios) { end_expected_3_ios }
+    let(iod) { end_expected_3_ios }
     let(raw_expected) { end_expected_3_chars.split("") }
 
     it "correctly converts to raw text array" do
-      converted = io_set_text_file.bytes_to_chars(ios)
+      converted = io_set_text_file.bytes_to_chars(iod)
       expect(converted).to eq(raw_expected)
     end
   end
@@ -193,12 +193,12 @@ Spectator.describe Ai4cr::Utils::IoSet::FileText do
     describe "#save_ios" do
       let(temp_file_path) { "#{temp_folder}/temp_text_file_spec.#{Time.utc}.#{rand(1000)}.json" }
 
-      it "correctly saves the ios as json" do
+      it "correctly saves the iod as json" do
         io_set_text_file.save_ios(temp_file_path)
 
         contents = File.read(temp_file_path)
 
-        expect(contents).to eq(io_set_text_file.ios.to_json)
+        expect(contents).to eq(io_set_text_file.iod.to_json)
 
         begin
           File.delete(temp_file_path)
