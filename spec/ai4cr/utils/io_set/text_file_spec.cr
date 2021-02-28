@@ -8,7 +8,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
   end
 
   let(file_type_raw) { Ai4cr::Utils::IoData::FileType::Raw }
-  let(file_type_ios) { Ai4cr::Utils::IoData::FileType::Iod }
+  let(file_type_iod) { Ai4cr::Utils::IoData::FileType::Iod }
 
   let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_01_read.txt" }
   let(io_set_text_file) { Ai4cr::Utils::IoData::TextFile.new(file_path, file_type_raw) }
@@ -19,7 +19,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
   let(start_expected_10_chars) { "﻿The First" }
   let(end_expected_10_chars) { "sixth day. \n" }
 
-  let(start_expected_3_ios) {
+  let(start_expected_3_iod) {
     [
       [
         1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
@@ -41,7 +41,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
       ],
     ]
   }
-  let(end_expected_3_ios) {
+  let(end_expected_3_iod) {
     [
       [
         0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0,
@@ -81,10 +81,10 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
         describe "iod, which" do
           it "starts as expected" do
-            expect(iod[0..2]).to eq(start_expected_3_ios)
+            expect(iod[0..2]).to eq(start_expected_3_iod)
           end
           it "ends as expected" do
-            expect(iod[-3..-1]).to eq(end_expected_3_ios)
+            expect(iod[-3..-1]).to eq(end_expected_3_iod)
           end
         end
       end
@@ -93,9 +93,9 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
     describe "when given iod data" do
       let(temp_file_path) { "#{temp_folder}/temp_text_file_spec.#{Time.utc}.#{rand(1000)}.json" }
 
-      let(ios_file) do
-        io_set_text_file.save_ios(temp_file_path)
-        Ai4cr::Utils::IoData::TextFile.new(temp_file_path, file_type_ios)
+      let(iod_file) do
+        io_set_text_file.save_iod(temp_file_path)
+        Ai4cr::Utils::IoData::TextFile.new(temp_file_path, file_type_iod)
       end
 
       describe "assigns" do
@@ -110,50 +110,50 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
         describe "iod, which" do
           it "starts as expected" do
-            expect(iod[0..2]).to eq(start_expected_3_ios)
+            expect(iod[0..2]).to eq(start_expected_3_iod)
           end
           it "ends as expected" do
-            expect(iod[-3..-1]).to eq(end_expected_3_ios)
+            expect(iod[-3..-1]).to eq(end_expected_3_iod)
           end
         end
       end
     end
   end
 
-  describe "#convert_raw_to_ios" do
+  describe "#convert_raw_to_iod" do
     context "when given the first 3 raw charaters" do
       it "correctly converts to iod" do
-        converted = io_set_text_file.convert_raw_to_ios(start_expected_3_chars)
-        expect(converted).to eq(start_expected_3_ios)
+        converted = io_set_text_file.convert_raw_to_iod(start_expected_3_chars)
+        expect(converted).to eq(start_expected_3_iod)
       end
     end
 
     context "when given the last 3 raw charaters" do
       it "correctly converts to iod" do
-        converted = io_set_text_file.convert_raw_to_ios(end_expected_3_chars)
-        expect(converted).to eq(end_expected_3_ios)
+        converted = io_set_text_file.convert_raw_to_iod(end_expected_3_chars)
+        expect(converted).to eq(end_expected_3_iod)
       end
     end
   end
 
-  describe "#convert_ios_to_raw" do
+  describe "#convert_iod_to_raw" do
     context "when given the first 3 iod charaters" do
       it "correctly converts to raw" do
-        converted = io_set_text_file.convert_ios_to_raw(start_expected_3_ios)
+        converted = io_set_text_file.convert_iod_to_raw(start_expected_3_iod)
         expect(converted).to eq(start_expected_3_chars)
       end
     end
 
     context "when given the last 3 iod charaters" do
       it "correctly converts to raw" do
-        converted = io_set_text_file.convert_ios_to_raw(end_expected_3_ios)
+        converted = io_set_text_file.convert_iod_to_raw(end_expected_3_iod)
         expect(converted).to eq(end_expected_3_chars)
       end
     end
   end
 
   describe "#bits_to_char" do
-    let(bits) { end_expected_3_ios.first }
+    let(bits) { end_expected_3_iod.first }
     let(char_expected) { end_expected_3_chars[0].to_s }
 
     it "correctly converts to char" do
@@ -163,7 +163,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
   end
 
   describe "#bytes_to_chars" do
-    let(iod) { end_expected_3_ios }
+    let(iod) { end_expected_3_iod }
     let(raw_expected) { end_expected_3_chars.split("") }
 
     it "correctly converts to raw text array" do
@@ -190,11 +190,11 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
       end
     end
 
-    describe "#save_ios" do
+    describe "#save_iod" do
       let(temp_file_path) { "#{temp_folder}/temp_text_file_spec.#{Time.utc}.#{rand(1000)}.json" }
 
       it "correctly saves the iod as json" do
-        io_set_text_file.save_ios(temp_file_path)
+        io_set_text_file.save_iod(temp_file_path)
 
         contents = File.read(temp_file_path)
 

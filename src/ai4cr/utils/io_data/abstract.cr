@@ -12,19 +12,19 @@ module Ai4cr
           case file_content_type
           when FileType::Raw
             @raw = File.read(file_path)
-            @iod = convert_raw_to_ios(@raw)
+            @iod = convert_raw_to_iod(@raw)
           when FileType::Iod
             contents = File.read(file_path)
             @iod = Array(Array(Float64)).from_json(contents)
-            @raw = convert_ios_to_raw(@iod)
+            @raw = convert_iod_to_raw(@iod)
           end
         end
 
-        def convert_raw_to_ios(raw) : Array(Array(Float64))
+        def convert_raw_to_iod(raw) : Array(Array(Float64))
           raise "Must be implemented in subclass"
         end
 
-        def convert_ios_to_raw(iod) : String
+        def convert_iod_to_raw(iod) : String
           raise "Must be implemented in subclass"
         end
 
@@ -32,7 +32,7 @@ module Ai4cr
           File.write(to_file_path, raw)
         end
 
-        def save_ios(to_file_path : String)
+        def save_iod(to_file_path : String)
           File.write(to_file_path, iod.to_json)
         end
       end

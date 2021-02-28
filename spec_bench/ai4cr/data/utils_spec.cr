@@ -26,7 +26,7 @@ Benchmark.ips do |x|
   end
 
   x.report "2D Array utils" do
-    Ai4cr::Utils::Rand.text_file_to_fios(FILE_PATH)
+    Ai4cr::Utils::IoData::TextFile.new(FILE_PATH, Ai4cr::Utils::IoData::FileType::Raw).iod
   end
 end
 
