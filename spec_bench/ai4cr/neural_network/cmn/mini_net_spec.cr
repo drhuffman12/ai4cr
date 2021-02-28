@@ -33,7 +33,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
         net = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 256, width: 3, history_size: 60, learning_style: learning_style)
 
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)} using learning_style: #{learning_style}" do
-          puts "\nTRAINING (learning_style: #{learning_style}):\n"
+          puts_debug "\nTRAINING (learning_style: #{learning_style}):\n"
           qty.times do |i|
             print "." if i % 1000 == 0
             errors = {} of Symbol => Float64
@@ -50,7 +50,7 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
           end
 
-          puts "\n--------\n"
+          puts_debug "\n--------\n"
           min = 0.0
           max = 1.0
           precision = 2.to_i8
@@ -61,11 +61,11 @@ describe Ai4cr::NeuralNetwork::Cmn::MiniNet do
           charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
           plot = charter.plot(net.error_stats.history, prefixed)
 
-          puts "#{net.class.name}:"
-          puts "  plot: '#{plot}'"
-          puts "  error_stats.history: '#{net.error_stats.history.map { |e| e.round(6) }}'"
+          puts_debug "#{net.class.name}:"
+          puts_debug "  plot: '#{plot}'"
+          puts_debug "  error_stats.history: '#{net.error_stats.history.map { |e| e.round(6) }}'"
 
-          puts "\n--------\n"
+          puts_debug "\n--------\n"
 
           # describe "JSON (de-)serialization works" do
           #   it "@error_stats.distance of the dumped net approximately matches @error_stats.distance of the loaded net" do

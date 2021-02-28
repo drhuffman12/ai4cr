@@ -56,7 +56,7 @@ e.g.: `time crystal spec --release`
 
 Use the `-Dpreview_mt` (for `crystal build` or `-D preview_mt` for `crystal spec`) flag for multithreading.
 
-e.g.: `CRYSTAL_WORKERS=16 crystal spec spec/ai4cr/neural_network/rnn/rnn_simple_manager_spec.cr --release -D preview_mt`
+e.g.: `CRYSTAL_WORKERS=14 crystal spec spec/ai4cr/neural_network/rnn/rnn_simple_manager_spec.cr --release -D preview_mt`
 
 See also:
 * https://crystal-lang.org/2019/09/23/crystal-0.31.0-released.html
@@ -84,11 +84,10 @@ REMINDER: Running Crystal in a Docker container (at least used to) runs slower t
 So, for more performance, run it outside of a Docker container.
 
 
-To build and run them:
+To build and run them and see the debugging output (DEBUG=1):
 
 ```
-crystal build --release  src/bench/mini_nets_vs_backprop.cr
-./mini_nets_vs_backprop
+DEBUG=1 crystal spec spec_bench
 ```
 
 Example output:

@@ -14,15 +14,15 @@ module Ai4cr
 
           property bias_default = 1.0
           property bias_disabled = false
-          property learning_rate : Float64 = Ai4cr::Data::Utils.rand_excluding
-          property momentum : Float64 = Ai4cr::Data::Utils.rand_excluding
+          property learning_rate : Float64 = Ai4cr::Utils::Rand.rand_excluding
+          property momentum : Float64 = Ai4cr::Utils::Rand.rand_excluding
 
           # for Prelu
           # TODO: set deriv_scale based on ?
           # @deriv_scale = 0.1,
           # @deriv_scale = 0.01,
           # @deriv_scale = 0.001,
-          property deriv_scale : Float64 = Ai4cr::Data::Utils.rand_excluding(scale: 0.5)
+          property deriv_scale : Float64 = Ai4cr::Utils::Rand.rand_excluding(scale: 0.5)
 
           getter width = -1
           getter height = -1
@@ -43,10 +43,10 @@ module Ai4cr
             # Weight initialization (https://medium.com/datadriveninvestor/deep-learning-best-practices-activation-functions-weight-initialization-methods-part-1-c235ff976ed)
             # * Xavier initialization mostly used with tanh and logistic activation function
             # * He-initialization mostly used with ReLU or it’s variants — Leaky ReLU.
-            @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Data::Utils.rand_neg_one_to_pos_one_no_zero } }
-            # @weights = Array.new(height_considering_bias) { Array.new(width) { Ai4cr::Data::Utils.rand_neg_one_to_pos_one_no_zero } }
-            # @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Data::Utils.rand_neg_one_to_pos_one_no_zero*(Math.sqrt(2.0/(height_considering_bias + width))) } }
-            # @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Data::Utils.rand_neg_one_to_pos_one_no_zero*(Math.sqrt(height_considering_bias/2.0)) } }
+            @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero } }
+            # @weights = Array.new(height_considering_bias) { Array.new(width) { Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero } }
+            # @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero*(Math.sqrt(2.0/(height_considering_bias + width))) } }
+            # @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero*(Math.sqrt(height_considering_bias/2.0)) } }
           end
 
           def init_net_re_guess

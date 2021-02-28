@@ -3,48 +3,26 @@ module Ai4cr
     class StructureError < ArgumentError; end
 
     abstract class Manager(T)
-      # class MyCounter < Counter::Safe; end
-
-      # Implementaion example (taken from 'spec/ai4cr/breed/manager_spec.cr'):
-      # ```
-      # class MyBreed
-      #   include JSON::Serializable
-      #   include Ai4cr::Breed::Client
-      #
-      #   # These are to be set per child, but are
-      #   #   NOT to be adjusted by the 'delta' value passed into the breeding process:
-      #   #   (Add/Remove/Adjust for your particular class' needs.)
-      #   property name : String = "tbd"
-      #
-      #   # These are to be adjusted by the 'delta' value passed into 'mix_parts':
-      #   #   (Add/Remove/Adjust for your particular class' needs.)
-      #   property some_value : Float64 = -1.0
-      #   property some_array = Array(Float64).new(2) { rand }
-      #
-      #   ALLOWED_STRING_FIRST = "a" # 'a' # .ord
-      #   ALLOWED_STRING_LAST  = "z" # 'z' # .ord
-      #   ALLOWED_STRINGS      = (ALLOWED_STRING_FIRST..ALLOWED_STRING_LAST).to_a
-      #   property some_string : String = (ALLOWED_STRINGS.sample) * 2
-      #
-      #   def initialize(@name, @some_value)
-      #   end
-      # end
-      #
-      # class MyBreeder < Ai4cr::Breed::Manager(MyBreed)
-      #   def mix_parts(child : T, parent_a : T, parent_b : T, delta)
-      #     some_value = mix_one_part_number(parent_a.some_value, parent_b.some_value, delta)
-      #     child.some_value = some_value
-      #
-      #     some_array = mix_nested_parts(parent_a.some_array, parent_b.some_array, delta)
-      #     child.some_array = some_array
-      #
-      #     some_string = mix_nested_parts(parent_a.some_string, parent_b.some_string, delta)
-      #     child.some_string = some_string
-      #
-      #     child
-      #   end
-      # end
-      # ```
+      # To avoid Neural Networks's getting stuck on wrong answers,
+      #   we introduce the option to
+      #     (a) Train (1 or more times) a team of X members, where members are of compatible configurations,
+      #         but have some value variations (e.g.: learning rate, weights, etc).
+      #     (b) Cross-breed a team of NN's (to help avoid issues re gradient-descent and dead nodes) results in a new team including:
+      #         * parents (as-is)
+      #         * half of the children created via random delta offsets
+      #         * half of the children created via an 'estimated-better' delta offset (trying to estimate a 'more zero' error configuration)
+      #     (c) (Re-)train the parent team members and the child team members.
+      #     (d) Keep only the top X scoring team members from the parent and the child teams.
+      #     (e) This *should* cause the subsequent team's average error score to decrease.
+      # One effect of this is that when training/cross-breeding/(re-)training,
+      #   (a) the 'parent team members' don't get as many rounds of training
+      #   (b) the 'child team members' help cover the range of possible NN configurations
+      # So, you might want to try different team sizes and compare the results:
+      #   * Smaller teams will get more training per NN.
+      #   * Larger teams will get more configurations explored (and avoid getting stuck on wrong answers).
+      # For example, see:
+      #   * [spec/ai4cr/breed/manager_spec.cr](spec/ai4cr/breed/manager_spec.cr)
+      #   * [spec_bench/ai4cr/neural_network/cmn/mini_net_manager_spec.cr](spec_bench/ai4cr/neural_network/cmn/mini_net_manager_spec.cr)
 
       QTY_NEW_MEMBERS_DEFAULT = 10
       MAX_MEMBERS_DEFAULT     = QTY_NEW_MEMBERS_DEFAULT
@@ -55,32 +33,9 @@ module Ai4cr
       include JSON::Serializable
       class_getter counter : CounterSafe::Exclusive = CounterSafe::Exclusive.new
 
-      def initialize; end
-
       ############################################################################
 
-      #       property team_size : Int32 = 2
-      #       property training_round_qty : Int32 = 10
-      #       property training_round_indexes = Array(Int32).new
-      #       # getter team_indexes : Array(Int32)
-      #       getter team_members : Array(T) # .new
-
-      #       property team_last_id : Int32
-      #       property manager = Manager(T).new
-
-      #       # property member_config
-      # include Ai4cr::Breed::Utils
-
-      # def initialize
-      #   # NOTE: We probably should convert the 'birth_id' from an instance variable to a class variable!
-      #   #   Otherwise, you could get multiple instances with separate counters,
-      #   #   which might or might not be desirable!
-      #   # @@counter = init_counter
-      # end
-
-      # def init_counter
-      #   @@counter = CounterSafe::Exclusive.new
-      # end
+      def initialize; end
 
       def counter
         @@counter
@@ -114,7 +69,7 @@ module Ai4cr
         # for weighed average of 'recent' distances
         estimate_better_delta(ancestor_a.error_stats.score, ancestor_b.error_stats.score)
 
-        # # for most recent distance
+        # # for 'last' distance only
         # estimate_better_delta(ancestor_a.error_stats.distance, ancestor_b.error_stats.distance)
       end
 
@@ -126,13 +81,15 @@ module Ai4cr
         #   then you'll need to diverge from that line.
 
         vector_a_to_b = error_b - error_a
-        # zero = error_a + delta * vector_a_to_b
-        # zero - error_a = delta * vector_a_to_b
-        # - error_a / vector_a_to_b = delta
-        # delta = - error_a / vector_a_to_b
+        # i.e.:
+        #   zero = error_a + delta * vector_a_to_b
+        #   zero - error_a = delta * vector_a_to_b
+        #   (zero - error_a) / vector_a_to_b = delta
+        #   delta = (- error_a) / vector_a_to_b
+        # So, return: - error_a / vector_a_to_b (but avoid div by zero)
 
         # Avoid div by 0 with rand, else better guess:
-        vector_a_to_b == 0.0 ? Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5) : -error_a / vector_a_to_b
+        vector_a_to_b == 0.0 ? Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -0.5) : -error_a / vector_a_to_b
       end
 
       def breed(parent_a : T, parent_b : T, delta = 0.5)
@@ -148,7 +105,7 @@ module Ai4cr
       end
 
       def breed_validations(parent_a : T, parent_b : T, delta)
-        raise "Parents must be Breed Clients!" unless T < Breed::Client
+        raise StructureError.new("Parents must be Breed Clients!") unless T < Breed::Client
       end
 
       def breed_counter_tick
@@ -228,13 +185,12 @@ module Ai4cr
 
       def build_team(qty_new_members : Int32, **params) : Array(T)
         channel = Channel(T).new
-        qty_new_members.times.to_a.map do
-          # create(**params)
+        (1..qty_new_members).map do
           spawn do
             channel.send(create(**params))
           end
         end
-        qty_new_members.times.to_a.map { channel.receive }
+        (1..qty_new_members).map { channel.receive }
       end
 
       def build_team(qty_new_members : Int32 = QTY_NEW_MEMBERS_DEFAULT) : Array(T)
@@ -242,27 +198,41 @@ module Ai4cr
         build_team(qty_new_members, **params)
       end
 
-      def train_team(inputs, outputs, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1)
+      def train_team(inputs, outputs, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1, and_cross_breed = true)
         team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
-        team_members = cross_breed(team_members)
-
-        team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+        if and_cross_breed
+          team_members = cross_breed(team_members)
+          team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+        else
+          (1..team_members.size).each do
+            team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+          end
+        end
 
         (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
       end
 
-      def train_team_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1)
+      def train_team_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1, and_cross_breed = true)
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
         end
 
-        team_members = cross_breed(team_members)
+        if and_cross_breed
+          team_members = cross_breed(team_members)
 
-        inputs_sequence.each_with_index do |inputs, i|
-          outputs = outputs_sequence[i]
-          team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+          inputs_sequence.each_with_index do |inputs, i|
+            outputs = outputs_sequence[i]
+            team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+          end
+        else
+          (1..team_members.size).each do
+            inputs_sequence.each_with_index do |inputs, i|
+              outputs = outputs_sequence[i]
+              team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+            end
+          end
         end
 
         (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
@@ -270,19 +240,16 @@ module Ai4cr
 
       def train_team_in_parallel(inputs, outputs, team_members, train_qty)
         channel = Channel(T).new
-        qty = team_members.size
         team_members.each do |member|
           spawn do
             train_qty == 1 ? member.train(inputs, outputs) : train_qty.times { member.train(inputs, outputs) }
             channel.send(member)
           end
         end
-        qty.times.to_a.map { channel.receive }
+        (1..team_members.size).map { channel.receive }
       end
 
       def cross_breed(team_members : Array(T))
-        qty = team_members.size ** 2
-        # side = team_members.size.times.to_a
         channel = Channel(T).new
 
         team_members.each_with_index do |member_i, i|
@@ -297,7 +264,7 @@ module Ai4cr
                              breed(member_i, member_j, delta)
                            else
                              # Just take a chance with a random delta
-                             delta = Ai4cr::Data::Utils.rand_excluding(scale: 2, offset: -0.5)
+                             delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -0.5)
                              breed(member_i, member_j, delta)
                            end
 
@@ -306,7 +273,38 @@ module Ai4cr
           end
         end
 
-        qty.times.to_a.map { channel.receive }
+        (1..team_members.size).map { team_members.map { channel.receive } }.flatten
+      end
+
+      def eval_team(team_members, inputs)
+        team_members.map do |member|
+          member.eval(inputs)
+        end
+      end
+
+      def eval_team_in_parallel_using_sequence(team_members, inputs_sequence)
+        inputs_sequence.map do |inputs|
+          eval_team_in_parallel(team_members, inputs)
+        end
+      end
+
+      def eval_team_in_parallel(team_members, inputs)
+        channel = Channel(Hash(Int32, Array(Float64))).new
+        team_members.each_with_index do |member, i|
+          spawn do
+            guess = member.eval(inputs)
+            channel.send({i => guess})
+          end
+        end
+
+        guesses = Hash(Int32, Array(Float64)).new
+        (1..team_members.size).map do
+          hash = channel.receive
+          raise "OOPS; too many channel.receive's at once!!!" if hash.keys.size > 1
+          guesses[hash.keys.first] = hash[hash.keys.first]
+        end
+
+        guesses.keys.sort.map { |k| guesses[k] }
       end
     end
   end

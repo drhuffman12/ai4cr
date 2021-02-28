@@ -41,12 +41,12 @@
 #           arr << net2
 #           cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
-#           puts "\n--------\n"
-#           puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
+#           puts_debug "\n--------\n"
+#           puts_debug "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
 
 #           describe "using #{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}" do
 #             describe "and training #{qty} times each at a learning rate of #{cns.net_set.last.learning_rate.round(6)}" do
-#               puts "\nTRAINING:\n"
+#               puts_debug "\nTRAINING:\n"
 #               timestamp_before = Time.utc
 #               qty.times do |i|
 #                 print "." if i % qty_x_percent == 0 # 1000 == 0
@@ -65,9 +65,9 @@
 #               end
 #               timestamp_after = Time.utc
 
-#               puts "\n--------\n"
-#               puts "duration: #{timestamp_after - timestamp_before}"
-#               puts "\n--------\n"
+#               puts_debug "\n--------\n"
+#               puts_debug "duration: #{timestamp_after - timestamp_before}"
+#               puts_debug "\n--------\n"
 #               min = 0.0
 #               max = 1.0
 #               precision = 2.to_i8
@@ -78,11 +78,11 @@
 #               charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
 #               plot = charter.plot(cns.net_set.last.error_stats.history, prefixed)
 
-#               puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
-#               puts "  plot: '#{plot}'"
-#               puts "  error_stats.history: '#{cns.net_set.last.error_stats.history.map { |e| e.round(6) }}'"
+#               puts_debug "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
+#               puts_debug "  plot: '#{plot}'"
+#               puts_debug "  error_stats.history: '#{cns.net_set.last.error_stats.history.map { |e| e.round(6) }}'"
 
-#               puts "\n--------\n"
+#               puts_debug "\n--------\n"
 
 #               # describe "JSON (de-)serialization works" do
 #               #   it "@error_stats.distance of the dumped net approximately matches @error_stats.distance of the loaded net" do
@@ -192,12 +192,12 @@
 #           arr << net2
 #           cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
-#           puts "\n--------\n"
-#           puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
+#           puts_debug "\n--------\n"
+#           puts_debug "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
 
 #           describe "using #{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}" do
 #             describe "and training #{qty} times each at a learning rate of #{cns.net_set.last.learning_rate.round(6)}" do
-#               puts "\nTRAINING:\n"
+#               puts_debug "\nTRAINING:\n"
 #               timestamp_before = Time.utc
 #               qty.times do |i|
 #                 print "." if i % qty_x_percent == 0 # 1000 == 0
@@ -216,9 +216,9 @@
 #               end
 #               timestamp_after = Time.utc
 
-#               puts "\n--------\n"
-#               puts "duration: #{timestamp_after - timestamp_before}"
-#               puts "\n--------\n"
+#               puts_debug "\n--------\n"
+#               puts_debug "duration: #{timestamp_after - timestamp_before}"
+#               puts_debug "\n--------\n"
 #               min = 0.0
 #               max = 1.0
 #               precision = 2.to_i8
@@ -229,10 +229,10 @@
 #               charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
 #               plot = charter.plot(cns.net_set.last.error_stats.history, prefixed)
 
-#               puts "  plot: '#{plot}'"
-#               puts "  error_stats.history: '#{cns.net_set.last.error_stats.history.map { |e| e.round(6) }}'"
+#               puts_debug "  plot: '#{plot}'"
+#               puts_debug "  error_stats.history: '#{cns.net_set.last.error_stats.history.map { |e| e.round(6) }}'"
 
-#               puts "\n--------\n"
+#               puts_debug "\n--------\n"
 
 #               # describe "JSON (de-)serialization works" do
 #               #   it "@error_stats.distance of the dumped net approximately matches @error_stats.distance of the loaded net" do
@@ -342,12 +342,12 @@
 #           arr << net2
 #           cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
-#           puts "\n--------\n"
-#           puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
+#           puts_debug "\n--------\n"
+#           puts_debug "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
 
 #           describe "using #{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}" do
 #             describe "and training #{qty} times each at a learning rate of #{cns.net_set.last.learning_rate.round(6)}" do
-#               puts "\nTRAINING:\n"
+#               puts_debug "\nTRAINING:\n"
 #               timestamp_before = Time.utc
 #               qty.times do |i|
 #                 print "." if i % qty_x_percent == 0 # 1000 == 0
@@ -366,9 +366,9 @@
 #               end
 #               timestamp_after = Time.utc
 
-#               puts "\n--------\n"
-#               puts "duration: #{timestamp_after - timestamp_before}"
-#               puts "\n--------\n"
+#               puts_debug "\n--------\n"
+#               puts_debug "duration: #{timestamp_after - timestamp_before}"
+#               puts_debug "\n--------\n"
 #               min = 0.0
 #               max = 1.0
 #               precision = 2.to_i8
@@ -379,10 +379,10 @@
 #               charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
 #               plot = charter.plot(cns.net_set.last.error_stats.history, prefixed)
 
-#               puts "  plot: '#{plot}'"
-#               puts "  error_stats.history: '#{cns.net_set.last.error_stats.history.map { |e| e.round(6) }}'"
+#               puts_debug "  plot: '#{plot}'"
+#               puts_debug "  error_stats.history: '#{cns.net_set.last.error_stats.history.map { |e| e.round(6) }}'"
 
-#               puts "\n--------\n"
+#               puts_debug "\n--------\n"
 
 #               # describe "JSON (de-)serialization works" do
 #               #   it "@error_stats.distance of the dumped net approximately matches @error_stats.distance of the loaded net" do
@@ -492,12 +492,12 @@
 #           arr << net2
 #           cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
-#           puts "\n--------\n"
-#           puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
+#           puts_debug "\n--------\n"
+#           puts_debug "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
 
 #           describe "using #{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}" do
 #             describe "and training #{qty} times each at a learning rate of #{cns.net_set.last.learning_rate.round(6)}" do
-#               puts "\nTRAINING:\n"
+#               puts_debug "\nTRAINING:\n"
 #               timestamp_before = Time.utc
 #               qty.times do |i|
 #                 print "." if i % qty_x_percent == 0 # 1000 == 0
@@ -516,9 +516,9 @@
 #               end
 #               timestamp_after = Time.utc
 
-#               puts "\n--------\n"
-#               puts "duration: #{timestamp_after - timestamp_before}"
-#               puts "\n--------\n"
+#               puts_debug "\n--------\n"
+#               puts_debug "duration: #{timestamp_after - timestamp_before}"
+#               puts_debug "\n--------\n"
 #               min = 0.0
 #               max = 1.0
 #               precision = 2.to_i8
@@ -529,10 +529,10 @@
 #               charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
 #               plot = charter.plot(cns.net_set.last.error_stats.history, prefixed)
 
-#               puts "  plot: '#{plot}'"
-#               puts "  error_stats.history: '#{cns.net_set.last.error_stats.history.map { |e| e.round(6) }}'"
+#               puts_debug "  plot: '#{plot}'"
+#               puts_debug "  error_stats.history: '#{cns.net_set.last.error_stats.history.map { |e| e.round(6) }}'"
 
-#               puts "\n--------\n"
+#               puts_debug "\n--------\n"
 
 #               # describe "JSON (de-)serialization works" do
 #               #   it "@error_stats.distance of the dumped net approximately matches @error_stats.distance of the loaded net" do
@@ -642,12 +642,12 @@
 #           arr << net2
 #           cns = Ai4cr::NeuralNetwork::Cmn::Chain.new(arr)
 
-#           puts "\n--------\n"
-#           puts "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
+#           puts_debug "\n--------\n"
+#           puts_debug "#{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}:"
 
 #           describe "using #{cns.class.name} with structure of #{cns.structure} with nets of learning styles #{cns.net_set.map { |n| n.learning_style }}" do
 #             describe "and training #{qty} times each at a learning rate of #{cns.net_set.last.learning_rate.round(6)}" do
-#               puts "\nTRAINING:\n"
+#               puts_debug "\nTRAINING:\n"
 #               timestamp_before = Time.utc
 #               qty.times do |i|
 #                 print "." if i % qty_x_percent == 0 # 1000 == 0
@@ -666,9 +666,9 @@
 #               end
 #               timestamp_after = Time.utc
 
-#               puts "\n--------\n"
-#               puts "duration: #{timestamp_after - timestamp_before}"
-#               puts "\n--------\n"
+#               puts_debug "\n--------\n"
+#               puts_debug "duration: #{timestamp_after - timestamp_before}"
+#               puts_debug "\n--------\n"
 #               min = 0.0
 #               max = 1.0
 #               precision = 2.to_i8
@@ -679,10 +679,10 @@
 #               charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
 #               plot = charter.plot(cns.net_set.last.error_stats.history, prefixed)
 
-#               puts "  plot: '#{plot}'"
-#               puts "  error_stats.history: '#{cns.net_set.last.error_stats.history.map { |e| e.round(6) }}'"
+#               puts_debug "  plot: '#{plot}'"
+#               puts_debug "  error_stats.history: '#{cns.net_set.last.error_stats.history.map { |e| e.round(6) }}'"
 
-#               puts "\n--------\n"
+#               puts_debug "\n--------\n"
 
 #               # describe "JSON (de-)serialization works" do
 #               #   it "@error_stats.distance of the dumped net approximately matches @error_stats.distance of the loaded net" do

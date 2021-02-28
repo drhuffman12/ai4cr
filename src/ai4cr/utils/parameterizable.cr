@@ -11,6 +11,7 @@
 # the Mozilla Public License version 1.1  as published by the
 # Mozilla Foundation at http://www.mozilla.org/MPL/MPL-1.1.txt
 
+# Ai4cr::Data::Parameterizable => Ai4cr::Utils::Parameterizable
 module Ai4cr
   module Data
     module Parameterizable

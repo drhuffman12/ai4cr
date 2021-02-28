@@ -45,7 +45,7 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
             error_averages << (errors[:tr].to_f + errors[:sq].to_f + errors[:cr].to_f) / 3.0
           end
 
-          puts "\n--------\n"
+          puts_debug "\n--------\n"
           min = 0.0
           max = 1.0
           precision = 2.to_i8
@@ -56,11 +56,11 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
           charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
           plot = charter.plot(net.error_stats.history, prefixed)
 
-          puts "#{net.class.name} with structure of #{net.structure}:"
-          puts "  plot: '#{plot}'"
-          puts "  error_stats.history: '#{net.error_stats.history.map { |e| e.round(6) }}'"
+          puts_debug "#{net.class.name} with structure of #{net.structure}:"
+          puts_debug "  plot: '#{plot}'"
+          puts_debug "  error_stats.history: '#{net.error_stats.history.map { |e| e.round(6) }}'"
 
-          puts "\n--------\n"
+          puts_debug "\n--------\n"
 
           describe "JSON (de-)serialization works" do
             it "@error_stats.distance of the dumped net approximately matches @error_stats.distance of the loaded net" do
@@ -185,11 +185,11 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
         qty = MULTI_TYPE_TEST_QTY
         qty_x_percent = qty // QTY_X_PERCENT_DENOMINATOR
 
-        puts "\n--------\n"
-        puts "#{net.class.name} with structure of #{net.structure}:"
+        puts_debug "\n--------\n"
+        puts_debug "#{net.class.name} with structure of #{net.structure}:"
 
         describe "and training #{qty} times each at a learning rate of #{net.learning_rate.round(6)}" do
-          puts "\nTRAINING:\n"
+          puts_debug "\nTRAINING:\n"
           timestamp_before = Time.utc
           qty.times do |i|
             print "." if i % qty_x_percent == 0 # 1000 == 0
@@ -208,9 +208,9 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
           end
           timestamp_after = Time.utc
 
-          puts "\n--------\n"
-          puts "duration: #{timestamp_after - timestamp_before}"
-          puts "\n--------\n"
+          puts_debug "\n--------\n"
+          puts_debug "duration: #{timestamp_after - timestamp_before}"
+          puts_debug "\n--------\n"
           min = 0.0
           max = 1.0
           precision = 2.to_i8
@@ -221,10 +221,10 @@ describe Ai4cr::NeuralNetwork::Backpropagation do
           charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
           plot = charter.plot(net.error_stats.history, prefixed)
 
-          puts "  plot: '#{plot}'"
-          puts "  error_stats.history: '#{net.error_stats.history.map { |e| e.round(6) }}'"
+          puts_debug "  plot: '#{plot}'"
+          puts_debug "  error_stats.history: '#{net.error_stats.history.map { |e| e.round(6) }}'"
 
-          puts "\n--------\n"
+          puts_debug "\n--------\n"
 
           describe "JSON (de-)serialization works" do
             it "@error_stats.distance of the dumped net approximately matches @error_stats.distance of the loaded net" do
