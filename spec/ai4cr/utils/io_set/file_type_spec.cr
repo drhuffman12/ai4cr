@@ -11,7 +11,9 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
       end
 
       it "#to_json" do
-        expect(file_type_raw.to_json).to eq("0")
+        old_stype = "0" # as of Crystal 0.36.0 [1e6f96aef] (2021-01-26)
+        new_stype = "raw" # as of Crystal 1.0.0-dev [eef60c49b] (2021-02-25)
+        expect([old_stype, new_stype]).to contain(file_type_raw.to_json)
       end
     end
 
@@ -21,7 +23,9 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
       end
 
       it "#to_json" do
-        expect(file_type_io_formatted.to_json).to eq("1")
+        old_stype = "1" # as of Crystal 0.36.0 [1e6f96aef] (2021-01-26)
+        new_stype = "iod" # as of Crystal 1.0.0-dev [eef60c49b] (2021-02-25)
+        expect([old_stype, new_stype]).to contain(file_type_io_formatted.to_json)
       end
     end
   end
