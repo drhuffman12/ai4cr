@@ -7,11 +7,18 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
     Dir.mkdir_p(temp_folder)
   end
 
+  let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_01_read.txt" }
   let(file_type_raw) { Ai4cr::Utils::IoData::FileType::Raw }
   let(file_type_iod) { Ai4cr::Utils::IoData::FileType::Iod }
+  let(prefix_raw_qty) { 0 }
+  let(prefix_raw_char) { " " }
 
-  let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_01_read.txt" }
-  let(io_set_text_file) { Ai4cr::Utils::IoData::TextFile.new(file_path, file_type_raw) }
+  let(io_set_text_file) do
+    Ai4cr::Utils::IoData::TextFile.new(
+      file_path, file_type_raw,
+      prefix_raw_qty, prefix_raw_char
+    )
+  end
 
   let(raw) { io_set_text_file.raw }
   let(iod) { io_set_text_file.iod }
@@ -82,6 +89,44 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
         describe "iod, which" do
           it "starts as expected" do
             expect(iod[0..2]).to eq(start_expected_3_iod)
+          end
+          it "ends as expected" do
+            expect(iod[-3..-1]).to eq(end_expected_3_iod)
+          end
+        end
+
+        describe "raw, which when prefixed" do
+          let(prefix_raw_qty) { 2 }
+          let(prefix_char) { " " }
+          let(prefix) { prefix_char + prefix_char }
+
+          it "starts as expected" do
+            expect(raw[0..9]).to eq((prefix + start_expected_10_chars)[0..9]) # [0..-3]
+          end
+          it "ends as expected" do
+            expect(raw[-12..-1]).to eq(end_expected_10_chars)
+          end
+        end
+
+        describe "iod, which when prefixed" do
+          let(prefix_raw_qty) { 2 }
+          let(prefix_bits) { io_set_text_file.convert_raw_to_iod(prefix_raw_char) }
+          let(prefix) { prefix_bits + prefix_bits }
+
+          it "foo" do
+            puts
+            puts "prefix_bits: \n#{prefix_bits}"
+            puts
+            puts "prefix: \n#{prefix}"
+            puts
+            puts "iod[0..3]: \n#{iod[0..3]}"
+            puts
+            puts "raw: \n#{raw}"
+            puts
+          end
+
+          it "starts as expected" do
+            expect(iod[0..2]).to eq((prefix + start_expected_3_iod)[0..2])
           end
           it "ends as expected" do
             expect(iod[-3..-1]).to eq(end_expected_3_iod)
@@ -263,59 +308,64 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
     end
   end
 
-  # describe "#iod_to_io_set_with_offset_time_cols" do
-  #   let(offset) { 3 }
-  #   let(time_cols) { 4 }
-  #   let(ios) { io_set_text_file.iod_to_io_set_with_offset_time_cols(time_cols, offset) }
+  describe "#iod_to_io_set_with_offset_time_cols" do
+    let(offset) { 3 }
+    let(time_cols) { 4 }
+    let(ios) { io_set_text_file.iod_to_io_set_with_offset_time_cols(time_cols, offset) }
 
-  #   context "returns expected data for" do
-  #     context ":input_set" do
-  #       context "start with" do
-  #         it "raw" do
-  #           snippet = ios[:input_set][0..2]
-  #           expect(snippet).to be_a(Array(Array(Float64)))
+    context "returns expected data for" do
+      context ":input_set" do
+        context "start with" do
+          it "raw" do
+            snippets = ios[:input_set][0..2]
+            expect(snippets).to be_a(Array(Array(Array(Float64))))
 
-  #           raw_text_expected = "﻿Th"
+            raw_text_array_expected = ["﻿The", "The ", "he F"]
 
-  #           snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
-  #           expect(snippet_as_text).to eq(raw_text_expected)
-  #         end
-  #       end
-  #       context "end with" do
-  #         it "raw" do
-  #           snippet = ios[:input_set][-3..-1]
-  #           expect(snippet).to be_a(Array(Array(Float64)))
-  #           raw_text_expected = "day"
+            snippet_as_text_array = snippets.map { |snippet| io_set_text_file.convert_iod_to_raw(snippet) }
+            expect(snippet_as_text_array).to eq(raw_text_array_expected)
+          end
+        end
 
-  #           snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
-  #           expect(snippet_as_text).to eq(raw_text_expected)
-  #         end
-  #       end
-  #     end
-  #     context ":output_set" do
-  #       context "start with" do
-  #         it "raw" do
-  #           snippet = ios[:output_set][0..2]
-  #           expect(snippet).to be_a(Array(Array(Float64)))
+        context "end with" do
+          it "raw" do
+            snippets = ios[:input_set][-3..-1]
+            expect(snippets).to be_a(Array(Array(Array(Float64))))
 
-  #           raw_text_expected = "e F"
+            raw_text_array_expected = ["xth ", "th d", "h da"]
 
-  #           snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
-  #           expect(snippet_as_text).to eq(raw_text_expected)
-  #         end
-  #       end
-  #       context "end with" do
-  #         it "raw" do
-  #           snippet = ios[:output_set][-3..-1]
-  #           expect(snippet).to be_a(Array(Array(Float64)))
+            snippet_as_text_array = snippets.map { |snippet| io_set_text_file.convert_iod_to_raw(snippet) }
+            expect(snippet_as_text_array).to eq(raw_text_array_expected)
+          end
+        end
+      end
 
-  #           raw_text_expected = ". \n"
+      context ":output_set" do
+        context "start with" do
+          it "raw" do
+            snippets = ios[:output_set][0..2]
+            expect(snippets).to be_a(Array(Array(Array(Float64))))
 
-  #           snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
-  #           expect(snippet_as_text).to eq(raw_text_expected)
-  #         end
-  #       end
-  #     end
-  #   end
-  # end
+            # raw_text_array_expected = ["﻿The", "The ", "he F"]
+            raw_text_array_expected = ["e Fi", " Fir", "Firs"]
+
+            snippet_as_text_array = snippets.map { |snippet| io_set_text_file.convert_iod_to_raw(snippet) }
+            expect(snippet_as_text_array).to eq(raw_text_array_expected)
+          end
+        end
+        context "end with" do
+          it "raw" do
+            snippets = ios[:output_set][-3..-1]
+            expect(snippets).to be_a(Array(Array(Array(Float64))))
+
+            # raw_text_array_expected = ["xth ", "th d", "h da"]
+            raw_text_array_expected = [" day", "day.", "ay. "]
+
+            snippet_as_text_array = snippets.map { |snippet| io_set_text_file.convert_iod_to_raw(snippet) }
+            expect(snippet_as_text_array).to eq(raw_text_array_expected)
+          end
+        end
+      end
+    end
+  end
 end

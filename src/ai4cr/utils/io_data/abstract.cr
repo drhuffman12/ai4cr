@@ -7,16 +7,18 @@ module Ai4cr
         property file_path : String
         property raw = ""
         property iod = Array(Array(Float64)).new
+        property prefix_raw_qty
+        property prefix_raw_char
 
-        def initialize(@file_path : String, file_content_type : FileType)
+        def initialize(@file_path : String, file_content_type : FileType, @prefix_raw_qty = 0, @prefix_raw_char = " ")
           case file_content_type
           when FileType::Raw
-            @raw = File.read(file_path)
+            @raw = (prefix_raw_char * prefix_raw_qty) + File.read(file_path)
             @iod = convert_raw_to_iod(@raw)
           when FileType::Iod
             contents = File.read(file_path)
             @iod = Array(Array(Float64)).from_json(contents)
-            @raw = convert_iod_to_raw(@iod)
+            @raw = convert_iod_to_raw(@iod)[prefix_raw_qty..-1]
           end
         end
 
@@ -37,7 +39,7 @@ module Ai4cr
         end
 
         ####
-        # Below is for RNN's or other AI algorythms requiring multiple time-column inputs or outputs
+        # Below is for AI algorythms requiring multiple time-column inputs/outputs
 
         def iod_to_io_set_with_offset(offset : Int32)
           io_set_qty = iod.size - offset
@@ -54,33 +56,30 @@ module Ai4cr
           }
         end
 
-        # def iod_to_io_set_with_offset_time_cols(time_cols : Int32, offset : Int32)
-        #   io_set = iod_to_io_set_with_offset(offset)
-        #   time_col_indexes = Array.new(time_cols) { |i| i }
+        def iod_to_io_set_with_offset_time_cols(time_cols : Int32, offset : Int32)
+          io_set = iod_to_io_set_with_offset(offset)
 
-        #   input_i_max = io_set.size - 1
-        #   output_i_max = io_set.size - 1
+          input_i_max = io_set[:inputs].size - 1
+          output_i_max = io_set[:outputs].size - 1
 
-        #   ti_set_qty = io_set[:inputs].size - time_cols + 1
-        #   ti_set_indexes = Array.new(ti_set_qty) { |i| i }
+          raise "io size mismatch" if input_i_max != output_i_max
 
-        #   input_set = ti_set_indexes.map do |si|
-        #     time_col_indexes.map do |ti|
-        #       io_set[:inputs][si..si+ti-1]
-        #     end
-        #   end
+          tc_set_qty = input_i_max - time_cols + 1
+          tc_set_indexes = Array.new(tc_set_qty) { |i| i }
 
-        #   output_set = ti_set_indexes.map do |si|
-        #     time_col_indexes.map do |ti|
-        #       io_set[:outputs][si..si+ti-1]
-        #     end
-        #   end
+          input_set = tc_set_indexes.map do |si|
+            io_set[:inputs][si..si + time_cols - 1]
+          end
 
-        #   {
-        #     input_set: input_set,
-        #     output_set: output_set
-        #   }
-        # end
+          output_set = tc_set_indexes.map do |si|
+            io_set[:outputs][si..si + time_cols - 1]
+          end
+
+          {
+            input_set:  input_set,
+            output_set: output_set,
+          }
+        end
       end
     end
   end
