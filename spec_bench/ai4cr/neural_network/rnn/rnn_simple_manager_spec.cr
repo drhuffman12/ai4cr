@@ -203,8 +203,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_01_read.txt" }
       # let(float_bits_from_file) { Ai4cr::Utils::Rand.text_file_to_fiod(file_path) }
 
-      # let(time_col_qty) { 4 }
-      # let(hidden_layer_qty) { 1 }
+      let(time_col_qty) { 4 }
+      let(hidden_layer_qty) { 1 }
 
       # first_gen_members_scored: 3.171080497616357e+30
       # 386 => ▴▴▴▴▴▴▴▴▴▴ @ 2.9962787852077016e+21
@@ -242,8 +242,15 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       # 556 => ▴▴▴▴▴▴▴▴▴▴ @ 3.2152684043093496e+16
       # 497 => ▴▴▴▴▴▴▴▴▴▴ @ 3.640331798642464e+16
 
-      let(time_col_qty) { 16 }
-      let(hidden_layer_qty) { 4 }
+      # let(time_col_qty) { 16 }
+      # let(hidden_layer_qty) { 4 }
+      # # from ???
+      # # /home/drhuffman/.crenv/versions/0.36.0/share/crystal/src/primitives.cr:255:3 in 'run'
+      # #   from ???
+      # # src/ai4cr/breed/manager.cr:105:17 in 'breed'
+      # #   from src/ai4cr/breed/manager.cr:269:30 in '->'
+      # #   from ???src/ai4cr/breed/manager.cr:105:17 in 'breed'
+      
 
       let(io_offset) { time_col_qty }
 
