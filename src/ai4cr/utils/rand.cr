@@ -25,7 +25,7 @@ module Ai4cr
         d
       end
 
-      def self.rand_scaled_and_offset(scale = SCALE_DEFAULT, offset = OFFSET_DEFAULT)        
+      def self.rand_scaled_and_offset(scale = SCALE_DEFAULT, offset = OFFSET_DEFAULT)
         MY_RAND.rand * scale + offset
       end
 
