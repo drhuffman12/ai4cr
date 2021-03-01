@@ -203,9 +203,49 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_01_read.txt" }
       # let(float_bits_from_file) { Ai4cr::Utils::Rand.text_file_to_fiod(file_path) }
 
+      # let(time_col_qty) { 4 }
+      # let(hidden_layer_qty) { 1 }
+
+      # first_gen_members_scored: 3.171080497616357e+30
+      # 386 => ▴▴▴▴▴▴▴▴▴▴ @ 2.9962787852077016e+21
+      # 382 => ▴▴▴▴▴▴▴▴▴▴ @ 4.321539274778076e+21
+      # 383 => ▴▴▴▴▴▴▴▴▴▴ @ 3.565246009683592e+23
+      # 387 => ▴▴▴▴▴▴▴▴▴▴ @ 3.0336848935362745e+29
+      # 385 => ▴▴▴▴▴▴▴▴▴▴ @ 2.3155511010525606e+25
+      # 384 => ▴▴▴▴▴▴▴▴▴▴ @ 1.6210743292589577e+30
+      # 388 => ▴▴▴▴▴▴▴▴▴▴ @ 2.7318190668835828e+25
+      # 381 => ▴▴▴▴▴▴▴▴▴▴ @ 3.6272299887002884e+26
+      # 389 => ▴▴▴▴▴▴▴▴▴▴ @ 2.9674479095739515e+31
+      # 390 => ▴▴▴▴▴▴▴▴▴▴ @ 1.1146950126849715e+29
+
+      # second_gen_members_scored: 1.5966902119228623e+18
+      # 460 => ▴▴▴▴▴▴▴▴▴▴ @ 1.1408180781164006e+18
+      # 411 => ▴▴▴▴▴▴▴▴▴▴ @ 2.4649604389660698e+17
+      # 430 => ▴▴▴▴▴▴▴▴▴▴ @ 9.667075547466113e+18
+      # 391 => ▴▴▴▴▴▴▴▴▴▴ @ 1.3655909747618217e+18
+      # 480 => ▴▴▴▴▴▴▴▴▴▴ @ 1.996796074020602e+18
+      # 474 => ▴▴▴▴▴▴▴▴▴▴ @ 6.221118834020808e+17
+      # 470 => ▴▴▴▴▴▴▴▴▴▴ @ 2.4499257092119398e+17
+      # 475 => ▴▴▴▴▴▴▴▴▴▴ @ 2.1908468299125427e+17
+      # 468 => ▴▴▴▴▴▴▴▴▴▴ @ 1.8058984589372483e+17
+      # 413 => ▴▴▴▴▴▴▴▴▴▴ @ 2.8334641775882714e+17
+
+      # third_gen_members_scored: 2.171687810154346e+16
+      # 553 => ▴▴▴▴▴▴▴▴▴▴ @ 4.319007968195005e+15
+      # 515 => ▴▴▴▴▴▴▴▴▴▴ @ 4.519837484733632e+15
+      # 523 => ▴▴▴▴▴▴▴▴▴▴ @ 1.622686714868059e+16
+      # 548 => ▴▴▴▴▴▴▴▴▴▴ @ 1.628037498045222e+16
+      # 536 => ▴▴▴▴▴▴▴▴▴▴ @ 1.8847057437670416e+16
+      # 495 => ▴▴▴▴▴▴▴▴▴▴ @ 2.4837082889173624e+16
+      # 518 => ▴▴▴▴▴▴▴▴▴▴ @ 3.1761441879799064e+16
+      # 552 => ▴▴▴▴▴▴▴▴▴▴ @ 3.1821109197211916e+16
+      # 556 => ▴▴▴▴▴▴▴▴▴▴ @ 3.2152684043093496e+16
+      # 497 => ▴▴▴▴▴▴▴▴▴▴ @ 3.640331798642464e+16
+
       let(time_col_qty) { 16 }
-      let(io_offset) { time_col_qty }
       let(hidden_layer_qty) { 4 }
+
+      let(io_offset) { time_col_qty }
 
       let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_01_read.txt" }
       let(file_type_raw) { Ai4cr::Utils::IoData::FileType::Raw }
@@ -249,34 +289,36 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         puts "inputs_sequence.size: #{inputs_sequence.size}"
         puts "inputs_sequence.first.size: #{inputs_sequence.first.size}"
         puts "inputs_sequence.first.first.size: #{inputs_sequence.first.first.size}"
+        puts "inputs_sequence.class: #{inputs_sequence.class}"
+        puts "outputs_sequence.class: #{outputs_sequence.class}"
+        puts "params: #{params}"
 
         second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, first_gen_members, max_members)
-        # third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, second_gen_members, max_members)
+        third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, second_gen_members, max_members)
+        first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+        first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
-        # first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-        # first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+        second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+        second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
-        # second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-        # second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+        third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+        third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
-        # third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-        # third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+        puts
+        puts "#train_team_using_sequence (text from Bible):"
+        puts
+        puts "first_gen_members_scored: #{first_gen_members_scored}"
+        first_gen_members_stats.each { |m| puts m }
 
-        # puts
-        # puts "#train_team_using_sequence (text from Bible):"
-        # puts
-        # puts "first_gen_members_scored: #{first_gen_members_scored}"
-        # first_gen_members_stats.each { |m| puts m }
+        puts
+        puts "second_gen_members_scored: #{second_gen_members_scored}"
+        second_gen_members_stats.each { |m| puts m }
+        expect(second_gen_members_scored).to be < first_gen_members_scored
 
-        # puts
-        # puts "second_gen_members_scored: #{second_gen_members_scored}"
-        # second_gen_members_stats.each { |m| puts m }
-        # expect(second_gen_members_scored).to be < first_gen_members_scored
-
-        # puts
-        # puts "third_gen_members_scored: #{third_gen_members_scored}"
-        # third_gen_members_stats.each { |m| puts m }
-        # expect(third_gen_members_scored).to be < second_gen_members_scored
+        puts
+        puts "third_gen_members_scored: #{third_gen_members_scored}"
+        third_gen_members_stats.each { |m| puts m }
+        expect(third_gen_members_scored).to be < second_gen_members_scored
       end
     end
   end

@@ -6,6 +6,8 @@ module Ai4cr
       EXCLUDES_DEFAULT  = [0.0, 1.0]
       PROXIMITY_DEFAULT = 0.0001
 
+      MY_RAND = Random.new((Time.utc.millisecond/4).to_u64)
+
       # Ai4cr::Utils::Rand.rand_excluding (with defaults), aka: def self.rand_zero_to_one_no_zero
       # -0.0..1.0 but no 0.0 and no 1.0
       def self.rand_excluding(scale = SCALE_DEFAULT, offset = OFFSET_DEFAULT, excludes = EXCLUDES_DEFAULT, proximity = PROXIMITY_DEFAULT)
@@ -23,8 +25,8 @@ module Ai4cr
         d
       end
 
-      def self.rand_scaled_and_offset(scale = SCALE_DEFAULT, offset = OFFSET_DEFAULT)
-        rand * scale + offset
+      def self.rand_scaled_and_offset(scale = SCALE_DEFAULT, offset = OFFSET_DEFAULT)        
+        MY_RAND.rand * scale + offset
       end
 
       # Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero

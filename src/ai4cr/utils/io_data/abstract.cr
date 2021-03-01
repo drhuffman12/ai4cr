@@ -39,6 +39,7 @@ module Ai4cr
         end
 
         def iod_uncertainty(iod_guessed)
+          return 1.0 if iod_guessed.nil? || iod_guessed.empty?
           # NOTE: This is NOT the same as accuracy! It is just a score of how certain the net is about the guess.
           deltas = iod_guessed.flatten.map do |guess|
             if guess.round >= 0.5

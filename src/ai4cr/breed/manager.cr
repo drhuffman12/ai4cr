@@ -80,7 +80,7 @@ module Ai4cr
         # Of course if the solution is not along the line between 'a' and 'b',
         #   then you'll need to diverge from that line.
 
-        vector_a_to_b = error_b - error_a
+        vector_a_to_b = (error_b - error_a)
         # i.e.:
         #   zero = error_a + delta * vector_a_to_b
         #   zero - error_a = delta * vector_a_to_b
@@ -89,7 +89,12 @@ module Ai4cr
         # So, return: - error_a / vector_a_to_b (but avoid div by zero)
 
         # Avoid div by 0 with rand, else better guess:
-        vector_a_to_b == 0.0 ? Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -0.5) : -error_a / vector_a_to_b
+        x = vector_a_to_b == 0.0 ? Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -0.5) : -error_a / vector_a_to_b
+
+        # Protect against extreme numbers
+        return -1000000.0 if x < -1000000.0 || -x == Float64::NAN || -x == Float64::INFINITY
+        return 1000000.0 if x > 1000000.0 || x == Float64::NAN || x == Float64::INFINITY
+        x
       end
 
       def breed(parent_a : T, parent_b : T, delta = 0.5)
