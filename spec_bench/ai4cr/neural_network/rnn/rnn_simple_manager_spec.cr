@@ -206,7 +206,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       let(time_col_qty) { 4 }
       let(hidden_layer_qty) { 1 }
 
-      ## e.g.:
+      # # e.g.:
       # first_gen_members_scored: 3.171080497616357e+30
       # 386 => ▴▴▴▴▴▴▴▴▴▴ @ 2.9962787852077016e+21
       # ...
@@ -222,23 +222,22 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       # ...
       # 497 => ▴▴▴▴▴▴▴▴▴▴ @ 3.640331798642464e+16
 
-      ## e.g.:
+      # # e.g.:
       # first_gen_members_scored: 11272500.728510443
       # 388 => ▴▴▴▴▴▴▴▴▴▴ @ 27159480.43494436
       # ...
       # 390 => ▴▴▴▴▴▴▴▴▴▴ @ 3404231.491292608
-      
+
       # second_gen_members_scored: 1322158.0917929376
       # 452 => ▴▴▴▴▴▴▴▴▴▴ @ 712847.2277136235
       # ...
       # 383 => ▴▴▴▴▴▴▴▴▴▴ @ 7928651.50162725
-      
+
       # third_gen_members_scored: 65458.56929389067
       # 499 => ▴▴▴▴▴▴▴▴▴▴ @ 12777.101255848469
       # ...
       # 559 => ▴▴▴▴▴▴▴▴▴▴ @ 115833.22024213054
 
-      
       # let(time_col_qty) { 16 }
       # let(hidden_layer_qty) { 4 }
       # # from ???
