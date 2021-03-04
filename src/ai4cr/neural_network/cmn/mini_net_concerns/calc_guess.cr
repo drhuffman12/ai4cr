@@ -106,10 +106,7 @@ module Ai4cr
               end
               x = propagation_function.call(sum)
 
-              # Protect against extreme numbers
-              return -1000000.0 if x < -1000000.0 || -x == Float64::NAN || -x == Float64::INFINITY
-              return 1000000.0 if x > 1000000.0 || x == Float64::NAN || x == Float64::INFINITY
-              x
+              Ai4cr::Utils::Value.protect_against_extremes(x)
             end
 
             validate_outputs(@outputs_guessed, @width)
@@ -138,21 +135,31 @@ module Ai4cr
 
           def propagation_function_prelu
             # ->(x : Float64) { x < 0 ? 0.0 : x }
-            ->(x : Float64) {
-              # For sake of limits on Math calculations, we'll max out the x value at 1000.
-              return 0.0 if x < 0.0 || -x == Float64::NAN || -x == Float64::INFINITY
-              return 1000.0 if x > 1000.0 || x == Float64::NAN || x == Float64::INFINITY
-              x
-            }
+            # ->(x : Float64) {
+            #   # For sake of limits on Math calculations, we'll max out the x value at 1000.
+            #   return 0.0 if x < 0.0 || -x == Float64::NAN || -x == Float64::INFINITY
+            #   return 1000.0 if x > 1000.0 || x == Float64::NAN || x == Float64::INFINITY
+            #   x
+            #   Ai4cr::Utils::Value.protect_against_extremes(x)
+            # }
+            ->(x : Float64) do
+              v = x < 0 ? 0.0 : x
+              Ai4cr::Utils::Value.protect_against_extremes(v)
+            end
           end
 
           def propagation_function_relu
             # ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
-            ->(x : Float64) {
-              return 0.0 if x < 0.0 || -x == Float64::NAN || -x == Float64::INFINITY
-              return 1.0 if x > 1.0 || x == Float64::NAN || x == Float64::INFINITY
-              x
-            }
+            # ->(x : Float64) {
+            #   return 0.0 if x < 0.0 || -x == Float64::NAN || -x == Float64::INFINITY
+            #   return 1.0 if x > 1.0 || x == Float64::NAN || x == Float64::INFINITY
+            #   # x
+            #   Ai4cr::Utils::Value.protect_against_extremes(x)
+            # }
+            ->(x : Float64) do
+              v = x < 0 ? 0.0 : [1.0, x].min
+              Ai4cr::Utils::Value.protect_against_extremes(v)
+            end
           end
 
           # guesses

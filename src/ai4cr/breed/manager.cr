@@ -91,10 +91,7 @@ module Ai4cr
         # Avoid div by 0 with rand, else better guess:
         x = vector_a_to_b == 0.0 ? Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -0.5) : -error_a / vector_a_to_b
 
-        # Protect against extreme numbers
-        return -1000000.0 if x < -1000000.0 || -x == Float64::NAN || -x == Float64::INFINITY
-        return 1000000.0 if x > 1000000.0 || x == Float64::NAN || x == Float64::INFINITY
-        x
+        Ai4cr::Utils::Value.protect_against_extremes(x)
       end
 
       def breed(parent_a : T, parent_b : T, delta = 0.5)
@@ -161,7 +158,9 @@ module Ai4cr
 
       def mix_one_part_number(parent_a_part : Number, parent_b_part : Number, delta)
         vector_a_to_b = parent_b_part - parent_a_part
-        parent_a_part + (delta * vector_a_to_b)
+        # vector_a_to_b = Ai4cr::Utils::Value.protect_against_extremes(vector_a_to_b)
+        x = parent_a_part + (delta * vector_a_to_b)
+        Ai4cr::Utils::Value.protect_against_extremes(x)
       end
 
       def mix_one_part_string(parent_a_part : String, parent_b_part : String, delta)
@@ -206,7 +205,7 @@ module Ai4cr
       def train_team(inputs, outputs, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1, and_cross_breed = true)
         team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
-        if and_cross_breed
+        if team_members.size > 1 && and_cross_breed
           team_members = cross_breed(team_members)
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
         else
@@ -224,7 +223,7 @@ module Ai4cr
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
         end
 
-        if and_cross_breed
+        if team_members.size > 1 && and_cross_breed
           team_members = cross_breed(team_members)
 
           inputs_sequence.each_with_index do |inputs, i|

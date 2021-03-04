@@ -1,10 +1,14 @@
 module Ai4cr
   module NeuralNetwork
     module Cmn
+      # alias PositionedWeightAndChange = Hash(Array(Int32), Hash(Symbol, Float64))
+      # alias PositionedWeightAndChange = Hash(Int32, Hash(Int32, Hash(Symbol, Float64)))
+      # alias PositionedWeightAndChangeJ = Int32, Hash(Int32, Hash(Symbol, Float64))
+      # alias PositionedWeightAndChangeJK = Hash(Int32, Hash(Symbol, Float64)
+
       module MiniNetConcerns
         module TrainAndAdjust
           # UNTIL_MIN_AVG_ERROR_DEFAULT = 0.1
-
           property outputs_expected = Array(Float64).new
           property output_deltas = Array(Float64).new
           property last_changes = Array(Array(Float64)).new # aka previous weights
@@ -44,6 +48,24 @@ module Ai4cr
             # # calculate_error_distance_history
             # @error_stats.distance
           end
+
+          # def eval_and_calc_errors(inputs_given, outputs_expected)
+          #   guess = eval(inputs_given)
+          #   output_errors = calculate_error_distance_eval(outputs_expected)
+          #   {guess: guess, output_errors: output_errors}
+          # end
+
+          # def calculate_error_distance_eval(outputs_expected)
+          #   output_errors = step_calc_output_errors_eval(outputs_expected)
+          #   # @error_stats.distance =
+          #   output_errors.map { |e| 0.5 * e ** 2 }.sum
+          # end
+
+          # def step_calc_output_errors_eval(outputs_expected)
+          #   @outputs_guessed.map_with_index do |og, i|
+          #     outputs_expected[i] - og
+          #   end
+          # end
 
           def step_backpropagate
             step_calculate_output_deltas
@@ -103,13 +125,71 @@ module Ai4cr
             # NOTE: This takes into account the specified 'bias' value (where applicable)
             height_indexes.each do |j|
               @weights[j].each_with_index do |_elem, k|
-                change = @output_deltas[k]*@inputs_given[j]
+                v = @output_deltas[k]*@inputs_given[j]
+                change = Ai4cr::Utils::Value.protect_against_extremes(v)
+
                 weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
-                @weights[j][k] += weight_delta
+
+                v = @weights[j][k] + weight_delta
+                @weights[j][k] = Ai4cr::Utils::Value.protect_against_extremes(v)
+
                 @last_changes[j][k] = change
               end
             end
           end
+
+          # TODO: How to parallelize this?
+          #   Maybe split the calc's for change and weight in to separate loops?
+          #   Maybe adjust 'PositionedWeightAndChange' and related aliases?
+          # # Update weights after @deltas have been calculated.
+          # def step_update_weights_v2
+          #   # val = {j: 0, k: 0, weight: 0.0, last_changes}
+          #   # val = {[0,0] => weight: 0.0, last_changes: 0.0}
+          #   # val = Hash(Array(Int32), Hash(Symbol, Float64)).new
+          #   val = PositionedWeightAndChange.new
+          #   channel = Channel(PositionedWeightAndChange).new
+
+          #   # NOTE: This takes into account the specified 'bias' value (where applicable)
+          #   height_indexes.each do |j|
+          #     @weights[j].each_with_index do |_elem, k|
+          #       spawn do
+          #         v = @output_deltas[k]*@inputs_given[j]
+          #         change = Ai4cr::Utils::Value.protect_against_extremes(v)
+
+          #         weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
+          #         v = @weights[j][k] + weight_delta
+          #         weight = Ai4cr::Utils::Value.protect_against_extremes(v)
+
+          #         channel.send({ j => { k => { weight => weight, change => change } } })
+          #       end
+          #     end
+          #   end
+
+          #   val_received = Array(PositionedWeightAndChange).new
+          #   wc = PositionedWeightAndChange.new
+          #   height_indexes.each do |j|
+          #     @weights[j].each_with_index do |_elem, k|
+          #       # mutex needed?
+          #       val_received << channel.receive
+          #       j = val_received.keys.first
+          #       k = val_received[j].keys.first
+
+          #       ## TODO: How to do this in Crystal?:
+          #       # wc[j] ||= {}
+          #       # wc[j][k] ||= {}
+
+          #       wc[j][k] = val_received[j][k]
+          #     end
+          #   end
+
+          #   val_received.each do |vr|
+          #     j = vr.keys.first
+          #     k = vr[j].keys.first
+          #     # wc = vr[j][k]
+          #     @weights[j][k] = vr[j][k][:weight]
+          #     @last_changes[j][k] = vr[j][k][:change]
+          #   end
+          # end
 
           # Per Learning Style:
           def set_deriv_scale_prelu(scale)
