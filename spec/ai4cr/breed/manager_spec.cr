@@ -25,6 +25,10 @@ class MyBreed
   def initialize(@name, @some_value, @history_size = 2)
     @error_stats = Ai4cr::ErrorStats.new(history_size)
   end
+
+  def clone
+    MyBreed.new(self.name, self.some_value, self.history_size)
+  end
 end
 
 class MyBreedManager < Ai4cr::Breed::Manager(MyBreed)

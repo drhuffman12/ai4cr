@@ -106,14 +106,13 @@ module Ai4cr
               # end
               sum = @height_indexes.map do |h|
                 # @inputs_given[h]*@weights[h][w]
-                # x = 
+                # x =
                 @inputs_given[h]*@weights[h][w]
                 # Ai4cr::Utils::Value.protect_against_extremes(x)
               end.sum
-              # x = 
+              # x =
               propagation_function.call(sum)
               # x = propagation_function.call(Ai4cr::Utils::Value.protect_against_extremes(sum))
-
               # Ai4cr::Utils::Value.protect_against_extremes(x)
             end
 
@@ -151,7 +150,7 @@ module Ai4cr
             #   Ai4cr::Utils::Value.protect_against_extremes(x)
             # }
             ->(x : Float64) do
-              # v = 
+              # v =
               x < 0 ? 0.0 : x
               # v # Ai4cr::Utils::Value.protect_against_extremes(v)
             end
