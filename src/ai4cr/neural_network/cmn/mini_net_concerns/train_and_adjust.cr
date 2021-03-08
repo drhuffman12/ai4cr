@@ -131,13 +131,15 @@ module Ai4cr
             # NOTE: This takes into account the specified 'bias' value (where applicable)
             height_indexes.each do |j|
               @weights[j].each_with_index do |_elem, k|
-                v = @output_deltas[k]*@inputs_given[j]
-                change = v # Ai4cr::Utils::Value.protect_against_extremes(v)
+                change = @output_deltas[k]*@inputs_given[j]
+                # v = @output_deltas[k]*@inputs_given[j]
+                # change = v # Ai4cr::Utils::Value.protect_against_extremes(v)
 
                 weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
 
-                v = @weights[j][k] + weight_delta
-                @weights[j][k] = v # Ai4cr::Utils::Value.protect_against_extremes(v)
+                @weights[j][k] += weight_delta
+                # v = @weights[j][k] + weight_delta
+                # @weights[j][k] = v # Ai4cr::Utils::Value.protect_against_extremes(v)
 
                 @last_changes[j][k] = change
               end
@@ -151,15 +153,15 @@ module Ai4cr
             height_indexes.each do |j|
               @weights[j].each_with_index do |_elem, k|
                 spawn do
-                  # change = @output_deltas[k]*@inputs_given[j]
-                  v = @output_deltas[k]*@inputs_given[j]
-                  change = Ai4cr::Utils::Value.protect_against_extremes(v)
+                  change = @output_deltas[k]*@inputs_given[j]
+                  # v = @output_deltas[k]*@inputs_given[j]
+                  # change = Ai4cr::Utils::Value.protect_against_extremes(v)
 
                   weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
 
-                  # @weights[j][k] += weight_delta
-                  v = @weights[j][k] + weight_delta
-                  @weights[j][k] = Ai4cr::Utils::Value.protect_against_extremes(v)
+                  @weights[j][k] += weight_delta
+                  # v = @weights[j][k] + weight_delta
+                  # @weights[j][k] = Ai4cr::Utils::Value.protect_against_extremes(v)
 
                   @last_changes[j][k] = change
                   channel.send(nil)

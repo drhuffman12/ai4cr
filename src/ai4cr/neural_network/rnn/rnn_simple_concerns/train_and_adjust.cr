@@ -127,8 +127,9 @@ module Ai4cr
             oe = mini_net_set[li][ti].output_errors.clone
             # og.map_with_index { |o, i| o + oe[i] }
             og.map_with_index do |o, i|
-              v = o + oe[i]
-              Ai4cr::Utils::Value.protect_against_extremes(v)
+              # v = 
+              o + oe[i]
+              # Ai4cr::Utils::Value.protect_against_extremes(v)
             end
           end
 
@@ -143,8 +144,9 @@ module Ai4cr
 
             mns = mini_net_set[li][ti]
             mns.output_deltas.map_with_index! do |_, i|
-              v = mns.derivative_propagation_function.call(mns.outputs_guessed[i].clone) * mns.output_errors[i].clone
-              Ai4cr::Utils::Value.protect_against_extremes(v)
+              # v = 
+              mns.derivative_propagation_function.call(mns.outputs_guessed[i].clone) * mns.output_errors[i].clone
+              # Ai4cr::Utils::Value.protect_against_extremes(v)
             end
           end
 

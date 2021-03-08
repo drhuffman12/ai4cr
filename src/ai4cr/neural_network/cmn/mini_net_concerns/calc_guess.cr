@@ -106,12 +106,15 @@ module Ai4cr
               # end
               sum = @height_indexes.map do |h|
                 # @inputs_given[h]*@weights[h][w]
-                x = @inputs_given[h]*@weights[h][w]
-                Ai4cr::Utils::Value.protect_against_extremes(x)
+                # x = 
+                @inputs_given[h]*@weights[h][w]
+                # Ai4cr::Utils::Value.protect_against_extremes(x)
               end.sum
-              x = propagation_function.call(Ai4cr::Utils::Value.protect_against_extremes(sum))
+              # x = 
+              propagation_function.call(sum)
+              # x = propagation_function.call(Ai4cr::Utils::Value.protect_against_extremes(sum))
 
-              Ai4cr::Utils::Value.protect_against_extremes(x)
+              # Ai4cr::Utils::Value.protect_against_extremes(x)
             end
 
             validate_outputs(@outputs_guessed, @width)
@@ -148,13 +151,14 @@ module Ai4cr
             #   Ai4cr::Utils::Value.protect_against_extremes(x)
             # }
             ->(x : Float64) do
-              v = x < 0 ? 0.0 : x
-              v # Ai4cr::Utils::Value.protect_against_extremes(v)
+              # v = 
+              x < 0 ? 0.0 : x
+              # v # Ai4cr::Utils::Value.protect_against_extremes(v)
             end
           end
 
           def propagation_function_relu
-            # ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
+            ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
             # ->(x : Float64) {
             #   return 0.0 if x < 0.0 || -x == Float64::NAN || -x == Float64::INFINITY
             #   return 1.0 if x > 1.0 || x == Float64::NAN || x == Float64::INFINITY
@@ -165,7 +169,7 @@ module Ai4cr
             #   v = x < 0 ? 0.0 : [1.0, x].min
             #   Ai4cr::Utils::Value.protect_against_extremes(v)
             # end
-            ->(x : Float64) { x < 0.0 ? 0.0 : [1.0, Ai4cr::Utils::Value.protect_against_extremes(x)].min }
+            # ->(x : Float64) { x < 0.0 ? 0.0 : [1.0, Ai4cr::Utils::Value.protect_against_extremes(x)].min }
           end
 
           # guesses

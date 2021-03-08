@@ -17,6 +17,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     puts "successive generations score better (?) .. max_members: #{max_members} .. start"
     when_before = Time.utc
     puts "when_before: #{when_before}"
+    puts "file_path: #{file_path}"
     puts
 
     params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new(
