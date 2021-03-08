@@ -168,7 +168,7 @@ module Ai4cr
             end
 
             height_indexes.each do |j|
-              @weights[j].each_with_index do |_elem, k|
+              @weights[j].each do
                 channel.receive
               end
             end

@@ -1,7 +1,7 @@
 module Ai4cr
   module Utils
     class Value
-      LEVEL_MAX = Float64::MAX ** 0.5 # 100_000.0 # 1_000_000_000_000_000.0
+      LEVEL_MAX = Float64::MAX ** 0.5     # 100_000.0 # 1_000_000_000_000_000.0
       LEVEL_MIN = Float64::EPSILON ** 0.5 # 0.000_001 # 0.000_000_000_000_000_1
 
       # ameba:disable Metrics/CyclomaticComplexity

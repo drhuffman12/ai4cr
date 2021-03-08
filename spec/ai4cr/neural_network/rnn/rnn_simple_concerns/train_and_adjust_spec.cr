@@ -69,7 +69,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust 
   let(expected_outputs_guessed_2nd) {
     # NOTE: The guessed value is closer to 'output_set_expected' than 'expected_outputs_guessed'!
     [[0.1748345741196996], [0.10429156621331176]]
-    # [[0.17539882505617801], [0.10447289097724256]]
+  # [[0.17539882505617801], [0.10447289097724256]]
   }
   let(expected_outputs_guessed_3rd) {
     # NOTE: The guessed value is closer to 'output_set_expected' than 'expected_outputs_guessed'!
