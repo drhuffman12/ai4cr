@@ -157,9 +157,9 @@ module Ai4cr
                   # v = @output_deltas[k]*@inputs_given[j]
                   # change = Ai4cr::Utils::Value.protect_against_extremes(v)
 
-                  weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
+                  # weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
 
-                  @weights[j][k] += weight_delta
+                  @weights[j][k] += (@learning_rate * change + @momentum * @last_changes[j][k])
                   # v = @weights[j][k] + weight_delta
                   # @weights[j][k] = Ai4cr::Utils::Value.protect_against_extremes(v)
 

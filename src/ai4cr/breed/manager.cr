@@ -89,10 +89,8 @@ module Ai4cr
         # So, return: - error_a / vector_a_to_b (but avoid div by zero)
 
         # Avoid div by 0 with rand, else better guess:
-        # x =
-        vector_a_to_b == 0.0 ? Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -0.5) : -error_a / vector_a_to_b
-
         # Ai4cr::Utils::Value.protect_against_extremes(x)
+        vector_a_to_b == 0.0 ? Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -0.5) : -error_a / vector_a_to_b
       end
 
       def breed(parent_a : T, parent_b : T, delta = 0.5)
@@ -161,9 +159,8 @@ module Ai4cr
       def mix_one_part_number(parent_a_part : Number, parent_b_part : Number, delta)
         vector_a_to_b = parent_b_part - parent_a_part
         # vector_a_to_b = Ai4cr::Utils::Value.protect_against_extremes(vector_a_to_b)
-        # x =
-        parent_a_part + (delta * vector_a_to_b)
         # Ai4cr::Utils::Value.protect_against_extremes(x)
+        parent_a_part + (delta * vector_a_to_b)
       end
 
       def mix_one_part_string(parent_a_part : String, parent_b_part : String, delta)
