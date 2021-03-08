@@ -48,6 +48,36 @@ module Ai4cr
             name: name,
           }
         end
+
+        def clone
+          a_clone = MiniNet.new(
+            height: self.height, width: self.width,
+            learning_style: self.learning_style,
+
+            deriv_scale: self.deriv_scale,
+
+            bias_disabled: self.bias_disabled, bias_default: self.bias_default,
+
+            learning_rate: self.learning_rate, momentum: self.momentum,
+            history_size: self.history_size,
+
+            name: self.name
+          )
+
+          # calc_guess
+          a_clone.weights = self.weights.clone
+          a_clone.inputs_given = self.inputs_given.clone
+          a_clone.outputs_guessed = self.outputs_guessed.clone
+
+          # train_and_adjust
+          a_clone.outputs_expected = self.outputs_expected.clone
+          a_clone.output_deltas = self.output_deltas.clone
+          a_clone.last_changes = self.last_changes.clone
+          a_clone.output_errors = self.output_errors.clone
+          a_clone.input_deltas = self.input_deltas.clone
+
+          a_clone
+        end
       end
     end
   end

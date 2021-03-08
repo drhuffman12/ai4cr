@@ -12,6 +12,10 @@ module Ai4cr
       def history_size
         error_stats.history_size
       end
+
+      def clone
+        raise "TO BE IMPLEMENTED"
+      end
     end
   end
 end

@@ -100,11 +100,16 @@ module Ai4cr
             validate_outputs(@outputs_guessed, @width_indexes.size)
 
             @outputs_guessed = @width_indexes.map do |w|
-              sum = 0.0
-              @height_indexes.each do |h|
-                sum += @inputs_given[h]*@weights[h][w]
-              end
-              x = propagation_function.call(sum)
+              # sum = 0.0
+              # @height_indexes.each do |h|
+              #   sum += @inputs_given[h]*@weights[h][w]
+              # end
+              sum = @height_indexes.map do |h|
+                # @inputs_given[h]*@weights[h][w]
+                x = @inputs_given[h]*@weights[h][w]
+                Ai4cr::Utils::Value.protect_against_extremes(x)
+              end.sum
+              x = propagation_function.call(Ai4cr::Utils::Value.protect_against_extremes(sum))
 
               Ai4cr::Utils::Value.protect_against_extremes(x)
             end
@@ -144,7 +149,7 @@ module Ai4cr
             # }
             ->(x : Float64) do
               v = x < 0 ? 0.0 : x
-              Ai4cr::Utils::Value.protect_against_extremes(v)
+              v # Ai4cr::Utils::Value.protect_against_extremes(v)
             end
           end
 
@@ -156,10 +161,11 @@ module Ai4cr
             #   # x
             #   Ai4cr::Utils::Value.protect_against_extremes(x)
             # }
-            ->(x : Float64) do
-              v = x < 0 ? 0.0 : [1.0, x].min
-              Ai4cr::Utils::Value.protect_against_extremes(v)
-            end
+            # ->(x : Float64) do
+            #   v = x < 0 ? 0.0 : [1.0, x].min
+            #   Ai4cr::Utils::Value.protect_against_extremes(v)
+            # end
+            ->(x : Float64) { x < 0.0 ? 0.0 : [1.0, Ai4cr::Utils::Value.protect_against_extremes(x)].min }
           end
 
           # guesses

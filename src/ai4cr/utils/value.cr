@@ -1,11 +1,12 @@
 module Ai4cr
   module Utils
     class Value
-      LEVER_MAX = 1_000_000_000_000.0
-      LEVEL_MIN = 0.000_000_000_000_1
+      LEVEL_MAX = Float64::MAX ** 0.5 # 100_000.0 # 1_000_000_000_000_000.0
+      LEVEL_MIN = Float64::EPSILON ** 0.5 # 0.000_001 # 0.000_000_000_000_000_1
 
       # ameba:disable Metrics/CyclomaticComplexity
       def self.protect_against_extremes(x)
+        # return x
         # How to avoid errors like:
         #   Unhandled exception in spawn: NaN not allowed in JSON (JSON::Error)
         #   from src/ai4cr/neural_network/cmn/mini_net_manager.cr:13:17 in 'copy_and_mix'
@@ -18,12 +19,18 @@ module Ai4cr
 
         # For any extreme reached, we might want to trigger some sort of 'pain':
         # TODO: What would represent 'pain' and how would we 'trigger' it?
-        return -LEVER_MAX if x < -LEVER_MAX || -x == Float64::INFINITY
-        return LEVER_MAX if x > LEVER_MAX || x == Float64::INFINITY
+        return -LEVEL_MAX if -x == Float64::INFINITY || -x == Float64::NAN || x < -LEVEL_MAX
+        return LEVEL_MAX if x == Float64::INFINITY || x == Float64::NAN || x > LEVEL_MAX
 
         # Although NAN isn't necessarilly an infinitely small number, we'll treat it as if it is.
-        return -LEVEL_MIN if (x < -LEVEL_MIN && x <= 0.0) || -x == Float64::NAN
-        return LEVEL_MIN if (x > LEVEL_MIN && x >= 0.0) || x == Float64::NAN
+        # return -LEVEL_MIN if (x < -LEVEL_MIN && x <= 0.0) || -x == Float64::NAN
+        # return LEVEL_MIN if (x > LEVEL_MIN && x >= 0.0) || x == Float64::NAN
+
+        return -LEVEL_MIN if (x < -LEVEL_MIN && x <= 0.0)
+        return LEVEL_MIN if (x >= 0.0 && x < LEVEL_MIN)
+
+        # return -LEVEL_MIN if -x == Float64::NAN
+        # return LEVEL_MIN if x == Float64::NAN
 
         # For no extreme reached, do not trigger any sort of 'pain':
         x

@@ -292,14 +292,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     context "when using a text file as io data" do
       # let(float_bits_from_file) { Ai4cr::Utils::Rand.text_file_to_fiod(file_path) }
 
-      # let(time_col_qty) { 4 }
-      # let(hidden_layer_qty) { 1 }
+      let(time_col_qty) { 4 }
+      let(hidden_layer_qty) { 1 }
 
       # let(time_col_qty) { 8 }
       # let(hidden_layer_qty) { 2 }
 
-      let(time_col_qty) { 8 }
-      let(hidden_layer_qty) { 4 }
+      # let(time_col_qty) { 8 }
+      # let(hidden_layer_qty) { 4 }
 
       # let(time_col_qty) { 16 }
       # let(hidden_layer_qty) { 4 }
@@ -353,138 +353,215 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
             end
           end
 
-          context "2" do
-            let(max_members) { 2 }
+          # context "2" do
+          #   let(max_members) { 2 }
 
-            it "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
+          #   it "successive generations score better (i.e.: lower errors)" do
+          #     compare_successive_training_rounds(
+          #       io_offset, time_col_qty,
+          #       inputs_sequence, outputs_sequence,
+          #       hidden_layer_qty, qty_new_members,
+          #       my_breed_manager, max_members
+          #     )
+          #   end
+          # end
 
-          context "4" do
-            let(max_members) { 4 }
+          # context "4" do
+          #   let(max_members) { 4 }
 
-            it "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
+          #   it "successive generations score better (i.e.: lower errors)" do
+          #     compare_successive_training_rounds(
+          #       io_offset, time_col_qty,
+          #       inputs_sequence, outputs_sequence,
+          #       hidden_layer_qty, qty_new_members,
+          #       my_breed_manager, max_members
+          #     )
+          #   end
+          # end
 
-          context "8" do
-            let(max_members) { 8 }
+          # context "8" do
+          #   let(max_members) { 8 }
 
-            pending "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
+          #   pending "successive generations score better (i.e.: lower errors)" do
+          #     compare_successive_training_rounds(
+          #       io_offset, time_col_qty,
+          #       inputs_sequence, outputs_sequence,
+          #       hidden_layer_qty, qty_new_members,
+          #       my_breed_manager, max_members
+          #     )
+          #   end
+          # end
 
-          context "16" do
-            let(max_members) { 16 }
+          # context "16" do
+          #   let(max_members) { 16 }
 
-            # TODO: How many team members shall/can we try?
-            #   Currently, we're getting:
-            #     mmap(PROT_NONE) failed
-            #     Program received and didn't handle signal IOT (6)
-            pending "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
+          #   # TODO: How many team members shall/can we try?
+          #   #   Currently, we're getting:
+          #   #     mmap(PROT_NONE) failed
+          #   #     Program received and didn't handle signal IOT (6)
+          #   pending "successive generations score better (i.e.: lower errors)" do
+          #     compare_successive_training_rounds(
+          #       io_offset, time_col_qty,
+          #       inputs_sequence, outputs_sequence,
+          #       hidden_layer_qty, qty_new_members,
+          #       my_breed_manager, max_members
+          #     )
+          #   end
+          # end
         end
       end
 
-      context "when the text file is small (about 193kB)" do
-        let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN.txt" }
+      # context "when the text file is tiny (about 8kB)" do
+      #   let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_chap1-2.txt" }
 
-        context "with a RNN team of size" do
-          let(qty_new_members) { max_members }
+      #   context "with a RNN team of size" do
+      #     let(qty_new_members) { max_members }
 
-          context "1" do
-            let(max_members) { 1 }
+      #     context "1" do
+      #       let(max_members) { 1 }
 
-            it "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
+      #       it "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
 
-          context "2" do
-            let(max_members) { 2 }
+      #     context "2" do
+      #       let(max_members) { 2 }
 
-            it "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
+      #       it "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
 
-          context "4" do
-            let(max_members) { 4 }
+      #     context "4" do
+      #       let(max_members) { 4 }
 
-            it "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
+      #       it "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
 
-          context "8" do
-            let(max_members) { 8 }
+      #     context "8" do
+      #       let(max_members) { 8 }
 
-            pending "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
+      #       pending "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
 
-          context "16" do
-            let(max_members) { 16 }
+      #     context "16" do
+      #       let(max_members) { 16 }
 
-            # TODO: How many team members shall/can we try?
-            #   Currently, we're getting: (TBD)
-            pending "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
-        end
-      end
+      #       # TODO: How many team members shall/can we try?
+      #       #   Currently, we're getting:
+      #       #     mmap(PROT_NONE) failed
+      #       #     Program received and didn't handle signal IOT (6)
+      #       pending "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+      #   end
+      # end
+
+      # context "when the text file is small (about 193kB)" do
+      #   let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN.txt" }
+
+      #   context "with a RNN team of size" do
+      #     let(qty_new_members) { max_members }
+
+      #     context "1" do
+      #       let(max_members) { 1 }
+
+      #       it "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+
+      #     context "2" do
+      #       let(max_members) { 2 }
+
+      #       it "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+
+      #     context "4" do
+      #       let(max_members) { 4 }
+
+      #       it "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+
+      #     context "8" do
+      #       let(max_members) { 8 }
+
+      #       pending "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+
+      #     context "16" do
+      #       let(max_members) { 16 }
+
+      #       # TODO: How many team members shall/can we try?
+      #       #   Currently, we're getting: (TBD)
+      #       pending "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+      #   end
+      # end
     end
   end
 end

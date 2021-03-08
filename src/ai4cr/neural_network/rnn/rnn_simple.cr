@@ -18,6 +18,45 @@ module Ai4cr
         include RnnSimpleConcerns::TrainAndAdjust
         include RnnSimpleConcerns::RollUps
         include RnnSimpleConcerns::DataUtils
+
+        def clone
+          a_clone = RnnSimple.new(
+            name: self.name.clone,
+
+            history_size: self.history_size.clone,
+
+            io_offset:         self.io_offset.clone,
+            time_col_qty:      self.time_col_qty.clone,
+            input_size:        self.input_size.clone,
+            output_size:       self.output_size.clone,
+            hidden_layer_qty:  self.hidden_layer_qty.clone,
+            hidden_size_given: self.hidden_size_given.clone,
+
+            learning_style: self.learning_style.clone,
+
+            bias_disabled: self.bias_disabled.clone,
+            bias_default: self.bias_default.clone,
+
+            learning_rate: self.learning_rate.clone,
+            momentum:      self.momentum.clone,
+            deriv_scale:   self.deriv_scale.clone,
+          )
+
+          # calc_guess
+          # a_clone.weights = self.weights.clone
+          # a_clone.input_set_given = self.input_set_given.clone
+          # a_clone.outputs_guessed = self.outputs_guessed.clone
+          a_clone.mini_net_set = self.mini_net_set.clone
+
+          # train_and_adjust
+          # a_clone.output_set_expected = self.output_set_expected.clone
+          # a_clone.all_output_errors = self.all_output_errors.clone
+          # a_clone.last_changes = self.last_changes.clone
+          # a_clone.output_errors = self.output_errors.clone
+          # a_clone.input_deltas = self.input_deltas.clone
+
+          a_clone
+        end
       end
     end
   end

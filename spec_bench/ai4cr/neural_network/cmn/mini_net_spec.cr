@@ -1,3 +1,4 @@
+# require "../../../spec_bench_helper"
 require "../../../spec_bench_helper"
 require "../../../support/neural_network/data/*"
 

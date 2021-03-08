@@ -135,7 +135,8 @@ module Ai4cr
       def parts_to_copy(parent_a : T, parent_b : T, delta)
         # By default, we just copy everything from parent_a.
         # Since `self.clone` is erroring, we'll use from/to_json methods.
-        T.from_json(parent_a.to_json)
+        # T.from_json(parent_a.to_json)
+        parent_a.clone
       end
 
       # abstract
