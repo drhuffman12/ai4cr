@@ -228,15 +228,22 @@ module Ai4cr
 
           inputs_sequence.each_with_index do |inputs, i|
             outputs = outputs_sequence[i]
+
+            puts "  inputs_sequence i: #{i} of #{inputs_sequence.size}" # TODO: Remove before merging
+
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
           end
         else
-          (1..team_members.size).each do
+          # (1..team_members.size).each do |k|
             inputs_sequence.each_with_index do |inputs, i|
               outputs = outputs_sequence[i]
+
+              # puts "  k: #{k}"
+              puts "  inputs_sequence i: #{i} of #{inputs_sequence.size}" # TODO: Remove before merging
+  
               team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
             end
-          end
+          # end
         end
 
         (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
@@ -244,13 +251,22 @@ module Ai4cr
 
       def train_team_in_parallel(inputs, outputs, team_members, train_qty)
         channel = Channel(T).new
-        team_members.each do |member|
-          spawn do
-            train_qty == 1 ? member.train(inputs, outputs) : train_qty.times { member.train(inputs, outputs) }
-            channel.send(member)
+        if team_members.size > 1
+          team_members.each_with_index do |member, j|
+            spawn do
+              puts "    j: #{j}; member.birth_id: #{member.birth_id}; train_qty: #{train_qty}" # TODO: Remove before merging
+  
+              train_qty == 1 ? member.train(inputs, outputs) : train_qty.times { member.train(inputs, outputs) }
+              channel.send(member)
+            end
           end
+          (1..team_members.size).map { channel.receive }
+        else
+          member = team_members.first
+          puts "    only one:: member.birth_id: #{member.birth_id}; train_qty: #{train_qty}" # TODO: Remove before merging
+
+          train_qty == 1 ? member.train(inputs, outputs) : train_qty.times { member.train(inputs, outputs) }
         end
-        (1..team_members.size).map { channel.receive }
       end
 
       def cross_breed(team_members : Array(T))
