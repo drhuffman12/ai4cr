@@ -110,39 +110,38 @@ module Ai4cr
             validate_outputs(@outputs_guessed, @width_indexes.size)
           end
 
+          # ameba:disable Metrics/CyclomaticComplexity
           def propagation_function
             # TODO: Make this JSON-loadable and customizable
             case @learning_style
             when LS_PRELU
               # LearningStyle::Prelu
-              ->(x : Float64) { x < 0 ? 0.0 : x }
+              # ->(x : Float64) { x < 0 ? 0.0 : x }
+              ->(x : Float64) do
+                return 0.0 if x.nan?
+                x < 0 ? 0.0 : x
+              end
             when LS_RELU
               # LearningStyle::Rel
               # ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
               ->(x : Float64) do
                 # TODO: Get some review/verification that the below NAN/INFINITY handling for Relu is correct.
                 # TODO: Apply(?) similarly to other prop func cases.
-                case
-                when x.nan?
-                  0.0
-                  # when x == Float64::INFINITY
-                  #   1.0
-                  # when -x == Float64::INFINITY
-                  #   0.0
-                else
-                  x < 0 ? 0.0 : [1.0, x].min
-                end
+                return 0.0 if x.nan?
+                x < 0 ? 0.0 : [1.0, x].min
               end
             when LS_SIGMOID
               # LearningStyle::Sigmoid
-              ->(x : Float64) { 1/(1 + Math.exp(-1*(x))) }
+              ->(x : Float64) { x.nan? ? 0.5 : 1/(1 + Math.exp(-1*(x))) }
             when LS_TANH
               # LearningStyle::Tanh
-              ->(x : Float64) { Math.tanh(x) }
+              ->(x : Float64) { x.nan? ? 0.0 : Math.tanh(x) }
             else
               raise "Unsupported LearningStyle"
             end
           end
+
+          # ameba:enable Metrics/CyclomaticComplexity
 
           # guesses
           def guesses_best
