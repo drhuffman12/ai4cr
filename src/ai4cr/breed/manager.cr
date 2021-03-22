@@ -207,7 +207,7 @@ module Ai4cr
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
         else
           # (1..team_members.size).each do
-            team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+          team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
           # end
         end
 
@@ -217,7 +217,7 @@ module Ai4cr
       def train_team_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1, and_cross_breed = true)
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
-              
+
           puts "  inputs_sequence (a) i: #{i} of #{inputs_sequence.size}" if i % 100 == 0 # TODO: Remove before merging
 
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
@@ -232,13 +232,13 @@ module Ai4cr
           end
         else
           # (1..team_members.size).each do
-            inputs_sequence.each_with_index do |inputs, i|
-              outputs = outputs_sequence[i]
-              
-              puts "  inputs_sequence (b) i: #{i} of #{inputs_sequence.size}" if i % 100 == 0 # TODO: Remove before merging
+          inputs_sequence.each_with_index do |inputs, i|
+            outputs = outputs_sequence[i]
 
-              team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
-            end
+            puts "  inputs_sequence (b) i: #{i} of #{inputs_sequence.size}" if i % 100 == 0 # TODO: Remove before merging
+
+            team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+          end
           # end
         end
 
@@ -266,7 +266,7 @@ module Ai4cr
 
       def cross_breed(team_members : Array(T))
         raise "Can't cross-breed when less than 2 team member" if team_members.size < 2
-        
+
         channel = Channel(T).new
 
         team_members.each_with_index do |member_i, i|

@@ -46,9 +46,9 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, first_gen_members, max_members)
     puts "  * third_gen_members ..."
     third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, second_gen_members, max_members)
-    
+
     puts "* score and stats ..."
-    puts "  * first_gen_members ..." 
+    puts "  * first_gen_members ..."
     first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
     first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
