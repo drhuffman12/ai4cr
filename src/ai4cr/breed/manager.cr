@@ -228,6 +228,9 @@ module Ai4cr
 
           inputs_sequence.each_with_index do |inputs, i|
             outputs = outputs_sequence[i]
+
+            puts "  inputs_sequence (b) i: #{i} of #{inputs_sequence.size}" if i % 1000 == 0 # TODO: Remove before merging
+
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
           end
         else
@@ -235,7 +238,7 @@ module Ai4cr
           inputs_sequence.each_with_index do |inputs, i|
             outputs = outputs_sequence[i]
 
-            puts "  inputs_sequence (b) i: #{i} of #{inputs_sequence.size}" if i % 1000 == 0 # TODO: Remove before merging
+            puts "  inputs_sequence (c) i: #{i} of #{inputs_sequence.size}" if i % 1000 == 0 # TODO: Remove before merging
 
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
           end
