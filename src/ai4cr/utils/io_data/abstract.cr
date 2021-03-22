@@ -38,6 +38,23 @@ module Ai4cr
           File.write(to_file_path, iod.to_json)
         end
 
+        def iod_uncertainty(iod_guessed)
+          return 1.0 if iod_guessed.nil? || iod_guessed.empty?
+          # NOTE: This is NOT the same as accuracy! It is just a score of how certain the net is about the guess.
+          deltas = iod_guessed.flatten.map do |guess|
+            if guess.round >= 0.5
+              1.0 - guess
+            else
+              -guess
+            end
+          end
+          deltas.map { |d| d.abs }.sum / deltas.size
+        end
+
+        def iod_certainty(iod_guessed)
+          1.0 - iod_uncertainty(iod_guessed)
+        end
+
         ####
         # Below is for AI algorythms requiring multiple time-column inputs/outputs
 

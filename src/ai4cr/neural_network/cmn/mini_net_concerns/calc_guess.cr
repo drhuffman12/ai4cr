@@ -100,10 +100,9 @@ module Ai4cr
             validate_outputs(@outputs_guessed, @width_indexes.size)
 
             @outputs_guessed = @width_indexes.map do |w|
-              sum = 0.0
-              @height_indexes.each do |h|
-                sum += @inputs_given[h]*@weights[h][w]
-              end
+              sum = @height_indexes.map do |h|
+                @inputs_given[h]*@weights[h][w]
+              end.sum
               propagation_function.call(sum)
             end
 

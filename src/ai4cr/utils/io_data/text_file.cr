@@ -18,7 +18,19 @@ module Ai4cr
         end
 
         def bits_to_char(bits)
-          bytes = BIT_32_INDEXES.map { |i| bits[i] * (2.0**i) }.sum.to_i
+          # When converting back to a character, any 'fuzzy' bits must be forced to 0.0 or 1.0.
+          bytes = BIT_32_INDEXES.map do |i|
+            bit = bits[i]
+            bit = if bit <= 0.0
+                    0.0
+                  elsif bit >= 1.0
+                    1.0
+                  else
+                    bit.round
+                  end
+
+            bit * (2.0**i)
+          end.sum.to_i
           bytes.chr.to_s
         end
 

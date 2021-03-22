@@ -133,7 +133,8 @@ module Ai4cr
       def parts_to_copy(parent_a : T, parent_b : T, delta)
         # By default, we just copy everything from parent_a.
         # Since `self.clone` is erroring, we'll use from/to_json methods.
-        T.from_json(parent_a.to_json)
+        # T.from_json(parent_a.to_json)
+        parent_a.clone
       end
 
       # abstract
@@ -201,13 +202,13 @@ module Ai4cr
       def train_team(inputs, outputs, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1, and_cross_breed = true)
         team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
-        if and_cross_breed
+        if team_members.size > 1 && and_cross_breed
           team_members = cross_breed(team_members)
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
         else
-          (1..team_members.size).each do
+          # (1..team_members.size).each do
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
-          end
+          # end
         end
 
         (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
@@ -216,10 +217,13 @@ module Ai4cr
       def train_team_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1, and_cross_breed = true)
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
+              
+          puts "  inputs_sequence (a) i: #{i} of #{inputs_sequence.size}" if i % 100 == 0 # TODO: Remove before merging
+
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
         end
 
-        if and_cross_breed
+        if team_members.size > 1 && and_cross_breed
           team_members = cross_breed(team_members)
 
           inputs_sequence.each_with_index do |inputs, i|
@@ -227,29 +231,42 @@ module Ai4cr
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
           end
         else
-          (1..team_members.size).each do
+          # (1..team_members.size).each do
             inputs_sequence.each_with_index do |inputs, i|
               outputs = outputs_sequence[i]
+              
+              puts "  inputs_sequence (b) i: #{i} of #{inputs_sequence.size}" if i % 100 == 0 # TODO: Remove before merging
+
               team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
             end
-          end
+          # end
         end
 
         (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
       end
 
       def train_team_in_parallel(inputs, outputs, team_members, train_qty)
-        channel = Channel(T).new
-        team_members.each do |member|
-          spawn do
-            train_qty == 1 ? member.train(inputs, outputs) : train_qty.times { member.train(inputs, outputs) }
-            channel.send(member)
+        if team_members.size > 1
+          channel = Channel(T).new
+          team_members.each do |member|
+            spawn do
+              train_qty == 1 ? member.train(inputs, outputs) : train_qty.times { member.train(inputs, outputs) }
+              channel.send(member)
+            end
           end
+          (1..team_members.size).map { channel.receive }
+        elsif team_members.size == 1
+          member = team_members.first
+          train_qty == 1 ? member.train(inputs, outputs) : train_qty.times { member.train(inputs, outputs) }
+          team_members
+        else
+          raise "No team members!"
         end
-        (1..team_members.size).map { channel.receive }
       end
 
       def cross_breed(team_members : Array(T))
+        raise "Can't cross-breed when less than 2 team member" if team_members.size < 2
+        
         channel = Channel(T).new
 
         team_members.each_with_index do |member_i, i|

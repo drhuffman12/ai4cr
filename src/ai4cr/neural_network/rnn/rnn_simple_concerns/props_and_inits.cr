@@ -18,7 +18,6 @@ module Ai4cr
 
           def config
             {
-
               name: name,
 
               history_size: history_size,

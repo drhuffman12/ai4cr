@@ -101,12 +101,40 @@ module Ai4cr
           # Update weights after @deltas have been calculated.
           def step_update_weights
             # NOTE: This takes into account the specified 'bias' value (where applicable)
+            # step_update_weights_v1
+            step_update_weights_v2
+          end
+
+          # Update weights after @deltas have been calculated.
+          def step_update_weights_v1
             height_indexes.each do |j|
               @weights[j].each_with_index do |_elem, k|
                 change = @output_deltas[k]*@inputs_given[j]
                 weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
                 @weights[j][k] += weight_delta
                 @last_changes[j][k] = change
+              end
+            end
+          end
+
+          # Update weights after @deltas have been calculated.
+          def step_update_weights_v2
+            channel = Channel(Nil).new
+
+            height_indexes.each do |j|
+              @weights[j].each_with_index do |_elem, k|
+                spawn do
+                  change = @output_deltas[k]*@inputs_given[j]
+                  @weights[j][k] += (@learning_rate * change + @momentum * @last_changes[j][k])
+                  @last_changes[j][k] = change
+                  channel.send(nil)
+                end
+              end
+            end
+
+            height_indexes.each do |j|
+              @weights[j].each do
+                channel.receive
               end
             end
           end
