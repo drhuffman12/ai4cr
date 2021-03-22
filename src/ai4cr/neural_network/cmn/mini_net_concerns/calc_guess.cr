@@ -125,10 +125,10 @@ module Ai4cr
                 case
                 when x.nan?
                   0.0
-                # when x == Float64::INFINITY
-                #   1.0
-                # when -x == Float64::INFINITY
-                #   0.0
+                  # when x == Float64::INFINITY
+                  #   1.0
+                  # when -x == Float64::INFINITY
+                  #   0.0
                 else
                   x < 0 ? 0.0 : [1.0, x].min
                 end
