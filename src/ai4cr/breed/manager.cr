@@ -277,15 +277,15 @@ module Ai4cr
             spawn do
               contestant = if i == j
                              # Don't bother breeding a member with itself
-                             member_i.tap{|c|c.name = "#{c.name+" S"}"} # same
+                             member_i.tap { |c| c.name = "#{c.name + " S"}" } # same
                            elsif i < j
                              # Try to guess a delta that is closer to a zero error
                              delta = estimate_better_delta(member_i, member_j)
-                             breed(member_i, member_j, delta).tap{|c|c.name = "#{c.name+" z"}"} # target zero delta
+                             breed(member_i, member_j, delta).tap { |c| c.name = "#{c.name + " z"}" } # target zero delta
                            else
                              # Just take a chance with a random delta
                              delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -0.5)
-                             breed(member_i, member_j, delta).tap{|c|c.name = "#{c.name+" r"}"} # random delta
+                             breed(member_i, member_j, delta).tap { |c| c.name = "#{c.name + " r"}" } # random delta
                            end
 
               channel.send contestant
