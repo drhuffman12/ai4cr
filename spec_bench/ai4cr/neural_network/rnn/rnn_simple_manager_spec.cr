@@ -51,17 +51,17 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     # puts "  * first_gen_members ..."
     p "."
     first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-    first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+    first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} #{member.name} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
     # puts "  * second_gen_members ..."
     p "."
     second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-    second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+    second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} #{member.name} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
     # puts "  * third_gen_members ..."
     p "."
     third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-    third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+    third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} #{member.name} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
     puts
     puts "#train_team_using_sequence (text from Bible):"
@@ -72,12 +72,10 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     puts
     puts "second_gen_members_scored: #{second_gen_members_scored}"
     second_gen_members_stats.each { |m| puts m }
-    expect(second_gen_members_scored).to be < first_gen_members_scored
 
     puts
     puts "third_gen_members_scored: #{third_gen_members_scored}"
     third_gen_members_stats.each { |m| puts m }
-    expect(third_gen_members_scored).to be < second_gen_members_scored
 
     when_after = Time.utc
     puts "when_after: #{when_after}"
@@ -88,6 +86,10 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     puts "successive generations score better (?) .. max_members: #{max_members} .. end"
     puts "-"*40
     puts
+
+    expect(second_gen_members_scored).to be < first_gen_members_scored
+    expect(third_gen_members_scored).to be < second_gen_members_scored
+
     # end
     # rescue e
     #   # puts "e:"
