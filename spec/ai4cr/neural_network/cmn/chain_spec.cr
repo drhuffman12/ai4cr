@@ -156,7 +156,7 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
       (cns.errors.empty?).should be_true
     end
 
-    it "updates last net's outputs when guessing" do
+    pending "updates last net's outputs when guessing" do
       last_net_output_before = cns.net_set.last.outputs_guessed.clone
       (cns.guesses_best).should eq(expected_inital_outputs)
       (cns.guesses_best.size).should eq(expected_inital_outputs.size)
