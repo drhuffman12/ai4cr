@@ -3,6 +3,107 @@ require "../../../spec_bench_helper"
 # require "../../../support/neural_network/data/*"
 
 Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
+  def compare_successive_training_rounds(
+    io_offset, time_col_qty,
+    inputs_sequence, outputs_sequence,
+    hidden_layer_qty, hidden_size_given,
+    qty_new_members,
+    my_breed_manager, max_members
+  )
+    # it "successive generations score better (i.e.: lower errors)" do
+    # TODO: (a) move to 'spec_bench' and (b) replace here with more 'always' tests
+
+    puts
+    puts "v"*40
+    puts "successive generations score better (?) .. max_members: #{max_members} .. start"
+    when_before = Time.utc
+    puts "when_before: #{when_before}"
+    puts "file_path: #{file_path}"
+    puts
+
+    params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new(
+      io_offset: io_offset,
+      time_col_qty: time_col_qty,
+      input_size: inputs_sequence.first.first.size,
+      output_size: outputs_sequence.first.first.size,
+      hidden_layer_qty: hidden_layer_qty,
+      hidden_size_given: hidden_size_given,
+    ).config
+
+    # puts
+    # puts "first_gen_members: #{first_gen_members}"
+    puts "inputs_sequence.size: #{inputs_sequence.size}"
+    puts "inputs_sequence.first.size: #{inputs_sequence.first.size}"
+    puts "inputs_sequence.first.first.size: #{inputs_sequence.first.first.size}"
+    puts "inputs_sequence.class: #{inputs_sequence.class}"
+    puts "outputs_sequence.class: #{outputs_sequence.class}"
+    puts "params: #{params}"
+
+    puts "* build/train teams"
+    puts "  * first_gen_members ..."
+    first_gen_members = my_breed_manager.build_team(qty_new_members, **params)
+    puts "  * second_gen_members ..."
+    second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, first_gen_members, max_members)
+    puts "  * third_gen_members ..."
+    third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, second_gen_members, max_members)
+    
+    puts "* score and stats ..."
+    puts "  * first_gen_members ..." 
+    first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+    first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+
+    puts "  * second_gen_members ..."
+    second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+    second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+
+    puts "  * third_gen_members ..."
+    third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+    third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+
+    puts
+    puts "#train_team_using_sequence (text from Bible):"
+    puts
+    puts "first_gen_members_scored: #{first_gen_members_scored}"
+    first_gen_members_stats.each { |m| puts m }
+
+    puts
+    puts "second_gen_members_scored: #{second_gen_members_scored}"
+    second_gen_members_stats.each { |m| puts m }
+    expect(second_gen_members_scored).to be < first_gen_members_scored
+
+    puts
+    puts "third_gen_members_scored: #{third_gen_members_scored}"
+    third_gen_members_stats.each { |m| puts m }
+    expect(third_gen_members_scored).to be < second_gen_members_scored
+
+    when_after = Time.utc
+    puts "when_after: #{when_after}"
+    when_delta = when_after - when_before
+    puts "when_delta: #{when_delta.total_seconds / 60.0} minutes
+      "
+    puts
+    puts "successive generations score better (?) .. max_members: #{max_members} .. end"
+    puts "-"*40
+    puts
+    # end
+    # rescue e
+    #   # puts "e:"
+    #   # puts "  class: #{e.class}"
+    #   # puts "  message: #{e.message}"
+    #   # puts "  backtrace: #{e.backtrace}"
+    #   raise e
+    # ensure
+    #   when_after = Time.utc
+    #   puts "when_after: #{when_after}"
+    #   when_delta = when_after - when_before
+    #   puts "when_delta: #{when_delta.total_seconds / 60.0} minutes
+    #   "
+    #   puts
+    #   puts "successive generations score better (?) .. max_members: #{max_members} .. end"
+    #   puts "-"*40
+    #   puts
+  end
+
   let(my_breed_manager) { Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager.new }
 
   let(ancestor_adam_value) { 0.1 }
@@ -160,41 +261,335 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
   end
 
   describe "#train_team_using_sequence" do
-    it "successive generations score better (i.e.: lower errors)" do
-      # TODO: (a) move to 'spec_bench' and (b) replace here with more 'always' tests
-      max_members = 10
-      qty_new_members = max_members
+    context "when using an arbitrary set of float values for io" do
+      it "successive generations score better (i.e.: lower errors)" do
+        # TODO: (a) move to 'spec_bench' and (b) replace here with more 'always' tests
+        max_members = 10
+        qty_new_members = max_members
 
-      params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
+        params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
 
-      first_gen_members = my_breed_manager.build_team(qty_new_members, **params)
-      second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, first_gen_members, max_members)
-      third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, second_gen_members, max_members)
+        first_gen_members = my_breed_manager.build_team(qty_new_members, **params)
+        second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, first_gen_members, max_members)
+        third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, second_gen_members, max_members)
 
-      first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-      first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+        first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+        first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
-      second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-      second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+        second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+        second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
-      third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-      third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+        third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
+        third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
 
-      puts
-      puts "#train_team_using_sequence:"
-      puts
-      puts "first_gen_members_scored: #{first_gen_members_scored}"
-      first_gen_members_stats.each { |m| puts m }
+        puts
+        puts "#train_team_using_sequence (arbitrary set of float values):"
+        puts
+        puts "first_gen_members_scored: #{first_gen_members_scored}"
+        first_gen_members_stats.each { |m| puts m }
 
-      puts
-      puts "second_gen_members_scored: #{second_gen_members_scored}"
-      second_gen_members_stats.each { |m| puts m }
-      expect(second_gen_members_scored).to be < first_gen_members_scored
+        puts
+        puts "second_gen_members_scored: #{second_gen_members_scored}"
+        second_gen_members_stats.each { |m| puts m }
+        expect(second_gen_members_scored).to be < first_gen_members_scored
 
-      puts
-      puts "third_gen_members_scored: #{third_gen_members_scored}"
-      third_gen_members_stats.each { |m| puts m }
-      expect(third_gen_members_scored).to be < second_gen_members_scored
+        puts
+        puts "third_gen_members_scored: #{third_gen_members_scored}"
+        third_gen_members_stats.each { |m| puts m }
+        expect(third_gen_members_scored).to be < second_gen_members_scored
+      end
+    end
+
+    context "when using a text file as io data" do
+      # let(float_bits_from_file) { Ai4cr::Utils::Rand.text_file_to_fiod(file_path) }
+
+      let(time_col_qty) { 4 }
+      let(hidden_layer_qty) { 1 }
+
+      let(hidden_size_given) { 16 }
+
+      # let(time_col_qty) { 8 }
+      # let(hidden_layer_qty) { 2 }
+
+      # let(time_col_qty) { 8 }
+      # let(hidden_layer_qty) { 4 }
+
+      # let(time_col_qty) { 16 }
+      # let(hidden_layer_qty) { 4 }
+
+      # # from ???
+      # # /home/drhuffman/.crenv/versions/0.36.0/share/crystal/src/primitives.cr:255:3 in 'run'
+      # #   from ???
+      # # src/ai4cr/breed/manager.cr:105:17 in 'breed'
+      # #   from src/ai4cr/breed/manager.cr:269:30 in '->'
+      # #   from ???src/ai4cr/breed/manager.cr:105:17 in 'breed'
+
+      let(io_offset) { time_col_qty }
+
+      let(file_type_raw) { Ai4cr::Utils::IoData::FileType::Raw }
+      let(file_type_iod) { Ai4cr::Utils::IoData::FileType::Iod }
+      let(prefix_raw_qty) { time_col_qty }
+      let(prefix_raw_char) { " " }
+
+      let(io_set_text_file) do
+        Ai4cr::Utils::IoData::TextFile.new(
+          file_path, file_type_raw,
+          prefix_raw_qty, prefix_raw_char
+        )
+      end
+
+      let(raw) { io_set_text_file.raw }
+      let(iod) { io_set_text_file.iod }
+
+      let(ios) { io_set_text_file.iod_to_io_set_with_offset_time_cols(time_col_qty, io_offset) }
+      # let(input_set) { ios[:input_set] }
+      # let(output_set) { ios[:output_set] }
+      let(inputs_sequence) { ios[:input_set] }
+      let(outputs_sequence) { ios[:output_set] }
+
+      context "when the text file is very tiny (about 4kB)" do
+        let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_01_read.txt" }
+
+        context "with a RNN team of size" do
+          let(qty_new_members) { max_members }
+
+          context "1" do
+            let(max_members) { 1 }
+
+            it "successive generations score better (i.e.: lower errors)" do
+              compare_successive_training_rounds(
+                io_offset, time_col_qty,
+                inputs_sequence, outputs_sequence,
+                hidden_layer_qty, hidden_size_given,
+                qty_new_members,
+                my_breed_manager, max_members
+              )
+            end
+          end
+
+          context "2" do
+            let(max_members) { 2 }
+
+            it "successive generations score better (i.e.: lower errors)" do
+              compare_successive_training_rounds(
+                io_offset, time_col_qty,
+                inputs_sequence, outputs_sequence,
+                hidden_layer_qty, hidden_size_given,
+                qty_new_members,
+                my_breed_manager, max_members
+              )
+            end
+          end
+
+          context "4" do
+            let(max_members) { 4 }
+
+            it "successive generations score better (i.e.: lower errors)" do
+              compare_successive_training_rounds(
+                io_offset, time_col_qty,
+                inputs_sequence, outputs_sequence,
+                hidden_layer_qty, hidden_size_given,
+                qty_new_members,
+                my_breed_manager, max_members
+              )
+            end
+          end
+
+          # context "8" do
+          #   let(max_members) { 8 }
+
+          #   pending "successive generations score better (i.e.: lower errors)" do
+          #     compare_successive_training_rounds(
+          #       io_offset, time_col_qty,
+          #       inputs_sequence, outputs_sequence,
+          #       hidden_layer_qty, hidden_size_given,
+          #       qty_new_members,
+          #       my_breed_manager, max_members
+          #     )
+          #   end
+          # end
+
+          # context "16" do
+          #   let(max_members) { 16 }
+
+          #   # TODO: How many team members shall/can we try?
+          #   #   Currently, we're getting:
+          #   #     mmap(PROT_NONE) failed
+          #   #     Program received and didn't handle signal IOT (6)
+          #   pending "successive generations score better (i.e.: lower errors)" do
+          #     compare_successive_training_rounds(
+          #       io_offset, time_col_qty,
+          #       inputs_sequence, outputs_sequence,
+          #       hidden_layer_qty, hidden_size_given,
+          #       qty_new_members,
+          #       my_breed_manager, max_members
+          #     )
+          #   end
+          # end
+        end
+      end
+
+      # context "when the text file is tiny (about 8kB)" do
+      #   let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_chap1-2.txt" }
+
+      #   context "with a RNN team of size" do
+      #     let(qty_new_members) { max_members }
+
+      #     context "1" do
+      #       let(max_members) { 1 }
+
+      #       it "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, hidden_size_given,
+      #           qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+
+      #     context "2" do
+      #       let(max_members) { 2 }
+
+      #       it "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, hidden_size_given,
+      #           qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+
+      #     context "4" do
+      #       let(max_members) { 4 }
+
+      #       it "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, hidden_size_given,
+      #           qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+
+      #     context "8" do
+      #       let(max_members) { 8 }
+
+      #       pending "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, hidden_size_given,
+      #           qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+
+      #     # context "16" do
+      #     #   let(max_members) { 16 }
+
+      #     #   # TODO: How many team members shall/can we try?
+      #     #   #   Currently, we're getting:
+      #     #   #     mmap(PROT_NONE) failed
+      #     #   #     Program received and didn't handle signal IOT (6)
+      #     #   pending "successive generations score better (i.e.: lower errors)" do
+      #     #     compare_successive_training_rounds(
+      #     #       io_offset, time_col_qty,
+      #     #       inputs_sequence, outputs_sequence,
+      #     #       hidden_layer_qty, hidden_size_given,
+      #     #       qty_new_members,
+      #     #       my_breed_manager, max_members
+      #     #     )
+      #     #   end
+      #     # end
+      #   end
+      # end
+
+      # context "when the text file is small (about 13kB)" do
+      #   let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_chap1-4.txt" }
+
+      #   context "with a RNN team of size" do
+      #     let(qty_new_members) { max_members }
+
+      #     context "1" do
+      #       let(max_members) { 1 }
+
+      #       it "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, hidden_size_given,
+      #           qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+
+      #     context "2" do
+      #       let(max_members) { 2 }
+
+      #       it "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, hidden_size_given,
+      #           qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+
+      #     context "4" do
+      #       let(max_members) { 4 }
+
+      #       it "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, hidden_size_given,
+      #           qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+
+      #     context "8" do
+      #       let(max_members) { 8 }
+
+      #       pending "successive generations score better (i.e.: lower errors)" do
+      #         compare_successive_training_rounds(
+      #           io_offset, time_col_qty,
+      #           inputs_sequence, outputs_sequence,
+      #           hidden_layer_qty, hidden_size_given,
+      #           qty_new_members,
+      #           my_breed_manager, max_members
+      #         )
+      #       end
+      #     end
+
+      #     # context "16" do
+      #     #   let(max_members) { 16 }
+
+      #     #   # TODO: How many team members shall/can we try?
+      #     #   #   Currently, we're getting: (TBD)
+      #     #   pending "successive generations score better (i.e.: lower errors)" do
+      #     #     compare_successive_training_rounds(
+      #     #       io_offset, time_col_qty,
+      #     #       inputs_sequence, outputs_sequence,
+      #     #       hidden_layer_qty, hidden_size_given,
+      #     #       qty_new_members,
+      #     #       my_breed_manager, max_members
+      #     #     )
+      #     #   end
+      #     # end
+      #   end
+      # end
     end
   end
 end

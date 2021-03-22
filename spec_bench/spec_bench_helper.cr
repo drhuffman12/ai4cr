@@ -4,6 +4,7 @@
 
 require "spec"
 require "../src/ai4cr"
+require "../spec/spec_helper"
 require "../spec/test_helper"
 
 QTY_X_PERCENT_DENOMINATOR = 20
