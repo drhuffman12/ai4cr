@@ -80,7 +80,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     when_after = Time.utc
     puts "when_after: #{when_after}"
     when_delta = when_after - when_before
-    puts "when_delta: #{when_delta.total_seconds / 60.0} minutes
+    puts "when_delta: #{(when_delta.total_seconds / 60.0).round(1)} minutes
       "
     puts
     puts "successive generations score better (?) .. max_members: #{max_members} .. end"
