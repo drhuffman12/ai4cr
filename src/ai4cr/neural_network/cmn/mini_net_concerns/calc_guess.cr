@@ -118,7 +118,21 @@ module Ai4cr
               ->(x : Float64) { x < 0 ? 0.0 : x }
             when LS_RELU
               # LearningStyle::Rel
-              ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
+              # ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
+              ->(x : Float64) do
+                # TODO: Get some review/verification that the below NAN/INFINITY handling for Relu is correct.
+                # TODO: Apply(?) similarly to other prop func cases.
+                case
+                when x.nan?
+                  0.0
+                # when x == Float64::INFINITY
+                #   1.0
+                # when -x == Float64::INFINITY
+                #   0.0
+                else
+                  x < 0 ? 0.0 : [1.0, x].min
+                end
+              end
             when LS_SIGMOID
               # LearningStyle::Sigmoid
               ->(x : Float64) { 1/(1 + Math.exp(-1*(x))) }
