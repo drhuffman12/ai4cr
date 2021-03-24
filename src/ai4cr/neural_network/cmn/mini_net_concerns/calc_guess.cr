@@ -106,8 +106,8 @@ module Ai4cr
                 case
                 when val.nan?
                   0.0
-                # when value.infinite?
-                #   1.0
+                  # when value.infinite?
+                  #   1.0
                 else
                   val
                 end

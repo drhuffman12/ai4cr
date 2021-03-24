@@ -316,7 +316,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       let(time_col_qty) { 8 }
       let(hidden_layer_qty) { 1 }
 
-
       # let(time_col_qty) { 8 }
       # let(hidden_layer_qty) { 2 }
 

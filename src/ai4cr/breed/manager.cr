@@ -212,7 +212,19 @@ module Ai4cr
         (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
       end
 
-      def train_team_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1, and_cross_breed = true, verbose = true)
+      # ameba:disable Metrics/CyclomaticComplexity
+      def train_team_using_sequence(
+        inputs_sequence, outputs_sequence,
+        team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT,
+        train_qty = 1, and_cross_breed = true,
+        purge_error_limit = -1,
+        verbose = true
+      )
+        if purge_error_limit == -1
+          # This is mainly for Relu, but could be adapted for other training types
+          purge_error_limit = 1000*(outputs_sequence.first.size * outputs_sequence.first.first.size)
+        end
+
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
 
@@ -234,6 +246,8 @@ module Ai4cr
             end
           end
         end
+
+        team_members = purge_replace(team_members, purge_error_limit)
 
         if team_members.size > 1 && and_cross_breed
           team_members = cross_breed(team_members)
@@ -285,6 +299,21 @@ module Ai4cr
 
         (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
       end
+
+      def purge_replace(team_members, purge_error_limit)
+        config = team_members.first.config.clone
+
+        target_size = team_members.size
+        # team_members.map_with_index do |member|
+        #   member.error_stats.score > purge_error_limit ? # breed(parent_a : T, parent_b : T, delta = 0.5)
+        # end
+
+        team_members.reject! { |member| member.error_stats.score > purge_error_limit }
+
+        team_members + build_team(target_size - team_members.size, **config)
+      end
+
+      # ameba:enable Metrics/CyclomaticComplexity
 
       def train_team_in_parallel(inputs, outputs, team_members, train_qty)
         if team_members.size > 1
