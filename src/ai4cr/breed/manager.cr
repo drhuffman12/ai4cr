@@ -312,9 +312,13 @@ module Ai4cr
 
         purge_qty = target_size - team_members.size
 
-        puts "\n**** purge_qty: #{purge_qty} out of #{target_size} ****\n"
+        if purge_qty > 0
+          puts "\n**** purge_qty: #{purge_qty} out of #{target_size} ****\n"
 
-        team_members + build_team(purge_qty, **config)
+          team_members = team_members + build_team(purge_qty, **config)
+        end
+
+        team_members
       end
 
       # ameba:enable Metrics/CyclomaticComplexity
