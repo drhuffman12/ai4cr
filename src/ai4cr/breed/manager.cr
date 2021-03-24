@@ -310,7 +310,11 @@ module Ai4cr
 
         team_members.reject! { |member| member.error_stats.score > purge_error_limit }
 
-        team_members + build_team(target_size - team_members.size, **config)
+        purge_qty = target_size - team_members.size
+
+        puts "\n**** purge_qty: #{purge_qty} out of #{target_size} ****\n"
+
+        team_members + build_team(purge_qty, **config)
       end
 
       # ameba:enable Metrics/CyclomaticComplexity
