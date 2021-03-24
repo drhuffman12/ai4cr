@@ -7,7 +7,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
     Dir.mkdir_p(temp_folder)
   end
 
-  let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_01_read.txt" }
+  let(file_path) { "./spec_bench/support/neural_network/data/bible_utf/eng-web_002_GEN_01_read.txt" }
   let(file_type_raw) { Ai4cr::Utils::IoData::FileType::Raw }
   let(file_type_iod) { Ai4cr::Utils::IoData::FileType::Iod }
   let(prefix_raw_qty) { 0 }

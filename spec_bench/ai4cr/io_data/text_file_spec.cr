@@ -1,7 +1,7 @@
 require "benchmark"
 require "./../../../../src/ai4cr.cr"
 
-FILE_PATH = "./spec_bench/support/neural_network/data/eng-web_002_GEN_01_read.txt"
+FILE_PATH = "./spec_bench/support/neural_network/data/bible_utf/eng-web_002_GEN_01_read.txt"
 
 Benchmark.ips do |x|
   x.report "String IO" do
