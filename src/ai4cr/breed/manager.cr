@@ -206,21 +206,33 @@ module Ai4cr
           team_members = cross_breed(team_members)
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
         else
-          # (1..team_members.size).each do
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
-          # end
         end
 
         (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
       end
 
-      def train_team_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1, and_cross_breed = true)
+      def train_team_using_sequence(inputs_sequence, outputs_sequence, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1, and_cross_breed = true, verbose = true)
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
 
-          puts "  inputs_sequence (a) i: #{i} of #{inputs_sequence.size}" if i % 1000 == 0 # TODO: Remove before merging
+          if verbose
+            if i % 1000 == 0
+              puts "\n  inputs_sequence (a) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % 1000 == 0 # TODO: Remove before merging
+              print "\n    "
+            elsif i % 100 == 0
+              print "."
+            end
+          end
 
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+
+          if verbose
+            if i % 1000 == 0
+              puts
+              team_members.each { |member| puts "    " + member.error_hist_stats }
+            end
+          end
         end
 
         if team_members.size > 1 && and_cross_breed
@@ -229,20 +241,46 @@ module Ai4cr
           inputs_sequence.each_with_index do |inputs, i|
             outputs = outputs_sequence[i]
 
-            puts "  inputs_sequence (b) i: #{i} of #{inputs_sequence.size}" if i % 1000 == 0 # TODO: Remove before merging
+            if verbose
+              if i % 1000 == 0
+                puts "\n  inputs_sequence (b) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % 1000 == 0 # TODO: Remove before merging
+                print "\n    "
+              elsif i % 100 == 0
+                print "."
+              end
+            end
 
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+
+            if verbose
+              if i % 1000 == 0
+                puts
+                team_members.each { |member| puts "    " + member.error_hist_stats }
+              end
+            end
           end
         else
-          # (1..team_members.size).each do
           inputs_sequence.each_with_index do |inputs, i|
             outputs = outputs_sequence[i]
 
-            puts "  inputs_sequence (c) i: #{i} of #{inputs_sequence.size}" if i % 1000 == 0 # TODO: Remove before merging
+            if verbose
+              if i % 1000 == 0
+                puts "\n  inputs_sequence (c) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % 1000 == 0 # TODO: Remove before merging
+                print "\n    "
+              elsif i % 100 == 0
+                print "."
+              end
+            end
 
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+
+            if verbose
+              if i % 1000 == 0
+                puts
+                team_members.each { |member| puts "    " + member.error_hist_stats }
+              end
+            end
           end
-          # end
         end
 
         (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]

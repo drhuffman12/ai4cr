@@ -16,7 +16,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     puts
     puts "v"*40
     puts "successive generations score better (?) .. max_members: #{max_members} .. start"
-    when_before = Time.utc
+    when_before = Time.local
     puts "when_before: #{when_before}"
     puts "file_path: #{file_path}"
     puts
@@ -40,28 +40,28 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     puts "params: #{params}"
 
     puts "* build/train teams"
-    puts "  * first_gen_members (building)..."
+    puts "\n  * first_gen_members (building)..."
     first_gen_members = my_breed_manager.build_team(qty_new_members, **params)
-    puts "  * second_gen_members (breeding and training; after training first_gen_members)..."
+    puts "\n  * second_gen_members (breeding and training; after training first_gen_members)..."
     second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, first_gen_members, max_members)
-    puts "  * third_gen_members (breeding and training; after training second_gen_members) ..."
+    puts "\n  * third_gen_members (breeding and training; after training second_gen_members) ..."
     third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, second_gen_members, max_members)
 
     puts "* score and stats ..."
     # puts "  * first_gen_members ..."
     p "."
     first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-    first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} #{member.name} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+    first_gen_members_stats = first_gen_members.map { |member| member.error_hist_stats }
 
     # puts "  * second_gen_members ..."
     p "."
     second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-    second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} #{member.name} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+    second_gen_members_stats = second_gen_members.map { |member| member.error_hist_stats }
 
     # puts "  * third_gen_members ..."
     p "."
     third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-    third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} #{member.name} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+    third_gen_members_stats = third_gen_members.map { |member| member.error_hist_stats }
 
     puts
     puts "#train_team_using_sequence (text from Bible):"
@@ -77,7 +77,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     puts "third_gen_members_scored: #{third_gen_members_scored}"
     third_gen_members_stats.each { |m| puts m }
 
-    when_after = Time.utc
+    when_after = Time.local
     puts "when_after: #{when_after}"
     when_delta = when_after - when_before
     puts "when_delta: #{(when_delta.total_seconds / 60.0).round(1)} minutes
@@ -98,7 +98,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     #   # puts "  backtrace: #{e.backtrace}"
     #   raise e
     # ensure
-    #   when_after = Time.utc
+    #   when_after = Time.local
     #   puts "when_after: #{when_after}"
     #   when_delta = when_after - when_before
     #   puts "when_delta: #{when_delta.total_seconds / 60.0} minutes
@@ -239,13 +239,13 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       third_gen_members = my_breed_manager.train_team(inputs, outputs, second_gen_members, max_members)
 
       first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-      first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} #{member.name} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+      first_gen_members_stats = first_gen_members.map { |member| member.error_hist_stats }
 
       second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-      second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} #{member.name} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+      second_gen_members_stats = second_gen_members.map { |member| member.error_hist_stats }
 
       third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-      third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} #{member.name} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+      third_gen_members_stats = third_gen_members.map { |member| member.error_hist_stats }
 
       puts
       puts "#train_team:"
@@ -279,13 +279,13 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, second_gen_members, max_members)
 
         first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-        first_gen_members_stats = first_gen_members.map { |member| "#{member.birth_id} #{member.name} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+        first_gen_members_stats = first_gen_members.map { |member| member.error_hist_stats }
 
         second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-        second_gen_members_stats = second_gen_members.map { |member| "#{member.birth_id} #{member.name} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+        second_gen_members_stats = second_gen_members.map { |member| member.error_hist_stats }
 
         third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
-        third_gen_members_stats = third_gen_members.map { |member| "#{member.birth_id} #{member.name} => #{member.error_stats.plot_error_distance_history} @ #{member.error_stats.score}" }
+        third_gen_members_stats = third_gen_members.map { |member| member.error_hist_stats }
 
         puts
         puts "#train_team_using_sequence (arbitrary set of float values):"
@@ -308,16 +308,23 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     context "when using a text file as io data" do
       # let(float_bits_from_file) { Ai4cr::Utils::Rand.text_file_to_fiod(file_path) }
 
+      let(hidden_size_given) { 16 }
+
       # let(time_col_qty) { 4 }
       # let(hidden_layer_qty) { 1 }
 
-      let(hidden_size_given) { 16 }
+      let(time_col_qty) { 8 }
+      let(hidden_layer_qty) { 1 }
+
 
       # let(time_col_qty) { 8 }
       # let(hidden_layer_qty) { 2 }
 
-      let(time_col_qty) { 8 }
-      let(hidden_layer_qty) { 4 }
+      # let(time_col_qty) { 8 }
+      # let(hidden_layer_qty) { 4 }
+
+      # let(time_col_qty) { 16 }
+      # let(hidden_layer_qty) { 1 }
 
       # let(time_col_qty) { 16 }
       # let(hidden_layer_qty) { 4 }
@@ -353,7 +360,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       let(outputs_sequence) { ios[:output_set] }
 
       context "when the text file is very tiny (about 4kB)" do
-        let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_01_read.txt" }
+        let(file_path) { "./spec_bench/support/neural_network/data/bible_utf/eng-web_002_GEN_01_read.txt" }
 
         context "with a RNN team of size" do
           let(qty_new_members) { max_members }
@@ -374,6 +381,20 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
 
           context "2" do
             let(max_members) { 2 }
+
+            it "successive generations score better (i.e.: lower errors)" do
+              compare_successive_training_rounds(
+                io_offset, time_col_qty,
+                inputs_sequence, outputs_sequence,
+                hidden_layer_qty, hidden_size_given,
+                qty_new_members,
+                my_breed_manager, max_members
+              )
+            end
+          end
+
+          context "3" do
+            let(max_members) { 3 }
 
             it "successive generations score better (i.e.: lower errors)" do
               compare_successive_training_rounds(
@@ -435,7 +456,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       end
 
       context "when the text file is tiny (about 8kB)" do
-        let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_chap1-2.txt" }
+        let(file_path) { "./spec_bench/support/neural_network/data/bible_utf/eng-web_002_GEN_chap1-2.txt" }
 
         context "with a RNN team of size" do
           let(qty_new_members) { max_members }
@@ -456,6 +477,20 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
 
           context "2" do
             let(max_members) { 2 }
+
+            it "successive generations score better (i.e.: lower errors)" do
+              compare_successive_training_rounds(
+                io_offset, time_col_qty,
+                inputs_sequence, outputs_sequence,
+                hidden_layer_qty, hidden_size_given,
+                qty_new_members,
+                my_breed_manager, max_members
+              )
+            end
+          end
+
+          context "3" do
+            let(max_members) { 3 }
 
             it "successive generations score better (i.e.: lower errors)" do
               compare_successive_training_rounds(
@@ -517,7 +552,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       end
 
       context "when the text file is small (about 13kB)" do
-        let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_chap1-4.txt" }
+        let(file_path) { "./spec_bench/support/neural_network/data/bible_utf/eng-web_002_GEN_chap1-4.txt" }
 
         context "with a RNN team of size" do
           let(qty_new_members) { max_members }

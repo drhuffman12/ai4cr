@@ -41,6 +41,8 @@ module Ai4cr
         def convert_iod_to_raw(iod)
           bytes_to_chars(iod).join
         end
+
+        
       end
     end
   end

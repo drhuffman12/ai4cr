@@ -16,6 +16,10 @@ module Ai4cr
       def clone
         raise "TO BE IMPLEMENTED"
       end
+
+      def error_hist_stats
+        "#{birth_id} #{name} => #{error_stats.plot_error_distance_history} @ #{error_stats.score}"
+      end
     end
   end
 end

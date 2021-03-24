@@ -101,7 +101,16 @@ module Ai4cr
 
             @outputs_guessed = @width_indexes.map do |w|
               sum = @height_indexes.map do |h|
-                @inputs_given[h]*@weights[h][w]
+                # @inputs_given[h]*@weights[h][w]
+                val = @inputs_given[h]*@weights[h][w]
+                case
+                when val.nan?
+                  0.0
+                # when value.infinite?
+                #   1.0
+                else
+                  val
+                end
               end.sum
               propagation_function.call(sum)
             end
