@@ -295,14 +295,14 @@ module Ai4cr
             end
           end
 
-          team_members = purge_replace(team_members, purge_error_limit)
+          team_members = purge_replace(team_members, purge_error_limit, i)
           team_members = (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
         end
 
         team_members
       end
 
-      def purge_replace(team_members, purge_error_limit)
+      def purge_replace(team_members, purge_error_limit, i)
         config = team_members.first.config.clone
 
         target_size = team_members.size
@@ -322,7 +322,7 @@ module Ai4cr
             delta = Ai4cr::Utils::Rand.rand_excluding(scale: 1, offset: -0.5)
             new_rand_member = create(**config)
 
-            puts "\n---- replacing member.birth_id: #{member.birth_id}; d: #{d}, delta: #{delta} ----\n"
+            puts "\n---- i: #{i}, replacing member.birth_id: #{member.birth_id}; d: #{d}, delta: #{delta} ----\n"
 
             breed(member, new_rand_member, delta).tap { |c| c.name = "p" }
           else
@@ -341,7 +341,7 @@ module Ai4cr
         # purge_qty = target_size - team_members.size
 
         if purge_qty > 0
-          puts "\n**** purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} ****\n"
+          puts "\n**** i: #{i}, purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} ****\n"
 
           # team_members = team_members + build_team(purge_qty, **config)
         end
