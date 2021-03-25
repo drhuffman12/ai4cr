@@ -367,7 +367,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
 
         context "with a RNN team of size" do
           let(qty_new_members) { max_members }
-          let(train_qty) { 4 }
+          # let(train_qty) { 4 }
+          let(train_qty) { 8 }
 
           # context "1" do
           #   let(max_members) { 1 }
