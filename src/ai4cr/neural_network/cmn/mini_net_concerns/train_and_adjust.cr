@@ -101,8 +101,8 @@ module Ai4cr
           # Update weights after @deltas have been calculated.
           def step_update_weights
             # NOTE: This takes into account the specified 'bias' value (where applicable)
-            # step_update_weights_v1
-            step_update_weights_v2
+            step_update_weights_v1
+            # step_update_weights_v2 # for larger weight sets, this become too much overhead
           end
 
           # Update weights after @deltas have been calculated.

@@ -26,6 +26,9 @@ module Ai4cr
 
       QTY_NEW_MEMBERS_DEFAULT = 10
       MAX_MEMBERS_DEFAULT     = QTY_NEW_MEMBERS_DEFAULT
+      PURGE_ERROR_LIMIT_SCALE = 1000
+      STEP_MINOR              =   10
+      STEP_MAJOR              = 10 * STEP_MINOR
 
       ############################################################################
       # TODO: WHY is this required?
@@ -67,10 +70,10 @@ module Ai4cr
 
       def estimate_better_delta(ancestor_a : T, ancestor_b : T)
         # for weighed average of 'recent' distances
-        estimate_better_delta(ancestor_a.error_stats.score, ancestor_b.error_stats.score)
+        # estimate_better_delta(ancestor_a.error_stats.score, ancestor_b.error_stats.score)
 
         # # for 'last' distance only
-        # estimate_better_delta(ancestor_a.error_stats.distance, ancestor_b.error_stats.distance)
+        estimate_better_delta(ancestor_a.error_stats.distance, ancestor_b.error_stats.distance)
       end
 
       def estimate_better_delta(error_a : Float64, error_b : Float64)
@@ -217,22 +220,27 @@ module Ai4cr
         inputs_sequence, outputs_sequence,
         team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT,
         train_qty = 1, and_cross_breed = true,
-        purge_error_limit = -1,
+        # purge_error_limit = -1,
         verbose = true
       )
-        if purge_error_limit == -1
-          # This is mainly for Relu, but could be adapted for other training types
-          purge_error_limit = 1000*(outputs_sequence.first.size * outputs_sequence.first.first.size)
-        end
+        # if purge_error_limit == -1
+        #   # This is mainly for Relu, but could be adapted for other training types
+        #   # puts "outputs_sequence.size: #{outputs_sequence.size}"
+        #   # puts "outputs_sequence.first.size: #{outputs_sequence.first.size}"
+        #   # puts "outputs_sequence.first.first.size: #{outputs_sequence.first.first.size}"
+        #   purge_error_limit = PURGE_ERROR_LIMIT_SCALE*(outputs_sequence.first.size * outputs_sequence.first.first.size)
+        # end
+
+        # team_members = purge_replace(team_members, purge_error_limit)
 
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
 
           if verbose
-            if i % 1000 == 0
-              puts "\n  inputs_sequence (a) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % 1000 == 0 # TODO: Remove before merging
+            if i % STEP_MAJOR == 0
+              puts "\n  inputs_sequence (a) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
               print "\n    "
-            elsif i % 100 == 0
+            elsif i % STEP_MINOR == 0
               print "."
             end
           end
@@ -240,26 +248,21 @@ module Ai4cr
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
           if verbose
-            if i % 1000 == 0
+            if i % STEP_MAJOR == 0
               puts
               team_members.each { |member| puts "    " + member.error_hist_stats }
             end
           end
-        end
+          # team_members = purge_replace(team_members, purge_error_limit)
 
-        team_members = purge_replace(team_members, purge_error_limit)
-
-        if team_members.size > 1 && and_cross_breed
-          team_members = cross_breed(team_members)
-
-          inputs_sequence.each_with_index do |inputs, i|
-            outputs = outputs_sequence[i]
+          if team_members.size > 1 && and_cross_breed
+            team_members = cross_breed(team_members)
 
             if verbose
-              if i % 1000 == 0
-                puts "\n  inputs_sequence (b) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % 1000 == 0 # TODO: Remove before merging
+              if i % STEP_MAJOR == 0
+                puts "\n  inputs_sequence (b) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
                 print "\n    "
-              elsif i % 100 == 0
+              elsif i % STEP_MINOR == 0
                 print "."
               end
             end
@@ -267,21 +270,17 @@ module Ai4cr
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
             if verbose
-              if i % 1000 == 0
+              if i % STEP_MAJOR == 0
                 puts
                 team_members.each { |member| puts "    " + member.error_hist_stats }
               end
             end
-          end
-        else
-          inputs_sequence.each_with_index do |inputs, i|
-            outputs = outputs_sequence[i]
-
+          else
             if verbose
-              if i % 1000 == 0
-                puts "\n  inputs_sequence (c) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % 1000 == 0 # TODO: Remove before merging
+              if i % STEP_MAJOR == 0
+                puts "\n  inputs_sequence (c) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
                 print "\n    "
-              elsif i % 100 == 0
+              elsif i % STEP_MINOR == 0
                 print "."
               end
             end
@@ -289,15 +288,72 @@ module Ai4cr
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
             if verbose
-              if i % 1000 == 0
+              if i % STEP_MAJOR == 0
                 puts
                 team_members.each { |member| puts "    " + member.error_hist_stats }
               end
             end
           end
+
+          # team_members = purge_replace(team_members, purge_error_limit)
+
+          team_members = (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
         end
 
-        (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
+        team_members
+
+        # team_members = purge_replace(team_members, purge_error_limit)
+        # if team_members.size > 1 && and_cross_breed
+        #   team_members = cross_breed(team_members)
+
+        #   inputs_sequence.each_with_index do |inputs, i|
+        #     outputs = outputs_sequence[i]
+
+        #     if verbose
+        #       if i % STEP_MAJOR == 0
+        #         puts "\n  inputs_sequence (b) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
+        #         print "\n    "
+        #       elsif i % STEP_MINOR == 0
+        #         print "."
+        #       end
+        #     end
+
+        #     team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+
+        #     if verbose
+        #       if i % STEP_MAJOR == 0
+        #         puts
+        #         team_members.each { |member| puts "    " + member.error_hist_stats }
+        #       end
+        #     end
+        #   end
+        # else
+        #   inputs_sequence.each_with_index do |inputs, i|
+        #     outputs = outputs_sequence[i]
+
+        #     if verbose
+        #       if i % STEP_MAJOR == 0
+        #         puts "\n  inputs_sequence (c) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
+        #         print "\n    "
+        #       elsif i % STEP_MINOR == 0
+        #         print "."
+        #       end
+        #     end
+
+        #     team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+
+        #     if verbose
+        #       if i % STEP_MAJOR == 0
+        #         puts
+        #         team_members.each { |member| puts "    " + member.error_hist_stats }
+        #       end
+        #     end
+        #   end
+        # end
+
+        # team_members = purge_replace(team_members, purge_error_limit)
+
+        # (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
       end
 
       def purge_replace(team_members, purge_error_limit)
@@ -313,7 +369,7 @@ module Ai4cr
         purge_qty = target_size - team_members.size
 
         if purge_qty > 0
-          puts "\n**** purge_qty: #{purge_qty} out of #{target_size} ****\n"
+          puts "\n**** purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} ****\n"
 
           team_members = team_members + build_team(purge_qty, **config)
         end
@@ -352,15 +408,18 @@ module Ai4cr
             spawn do
               contestant = if i == j
                              # Don't bother breeding a member with itself
-                             member_i.tap { |c| c.name = "#{c.name + " S"}" } # same
+                             # "#{c.name + " S"}"
+                             member_i.tap { |c| c.name = "S" } # same
                            elsif i < j
                              # Try to guess a delta that is closer to a zero error
                              delta = estimate_better_delta(member_i, member_j)
-                             breed(member_i, member_j, delta).tap { |c| c.name = "#{c.name + " z"}" } # target zero delta
+                             # "#{c.name + " x"}"
+                             breed(member_i, member_j, delta).tap { |c| c.name = "z" } # target zero delta
                            else
                              # Just take a chance with a random delta
                              delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -0.5)
-                             breed(member_i, member_j, delta).tap { |c| c.name = "#{c.name + " r"}" } # random delta
+                             # "#{c.name + " r"}"
+                             breed(member_i, member_j, delta).tap { |c| c.name = "r" } # random delta
                            end
 
               channel.send contestant

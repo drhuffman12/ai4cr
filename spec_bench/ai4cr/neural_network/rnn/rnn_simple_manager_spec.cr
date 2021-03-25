@@ -308,7 +308,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     context "when using a text file as io data" do
       # let(float_bits_from_file) { Ai4cr::Utils::Rand.text_file_to_fiod(file_path) }
 
-      let(hidden_size_given) { 16 }
+      let(hidden_size_given) { 0 }
+      # let(hidden_size_given) { 16 }
 
       # let(time_col_qty) { 4 }
       # let(hidden_layer_qty) { 1 }
@@ -364,33 +365,33 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         context "with a RNN team of size" do
           let(qty_new_members) { max_members }
 
-          context "1" do
-            let(max_members) { 1 }
+          # context "1" do
+          #   let(max_members) { 1 }
 
-            it "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, hidden_size_given,
-                qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
+          #   it "successive generations score better (i.e.: lower errors)" do
+          #     compare_successive_training_rounds(
+          #       io_offset, time_col_qty,
+          #       inputs_sequence, outputs_sequence,
+          #       hidden_layer_qty, hidden_size_given,
+          #       qty_new_members,
+          #       my_breed_manager, max_members
+          #     )
+          #   end
+          # end
 
-          context "2" do
-            let(max_members) { 2 }
+          # context "2" do
+          #   let(max_members) { 2 }
 
-            it "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, hidden_size_given,
-                qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
+          #   it "successive generations score better (i.e.: lower errors)" do
+          #     compare_successive_training_rounds(
+          #       io_offset, time_col_qty,
+          #       inputs_sequence, outputs_sequence,
+          #       hidden_layer_qty, hidden_size_given,
+          #       qty_new_members,
+          #       my_breed_manager, max_members
+          #     )
+          #   end
+          # end
 
           context "3" do
             let(max_members) { 3 }
@@ -460,33 +461,33 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         context "with a RNN team of size" do
           let(qty_new_members) { max_members }
 
-          context "1" do
-            let(max_members) { 1 }
+          # context "1" do
+          #   let(max_members) { 1 }
 
-            it "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, hidden_size_given,
-                qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
+          #   it "successive generations score better (i.e.: lower errors)" do
+          #     compare_successive_training_rounds(
+          #       io_offset, time_col_qty,
+          #       inputs_sequence, outputs_sequence,
+          #       hidden_layer_qty, hidden_size_given,
+          #       qty_new_members,
+          #       my_breed_manager, max_members
+          #     )
+          #   end
+          # end
 
-          context "2" do
-            let(max_members) { 2 }
+          # context "2" do
+          #   let(max_members) { 2 }
 
-            it "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, hidden_size_given,
-                qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
+          #   it "successive generations score better (i.e.: lower errors)" do
+          #     compare_successive_training_rounds(
+          #       io_offset, time_col_qty,
+          #       inputs_sequence, outputs_sequence,
+          #       hidden_layer_qty, hidden_size_given,
+          #       qty_new_members,
+          #       my_breed_manager, max_members
+          #     )
+          #   end
+          # end
 
           context "3" do
             let(max_members) { 3 }
@@ -556,22 +557,36 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         context "with a RNN team of size" do
           let(qty_new_members) { max_members }
 
-          context "1" do
-            let(max_members) { 1 }
+          # context "1" do
+          #   let(max_members) { 1 }
 
-            it "successive generations score better (i.e.: lower errors)" do
-              compare_successive_training_rounds(
-                io_offset, time_col_qty,
-                inputs_sequence, outputs_sequence,
-                hidden_layer_qty, hidden_size_given,
-                qty_new_members,
-                my_breed_manager, max_members
-              )
-            end
-          end
+          #   it "successive generations score better (i.e.: lower errors)" do
+          #     compare_successive_training_rounds(
+          #       io_offset, time_col_qty,
+          #       inputs_sequence, outputs_sequence,
+          #       hidden_layer_qty, hidden_size_given,
+          #       qty_new_members,
+          #       my_breed_manager, max_members
+          #     )
+          #   end
+          # end
 
-          context "2" do
-            let(max_members) { 2 }
+          # context "2" do
+          #   let(max_members) { 2 }
+
+          #   it "successive generations score better (i.e.: lower errors)" do
+          #     compare_successive_training_rounds(
+          #       io_offset, time_col_qty,
+          #       inputs_sequence, outputs_sequence,
+          #       hidden_layer_qty, hidden_size_given,
+          #       qty_new_members,
+          #       my_breed_manager, max_members
+          #     )
+          #   end
+          # end
+
+          context "3" do
+            let(max_members) { 3 }
 
             it "successive generations score better (i.e.: lower errors)" do
               compare_successive_training_rounds(
