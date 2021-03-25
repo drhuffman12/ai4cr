@@ -259,11 +259,12 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       puts
       puts "second_gen_members_scored: #{second_gen_members_scored}"
       second_gen_members_stats.each { |m| puts m }
-      expect(second_gen_members_scored).to be < first_gen_members_scored
 
       puts
       puts "third_gen_members_scored: #{third_gen_members_scored}"
       third_gen_members_stats.each { |m| puts m }
+
+      expect(second_gen_members_scored).to be < first_gen_members_scored
       expect(third_gen_members_scored).to be < second_gen_members_scored
     end
   end
@@ -299,11 +300,12 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         puts
         puts "second_gen_members_scored: #{second_gen_members_scored}"
         second_gen_members_stats.each { |m| puts m }
-        expect(second_gen_members_scored).to be < first_gen_members_scored
 
         puts
         puts "third_gen_members_scored: #{third_gen_members_scored}"
         third_gen_members_stats.each { |m| puts m }
+
+        expect(second_gen_members_scored).to be < first_gen_members_scored
         expect(third_gen_members_scored).to be < second_gen_members_scored
       end
     end
