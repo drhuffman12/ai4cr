@@ -220,16 +220,16 @@ module Ai4cr
         inputs_sequence, outputs_sequence,
         team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT,
         train_qty = 1, and_cross_breed = true,
-        # purge_error_limit = -1,
+        purge_error_limit = -1,
         verbose = true
       )
-        # if purge_error_limit == -1
-        #   # This is mainly for Relu, but could be adapted for other training types
-        #   # puts "outputs_sequence.size: #{outputs_sequence.size}"
-        #   # puts "outputs_sequence.first.size: #{outputs_sequence.first.size}"
-        #   # puts "outputs_sequence.first.first.size: #{outputs_sequence.first.first.size}"
-        #   purge_error_limit = PURGE_ERROR_LIMIT_SCALE*(outputs_sequence.first.size * outputs_sequence.first.first.size)
-        # end
+        if purge_error_limit == -1
+          # This is mainly for Relu, but could be adapted for other training types
+          # puts "outputs_sequence.size: #{outputs_sequence.size}"
+          # puts "outputs_sequence.first.size: #{outputs_sequence.first.size}"
+          # puts "outputs_sequence.first.first.size: #{outputs_sequence.first.first.size}"
+          purge_error_limit = PURGE_ERROR_LIMIT_SCALE*(outputs_sequence.first.size * outputs_sequence.first.first.size)
+        end
 
         # team_members = purge_replace(team_members, purge_error_limit)
 
