@@ -198,7 +198,7 @@ module Ai4cr
       end
 
       def build_team(qty_new_members : Int32 = QTY_NEW_MEMBERS_DEFAULT) : Array(T)
-        params = gen_params
+        params = gen_params.merge(name: "P")
         build_team(qty_new_members, **params)
       end
 
