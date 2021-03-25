@@ -326,14 +326,17 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       # let(time_col_qty) { 8 }
       # let(hidden_layer_qty) { 2 }
 
-      # let(time_col_qty) { 8 }
-      # let(hidden_layer_qty) { 4 }
+      let(time_col_qty) { 8 }
+      let(hidden_layer_qty) { 4 }
 
       # let(time_col_qty) { 16 }
       # let(hidden_layer_qty) { 1 }
 
-      let(time_col_qty) { 16 }
-      let(hidden_layer_qty) { 4 }
+      # let(time_col_qty) { 16 }
+      # let(hidden_layer_qty) { 2 }
+
+      # let(time_col_qty) { 16 }
+      # let(hidden_layer_qty) { 4 }
 
       # # from ???
       # # /home/drhuffman/.crenv/versions/0.36.0/share/crystal/src/primitives.cr:255:3 in 'run'
