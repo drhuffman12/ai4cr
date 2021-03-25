@@ -309,13 +309,15 @@ module Ai4cr
         keep_size = target_size / 2
 
         team_members.reject! do |member|
-          d = member.error_stats.distance
+          # d = member.error_stats.distance
+          d = member.error_stats.score
           d.nan? || d.infinite?
         end
 
         remaining_team_qty = team_members.size
         team_members.reject! do |member|
-          purgable = member.error_stats.distance > purge_error_limit
+          # purgable = member.error_stats.distance > purge_error_limit
+          purgable = member.error_stats.score > purge_error_limit
           remaining_team_qty -= 1 if purgable
           purgable && remaining_team_qty > keep_size
         end
