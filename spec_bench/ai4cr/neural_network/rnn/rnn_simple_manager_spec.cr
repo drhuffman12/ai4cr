@@ -326,8 +326,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       # let(time_col_qty) { 8 }
       # let(hidden_layer_qty) { 2 }
 
-      let(time_col_qty) { 8 }
+      # let(time_col_qty) { 8 }
+      # let(hidden_layer_qty) { 4 }
+
+      let(time_col_qty) { 10 }
       let(hidden_layer_qty) { 4 }
+
+      # let(time_col_qty) { 12 } # Might need to scale down the initial weights for this (and likewise for below)!
+      # let(hidden_layer_qty) { 4 }
 
       # let(time_col_qty) { 16 }
       # let(hidden_layer_qty) { 1 }

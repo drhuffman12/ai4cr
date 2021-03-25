@@ -306,28 +306,44 @@ module Ai4cr
         config = team_members.first.config.clone
 
         target_size = team_members.size
-        keep_size = target_size / 2
+        # keep_size = target_size / 2
 
-        team_members.reject! do |member|
+        purge_qty = 0
+
+        team_members.map! do |member|
           # d = member.error_stats.distance
           d = member.error_stats.score
-          d.nan? || d.infinite?
+          if d.nan? || d.infinite? || d > purge_error_limit
+            # We need to move away from this member's configuration,
+            #   but don't want to totally 'forget' all the training results/adjustments,
+            #   so we'll create a new randomly seeded member and breed the two members.
+
+            purge_qty += 1
+            delta = Ai4cr::Utils::Rand.rand_excluding(scale: 1, offset: -0.5)
+            new_rand_member = create(**config)
+
+            puts "\n---- replacing member.birth_id: #{member.birth_id}; d: #{d}, delta: #{delta} ----\n"
+
+            breed(member, new_rand_member, delta).tap { |c| c.name = "p" }
+          else
+            member
+          end
         end
 
-        remaining_team_qty = team_members.size
-        team_members.reject! do |member|
-          # purgable = member.error_stats.distance > purge_error_limit
-          purgable = member.error_stats.score > purge_error_limit
-          remaining_team_qty -= 1 if purgable
-          purgable && remaining_team_qty > keep_size
-        end
+        # remaining_team_qty = team_members.size
+        # team_members.reject! do |member|
+        #   # purgable = member.error_stats.distance > purge_error_limit
+        #   purgable = member.error_stats.score > purge_error_limit
+        #   remaining_team_qty -= 1 if purgable
+        #   purgable && remaining_team_qty > keep_size
+        # end
 
-        purge_qty = target_size - team_members.size
+        # purge_qty = target_size - team_members.size
 
         if purge_qty > 0
           puts "\n**** purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} ****\n"
 
-          team_members = team_members + build_team(purge_qty, **config)
+          # team_members = team_members + build_team(purge_qty, **config)
         end
 
         team_members
