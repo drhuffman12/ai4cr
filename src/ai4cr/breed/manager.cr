@@ -364,7 +364,8 @@ module Ai4cr
         # team_members.reject! { |member| member.error_stats.score > purge_error_limit }
         team_members.reject! do |member|
           # member.error_stats.score > purge_error_limit
-          d = member.error_stats.distance
+          # d = member.error_stats.distance
+          d = member.error_stats.score
           # d.nan? ||
           d.infinite? || d > purge_error_limit
         end
