@@ -296,78 +296,28 @@ module Ai4cr
           end
 
           team_members = purge_replace(team_members, purge_error_limit)
-
           team_members = (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
         end
 
         team_members
-
-        # team_members = purge_replace(team_members, purge_error_limit)
-        # if team_members.size > 1 && and_cross_breed
-        #   team_members = cross_breed(team_members)
-
-        #   inputs_sequence.each_with_index do |inputs, i|
-        #     outputs = outputs_sequence[i]
-
-        #     if verbose
-        #       if i % STEP_MAJOR == 0
-        #         puts "\n  inputs_sequence (b) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
-        #         print "\n    "
-        #       elsif i % STEP_MINOR == 0
-        #         print "."
-        #       end
-        #     end
-
-        #     team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
-
-        #     if verbose
-        #       if i % STEP_MAJOR == 0
-        #         puts
-        #         team_members.each { |member| puts "    " + member.error_hist_stats }
-        #       end
-        #     end
-        #   end
-        # else
-        #   inputs_sequence.each_with_index do |inputs, i|
-        #     outputs = outputs_sequence[i]
-
-        #     if verbose
-        #       if i % STEP_MAJOR == 0
-        #         puts "\n  inputs_sequence (c) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
-        #         print "\n    "
-        #       elsif i % STEP_MINOR == 0
-        #         print "."
-        #       end
-        #     end
-
-        #     team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
-
-        #     if verbose
-        #       if i % STEP_MAJOR == 0
-        #         puts
-        #         team_members.each { |member| puts "    " + member.error_hist_stats }
-        #       end
-        #     end
-        #   end
-        # end
-
-        # team_members = purge_replace(team_members, purge_error_limit)
-
-        # (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
       end
 
       def purge_replace(team_members, purge_error_limit)
         config = team_members.first.config.clone
 
         target_size = team_members.size
+        keep_size = target_size / 2
 
-        # team_members.reject! { |member| member.error_stats.score > purge_error_limit }
         team_members.reject! do |member|
-          # member.error_stats.score > purge_error_limit
-          # d = member.error_stats.distance
-          d = member.error_stats.score
-          # d.nan? ||
-          d.infinite? || d > purge_error_limit
+          d = member.error_stats.distance
+          d.nan? || d.infinite?
+        end
+
+        remaining_team_qty = team_members.size
+        team_members.reject! do |member|
+          purgable = member.error_stats.distance > purge_error_limit
+          remaining_team_qty -= 1 if purgable
+          purgable && remaining_team_qty > keep_size
         end
 
         purge_qty = target_size - team_members.size
