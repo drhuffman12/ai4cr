@@ -295,7 +295,7 @@ module Ai4cr
             end
           end
 
-          # team_members = purge_replace(team_members, purge_error_limit)
+          team_members = purge_replace(team_members, purge_error_limit)
 
           team_members = (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
         end
@@ -360,11 +360,14 @@ module Ai4cr
         config = team_members.first.config.clone
 
         target_size = team_members.size
-        # team_members.map_with_index do |member|
-        #   member.error_stats.score > purge_error_limit ? # breed(parent_a : T, parent_b : T, delta = 0.5)
-        # end
 
-        team_members.reject! { |member| member.error_stats.score > purge_error_limit }
+        # team_members.reject! { |member| member.error_stats.score > purge_error_limit }
+        team_members.reject! do |member|
+          # member.error_stats.score > purge_error_limit
+          d = member.error_stats.distance
+          # d.nan? || 
+          d.infinity? || d > purge_error_limit
+        end
 
         purge_qty = target_size - team_members.size
 
