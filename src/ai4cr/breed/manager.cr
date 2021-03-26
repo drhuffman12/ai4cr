@@ -245,6 +245,9 @@ module Ai4cr
             end
           end
 
+          puts "    outputs EXPECTED: #{outputs}"
+          puts Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(outputs)
+
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
           if verbose
@@ -272,7 +275,12 @@ module Ai4cr
             if verbose
               if i % STEP_MAJOR == 0
                 puts
-                team_members.each { |member| puts "    " + member.error_hist_stats }
+                team_members.each do |member|
+                  puts "    " + member.error_hist_stats
+                  puts "    #{member.outputs_guessed}"
+                  puts Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(member.outputs_guessed)
+                  puts
+                end
               end
             end
           else
@@ -313,32 +321,31 @@ module Ai4cr
         team_members.map! do |member|
           # d = member.error_stats.distance
           d = member.error_stats.score
-          if d.nan? || d.infinite? || d > purge_error_limit
+          case
+          when d.nan? || d.infinite?
+            # We need to move away from this member's configuration completely
+            purge_qty += 1
+            name = "Pr"
+            puts "\n---- i: #{i}, replacing member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: N/A ----\n"
+
+            new_rand_member = create(**config).tap { |c| c.name = name }
+          when d > purge_error_limit
             # We need to move away from this member's configuration,
             #   but don't want to totally 'forget' all the training results/adjustments,
             #   so we'll create a new randomly seeded member and breed the two members.
 
             purge_qty += 1
+            name = "pb"
             delta = Ai4cr::Utils::Rand.rand_excluding(scale: 1, offset: -0.5)
+            puts "\n---- i: #{i}, replacing member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: #{delta} ----\n"
+
             new_rand_member = create(**config)
-
-            puts "\n---- i: #{i}, replacing member.birth_id: #{member.birth_id}; d: #{d}, delta: #{delta} ----\n"
-
-            breed(member, new_rand_member, delta).tap { |c| c.name = "p" }
+            breed(member, new_rand_member, delta).tap { |c| c.name = name }
           else
+            # Member ok as-is
             member
           end
         end
-
-        # remaining_team_qty = team_members.size
-        # team_members.reject! do |member|
-        #   # purgable = member.error_stats.distance > purge_error_limit
-        #   purgable = member.error_stats.score > purge_error_limit
-        #   remaining_team_qty -= 1 if purgable
-        #   purgable && remaining_team_qty > keep_size
-        # end
-
-        # purge_qty = target_size - team_members.size
 
         if purge_qty > 0
           puts "\n**** i: #{i}, purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} ****\n"

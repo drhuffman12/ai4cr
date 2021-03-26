@@ -31,7 +31,7 @@ module Ai4cr
           getter width_indexes = Array(Int32).new
           getter height_indexes = Array(Int32).new
 
-          property weight_init_scale = 1.0
+          property weight_init_scale : Float64
           property weights = Array(Array(Float64)).new
 
           property inputs_given = Array(Float64).new
@@ -45,16 +45,16 @@ module Ai4cr
             # * Xavier initialization mostly used with tanh and logistic activation function
             # * He-initialization mostly used with ReLU or it’s variants — Leaky ReLU.
 
-            weight_init_scale = case @learning_style
-                                when LS_PRELU
-                                  0.00000000001
-                                when LS_RELU
-                                  0.00000000001
-                                else
-                                  1.0
-                                end
+            # @weight_init_scale = case @learning_style
+            #                     when LS_PRELU
+            #                       0.00000000001
+            #                     when LS_RELU
+            #                       0.00000000001
+            #                     else
+            #                       1.0
+            #                     end
 
-            @weights = @height_indexes.map { @width_indexes.map { weight_init_scale * Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero } }
+            @weights = @height_indexes.map { @width_indexes.map { @weight_init_scale * Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero } }
             # @weights = Array.new(height_considering_bias) { Array.new(width) { Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero } }
             # @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero*(Math.sqrt(2.0/(height_considering_bias + width))) } }
             # @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero*(Math.sqrt(height_considering_bias/2.0)) } }

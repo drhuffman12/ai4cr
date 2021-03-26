@@ -110,7 +110,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
         describe "iod, which when prefixed" do
           let(prefix_raw_qty) { 2 }
-          let(prefix_bits) { io_set_text_file.convert_raw_to_iod(prefix_raw_char) }
+          let(prefix_bits) { Ai4cr::Utils::IoData::TextFile.convert_raw_to_iod(prefix_raw_char) }
           let(prefix) { prefix_bits + prefix_bits }
 
           it "starts as expected" do
@@ -156,14 +156,14 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
   describe "#convert_raw_to_iod" do
     context "when given the first 3 raw charaters" do
       it "correctly converts to iod" do
-        converted = io_set_text_file.convert_raw_to_iod(start_expected_3_chars)
+        converted = Ai4cr::Utils::IoData::TextFile.convert_raw_to_iod(start_expected_3_chars)
         expect(converted).to eq(start_expected_3_iod)
       end
     end
 
     context "when given the last 3 raw charaters" do
       it "correctly converts to iod" do
-        converted = io_set_text_file.convert_raw_to_iod(end_expected_3_chars)
+        converted = Ai4cr::Utils::IoData::TextFile.convert_raw_to_iod(end_expected_3_chars)
         expect(converted).to eq(end_expected_3_iod)
       end
     end
@@ -172,14 +172,14 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
   describe "#convert_iod_to_raw" do
     context "when given the first 3 iod charaters" do
       it "correctly converts to raw" do
-        converted = io_set_text_file.convert_iod_to_raw(start_expected_3_iod)
+        converted = Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(start_expected_3_iod)
         expect(converted).to eq(start_expected_3_chars)
       end
     end
 
     context "when given the last 3 iod charaters" do
       it "correctly converts to raw" do
-        converted = io_set_text_file.convert_iod_to_raw(end_expected_3_iod)
+        converted = Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(end_expected_3_iod)
         expect(converted).to eq(end_expected_3_chars)
       end
     end
@@ -190,7 +190,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
     let(char_expected) { end_expected_3_chars[0].to_s }
 
     it "correctly converts to char" do
-      converted = io_set_text_file.bits_to_char(bits)
+      converted = Ai4cr::Utils::IoData::TextFile.bits_to_char(bits)
       expect(converted).to eq(char_expected)
     end
   end
@@ -200,7 +200,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
     let(raw_expected) { end_expected_3_chars.split("") }
 
     it "correctly converts to raw text array" do
-      converted = io_set_text_file.bytes_to_chars(iod)
+      converted = Ai4cr::Utils::IoData::TextFile.bytes_to_chars(iod)
       expect(converted).to eq(raw_expected)
     end
   end
@@ -254,7 +254,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
             raw_text_expected = "﻿Th"
 
-            snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+            snippet_as_text = Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(snippet)
             expect(snippet_as_text).to eq(raw_text_expected)
           end
         end
@@ -264,7 +264,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
             expect(snippet).to be_a(Array(Array(Float64)))
             raw_text_expected = "day"
 
-            snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+            snippet_as_text = Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(snippet)
             expect(snippet_as_text).to eq(raw_text_expected)
           end
         end
@@ -277,7 +277,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
             raw_text_expected = "e F"
 
-            snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+            snippet_as_text = Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(snippet)
             expect(snippet_as_text).to eq(raw_text_expected)
           end
         end
@@ -288,7 +288,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
             raw_text_expected = ". \n"
 
-            snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+            snippet_as_text = Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(snippet)
             expect(snippet_as_text).to eq(raw_text_expected)
           end
         end
@@ -310,7 +310,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
             raw_text_array_expected = ["﻿The", "The ", "he F"]
 
-            snippet_as_text_array = snippets.map { |snippet| io_set_text_file.convert_iod_to_raw(snippet) }
+            snippet_as_text_array = snippets.map { |snippet| Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(snippet) }
             expect(snippet_as_text_array).to eq(raw_text_array_expected)
           end
         end
@@ -322,7 +322,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
             raw_text_array_expected = ["xth ", "th d", "h da"]
 
-            snippet_as_text_array = snippets.map { |snippet| io_set_text_file.convert_iod_to_raw(snippet) }
+            snippet_as_text_array = snippets.map { |snippet| Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(snippet) }
             expect(snippet_as_text_array).to eq(raw_text_array_expected)
           end
         end
@@ -337,7 +337,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
             # raw_text_array_expected = ["﻿The", "The ", "he F"]
             raw_text_array_expected = ["e Fi", " Fir", "Firs"]
 
-            snippet_as_text_array = snippets.map { |snippet| io_set_text_file.convert_iod_to_raw(snippet) }
+            snippet_as_text_array = snippets.map { |snippet| Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(snippet) }
             expect(snippet_as_text_array).to eq(raw_text_array_expected)
           end
         end
@@ -349,7 +349,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
             # raw_text_array_expected = ["xth ", "th d", "h da"]
             raw_text_array_expected = [" day", "day.", "ay. "]
 
-            snippet_as_text_array = snippets.map { |snippet| io_set_text_file.convert_iod_to_raw(snippet) }
+            snippet_as_text_array = snippets.map { |snippet| Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(snippet) }
             expect(snippet_as_text_array).to eq(raw_text_array_expected)
           end
         end
@@ -434,6 +434,17 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
           expect(certainty).to eq(0.4843750000000001)
         end
       end
+    end
+  end
+
+  context "handles misc Unicode char's" do
+    let(file_path) { "./spec/support/unicode/examples.txt" }
+    it "converts to bits and back" do
+      bits = Ai4cr::Utils::IoData::TextFile.convert_raw_to_iod(io_set_text_file.raw)
+      text = Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(bits)
+      # puts "bits: #{bits}"
+      prefix = (io_set_text_file.prefix_raw_char * io_set_text_file.prefix_raw_qty)
+      expect(prefix + text).to eq(io_set_text_file.raw)
     end
   end
 end

@@ -38,6 +38,8 @@ module Ai4cr
               learning_rate: @learning_rate,
               momentum:      @momentum,
               deriv_scale:   @deriv_scale,
+
+              weight_init_scale_given: @weight_init_scale,
             }
           end
 
@@ -60,11 +62,24 @@ module Ai4cr
 
             learning_rate : Float64? = nil,
             momentum : Float64? = nil,
-            deriv_scale : Float64? = nil
+            deriv_scale : Float64? = nil,
+
+            weight_init_scale_given : Float64? = nil
           )
             @name = name.nil? ? "" : name
 
             init_network(hidden_size_given, bias_disabled, bias_default, learning_rate, momentum, deriv_scale)
+
+            @weight_init_scale = case
+                                 when weight_init_scale_given.nil?
+                                   ![LS_PRELU, LS_RELU].includes?(learning_style) ? 1.0 : 1.0 / ( #  (time_col_qty ** 2) * (input_size ** 2) * (hidden_layer_qty ** 2) * (hidden_size ** 2) * (output_size ** 2) # * 100 # **2
+
+(time_col_qty * input_size * hidden_layer_qty * hidden_size * output_size) * 1000
+                                     )
+                                 else
+                                   weight_init_scale_given
+                                 end
+
             @error_stats = Ai4cr::ErrorStats.new(history_size)
           end
 
@@ -219,6 +234,8 @@ module Ai4cr
 
                   learning_rate: @learning_rate,
                   momentum: @momentum,
+
+                  weight_init_scale: @weight_init_scale
                 )
               end
             end

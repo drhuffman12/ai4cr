@@ -20,7 +20,8 @@ module Ai4cr
               momentum:      @momentum,
               history_size:  history_size,
 
-              name: name,
+              name:              name,
+              weight_init_scale: @weight_init_scale,
             }
           end
 
@@ -35,7 +36,9 @@ module Ai4cr
             learning_rate : Float64? = nil, momentum : Float64? = nil,
             history_size : Int32 = 10,
 
-            name : String? = ""
+            name : String? = "",
+
+            @weight_init_scale = 1.0
           )
             # TODO: switch 'bias_disabled' to 'bias_enabled' and adjust defaulting accordingly
             @bias_disabled = bias_disabled
