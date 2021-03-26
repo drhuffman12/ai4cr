@@ -4,8 +4,9 @@ module Ai4cr
   module Utils
     module IoData
       class TextFile < Ai4cr::Utils::IoData::Abstract
-        BIT_32_INDEXES = (0..31).to_a
-        UTF_AS_INT_MAX = 0x10ffff
+        BIT_32_INDEXES   = (0..31).to_a
+        UTF_MAX_AS_INT   = 0x10ffff
+        UTF_MAX_AS_FLOAT = UTF_MAX_AS_INT.to_f
 
         def self.convert_raw_to_iod(raw)
           chars_as_bytes_of_bits = Array(Array(Float64)).new(raw.size)
@@ -20,7 +21,8 @@ module Ai4cr
 
         def self.bits_to_char(bits)
           # When converting back to a character, any 'fuzzy' bits must be forced to 0.0 or 1.0.
-          bytes = BIT_32_INDEXES.map do |i|
+          indexes = bits.size < BIT_32_INDEXES.size ? (0..bits.size - 1).to_a : BIT_32_INDEXES
+          bytes = indexes.map do |i|
             bit = bits[i]
             # bit = if bit <= 0.0
             #         0.0
@@ -43,7 +45,7 @@ module Ai4cr
 
             bit * (2.0**i)
           end.sum
-          bytes > UTF_AS_INT_MAX ? UTF_AS_INT_MAX.chr.to_s : bytes.to_i.chr.to_s
+          bytes > UTF_MAX_AS_FLOAT ? UTF_MAX_AS_INT.chr.to_s : bytes.to_i.chr.to_s
         end
 
         def self.bytes_to_chars(bytes)
@@ -51,7 +53,7 @@ module Ai4cr
         end
 
         def self.convert_iod_to_raw(iod)
-          bytes_to_chars(iod).join
+          bytes_to_chars(iod).join("")
         end
       end
     end
