@@ -245,8 +245,7 @@ module Ai4cr
             end
           end
 
-          puts "    outputs EXPECTED: #{outputs}"
-          puts Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(outputs)
+          puts "  outputs EXPECTED: '#{Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(outputs)}'"
 
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
@@ -277,8 +276,7 @@ module Ai4cr
                 puts
                 team_members.each do |member|
                   puts "    " + member.error_hist_stats
-                  puts "    #{member.outputs_guessed}"
-                  puts Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(member.outputs_guessed)
+                  puts "      outputs Actual: '#{Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(member.outputs_guessed)}'"
                   puts
                 end
               end
