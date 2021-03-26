@@ -26,7 +26,7 @@ module Ai4cr
 
       QTY_NEW_MEMBERS_DEFAULT = 10
       MAX_MEMBERS_DEFAULT     = QTY_NEW_MEMBERS_DEFAULT
-      PURGE_ERROR_LIMIT_SCALE = 1000
+      PURGE_ERROR_LIMIT_SCALE = 1e12
       STEP_MINOR              =   10
       STEP_MAJOR              = 10 * STEP_MINOR
 
@@ -247,12 +247,13 @@ module Ai4cr
             end
           end
 
+          team_members = purge_replace(team_members, purge_error_limit, i)
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
           if verbose
             if i % STEP_MAJOR == 0
               puts
-              team_members.each { |member| puts "    " + member.error_hist_stats }
+              team_members.each { |member| puts "    " + member.error_hist_stats.to_s }
             end
           end
           # team_members = purge_replace(team_members, purge_error_limit)
@@ -299,7 +300,7 @@ module Ai4cr
                 puts
                 team_members.each do |member|
                   puts "    " + member.error_hist_stats
-                  puts "      outputs Actual: '#{member.outputs_guessed}'"
+                  puts "      outputs Actual: '#{member.outputs_guessed.to_json}'"
                   puts "        aka: '#{Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(member.outputs_guessed)}'"
                   puts
                 end

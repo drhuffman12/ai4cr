@@ -46,8 +46,9 @@ module Ai4cr
       prefixed = false,
       reversed = false
     )
+      hist = history.map { |h| h.nan? ? 100.0 : h }
       charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
-      charter.plot(history, prefixed)
+      charter.plot(hist, prefixed)
     end
 
     private def update_history

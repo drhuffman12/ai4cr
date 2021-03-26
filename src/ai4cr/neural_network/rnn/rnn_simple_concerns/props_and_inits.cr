@@ -73,9 +73,8 @@ module Ai4cr
             @weight_init_scale = case
                                  when weight_init_scale_given.nil?
                                    ![LS_PRELU, LS_RELU].includes?(learning_style) ? 1.0 : 1.0 / ( #  (time_col_qty ** 2) * (input_size ** 2) * (hidden_layer_qty ** 2) * (hidden_size ** 2) * (output_size ** 2) # * 100 # **2
-
-(time_col_qty * input_size * hidden_layer_qty * hidden_size * output_size) * 1000
-                                     )
+(time_col_qty * input_size * hidden_layer_qty * hidden_size * output_size) * 1000                 # * time_col_qty
+)
                                  else
                                    weight_init_scale_given
                                  end

@@ -330,10 +330,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       # let(hidden_layer_qty) { 2 }  # aka ??? aka 'num_layers'
 
       # mid-sized rnn:
-      let(train_qty) { 8 }         # aka ??? aka ???
-      let(hidden_size_given) { 0 } # aka 'hidden_size'
-      let(time_col_qty) { 16 }     # aka 'seq_length' aka 'rnn_size'
-      let(hidden_layer_qty) { 2 }  # aka ??? aka 'num_layers'
+      let(train_qty) { 2 } # aka ??? aka ???
+      # let(hidden_size_given) { 96 } # aka 'hidden_size'
+      let(hidden_size_given) { 128 } # aka 'hidden_size'
+      let(time_col_qty) { 8 }        # aka 'seq_length' aka 'rnn_size'
+      let(hidden_layer_qty) { 1 }    # aka ??? aka 'num_layers'
 
       # let(hidden_size_given) { 0 }
       # let(hidden_size_given) { 16 }
@@ -414,6 +415,20 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
           #     )
           #   end
           # end
+
+          context "10" do
+            let(max_members) { 10 }
+
+            it "successive generations score better (i.e.: lower errors)" do
+              compare_successive_training_rounds(
+                io_offset, time_col_qty,
+                inputs_sequence, outputs_sequence,
+                hidden_layer_qty, hidden_size_given,
+                qty_new_members,
+                my_breed_manager, max_members, train_qty
+              )
+            end
+          end
 
           # context "2" do
           #   let(max_members) { 2 }

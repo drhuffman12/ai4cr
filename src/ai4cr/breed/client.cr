@@ -18,7 +18,20 @@ module Ai4cr
       end
 
       def error_hist_stats
-        "#{birth_id} #{name} => #{error_stats.plot_error_distance_history} @ #{error_stats.score}"
+        ehs = "'"
+        begin
+          ehs += birth_id.to_s
+          ehs += " "
+          ehs += name.to_s
+          ehs += " => "
+          ehs += (error_stats.plot_error_distance_history).to_s
+          ehs += " @ "
+          ehs += (error_stats.score).to_s
+        rescue ex
+          ehs += "(ERROR: #{ex.class} re '#{ex.message}' at [#{ex.backtrace.join("\n")}])"
+        end
+        ehs += "'"
+        ehs
       end
     end
   end
