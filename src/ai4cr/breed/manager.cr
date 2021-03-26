@@ -239,13 +239,12 @@ module Ai4cr
           if verbose
             if i % STEP_MAJOR == 0
               puts "\n  inputs_sequence (a) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
+              puts "  outputs EXPECTED: '#{Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(outputs)}'"
               print "\n    "
             elsif i % STEP_MINOR == 0
               print "."
             end
           end
-
-          puts "  outputs EXPECTED: '#{Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(outputs)}'"
 
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
