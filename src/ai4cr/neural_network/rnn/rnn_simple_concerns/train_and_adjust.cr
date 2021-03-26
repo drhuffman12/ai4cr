@@ -72,6 +72,7 @@ module Ai4cr
             step_calculate_output_deltas(li, ti)
             mini_net_set[li][ti].step_calc_input_deltas
             mini_net_set[li][ti].step_update_weights
+            # mini_net_set[li][ti].auto_shrink_weights
             mini_net_set[li][ti].calculate_error_distance
           end
 

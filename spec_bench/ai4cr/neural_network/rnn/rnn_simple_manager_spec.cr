@@ -329,11 +329,15 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       # let(time_col_qty) { 8 }      # aka 'seq_length' aka 'rnn_size'
       # let(hidden_layer_qty) { 2 }  # aka ??? aka 'num_layers'
 
+      # let(io_offset) { (time_col_qty / 2).to_i }
+      let(io_offset) { time_col_qty }
+
       # mid-sized rnn:
       let(train_qty) { 2 } # aka ??? aka ???
-      # let(hidden_size_given) { 96 } # aka 'hidden_size'
-      let(hidden_size_given) { 128 } # aka 'hidden_size'
-      let(time_col_qty) { 8 }        # aka 'seq_length' aka 'rnn_size'
+      # let(hidden_size_given) { 0 } # aka 'hidden_size'
+      # let(hidden_size_given) { 16 } # aka 'hidden_size'
+      let(hidden_size_given) { 200 } # aka 'hidden_size'
+      let(time_col_qty) { 6 }        # aka 'seq_length' aka 'rnn_size'
       let(hidden_layer_qty) { 1 }    # aka ??? aka 'num_layers'
 
       # let(hidden_size_given) { 0 }
@@ -373,7 +377,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       # #   from src/ai4cr/breed/manager.cr:269:30 in '->'
       # #   from ???src/ai4cr/breed/manager.cr:105:17 in 'breed'
 
-      let(io_offset) { time_col_qty }
+      # let(io_offset) { time_col_qty }
 
       let(file_type_raw) { Ai4cr::Utils::IoData::FileType::Raw }
       let(file_type_iod) { Ai4cr::Utils::IoData::FileType::Iod }
@@ -416,8 +420,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
           #   end
           # end
 
-          context "10" do
-            let(max_members) { 10 }
+          context "20" do
+            let(max_members) { 20 }
 
             it "successive generations score better (i.e.: lower errors)" do
               compare_successive_training_rounds(

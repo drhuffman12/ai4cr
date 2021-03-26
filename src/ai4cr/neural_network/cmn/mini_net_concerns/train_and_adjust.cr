@@ -50,6 +50,7 @@ module Ai4cr
 
             step_calc_input_deltas
             step_update_weights
+            # auto_shrink_weights
           end
 
           # This would be a chained MiniNet's input_deltas
@@ -104,6 +105,20 @@ module Ai4cr
             step_update_weights_v1
             # step_update_weights_v2 # for larger weight sets, this become too much overhead
           end
+
+          # def auto_shrink_weights
+          #   if @output_deltas.map{|d| d.abs}.sum > @outputs_guessed.size
+          #     height_indexes.each do |j|
+          #       @weights[j].each_with_index do |_elem, k|
+          #         # change = @output_deltas[k]*@inputs_given[j]
+          #         # weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
+          #         # @weights[j][k] += weight_delta
+          #         # @last_changes[j][k] = change
+          #         @weights[j][k] = @weights[j][k] / (2*@outputs_guessed.size)
+          #       end
+          #     end
+          #   end
+          # end
 
           # Update weights after @deltas have been calculated.
           def step_update_weights_v1

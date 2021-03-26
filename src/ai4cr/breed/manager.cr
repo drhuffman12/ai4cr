@@ -263,7 +263,8 @@ module Ai4cr
 
             if verbose
               if i % STEP_MAJOR == 0
-                puts "\n  inputs_sequence (b) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
+                puts "\n  inputs_sequence (b) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging              puts "  outputs EXPECTED: '#{outputs}'"
+                puts "    aka: '#{Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(outputs)}'"
                 print "\n    "
               elsif i % STEP_MINOR == 0
                 print "."
@@ -341,7 +342,7 @@ module Ai4cr
 
             purge_qty += 1
             name = "pb"
-            delta = Ai4cr::Utils::Rand.rand_excluding(scale: 1, offset: -0.5)
+            delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -1.0)
             puts "\n---- i: #{i}, replacing member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: #{delta} ----\n"
 
             new_rand_member = create(**config)
