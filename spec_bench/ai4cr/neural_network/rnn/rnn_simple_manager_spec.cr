@@ -423,8 +423,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
           #   end
           # end
 
-          context "20" do
-            let(max_members) { 20 }
+          context "10" do
+            let(max_members) { 10 }
 
             it "successive generations score better (i.e.: lower errors)" do
               compare_successive_training_rounds(

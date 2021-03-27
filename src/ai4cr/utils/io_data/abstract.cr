@@ -9,7 +9,7 @@ module Ai4cr
         property iod = Array(Array(Float64)).new
         property prefix_raw_qty
         property prefix_raw_char
-        property default_to_bit_size
+        property default_to_bit_size # e.g.: to allow forcing from 32bit utf down to 8bit ascii (ignoring higher bits)
 
         def initialize(
           @file_path : String,
@@ -21,19 +21,19 @@ module Ai4cr
           case file_content_type
           when FileType::Raw
             @raw = (prefix_raw_char * prefix_raw_qty) + File.read(file_path)
-            @iod = self.class.convert_raw_to_iod(@raw)
+            @iod = self.class.convert_raw_to_iod(@raw, @default_to_bit_size)
           when FileType::Iod
             contents = File.read(file_path)
             @iod = Array(Array(Float64)).from_json(contents)
-            @raw = self.class.convert_iod_to_raw(@iod)[prefix_raw_qty..-1]
+            @raw = self.class.convert_iod_to_raw(@iod, @default_to_bit_size)[prefix_raw_qty..-1]
           end
         end
 
-        def self.convert_raw_to_iod(raw) : Array(Array(Float64))
+        def self.convert_raw_to_iod(raw, default_to_bit_size) : Array(Array(Float64))
           raise "Must be implemented in subclass"
         end
 
-        def self.convert_iod_to_raw(iod) : String
+        def self.convert_iod_to_raw(iod, default_to_bit_size) : String
           raise "Must be implemented in subclass"
         end
 
@@ -74,6 +74,7 @@ module Ai4cr
           inputs = iod[0..input_i_max].map { |d| d }
           outputs = iod[offset..output_i_max].map { |d| d }
 
+          # if default_to_bit_size > 0
           {
             inputs:  inputs,
             outputs: outputs,

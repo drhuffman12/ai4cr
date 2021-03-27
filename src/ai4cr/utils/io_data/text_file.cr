@@ -8,9 +8,9 @@ module Ai4cr
         UTF_MAX_AS_INT   = 0x10ffff
         UTF_MAX_AS_FLOAT = UTF_MAX_AS_INT.to_f
 
-        def self.convert_raw_to_iod(raw)
+        def self.convert_raw_to_iod(raw, default_to_bit_size = BIT_32_INDEXES.size)
           chars_as_bytes_of_bits = Array(Array(Float64)).new(raw.size)
-          raw.each_char { |char| chars_as_bytes_of_bits << char_to_bits(char) }
+          raw.each_char { |char| chars_as_bytes_of_bits << char_to_bits(char, default_to_bit_size) }
           chars_as_bytes_of_bits
         end
 
@@ -57,12 +57,12 @@ module Ai4cr
           bytes > UTF_MAX_AS_FLOAT ? UTF_MAX_AS_INT.chr.to_s : bytes.to_i.chr.to_s
         end
 
-        def self.bytes_to_chars(bytes)
-          bytes.map { |bits| bits_to_char(bits) }
+        def self.bytes_to_chars(bytes, default_to_bit_size = BIT_32_INDEXES.size)
+          bytes.map { |bits| bits_to_char(bits, default_to_bit_size) }
         end
 
-        def self.convert_iod_to_raw(iod)
-          bytes_to_chars(iod).join("")
+        def self.convert_iod_to_raw(iod, default_to_bit_size = BIT_32_INDEXES.size)
+          bytes_to_chars(iod, default_to_bit_size).join("")
         end
       end
     end
