@@ -384,11 +384,13 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       let(file_type_iod) { Ai4cr::Utils::IoData::FileType::Iod }
       # let(prefix_raw_qty) { time_col_qty }
       let(prefix_raw_char) { " " }
+      let(default_to_bit_size) { 8 }
 
       let(io_set_text_file) do
         Ai4cr::Utils::IoData::TextFile.new(
           file_path, file_type_raw,
-          prefix_raw_qty, prefix_raw_char
+          prefix_raw_qty, prefix_raw_char,
+          default_to_bit_size
         )
       end
 

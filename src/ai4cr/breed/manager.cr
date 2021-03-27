@@ -250,7 +250,10 @@ module Ai4cr
           # puts "outputs_sequence.size: #{outputs_sequence.size}"
           # puts "outputs_sequence.first.size: #{outputs_sequence.first.size}"
           # puts "outputs_sequence.first.first.size: #{outputs_sequence.first.first.size}"
-          purge_error_limit = PURGE_ERROR_LIMIT_SCALE*(outputs_sequence.first.size * outputs_sequence.first.first.size)
+          a = PURGE_ERROR_LIMIT_SCALE
+          b = outputs_sequence.first.size
+          c = outputs_sequence.first.first.size || 1.0
+          purge_error_limit = a * b * c
         end
 
         # team_members = purge_replace(team_members, purge_error_limit)

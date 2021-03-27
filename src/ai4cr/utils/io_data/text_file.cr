@@ -14,14 +14,23 @@ module Ai4cr
           chars_as_bytes_of_bits
         end
 
-        def self.char_to_bits(char)
+        def self.char_to_bits(char, default_to_bit_size = BIT_32_INDEXES.size)
           bytes = char.ord
-          BIT_32_INDEXES.map { |i| bytes.bit(i) * 1.0 }
+          bit_index_size(default_to_bit_size).map { |i| bytes.bit(i) * 1.0 }
         end
 
-        def self.bits_to_char(bits)
+        def self.bit_index_size(default_to_bit_size = BIT_32_INDEXES.size)
+          if default_to_bit_size <= 0
+            BIT_32_INDEXES
+          else
+            (0..default_to_bit_size - 1)
+          end
+        end
+
+        def self.bits_to_char(bits, default_to_bit_size = BIT_32_INDEXES.size)
           # When converting back to a character, any 'fuzzy' bits must be forced to 0.0 or 1.0.
-          indexes = bits.size < BIT_32_INDEXES.size ? (0..bits.size - 1).to_a : BIT_32_INDEXES
+          bidxs = bit_index_size(default_to_bit_size)
+          indexes = bits.size < bidxs.size ? (0..bits.size - 1).to_a : bidxs
           bytes = indexes.sum do |i|
             bit = bits[i]
             # bit = if bit <= 0.0

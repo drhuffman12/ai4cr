@@ -9,8 +9,15 @@ module Ai4cr
         property iod = Array(Array(Float64)).new
         property prefix_raw_qty
         property prefix_raw_char
+        property default_to_bit_size
 
-        def initialize(@file_path : String, file_content_type : FileType, @prefix_raw_qty = 0, @prefix_raw_char = " ")
+        def initialize(
+          @file_path : String,
+          file_content_type : FileType,
+          @prefix_raw_qty = 0,
+          @prefix_raw_char = " ",
+          @default_to_bit_size = 0
+        )
           case file_content_type
           when FileType::Raw
             @raw = (prefix_raw_char * prefix_raw_qty) + File.read(file_path)

@@ -1,5 +1,6 @@
 require "benchmark"
-require "./../../../../src/ai4cr.cr"
+# require "./../../../../src/ai4cr.cr"
+require "../../../src/ai4cr.cr"
 
 FILE_PATH = "./spec_bench/support/neural_network/data/bible_utf/eng-web_002_GEN_01_read.txt"
 
