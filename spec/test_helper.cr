@@ -72,7 +72,7 @@ end
 
 def guess(net, raw_in)
   result = net.eval(raw_in)
-  result.map { |v| v.round(6) }
+  result.map(&.round(6))
 end
 
 def result_label(result)

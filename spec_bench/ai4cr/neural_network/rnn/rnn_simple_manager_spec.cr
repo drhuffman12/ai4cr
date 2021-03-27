@@ -331,12 +331,13 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
 
       # let(io_offset) { (time_col_qty / 2).to_i }
       let(io_offset) { time_col_qty }
+      let(prefix_raw_qty) { 0 }
 
       # mid-sized rnn:
       let(train_qty) { 2 } # aka ??? aka ???
       # let(hidden_size_given) { 0 } # aka 'hidden_size'
       # let(hidden_size_given) { 16 } # aka 'hidden_size'
-      let(hidden_size_given) { 200 } # aka 'hidden_size'
+      let(hidden_size_given) { 320 } # aka 'hidden_size'
       let(time_col_qty) { 6 }        # aka 'seq_length' aka 'rnn_size'
       let(hidden_layer_qty) { 1 }    # aka ??? aka 'num_layers'
 
@@ -381,7 +382,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
 
       let(file_type_raw) { Ai4cr::Utils::IoData::FileType::Raw }
       let(file_type_iod) { Ai4cr::Utils::IoData::FileType::Iod }
-      let(prefix_raw_qty) { time_col_qty }
+      # let(prefix_raw_qty) { time_col_qty }
       let(prefix_raw_char) { " " }
 
       let(io_set_text_file) do

@@ -408,7 +408,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       it "creates members of specified class" do
         qty_new_members = 4
         next_gen_members = my_breed_manager.build_team(qty_new_members)
-        member_classes = next_gen_members.map { |member| member.class.name }.sort.uniq
+        member_classes = next_gen_members.map(&.class.name).sort!.uniq!
         expect(member_classes.size).to eq(1)
         expect(member_classes.first).to eq(Ai4cr::NeuralNetwork::Rnn::RnnSimple.name)
       end
@@ -426,7 +426,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         qty_new_members = 4
         params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
         next_gen_members = my_breed_manager.build_team(qty_new_members, **params)
-        member_classes = next_gen_members.map { |member| member.class.name }.sort.uniq
+        member_classes = next_gen_members.map(&.class.name).sort!.uniq!
         expect(member_classes.size).to eq(1)
         expect(member_classes.first).to eq(Ai4cr::NeuralNetwork::Rnn::RnnSimple.name)
       end

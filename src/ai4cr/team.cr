@@ -83,7 +83,7 @@ module Ai4cr
         raise "Missing a thread" if sum != @team_members.Size
 
         # grade
-        @team_members = @team_members.sort_by { |tm| tm.error_stats.distance }[0..team_size - 1]
+        @team_members = @team_members.sort_by(&.error_stats.distance)[0..team_size - 1]
       end
     end
   end

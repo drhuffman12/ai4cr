@@ -39,7 +39,7 @@ module Ai4cr
           end
 
           def calculate_error_distance
-            @error_stats.distance = @output_errors.map { |e| 0.5 * e ** 2 }.sum
+            @error_stats.distance = @output_errors.sum { |e| 0.5 * e ** 2 }
 
             # # calculate_error_distance_history
             # @error_stats.distance

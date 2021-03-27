@@ -72,7 +72,9 @@ module Ai4cr
             end
           end.compact
 
+          # ameba:disable Performance/AnyInsteadOfEmpty
           @weight_height_mismatches.any? ? false : true
+          # ameba:enable Performance/AnyInsteadOfEmpty
         end
 
         def errors

@@ -48,7 +48,7 @@ module Ai4cr
               -guess
             end
           end
-          deltas.map { |d| d.abs }.sum / deltas.size
+          deltas.sum(&.abs) / deltas.size
         end
 
         def iod_certainty(iod_guessed)

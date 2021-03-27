@@ -22,7 +22,7 @@ module Ai4cr
         def self.bits_to_char(bits)
           # When converting back to a character, any 'fuzzy' bits must be forced to 0.0 or 1.0.
           indexes = bits.size < BIT_32_INDEXES.size ? (0..bits.size - 1).to_a : BIT_32_INDEXES
-          bytes = indexes.map do |i|
+          bytes = indexes.sum do |i|
             bit = bits[i]
             # bit = if bit <= 0.0
             #         0.0
@@ -44,7 +44,7 @@ module Ai4cr
                   end
 
             bit * (2.0**i)
-          end.sum
+          end
           bytes > UTF_MAX_AS_FLOAT ? UTF_MAX_AS_INT.chr.to_s : bytes.to_i.chr.to_s
         end
 

@@ -111,7 +111,7 @@ module Ai4cr
             validate_outputs(@outputs_guessed, @width_indexes.size)
 
             @outputs_guessed = @width_indexes.map do |w|
-              sum = @height_indexes.map do |h|
+              sum = @height_indexes.sum do |h|
                 # @inputs_given[h]*@weights[h][w]
                 val = @inputs_given[h]*@weights[h][w]
                 case
@@ -122,7 +122,7 @@ module Ai4cr
                 else
                   val
                 end
-              end.sum
+              end
               propagation_function.call(sum)
             end
 
@@ -179,11 +179,11 @@ module Ai4cr
           end
 
           def guesses_rounded # good for MiniNet::Sigmoid; and maybe MiniNetRanh
-            @outputs_guessed.map { |v| v.round }
+            @outputs_guessed.map(&.round)
           end
 
           def guesses_ceiled # good for MiniNetRelu
-            @outputs_guessed.map { |v| v.ceil }
+            @outputs_guessed.map(&.ceil)
           end
 
           def guesses_top_n(n = @outputs_guessed.size)

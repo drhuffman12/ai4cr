@@ -212,7 +212,7 @@ module Ai4cr
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
         end
 
-        (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
+        (team_members.sort_by(&.error_stats.score))[0..max_members - 1]
       end
 
       # ameba:disable Metrics/CyclomaticComplexity
@@ -310,7 +310,7 @@ module Ai4cr
           end
 
           team_members = purge_replace(team_members, purge_error_limit, i)
-          team_members = (team_members.sort_by { |contestant| contestant.error_stats.score })[0..max_members - 1]
+          team_members = (team_members.sort_by(&.error_stats.score))[0..max_members - 1]
         end
 
         team_members
@@ -334,7 +334,7 @@ module Ai4cr
             name = "Pr"
             puts "\n---- i: #{i}, replacing member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: N/A ----\n"
 
-            new_rand_member = create(**config).tap { |c| c.name = name }
+            new_rand_member = create(**config).tap(&.name=(name))
           when d > purge_error_limit
             # We need to move away from this member's configuration,
             #   but don't want to totally 'forget' all the training results/adjustments,
@@ -346,7 +346,7 @@ module Ai4cr
             puts "\n---- i: #{i}, replacing member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: #{delta} ----\n"
 
             new_rand_member = create(**config)
-            breed(member, new_rand_member, delta).tap { |c| c.name = name }
+            breed(member, new_rand_member, delta).tap(&.name=(name))
           else
             # Member ok as-is
             member
@@ -394,17 +394,17 @@ module Ai4cr
               contestant = if i == j
                              # Don't bother breeding a member with itself
                              # "#{c.name + " S"}"
-                             member_i.tap { |c| c.name = "S" } # same
+                             member_i.tap(&.name=("S")) # same
                            elsif i < j
                              # Try to guess a delta that is closer to a zero error
                              delta = estimate_better_delta(member_i, member_j)
                              # "#{c.name + " x"}"
-                             breed(member_i, member_j, delta).tap { |c| c.name = "z" } # target zero delta
+                             breed(member_i, member_j, delta).tap(&.name=("z")) # target zero delta
                            else
                              # Just take a chance with a random delta
                              delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -0.5)
                              # "#{c.name + " r"}"
-                             breed(member_i, member_j, delta).tap { |c| c.name = "r" } # random delta
+                             breed(member_i, member_j, delta).tap(&.name=("r")) # random delta
                            end
 
               channel.send contestant
@@ -412,7 +412,7 @@ module Ai4cr
           end
         end
 
-        (1..team_members.size).map { team_members.map { channel.receive } }.flatten
+        (1..team_members.size).flat_map { team_members.map { channel.receive } }
       end
 
       def eval_team(team_members, inputs)
@@ -443,7 +443,7 @@ module Ai4cr
           guesses[hash.keys.first] = hash[hash.keys.first]
         end
 
-        guesses.keys.sort.map { |k| guesses[k] }
+        guesses.keys.sort!.map! { |k| guesses[k] }
       end
     end
   end
