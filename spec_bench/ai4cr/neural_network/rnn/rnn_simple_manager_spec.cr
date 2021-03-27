@@ -316,12 +316,13 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       # let(train_qty) { 4 }
       # let(train_qty) { 8 }
 
-      # # Matching params in https://gist.github.com/karpathy/d4dee566867f8291f086
-      # # See also: https://github.com/karpathy/char-rnn
-      # let(train_qty) { 4 } # aka ??? aka ???
+      # Matching params in https://gist.github.com/karpathy/d4dee566867f8291f086
+      # See also: https://github.com/karpathy/char-rnn
+      let(train_qty) { 3 } # aka ??? aka ???
       # let(hidden_size_given) { 100 } # aka 'hidden_size'
-      # let(time_col_qty) { 25 } # aka 'seq_length' aka 'rnn_size'
-      # let(hidden_layer_qty) { 2 } # aka ??? aka 'num_layers'
+      let(hidden_size_given) { 160 } # aka 'hidden_size'
+      let(time_col_qty) { 25 }       # aka 'seq_length' aka 'rnn_size'
+      let(hidden_layer_qty) { 2 }    # aka ??? aka 'num_layers'
 
       # # small rnn:
       # let(train_qty) { 4 }         # aka ??? aka ???
@@ -333,13 +334,13 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       let(io_offset) { time_col_qty }
       let(prefix_raw_qty) { 0 }
 
-      # mid-sized rnn:
-      let(train_qty) { 2 } # aka ??? aka ???
-      # let(hidden_size_given) { 0 } # aka 'hidden_size'
-      # let(hidden_size_given) { 16 } # aka 'hidden_size'
-      let(hidden_size_given) { 320 } # aka 'hidden_size'
-      let(time_col_qty) { 6 }        # aka 'seq_length' aka 'rnn_size'
-      let(hidden_layer_qty) { 1 }    # aka ??? aka 'num_layers'
+      # # mid-sized rnn:
+      # let(train_qty) { 2 } # aka ??? aka ???
+      # # let(hidden_size_given) { 0 } # aka 'hidden_size'
+      # # let(hidden_size_given) { 16 } # aka 'hidden_size'
+      # let(hidden_size_given) { 320 } # aka 'hidden_size'
+      # let(time_col_qty) { 6 }        # aka 'seq_length' aka 'rnn_size'
+      # let(hidden_layer_qty) { 1 }    # aka ??? aka 'num_layers'
 
       # let(hidden_size_given) { 0 }
       # let(hidden_size_given) { 16 }
