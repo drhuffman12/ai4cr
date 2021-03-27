@@ -321,8 +321,9 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       let(train_qty) { 3 } # aka ??? aka ???
       # let(hidden_size_given) { 100 } # aka 'hidden_size'
       let(hidden_size_given) { 160 } # aka 'hidden_size'
-      let(time_col_qty) { 25 }       # aka 'seq_length' aka 'rnn_size'
-      let(hidden_layer_qty) { 2 }    # aka ??? aka 'num_layers'
+      # let(hidden_size_given) { 320 } # aka 'hidden_size'
+      let(time_col_qty) { 25 }    # aka 'seq_length' aka 'rnn_size'
+      let(hidden_layer_qty) { 4 } # aka ??? aka 'num_layers'
 
       # # small rnn:
       # let(train_qty) { 4 }         # aka ??? aka ???
