@@ -1,11 +1,13 @@
 name: ai4cr
-version: 0.1.23
+version: 0.1.24
 
 authors:
   - Daniel Huffman <drhuffman12@yahoo.com>
 
-crystal: ">= 0.36.0"
+# crystal: ">= 0.36.0"
 # crystal: 1.0
+# crystal: "< 2.0.0"
+# crystal: ">= 1.0"
 
 license: MIT
 
@@ -23,7 +25,8 @@ development_dependencies:
   ## Un-comment/edit after Crystal 0.36.0 or 1.0 compatible:
   ameba:
     github: crystal-ameba/ameba
-    version: ~> 0.13.4
+    version: ~> 0.14.1
+    # version: ~> 0.13.4
     # branch: master
     #   # version: ~> 0.13.3
     #   ## REVERT to crystal-ameba/ameba after it is Crystal 1.0 compatible.
@@ -38,14 +41,14 @@ development_dependencies:
 
   ## Un-comment/edit after Crystal 0.36.0 or 1.0 compatible:
   spectator:
-    # gitlab: arctic-fox/spectator
-    # branch: master
-    # version: ">= 0.9.31"
+    gitlab: arctic-fox/spectator
+    branch: master
+    version: ">= 0.9.33"
 
-    github: drhuffman12/spectator
+    # github: drhuffman12/spectator
     # branch: drhuffman12/bump_crystal_version_to_1
     # branch: drhuffman12/master
-    branch: drhuffman12/bump_crystal_version_to_0_36_0b
+    # branch: drhuffman12/bump_crystal_version_to_0_36_0b
 
   ## Un-comment after Crystal 1.0 compatible:
   # aasm:
@@ -59,6 +62,8 @@ development_dependencies:
 
   faker:
     github: askn/faker
+    # github: osacar/faker
+    # version: "0.6.0"
 
   # # TODO: Fix ameba dependencies or wait for newer version of crystal-coverage (aka https://github.com/anykeyh/crystal-coverage)
   # # Error is:
