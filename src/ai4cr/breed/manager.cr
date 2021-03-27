@@ -187,6 +187,19 @@ module Ai4cr
         end
       end
 
+      def build_team(qty_new_members : Int32 = QTY_NEW_MEMBERS_DEFAULT) : Array(T)
+        params = gen_params.merge(name: "P")
+        # build_team(qty_new_members, **params)
+
+        channel = Channel(T).new
+        (1..qty_new_members).map do
+          spawn do
+            channel.send(create(**params))
+          end
+        end
+        (1..qty_new_members).map { channel.receive }
+      end
+
       def build_team(qty_new_members : Int32, **params) : Array(T)
         channel = Channel(T).new
         (1..qty_new_members).map do
@@ -197,9 +210,18 @@ module Ai4cr
         (1..qty_new_members).map { channel.receive }
       end
 
-      def build_team(qty_new_members : Int32 = QTY_NEW_MEMBERS_DEFAULT) : Array(T)
+      def build_team : Array(T)
+        qty_new_members = QTY_NEW_MEMBERS_DEFAULT
         params = gen_params.merge(name: "P")
-        build_team(qty_new_members, **params)
+        # build_team(qty_new_members, **params)
+
+        channel = Channel(T).new
+        (1..qty_new_members).map do
+          spawn do
+            channel.send(create(**params))
+          end
+        end
+        (1..qty_new_members).map { channel.receive }
       end
 
       def train_team(inputs, outputs, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1, and_cross_breed = true)
