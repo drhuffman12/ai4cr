@@ -9,6 +9,8 @@ module Ai4cr
         property iod = Array(Array(Float64)).new
         property prefix_raw_qty
         property prefix_raw_char
+
+        # TODO: Replace(?)/Supplement(?) below with actual UTF-to-ASCII conversion! (And ASCII-to-UTF reversion)
         property default_to_bit_size # e.g.: to allow forcing from 32bit utf down to 8bit ascii (ignoring higher bits)
 
         def initialize(
