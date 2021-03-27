@@ -27,8 +27,12 @@ module Ai4cr
       QTY_NEW_MEMBERS_DEFAULT = 10
       MAX_MEMBERS_DEFAULT     = QTY_NEW_MEMBERS_DEFAULT
       PURGE_ERROR_LIMIT_SCALE = 1e12
-      STEP_MINOR              =   10
-      STEP_MAJOR              = 10 * STEP_MINOR
+      # STEP_MINOR              =   10
+      # STEP_MAJOR              = 10 * STEP_MINOR
+
+      STEP_MINOR              =   2
+      STEP_MAJOR              = 2 * STEP_MINOR
+
 
       ############################################################################
       # TODO: WHY is this required?
@@ -357,7 +361,7 @@ module Ai4cr
             # We need to move away from this member's configuration completely
             purge_qty += 1
             name = "Pr"
-            puts "\n---- i: #{i}, replacing member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: N/A ----\n"
+            puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: N/A ----\n"
 
             new_rand_member = create(**config).tap(&.name=(name))
           when d > purge_error_limit
@@ -368,12 +372,14 @@ module Ai4cr
             purge_qty += 1
             name = "pb"
             delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -1.0)
-            puts "\n---- i: #{i}, replacing member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: #{delta} ----\n"
+            puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: #{delta} ----\n"
 
             new_rand_member = create(**config)
             breed(member, new_rand_member, delta).tap(&.name=(name))
           else
             # Member ok as-is
+            puts "\n---- i: #{i}, keeping member.birth_id: #{member.birth_id}; name: #{member.name}, d: #{d}, delta: n/a ----\n"
+
             member
           end
         end
