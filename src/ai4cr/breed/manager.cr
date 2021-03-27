@@ -354,7 +354,7 @@ module Ai4cr
         end
 
         if purge_qty > 0
-          puts "\n**** i: #{i}, purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} ****\n"
+          puts "\n**** i: #{i}, purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} at #{Time.local} ****\n"
 
           # team_members = team_members + build_team(purge_qty, **config)
         end
