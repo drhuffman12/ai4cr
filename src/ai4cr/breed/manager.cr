@@ -41,8 +41,8 @@ module Ai4cr
       # STEP_MINOR              =   10
       # STEP_MAJOR              = 10 * STEP_MINOR
 
-      STEP_MINOR = 2
-      STEP_MAJOR = 2 * STEP_MINOR
+      STEP_MINOR = 2 # about 1 min +/-
+      STEP_MAJOR = 8 * STEP_MINOR # about 5 min's +/-
 
       ############################################################################
       # TODO: WHY is this required?
@@ -289,8 +289,18 @@ module Ai4cr
         # cpu = Hardware::CPU.new # seems unreliable
 
         # team_members = purge_replace(team_members, purge_error_limit)
+        beginning = Time.local
+        before = beginning
 
-        before = Time.local
+        list = Array(Int32).new
+        hist = Hash(Int32, Int32).new(0)
+        perc = Hash(Int32, Float64).new(0.0)
+        all_hists = Array(Hash(Int32, Int32)).new
+        max_hists = 100
+        i_max = inputs_sequence.size
+        tc_size = outputs_sequence.first.size
+
+
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
 
@@ -359,7 +369,7 @@ module Ai4cr
                   # Thanks to the 'hardware' shard:
                   puts "System info:"
                   memory = Hardware::Memory.new
-                  p! memory.used.humanize
+                  # p! memory.used.humanize
                   p! memory.percent.round(1)
                   # p! cpu.usage!.to_i # .round(1)
 
@@ -380,12 +390,13 @@ module Ai4cr
                   puts "          " + member.error_hist_stats(in_bw: true)
 
                   output_str_matches = outputs_str_expected.each_char.map_with_index do |ose, oi|
-                    ose.to_s == outputs_str_actual[oi].to_s ? 1.0 : 0.0
+                    ose.to_s == outputs_str_actual[oi].to_s ? 1 : 0
                   end
                   qty_correct = output_str_matches.sum
-                  qty_all = output_str_matches.size
-                  percent_correct = 100.0 * qty_correct / qty_all
-                  puts "          percent_correct: #{qty_correct} of #{qty_all} => #{CHARTER.plot(output_str_matches, false)} => #{percent_correct}%"
+                  percent_correct = 100.0 * qty_correct / tc_size
+                  puts "          percent_correct: #{qty_correct} of #{tc_size} => #{CHARTER.plot(output_str_matches, false)} => #{percent_correct}%"
+                  list << qty_correct
+
 
                   # all_output_errors
 
@@ -454,20 +465,60 @@ module Ai4cr
           team_members = purge_replace(team_members, purge_error_limit, i)
           team_members = (team_members.sort_by(&.error_stats.score))[0..max_members - 1]
 
-          after = Time.local
-          p! i
-          p! (after - before)
-          # Thanks to the 'hardware' shard:
-          puts "System info:"
-          memory = Hardware::Memory.new
-          p! memory.used.humanize
-          p! memory.percent.round(1)
-          # p! cpu.usage!.to_i # .round(1)
+          if verbose && i % STEP_MAJOR == 0
+            after = Time.local
 
-          before = after
+            puts "="*80
+            puts "Currently:"
+            p! i
+            p! (after - before)
+            p! (after - beginning)
+            puts "ETA (duration):"
+            p! (after - beginning) * i_max / (i + 1)
+            puts "-"*80
+            puts "Percent Complete:"
+            p! (i + 1) / i_max
+            puts "ETA (time):"
+            p! beginning + ((after - beginning) * i_max / (i + 1))
+            puts "-"*80
+
+            # Thanks to the 'hardware' shard:
+            puts "System info:"
+            memory = Hardware::Memory.new
+            # p! memory.used.humanize
+            p! memory.percent.round(1)
+            # p! cpu.usage!.to_i # .round(1)
+            puts "^"*80
+
+            # Now for some percent-correct stat's:
+            tc_size.times do |i|
+              hist[i+1] = 0
+              perc[i+1] = 0.0
+            end
+            list.each do |i|
+              hist[i+1] += 1
+            end
+            tc_size.times do |i|
+              perc[i+1] = 100.0 * hist[i+1] / tc_size
+              puts "hist[#{i+1}] : #{hist[i+1]}"
+              puts "perc[#{i+1}] : #{perc[i+1]}"
+            end
+
+            all_hists << hist
+            all_hists = all_hists[-100..-1] if all_hists.size > 100
+
+            p! hist
+            p! perc
+            p! all_hists
+            puts "-"*80
+            
+            before = after
+          end
 
           team_members
         end
+
+        p! all_hists
 
         team_members
       end
