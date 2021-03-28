@@ -507,6 +507,10 @@ module Ai4cr
             p! hist
             p! perc
             p! perc.values.sum
+
+            perc_vals = perc.values.map(&./(100))
+            p! CHARTER.plot(perc_vals, true)
+
             p! all_hists
             puts "-"*80
 
