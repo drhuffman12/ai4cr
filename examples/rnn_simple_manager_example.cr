@@ -198,3 +198,13 @@ r.compare_successive_training_rounds(
   train_qty,
   io_set_text_file
 )
+
+r.compare_successive_training_rounds(
+  io_offset, time_col_qty,
+  inputs_sequence, outputs_sequence,
+  hidden_layer_qty, hidden_size_given,
+  qty_new_members,
+  my_breed_manager, max_members,
+  train_qty,
+  io_set_text_file
+)
