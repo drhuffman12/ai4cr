@@ -498,8 +498,6 @@ module Ai4cr
             end
             tc_size.times do |tc|
               perc[tc + 1] = 100.0 * hist[tc + 1] / tc_size
-              puts "hist[#{tc + 1}] : #{hist[tc + 1]}"
-              puts "perc[#{tc + 1}] : #{perc[tc + 1]}"
             end
 
             all_hists << hist
