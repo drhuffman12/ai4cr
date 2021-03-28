@@ -295,7 +295,7 @@ module Ai4cr
         list = Array(Int32).new
         hist = Hash(Int32, Int32).new(0)
         perc = Hash(Int32, Float64).new(0.0)
-        all_hists = Array(Hash(Int32, Int32)).new
+        recent_hists = Array(Hash(Int32, Int32)).new
         max_hists = 10
         i_max = inputs_sequence.size
         tc_size = outputs_sequence.first.size
@@ -501,8 +501,8 @@ module Ai4cr
               perc[qc] = (100.0 * hist[qc] / hist_qty).round(1)
             end
 
-            all_hists << hist.clone
-            all_hists = all_hists[-max_hists..-1] if all_hists.size > max_hists
+            recent_hists << hist.clone
+            recent_hists = recent_hists[-max_hists..-1] if recent_hists.size > max_hists
 
             p! hist
             p! perc
@@ -511,7 +511,7 @@ module Ai4cr
             perc_vals = perc.values.map(&./(100))
             p! CHARTER.plot(perc_vals, false)
 
-            p! all_hists
+            p! recent_hists
             puts "-"*80
 
             list = Array(Int32).new
@@ -524,7 +524,7 @@ module Ai4cr
           team_members
         end
 
-        p! all_hists
+        p! recent_hists
 
         team_members
       end
