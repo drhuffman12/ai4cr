@@ -285,11 +285,12 @@ module Ai4cr
         end
 
         # Thanks to the 'hardware' shard:
-        memory = Hardware::Memory.new
+        # memory = Hardware::Memory.new
         # cpu = Hardware::CPU.new # seems unreliable
 
         # team_members = purge_replace(team_members, purge_error_limit)
 
+        before = Time.local
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
 
@@ -357,6 +358,7 @@ module Ai4cr
                 team_members.each do |member|
                   # Thanks to the 'hardware' shard:
                   puts "System info:"
+                  memory = Hardware::Memory.new
                   p! memory.used.humanize
                   p! memory.percent.round(1)
                   # p! cpu.usage!.to_i # .round(1)
@@ -451,6 +453,20 @@ module Ai4cr
 
           team_members = purge_replace(team_members, purge_error_limit, i)
           team_members = (team_members.sort_by(&.error_stats.score))[0..max_members - 1]
+
+          after = Time.local
+          p! i
+          p! (after - before)
+          # Thanks to the 'hardware' shard:
+          puts "System info:"
+          memory = Hardware::Memory.new
+          p! memory.used.humanize
+          p! memory.percent.round(1)
+          # p! cpu.usage!.to_i # .round(1)
+
+          before = after
+
+          team_members
         end
 
         team_members
