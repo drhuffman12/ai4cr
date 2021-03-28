@@ -133,13 +133,13 @@ file_path = "./spec_bench/support/neural_network/data/bible_utf/eng-web_002_GEN_
 file_type_raw = Ai4cr::Utils::IoData::FileType::Raw
 prefix_raw_qty = 0
 prefix_raw_char = " "
-chars_at_a_time = 0
+default_to_bit_size = 8
 
 io_set_text_file = Ai4cr::Utils::IoData::TextFileIodBits.new(
   # io_set_text_file = Ai4cr::Utils::IoData::TextFileIodFloat.new(
   file_path, file_type_raw,
   prefix_raw_qty, prefix_raw_char,
-  chars_at_a_time
+  default_to_bit_size
 )
 
 # re 'compare_successive_training_rounds'
