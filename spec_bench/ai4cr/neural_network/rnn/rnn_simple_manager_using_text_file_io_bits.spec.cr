@@ -2,7 +2,6 @@ require "../../../../spec/spectator_helper"
 require "../../../spec_bench_helper"
 # require "../../../support/neural_network/data/*"
 
-
 # puts Char::MAX_CODEPOINT
 # puts Char::MAX_CODEPOINT.class
 # # puts Char::MAX_CODEPOINT.ord
@@ -20,7 +19,7 @@ require "../../../spec_bench_helper"
 
 # def bytes_to_charaf(bytes)
 #   bytes.map{|b| [bits_to_charaf(b)]}
-  
+
 # end
 
 #   a = [

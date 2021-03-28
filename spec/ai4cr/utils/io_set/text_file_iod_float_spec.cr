@@ -44,7 +44,7 @@ Spectator.describe Ai4cr::Utils::IoData::TextFileIodFloat do
       debug_data = iod[0..4]
       puts debug_data
     end
-    
+
     describe "when given raw text data" do
       describe "assigns" do
         describe "raw, which" do
@@ -434,7 +434,7 @@ Spectator.describe Ai4cr::Utils::IoData::TextFileIodFloat do
           certainty = io_set_text_file.iod_certainty(iod_guess_low_confidence)
           puts_debug "certainty: #{certainty}"
           expect(certainty).to be < 1.0
-          expect(certainty).to eq(0.4843750000000001)
+          expect(certainty).to eq(0.5260416666666666)
         end
       end
     end

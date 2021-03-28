@@ -3,7 +3,6 @@ require "../../../spec_bench_helper"
 # require "../../../support/neural_network/data/*"
 
 Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
-
   # STEP_MAJOR, STEP_MINOR,
   # STEP_MINOR              =   2
   # STEP_MAJOR              = 2 * STEP_MINOR
@@ -20,7 +19,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
   #     end
   #   # end
   # end
-  
+
   # def compare_successive_training_rounds(
   #   io_offset, time_col_qty,
   #   inputs_sequence, outputs_sequence,
@@ -63,7 +62,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
   #   puts "\n  * first_gen_members (building)..."
   #   first_gen_members = my_breed_manager.build_team(qty_new_members, **params)
   #   puts "\n  * second_gen_members (breeding and training; after training first_gen_members)..."
-  #   second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, first_gen_members, max_members, train_qty) # , block_logger: train_team_using_sequence_logger) 
+  #   second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, first_gen_members, max_members, train_qty) # , block_logger: train_team_using_sequence_logger)
   #   puts "\n  * third_gen_members (breeding and training; after training second_gen_members) ..."
   #   third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, second_gen_members, max_members, train_qty) # , block_logger: train_team_using_sequence_logger)
 
@@ -140,7 +139,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
   )
     # it "successive generations score better (i.e.: lower errors)" do
     # TODO: (a) move to 'spec_bench' and (b) replace here with more 'always' tests
-  
+
     puts
     puts "v"*40
     puts "successive generations score better (?) .. max_members: #{max_members} .. start"
@@ -148,7 +147,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     puts "when_before: #{when_before}"
     puts "file_path: #{file_path}"
     puts
-  
+
     params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new(
       io_offset: io_offset,
       time_col_qty: time_col_qty,
@@ -157,7 +156,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       hidden_layer_qty: hidden_layer_qty,
       hidden_size_given: hidden_size_given
     ).config
-  
+
     # puts
     # puts "first_gen_members: #{first_gen_members}"
     puts "inputs_sequence.size: #{inputs_sequence.size}"
@@ -166,45 +165,45 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     puts "inputs_sequence.class: #{inputs_sequence.class}"
     puts "outputs_sequence.class: #{outputs_sequence.class}"
     puts "params: #{params}"
-  
+
     puts "* build/train teams"
     puts "\n  * first_gen_members (building)..."
     first_gen_members = my_breed_manager.build_team(qty_new_members, **params)
     puts "\n  * second_gen_members (breeding and training; after training first_gen_members)..."
-    second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, first_gen_members, io_set_text_file, max_members, train_qty) # , block_logger: train_team_using_sequence_logger) 
+    second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, first_gen_members, io_set_text_file, max_members, train_qty) # , block_logger: train_team_using_sequence_logger)
     puts "\n  * third_gen_members (breeding and training; after training second_gen_members) ..."
     third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, second_gen_members, io_set_text_file, max_members, train_qty) # , block_logger: train_team_using_sequence_logger)
-  
+
     puts "* score and stats ..."
     # puts "  * first_gen_members ..."
     p "."
     first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
     first_gen_members_stats = first_gen_members.map { |member| member.error_hist_stats }
-  
+
     # puts "  * second_gen_members ..."
     p "."
     second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
     second_gen_members_stats = second_gen_members.map { |member| member.error_hist_stats }
-  
+
     # puts "  * third_gen_members ..."
     p "."
     third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
     third_gen_members_stats = third_gen_members.map { |member| member.error_hist_stats }
-  
+
     puts
     puts "#train_team_using_sequence (text from Bible):"
     puts
     puts "first_gen_members_scored: #{first_gen_members_scored}"
     first_gen_members_stats.each { |m| puts m }
-  
+
     puts
     puts "second_gen_members_scored: #{second_gen_members_scored}"
     second_gen_members_stats.each { |m| puts m }
-  
+
     puts
     puts "third_gen_members_scored: #{third_gen_members_scored}"
     third_gen_members_stats.each { |m| puts m }
-  
+
     when_after = Time.local
     puts "when_after: #{when_after}"
     when_delta = when_after - when_before
@@ -214,10 +213,10 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     puts "successive generations score better (?) .. max_members: #{max_members} .. end"
     puts "-"*40
     puts
-  
+
     expect(second_gen_members_scored).to be < first_gen_members_scored
     expect(third_gen_members_scored).to be < second_gen_members_scored
-  
+
     # end
     # rescue e
     #   # puts "e:"
@@ -235,7 +234,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
     #   puts "successive generations score better (?) .. max_members: #{max_members} .. end"
     #   puts "-"*40
     #   puts
-  end  
+  end
 
   let(my_breed_manager) { Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager.new }
 
@@ -568,7 +567,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
                 hidden_layer_qty, hidden_size_given,
                 qty_new_members,
                 my_breed_manager, max_members, train_qty,
-                      io_set_text_file
+                io_set_text_file
               )
             end
           end
@@ -612,7 +611,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
                 hidden_layer_qty, hidden_size_given,
                 qty_new_members,
                 my_breed_manager, max_members, train_qty,
-                      io_set_text_file
+                io_set_text_file
               )
             end
           end
@@ -627,7 +626,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
                 hidden_layer_qty, hidden_size_given,
                 qty_new_members,
                 my_breed_manager, max_members, train_qty,
-                      io_set_text_file
+                io_set_text_file
               )
             end
           end
@@ -699,7 +698,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
                 hidden_layer_qty, hidden_size_given,
                 qty_new_members,
                 my_breed_manager, max_members, train_qty,
-                      io_set_text_file
+                io_set_text_file
               )
             end
           end
@@ -714,7 +713,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
                 hidden_layer_qty, hidden_size_given,
                 qty_new_members,
                 my_breed_manager, max_members, train_qty,
-                      io_set_text_file
+                io_set_text_file
               )
             end
           end
@@ -729,7 +728,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
                 hidden_layer_qty, hidden_size_given,
                 qty_new_members,
                 my_breed_manager, max_members, train_qty,
-                      io_set_text_file
+                io_set_text_file
               )
             end
           end
@@ -801,7 +800,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
                 hidden_layer_qty, hidden_size_given,
                 qty_new_members,
                 my_breed_manager, max_members, train_qty,
-                      io_set_text_file
+                io_set_text_file
               )
             end
           end
@@ -816,7 +815,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
                 hidden_layer_qty, hidden_size_given,
                 qty_new_members,
                 my_breed_manager, max_members, train_qty,
-                      io_set_text_file
+                io_set_text_file
               )
             end
           end
@@ -831,7 +830,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
                 hidden_layer_qty, hidden_size_given,
                 qty_new_members,
                 my_breed_manager, max_members, train_qty,
-                      io_set_text_file
+                io_set_text_file
               )
             end
           end

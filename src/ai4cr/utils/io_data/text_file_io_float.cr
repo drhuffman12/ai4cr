@@ -7,11 +7,11 @@ module Ai4cr
         # TODO: refactor (or add/rename methods) so we can go from one-char per time-column (in bits per tc's inputs)
         #   to multiple char's per time col (several per tc's inputs)
         #   REMINDER: Must consider Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits::INPUT_SIZE_MIN and OUTPUT_SIZE_MIN
-        
-        UTF_MAX_AS_FLOAT = Char::MAX_CODEPOINT.to_f
-        UTF_MAX_CHAR_STR = Char::MAX_CODEPOINT.chr.to_s
+
+        UTF_MAX_AS_FLOAT        = Char::MAX_CODEPOINT.to_f
+        UTF_MAX_CHAR_STR        = Char::MAX_CODEPOINT.chr.to_s
         CHARS_AT_A_TIME_DEFAULT = 4
-        INPUT_SIZE_MIN = Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits::INPUT_SIZE_MIN
+        INPUT_SIZE_MIN          = Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits::INPUT_SIZE_MIN
 
         # def self.convert_raw_to_iod(raw, default_to_bit_size = 0) : Array(Array(Float64))
         def self.convert_raw_to_iod(raw, chars_at_a_time = CHARS_AT_A_TIME_DEFAULT) : Array(Array(Float64))
@@ -49,9 +49,8 @@ module Ai4cr
 
         # def self.convert_iod_to_raw(iod, default_to_bit_size = 0) : String
         def self.convert_iod_to_raw(iod, chars_at_a_time = CHARS_AT_A_TIME_DEFAULT) : String
-          iod.map { |charaf| charaf_to_char(charaf) }.join
+          iod.join { |charaf| charaf_to_char(charaf) }
         end
-
       end
     end
   end

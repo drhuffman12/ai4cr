@@ -33,18 +33,16 @@ module Ai4cr
         reversed = false
 
         AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
-    
       end
-    
+
       QTY_NEW_MEMBERS_DEFAULT = 10
       MAX_MEMBERS_DEFAULT     = QTY_NEW_MEMBERS_DEFAULT
       PURGE_ERROR_LIMIT_SCALE = 1e12
       # STEP_MINOR              =   10
       # STEP_MAJOR              = 10 * STEP_MINOR
 
-      STEP_MINOR              =   2
-      STEP_MAJOR              = 2 * STEP_MINOR
-
+      STEP_MINOR = 2
+      STEP_MAJOR = 2 * STEP_MINOR
 
       ############################################################################
       # TODO: WHY is this required?
@@ -239,7 +237,6 @@ module Ai4cr
         end
         (1..qty_new_members).map { channel.receive }
         # members = (1..qty_new_members).map { channel.receive }
-        
         # any_invalid = members.map{|m| m.valid? ? {m.breed_id => m.errors} : nil}.compact!
 
         # unless any_invalid.empty?
@@ -267,7 +264,7 @@ module Ai4cr
       def train_team_using_sequence(
         inputs_sequence, outputs_sequence,
         team_members : Array(T),
-        
+
         io_set_text_file : Ai4cr::Utils::IoData::Abstract?,
 
         max_members = MAX_MEMBERS_DEFAULT,
@@ -287,11 +284,15 @@ module Ai4cr
           purge_error_limit = a * b * c
         end
 
+        # Thanks to the 'hardware' shard:
+        memory = Hardware::Memory.new
+        # cpu = Hardware::CPU.new # seems unreliable
+
         # team_members = purge_replace(team_members, purge_error_limit)
 
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
- 
+
           if verbose
             if i % STEP_MAJOR == 0
               puts "\n  inputs_sequence (a) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
@@ -309,10 +310,10 @@ module Ai4cr
               print "."
             end
           end
- 
+
           # TODO: REMOVE 'verbose' param! (Use 'block_logger' parma instead.)
           # block_logger.call('a', i, inputs_sequence.size, "EXPECTED", outputs) if block_logger
-          
+
           team_members = purge_replace(team_members, purge_error_limit, i)
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
@@ -342,7 +343,6 @@ module Ai4cr
                   puts "        aka: '#{io_set_text_file.class.convert_iod_to_raw(outputs)}'?"
                   print "\n    "
                 end
-                
               elsif i % STEP_MINOR == 0
                 print "."
               end
@@ -355,6 +355,13 @@ module Ai4cr
               if i % STEP_MAJOR == 0 && !io_set_text_file.nil?
                 puts
                 team_members.each do |member|
+                  # Thanks to the 'hardware' shard:
+                  puts "System info:"
+                  p! memory.used.humanize
+                  p! memory.percent.round(1)
+                  # p! cpu.usage!.to_i # .round(1)
+
+                  puts
                   puts "  inputs_sequence GIVEN (a): " # '#{inputs}'"
                   puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(inputs)}'"
 
@@ -363,24 +370,22 @@ module Ai4cr
                   # puts "    aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(outputs)}'"
                   puts "        aka: '#{outputs_str_expected}'?"
                   print "\n    "
-                  
+
                   outputs_str_actual = io_set_text_file.class.convert_iod_to_raw(member.outputs_guessed)
                   puts "      outputs Actual (b): " # '#{member.outputs_guessed}'"
                   # puts "        aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(member.outputs_guessed)}'"
                   puts "        aka: '#{outputs_str_actual}'!"
                   puts "          " + member.error_hist_stats(in_bw: true)
-  
-                  output_str_matches = outputs_str_expected.each_char.map_with_index do |ose, i|
-                    ose.to_s == outputs_str_actual[i].to_s ? 1.0 : 0.0
+
+                  output_str_matches = outputs_str_expected.each_char.map_with_index do |ose, oi|
+                    ose.to_s == outputs_str_actual[oi].to_s ? 1.0 : 0.0
                   end
                   qty_correct = output_str_matches.sum
                   qty_all = output_str_matches.size
                   percent_correct = 100.0 * qty_correct / qty_all
                   puts "          percent_correct: #{qty_correct} of #{qty_all} => #{CHARTER.plot(output_str_matches, false)} => #{percent_correct}%"
 
-
                   # all_output_errors
-
 
                   # puts "          error_distances:"
                   # # puts "            member.all_error_distances.class: #{member.all_error_distances.class}"
@@ -496,7 +501,6 @@ module Ai4cr
         if purge_qty > 0
           puts "\n**** i: #{i}, purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} at #{Time.local} ****\n"
           # TODO: replace above 'puts' with: 'block_simple_logger.call(..) if block_simple_logger'
-
           # team_members = team_members + build_team(purge_qty, **config)
         else
           puts "\n**** i: #{i}, (NO PURGES) purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} at #{Time.local} ****\n"

@@ -1,10 +1,8 @@
-
 module Ai4cr
   module NeuralNetwork
     module Cmn
       class RnnSimpleV2
-      # MiniNet
-
+        # MiniNet
       end
     end
   end

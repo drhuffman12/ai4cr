@@ -64,7 +64,7 @@ module Ai4cr
         end
 
         def iod_certainty_per_guess(iod_guessed) : Array(Float64)
-          iod_uncertainty_per_guess(iod_guessed).map{|u| 1 - u}
+          iod_uncertainty_per_guess(iod_guessed).map { |u| 1 - u }
         end
 
         def iod_uncertainty(iod_guessed)
@@ -98,11 +98,11 @@ module Ai4cr
           }
         end
 
-          # in_groups_of = Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits::INPUT_SIZE_MIN
+        # in_groups_of = Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits::INPUT_SIZE_MIN
 
         def iod_to_io_set_with_offset_time_cols(time_cols : Int32, offset : Int32)
           io_set = iod_to_io_set_with_offset(offset)
-          
+
           input_i_max = io_set[:inputs].size - 1
           output_i_max = io_set[:outputs].size - 1
 
@@ -125,19 +125,17 @@ module Ai4cr
           }
         end
 
-        def iod_to_io_set_with_offset_and_io_per_time_cols(time_cols : Int32, offset : Int32, io_size : Int32, io_offset : Int32 = -1)
-          # input_set = [0.0]
-          # output_set = [0.0]
+        # def iod_to_io_set_with_offset_and_io_per_time_cols(time_cols : Int32, offset : Int32, io_size : Int32, io_offset : Int32 = -1)
+        #   # input_set = [0.0]
+        #   # output_set = [0.0]
 
-          io_sets = iod_to_io_set_with_offset_time_cols(io_size, io_offset)
+        #   io_sets = iod_to_io_set_with_offset_time_cols(io_size, io_offset)
 
-
-
-          # {
-          #   input_set:  input_set,
-          #   output_set: output_set,
-          # }
-        end
+        #   # {
+        #   #   input_set:  input_set,
+        #   #   output_set: output_set,
+        #   # }
+        # end
       end
     end
   end

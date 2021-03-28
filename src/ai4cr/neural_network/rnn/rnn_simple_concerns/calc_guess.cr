@@ -75,14 +75,13 @@ module Ai4cr
             end
 
             outputs_guessed
-
           rescue ex
             msg = {
-              my_msg: "BROKE HERE!",
-              file: __FILE__,
-              line: __LINE__,
-              klass: ex.class,
-              message: ex.message,
+              my_msg:    "BROKE HERE!",
+              file:      __FILE__,
+              line:      __LINE__,
+              klass:     ex.class,
+              message:   ex.message,
               backtrace: ex.backtrace,
             }
             raise msg.to_s
@@ -101,6 +100,7 @@ module Ai4cr
             end
           end
 
+          # ameba:disable Metrics/CyclomaticComplexity
           def outputs_guessed
             raise "BAD 'synaptic_layer_indexes (nil)'" if synaptic_layer_indexes.nil?
             raise "BAD 'synaptic_layer_indexes (empty)'" if synaptic_layer_indexes.empty?
@@ -113,21 +113,21 @@ module Ai4cr
             time_col_indexes.map do |ti|
               # puts "BROKE??? .. outputs_guessed .. ti: #{ti}"
               begin
-              a = mini_net_set[li]
-              b = a[ti]
-              guessed = b.outputs_guessed
-              raise "BAD guessed (nil)" if guessed.nil?
-              raise "BAD guessed (empty)" if guessed.empty?
-              guessed
+                a = mini_net_set[li]
+                b = a[ti]
+                guessed = b.outputs_guessed
+                raise "BAD guessed (nil)" if guessed.nil?
+                raise "BAD guessed (empty)" if guessed.empty?
+                guessed
               rescue ex
                 msg = {
-                  my_msg: "BROKE in 'time_col_indexes.map'!",
-                  file: __FILE__,
-                  line: __LINE__,
-                  li: li || "N/A",
-                  klass: ex.class,
-                  message: ex.message,
-                  backtrace: ex.backtrace
+                  my_msg:    "BROKE in 'time_col_indexes.map'!",
+                  file:      __FILE__,
+                  line:      __LINE__,
+                  li:        li || "N/A",
+                  klass:     ex.class,
+                  message:   ex.message,
+                  backtrace: ex.backtrace,
                 }
                 raise msg.to_s
               end
@@ -136,16 +136,18 @@ module Ai4cr
 
           rescue ex
             msg = {
-              my_msg: "BROKE HERE also!",
-              file: __FILE__,
-              line: __LINE__,
-              li: li || "N/A",
-              klass: ex.class,
-              message: ex.message,
-              backtrace: ex.backtrace
+              my_msg:    "BROKE HERE also!",
+              file:      __FILE__,
+              line:      __LINE__,
+              li:        li || "N/A",
+              klass:     ex.class,
+              message:   ex.message,
+              backtrace: ex.backtrace,
             }
             raise msg.to_s
           end
+
+          # ameba:enable Metrics/CyclomaticComplexity
 
           private def step_outputs_guessed_from_previous_tc(li, ti)
             # ti > 0 ? mini_net_set[li][ti - 1].outputs_guessed : Array(Float64).new

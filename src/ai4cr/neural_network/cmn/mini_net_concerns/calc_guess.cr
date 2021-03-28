@@ -128,14 +128,13 @@ module Ai4cr
 
             validate_outputs(@outputs_guessed, @width)
             validate_outputs(@outputs_guessed, @width_indexes.size)
-
           rescue ex
             msg = {
-              my_msg: "BROKE other HERE!",
-              file: __FILE__,
-              line: __LINE__,
-              klass: ex.class,
-              message: ex.message,
+              my_msg:    "BROKE other HERE!",
+              file:      __FILE__,
+              line:      __LINE__,
+              klass:     ex.class,
+              message:   ex.message,
               backtrace: ex.backtrace,
             }
             raise msg.to_s

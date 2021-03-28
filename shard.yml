@@ -65,3 +65,6 @@ development_dependencies:
   # # ```
   # coverage:
   #   github: anykeyh/crystal-coverage
+
+  hardware:
+    github: crystal-community/hardware
