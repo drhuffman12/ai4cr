@@ -489,15 +489,16 @@ module Ai4cr
             puts "^"*80
 
             # Now for some percent-correct stat's:
-            tc_size.times do |tc|
-              hist[tc + 1] = 0
-              perc[tc + 1] = 0.0
+            (tc_size + 1).times do |qc|
+              hist[qc] = 0
+              perc[qc] = 0.0
             end
-            list.each do |tc|
-              hist[tc + 1] += 1
+            list.each do |qc|
+              hist[qc] += 1
             end
-            tc_size.times do |tc|
-              perc[tc + 1] = (100.0 * hist[tc + 1] / tc_size).round(1)
+            hist_qty = hist.values.sum
+            (tc_size + 1).times do |qc|
+              perc[qc] = (100.0 * hist[qc] / hist_qty).round(1)
             end
 
             all_hists << hist
@@ -505,6 +506,7 @@ module Ai4cr
 
             p! hist
             p! perc
+            p! perc.values.sum
             p! all_hists
             puts "-"*80
 
