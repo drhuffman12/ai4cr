@@ -41,7 +41,7 @@ module Ai4cr
       # STEP_MINOR              =   10
       # STEP_MAJOR              = 10 * STEP_MINOR
 
-      STEP_MINOR = 2 # about 1 min +/-
+      STEP_MINOR = 2              # about 1 min +/-
       STEP_MAJOR = 8 * STEP_MINOR # about 5 min's +/-
 
       ############################################################################
@@ -300,7 +300,6 @@ module Ai4cr
         i_max = inputs_sequence.size
         tc_size = outputs_sequence.first.size
 
-
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
 
@@ -397,7 +396,6 @@ module Ai4cr
                   puts "          percent_correct: #{qty_correct} of #{tc_size} => #{CHARTER.plot(output_str_matches, false)} => #{percent_correct}%"
                   list << qty_correct
 
-
                   # all_output_errors
 
                   # puts "          error_distances:"
@@ -491,27 +489,27 @@ module Ai4cr
             puts "^"*80
 
             # Now for some percent-correct stat's:
-            tc_size.times do |i|
-              hist[i+1] = 0
-              perc[i+1] = 0.0
+            tc_size.times do |tc|
+              hist[tc + 1] = 0
+              perc[tc + 1] = 0.0
             end
-            list.each do |i|
-              hist[i+1] += 1
+            list.each do |tc|
+              hist[tc + 1] += 1
             end
-            tc_size.times do |i|
-              perc[i+1] = 100.0 * hist[i+1] / tc_size
-              puts "hist[#{i+1}] : #{hist[i+1]}"
-              puts "perc[#{i+1}] : #{perc[i+1]}"
+            tc_size.times do |tc|
+              perc[tc + 1] = 100.0 * hist[tc + 1] / tc_size
+              puts "hist[#{tc + 1}] : #{hist[tc + 1]}"
+              puts "perc[#{tc + 1}] : #{perc[tc + 1]}"
             end
 
             all_hists << hist
-            all_hists = all_hists[-100..-1] if all_hists.size > 100
+            all_hists = all_hists[-max_hists..-1] if all_hists.size > max_hists
 
             p! hist
             p! perc
             p! all_hists
             puts "-"*80
-            
+
             before = after
           end
 
