@@ -296,7 +296,7 @@ module Ai4cr
         hist = Hash(Int32, Int32).new(0)
         perc = Hash(Int32, Float64).new(0.0)
         all_hists = Array(Hash(Int32, Int32)).new
-        max_hists = 100
+        max_hists = 10
         i_max = inputs_sequence.size
         tc_size = outputs_sequence.first.size
 
