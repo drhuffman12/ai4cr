@@ -497,7 +497,7 @@ module Ai4cr
               hist[tc + 1] += 1
             end
             tc_size.times do |tc|
-              perc[tc + 1] = 100.0 * hist[tc + 1] / tc_size
+              perc[tc + 1] = (100.0 * hist[tc + 1] / tc_size).round(1)
             end
 
             all_hists << hist
