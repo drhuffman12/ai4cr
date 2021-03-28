@@ -468,6 +468,7 @@ module Ai4cr
 
             puts "="*80
             puts "Currently:"
+            p! Time.local
             p! i
             p! (after - before)
             p! (after - beginning)
