@@ -157,7 +157,7 @@ hidden_size_given = 100 # 100 # 200
 max_members = 10
 qty_new_members = max_members
 
-train_qty = 4
+train_qty = 2
 
 puts
 puts "*"*40

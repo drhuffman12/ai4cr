@@ -43,6 +43,7 @@ module Ai4cr
 
       STEP_MINOR = 2              # about 1 min +/-
       STEP_MAJOR = 8 * STEP_MINOR # about 5 min's +/-
+      STEP_SAVE  = 8 * STEP_MINOR
 
       ############################################################################
       # TODO: WHY is this required?
@@ -509,15 +510,26 @@ module Ai4cr
             p! perc
             p! perc.values.sum
 
-            perc_vals = perc.values.map(&./(100))
-            p! CHARTER.plot(perc_vals, false)
+            # perc_vals = perc.values.map(&./(100))
+            # p! CHARTER.plot(perc_vals, false)
 
-            p! recent_hists
+            # p! recent_hists
+            recent_hists.each { |h| puts CHARTER.plot(h.values.map(&./(100)), false) }
             puts "-"*80
 
             list = Array(Int32).new
             hist = Hash(Int32, Int32).new(0)
             perc = Hash(Int32, Float64).new(0.0)
+
+            if i % STEP_SAVE == 0 || i == i_max - 1
+              team_members.each do |member|
+                time_formated = Time.local.to_s.gsub(" ", "_").gsub(":", "_")
+                folder_path = "./tmp/#{self.class.name.gsub("::", "-")}/#{time_formated}"
+                file_path = "#{folder_path}/#{member.birth_id}.json"
+                Dir.mkdir_p(folder_path)
+                File.write(file_path, member.to_json)
+              end
+            end
 
             before = after
           end
