@@ -62,7 +62,7 @@ module Ai4cr
           def all_error_distances
             synaptic_layer_indexes.map do |li|
               time_col_indexes.map do |ti|
-                mini_net_set[li][ti].error_stats.distances
+                mini_net_set[li][ti].error_stats.distance
               end
             end
           end

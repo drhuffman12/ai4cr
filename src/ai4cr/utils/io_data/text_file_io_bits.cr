@@ -3,10 +3,9 @@ require "./abstract"
 module Ai4cr
   module Utils
     module IoData
-      class TextFile < Ai4cr::Utils::IoData::Abstract
+      class TextFileIodBits < Ai4cr::Utils::IoData::Abstract
         BIT_32_INDEXES   = (0..31).to_a
-        UTF_MAX_AS_INT   = 0x10ffff
-        UTF_MAX_AS_FLOAT = UTF_MAX_AS_INT.to_f
+        UTF_MAX_AS_FLOAT = Char::MAX_CODEPOINT.to_f
 
         def self.convert_raw_to_iod(raw, default_to_bit_size = BIT_32_INDEXES.size)
           chars_as_bytes_of_bits = Array(Array(Float64)).new(raw.size)
@@ -54,7 +53,7 @@ module Ai4cr
 
             bit * (2.0**i)
           end
-          bytes > UTF_MAX_AS_FLOAT ? UTF_MAX_AS_INT.chr.to_s : bytes.to_i.chr.to_s
+          bytes > UTF_MAX_AS_FLOAT ? Char::MAX_CODEPOINT.chr.to_s : bytes.to_i.chr.to_s
         end
 
         def self.bytes_to_chars(bytes, default_to_bit_size = BIT_32_INDEXES.size)

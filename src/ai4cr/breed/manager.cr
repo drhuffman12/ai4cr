@@ -24,6 +24,18 @@ module Ai4cr
       #   * [spec/ai4cr/breed/manager_spec.cr](spec/ai4cr/breed/manager_spec.cr)
       #   * [spec_bench/ai4cr/neural_network/cmn/mini_net_manager_spec.cr](spec_bench/ai4cr/neural_network/cmn/mini_net_manager_spec.cr)
 
+      # CHARTER = AsciiBarCharter.new(0.0, 1.0, 2.to_i8, true, false)
+      CHARTER = begin
+        min = 0.0
+        max = 1.0
+        precision = 2.to_i8
+        in_bw = true
+        reversed = false
+
+        AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
+    
+      end
+    
       QTY_NEW_MEMBERS_DEFAULT = 10
       MAX_MEMBERS_DEFAULT     = QTY_NEW_MEMBERS_DEFAULT
       PURGE_ERROR_LIMIT_SCALE = 1e12
@@ -226,6 +238,16 @@ module Ai4cr
           end
         end
         (1..qty_new_members).map { channel.receive }
+        # members = (1..qty_new_members).map { channel.receive }
+        
+        # any_invalid = members.map{|m| m.valid? ? {m.breed_id => m.errors} : nil}.compact!
+
+        # unless any_invalid.empty?
+        #   msg = "build_team .. any_invalid: #{any_invalid}"
+        #   raise msg
+        # end
+
+        # members
       end
 
       def train_team(inputs, outputs, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1, and_cross_breed = true)
@@ -244,10 +266,15 @@ module Ai4cr
       # ameba:disable Metrics/CyclomaticComplexity
       def train_team_using_sequence(
         inputs_sequence, outputs_sequence,
-        team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT,
+        team_members : Array(T),
+        
+        io_set_text_file : Ai4cr::Utils::IoData::Abstract?,
+
+        max_members = MAX_MEMBERS_DEFAULT,
         train_qty = 1, and_cross_breed = true,
         purge_error_limit = -1,
         verbose = true
+        # &block_logger
       )
         if purge_error_limit == -1
           # This is mainly for Relu, but could be adapted for other training types
@@ -264,25 +291,35 @@ module Ai4cr
 
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
-
+ 
           if verbose
             if i % STEP_MAJOR == 0
               puts "\n  inputs_sequence (a) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
-              puts "  outputs EXPECTED: '#{outputs}'"
-              puts "    aka: '#{Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(outputs)}'"
-              print "\n    "
+
+              if !io_set_text_file.nil?
+                puts "  inputs_sequence GIVEN (a): " # '#{inputs}'"
+                puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(inputs)}'"
+
+                puts "      outputs EXPECTED (a): " # '#{outputs}'"
+                # puts "    aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(outputs)}'"
+                puts "        aka: '#{io_set_text_file.class.convert_iod_to_raw(outputs)}'"
+                print "\n    "
+              end
             elsif i % STEP_MINOR == 0
               print "."
             end
           end
-
+ 
+          # TODO: REMOVE 'verbose' param! (Use 'block_logger' parma instead.)
+          # block_logger.call('a', i, inputs_sequence.size, "EXPECTED", outputs) if block_logger
+          
           team_members = purge_replace(team_members, purge_error_limit, i)
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
           if verbose
             if i % STEP_MAJOR == 0
               puts
-              team_members.each { |member| puts "    " + member.error_hist_stats.to_s }
+              team_members.each { |member| puts "    " + member.error_hist_stats(in_bw: true) }
             end
           end
           # team_members = purge_replace(team_members, purge_error_limit)
@@ -293,26 +330,89 @@ module Ai4cr
             if verbose
               if i % STEP_MAJOR == 0
                 puts "\n  inputs_sequence (b) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging              puts "  outputs EXPECTED: '#{outputs}'"
-                puts "    aka: '#{Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(outputs)}'"
-                print "\n    "
+                # puts "    aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(outputs)}'"
+                # puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(member.outputs_guessed)}'"
+
+                if !io_set_text_file.nil?
+                  puts "  inputs_sequence GIVEN (a): " # '#{inputs}'"
+                  puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(inputs)}'"
+
+                  puts "      outputs EXPECTED (a): " # '#{outputs}'"
+                  # puts "    aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(outputs)}'"
+                  puts "        aka: '#{io_set_text_file.class.convert_iod_to_raw(outputs)}'?"
+                  print "\n    "
+                end
+                
               elsif i % STEP_MINOR == 0
                 print "."
               end
             end
+            # block_logger.call('a', i, inputs_sequence.size, "EXPECTED", outputs) if block_logger
 
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
             if verbose
-              if i % STEP_MAJOR == 0
+              if i % STEP_MAJOR == 0 && !io_set_text_file.nil?
                 puts
                 team_members.each do |member|
-                  puts "    " + member.error_hist_stats
-                  puts "      outputs Actual: '#{member.outputs_guessed}'"
-                  puts "        aka: '#{Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(member.outputs_guessed)}'"
+                  puts "  inputs_sequence GIVEN (a): " # '#{inputs}'"
+                  puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(inputs)}'"
+
+                  outputs_str_expected = io_set_text_file.class.convert_iod_to_raw(outputs)
+                  puts "      outputs EXPECTED (a): " # '#{outputs}'"
+                  # puts "    aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(outputs)}'"
+                  puts "        aka: '#{outputs_str_expected}'?"
+                  print "\n    "
+                  
+                  outputs_str_actual = io_set_text_file.class.convert_iod_to_raw(member.outputs_guessed)
+                  puts "      outputs Actual (b): " # '#{member.outputs_guessed}'"
+                  # puts "        aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(member.outputs_guessed)}'"
+                  puts "        aka: '#{outputs_str_actual}'!"
+                  puts "          " + member.error_hist_stats(in_bw: true)
+  
+                  output_str_matches = outputs_str_expected.each_char.map_with_index do |ose, i|
+                    ose.to_s == outputs_str_actual[i].to_s ? 1.0 : 0.0
+                  end
+                  qty_correct = output_str_matches.sum
+                  qty_all = output_str_matches.size
+                  percent_correct = 100.0 * qty_correct / qty_all
+                  puts "          percent_correct: #{qty_correct} of #{qty_all} => #{CHARTER.plot(output_str_matches, false)} => #{percent_correct}%"
+
+
+                  # all_output_errors
+
+
+                  # puts "          error_distances:"
+                  # # puts "            member.all_error_distances.class: #{member.all_error_distances.class}"
+                  # data_er = member.all_error_distances.map do |oetc|
+                  #   val = -1
+                  #   begin
+                  #   val = io_set_text_file.iod_certainty(oetc)
+                  #   # val = -1 if val.nil? || val.infinite?
+                  #   rescue
+                  #   end
+
+                  #   val
+                  # end
+                  # puts "            data: #{data_er}"
+                  # puts "            graph: #{CHARTER.plot(data_er, false)}"
+
+                  puts "          certainty:"
+                  # puts "            member.outputs_guessed.class: #{member.outputs_guessed.class}"
+                  data_ce = member.outputs_guessed.map do |gptc|
+                    val = io_set_text_file.iod_certainty(gptc)
+                    val = 1 if val.nil? || val.infinite?
+                    val
+                  end
+                  # puts "            data_ce.class: #{data_ce.class}"
+                  puts "            data: #{data_ce}"
+                  puts "            graph: #{CHARTER.plot(data_ce, false)}"
+
                   puts
                 end
               end
             end
+            # block_logger.call('a', i, inputs_sequence.size, "EXPECTED", outputs) if block_logger
           else
             if verbose
               if i % STEP_MAJOR == 0
@@ -322,6 +422,7 @@ module Ai4cr
                 print "."
               end
             end
+            # block_logger.call('a', i, inputs_sequence.size, "EXPECTED", outputs) if block_logger
 
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
@@ -329,13 +430,18 @@ module Ai4cr
               if i % STEP_MAJOR == 0
                 puts
                 team_members.each do |member|
-                  puts "    " + member.error_hist_stats
-                  puts "      outputs Actual: '#{member.outputs_guessed.to_json}'"
-                  puts "        aka: '#{Ai4cr::Utils::IoData::TextFile.convert_iod_to_raw(member.outputs_guessed)}'"
-                  puts
+                  puts "      outputs Actual (c): '#{member.outputs_guessed}'"
+
+                  if !io_set_text_file.nil?
+                    # puts "        aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(member.outputs_guessed)}'"
+                    puts "        aka: '#{io_set_text_file.class.convert_iod_to_raw(member.outputs_guessed)}'"
+                    puts "          " + member.error_hist_stats(in_bw: true)
+                    puts
+                  end
                 end
               end
             end
+            # block_logger.call('a', i, inputs_sequence.size, "EXPECTED", outputs) if block_logger
           end
 
           team_members = purge_replace(team_members, purge_error_limit, i)
@@ -345,7 +451,7 @@ module Ai4cr
         team_members
       end
 
-      def purge_replace(team_members, purge_error_limit, i)
+      def purge_replace(team_members, purge_error_limit, i) # , &block_simple_logger)
         config = team_members.first.config.clone
 
         target_size = team_members.size
@@ -362,6 +468,7 @@ module Ai4cr
             purge_qty += 1
             name = "Pr"
             puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: N/A ----\n"
+            # TODO: replace above 'puts' with: 'block_simple_logger.call(..) if block_simple_logger'
 
             new_rand_member = create(**config).tap(&.name=(name))
           when d > purge_error_limit
@@ -373,12 +480,14 @@ module Ai4cr
             name = "pb"
             delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -1.0)
             puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: #{delta} ----\n"
+            # TODO: replace above 'puts' with: 'block_simple_logger.call(..) if block_simple_logger'
 
             new_rand_member = create(**config)
             breed(member, new_rand_member, delta).tap(&.name=(name))
           else
             # Member ok as-is
             puts "\n---- i: #{i}, keeping member.birth_id: #{member.birth_id}; name: #{member.name}, d: #{d}, delta: n/a ----\n"
+            # TODO: replace above 'puts' with: 'block_simple_logger.call(..) if block_simple_logger'
 
             member
           end
@@ -386,8 +495,11 @@ module Ai4cr
 
         if purge_qty > 0
           puts "\n**** i: #{i}, purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} at #{Time.local} ****\n"
+          # TODO: replace above 'puts' with: 'block_simple_logger.call(..) if block_simple_logger'
 
           # team_members = team_members + build_team(purge_qty, **config)
+        else
+          puts "\n**** i: #{i}, (NO PURGES) purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} at #{Time.local} ****\n"
         end
 
         team_members

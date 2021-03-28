@@ -23,13 +23,13 @@ def train_and_and_cross_breed_team_set_using_sequence(
   # first_gen_members = my_breed_manager.build_team(qty_new_members, **params)
   first_gen_members_clones = first_gen_members.map { |member| Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(member.to_json) }
 
-  second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence_train, outputs_sequence_train, first_gen_members_clones, max_members, and_cross_breed: and_cross_breed)
+  second_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence_train, outputs_sequence_train, first_gen_members_clones, io_set_text_file = nil, max_members, and_cross_breed: and_cross_breed)
   second_gen_members_clones = second_gen_members.map { |member| Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(member.to_json) }
 
-  third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence_train, outputs_sequence_train, second_gen_members_clones, max_members, and_cross_breed: and_cross_breed)
+  third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence_train, outputs_sequence_train, second_gen_members_clones, io_set_text_file = nil, max_members, and_cross_breed: and_cross_breed)
   third_gen_members_clones = third_gen_members.map { |member| Ai4cr::NeuralNetwork::Cmn::MiniNet.from_json(member.to_json) }
 
-  fourth_gen_members_clones = my_breed_manager.train_team_using_sequence(inputs_sequence_train, outputs_sequence_train, third_gen_members_clones, max_members, and_cross_breed: and_cross_breed)
+  fourth_gen_members_clones = my_breed_manager.train_team_using_sequence(inputs_sequence_train, outputs_sequence_train, third_gen_members_clones, io_set_text_file = nil, max_members, and_cross_breed: and_cross_breed)
 
   # training scores
   first_gen_members_train_scored = first_gen_members_clones.map { |member| member.error_stats.score }.sum / qty_new_members

@@ -75,6 +75,17 @@ module Ai4cr
             end
 
             outputs_guessed
+
+          rescue ex
+            msg = {
+              my_msg: "BROKE HERE!",
+              file: __FILE__,
+              line: __LINE__,
+              klass: ex.class,
+              message: ex.message,
+              backtrace: ex.backtrace,
+            }
+            raise msg.to_s
           end
 
           def inputs_for(li, ti)
@@ -91,11 +102,49 @@ module Ai4cr
           end
 
           def outputs_guessed
+            raise "BAD 'synaptic_layer_indexes (nil)'" if synaptic_layer_indexes.nil?
+            raise "BAD 'synaptic_layer_indexes (empty)'" if synaptic_layer_indexes.empty?
             li = synaptic_layer_indexes.last
+            raise "BAD 'li'" if li.nil?
 
+            raise "BAD tci" if time_col_indexes.nil? || time_col_indexes.empty?
+
+            # puts "BROKE??? .. outputs_guessed .. a"
             time_col_indexes.map do |ti|
-              mini_net_set[li][ti].outputs_guessed
+              # puts "BROKE??? .. outputs_guessed .. ti: #{ti}"
+              begin
+              a = mini_net_set[li]
+              b = a[ti]
+              guessed = b.outputs_guessed
+              raise "BAD guessed (nil)" if guessed.nil?
+              raise "BAD guessed (empty)" if guessed.empty?
+              guessed
+              rescue ex
+                msg = {
+                  my_msg: "BROKE in 'time_col_indexes.map'!",
+                  file: __FILE__,
+                  line: __LINE__,
+                  li: li || "N/A",
+                  klass: ex.class,
+                  message: ex.message,
+                  backtrace: ex.backtrace
+                }
+                raise msg.to_s
+              end
             end
+            # puts "BROKE??? .. outputs_guessed .. a"
+
+          rescue ex
+            msg = {
+              my_msg: "BROKE HERE also!",
+              file: __FILE__,
+              line: __LINE__,
+              li: li || "N/A",
+              klass: ex.class,
+              message: ex.message,
+              backtrace: ex.backtrace
+            }
+            raise msg.to_s
           end
 
           private def step_outputs_guessed_from_previous_tc(li, ti)

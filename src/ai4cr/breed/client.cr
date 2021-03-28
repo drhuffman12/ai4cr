@@ -17,14 +17,14 @@ module Ai4cr
         raise "TO BE IMPLEMENTED"
       end
 
-      def error_hist_stats
+      def error_hist_stats(in_bw = false)
         ehs = "'"
         begin
           ehs += birth_id.to_s
           ehs += " "
           ehs += name.to_s
           ehs += " => "
-          ehs += (error_stats.plot_error_distance_history).to_s
+          ehs += (error_stats.plot_error_distance_history(in_bw: in_bw)).to_s
           ehs += " @ "
           ehs += (error_stats.score).to_s
         rescue ex
