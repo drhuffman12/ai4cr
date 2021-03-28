@@ -501,7 +501,7 @@ module Ai4cr
               perc[qc] = (100.0 * hist[qc] / hist_qty).round(1)
             end
 
-            all_hists << hist
+            all_hists << hist.clone
             all_hists = all_hists[-max_hists..-1] if all_hists.size > max_hists
 
             p! hist
@@ -513,6 +513,10 @@ module Ai4cr
 
             p! all_hists
             puts "-"*80
+
+            list = Array(Int32).new
+            hist = Hash(Int32, Int32).new(0)
+            perc = Hash(Int32, Float64).new(0.0)
 
             before = after
           end
