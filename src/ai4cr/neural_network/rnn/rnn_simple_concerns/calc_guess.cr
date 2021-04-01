@@ -48,8 +48,8 @@ module Ai4cr
           getter synaptic_layer_indexes_reversed = Array(Int32).new
           getter time_col_indexes_reversed = Array(Int32).new
 
-          getter synaptic_layer_index_last = -1 # Int32.new
-          getter time_col_index_last = -1       # Int32.new
+          getter synaptic_layer_index_last = -1
+          getter time_col_index_last = -1
 
           property node_output_sizes = Array(Int32).new
           property node_input_sizes = Array(Array(NamedTuple(
@@ -102,63 +102,57 @@ module Ai4cr
 
           # ameba:disable Metrics/CyclomaticComplexity
           def outputs_guessed
-            raise "BAD 'synaptic_layer_indexes (nil)'" if synaptic_layer_indexes.nil?
-            raise "BAD 'synaptic_layer_indexes (empty)'" if synaptic_layer_indexes.empty?
+            # raise "BAD 'synaptic_layer_indexes (nil)'" if synaptic_layer_indexes.nil?
+            # raise "BAD 'synaptic_layer_indexes (empty)'" if synaptic_layer_indexes.empty?
             li = synaptic_layer_indexes.last
-            raise "BAD 'li'" if li.nil?
+            # raise "BAD 'li'" if li.nil?
 
-            raise "BAD tci" if time_col_indexes.nil? || time_col_indexes.empty?
+            # raise "BAD tci" if time_col_indexes.nil? || time_col_indexes.empty?
 
-            # puts "BROKE??? .. outputs_guessed .. a"
             time_col_indexes.map do |ti|
-              # puts "BROKE??? .. outputs_guessed .. ti: #{ti}"
-              begin
+              # begin
                 a = mini_net_set[li]
                 b = a[ti]
                 guessed = b.outputs_guessed
-                raise "BAD guessed (nil)" if guessed.nil?
-                raise "BAD guessed (empty)" if guessed.empty?
                 guessed
-              rescue ex
-                msg = {
-                  my_msg:    "BROKE in 'time_col_indexes.map'!",
-                  file:      __FILE__,
-                  line:      __LINE__,
-                  li:        li || "N/A",
-                  klass:     ex.class,
-                  message:   ex.message,
-                  backtrace: ex.backtrace,
-                }
-                raise msg.to_s
-              end
+              # rescue ex
+              #   msg = {
+              #     my_msg:    "BROKE in 'time_col_indexes.map'!",
+              #     file:      __FILE__,
+              #     line:      __LINE__,
+              #     li:        li || "N/A",
+              #     klass:     ex.class,
+              #     message:   ex.message,
+              #     backtrace: ex.backtrace,
+              #   }
+              #   raise msg.to_s
+              # end
             end
             # puts "BROKE??? .. outputs_guessed .. a"
 
-          rescue ex
-            msg = {
-              my_msg:    "BROKE HERE also!",
-              file:      __FILE__,
-              line:      __LINE__,
-              li:        li || "N/A",
-              klass:     ex.class,
-              message:   ex.message,
-              backtrace: ex.backtrace,
-            }
-            raise msg.to_s
+          # rescue ex
+          #   msg = {
+          #     my_msg:    "BROKE HERE also!",
+          #     file:      __FILE__,
+          #     line:      __LINE__,
+          #     li:        li || "N/A",
+          #     klass:     ex.class,
+          #     message:   ex.message,
+          #     backtrace: ex.backtrace,
+          #   }
+          #   raise msg.to_s
           end
 
           # ameba:enable Metrics/CyclomaticComplexity
 
           private def step_outputs_guessed_from_previous_tc(li, ti)
-            # ti > 0 ? mini_net_set[li][ti - 1].outputs_guessed : Array(Float64).new
-            raise "Index error" if ti == 0
+            raise "Index error in step_outputs_guessed_from_previous_tc" if ti == 0
 
             mini_net_set[li][ti - 1].outputs_guessed
           end
 
           private def step_outputs_guessed_from_previous_li(li, ti)
-            # li > 0 ? mini_net_set[li - 1][ti].outputs_guessed : Array(Float64).new
-            raise "Index error" if li == 0
+            raise "Index error in step_outputs_guessed_from_previous_li" if li == 0
 
             mini_net_set[li - 1][ti].outputs_guessed
           end

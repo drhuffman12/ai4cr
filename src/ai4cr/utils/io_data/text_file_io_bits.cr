@@ -4,6 +4,7 @@ module Ai4cr
   module Utils
     module IoData
       class TextFileIodBits < Ai4cr::Utils::IoData::Abstract
+        # TODO: Dig more into 'spec_bench/ai4cr/io_data/text_file_spec.cr' and adjust this file accordingly.
         BIT_32_INDEXES   = (0..31).to_a
         UTF_MAX_AS_FLOAT = Char::MAX_CODEPOINT.to_f
 

@@ -19,9 +19,6 @@ module Ai4cr
 
           # for Prelu
           # TODO: set deriv_scale based on ?
-          # @deriv_scale = 0.1,
-          # @deriv_scale = 0.01,
-          # @deriv_scale = 0.001,
           property deriv_scale : Float64 = Ai4cr::Utils::Rand.rand_excluding(scale: 0.5)
 
           getter width = -1
@@ -45,15 +42,6 @@ module Ai4cr
             # * Xavier initialization mostly used with tanh and logistic activation function
             # * He-initialization mostly used with ReLU or it’s variants — Leaky ReLU.
 
-            # @weight_init_scale = case @learning_style
-            #                     when LS_PRELU
-            #                       0.00000000001
-            #                     when LS_RELU
-            #                       0.00000000001
-            #                     else
-            #                       1.0
-            #                     end
-
             @weights = @height_indexes.map { @width_indexes.map { @weight_init_scale * Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero } }
             # @weights = Array.new(height_considering_bias) { Array.new(width) { Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero } }
             # @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero*(Math.sqrt(2.0/(height_considering_bias + width))) } }
@@ -67,7 +55,7 @@ module Ai4cr
           end
 
           # steps for 'eval' aka 'guess':
-          def eval(inputs_given) # aka eval
+          def eval(inputs_given)
             step_load_inputs(inputs_given)
             step_calc_forward
 
@@ -112,7 +100,6 @@ module Ai4cr
 
             @outputs_guessed = @width_indexes.map do |w|
               sum = @height_indexes.sum do |h|
-                # @inputs_given[h]*@weights[h][w]
                 val = @inputs_given[h]*@weights[h][w]
                 case
                 when val.nan?
@@ -146,14 +133,12 @@ module Ai4cr
             case @learning_style
             when LS_PRELU
               # LearningStyle::Prelu
-              # ->(x : Float64) { x < 0 ? 0.0 : x }
               ->(x : Float64) do
                 return 0.0 if x.nan?
                 x < 0 ? 0.0 : x
               end
             when LS_RELU
               # LearningStyle::Rel
-              # ->(x : Float64) { x < 0 ? 0.0 : [1.0, x].min }
               ->(x : Float64) do
                 # TODO: Get some review/verification that the below NAN/INFINITY handling for Relu is correct.
                 # TODO: Apply(?) similarly to other prop func cases.
@@ -173,14 +158,14 @@ module Ai4cr
 
           # ameba:enable Metrics/CyclomaticComplexity
 
-          # guesses
+          # misc guesses*
           def guesses_best
             # default set below, but might be different per subclass
             guesses_as_is
           end
 
-          # outputs_guessed in sorted/top/bottom/etc order
           def guesses_as_is
+          # outputs_guessed in sorted/top/bottom/etc order
             @outputs_guessed
           end
 
@@ -188,11 +173,13 @@ module Ai4cr
             @outputs_guessed.map_with_index { |o, idx| [idx, o].sort }
           end
 
-          def guesses_rounded # good for MiniNet::Sigmoid; and maybe MiniNetRanh
+          def guesses_rounded
+            # good for MiniNet::Sigmoid; and maybe MiniNetRanh
             @outputs_guessed.map(&.round)
           end
 
-          def guesses_ceiled # good for MiniNetRelu
+          def guesses_ceiled
+            # good for MiniNetRelu
             @outputs_guessed.map(&.ceil)
           end
 

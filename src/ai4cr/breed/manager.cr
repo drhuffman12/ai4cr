@@ -149,8 +149,6 @@ module Ai4cr
 
       def parts_to_copy(parent_a : T, parent_b : T, delta)
         # By default, we just copy everything from parent_a.
-        # Since `self.clone` is erroring, we'll use from/to_json methods.
-        # T.from_json(parent_a.to_json)
         parent_a.clone
       end
 
@@ -181,7 +179,6 @@ module Ai4cr
         # TODO: Add code/classes to verify
         # NOTE: Sub-classes might want to adjust the logic for this
         delta < 0.5 ? parent_a_part : parent_b_part
-        # delta < rand ? parent_a_part : parent_b_part
       end
 
       def mix_nested_parts(parent_a_part, parent_b_part, delta)
@@ -236,15 +233,6 @@ module Ai4cr
           end
         end
         (1..qty_new_members).map { channel.receive }
-        # members = (1..qty_new_members).map { channel.receive }
-        # any_invalid = members.map{|m| m.valid? ? {m.breed_id => m.errors} : nil}.compact!
-
-        # unless any_invalid.empty?
-        #   msg = "build_team .. any_invalid: #{any_invalid}"
-        #   raise msg
-        # end
-
-        # members
       end
 
       def train_team(inputs, outputs, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1, and_cross_breed = true)
@@ -271,7 +259,6 @@ module Ai4cr
         train_qty = 1, and_cross_breed = true,
         purge_error_limit = -1,
         verbose = true
-        # &block_logger
       )
         if purge_error_limit == -1
           # This is mainly for Relu, but could be adapted for other training types
@@ -280,15 +267,10 @@ module Ai4cr
           # puts "outputs_sequence.first.first.size: #{outputs_sequence.first.first.size}"
           a = PURGE_ERROR_LIMIT_SCALE
           b = outputs_sequence.first.size
-          c = outputs_sequence.first.first.size || 1.0
+          c = (!outputs_sequence.first.first.is_a?(Float64)) ? outputs_sequence.first.first.size : 1.0
           purge_error_limit = a * b * c
         end
 
-        # Thanks to the 'hardware' shard:
-        # memory = Hardware::Memory.new
-        # cpu = Hardware::CPU.new # seems unreliable
-
-        # team_members = purge_replace(team_members, purge_error_limit)
         beginning = Time.local
         before = beginning
 
@@ -308,11 +290,10 @@ module Ai4cr
               puts "\n  inputs_sequence (a) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
 
               if !io_set_text_file.nil?
-                puts "  inputs_sequence GIVEN (a): " # '#{inputs}'"
+                puts "  inputs_sequence GIVEN (a): "
                 puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(inputs)}'"
 
-                puts "      outputs EXPECTED (a): " # '#{outputs}'"
-                # puts "    aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(outputs)}'"
+                puts "      outputs EXPECTED (a): "
                 puts "        aka: '#{io_set_text_file.class.convert_iod_to_raw(outputs)}'"
                 print "\n    "
               end
@@ -320,9 +301,6 @@ module Ai4cr
               print "."
             end
           end
-
-          # TODO: REMOVE 'verbose' param! (Use 'block_logger' parma instead.)
-          # block_logger.call('a', i, inputs_sequence.size, "EXPECTED", outputs) if block_logger
 
           team_members = purge_replace(team_members, purge_error_limit, i)
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
@@ -333,23 +311,19 @@ module Ai4cr
               team_members.each { |member| puts "    " + member.error_hist_stats(in_bw: true) }
             end
           end
-          # team_members = purge_replace(team_members, purge_error_limit)
 
           if team_members.size > 1 && and_cross_breed
             team_members = cross_breed(team_members)
 
             if verbose
               if i % STEP_MAJOR == 0
-                puts "\n  inputs_sequence (b) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging              puts "  outputs EXPECTED: '#{outputs}'"
-                # puts "    aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(outputs)}'"
-                # puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(member.outputs_guessed)}'"
+                puts "\n  inputs_sequence (b) i: #{i} of #{inputs_sequence.size} at #{Time.local}"
 
                 if !io_set_text_file.nil?
-                  puts "  inputs_sequence GIVEN (a): " # '#{inputs}'"
+                  puts "  inputs_sequence GIVEN (a): "
                   puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(inputs)}'"
 
-                  puts "      outputs EXPECTED (a): " # '#{outputs}'"
-                  # puts "    aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(outputs)}'"
+                  puts "      outputs EXPECTED (a): "
                   puts "        aka: '#{io_set_text_file.class.convert_iod_to_raw(outputs)}'?"
                   print "\n    "
                 end
@@ -357,7 +331,6 @@ module Ai4cr
                 print "."
               end
             end
-            # block_logger.call('a', i, inputs_sequence.size, "EXPECTED", outputs) if block_logger
 
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
@@ -368,23 +341,19 @@ module Ai4cr
                   # Thanks to the 'hardware' shard:
                   puts "System info:"
                   memory = Hardware::Memory.new
-                  # p! memory.used.humanize
                   p! memory.percent.round(1)
-                  # p! cpu.usage!.to_i # .round(1)
 
                   puts
-                  puts "  inputs_sequence GIVEN (a): " # '#{inputs}'"
+                  puts "  inputs_sequence GIVEN (a): "
                   puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(inputs)}'"
 
                   outputs_str_expected = io_set_text_file.class.convert_iod_to_raw(outputs)
-                  puts "      outputs EXPECTED (a): " # '#{outputs}'"
-                  # puts "    aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(outputs)}'"
+                  puts "      outputs EXPECTED (a): "
                   puts "        aka: '#{outputs_str_expected}'?"
                   print "\n    "
 
                   outputs_str_actual = io_set_text_file.class.convert_iod_to_raw(member.outputs_guessed)
-                  puts "      outputs Actual (b): " # '#{member.outputs_guessed}'"
-                  # puts "        aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(member.outputs_guessed)}'"
+                  puts "      outputs Actual (b): "
                   puts "        aka: '#{outputs_str_actual}'!"
                   puts "          " + member.error_hist_stats(in_bw: true)
 
@@ -396,31 +365,12 @@ module Ai4cr
                   puts "          percent_correct: #{qty_correct} of #{tc_size} => #{CHARTER.plot(output_str_matches, false)} => #{percent_correct}%"
                   list << qty_correct
 
-                  # all_output_errors
-
-                  # puts "          error_distances:"
-                  # # puts "            member.all_error_distances.class: #{member.all_error_distances.class}"
-                  # data_er = member.all_error_distances.map do |oetc|
-                  #   val = -1
-                  #   begin
-                  #   val = io_set_text_file.iod_certainty(oetc)
-                  #   # val = -1 if val.nil? || val.infinite?
-                  #   rescue
-                  #   end
-
-                  #   val
-                  # end
-                  # puts "            data: #{data_er}"
-                  # puts "            graph: #{CHARTER.plot(data_er, false)}"
-
                   puts "          certainty:"
-                  # puts "            member.outputs_guessed.class: #{member.outputs_guessed.class}"
                   data_ce = member.outputs_guessed.map do |gptc|
                     val = io_set_text_file.iod_certainty(gptc)
                     val = 1 if val.nil? || val.infinite?
                     val
                   end
-                  # puts "            data_ce.class: #{data_ce.class}"
                   puts "            data: #{data_ce}"
                   puts "            graph: #{CHARTER.plot(data_ce, false)}"
 
@@ -428,7 +378,6 @@ module Ai4cr
                 end
               end
             end
-            # block_logger.call('a', i, inputs_sequence.size, "EXPECTED", outputs) if block_logger
           else
             if verbose
               if i % STEP_MAJOR == 0
@@ -438,7 +387,6 @@ module Ai4cr
                 print "."
               end
             end
-            # block_logger.call('a', i, inputs_sequence.size, "EXPECTED", outputs) if block_logger
 
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
@@ -449,7 +397,6 @@ module Ai4cr
                   puts "      outputs Actual (c): '#{member.outputs_guessed}'"
 
                   if !io_set_text_file.nil?
-                    # puts "        aka: '#{Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(member.outputs_guessed)}'"
                     puts "        aka: '#{io_set_text_file.class.convert_iod_to_raw(member.outputs_guessed)}'"
                     puts "          " + member.error_hist_stats(in_bw: true)
                     puts
@@ -457,7 +404,6 @@ module Ai4cr
                 end
               end
             end
-            # block_logger.call('a', i, inputs_sequence.size, "EXPECTED", outputs) if block_logger
           end
 
           team_members = purge_replace(team_members, purge_error_limit, i)
@@ -484,9 +430,7 @@ module Ai4cr
             # Thanks to the 'hardware' shard:
             puts "System info:"
             memory = Hardware::Memory.new
-            # p! memory.used.humanize
             p! memory.percent.round(1)
-            # p! cpu.usage!.to_i # .round(1)
             puts "^"*80
 
             # Now for some percent-correct stat's:
@@ -530,11 +474,10 @@ module Ai4cr
         team_members
       end
 
-      def purge_replace(team_members, purge_error_limit, i) # , &block_simple_logger)
+      def purge_replace(team_members, purge_error_limit, i)
         config = team_members.first.config.clone
 
         target_size = team_members.size
-        # keep_size = target_size / 2
 
         purge_qty = 0
 
@@ -559,14 +502,12 @@ module Ai4cr
             name = "pb"
             delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -1.0)
             puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: #{delta} ----\n"
-            # TODO: replace above 'puts' with: 'block_simple_logger.call(..) if block_simple_logger'
 
             new_rand_member = create(**config)
             breed(member, new_rand_member, delta).tap(&.name=(name))
           else
             # Member ok as-is
             puts "\n---- i: #{i}, keeping member.birth_id: #{member.birth_id}; name: #{member.name}, d: #{d}, delta: n/a ----\n"
-            # TODO: replace above 'puts' with: 'block_simple_logger.call(..) if block_simple_logger'
 
             member
           end
@@ -574,15 +515,12 @@ module Ai4cr
 
         if purge_qty > 0
           puts "\n**** i: #{i}, purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} at #{Time.local} ****\n"
-          # TODO: replace above 'puts' with: 'block_simple_logger.call(..) if block_simple_logger'
-          # team_members = team_members + build_team(purge_qty, **config)
         else
           puts "\n**** i: #{i}, (NO PURGES) purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} at #{Time.local} ****\n"
         end
 
         team_members
       end
-
       # ameba:enable Metrics/CyclomaticComplexity
 
       def train_team_in_parallel(inputs, outputs, team_members, train_qty)
@@ -614,17 +552,14 @@ module Ai4cr
             spawn do
               contestant = if i == j
                              # Don't bother breeding a member with itself
-                             # "#{c.name + " S"}"
                              member_i.tap(&.name=("S")) # same
                            elsif i < j
                              # Try to guess a delta that is closer to a zero error
                              delta = estimate_better_delta(member_i, member_j)
-                             # "#{c.name + " x"}"
                              breed(member_i, member_j, delta).tap(&.name=("z")) # target zero delta
                            else
                              # Just take a chance with a random delta
                              delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -0.5)
-                             # "#{c.name + " r"}"
                              breed(member_i, member_j, delta).tap(&.name=("r")) # random delta
                            end
 

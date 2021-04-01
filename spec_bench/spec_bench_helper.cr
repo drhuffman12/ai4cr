@@ -12,7 +12,7 @@ QTY_X_PERCENT_DENOMINATOR = 20
 # For more training, you'll probably want to dial up the "* 1" to "* 1000" or so.
 MULTI_TYPE_TEST_QTY = QTY_X_PERCENT_DENOMINATOR * 5 # * 5 * 10
 
-def histogram(arr, precision = 0) # , keys = [] of Float64)
+def histogram(arr, precision = 0)
   h = Hash(Float64, Int32).new
   arr.flatten.group_by { |v| v.round(precision) }
     .each { |elem| h[elem[0]] = elem[1].size }
@@ -50,7 +50,7 @@ def plot_weights(name, weights, verbose = false)
   prefixed = false
   inverted_colors = true
 
-  char_box = '\u2588' # 'x' # '\u25A0'
+  char_box = '\u2588'
 
   bar_colors = [:red, :black, :dark_gray, :yellow, :light_gray, :white, :green]
   bar_chars = bar_colors.size.times.to_a.map { char_box }

@@ -22,12 +22,9 @@ class Runner
     train_qty,
     io_set_text_file
   )
-    # it "successive generations score better (i.e.: lower errors)" do
-    # TODO: (a) move to 'spec_bench' and (b) replace here with more 'always' tests
-
     puts
     puts "v"*40
-    puts "successive generations score better (?) .. max_members: #{max_members} .. start"
+    puts "successive generations (should) score better (?) .. max_members: #{max_members} .. start"
     when_before = Time.local
     puts "when_before: #{when_before}"
     puts "file_path: #{file_path}"
@@ -42,8 +39,6 @@ class Runner
       hidden_size_given: hidden_size_given
     ).config
 
-    # puts
-    # puts "first_gen_members: #{first_gen_members}"
     puts "inputs_sequence.size: #{inputs_sequence.size}"
     puts "inputs_sequence.first.size: #{inputs_sequence.first.size}"
     puts "inputs_sequence.first.first.size: #{inputs_sequence.first.first.size}"
@@ -60,17 +55,14 @@ class Runner
     third_gen_members = my_breed_manager.train_team_using_sequence(inputs_sequence, outputs_sequence, second_gen_members, io_set_text_file, max_members, train_qty) # , block_logger: train_team_using_sequence_logger)
 
     puts "* score and stats ..."
-    # puts "  * first_gen_members ..."
     p "."
     first_gen_members_scored = first_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
     first_gen_members_stats = first_gen_members.map { |member| member.error_hist_stats }
 
-    # puts "  * second_gen_members ..."
     p "."
     second_gen_members_scored = second_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
     second_gen_members_stats = second_gen_members.map { |member| member.error_hist_stats }
 
-    # puts "  * third_gen_members ..."
     p "."
     third_gen_members_scored = third_gen_members.map { |member| member.error_stats.score }.sum / qty_new_members
     third_gen_members_stats = third_gen_members.map { |member| member.error_hist_stats }
@@ -98,34 +90,10 @@ class Runner
     puts "successive generations score better (?) .. max_members: #{max_members} .. end"
     puts "-"*40
     puts
-
-    # expect(second_gen_members_scored).to be < first_gen_members_scored
-    # expect(third_gen_members_scored).to be < second_gen_members_scored
-
-    # end
-    # rescue e
-    #   # puts "e:"
-    #   # puts "  class: #{e.class}"
-    #   # puts "  message: #{e.message}"
-    #   # puts "  backtrace: #{e.backtrace}"
-    #   raise e
-    # ensure
-    #   when_after = Time.local
-    #   puts "when_after: #{when_after}"
-    #   when_delta = when_after - when_before
-    #   puts "when_delta: #{when_delta.total_seconds / 60.0} minutes
-    #   "
-    #   puts
-    #   puts "successive generations score better (?) .. max_members: #{max_members} .. end"
-    #   puts "-"*40
-    #   puts
   end
 end
 
-################################################################################################################################
-################################################################################################################################
-################################################################################################################################
-################################################################################################################################
+####
 
 my_breed_manager = Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager.new
 
@@ -136,7 +104,6 @@ prefix_raw_char = " "
 default_to_bit_size = 8
 
 io_set_text_file = Ai4cr::Utils::IoData::TextFileIodBits.new(
-  # io_set_text_file = Ai4cr::Utils::IoData::TextFileIodFloat.new(
   file_path, file_type_raw,
   prefix_raw_qty, prefix_raw_char,
   default_to_bit_size
@@ -145,7 +112,6 @@ io_set_text_file = Ai4cr::Utils::IoData::TextFileIodBits.new(
 # re 'compare_successive_training_rounds'
 time_col_qty = 6 # 25
 io_offset = time_col_qty
-# ios = io_set_text_file.iod_to_io_set_with_offset_time_cols(time_col_qty, io_offset)
 ios = io_set_text_file.iod_to_io_set_with_offset_time_cols(time_col_qty, io_offset)
 
 inputs_sequence = ios[:input_set]
@@ -175,14 +141,6 @@ puts "io_set_text_file.iod.class: #{io_set_text_file.iod.class}"
 puts "io_set_text_file.iod.first.size: #{io_set_text_file.iod.first.size}"
 puts "io_set_text_file.iod.first.class: #{io_set_text_file.iod.first.class}"
 puts "io_set_text_file.iod.first.first.class: #{io_set_text_file.iod.first.first.class}"
-# puts "io_set_text_file.iod.first.first.size: #{io_set_text_file.iod.first.first.size}"
-
-puts
-puts ":"*40
-puts
-# puts io_set_text_file.class.convert_iod_to_raw(io_set_text_file.iod)
-# puts "inputs_sequence[0..49]: #{inputs_sequence[0..49].map{|v| v.map{|w| w.map{|x| x.round(8)}}}}"
-# puts "outputs_sequence[0..49]: #{outputs_sequence[0..49].map{|v| v.map{|w| w.map{|x| x.round(8)}}}}"
 
 puts "-"*40
 puts

@@ -3,8 +3,6 @@ module Ai4cr
     module Cmn
       module MiniNetConcerns
         module TrainAndAdjust
-          # UNTIL_MIN_AVG_ERROR_DEFAULT = 0.1
-
           property outputs_expected = Array(Float64).new
           property output_deltas = Array(Float64).new
           property last_changes = Array(Array(Float64)).new # aka previous weights
@@ -40,9 +38,6 @@ module Ai4cr
 
           def calculate_error_distance
             @error_stats.distance = @output_errors.sum { |e| 0.5 * e ** 2 }
-
-            # # calculate_error_distance_history
-            # @error_stats.distance
           end
 
           def step_backpropagate
@@ -50,7 +45,7 @@ module Ai4cr
 
             step_calc_input_deltas
             step_update_weights
-            # auto_shrink_weights
+            # auto_shrink_weights # for Relu; keep?
           end
 
           # This would be a chained MiniNet's input_deltas
@@ -73,7 +68,6 @@ module Ai4cr
 
           # Calculate deltas for output layer
           def step_calculate_output_deltas # (outputs_expected)
-            # step_calc_output_errors
             @output_deltas.map_with_index! do |_, i|
               derivative_propagation_function.call(@outputs_guessed[i].clone) * @output_errors[i].clone
             end
@@ -107,6 +101,7 @@ module Ai4cr
           end
 
           # def auto_shrink_weights
+          #   # How best to handle auto-scaling down?
           #   if @output_deltas.map{|d| d.abs}.sum > @outputs_guessed.size
           #     height_indexes.each do |j|
           #       @weights[j].each_with_index do |_elem, k|

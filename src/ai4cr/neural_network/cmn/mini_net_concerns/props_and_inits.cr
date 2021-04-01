@@ -48,7 +48,6 @@ module Ai4cr
 
             @name = name.nil? ? "" : name
 
-            # init_network:
             init_network
 
             @error_stats = Ai4cr::ErrorStats.new(history_size)

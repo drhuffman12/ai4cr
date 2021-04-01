@@ -3,8 +3,6 @@ module Ai4cr
     module Rnn
       module RnnSimpleConcerns
         module TrainAndAdjust
-          # TODO: Finish refactoring this and 'Ai4cr::Team' and then do code cleanup!
-
           getter output_set_expected = Array(Array(Float64)).new
           getter all_output_errors = Array(Array(Float64)).new
 

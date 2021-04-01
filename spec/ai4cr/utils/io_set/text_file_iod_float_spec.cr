@@ -71,25 +71,12 @@ Spectator.describe Ai4cr::Utils::IoData::TextFileIodFloat do
           let(prefix) { prefix_char + prefix_char }
 
           it "starts as expected" do
-            expect(raw[0..9]).to eq((prefix + start_expected_10_chars)[0..9]) # [0..-3]
+            expect(raw[0..9]).to eq((prefix + start_expected_10_chars)[0..9])
           end
           it "ends as expected" do
             expect(raw[-12..-1]).to eq(end_expected_10_chars)
           end
         end
-
-        # describe "iod, which when prefixed" do
-        #   let(prefix_raw_qty) { 2 }
-        #   let(prefix_bits) { Ai4cr::Utils::IoData::TextFileIodFloat.convert_raw_to_iod(prefix_raw_char) }
-        #   let(prefix) { prefix_bits + prefix_bits }
-
-        #   it "starts as expected" do
-        #     expect(iod[0..2]).to eq((prefix + start_expected_3_iod)[0..2])
-        #   end
-        #   it "ends as expected" do
-        #     expect(iod[-3..-1]).to eq(end_expected_3_iod)
-        #   end
-        # end
       end
     end
 
@@ -154,26 +141,6 @@ Spectator.describe Ai4cr::Utils::IoData::TextFileIodFloat do
       end
     end
   end
-
-  # describe "#float_to_char" do
-  #   let(bits) { end_expected_3_iod.first }
-  #   let(char_expected) { end_expected_3_chars[0].to_s }
-
-  #   it "correctly converts to char" do
-  #     converted = Ai4cr::Utils::IoData::TextFileIodFloat.float_to_char(bits)
-  #     expect(converted).to eq(char_expected)
-  #   end
-  # end
-
-  # describe "#bytes_to_chars" do
-  #   let(iod) { end_expected_3_iod }
-  #   let(raw_expected) { end_expected_3_chars.split("") }
-
-  #   it "correctly converts to raw text array" do
-  #     converted = Ai4cr::Utils::IoData::TextFileIodFloat.bytes_to_chars(iod)
-  #     expect(converted).to eq(raw_expected)
-  #   end
-  # end
 
   context "saving" do
     describe "#save_raw" do
@@ -304,7 +271,6 @@ Spectator.describe Ai4cr::Utils::IoData::TextFileIodFloat do
             snippets = ios[:output_set][0..2]
             expect(snippets).to be_a(Array(Array(Array(Float64))))
 
-            # raw_text_array_expected = ["﻿The", "The ", "he F"]
             raw_text_array_expected = ["e Fi", " Fir", "Firs"]
 
             snippet_as_text_array = snippets.map { |snippet| Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(snippet) }
@@ -316,7 +282,6 @@ Spectator.describe Ai4cr::Utils::IoData::TextFileIodFloat do
             snippets = ios[:output_set][-3..-1]
             expect(snippets).to be_a(Array(Array(Array(Float64))))
 
-            # raw_text_array_expected = ["xth ", "th d", "h da"]
             raw_text_array_expected = [" day", "day.", "ay. "]
 
             snippet_as_text_array = snippets.map { |snippet| Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(snippet) }
@@ -326,39 +291,6 @@ Spectator.describe Ai4cr::Utils::IoData::TextFileIodFloat do
       end
     end
   end
-
-  # describe "#iod_to_io_set_with_offset_and_io_per_time_cols" do
-  #   let(offset) { 3 }
-  #   let(time_cols) { 4 }
-  #   let(io_size) { 4 }
-  #   let(io_offset) { 1 }
-  #   let(ios) {
-  #     io_set_text_file.iod_to_io_set_with_offset_and_io_per_time_cols(
-  #       time_cols, offset,
-  #       io_size, io_offset
-  #     )
-  #   }
-
-  #   it "foo" do
-  #     puts "ios.class: #{ios.class}"
-  #   end
-
-  #   context "returns expected data for" do
-  #     context ":input_set" do
-  #       context "start with" do
-  #         it "raw" do
-  #           snippets = ios[:input_set][0..2]
-  #           expect(snippets).to be_a(Array(Array(Array(Float64))))
-
-  #           raw_text_array_expected = [["﻿The", " Fir"], ["The ", "Firs"], ["he F", "irst"]]
-
-  #           snippet_as_text_array = snippets.map { |snippet| Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(snippet) }
-  #           expect(snippet_as_text_array).to eq(raw_text_array_expected)
-  #         end
-  #       end
-  #     end
-  #   end
-  # end
 
   describe "(un)certainty)" do
     let(iod_guess_high_confidence) {
@@ -439,15 +371,4 @@ Spectator.describe Ai4cr::Utils::IoData::TextFileIodFloat do
       end
     end
   end
-
-  # context "handles misc Unicode char's" do
-  #   let(file_path) { "./spec/support/unicode/examples.txt" }
-  #   it "converts to bits and back" do
-  #     bits = Ai4cr::Utils::IoData::TextFileIodFloat.convert_raw_to_iod(io_set_text_file.raw)
-  #     text = Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(bits)
-  #     # puts "bits: #{bits}"
-  #     prefix = (io_set_text_file.prefix_raw_char * io_set_text_file.prefix_raw_qty)
-  #     expect(prefix + text).to eq(io_set_text_file.raw)
-  #   end
-  # end
 end

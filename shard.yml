@@ -4,9 +4,6 @@ version: 0.1.24
 authors:
   - Daniel Huffman <drhuffman12@yahoo.com>
 
-# crystal: ">= 0.36.0"
-# crystal: 1.0
-# crystal: "< 2.0.0"
 # crystal: ">= 1.0.0"
 
 license: MIT
@@ -57,10 +54,10 @@ development_dependencies:
   # # 12 | new(YAML::ParseContext.new, parse_yaml(string_or_io))
   # #       ^--
   # # Error: wrong number of arguments for 'Ameba::Rule::Lint::Syntax.new' (given 2, expected 0..1)
-
+  # # ...
   # # Overloads are:
   # # - Ameba::Rule::Lint::Syntax.new(config = nil)
-
+  # # ...
   # # make[1]: *** [Makefile:8: bin/ameba] Error 1
   # # ```
   # coverage:

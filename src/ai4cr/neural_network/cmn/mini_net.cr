@@ -10,15 +10,12 @@ require "./mini_net_concerns/train_and_adjust.cr"
 module Ai4cr
   module NeuralNetwork
     module Cmn
-      class MiniNet # < Ai4cr::NeuralNetwork::Cmn::MiniNetConcerns::BreedParent
+      class MiniNet
         include JSON::Serializable
 
-        # include Ai4cr::BreedParent(self.class)
-        # include Ai4cr::BreedParent
-        # include MiniNetConcerns::BreedParent
+        # MiniNet code (based on original ai4r Backpropagation) is split up into modules and abstract-/sub-/related-classes to be more manageable
 
         include Ai4cr::Breed::Client
-        # MiniNet code (based on original ai4r Backpropagation) is split up into modules and abstract-/sub-/related-classes to be more manageable
         include MiniNetConcerns::PropsAndInits
         include MiniNetConcerns::CalcGuess
         include MiniNetConcerns::TrainAndAdjust

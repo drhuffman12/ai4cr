@@ -101,7 +101,7 @@ Spectator.describe Ai4cr::Utils::IoData::TextFileIodBits do
           let(prefix) { prefix_char + prefix_char }
 
           it "starts as expected" do
-            expect(raw[0..9]).to eq((prefix + start_expected_10_chars)[0..9]) # [0..-3]
+            expect(raw[0..9]).to eq((prefix + start_expected_10_chars)[0..9])
           end
           it "ends as expected" do
             expect(raw[-12..-1]).to eq(end_expected_10_chars)
@@ -334,7 +334,6 @@ Spectator.describe Ai4cr::Utils::IoData::TextFileIodBits do
             snippets = ios[:output_set][0..2]
             expect(snippets).to be_a(Array(Array(Array(Float64))))
 
-            # raw_text_array_expected = ["﻿The", "The ", "he F"]
             raw_text_array_expected = ["e Fi", " Fir", "Firs"]
 
             snippet_as_text_array = snippets.map { |snippet| Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(snippet) }
@@ -346,7 +345,6 @@ Spectator.describe Ai4cr::Utils::IoData::TextFileIodBits do
             snippets = ios[:output_set][-3..-1]
             expect(snippets).to be_a(Array(Array(Array(Float64))))
 
-            # raw_text_array_expected = ["xth ", "th d", "h da"]
             raw_text_array_expected = [" day", "day.", "ay. "]
 
             snippet_as_text_array = snippets.map { |snippet| Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(snippet) }
@@ -442,7 +440,6 @@ Spectator.describe Ai4cr::Utils::IoData::TextFileIodBits do
     it "converts to bits and back" do
       bits = Ai4cr::Utils::IoData::TextFileIodBits.convert_raw_to_iod(io_set_text_file.raw)
       text = Ai4cr::Utils::IoData::TextFileIodBits.convert_iod_to_raw(bits)
-      # puts "bits: #{bits}"
       prefix = (io_set_text_file.prefix_raw_char * io_set_text_file.prefix_raw_qty)
       expect(prefix + text).to eq(io_set_text_file.raw)
     end
