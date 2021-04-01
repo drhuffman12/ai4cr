@@ -12,7 +12,7 @@ Benchmark.ips do |x|
           byte.to_s(io, base: 2)
         end
       end
-    end #=> String; wrong type!
+    end # => String; wrong type!
   end
 
   x.report "String IO2" do
@@ -22,7 +22,7 @@ Benchmark.ips do |x|
           char.to_s(io)
         end
       end
-    end #=> String; wrong type!
+    end # => String; wrong type!
   end
 
   x.report "2D Array" do
@@ -38,7 +38,7 @@ Benchmark.ips do |x|
   x.report "2D Array utils" do
     # The winner! :)
     Ai4cr::Utils::IoData::TextFileIodBits.new(FILE_PATH, Ai4cr::Utils::IoData::FileType::Raw).iod
-  end 
+  end
 end
 
 # $ crystal spec spec_bench/ai4cr/io_data/text_file_spec.cr --release

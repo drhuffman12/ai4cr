@@ -165,7 +165,7 @@ module Ai4cr
           end
 
           def guesses_as_is
-          # outputs_guessed in sorted/top/bottom/etc order
+            # outputs_guessed in sorted/top/bottom/etc order
             @outputs_guessed
           end
 

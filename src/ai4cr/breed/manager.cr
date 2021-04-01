@@ -533,6 +533,7 @@ module Ai4cr
 
         team_members
       end
+
       # ameba:enable Metrics/CyclomaticComplexity
 
       def train_team_in_parallel(inputs, outputs, team_members, train_qty)

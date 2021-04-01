@@ -100,7 +100,6 @@ module Ai4cr
             end
           end
 
-          # ameba:disable Metrics/CyclomaticComplexity
           def outputs_guessed
             # raise "BAD 'synaptic_layer_indexes (nil)'" if synaptic_layer_indexes.nil?
             # raise "BAD 'synaptic_layer_indexes (empty)'" if synaptic_layer_indexes.empty?
@@ -111,10 +110,10 @@ module Ai4cr
 
             time_col_indexes.map do |ti|
               # begin
-                a = mini_net_set[li]
-                b = a[ti]
-                guessed = b.outputs_guessed
-                guessed
+              a = mini_net_set[li]
+              b = a[ti]
+              guessed = b.outputs_guessed
+              guessed
               # rescue ex
               #   msg = {
               #     my_msg:    "BROKE in 'time_col_indexes.map'!",
@@ -129,21 +128,18 @@ module Ai4cr
               # end
             end
             # puts "BROKE??? .. outputs_guessed .. a"
-
-          # rescue ex
-          #   msg = {
-          #     my_msg:    "BROKE HERE also!",
-          #     file:      __FILE__,
-          #     line:      __LINE__,
-          #     li:        li || "N/A",
-          #     klass:     ex.class,
-          #     message:   ex.message,
-          #     backtrace: ex.backtrace,
-          #   }
-          #   raise msg.to_s
+            # rescue ex
+            #   msg = {
+            #     my_msg:    "BROKE HERE also!",
+            #     file:      __FILE__,
+            #     line:      __LINE__,
+            #     li:        li || "N/A",
+            #     klass:     ex.class,
+            #     message:   ex.message,
+            #     backtrace: ex.backtrace,
+            #   }
+            #   raise msg.to_s
           end
-
-          # ameba:enable Metrics/CyclomaticComplexity
 
           private def step_outputs_guessed_from_previous_tc(li, ti)
             raise "Index error in step_outputs_guessed_from_previous_tc" if ti == 0
