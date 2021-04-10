@@ -461,7 +461,21 @@ module Ai4cr
                 folder_path = "./tmp/#{self.class.name.gsub("::", "-")}/#{time_formated}"
                 file_path = "#{folder_path}/#{member.birth_id}.json"
                 Dir.mkdir_p(folder_path)
-                File.write(file_path, member.to_json)
+                begin
+                  File.write(file_path, member.to_json)
+                rescue e
+                  # probably something like: `Unhandled exception: Infinity not allowed in JSON (JSON::Error)`
+                  # ... in which case, we probably can't really use the net anyways.
+                  msg = {
+                    member_birth_id: member.birth_id,
+                    error:           {
+                      klass:     e.class.name.to_s,
+                      message:   e.message.to_s,
+                      backtrace: e.backtrace.to_s,
+                    },
+                  }
+                  File.write(file_path, msg.to_json)
+                end
               end
             end
 
