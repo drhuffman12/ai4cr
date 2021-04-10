@@ -463,7 +463,7 @@ module Ai4cr
                 # recent_hists_last_chart = CHARTER.plot(recent_hists.last.values.map(&./(100)), false)
                 # file_path = "#{folder_path}/#{member.birth_id}_step_#{i}(#{recent_hists_last_chart}).json"
 
-                file_path = "#{folder_path}/#{member.birth_id}_step_#{i}_error_hist(#{member.error_hist_stats(in_bw: true)}).json"
+                file_path = "#{folder_path}/#{member.birth_id}_step_#{i}_error_hist(#{member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")}).json"
 
                 Dir.mkdir_p(folder_path)
                 begin
