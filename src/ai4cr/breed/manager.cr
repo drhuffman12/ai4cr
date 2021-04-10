@@ -458,15 +458,16 @@ module Ai4cr
             perc = Hash(Int32, Float64).new(0.0)
 
             if i % STEP_SAVE == 0 || i == i_max - 1
-              team_members.each do |member|
-                begin
-                  time_formated = Time.local.to_s.gsub(" ", "_").gsub(":", "_")
-                  folder_path = "./tmp/#{self.class.name.gsub("::", "-")}/#{time_formated}"
+              member_size = team_members.size
+              time_formated = Time.local.to_s.gsub(" ", "_").gsub(":", "_")
+              folder_path = "./tmp/#{self.class.name.gsub("::", "-")}/#{time_formated}"
 
+              team_members.each_with_index do |member, j|
+                begin
                   # recent_hists_last_chart = CHARTER.plot(recent_hists.last.values.map(&./(100)), false)
                   # file_path = "#{folder_path}/#{member.birth_id}_step_#{i}(#{recent_hists_last_chart}).json"
 
-                  file_path = "#{folder_path}/#{member.birth_id}_step_#{i}_error_hist(#{member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")}).json"
+                  file_path = "#{folder_path}/#{j}_of_#{member_size}_birth_id#{member.birth_id}_step_#{i}_error_hist(#{member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")}).json"
 
                   Dir.mkdir_p(folder_path)
                   begin
