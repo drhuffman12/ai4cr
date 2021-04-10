@@ -7,7 +7,7 @@ module Ai4cr
           IO_OFFSET_DEFAULT      =  1
           TIME_COL_QTY_MIN       =  2
           HIDDEN_LAYER_QTY_MIN   =  1
-          INPUT_SIZE_MIN         =  1 # 2
+          INPUT_SIZE_MIN         =  2 # 1 # TODO: Could be just '1', but will need to adjust a bunch of tests!
           OUTPUT_SIZE_MIN        =  1
           LEARNING_STYLE_DEFAULT = LS_RELU
 
