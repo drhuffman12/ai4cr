@@ -479,7 +479,7 @@ module Ai4cr
                       backtrace: e.backtrace.to_s,
                     },
                   }
-                  File.write(file_path+ ".ERROR.txt", msg.to_json)
+                  File.write(file_path + ".ERROR.txt", msg.to_json)
                 end
               end
             end
@@ -512,7 +512,7 @@ module Ai4cr
 
             purge_qty += 1
             name = "Pr"
-            puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: N/A ----\n"
+            puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, err_stat_dist: #{d}, delta: N/A ----\n"
             # TODO: replace above 'puts' with: 'block_simple_logger.call(..) if block_simple_logger'
 
             new_rand_member = create(**config).tap(&.name=(name))
@@ -524,14 +524,14 @@ module Ai4cr
             purge_qty += 1
             name = "pb"
             delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -1.0)
-            puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: #{delta} ----\n"
+            puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, err_stat_dist: #{d}, delta: #{delta} ----\n"
 
             new_rand_member = create(**config)
             breed(member, new_rand_member, delta).tap(&.name=(name))
           else
             # Member ok as-is...
             # NOTE: Member will have 'd:' of '-1' if member is new!
-            puts "\n---- i: #{i}, keeping member.birth_id: #{member.birth_id}; name: #{member.name}, d: #{d}, delta: n/a ----\n"
+            puts "\n---- i: #{i}, keeping member.birth_id: #{member.birth_id}; name: #{member.name}, err_stat_dist: #{d}, delta: n/a ----\n"
 
             member
           end
