@@ -237,7 +237,8 @@ module Ai4cr
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
         end
 
-        (team_members.sort_by(&.error_stats.score))[0..max_members - 1]
+        (team_members.sort_by(&.error_stats.distance))[0..max_members - 1]
+        # (team_members.sort_by(&.error_stats.score))[0..max_members - 1]
       end
 
       # ameba:disable Metrics/CyclomaticComplexity
@@ -402,7 +403,8 @@ module Ai4cr
           end
 
           team_members = purge_replace(team_members, purge_error_limit, i)
-          team_members = (team_members.sort_by(&.error_stats.score))[0..max_members - 1]
+          team_members = (team_members.sort_by(&.error_stats.distance))[0..max_members - 1]
+          # team_members = (team_members.sort_by(&.error_stats.score))[0..max_members - 1]
 
           if verbose && i % STEP_MAJOR == 0
             after = Time.local
