@@ -355,7 +355,9 @@ module Ai4cr
                   qty_correct = output_str_matches.sum
                   percent_correct = 100.0 * qty_correct / tc_size
 
-                  puts "          percent_correct: #{qty_correct} of #{tc_size} => #{CHARTER.plot(output_str_matches, false)} => #{percent_correct}%"
+                  correct_plot = CHARTER.plot(output_str_matches, false)
+                  member.error_stats.update_history_correct_plot(correct_plot)
+                  puts "          percent_correct: #{qty_correct} of #{tc_size} => #{correct_plot} => #{percent_correct}%"
                   list << qty_correct
 
                   puts "          certainty:"
@@ -451,6 +453,7 @@ module Ai4cr
 
             # p! recent_hists
             recent_hists.each { |h| puts CHARTER.plot(h.values.map(&./(100)), false) }
+
             puts "-"*80
 
             list = Array(Int32).new
@@ -467,7 +470,13 @@ module Ai4cr
                   # recent_hists_last_chart = CHARTER.plot(recent_hists.last.values.map(&./(100)), false)
                   # file_path = "#{folder_path}/#{member.birth_id}_step_#{i}(#{recent_hists_last_chart}).json"
 
-                  file_path = "#{folder_path}/#{j}_of_#{member_size}_birth_id#{member.birth_id}_step_#{i}_error_hist(#{member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")}).json"
+                  # member.update_history_correct_plot(CHARTER.plot(hist.clone.values.map(&./(100)), false))
+                  fp = folder_path
+                  ms = member_size
+                  bi = member.birth_id
+                  cp = member.error_stats.hist_correct_plot.last
+                  eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
+                  file_path = "#{fp}/(#{j}_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
 
                   Dir.mkdir_p(folder_path)
                   begin

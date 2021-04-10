@@ -11,6 +11,7 @@ module Ai4cr
     getter distance : Float64
     getter history : Array(Float64)
     getter score : Float64
+    getter hist_correct_plot = Array(String).new
 
     def initialize(history_size = DEFAULT_HISTORY_SIZE)
       @history_size = case
@@ -55,6 +56,19 @@ module Ai4cr
       hist = history.map { |h| Float64.avoid_extremes(h, alt_nan: 100.0, alt_infin_pos: 100.0, alt_infin_neg: 0.0) }
       charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
       charter.plot(hist, prefixed)
+    end
+
+    def update_history_correct_plot(which_correct_plot = "(tbd)")
+      if @hist_correct_plot.size < @history_size # - 1
+        # Array not 'full' yet, so add latest value to end
+        @hist_correct_plot << which_correct_plot
+      else
+        # Array 'full', so rotate end to front and then put new value at last index
+        @hist_correct_plot.rotate!
+        @hist_correct_plot[-1] = which_correct_plot
+      end
+
+      @hist_correct_plot
     end
 
     private def update_history
