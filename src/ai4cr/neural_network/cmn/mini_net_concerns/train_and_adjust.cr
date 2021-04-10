@@ -45,7 +45,6 @@ module Ai4cr
 
             step_calc_input_deltas
             step_update_weights
-            # auto_shrink_weights # for Relu; keep?
           end
 
           # This would be a chained MiniNet's input_deltas
@@ -93,29 +92,12 @@ module Ai4cr
             @input_deltas = layer_deltas
           end
 
-          # Update weights after @deltas have been calculated.
-          def step_update_weights
+          def step_update_weights(parallel = false)
+            # Update weights after @deltas have been calculated.
             # NOTE: This takes into account the specified 'bias' value (where applicable)
-            step_update_weights_v1
-            # step_update_weights_v2 # for larger weight sets, this become too much overhead
+            parallel ? step_update_weights_v2 : step_update_weights_v1
           end
 
-          # def auto_shrink_weights
-          #   # How best to handle auto-scaling down?
-          #   if @output_deltas.map{|d| d.abs}.sum > @outputs_guessed.size
-          #     height_indexes.each do |j|
-          #       @weights[j].each_with_index do |_elem, k|
-          #         # change = @output_deltas[k]*@inputs_given[j]
-          #         # weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
-          #         # @weights[j][k] += weight_delta
-          #         # @last_changes[j][k] = change
-          #         @weights[j][k] = @weights[j][k] / (2*@outputs_guessed.size)
-          #       end
-          #     end
-          #   end
-          # end
-
-          # Update weights after @deltas have been calculated.
           def step_update_weights_v1
             height_indexes.each do |j|
               @weights[j].each_with_index do |_elem, k|
@@ -127,8 +109,8 @@ module Ai4cr
             end
           end
 
-          # Update weights after @deltas have been calculated.
           def step_update_weights_v2
+            # for larger weight sets, this become too much overhead
             channel = Channel(Nil).new
 
             height_indexes.each do |j|

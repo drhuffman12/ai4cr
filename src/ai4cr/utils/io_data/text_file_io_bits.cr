@@ -33,13 +33,6 @@ module Ai4cr
           indexes = bits.size < bidxs.size ? (0..bits.size - 1).to_a : bidxs
           bytes = indexes.sum do |i|
             bit = bits[i]
-            # bit = if bit <= 0.0
-            #         0.0
-            #       elsif bit >= 1.0
-            #         1.0
-            #       else
-            #         bit.round
-            #       end
 
             bit = case
                   when bit.nan?

@@ -58,7 +58,7 @@ module Ai4cr
             if guess.round >= 0.5
               1.0 - guess
             else
-              -guess # guess - 0
+              -guess
             end.abs
           end
         end
@@ -74,8 +74,7 @@ module Ai4cr
         end
 
         def iod_certainty(iod_guessed)
-          # 1.0 - iod_uncertainty(iod_guessed)
-          return 1.0 if iod_guessed.nil? || iod_guessed.empty?
+          return 0.0 if iod_guessed.nil? || iod_guessed.empty?
           deltas = iod_certainty_per_guess(iod_guessed)
           deltas.sum(&.abs) / deltas.size
         end
@@ -97,8 +96,6 @@ module Ai4cr
             outputs: outputs,
           }
         end
-
-        # in_groups_of = Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits::INPUT_SIZE_MIN
 
         def iod_to_io_set_with_offset_time_cols(time_cols : Int32, offset : Int32)
           io_set = iod_to_io_set_with_offset(offset)
@@ -124,18 +121,6 @@ module Ai4cr
             output_set: output_set,
           }
         end
-
-        # def iod_to_io_set_with_offset_and_io_per_time_cols(time_cols : Int32, offset : Int32, io_size : Int32, io_offset : Int32 = -1)
-        #   # input_set = [0.0]
-        #   # output_set = [0.0]
-
-        #   io_sets = iod_to_io_set_with_offset_time_cols(io_size, io_offset)
-
-        #   # {
-        #   #   input_set:  input_set,
-        #   #   output_set: output_set,
-        #   # }
-        # end
       end
     end
   end

@@ -41,19 +41,7 @@ module Ai4cr
             momentum: self.momentum.clone,
             deriv_scale: self.deriv_scale.clone,
           )
-
-          # calc_guess
-          # a_clone.weights = self.weights.clone
-          # a_clone.input_set_given = self.input_set_given.clone
-          # a_clone.outputs_guessed = self.outputs_guessed.clone
           a_clone.mini_net_set = self.mini_net_set.clone
-
-          # train_and_adjust
-          # a_clone.output_set_expected = self.output_set_expected.clone
-          # a_clone.all_output_errors = self.all_output_errors.clone
-          # a_clone.last_changes = self.last_changes.clone
-          # a_clone.output_errors = self.output_errors.clone
-          # a_clone.input_deltas = self.input_deltas.clone
 
           a_clone
         end

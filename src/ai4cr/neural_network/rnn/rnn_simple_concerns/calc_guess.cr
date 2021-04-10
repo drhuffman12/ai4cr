@@ -101,44 +101,14 @@ module Ai4cr
           end
 
           def outputs_guessed
-            # raise "BAD 'synaptic_layer_indexes (nil)'" if synaptic_layer_indexes.nil?
-            # raise "BAD 'synaptic_layer_indexes (empty)'" if synaptic_layer_indexes.empty?
             li = synaptic_layer_indexes.last
-            # raise "BAD 'li'" if li.nil?
-
-            # raise "BAD tci" if time_col_indexes.nil? || time_col_indexes.empty?
 
             time_col_indexes.map do |ti|
-              # begin
               a = mini_net_set[li]
               b = a[ti]
               guessed = b.outputs_guessed
               guessed
-              # rescue ex
-              #   msg = {
-              #     my_msg:    "BROKE in 'time_col_indexes.map'!",
-              #     file:      __FILE__,
-              #     line:      __LINE__,
-              #     li:        li || "N/A",
-              #     klass:     ex.class,
-              #     message:   ex.message,
-              #     backtrace: ex.backtrace,
-              #   }
-              #   raise msg.to_s
-              # end
             end
-            # puts "BROKE??? .. outputs_guessed .. a"
-            # rescue ex
-            #   msg = {
-            #     my_msg:    "BROKE HERE also!",
-            #     file:      __FILE__,
-            #     line:      __LINE__,
-            #     li:        li || "N/A",
-            #     klass:     ex.class,
-            #     message:   ex.message,
-            #     backtrace: ex.backtrace,
-            #   }
-            #   raise msg.to_s
           end
 
           private def step_outputs_guessed_from_previous_tc(li, ti)

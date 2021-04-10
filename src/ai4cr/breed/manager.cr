@@ -38,12 +38,10 @@ module Ai4cr
       QTY_NEW_MEMBERS_DEFAULT = 10
       MAX_MEMBERS_DEFAULT     = QTY_NEW_MEMBERS_DEFAULT
       PURGE_ERROR_LIMIT_SCALE = 1e12
-      # STEP_MINOR              =   10
-      # STEP_MAJOR              = 10 * STEP_MINOR
 
-      STEP_MINOR = 2              # about 1 min +/-
-      STEP_MAJOR = 8 * STEP_MINOR # about 5 min's +/-
-      STEP_SAVE  = 8 * STEP_MINOR
+      STEP_MINOR = 4
+      STEP_MAJOR = 4 * STEP_MINOR
+      STEP_SAVE  = 4 * STEP_MAJOR
 
       ############################################################################
       # TODO: WHY is this required?
@@ -84,10 +82,7 @@ module Ai4cr
       end
 
       def estimate_better_delta(ancestor_a : T, ancestor_b : T)
-        # for weighed average of 'recent' distances
-        # estimate_better_delta(ancestor_a.error_stats.score, ancestor_b.error_stats.score)
-
-        # # for 'last' distance only
+        # Note: We could use 'score' instead of 'distance', but I think 'distance' is best if we're breeding after each training io pair.
         estimate_better_delta(ancestor_a.error_stats.distance, ancestor_b.error_stats.distance)
       end
 
@@ -157,17 +152,15 @@ module Ai4cr
       def mix_parts(child : T, parent_a : T, parent_b : T, delta)
         # Sub-classes should do some sort of property mixing based on delta and both parents.
         # Typically, do something in sub-class's 'mix_one_part_number(..)' ...
+        # e.g:
+        # (a) some_value = mix_one_part_number(parent_a.some_value, parent_b.some_value, delta)
+        #     child.some_value = some_value
+        # (b) some_array = mix_nested_parts(parent_a.some_array, parent_b.some_array, delta)
+        #     child.some_array = some_array
+        # (c) some_string = mix_nested_parts(parent_a.some_string, parent_b.some_string, delta)
+        #     child.some_string = some_string
 
-        # some_value = mix_one_part_number(parent_a.some_value, parent_b.some_value, delta)
-        # child.some_value = some_value
-
-        # some_array = mix_nested_parts(parent_a.some_array, parent_b.some_array, delta)
-        # child.some_array = some_array
-
-        # some_string = mix_nested_parts(parent_a.some_string, parent_b.some_string, delta)
-        # child.some_string = some_string
-
-        # And then be sure to return 'child'
+        # And then be sure to call 'super' or specifically return 'child'
         child
       end
 
@@ -200,9 +193,7 @@ module Ai4cr
       end
 
       def build_team(qty_new_members : Int32 = QTY_NEW_MEMBERS_DEFAULT) : Array(T)
-        params = gen_params.merge(name: "P")
-        # build_team(qty_new_members, **params)
-
+        params = gen_params.merge(name: "p")
         channel = Channel(T).new
         (1..qty_new_members).map do
           spawn do
@@ -225,8 +216,6 @@ module Ai4cr
       def build_team : Array(T)
         qty_new_members = QTY_NEW_MEMBERS_DEFAULT
         params = gen_params.merge(name: "P")
-        # build_team(qty_new_members, **params)
-
         channel = Channel(T).new
         (1..qty_new_members).map do
           spawn do
@@ -261,6 +250,7 @@ module Ai4cr
         purge_error_limit = -1,
         verbose = true
       )
+        # TODO: split up into smaller pieces
         if purge_error_limit == -1
           # This is mainly for Relu, but could be adapted for other training types
           # puts "outputs_sequence.size: #{outputs_sequence.size}"
@@ -494,11 +484,13 @@ module Ai4cr
         purge_qty = 0
 
         team_members.map! do |member|
-          # d = member.error_stats.distance
-          d = member.error_stats.score
+          # Note: We could use 'score' instead of 'distance', but I think 'distance' is best if we're breeding after each training io pair.
+          d = member.error_stats.distance
+          # d = member.error_stats.score
           case
           when d.nan? || d.infinite?
             # We need to move away from this member's configuration completely
+
             purge_qty += 1
             name = "Pr"
             puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, d: #{d}, delta: N/A ----\n"

@@ -13,11 +13,7 @@ module Ai4cr
         CHARS_AT_A_TIME_DEFAULT = 4
         INPUT_SIZE_MIN          = Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits::INPUT_SIZE_MIN
 
-        # def self.convert_raw_to_iod(raw, default_to_bit_size = 0) : Array(Array(Float64))
         def self.convert_raw_to_iod(raw, chars_at_a_time = CHARS_AT_A_TIME_DEFAULT) : Array(Array(Float64))
-          # caat = resize_chars_at_a_time(raw, chars_at_a_time)
-
-          # chars_as_floats = Array(Array(Float64)).new(raw.size)
           chars_as_floats = Array(Array(Float64)).new(raw.size)
           raw.each_char { |char| chars_as_floats << char_to_charaf(char) }
           chars_as_floats
@@ -47,7 +43,6 @@ module Ai4cr
           end
         end
 
-        # def self.convert_iod_to_raw(iod, default_to_bit_size = 0) : String
         def self.convert_iod_to_raw(iod, chars_at_a_time = CHARS_AT_A_TIME_DEFAULT) : String
           iod.join { |charaf| charaf_to_char(charaf) }
         end

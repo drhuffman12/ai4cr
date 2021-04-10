@@ -7,7 +7,7 @@ module Ai4cr
           IO_OFFSET_DEFAULT      =  1
           TIME_COL_QTY_MIN       =  2
           HIDDEN_LAYER_QTY_MIN   =  1
-          INPUT_SIZE_MIN         =  2
+          INPUT_SIZE_MIN         =  1 # 2
           OUTPUT_SIZE_MIN        =  1
           LEARNING_STYLE_DEFAULT = LS_RELU
 
@@ -153,19 +153,9 @@ module Ai4cr
 
             @errors["time_col_qty"] = "time_col_qty must be at least #{TIME_COL_QTY_MIN}!" if time_col_qty < TIME_COL_QTY_MIN
             @errors["hidden_layer_qty"] = "hidden_layer_qty must be at least #{HIDDEN_LAYER_QTY_MIN}!" if hidden_layer_qty < HIDDEN_LAYER_QTY_MIN
-
-            # @errors["input_size"] = "input_size must be at least #{INPUT_SIZE_MIN}" if input_size < INPUT_SIZE_MIN
-            # @errors["output_size"] = "output_size must be at least #{OUTPUT_SIZE_MIN}" if output_size < OUTPUT_SIZE_MIN
-
-            # io_size_error = input_size < INPUT_SIZE_MIN || output_size < OUTPUT_SIZE_MIN
-            # @errors["input_size"] = "input_size must be at least #{INPUT_SIZE_MIN}" if io_size_error
-            # @errors["output_size"] = "output_size must be at least #{OUTPUT_SIZE_MIN}" if io_size_error
-
-            # if hidden_size_given.is_a?(Int32)
-            #   @errors["hidden_size_given"] = "hidden_size_given must be at least #{HIDDEN_SIZE_GIVEN_MIN} if supplied (otherwise it defaults to sum of @input_size and @output_size" if hidden_size_given.as(Int32) < HIDDEN_SIZE_GIVEN_MIN
-            # end
-            # @errors["hidden_size_given"] = "hidden_size_given must NOT be negative" if hidden_size_given < 0
-
+            @errors["input_size"] = "input_size must be at least #{INPUT_SIZE_MIN}" if input_size < INPUT_SIZE_MIN
+            @errors["output_size"] = "output_size must be at least #{OUTPUT_SIZE_MIN}" if output_size < OUTPUT_SIZE_MIN
+            @errors["hidden_size_given"] = "hidden_size_given must NOT be negative" if !(!hidden_size_given.nil? && hidden_size_given.to_i > 0)
             @errors["io_offset"] = "io_offset must be a non-negative integer" if io_offset < 0
 
             @valid = errors.empty?

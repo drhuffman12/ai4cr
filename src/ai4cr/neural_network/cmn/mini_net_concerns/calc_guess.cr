@@ -179,7 +179,7 @@ module Ai4cr
           end
 
           def guesses_ceiled
-            # good for MiniNetRelu
+            # good for Relu
             @outputs_guessed.map(&.ceil)
           end
 
