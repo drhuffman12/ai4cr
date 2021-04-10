@@ -529,7 +529,8 @@ module Ai4cr
             new_rand_member = create(**config)
             breed(member, new_rand_member, delta).tap(&.name=(name))
           else
-            # Member ok as-is
+            # Member ok as-is...
+            # NOTE: Member will have 'd:' of '-1' if member is new!
             puts "\n---- i: #{i}, keeping member.birth_id: #{member.birth_id}; name: #{member.name}, d: #{d}, delta: n/a ----\n"
 
             member
