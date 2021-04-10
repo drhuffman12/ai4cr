@@ -334,23 +334,22 @@ module Ai4cr
                   memory = Hardware::Memory.new
                   p! memory.percent.round(1)
 
+                  outputs_str_expected = io_set_text_file.class.convert_iod_to_raw(outputs)
+                  outputs_str_actual = io_set_text_file.class.convert_iod_to_raw(member.outputs_guessed)
+                  output_str_matches = outputs_str_expected.each_char.map_with_index do |ose, oi|
+                    ose.to_s == outputs_str_actual[oi].to_s ? 1 : 0
+                  end
+
                   puts
                   puts "  inputs_sequence GIVEN (a): "
                   puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(inputs)}'"
-
-                  outputs_str_expected = io_set_text_file.class.convert_iod_to_raw(outputs)
                   puts "      outputs EXPECTED (a): "
                   puts "        aka: '#{outputs_str_expected}'?"
                   print "\n    "
-
-                  outputs_str_actual = io_set_text_file.class.convert_iod_to_raw(member.outputs_guessed)
                   puts "      outputs Actual (b): "
                   puts "        aka: '#{outputs_str_actual}'!"
                   puts "          " + member.error_hist_stats(in_bw: true)
 
-                  output_str_matches = outputs_str_expected.each_char.map_with_index do |ose, oi|
-                    ose.to_s == outputs_str_actual[oi].to_s ? 1 : 0
-                  end
                   qty_correct = output_str_matches.sum
                   percent_correct = 100.0 * qty_correct / tc_size
 
@@ -461,9 +460,11 @@ module Ai4cr
                 time_formated = Time.local.to_s.gsub(" ", "_").gsub(":", "_")
                 folder_path = "./tmp/#{self.class.name.gsub("::", "-")}/#{time_formated}"
 
-                recent_hists_last_chart = CHARTER.plot(recent_hists.last.values.map(&./(100)), false)
+                # recent_hists_last_chart = CHARTER.plot(recent_hists.last.values.map(&./(100)), false)
+                # file_path = "#{folder_path}/#{member.birth_id}_step_#{i}(#{recent_hists_last_chart}).json"
 
-                file_path = "#{folder_path}/#{member.birth_id}_step_#{i}(#{recent_hists_last_chart}).json"
+                file_path = "#{folder_path}/#{member.birth_id}_step_#{i}_error_hist(#{member.error_hist_stats(in_bw: true)}).json"
+
                 Dir.mkdir_p(folder_path)
                 begin
                   File.write(file_path, member.to_json)
