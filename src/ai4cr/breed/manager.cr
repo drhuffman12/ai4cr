@@ -37,7 +37,7 @@ module Ai4cr
 
       QTY_NEW_MEMBERS_DEFAULT = 10
       MAX_MEMBERS_DEFAULT     = QTY_NEW_MEMBERS_DEFAULT
-      PURGE_ERROR_LIMIT_SCALE = 10 # 1e4 # 1e12
+      PURGE_ERROR_LIMIT_SCALE = 1 # 1e4 # 1e12
 
       STEP_MINOR = 4
       STEP_MAJOR = 4 * STEP_MINOR
@@ -539,7 +539,7 @@ module Ai4cr
         if purge_qty > 0
           puts "\n**** i: #{i}, purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} at #{Time.local} ****\n"
         else
-          puts "\n**** i: #{i}, (NO PURGES) purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} at #{Time.local} ****\n"
+          puts "\n**** i: #{i}, purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} at #{Time.local} **** (NO PURGES) ****\n"
         end
 
         team_members
