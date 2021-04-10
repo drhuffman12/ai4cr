@@ -4,6 +4,9 @@
 # Be on the look out for high `percent_correct: x of x` in the 'tmp/log.txt file'
 # Monitor your Ram and CPU usage!
 #   (This seems to stablize at around about 4 Gb and 1/3 of my system's AMD Ryzen 7 1700X CPU.)
+# NOTE: Training results look promising, but tend to be more successful towards the 'more future' side of the outputs.
+#   So, implement bi-directional RNN in the next phase, in hopes of balancing out the successfulness of the
+#   'less future' vs 'more future' guesses.
 
 require "./../src/ai4cr"
 

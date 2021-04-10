@@ -155,7 +155,7 @@ module Ai4cr
             @errors["hidden_layer_qty"] = "hidden_layer_qty must be at least #{HIDDEN_LAYER_QTY_MIN}!" if hidden_layer_qty < HIDDEN_LAYER_QTY_MIN
             @errors["input_size"] = "input_size must be at least #{INPUT_SIZE_MIN}" if input_size < INPUT_SIZE_MIN
             @errors["output_size"] = "output_size must be at least #{OUTPUT_SIZE_MIN}" if output_size < OUTPUT_SIZE_MIN
-            @errors["hidden_size_given"] = "hidden_size_given must NOT be negative" if !(!hidden_size_given.nil? && hidden_size_given.to_i > 0)
+            @errors["hidden_size_given"] = "hidden_size_given must NOT be negative" if !(!hidden_size_given.nil? && hidden_size_given.to_i > -1)
             @errors["io_offset"] = "io_offset must be a non-negative integer" if io_offset < 0
 
             @valid = errors.empty?
