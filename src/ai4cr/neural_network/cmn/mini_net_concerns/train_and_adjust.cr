@@ -74,7 +74,8 @@ module Ai4cr
 
           def step_calc_output_errors
             @output_errors = @outputs_guessed.map_with_index do |og, i|
-              @outputs_expected[i] - og
+              v = @outputs_expected[i] - og
+              Float64.avoid_extremes(v) # , alt_nan: Float64::MAX)
             end
           end
 
@@ -104,7 +105,7 @@ module Ai4cr
           def step_update_weights_v1
             height_indexes.each do |j|
               @weights[j].each_with_index do |_elem, k|
-                change = @output_deltas[k]*@inputs_given[j]
+                change = Float64.avoid_extremes(@output_deltas[k]*@inputs_given[j])
                 weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
                 @weights[j][k] += weight_delta
                 @last_changes[j][k] = change

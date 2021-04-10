@@ -52,7 +52,7 @@ module Ai4cr
       reversed = false
     )
       # hist = history.map { |h| h.nan? ? 100.0 : h }
-      hist = history.map { |h| Float64.avoid_extremes(h, alt_nan: 100.0, alt_infin_pos: 100.0) }
+      hist = history.map { |h| Float64.avoid_extremes(h, alt_nan: 100.0, alt_infin_pos: 100.0, alt_infin_neg: 0.0) }
       charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
       charter.plot(hist, prefixed)
     end

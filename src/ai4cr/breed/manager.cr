@@ -459,20 +459,33 @@ module Ai4cr
 
             if i % STEP_SAVE == 0 || i == i_max - 1
               team_members.each do |member|
-                time_formated = Time.local.to_s.gsub(" ", "_").gsub(":", "_")
-                folder_path = "./tmp/#{self.class.name.gsub("::", "-")}/#{time_formated}"
-
-                # recent_hists_last_chart = CHARTER.plot(recent_hists.last.values.map(&./(100)), false)
-                # file_path = "#{folder_path}/#{member.birth_id}_step_#{i}(#{recent_hists_last_chart}).json"
-
-                file_path = "#{folder_path}/#{member.birth_id}_step_#{i}_error_hist(#{member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")}).json"
-
-                Dir.mkdir_p(folder_path)
                 begin
-                  File.write(file_path, member.to_json)
+                  time_formated = Time.local.to_s.gsub(" ", "_").gsub(":", "_")
+                  folder_path = "./tmp/#{self.class.name.gsub("::", "-")}/#{time_formated}"
+
+                  # recent_hists_last_chart = CHARTER.plot(recent_hists.last.values.map(&./(100)), false)
+                  # file_path = "#{folder_path}/#{member.birth_id}_step_#{i}(#{recent_hists_last_chart}).json"
+
+                  file_path = "#{folder_path}/#{member.birth_id}_step_#{i}_error_hist(#{member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")}).json"
+
+                  Dir.mkdir_p(folder_path)
+                  begin
+                    File.write(file_path, member.to_json)
+                  rescue e
+                    # probably something like: `Unhandled exception: Infinity not allowed in JSON (JSON::Error)`
+                    # ... in which case, we probably can't really use the net anyways.
+                    msg = {
+                      member_birth_id: member.birth_id,
+                      error:           {
+                        klass:     e.class.name,
+                        message:   e.message,
+                        backtrace: e.backtrace,
+                      },
+                      member: member,
+                    }
+                    File.write(file_path + ".ERROR.txt", msg.pretty_inspect)
+                  end
                 rescue e
-                  # probably something like: `Unhandled exception: Infinity not allowed in JSON (JSON::Error)`
-                  # ... in which case, we probably can't really use the net anyways.
                   msg = {
                     member_birth_id: member.birth_id,
                     error:           {
@@ -482,7 +495,7 @@ module Ai4cr
                     },
                     member: member,
                   }
-                  File.write(file_path + ".ERROR.txt", msg.pretty_inspect)
+                  p! msg.pretty_inspect
                 end
               end
             end
