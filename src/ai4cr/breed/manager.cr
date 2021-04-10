@@ -166,7 +166,9 @@ module Ai4cr
 
       def mix_one_part_number(parent_a_part : Number, parent_b_part : Number, delta)
         vector_a_to_b = parent_b_part - parent_a_part
-        parent_a_part + (delta * vector_a_to_b)
+        v = parent_a_part + (delta * vector_a_to_b)
+        # (v.nan? ? 0.0 : v) # JSON doesn't like NaN and the calc's don't either, so kill (zero-out) this part
+        Float64.avoid_extremes(v)
       end
 
       def mix_one_part_string(parent_a_part : String, parent_b_part : String, delta)

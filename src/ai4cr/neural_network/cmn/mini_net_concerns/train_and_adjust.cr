@@ -87,7 +87,10 @@ module Ai4cr
               width_indexes.each do |k|
                 error += @output_deltas[k] * @weights[j][k]
               end
-              layer_deltas << (derivative_propagation_function.call(@inputs_given[j]) * error)
+              # layer_deltas << (derivative_propagation_function.call(@inputs_given[j]) * error)
+              d = (derivative_propagation_function.call(@inputs_given[j]) * error)
+              # layer_deltas << (d.nan? ? 0.0 : d)
+              layer_deltas << Float64.avoid_extremes(d)
             end
             @input_deltas = layer_deltas
           end
