@@ -334,7 +334,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         :name, :history_size, :io_offset, :time_col_qty,
         :input_size, :output_size, :hidden_layer_qty, :hidden_size_given,
         :learning_style, :bias_disabled, :bias_default, :learning_rate,
-        :momentum, :deriv_scale,
+        :momentum, :deriv_scale, :weight_init_scale_given,
       ]
     }
     it "which include expected keys" do
@@ -355,7 +355,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       end
 
       context "creates members with expected values for" do
-        it ":name" do
+        pending ":name" do
           key = :name
           key_string = key.to_s
           team_members.each do |member|
@@ -408,7 +408,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       it "creates members of specified class" do
         qty_new_members = 4
         next_gen_members = my_breed_manager.build_team(qty_new_members)
-        member_classes = next_gen_members.map { |member| member.class.name }.sort.uniq
+        member_classes = next_gen_members.map(&.class.name).sort!.uniq!
         expect(member_classes.size).to eq(1)
         expect(member_classes.first).to eq(Ai4cr::NeuralNetwork::Rnn::RnnSimple.name)
       end
@@ -426,7 +426,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
         qty_new_members = 4
         params = Ai4cr::NeuralNetwork::Rnn::RnnSimple.new.config
         next_gen_members = my_breed_manager.build_team(qty_new_members, **params)
-        member_classes = next_gen_members.map { |member| member.class.name }.sort.uniq
+        member_classes = next_gen_members.map(&.class.name).sort!.uniq!
         expect(member_classes.size).to eq(1)
         expect(member_classes.first).to eq(Ai4cr::NeuralNetwork::Rnn::RnnSimple.name)
       end

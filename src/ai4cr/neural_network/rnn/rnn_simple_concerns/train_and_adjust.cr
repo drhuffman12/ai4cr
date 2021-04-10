@@ -3,8 +3,6 @@ module Ai4cr
     module Rnn
       module RnnSimpleConcerns
         module TrainAndAdjust
-          # TODO: Finish refactoring this and 'Ai4cr::Team' and then do code cleanup!
-
           getter output_set_expected = Array(Array(Float64)).new
           getter all_output_errors = Array(Array(Float64)).new
 
@@ -129,7 +127,7 @@ module Ai4cr
           end
 
           private def step_calculate_output_deltas(li, ti)
-            # NOTE: We must use a modified logic compared to MiniNet, which is:
+            # NOTE: We must use a modified logic compared to MiniNet, which uses:
             # ```
             # @output_deltas.map_with_index! do |_, i|
             #   error = @outputs_expected[i] - @outputs_guessed[i]
@@ -151,7 +149,7 @@ module Ai4cr
           end
 
           def calculate_error_distance
-            @error_stats.distance = final_li_output_error_distances.map { |e| 0.5*(e)**2 }.sum
+            @error_stats.distance = final_li_output_error_distances.sum { |e| 0.5*(e)**2 }
           end
         end
       end

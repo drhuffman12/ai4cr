@@ -1,20 +1,20 @@
 require "./../../../spectator_helper"
 
-Spectator.describe Ai4cr::Utils::IoData::FileText do
+Spectator.describe Ai4cr::Utils::IoData::TextFileIodFloat do
   let(temp_folder) { "spec/tmp" }
 
   before_each do
     Dir.mkdir_p(temp_folder)
   end
 
-  let(file_path) { "./spec_bench/support/neural_network/data/eng-web_002_GEN_01_read.txt" }
+  let(file_path) { "./spec_bench/support/neural_network/data/bible_utf/eng-web_002_GEN_01_read.txt" }
   let(file_type_raw) { Ai4cr::Utils::IoData::FileType::Raw }
   let(file_type_iod) { Ai4cr::Utils::IoData::FileType::Iod }
   let(prefix_raw_qty) { 0 }
   let(prefix_raw_char) { " " }
 
   let(io_set_text_file) do
-    Ai4cr::Utils::IoData::TextFile.new(
+    Ai4cr::Utils::IoData::TextFileIodFloat.new(
       file_path, file_type_raw,
       prefix_raw_qty, prefix_raw_char
     )
@@ -27,54 +27,24 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
   let(end_expected_10_chars) { "sixth day. \n" }
 
   let(start_expected_3_iod) {
-    [
-      [
-        1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-        0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-      ],
-      [
-        0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-      ],
-      [
-        0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-      ],
-    ]
+    [[0.05859290501574798], [7.539643715931357e-5], [9.334796981629299e-5]]
   }
   let(end_expected_3_iod) {
-    [
-      [
-        0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-      ],
-      [
-        0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-      ],
-      [
-        0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-      ],
-    ]
+    [[4.128852511105267e-5], [2.8722452251167075e-5], [8.97576632848971e-6]]
   }
 
   let(start_expected_3_chars) { "﻿Th" }
   let(end_expected_3_chars) { ". \n" }
 
   describe "#initialize" do
+    it "foo" do
+      debug_data = raw[0..4]
+      puts debug_data
+
+      debug_data = iod[0..4]
+      puts debug_data
+    end
+
     describe "when given raw text data" do
       describe "assigns" do
         describe "raw, which" do
@@ -101,23 +71,10 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
           let(prefix) { prefix_char + prefix_char }
 
           it "starts as expected" do
-            expect(raw[0..9]).to eq((prefix + start_expected_10_chars)[0..9]) # [0..-3]
+            expect(raw[0..9]).to eq((prefix + start_expected_10_chars)[0..9])
           end
           it "ends as expected" do
             expect(raw[-12..-1]).to eq(end_expected_10_chars)
-          end
-        end
-
-        describe "iod, which when prefixed" do
-          let(prefix_raw_qty) { 2 }
-          let(prefix_bits) { io_set_text_file.convert_raw_to_iod(prefix_raw_char) }
-          let(prefix) { prefix_bits + prefix_bits }
-
-          it "starts as expected" do
-            expect(iod[0..2]).to eq((prefix + start_expected_3_iod)[0..2])
-          end
-          it "ends as expected" do
-            expect(iod[-3..-1]).to eq(end_expected_3_iod)
           end
         end
       end
@@ -128,7 +85,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
       let(iod_file) do
         io_set_text_file.save_iod(temp_file_path)
-        Ai4cr::Utils::IoData::TextFile.new(temp_file_path, file_type_iod)
+        Ai4cr::Utils::IoData::TextFileIodFloat.new(temp_file_path, file_type_iod)
       end
 
       describe "assigns" do
@@ -156,14 +113,14 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
   describe "#convert_raw_to_iod" do
     context "when given the first 3 raw charaters" do
       it "correctly converts to iod" do
-        converted = io_set_text_file.convert_raw_to_iod(start_expected_3_chars)
+        converted = Ai4cr::Utils::IoData::TextFileIodFloat.convert_raw_to_iod(start_expected_3_chars)
         expect(converted).to eq(start_expected_3_iod)
       end
     end
 
     context "when given the last 3 raw charaters" do
       it "correctly converts to iod" do
-        converted = io_set_text_file.convert_raw_to_iod(end_expected_3_chars)
+        converted = Ai4cr::Utils::IoData::TextFileIodFloat.convert_raw_to_iod(end_expected_3_chars)
         expect(converted).to eq(end_expected_3_iod)
       end
     end
@@ -172,36 +129,16 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
   describe "#convert_iod_to_raw" do
     context "when given the first 3 iod charaters" do
       it "correctly converts to raw" do
-        converted = io_set_text_file.convert_iod_to_raw(start_expected_3_iod)
+        converted = Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(start_expected_3_iod)
         expect(converted).to eq(start_expected_3_chars)
       end
     end
 
     context "when given the last 3 iod charaters" do
       it "correctly converts to raw" do
-        converted = io_set_text_file.convert_iod_to_raw(end_expected_3_iod)
+        converted = Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(end_expected_3_iod)
         expect(converted).to eq(end_expected_3_chars)
       end
-    end
-  end
-
-  describe "#bits_to_char" do
-    let(bits) { end_expected_3_iod.first }
-    let(char_expected) { end_expected_3_chars[0].to_s }
-
-    it "correctly converts to char" do
-      converted = io_set_text_file.bits_to_char(bits)
-      expect(converted).to eq(char_expected)
-    end
-  end
-
-  describe "#bytes_to_chars" do
-    let(iod) { end_expected_3_iod }
-    let(raw_expected) { end_expected_3_chars.split("") }
-
-    it "correctly converts to raw text array" do
-      converted = io_set_text_file.bytes_to_chars(iod)
-      expect(converted).to eq(raw_expected)
     end
   end
 
@@ -254,7 +191,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
             raw_text_expected = "﻿Th"
 
-            snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+            snippet_as_text = Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(snippet)
             expect(snippet_as_text).to eq(raw_text_expected)
           end
         end
@@ -264,7 +201,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
             expect(snippet).to be_a(Array(Array(Float64)))
             raw_text_expected = "day"
 
-            snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+            snippet_as_text = Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(snippet)
             expect(snippet_as_text).to eq(raw_text_expected)
           end
         end
@@ -277,7 +214,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
             raw_text_expected = "e F"
 
-            snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+            snippet_as_text = Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(snippet)
             expect(snippet_as_text).to eq(raw_text_expected)
           end
         end
@@ -288,7 +225,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
             raw_text_expected = ". \n"
 
-            snippet_as_text = io_set_text_file.convert_iod_to_raw(snippet)
+            snippet_as_text = Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(snippet)
             expect(snippet_as_text).to eq(raw_text_expected)
           end
         end
@@ -310,7 +247,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
             raw_text_array_expected = ["﻿The", "The ", "he F"]
 
-            snippet_as_text_array = snippets.map { |snippet| io_set_text_file.convert_iod_to_raw(snippet) }
+            snippet_as_text_array = snippets.map { |snippet| Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(snippet) }
             expect(snippet_as_text_array).to eq(raw_text_array_expected)
           end
         end
@@ -322,7 +259,7 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
 
             raw_text_array_expected = ["xth ", "th d", "h da"]
 
-            snippet_as_text_array = snippets.map { |snippet| io_set_text_file.convert_iod_to_raw(snippet) }
+            snippet_as_text_array = snippets.map { |snippet| Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(snippet) }
             expect(snippet_as_text_array).to eq(raw_text_array_expected)
           end
         end
@@ -334,10 +271,9 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
             snippets = ios[:output_set][0..2]
             expect(snippets).to be_a(Array(Array(Array(Float64))))
 
-            # raw_text_array_expected = ["﻿The", "The ", "he F"]
             raw_text_array_expected = ["e Fi", " Fir", "Firs"]
 
-            snippet_as_text_array = snippets.map { |snippet| io_set_text_file.convert_iod_to_raw(snippet) }
+            snippet_as_text_array = snippets.map { |snippet| Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(snippet) }
             expect(snippet_as_text_array).to eq(raw_text_array_expected)
           end
         end
@@ -346,12 +282,91 @@ Spectator.describe Ai4cr::Utils::IoData::FileText do
             snippets = ios[:output_set][-3..-1]
             expect(snippets).to be_a(Array(Array(Array(Float64))))
 
-            # raw_text_array_expected = ["xth ", "th d", "h da"]
             raw_text_array_expected = [" day", "day.", "ay. "]
 
-            snippet_as_text_array = snippets.map { |snippet| io_set_text_file.convert_iod_to_raw(snippet) }
+            snippet_as_text_array = snippets.map { |snippet| Ai4cr::Utils::IoData::TextFileIodFloat.convert_iod_to_raw(snippet) }
             expect(snippet_as_text_array).to eq(raw_text_array_expected)
           end
+        end
+      end
+    end
+  end
+
+  describe "(un)certainty)" do
+    let(iod_guess_high_confidence) {
+      [
+        [
+          0.0, 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        ],
+        [
+          0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        ],
+        [
+          0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        ],
+      ]
+    }
+    let(iod_guess_low_confidence) {
+      [
+        [
+          -0.5, 1.5, -1.5, 1.5, -0.5, 1.5, -0.5, 0.35,
+          0.15, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.25,
+          -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.15,
+          0.25, -0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.15,
+        ],
+        [
+          -0.35, 0.5, 0.5, -0.5, 0.5, -1.5, 0.5, -0.25,
+          0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.35,
+          -0.45, 0.5, 0.5, -0.5, 0.5, -0.5, 0.5, -0.45,
+          0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5, 0.55,
+        ],
+        [
+          -0.5, -1.5, -0.5, -1.5, -0.5, -0.5, -0.5, -0.65,
+          0.55, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.75,
+          -0.65, -0.5, -0.5, -0.5, -0.5, -0.5, -0.5, -0.85,
+          0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.95,
+        ],
+      ]
+    }
+
+    describe "#iod_uncertainty" do
+      context "for a guess with a mix of only '0.0' and '1.0'" do
+        it "returns '0.0'" do
+          uncertainty = io_set_text_file.iod_uncertainty(iod_guess_high_confidence)
+          expect(uncertainty).to eq(0.0)
+        end
+      end
+      context "for a guess with a mix of values, not just '0.0' and '1.0'" do
+        it "returns > '0.0'" do
+          uncertainty = io_set_text_file.iod_uncertainty(iod_guess_low_confidence)
+          expect(uncertainty).to be > 0.0
+        end
+      end
+    end
+
+    describe "#iod_certainty" do
+      context "for a guess with a mix of only '0.0' and '1.0'" do
+        it "returns '1.0'" do
+          uncertainty = io_set_text_file.iod_certainty(iod_guess_high_confidence)
+          puts_debug "uncertainty: #{uncertainty}"
+          expect(uncertainty).to eq(1.0)
+        end
+      end
+      context "for a guess with a mix of values, not just '0.0' and '1.0'" do
+        it "returns < '1.0'" do
+          certainty = io_set_text_file.iod_certainty(iod_guess_low_confidence)
+          puts_debug "certainty: #{certainty}"
+          expect(certainty).to be < 1.0
+          expect(certainty).to eq(0.5260416666666666)
         end
       end
     end

@@ -3,8 +3,6 @@ module Ai4cr
     module Cmn
       module MiniNetConcerns
         module TrainAndAdjust
-          # UNTIL_MIN_AVG_ERROR_DEFAULT = 0.1
-
           property outputs_expected = Array(Float64).new
           property output_deltas = Array(Float64).new
           property last_changes = Array(Array(Float64)).new # aka previous weights
@@ -39,10 +37,7 @@ module Ai4cr
           end
 
           def calculate_error_distance
-            @error_stats.distance = @output_errors.map { |e| 0.5 * e ** 2 }.sum
-
-            # # calculate_error_distance_history
-            # @error_stats.distance
+            @error_stats.distance = @output_errors.sum { |e| 0.5 * e ** 2 }
           end
 
           def step_backpropagate
@@ -72,7 +67,6 @@ module Ai4cr
 
           # Calculate deltas for output layer
           def step_calculate_output_deltas # (outputs_expected)
-            # step_calc_output_errors
             @output_deltas.map_with_index! do |_, i|
               derivative_propagation_function.call(@outputs_guessed[i].clone) * @output_errors[i].clone
             end
@@ -98,15 +92,41 @@ module Ai4cr
             @input_deltas = layer_deltas
           end
 
-          # Update weights after @deltas have been calculated.
-          def step_update_weights
+          def step_update_weights(parallel = false)
+            # Update weights after @deltas have been calculated.
             # NOTE: This takes into account the specified 'bias' value (where applicable)
+            parallel ? step_update_weights_v2 : step_update_weights_v1
+          end
+
+          def step_update_weights_v1
             height_indexes.each do |j|
               @weights[j].each_with_index do |_elem, k|
                 change = @output_deltas[k]*@inputs_given[j]
                 weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
                 @weights[j][k] += weight_delta
                 @last_changes[j][k] = change
+              end
+            end
+          end
+
+          def step_update_weights_v2
+            # for larger weight sets, this become too much overhead
+            channel = Channel(Nil).new
+
+            height_indexes.each do |j|
+              @weights[j].each_with_index do |_elem, k|
+                spawn do
+                  change = @output_deltas[k]*@inputs_given[j]
+                  @weights[j][k] += (@learning_rate * change + @momentum * @last_changes[j][k])
+                  @last_changes[j][k] = change
+                  channel.send(nil)
+                end
+              end
+            end
+
+            height_indexes.each do |j|
+              @weights[j].each do
+                channel.receive
               end
             end
           end

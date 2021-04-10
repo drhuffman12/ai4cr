@@ -2,6 +2,8 @@ module Ai4cr
   module NeuralNetwork
     module Cmn
       class Chain
+        # TODO: Refactor and enable breeding (similar to RnnSimple)!
+
         # Chain of ConnectableNetSets
         # NOTE: The first net should have a bias; the others should not.
         # TODO: Force bias only on 1st and none on others
@@ -16,7 +18,7 @@ module Ai4cr
         getter net_set_indexes_reversed : Array(Int32)
         getter weight_height_mismatches : Array(Hash(Symbol, Int32))
 
-        # This clas doesn't need an 'error_stats' variable; instead, it relies on that of the last node.
+        # This class doesn't need an 'error_stats' variable; instead, it relies on that of the last node.
         # getter error_stats : Ai4cr::ErrorStats
 
         # NOTE: When passing in the array for net_set,
@@ -70,7 +72,9 @@ module Ai4cr
             end
           end.compact
 
+          # ameba:disable Performance/AnyInsteadOfEmpty
           @weight_height_mismatches.any? ? false : true
+          # ameba:enable Performance/AnyInsteadOfEmpty
         end
 
         def errors

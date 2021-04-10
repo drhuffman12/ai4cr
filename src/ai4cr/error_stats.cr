@@ -3,7 +3,6 @@ module Ai4cr
     include ::JSON::Serializable
 
     # Must init @score, so set it big enough but not too big (so ErrorStats works w/ to/from JSON)
-    # INITIAL_SCORE        = Math.sqrt(Math.sqrt(Math.sqrt(Math.sqrt(Float64::MAX))))
     INITIAL_SCORE = Float64::MAX ** (1.0/16)
 
     DEFAULT_HISTORY_SIZE = 2
@@ -46,8 +45,9 @@ module Ai4cr
       prefixed = false,
       reversed = false
     )
+      hist = history.map { |h| h.nan? ? 100.0 : h }
       charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
-      charter.plot(history, prefixed)
+      charter.plot(hist, prefixed)
     end
 
     private def update_history

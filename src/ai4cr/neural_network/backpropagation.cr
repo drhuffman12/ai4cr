@@ -184,7 +184,7 @@ module Ai4cr
       #     net.eval([25, 32.3, 12.8, 1.5])
       #         # =>  [0.83, 0.03]
       def eval(input_values)
-        input_values = input_values.map { |v| v.to_f }
+        input_values = input_values.map(&.to_f)
         check_input_dimension(input_values.size)
         init_network if !@weights
         feedforward(input_values)
@@ -212,7 +212,7 @@ module Ai4cr
       # => 0.5 * sum( (expected_value[i] - output_value[i])**2 )
       def train(inputs, outputs)
         # inputs = inputs.map { |v| v.to_f }
-        outputs = outputs.map { |v| v.to_f }
+        outputs = outputs.map(&.to_f)
         eval(inputs)
         load_expected_outputs(outputs)
         backpropagate            # (outputs)
@@ -260,7 +260,7 @@ module Ai4cr
           (0...@structure[n]).map { 1.0 }
         end
         if !bias_disabled
-          @activation_nodes[0...-1].each { |layer| layer << 1.0 }
+          @activation_nodes[0...-1].each(&.<<(1.0))
         end
         @activation_nodes
       end
@@ -388,11 +388,11 @@ module Ai4cr
       end
 
       def guesses_rounded # good for MiniNet::Sigmoid; and maybe MiniNetRanh
-        @activation_nodes.last.map { |v| v.round }
+        @activation_nodes.last.map(&.round)
       end
 
       def guesses_ceiled # good for MiniNetRelu
-        @activation_nodes.last.map { |v| v.ceil }
+        @activation_nodes.last.map(&.ceil)
       end
 
       def guesses_top_n(n = @activation_nodes.last.size)

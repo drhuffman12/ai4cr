@@ -7,7 +7,7 @@ module Ai4cr
           IO_OFFSET_DEFAULT      =  1
           TIME_COL_QTY_MIN       =  2
           HIDDEN_LAYER_QTY_MIN   =  1
-          INPUT_SIZE_MIN         =  2
+          INPUT_SIZE_MIN         =  2 # 1 # TODO: Could be just '1', but will need to adjust a bunch of tests!
           OUTPUT_SIZE_MIN        =  1
           LEARNING_STYLE_DEFAULT = LS_RELU
 
@@ -18,7 +18,6 @@ module Ai4cr
 
           def config
             {
-
               name: name,
 
               history_size: history_size,
@@ -39,6 +38,8 @@ module Ai4cr
               learning_rate: @learning_rate,
               momentum:      @momentum,
               deriv_scale:   @deriv_scale,
+
+              weight_init_scale_given: @weight_init_scale,
             }
           end
 
@@ -61,11 +62,23 @@ module Ai4cr
 
             learning_rate : Float64? = nil,
             momentum : Float64? = nil,
-            deriv_scale : Float64? = nil
+            deriv_scale : Float64? = nil,
+
+            weight_init_scale_given : Float64? = nil
           )
             @name = name.nil? ? "" : name
 
             init_network(hidden_size_given, bias_disabled, bias_default, learning_rate, momentum, deriv_scale)
+
+            @weight_init_scale = case
+                                 when weight_init_scale_given.nil?
+                                   ![LS_PRELU, LS_RELU].includes?(learning_style) ? 1.0 : 1.0 / ( #  (time_col_qty ** 2) * (input_size ** 2) * (hidden_layer_qty ** 2) * (hidden_size ** 2) * (output_size ** 2) # * 100 # **2
+(time_col_qty * input_size * hidden_layer_qty * hidden_size * output_size) * 1000                 # * time_col_qty
+)
+                                 else
+                                   weight_init_scale_given
+                                 end
+
             @error_stats = Ai4cr::ErrorStats.new(history_size)
           end
 
@@ -140,18 +153,16 @@ module Ai4cr
 
             @errors["time_col_qty"] = "time_col_qty must be at least #{TIME_COL_QTY_MIN}!" if time_col_qty < TIME_COL_QTY_MIN
             @errors["hidden_layer_qty"] = "hidden_layer_qty must be at least #{HIDDEN_LAYER_QTY_MIN}!" if hidden_layer_qty < HIDDEN_LAYER_QTY_MIN
-
             @errors["input_size"] = "input_size must be at least #{INPUT_SIZE_MIN}" if input_size < INPUT_SIZE_MIN
             @errors["output_size"] = "output_size must be at least #{OUTPUT_SIZE_MIN}" if output_size < OUTPUT_SIZE_MIN
-
-            # if hidden_size_given.is_a?(Int32)
-            #   @errors["hidden_size_given"] = "hidden_size_given must be at least #{HIDDEN_SIZE_GIVEN_MIN} if supplied (otherwise it defaults to sum of @input_size and @output_size" if hidden_size_given.as(Int32) < HIDDEN_SIZE_GIVEN_MIN
-            # end
-            # @errors["hidden_size_given"] = "hidden_size_given must NOT be negative" if hidden_size_given < 0
-
+            @errors["hidden_size_given"] = "hidden_size_given must NOT be negative" if !(!hidden_size_given.nil? && hidden_size_given.to_i > -1)
             @errors["io_offset"] = "io_offset must be a non-negative integer" if io_offset < 0
 
             @valid = errors.empty?
+
+            raise errors.to_json unless @valid
+
+            @valid
           end
 
           def calc_synaptic_layer_indexes
@@ -220,6 +231,8 @@ module Ai4cr
 
                   learning_rate: @learning_rate,
                   momentum: @momentum,
+
+                  weight_init_scale: @weight_init_scale
                 )
               end
             end

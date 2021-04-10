@@ -48,14 +48,15 @@ module Ai4cr
           getter synaptic_layer_indexes_reversed = Array(Int32).new
           getter time_col_indexes_reversed = Array(Int32).new
 
-          getter synaptic_layer_index_last = -1 # Int32.new
-          getter time_col_index_last = -1       # Int32.new
+          getter synaptic_layer_index_last = -1
+          getter time_col_index_last = -1
 
           property node_output_sizes = Array(Int32).new
           property node_input_sizes = Array(Array(NamedTuple(
             previous_synaptic_layer: Int32,
             previous_time_column: Int32))).new
 
+          property weight_init_scale : Float64 = 1.0
           property mini_net_set = Array(Array(Cmn::MiniNet)).new
 
           getter input_set_given = Array(Array(Float64)).new
@@ -74,6 +75,16 @@ module Ai4cr
             end
 
             outputs_guessed
+          rescue ex
+            msg = {
+              my_msg:    "BROKE HERE!",
+              file:      __FILE__,
+              line:      __LINE__,
+              klass:     ex.class,
+              message:   ex.message,
+              backtrace: ex.backtrace,
+            }
+            raise msg.to_s
           end
 
           def inputs_for(li, ti)
@@ -93,20 +104,21 @@ module Ai4cr
             li = synaptic_layer_indexes.last
 
             time_col_indexes.map do |ti|
-              mini_net_set[li][ti].outputs_guessed
+              a = mini_net_set[li]
+              b = a[ti]
+              guessed = b.outputs_guessed
+              guessed
             end
           end
 
           private def step_outputs_guessed_from_previous_tc(li, ti)
-            # ti > 0 ? mini_net_set[li][ti - 1].outputs_guessed : Array(Float64).new
-            raise "Index error" if ti == 0
+            raise "Index error in step_outputs_guessed_from_previous_tc" if ti == 0
 
             mini_net_set[li][ti - 1].outputs_guessed
           end
 
           private def step_outputs_guessed_from_previous_li(li, ti)
-            # li > 0 ? mini_net_set[li - 1][ti].outputs_guessed : Array(Float64).new
-            raise "Index error" if li == 0
+            raise "Index error in step_outputs_guessed_from_previous_li" if li == 0
 
             mini_net_set[li - 1][ti].outputs_guessed
           end
