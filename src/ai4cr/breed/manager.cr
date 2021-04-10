@@ -479,7 +479,7 @@ module Ai4cr
                       backtrace: e.backtrace.to_s,
                     },
                   }
-                  File.write(file_path, msg.to_json)
+                  File.write(file_path+ ".ERROR.txt", msg.to_json)
                 end
               end
             end
