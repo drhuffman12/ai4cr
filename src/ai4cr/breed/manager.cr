@@ -353,6 +353,7 @@ module Ai4cr
                   end
                   qty_correct = output_str_matches.sum
                   percent_correct = 100.0 * qty_correct / tc_size
+
                   puts "          percent_correct: #{qty_correct} of #{tc_size} => #{CHARTER.plot(output_str_matches, false)} => #{percent_correct}%"
                   list << qty_correct
 
@@ -459,7 +460,10 @@ module Ai4cr
               team_members.each do |member|
                 time_formated = Time.local.to_s.gsub(" ", "_").gsub(":", "_")
                 folder_path = "./tmp/#{self.class.name.gsub("::", "-")}/#{time_formated}"
-                file_path = "#{folder_path}/#{member.birth_id}.json"
+
+                recent_hists_last_chart = CHARTER.plot(recent_hists.last.values.map(&./(100)), false)
+
+                file_path = "#{folder_path}/#{member.birth_id}_step_#{i}(#{recent_hists_last_chart}).json"
                 Dir.mkdir_p(folder_path)
                 begin
                   File.write(file_path, member.to_json)
