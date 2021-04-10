@@ -2,6 +2,12 @@ require "./rnn_simple_concerns/calc_guess.cr"
 require "./rnn_simple_concerns/props_and_inits.cr"
 require "./rnn_simple_concerns/train_and_adjust.cr"
 require "./rnn_simple_concerns/roll_ups.cr"
+
+require "./rnn_bi_di_concerns/calc_guess.cr"
+require "./rnn_bi_di_concerns/props_and_inits.cr"
+require "./rnn_bi_di_concerns/train_and_adjust.cr"
+require "./rnn_bi_di_concerns/roll_ups.cr"
+
 require "./rnn_simple_concerns/data_utils.cr"
 
 module Ai4cr
@@ -14,14 +20,23 @@ module Ai4cr
         include JSON::Serializable
 
         include Ai4cr::Breed::Client
+
         include RnnSimpleConcerns::PropsAndInits
+        include RnnBiDiConcerns::PropsAndInits
+
         include RnnSimpleConcerns::CalcGuess
+        include RnnBiDiConcerns::CalcGuess
+
         include RnnSimpleConcerns::TrainAndAdjust
+        include RnnBiDiConcerns::TrainAndAdjust
+
         include RnnSimpleConcerns::RollUps
+        include RnnBiDiConcerns::RollUps
+
         include RnnSimpleConcerns::DataUtils
 
         def clone
-          a_clone = RnnSimple.new(
+          a_clone = RnnBiDi.new(
             name: self.name.clone,
 
             history_size: self.history_size.clone,

@@ -37,7 +37,7 @@ module Ai4cr
 
       QTY_NEW_MEMBERS_DEFAULT = 10
       MAX_MEMBERS_DEFAULT     = QTY_NEW_MEMBERS_DEFAULT
-      PURGE_ERROR_LIMIT_SCALE = 10 # 1e4 # 1e12
+      PURGE_ERROR_LIMIT_SCALE = 1 # 1e4 # 1e12
 
       STEP_MINOR = 4
       STEP_MAJOR = 4 * STEP_MINOR
@@ -474,12 +474,13 @@ module Ai4cr
                   msg = {
                     member_birth_id: member.birth_id,
                     error:           {
-                      klass:     e.class.name.to_s,
-                      message:   e.message.to_s,
-                      backtrace: e.backtrace.to_s,
+                      klass:     e.class.name,
+                      message:   e.message,
+                      backtrace: e.backtrace,
                     },
+                    member: member,
                   }
-                  File.write(file_path + ".ERROR.txt", msg.to_json)
+                  File.write(file_path + ".ERROR.txt", msg.pretty_inspect)
                 end
               end
             end
