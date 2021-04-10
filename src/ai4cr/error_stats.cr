@@ -31,7 +31,13 @@ module Ai4cr
 
     def distance=(value)
       raise "Invalid value" if value < 0.0
-      @distance = value
+      @distance = case
+                  when value == Float64::INFINITY
+                    # JSON doesn't like Infinity values.
+                    Float64::MAX
+                  else
+                    value
+                  end
       update_history
 
       @distance
