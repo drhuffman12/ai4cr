@@ -476,7 +476,7 @@ module Ai4cr
                   fp = folder_path
                   ms = member_size
                   bi = member.birth_id
-                  cp = member.error_stats.hist_correct_plot.last
+                  cp = member.error_stats.hist_correct_plot.last || "tbd"
                   eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
                   file_path = "#{fp}/(#{j}_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
 

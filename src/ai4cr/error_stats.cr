@@ -11,7 +11,7 @@ module Ai4cr
     getter distance : Float64
     getter history : Array(Float64)
     getter score : Float64
-    getter hist_correct_plot = Array(String).new
+    getter hist_correct_plot = ["tbd"]
 
     def initialize(history_size = DEFAULT_HISTORY_SIZE)
       @history_size = case
