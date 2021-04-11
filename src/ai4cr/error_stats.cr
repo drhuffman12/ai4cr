@@ -23,7 +23,7 @@ module Ai4cr
                         history_size
                       end
 
-      @distance = -1.0
+      @distance = Float64::MAX # -1.0
       @history = Array(Float64).new(history_size)
 
       # lowest score is best; negatives are effectively invalid
