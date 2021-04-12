@@ -107,7 +107,7 @@ module Ai4cr
               @weights[j].each_with_index do |_elem, k|
                 change = Float64.avoid_extremes(@output_deltas[k]*@inputs_given[j])
                 weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
-                @weights[j][k] += weight_delta
+                @weights[j][k] = Float64.avoid_extremes(@weights[j][k] + weight_delta)
                 @last_changes[j][k] = change
               end
             end

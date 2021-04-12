@@ -39,9 +39,11 @@ module Ai4cr
       MAX_MEMBERS_DEFAULT     = QTY_NEW_MEMBERS_DEFAULT
       PURGE_ERROR_LIMIT_SCALE = 1 # 1e4 # 1e12
 
-      STEP_MINOR = 2
-      STEP_MAJOR = 1 * STEP_MINOR
-      STEP_SAVE  = 1 * STEP_MAJOR
+      STEP_MINOR = 4
+      STEP_MAJOR = 4 * STEP_MINOR
+      STEP_SAVE  = 4 * STEP_MAJOR
+
+      HIGH_ENOUGH_FOR_REPLACEMENT = Math.sqrt(Float64::HIGH_ENOUGH_FOR_NETS) # Float64::HIGH_ENOUGH_FOR_NETS / 1e5
 
       ############################################################################
       # TODO: WHY is this required?
@@ -463,90 +465,20 @@ module Ai4cr
             perc = Hash(Int32, Float64).new(0.0)
 
             if i % STEP_SAVE == 0 || i == i_max - 1
-              member_size = team_members.size
-              time_formated = Time.local.to_s.gsub(" ", "_").gsub(":", "_")
-              folder_path = "./tmp/#{self.class.name.gsub("::", "-")}/#{time_formated}"
+              # auto_save(team_members, i)
 
+              # Due to some saving (and/or to_s/pretty_inspect) errors,
+              #   instead of saving, we'll actually just log summary info.
+              puts
               team_members.each_with_index do |member, j|
-                begin
-                  # recent_hists_last_chart = CHARTER.plot(recent_hists.last.values.map(&./(100)), false)
-                  # file_path = "#{folder_path}/#{member.birth_id}_step_#{i}(#{recent_hists_last_chart}).json"
-
-                  puts "1"
-                  fp = folder_path
-                  # member.update_history_correct_plot(CHARTER.plot(hist.clone.values.map(&./(100)), false))
-                  Dir.mkdir_p(folder_path)
-                  file_path = "#{fp}/error.txt"
-                  begin
-                    puts "2"
-                    ms = member_size
-                    puts "3"
-                    bi = member.birth_id
-                    puts "4"
-                    cp = member.error_stats.hist_correct_plot.last || "tbd"
-                    puts "5"
-                    eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
-                    puts "6"
-                    file_path = "#{fp}/(#{j}_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
-                    # file_path = "#{fp}/(x_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
-
-                    puts "7"
-                    s ="error in member.to_json"
-                    begin
-                      puts "7a"
-                      # WHY does `member.to_json` (sometimes) cause:
-                      #   ```
-                      #   mmap(PROT_NONE) failed
-                      #   Program received and didn't handle signal IOT (6)
-                      #   ```
-                      s = member.to_json
-                      puts "7b"
-                    rescue e1
-                      puts "7c"
-                      p! e1
-                      puts "7d"
-                    end
-                    puts "7e"
-                    File.write(file_path, s)
-                    puts "8"
-                  rescue e2
-                    # probably something like: `Unhandled exception: Infinity not allowed in JSON (JSON::Error)`
-                    # ... in which case, we probably can't really use the net anyways.
-                    puts "10a"
-                    msg = {
-                      member_birth_id: member.birth_id,
-                      error:           {
-                        klass:     e2.class.name,
-                        message:   e2.message,
-                        backtrace: e2.backtrace,
-                      },
-                      # member: member,
-                    }
-                    puts "10b"
-                    f = file_path + ".ERROR.txt"
-                    puts "10c"
-                    s = msg.to_s
-                    puts "10d"
-                    File.write(f, s) # msg.pretty_inspect)
-                    puts "10e"
-                  end
-                rescue e3
-                  puts "11a"
-                  msg = {
-                    # member_birth_id: member.birth_id,
-                    j: j,
-                    error:           {
-                      klass:     e3.class.name,
-                      message:   e3.message,
-                      backtrace: e3.backtrace,
-                    },
-                    # member: member,
-                  }
-                  puts "11b"
-                  p! msg.to_s # pretty_inspect
-                  puts "11c"
-                end
+                bi = member.birth_id
+                # puts "4"
+                cp = member.error_stats.hist_correct_plot.last || "tbd"
+                # puts "5"
+                eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
+                puts "step(#{i})_team_member_seq(#{j})_birth_id(#{bi})_corrects(#{cp})_error_hist(#{eh})"
               end
+              puts
             end
 
             before = after
@@ -556,8 +488,110 @@ module Ai4cr
         end
 
         p! recent_hists
+        auto_save(team_members, team_members.size)
 
         team_members
+      end
+
+      def auto_save(team_members, i)
+        member_size = team_members.size
+        time_formated = Time.local.to_s.gsub(" ", "_").gsub(":", "_")
+        folder_path = "./tmp/#{self.class.name.gsub("::", "-")}/#{time_formated}"
+
+        team_members.each_with_index do |member, j|
+          begin
+            # recent_hists_last_chart = CHARTER.plot(recent_hists.last.values.map(&./(100)), false)
+            # file_path = "#{folder_path}/#{member.birth_id}_step_#{i}(#{recent_hists_last_chart}).json"
+
+            # puts "1"
+            fp = folder_path
+            # member.update_history_correct_plot(CHARTER.plot(hist.clone.values.map(&./(100)), false))
+            # Dir.mkdir_p(folder_path)
+            file_path = "#{fp}/error.txt"
+            begin
+              # puts "2"
+              ms = member_size
+              # puts "3"
+              bi = member.birth_id
+              # puts "4"
+              cp = member.error_stats.hist_correct_plot.last || "tbd"
+              # puts "5"
+              eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
+              # puts "6"
+              file_path = "#{fp}/(#{j}_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
+              # file_path = "#{fp}/(x_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
+
+              # I might need to save a subset of the data or otherwise split this into smaller (more saveable)
+              #   chunks (e.g.: confis, weights, ???)!
+              #   For now, just log file_path to 'log.txt'...
+              # puts file_path + " .. auto-saving disabled due to 'sometimes' signal IOT (6)"
+
+              # puts "7"
+              # # WHY does `member.pretty_inspect` (sometimes) cause:
+              # #   ```
+              # #   mmap(PROT_NONE) failed
+              # #   Program received and didn't handle signal IOT (6)
+              # #   ```
+              # s = member.pretty_inspect
+              # # puts "7a1"
+              # # puts s
+              # puts "7a2"
+              # File.write(file_path + ".txt", s)
+              # begin
+              #   puts "7a"
+              #   # WHY does `member.to_json` (sometimes) cause:
+              #   #   ```
+              #   #   mmap(PROT_NONE) failed
+              #   #   Program received and didn't handle signal IOT (6)
+              #   #   ```
+              s = member.to_json
+              #   puts "7b"
+              # rescue e1
+              #   puts "7c"
+              #   p! e1
+              #   puts "7d"
+              # end
+              # puts "7e"
+              File.write(file_path, s)
+              puts "8"
+            rescue e2
+              # probably something like: `Unhandled exception: Infinity not allowed in JSON (JSON::Error)`
+              # ... in which case, we probably can't really use the net anyways.
+              # puts "10a"
+              msg = {
+                member_birth_id: member.birth_id,
+                error:           {
+                  klass:     e2.class.name,
+                  message:   e2.message,
+                  backtrace: e2.backtrace,
+                },
+                # member: member,
+              }
+              # puts "10b"
+              f = file_path + ".ERROR.txt"
+              # puts "10c"
+              s = msg.to_s
+              # puts "10d"
+              File.write(f, s) # msg.pretty_inspect)
+              # puts "10e"
+            end
+          rescue e3
+            # puts "11a"
+            msg = {
+              # member_birth_id: member.birth_id,
+              j:     j,
+              error: {
+                klass:     e3.class.name,
+                message:   e3.message,
+                backtrace: e3.backtrace,
+              },
+              # member: member,
+            }
+            # puts "11b"
+            p! msg.to_s # pretty_inspect
+            # puts "11c"
+          end
+        end
       end
 
       def purge_replace(team_members, purge_error_limit, i)
@@ -572,17 +606,18 @@ module Ai4cr
           d = member.error_stats.distance
           # d = member.error_stats.score
           case
-          when d.nan? || d.infinite?
-            # We need to move away from this member's configuration completely
+          # when d.nan? || d.infinite?
+          #   # We need to move away from this member's configuration completely
 
-            purge_qty += 1
-            name = "Pr"
-            puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, err_stat_dist: #{d}, delta: N/A ----\n"
-            # TODO: replace above 'puts' with: 'block_simple_logger.call(..) if block_simple_logger'
+          #   purge_qty += 1
+          #   name = "Pr"
+          #   puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, err_stat_dist: #{d}, delta: N/A ----\n"
+          #   # TODO: replace above 'puts' with: 'block_simple_logger.call(..) if block_simple_logger'
 
-            new_rand_member = create(**config).tap(&.name=(name))
-          when d > purge_error_limit
+          #   new_rand_member = create(**config).tap(&.name=(name))
+          # when d > purge_error_limit
           # when d.nan? || d.infinite? || d > purge_error_limit
+          when d.nan? || d.infinite? || d >= HIGH_ENOUGH_FOR_REPLACEMENT
             # We need to move away from this member's configuration,
             #   but don't want to totally 'forget' all the training results/adjustments,
             #   so we'll create a new randomly seeded member and breed the two members.

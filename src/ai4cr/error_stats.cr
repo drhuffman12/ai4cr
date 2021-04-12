@@ -3,7 +3,7 @@ module Ai4cr
     include ::JSON::Serializable
 
     # Must init @score, so set it big enough but not too big (so ErrorStats works w/ to/from JSON)
-    INITIAL_SCORE = Float64::MAX ** (1.0/16)
+    # INITIAL_SCORE = Float64::HIGH_ENOUGH_FOR_NETS # Float64::MAX ** (1.0/16)
 
     DEFAULT_HISTORY_SIZE = 2
 
@@ -12,6 +12,8 @@ module Ai4cr
     getter history : Array(Float64)
     getter score : Float64
     getter hist_correct_plot = ["tbd"]
+
+    # DISTANCE_MAX = Float64::MAX / (2**10)
 
     def initialize(history_size = DEFAULT_HISTORY_SIZE)
       @history_size = case
@@ -23,19 +25,19 @@ module Ai4cr
                         history_size
                       end
 
-      @distance = Float64::MAX # -1.0
+      @distance = Float64::HIGH_ENOUGH_FOR_NETS # DISTANCE_MAX # Float64::MAX # -1.0
       @history = Array(Float64).new(history_size)
 
       # lowest score is best; negatives are effectively invalid
-      @score = INITIAL_SCORE
+      @score = Float64::HIGH_ENOUGH_FOR_NETS # INITIAL_SCORE
     end
 
     def distance=(value)
       raise "Invalid value" if value < 0.0
       @distance = case
-                  when value == Float64::INFINITY
+                  when value >= Float64::HIGH_ENOUGH_FOR_NETS # DISTANCE_MAX # == Float64::INFINITY
                     # JSON doesn't like Infinity values.
-                    Float64::MAX
+                    Float64::HIGH_ENOUGH_FOR_NETS # DISTANCE_MAX # Float64::MAX
                   else
                     value
                   end
