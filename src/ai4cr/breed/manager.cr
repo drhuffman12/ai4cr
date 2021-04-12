@@ -39,9 +39,9 @@ module Ai4cr
       MAX_MEMBERS_DEFAULT     = QTY_NEW_MEMBERS_DEFAULT
       PURGE_ERROR_LIMIT_SCALE = 1 # 1e4 # 1e12
 
-      STEP_MINOR = 4
-      STEP_MAJOR = 4 * STEP_MINOR
-      STEP_SAVE  = 4 * STEP_MAJOR
+      STEP_MINOR = 2
+      STEP_MAJOR = 1 * STEP_MINOR
+      STEP_SAVE  = 1 * STEP_MAJOR
 
       ############################################################################
       # TODO: WHY is this required?
@@ -472,42 +472,79 @@ module Ai4cr
                   # recent_hists_last_chart = CHARTER.plot(recent_hists.last.values.map(&./(100)), false)
                   # file_path = "#{folder_path}/#{member.birth_id}_step_#{i}(#{recent_hists_last_chart}).json"
 
-                  # member.update_history_correct_plot(CHARTER.plot(hist.clone.values.map(&./(100)), false))
+                  puts "1"
                   fp = folder_path
-                  ms = member_size
-                  bi = member.birth_id
-                  cp = member.error_stats.hist_correct_plot.last || "tbd"
-                  eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
-                  file_path = "#{fp}/(#{j}_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
-
+                  # member.update_history_correct_plot(CHARTER.plot(hist.clone.values.map(&./(100)), false))
                   Dir.mkdir_p(folder_path)
+                  file_path = "#{fp}/error.txt"
                   begin
-                    File.write(file_path, member.to_json)
-                  rescue e
+                    puts "2"
+                    ms = member_size
+                    puts "3"
+                    bi = member.birth_id
+                    puts "4"
+                    cp = member.error_stats.hist_correct_plot.last || "tbd"
+                    puts "5"
+                    eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
+                    puts "6"
+                    file_path = "#{fp}/(#{j}_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
+                    # file_path = "#{fp}/(x_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
+
+                    puts "7"
+                    s ="error in member.to_json"
+                    begin
+                      puts "7a"
+                      # WHY does `member.to_json` (sometimes) cause:
+                      #   ```
+                      #   mmap(PROT_NONE) failed
+                      #   Program received and didn't handle signal IOT (6)
+                      #   ```
+                      s = member.to_json
+                      puts "7b"
+                    rescue e1
+                      puts "7c"
+                      p! e1
+                      puts "7d"
+                    end
+                    puts "7e"
+                    File.write(file_path, s)
+                    puts "8"
+                  rescue e2
                     # probably something like: `Unhandled exception: Infinity not allowed in JSON (JSON::Error)`
                     # ... in which case, we probably can't really use the net anyways.
+                    puts "10a"
                     msg = {
                       member_birth_id: member.birth_id,
                       error:           {
-                        klass:     e.class.name,
-                        message:   e.message,
-                        backtrace: e.backtrace,
+                        klass:     e2.class.name,
+                        message:   e2.message,
+                        backtrace: e2.backtrace,
                       },
-                      member: member,
+                      # member: member,
                     }
-                    File.write(file_path + ".ERROR.txt", msg.pretty_inspect)
+                    puts "10b"
+                    f = file_path + ".ERROR.txt"
+                    puts "10c"
+                    s = msg.to_s
+                    puts "10d"
+                    File.write(f, s) # msg.pretty_inspect)
+                    puts "10e"
                   end
-                rescue e
+                rescue e3
+                  puts "11a"
                   msg = {
-                    member_birth_id: member.birth_id,
+                    # member_birth_id: member.birth_id,
+                    j: j,
                     error:           {
-                      klass:     e.class.name,
-                      message:   e.message,
-                      backtrace: e.backtrace,
+                      klass:     e3.class.name,
+                      message:   e3.message,
+                      backtrace: e3.backtrace,
                     },
-                    member: member,
+                    # member: member,
                   }
-                  p! msg.pretty_inspect
+                  puts "11b"
+                  p! msg.to_s # pretty_inspect
+                  puts "11c"
                 end
               end
             end
