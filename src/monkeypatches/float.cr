@@ -16,4 +16,9 @@ struct Float64
       value
     end
   end
+
+  def self.cap_extremes(value : Float64, alt_nan = Float64.new(0), alt_infin_pos = ALMOST_MAX, alt_infin_neg = -ALMOST_MAX)
+    # For now, just re-use 'avoid_extremes' internally. Keep to distinguish or remove?
+    avoid_extremes(value: value, alt_nan: alt_nan, alt_infin_pos: alt_infin_pos, alt_infin_neg: alt_infin_neg)
+  end
 end

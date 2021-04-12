@@ -545,13 +545,15 @@ module Ai4cr
 
             new_rand_member = create(**config).tap(&.name=(name))
           when d > purge_error_limit
+          # when d.nan? || d.infinite? || d > purge_error_limit
             # We need to move away from this member's configuration,
             #   but don't want to totally 'forget' all the training results/adjustments,
             #   so we'll create a new randomly seeded member and breed the two members.
 
             purge_qty += 1
             name = "pb"
-            delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -1.0)
+            # delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -1.0)
+            delta = Ai4cr::Utils::Rand.rand_excluding(scale: 1, offset: -0.5)
             puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, err_stat_dist: #{d}, delta: #{delta} ----\n"
 
             new_rand_member = create(**config)

@@ -56,8 +56,8 @@ e.g.: `time crystal spec --release`
 
 Use the `-Dpreview_mt` (for `crystal build` or `-D preview_mt` for `crystal spec`) flag for multithreading.
 
-e.g.: `time CRYSTAL_WORKERS=14 crystal spec spec_bench/ai4cr/neural_network/rnn/rnn_simple_manager_spec.cr --release -D preview_mt`
-e.g.: `time CRYSTAL_WORKERS=24 crystal spec spec_bench/ai4cr/neural_network/rnn/rnn_simple_manager_spec.cr --release -D preview_mt > tmp/log.txt 2>&1`
+e.g.: `time CRYSTAL_WORKERS=14 crystal spec examples/rnn_simple_manager_example.cr --release -D preview_mt`
+e.g.: `time CRYSTAL_WORKERS=24 crystal spec examples/rnn_simple_manager_example.cr --release -D preview_mt > tmp/log.txt 2>&1`
 
 (Personally, as for how many `CRYSTAL_WORKERS`, I'd recommend keep it to less than the number of cores in your CPU, so that you leave at least one or two cores for the OS and apps.)
 
