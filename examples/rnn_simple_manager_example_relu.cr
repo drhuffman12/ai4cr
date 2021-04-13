@@ -114,11 +114,11 @@ io_set_text_file = Ai4cr::Utils::IoData::TextFileIodBits.new(
 )
 
 # re 'compare_successive_training_rounds'
-time_col_qty = 12       # 10 # 6 # 25
-hidden_layer_qty = 6    # 3
+time_col_qty = 16       # 12 # 10 # 6 # 25
+hidden_layer_qty = 3    # 4 # 6 # 3
 hidden_size_given = 100 # 100 # 200
-max_members = 5         # 10
-train_qty = 2
+max_members = 10         # 5 # 10
+train_qty = 1 # 2
 
 io_offset = time_col_qty
 ios = io_set_text_file.iod_to_io_set_with_offset_time_cols(time_col_qty, io_offset)

@@ -5,8 +5,8 @@ module Ai4cr
     # Must init @score, so set it big enough but not too big (so ErrorStats works w/ to/from JSON)
     # INITIAL_SCORE = Float64::HIGH_ENOUGH_FOR_NETS # Float64::MAX ** (1.0/16)
 
-    DEFAULT_HISTORY_SIZE = 2
-    DEFAULT_DISTANCE = 100.0 # Math.sqrt(Float64::HIGH_ENOUGH_FOR_NETS) # DISTANCE_MAX # Float64::MAX # -1.0
+    DEFAULT_HISTORY_SIZE =     2
+    DEFAULT_DISTANCE     = 100.0 # Math.sqrt(Float64::HIGH_ENOUGH_FOR_NETS) # DISTANCE_MAX # Float64::MAX # -1.0
 
     getter history_size : Int32
     getter distance : Float64
