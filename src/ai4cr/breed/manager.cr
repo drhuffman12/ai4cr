@@ -43,8 +43,8 @@ module Ai4cr
       STEP_MAJOR = 4 * STEP_MINOR
       STEP_SAVE  = 4 * STEP_MAJOR
 
-      HIGH_ENOUGH_ERROR_DISTANCE_FOR_REPLACEMENT = 1e4 # TODO: Probably should base this on some factor of the number of outputs.
-      # HIGH_ENOUGH_ERROR_DISTANCE_FOR_REPLACEMENT = Math.sqrt(Float64::HIGH_ENOUGH_FOR_NETS) # Float64::HIGH_ENOUGH_FOR_NETS / 1e5
+      # HIGH_ENOUGH_ERROR_DISTANCE_FOR_REPLACEMENT = 1e4 # TODO: Probably should base this on some factor of the number of outputs.
+      HIGH_ENOUGH_ERROR_DISTANCE_FOR_REPLACEMENT = Math.sqrt(Float64::HIGH_ENOUGH_FOR_NETS) # Float64::HIGH_ENOUGH_FOR_NETS / 1e5
 
       ############################################################################
       # TODO: WHY is this required?
@@ -644,58 +644,58 @@ module Ai4cr
         end
       end
 
-      def sort_purge_replace(max_members, team_members, purge_error_limit, i)
-        sort_members(team_members)[0..max_members - 1]
-      end
-
       # def sort_purge_replace(max_members, team_members, purge_error_limit, i)
-      #   team_members = sort_members(team_members)
-
-      #   config = team_members.first.config.clone
-
-      #   target_size = max_members # team_members.size
-      #   members_ok = Array(T).new
-      #   members_replaced = Array(T).new
-
-      #   purge_qty = 0
-
-      #   ok_qty = 0
-
-      #   team_members.each do |member|
-      #     # Note: We could use 'score' instead of 'distance', but I think 'distance' is best if we're breeding after each training io pair.
-      #     d = member.error_stats.distance
-
-      #     if (ok_qty < max_members)
-      #       if (d.nan? || d.infinite? || d >= HIGH_ENOUGH_ERROR_DISTANCE_FOR_REPLACEMENT)
-      #         purge_qty += 1
-      #         name = "pb"
-      #         # delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -1.0)
-      #         delta = Ai4cr::Utils::Rand.rand_excluding(scale: 1, offset: -0.5)
-      #         # delta = Ai4cr::Utils::Rand.rand_excluding(scale: 1, offset: 0.5)
-      #         puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, err_stat_dist: #{d}, delta: #{delta} ----\n"
-
-      #         new_rand_member = create(**config)
-      #         members_replaced << breed(member, new_rand_member, delta).tap(&.name=(name))
-      #       else
-      #         ok_qty += 1
-      #         puts "\n---- i: #{i}, keeping member.birth_id: #{member.birth_id}; name: #{member.name}, err_stat_dist: #{d}, delta: n/a ----\n"
-      #         members_ok << member
-      #       end
-      #     else
-      #       next
-      #     end
-      #   end
-
-      #   purge_msg = "\n**** SORTED AND TRIMMED! -- i: #{i}, purge_error_limit: #{purge_error_limit}"
-      #   purge_msg += "\n  ok_qty: #{(1.0 * ok_qty / target_size).round(4)*100}% aka #{ok_qty} out of #{target_size}"
-      #   purge_msg += "\n  purge_qty: #{(1.0 * purge_qty / target_size).round(4)*100}% aka #{purge_qty} out of #{target_size} at #{Time.local}"
-      #   purge_msg += (purge_qty > 0 ? "" : "  ---- (NO PURGES) ----")
-      #   purge_msg += "\n****\n"
-      #   puts purge_msg
-
-      #   # team_members[0..max_members - 1]
-      #   (members_ok + members_replaced)[0..max_members - 1]
+      #   sort_members(team_members)[0..max_members - 1]
       # end
+
+      def sort_purge_replace(max_members, team_members, purge_error_limit, i)
+        team_members = sort_members(team_members)
+
+        config = team_members.first.config.clone
+
+        target_size = max_members # team_members.size
+        members_ok = Array(T).new
+        members_replaced = Array(T).new
+
+        purge_qty = 0
+
+        ok_qty = 0
+
+        team_members.each do |member|
+          # Note: We could use 'score' instead of 'distance', but I think 'distance' is best if we're breeding after each training io pair.
+          d = member.error_stats.distance
+
+          if (ok_qty + purge_qty >= max_members)
+            next
+          else
+            if (d.nan? || d.infinite? || d >= HIGH_ENOUGH_ERROR_DISTANCE_FOR_REPLACEMENT)
+              purge_qty += 1
+              name = "pb"
+              delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -1.0)
+              # delta = Ai4cr::Utils::Rand.rand_excluding(scale: 1, offset: -0.5)
+              # delta = Ai4cr::Utils::Rand.rand_excluding(scale: 1, offset: 0.5)
+              puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, err_stat_dist: #{d}, delta: #{delta} ----\n"
+
+              new_rand_member = create(**config)
+              members_replaced << breed(member, new_rand_member, delta).tap(&.name=(name))
+            else
+              ok_qty += 1
+              puts "\n---- i: #{i}, keeping member.birth_id: #{member.birth_id}; name: #{member.name}, err_stat_dist: #{d}, delta: n/a ----\n"
+              members_ok << member
+            end
+          end
+        end
+
+        purge_msg = "\n**** SORTED AND TRIMMED! -- i: #{i}, purge_error_limit: #{purge_error_limit}"
+        purge_msg += "\n  ok_qty: #{(1.0 * ok_qty / target_size).round(4)*100}% aka #{ok_qty} out of #{target_size}"
+        purge_msg += "\n  purge_qty: #{(1.0 * purge_qty / target_size).round(4)*100}% aka #{purge_qty} out of #{target_size} at #{Time.local}"
+        purge_msg += (purge_qty > 0 ? "" : "  ---- (NO PURGES) ----")
+        purge_msg += "\n****\n"
+        puts purge_msg
+
+        # team_members[0..max_members - 1]
+        (members_ok + members_replaced)[0..max_members - 1]
+      end
 
       # ameba:enable Metrics/CyclomaticComplexity
 
