@@ -48,7 +48,7 @@ module Ai4cr
             hidden_layer_qty: self.hidden_layer_qty.clone,
             hidden_size_given: self.hidden_size_given.clone,
 
-            learning_style: self.learning_style.clone,
+            learning_styles: self.learning_styles.clone,
 
             bias_disabled: self.bias_disabled.clone,
             bias_default: self.bias_default.clone,

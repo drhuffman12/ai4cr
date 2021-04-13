@@ -3,13 +3,13 @@ module Ai4cr
     module Rnn
       module RnnSimpleConcerns
         module PropsAndInits
-          HISTORY_SIZE_DEFAULT   = 10
-          IO_OFFSET_DEFAULT      =  1
-          TIME_COL_QTY_MIN       =  2
-          HIDDEN_LAYER_QTY_MIN   =  1
-          INPUT_SIZE_MIN         =  2 # 1 # TODO: Could be just '1', but will need to adjust a bunch of tests!
-          OUTPUT_SIZE_MIN        =  1
-          LEARNING_STYLE_DEFAULT = LS_RELU
+          HISTORY_SIZE_DEFAULT    = 10
+          IO_OFFSET_DEFAULT       =  1
+          TIME_COL_QTY_MIN        =  2
+          HIDDEN_LAYER_QTY_MIN    =  1
+          INPUT_SIZE_MIN          =  2 # 1 # TODO: Could be just '1', but will need to adjust a bunch of tests!
+          OUTPUT_SIZE_MIN         =  1
+          LEARNINGS_STYLE_DEFAULT = [LS_RELU, LS_SIGMOID]
 
           # TODO: Handle usage of a 'structure' param in 'initialize'
           # def initialize(@time_col_qty = TIME_COL_QTY_MIN, @structure = [INPUT_SIZE_MIN, OUTPUT_SIZE_MIN])
@@ -29,7 +29,7 @@ module Ai4cr
               hidden_layer_qty:  @hidden_layer_qty,
               hidden_size_given: @hidden_size_given,
 
-              learning_style: @learning_style,
+              learning_styles: @learning_styles,
 
               bias_disabled: @bias_disabled,
 
@@ -54,7 +54,7 @@ module Ai4cr
             @hidden_layer_qty = HIDDEN_LAYER_QTY_MIN,
             @hidden_size_given = 0,
 
-            @learning_style : LearningStyle = LEARNING_STYLE_DEFAULT,
+            @learning_styles : Array(LearningStyle) = LEARNINGS_STYLE_DEFAULT,
 
             bias_disabled = false,
 
@@ -70,14 +70,15 @@ module Ai4cr
 
             init_network(hidden_size_given, bias_disabled, bias_default, learning_rate, momentum, deriv_scale)
 
-            @weight_init_scale = case
-                                 when weight_init_scale_given.nil?
-                                   ![LS_PRELU, LS_RELU].includes?(learning_style) ? 1.0 : 1.0 / ( #  (time_col_qty ** 2) * (input_size ** 2) * (hidden_layer_qty ** 2) * (hidden_size ** 2) * (output_size ** 2) # * 100 # **2
-(time_col_qty * input_size * hidden_layer_qty * hidden_size * output_size) * 1000                 # * time_col_qty
-)
-                                 else
-                                   weight_init_scale_given
-                                 end
+            #             @weight_init_scale = case
+            #                                  when weight_init_scale_given.nil?
+            #                                    ![LS_PRELU, LS_RELU].includes?(learning_styles.first) ? 1.0 : 1.0 / ( #  (time_col_qty ** 2) * (input_size ** 2) * (hidden_layer_qty ** 2) * (hidden_size ** 2) * (output_size ** 2) # * 100 # **2
+            # (time_col_qty * input_size * hidden_layer_qty * hidden_size * output_size) * 1000                 # * time_col_qty
+            # )
+            #                                  else
+            #                                    weight_init_scale_given
+            #                                  end
+            @weight_init_scale = 1.0 / (time_col_qty * input_size * hidden_layer_qty * hidden_size * output_size * 1000)
 
             @error_stats = Ai4cr::ErrorStats.new(history_size)
           end
@@ -219,11 +220,15 @@ module Ai4cr
               mn_output_size = node_output_sizes[li]
               time_col_indexes.map do |ti|
                 mn_input_size = node_input_sizes[li][ti].values.sum
+
+                # Alternate thru the sequence of learning styles
+                lsi = li % @learning_styles.size
+
                 Cmn::MiniNet.new(
                   height: mn_input_size,
                   width: mn_output_size,
 
-                  learning_style: @learning_style,
+                  learning_style: @learning_styles[lsi],
                   deriv_scale: @deriv_scale,
 
                   bias_disabled: li_gt_0,

@@ -6,12 +6,14 @@ module Ai4cr
     # INITIAL_SCORE = Float64::HIGH_ENOUGH_FOR_NETS # Float64::MAX ** (1.0/16)
 
     DEFAULT_HISTORY_SIZE = 2
+    DEFAULT_DISTANCE = 100.0 # Math.sqrt(Float64::HIGH_ENOUGH_FOR_NETS) # DISTANCE_MAX # Float64::MAX # -1.0
 
     getter history_size : Int32
     getter distance : Float64
     getter history : Array(Float64)
     getter score : Float64
     getter hist_correct_plot = ["tbd"]
+    getter hist_output_str_matches = [[0]]
 
     # DISTANCE_MAX = Float64::MAX / (2**10)
 
@@ -25,11 +27,11 @@ module Ai4cr
                         history_size
                       end
 
-      @distance = Float64::HIGH_ENOUGH_FOR_NETS # DISTANCE_MAX # Float64::MAX # -1.0
+      @distance = DEFAULT_DISTANCE
       @history = Array(Float64).new(history_size)
 
       # lowest score is best; negatives are effectively invalid
-      @score = Float64::HIGH_ENOUGH_FOR_NETS # INITIAL_SCORE
+      @score = 100.0 # Float64::HIGH_ENOUGH_FOR_NETS # INITIAL_SCORE
     end
 
     def distance=(value)
@@ -58,6 +60,27 @@ module Ai4cr
       hist = history.map { |h| Float64.cap_extremes(h, alt_nan: 100.0, alt_infin_pos: 100.0, alt_infin_neg: 100.0) }
       charter = AsciiBarCharter.new(min: min, max: max, precision: precision, in_bw: in_bw, inverted_colors: reversed)
       charter.plot(hist, prefixed)
+    end
+
+    def update_output_str_matches(output_str_matches = [0])
+      if @hist_output_str_matches.size < @history_size # - 1
+        # Array not 'full' yet, so add latest value to end
+        @hist_output_str_matches << output_str_matches
+      else
+        # Array 'full', so rotate end to front and then put new value at last index
+        @hist_output_str_matches.rotate!
+        @hist_output_str_matches[-1] = output_str_matches
+      end
+
+      # qty_correct = output_str_matches.sum
+      # tc_size = output_str_matches.size
+      # percent_correct = 100.0 * qty_correct / tc_size
+      # # list << qty_correct
+      # correct_plot = CHARTER.plot(output_str_matches, false)
+      # member.error_stats.update_history_correct_plot(correct_plot)
+
+      @hist_output_str_matches
+      # qty_correct
     end
 
     def update_history_correct_plot(which_correct_plot = "(tbd)")

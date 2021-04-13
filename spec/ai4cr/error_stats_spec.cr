@@ -4,7 +4,7 @@ Spectator.describe Ai4cr::ErrorStats do
   let(given_history_size) { 8 }
   let(error_stats) { Ai4cr::ErrorStats.new(given_history_size) }
 
-  let(expected_initial_distance) { -1.0 }
+  let(expected_initial_distance) { Ai4cr::ErrorStats::DEFAULT_DISTANCE }
 
   let(expected_initial_score) {
     1.8446744073709552e+19 # Float64::MAX ** (1.0/16)

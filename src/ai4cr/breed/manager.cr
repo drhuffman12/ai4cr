@@ -43,7 +43,8 @@ module Ai4cr
       STEP_MAJOR = 4 * STEP_MINOR
       STEP_SAVE  = 4 * STEP_MAJOR
 
-      HIGH_ENOUGH_FOR_REPLACEMENT = Math.sqrt(Float64::HIGH_ENOUGH_FOR_NETS) # Float64::HIGH_ENOUGH_FOR_NETS / 1e5
+      HIGH_ENOUGH_ERROR_DISTANCE_FOR_REPLACEMENT = 1e4 # TODO: Probably should base this on some factor of the number of outputs.
+      # HIGH_ENOUGH_ERROR_DISTANCE_FOR_REPLACEMENT = Math.sqrt(Float64::HIGH_ENOUGH_FOR_NETS) # Float64::HIGH_ENOUGH_FOR_NETS / 1e5
 
       ############################################################################
       # TODO: WHY is this required?
@@ -239,8 +240,32 @@ module Ai4cr
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
         end
 
-        (team_members.sort_by(&.error_stats.distance))[0..max_members - 1]
-        # (team_members.sort_by(&.error_stats.score))[0..max_members - 1]
+        # TODO: REFACTOR 'update_member_comparisons' and 'log_correct_guess_stats' so can use them here...
+        # # io_set_text_file = ???
+        # # tc_size = ???
+        # # i = ???
+        # # verbose = ???
+        # list = Array(Int32).new
+        # team_members.each_with_index do |member, mem_seq|
+        #   qty_correct = update_member_comparisons(io_set_text_file, inputs, outputs, member, tc_size, i, mem_seq, verbose)
+        #   list << qty_correct
+        # end
+        # team_members = sort_members(team_members)
+        # team_members = purge_replace(team_members, purge_error_limit, i, max_members)
+        # log_correct_guess_stats(tc_size, i, max_hists, team_members, list, recent_hists, verbose)
+
+        team_members
+      end
+
+      # def pick_to_members(team_members, max_members)
+      def sort_members(team_members) # , max_members)
+        # (team_members.sort_by(&.error_stats.distance))[0..max_members - 1]
+        tms = team_members.size
+        (
+          team_members.sort_by do |member|
+            [tms - member.error_stats.hist_output_str_matches.last.sum, member.error_stats.distance]
+          end
+        ) # [0..max_members - 1]
       end
 
       # ameba:disable Metrics/CyclomaticComplexity
@@ -270,221 +295,51 @@ module Ai4cr
         beginning = Time.local
         before = beginning
 
-        list = Array(Int32).new
-        hist = Hash(Int32, Int32).new(0)
-        perc = Hash(Int32, Float64).new(0.0)
-        recent_hists = Array(Hash(Int32, Int32)).new
         max_hists = 10
         i_max = inputs_sequence.size
         tc_size = outputs_sequence.first.size
 
+        # list = Array(Int32).new
+        # hist = Hash(Int32, Int32).new(0)
+        # perc = Hash(Int32, Float64).new(0.0)
+        recent_hists = Array(Hash(Int32, Int32)).new
+
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
 
-          if verbose
-            if i % STEP_MAJOR == 0
-              puts "\n  inputs_sequence (a) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
-
-              if !io_set_text_file.nil?
-                puts "  inputs_sequence GIVEN (a): "
-                puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(inputs)}'"
-
-                puts "      outputs EXPECTED (a): "
-                puts "        aka: '#{io_set_text_file.class.convert_iod_to_raw(outputs)}'"
-                print "\n    "
-              end
-            elsif i % STEP_MINOR == 0
-              print "."
-            end
-          end
-
-          team_members = purge_replace(team_members, purge_error_limit, i)
           team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
-
-          if verbose
-            if i % STEP_MAJOR == 0
-              puts
-              team_members.each { |member| puts "    " + member.error_hist_stats(in_bw: true) }
-            end
-          end
 
           if team_members.size > 1 && and_cross_breed
             team_members = cross_breed(team_members)
-
-            if verbose
-              if i % STEP_MAJOR == 0
-                puts "\n  inputs_sequence (b) i: #{i} of #{inputs_sequence.size} at #{Time.local}"
-
-                if !io_set_text_file.nil?
-                  puts "  inputs_sequence GIVEN (a): "
-                  puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(inputs)}'"
-
-                  puts "      outputs EXPECTED (a): "
-                  puts "        aka: '#{io_set_text_file.class.convert_iod_to_raw(outputs)}'?"
-                  print "\n    "
-                end
-              elsif i % STEP_MINOR == 0
-                print "."
-              end
-            end
-
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
-
-            if verbose
-              if i % STEP_MAJOR == 0 && !io_set_text_file.nil?
-                puts
-                team_members.each do |member|
-                  # Thanks to the 'hardware' shard:
-                  puts "System info:"
-                  memory = Hardware::Memory.new
-                  p! memory.percent.round(1)
-
-                  outputs_str_expected = io_set_text_file.class.convert_iod_to_raw(outputs)
-                  outputs_str_actual = io_set_text_file.class.convert_iod_to_raw(member.outputs_guessed)
-                  output_str_matches = outputs_str_expected.each_char.map_with_index do |ose, oi|
-                    ose.to_s == outputs_str_actual[oi].to_s ? 1 : 0
-                  end
-
-                  puts
-                  puts "  inputs_sequence GIVEN (a): "
-                  puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(inputs)}'"
-                  puts "      outputs EXPECTED (a): "
-                  puts "        aka: '#{outputs_str_expected}'?"
-                  print "\n    "
-                  puts "      outputs Actual (b): "
-                  puts "        aka: '#{outputs_str_actual}'!"
-                  puts "          " + member.error_hist_stats(in_bw: true)
-
-                  qty_correct = output_str_matches.sum
-                  percent_correct = 100.0 * qty_correct / tc_size
-
-                  correct_plot = CHARTER.plot(output_str_matches, false)
-                  member.error_stats.update_history_correct_plot(correct_plot)
-                  puts "          percent_correct: #{qty_correct} of #{tc_size} => #{correct_plot} => #{percent_correct}%"
-                  list << qty_correct
-
-                  puts "          certainty:"
-                  data_ce = member.outputs_guessed.map do |gptc|
-                    val = io_set_text_file.iod_certainty(gptc)
-                    val = 1 if val.nil? || val.infinite?
-                    val
-                  end
-                  puts "            data: #{data_ce}"
-                  puts "            graph: #{CHARTER.plot(data_ce, false)}"
-
-                  puts
-                end
-              end
-            end
           else
-            if verbose
-              if i % STEP_MAJOR == 0
-                puts "\n  inputs_sequence (c) i: #{i} of #{inputs_sequence.size} at #{Time.local}" # if i % STEP_MAJOR == 0 # TODO: Remove before merging
-                print "\n    "
-              elsif i % STEP_MINOR == 0
-                print "."
-              end
-            end
-
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
-
-            if verbose
-              if i % STEP_MAJOR == 0
-                puts
-                team_members.each do |member|
-                  puts "      outputs Actual (c): '#{member.outputs_guessed}'"
-
-                  if !io_set_text_file.nil?
-                    puts "        aka: '#{io_set_text_file.class.convert_iod_to_raw(member.outputs_guessed)}'"
-                    puts "          " + member.error_hist_stats(in_bw: true)
-                    puts
-                  end
-                end
-              end
-            end
           end
 
-          team_members = purge_replace(team_members, purge_error_limit, i)
-          team_members = (team_members.sort_by(&.error_stats.distance))[0..max_members - 1]
-          # team_members = (team_members.sort_by(&.error_stats.score))[0..max_members - 1]
+          list = Array(Int32).new
+          team_members.each_with_index do |member, mem_seq|
+            qty_correct = update_member_comparisons(io_set_text_file, inputs, outputs, member, tc_size, i, mem_seq, verbose)
+            list << qty_correct
+          end
+          # team_members = sort_members(team_members)
+          team_members = purge_replace(team_members, purge_error_limit, i, max_members)
+          log_correct_guess_stats(tc_size, i, max_hists, team_members, list, recent_hists, verbose)
 
-          if verbose && i % STEP_MAJOR == 0
-            after = Time.local
-
-            puts "="*80
-            puts "Currently:"
-            p! Time.local
-            p! i
-            p! (after - before)
-            p! (after - beginning)
-            puts "ETA (duration):"
-            p! (after - beginning) * i_max / (i + 1)
-            puts "-"*80
-            puts "Percent Complete:"
-            p! (i + 1) / i_max
-            puts "ETA (time):"
-            p! beginning + ((after - beginning) * i_max / (i + 1))
-            puts "-"*80
-
-            # Thanks to the 'hardware' shard:
-            puts "System info:"
-            memory = Hardware::Memory.new
-            p! memory.percent.round(1)
-            puts "^"*80
-
-            # Now for some percent-correct stat's:
-            (tc_size + 1).times do |qc|
-              hist[qc] = 0
-              perc[qc] = 0.0
-            end
-            list.each do |qc|
-              hist[qc] += 1
-            end
-            hist_qty = hist.values.sum
-            (tc_size + 1).times do |qc|
-              perc[qc] = (100.0 * hist[qc] / hist_qty).round(1)
-            end
-
-            recent_hists << hist.clone
-            recent_hists = recent_hists[-max_hists..-1] if recent_hists.size > max_hists
-
-            p! hist
-            p! perc
-            p! perc.values.sum
-
-            # perc_vals = perc.values.map(&./(100))
-            # p! CHARTER.plot(perc_vals, false)
-
-            # p! recent_hists
-            recent_hists.each { |h| puts CHARTER.plot(h.values.map(&./(100)), false) }
-
-            puts "-"*80
-
-            list = Array(Int32).new
-            hist = Hash(Int32, Int32).new(0)
-            perc = Hash(Int32, Float64).new(0.0)
-
-            if i % STEP_SAVE == 0 || i == i_max - 1
-              # auto_save(team_members, i)
-
-              # Due to some saving (and/or to_s/pretty_inspect) errors,
-              #   instead of saving, we'll actually just log summary info.
-              puts
-              team_members.each_with_index do |member, j|
-                bi = member.birth_id
-                # puts "4"
-                cp = member.error_stats.hist_correct_plot.last || "tbd"
-                # puts "5"
-                eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
-                puts "step(#{i})_team_member_seq(#{j})_birth_id(#{bi})_corrects(#{cp})_error_hist(#{eh})"
-              end
-              puts
-            end
-
-            before = after
+          if i % STEP_SAVE == 0 || i == i_max - 1
+            # auto_save(team_members, i) # Skip for now due to some saving (and/or to_s/pretty_inspect) errors,
           end
 
-          team_members
+          after = Time.local
+          log_before_vs_after(beginning, before, after, i, i_max, verbose)
+          before = after
+
+          # # Reset some counters
+          # list = Array(Int32).new
+          # hist = Hash(Int32, Int32).new(0)
+          # perc = Hash(Int32, Float64).new(0.0)
+          # recent_hists = Array(Hash(Int32, Int32)).new
+
+          # team_members
         end
 
         p! recent_hists
@@ -493,7 +348,202 @@ module Ai4cr
         team_members
       end
 
+      def log_correct_guess_stats(tc_size, i, max_hists, team_members, list, recent_hists, verbose)
+        # list = Array(Int32).new
+        hist = Hash(Int32, Int32).new(0)
+        perc = Hash(Int32, Float64).new(0.0)
+
+        if verbose && i % STEP_MAJOR == 0
+          # Now for some percent-correct stat's:
+          (tc_size + 1).times do |qc|
+            hist[qc] = 0
+            perc[qc] = 0.0
+          end
+          list.each do |qc|
+            hist[qc] += 1
+          end
+          hist_qty = hist.values.sum
+          (tc_size + 1).times do |qc|
+            perc[qc] = (100.0 * hist[qc] / hist_qty).round(1)
+          end
+
+          puts "Number of Members that guessed X Correct Guesses:"
+          p! hist
+          p! perc
+          p! perc.values.sum
+
+          # perc_vals = perc.values.map(&./(100))
+          # p! CHARTER.plot(perc_vals, false)
+
+          # p! recent_hists
+
+          recent_hists << hist.clone
+          recent_hists = recent_hists[-max_hists..-1] if recent_hists.size > max_hists
+          recent_hists.each { |h| puts CHARTER.plot(h.values.map(&./(100)), false) }
+
+          puts "Stats per (remaining) top members:"
+          team_members.each_with_index do |member, j|
+            puts log_summary_info(member, i, j) # log_summary_info(team_members, i)
+          end
+          puts "-"*80
+        end
+      end
+
+      def log_before_vs_after(beginning, before, after, i, i_max, verbose)
+        if verbose && i % STEP_MAJOR == 0
+          # Thanks to the 'hardware' shard:
+          puts "System info:"
+          memory = Hardware::Memory.new
+          p! memory.percent.round(1)
+          puts "^"*80
+
+          puts "="*80
+          puts "Currently:"
+          p! Time.local
+          p! i
+          p! (after - before)
+          p! (after - beginning)
+          puts "ETA (duration):"
+          p! (after - beginning) * i_max / (i + 1)
+          puts "-"*80
+          puts "Percent Complete:"
+          p! (i + 1) / i_max
+          puts "ETA (time):"
+          p! beginning + ((after - beginning) * i_max / (i + 1))
+          puts "-"*80
+        end
+      end
+
+      def update_member_comparisons(io_set_text_file, inputs, outputs, member, tc_size, training_set_seq, mem_seq, verbose)
+        comparisons = update_member_output_comparisons(io_set_text_file, outputs, member)
+        outputs_str_expected = comparisons[:outputs_str_expected]
+        outputs_str_actual = comparisons[:outputs_str_actual]
+        output_str_matches = comparisons[:output_str_matches]
+
+        correct_counts = update_member_correct_comparisons(output_str_matches, tc_size, member)
+        qty_correct = correct_counts[:qty_correct]
+        percent_correct = correct_counts[:percent_correct]
+        correct_plot = correct_counts[:correct_plot]
+
+        data_ce = member.outputs_guessed.map do |gptc|
+          val = io_set_text_file.iod_certainty(gptc)
+          val = 1 if val.nil? || val.infinite?
+          val
+        end
+
+        if verbose
+          if training_set_seq % STEP_MAJOR == 0 && !io_set_text_file.nil?
+            # Thanks to the 'hardware' shard:
+            puts "System info:"
+            memory = Hardware::Memory.new
+            p! memory.percent.round(1)
+
+            puts
+            puts "  inputs_sequence GIVEN (a): "
+            puts "    aka: '#{io_set_text_file.class.convert_iod_to_raw(inputs)}'"
+            puts "      outputs EXPECTED (a): "
+            puts "        aka: '#{outputs_str_expected}'?"
+            print "\n    "
+            puts "      outputs Actual (b): "
+            puts "        aka: '#{outputs_str_actual}'!"
+            puts "          " + member.error_hist_stats(in_bw: true)
+            # puts "          percent_correct: #{qty_correct} of #{tc_size} => #{correct_plot} => #{percent_correct}%"
+            puts "          percent_correct: #{log_summary_info(member, training_set_seq, mem_seq)} of #{tc_size} => #{correct_plot} => #{percent_correct}%"
+
+            puts "          certainty:"
+            puts "            data: #{data_ce}"
+            puts "            graph: #{CHARTER.plot(data_ce, false)}"
+          end
+        end
+
+        qty_correct
+      end
+
+      def update_member_output_comparisons(io_set_text_file, outputs, member)
+        outputs_str_expected = io_set_text_file.class.convert_iod_to_raw(outputs)
+        outputs_str_actual = io_set_text_file.class.convert_iod_to_raw(member.outputs_guessed)
+        output_str_matches = outputs_str_expected.each_char.map_with_index do |ose, oi|
+          ose.to_s == outputs_str_actual[oi].to_s ? 1 : 0
+        end
+        member.error_stats.update_output_str_matches(output_str_matches)
+
+        {outputs_str_expected: outputs_str_expected, outputs_str_actual: outputs_str_actual, output_str_matches: output_str_matches}
+      end
+
+      def update_member_correct_comparisons(output_str_matches, tc_size, member)
+        qty_correct = output_str_matches.sum
+        percent_correct = 100.0 * qty_correct / tc_size
+        correct_plot = CHARTER.plot(output_str_matches, false)
+        member.error_stats.update_history_correct_plot(correct_plot)
+        {qty_correct: qty_correct, percent_correct: percent_correct, correct_plot: correct_plot}
+      end
+
+      def log_summary_info(member, i, j) # log_summary_info(team_members, i)
+        # puts
+        # team_members.each_with_index do |member, j|
+        bi = member.birth_id
+        # puts "4"
+        s = member.error_stats.hist_output_str_matches.last.sum
+        c = member.error_stats.hist_output_str_matches.last.size
+        s_c = s / c
+        perc = (100.0 * s_c).round(2)
+        ch = "#{CHARTER.plot([s_c], false)} #{perc}% aka #{s} of #{c}"
+        cp = member.error_stats.hist_correct_plot.last || "tbd"
+        # puts "5"
+        eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
+        "step(#{i})_team_member_seq(#{j})_birth_id(#{bi})_corrects(#{ch} : #{cp})_error_hist(#{eh})"
+        # end
+        # puts
+      end
+
       def auto_save(team_members, i)
+        member_size = team_members.size
+        time_formated = Time.local.to_s.gsub(" ", "_").gsub(":", "_")
+        folder_path = "./tmp/#{self.class.name.gsub("::", "-")}/#{time_formated}"
+
+        team_members.each_with_index do |member, j|
+          begin
+            fp = folder_path
+            file_path = "#{fp}/error.txt"
+            begin
+              ms = member_size
+              bi = member.birth_id
+              cp = member.error_stats.hist_correct_plot.last || "tbd"
+              eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
+              file_path = "#{fp}/(#{j}_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
+              s = member.to_json
+              File.write(file_path, s)
+              puts "8"
+            rescue e2
+              # probably something like: `Unhandled exception: Infinity not allowed in JSON (JSON::Error)`
+              # ... in which case, we probably can't really use the net anyways.
+              msg = {
+                member_birth_id: member.birth_id,
+                error:           {
+                  klass:     e2.class.name,
+                  message:   e2.message,
+                  backtrace: e2.backtrace,
+                },
+              }
+              f = file_path + ".ERROR.txt"
+              s = msg.pretty_inspect
+              File.write(f, s)
+            end
+          rescue e3
+            msg = {
+              j:     j,
+              error: {
+                klass:     e3.class.name,
+                message:   e3.message,
+                backtrace: e3.backtrace,
+              },
+            }
+            p! msg.to_s
+          end
+        end
+      end
+
+      def auto_save_old(team_members, i)
         member_size = team_members.size
         time_formated = Time.local.to_s.gsub(" ", "_").gsub(":", "_")
         folder_path = "./tmp/#{self.class.name.gsub("::", "-")}/#{time_formated}"
@@ -594,58 +644,50 @@ module Ai4cr
         end
       end
 
-      def purge_replace(team_members, purge_error_limit, i)
+      def purge_replace(team_members, purge_error_limit, i, max_members)
+        team_members = sort_members(team_members)
+
         config = team_members.first.config.clone
 
-        target_size = team_members.size
+        target_size = max_members # team_members.size
+        members_ok = Array(T).new
+        members_replaced = Array(T).new
 
         purge_qty = 0
 
-        team_members.map! do |member|
+        ok_qty = 0
+
+        team_members.each do |member|
           # Note: We could use 'score' instead of 'distance', but I think 'distance' is best if we're breeding after each training io pair.
           d = member.error_stats.distance
-          # d = member.error_stats.score
-          case
-          # when d.nan? || d.infinite?
-          #   # We need to move away from this member's configuration completely
 
-          #   purge_qty += 1
-          #   name = "Pr"
-          #   puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, err_stat_dist: #{d}, delta: N/A ----\n"
-          #   # TODO: replace above 'puts' with: 'block_simple_logger.call(..) if block_simple_logger'
+          if (ok_qty < max_members)
+            if (d.nan? || d.infinite? || d >= HIGH_ENOUGH_ERROR_DISTANCE_FOR_REPLACEMENT)
+              purge_qty += 1
+              name = "pb"
+              # delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -1.0)
+              delta = Ai4cr::Utils::Rand.rand_excluding(scale: 1, offset: -0.5)
+              puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, err_stat_dist: #{d}, delta: #{delta} ----\n"
 
-          #   new_rand_member = create(**config).tap(&.name=(name))
-          # when d > purge_error_limit
-          # when d.nan? || d.infinite? || d > purge_error_limit
-          when d.nan? || d.infinite? || d >= HIGH_ENOUGH_FOR_REPLACEMENT
-            # We need to move away from this member's configuration,
-            #   but don't want to totally 'forget' all the training results/adjustments,
-            #   so we'll create a new randomly seeded member and breed the two members.
-
-            purge_qty += 1
-            name = "pb"
-            # delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -1.0)
-            delta = Ai4cr::Utils::Rand.rand_excluding(scale: 1, offset: -0.5)
-            puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, err_stat_dist: #{d}, delta: #{delta} ----\n"
-
-            new_rand_member = create(**config)
-            breed(member, new_rand_member, delta).tap(&.name=(name))
-          else
-            # Member ok as-is...
-            # NOTE: Member will have 'd:' of '-1' if member is new!
-            puts "\n---- i: #{i}, keeping member.birth_id: #{member.birth_id}; name: #{member.name}, err_stat_dist: #{d}, delta: n/a ----\n"
-
-            member
+              new_rand_member = create(**config)
+              members_replaced << breed(member, new_rand_member, delta).tap(&.name=(name))
+            else
+              ok_qty += 1
+              puts "\n---- i: #{i}, keeping member.birth_id: #{member.birth_id}; name: #{member.name}, err_stat_dist: #{d}, delta: n/a ----\n"
+              members_ok << member
+            end
           end
         end
 
-        if purge_qty > 0
-          puts "\n**** i: #{i}, purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} at #{Time.local} ****\n"
-        else
-          puts "\n**** i: #{i}, purge_error_limit: #{purge_error_limit}; purge_qty: #{purge_qty} out of #{target_size} at #{Time.local} **** (NO PURGES) ****\n"
-        end
+        purge_msg = "\n**** SORTED AND TRIMMED! -- i: #{i}, purge_error_limit: #{purge_error_limit}"
+        purge_msg += "\n  ok_qty: #{(1.0 * ok_qty / target_size).round(4)*100}% aka #{ok_qty} out of #{target_size}"
+        purge_msg += "\n  purge_qty: #{(1.0 * purge_qty / target_size).round(4)*100}% aka #{purge_qty} out of #{target_size} at #{Time.local}"
+        purge_msg += (purge_qty > 0 ? "" : "  ---- (NO PURGES) ----")
+        purge_msg += "\n****\n"
+        puts purge_msg
 
-        team_members
+        # team_members[0..max_members - 1]
+        (members_ok + members_replaced)[0..max_members - 1]
       end
 
       # ameba:enable Metrics/CyclomaticComplexity

@@ -28,7 +28,7 @@ module Ai4cr
           property bias_disabled = false
           property bias_default : Float64 = 1.0
 
-          property learning_style = LS_RELU
+          property learning_styles = [LS_RELU, LS_SIGMOID]
 
           property learning_rate : Float64 = Ai4cr::Utils::Rand.rand_excluding
           property momentum : Float64 = Ai4cr::Utils::Rand.rand_excluding

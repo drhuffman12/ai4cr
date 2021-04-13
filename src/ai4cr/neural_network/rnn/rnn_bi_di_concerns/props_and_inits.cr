@@ -68,7 +68,7 @@ module Ai4cr
           #         height: mn_input_size,
           #         width: mn_output_size,
 
-          #         learning_style: @learning_style,
+          #         learning_styles: @learning_styles,
           #         deriv_scale: @deriv_scale,
 
           #         bias_disabled: li_gt_0,
