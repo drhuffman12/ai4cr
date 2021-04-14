@@ -322,9 +322,14 @@ module Ai4cr
           #   auto_save(team_members, i)
           # end
 
-          after = Time.local
-          log_before_vs_after(beginning, before, after, i, i_max, verbose)
-          before = after
+          # after = Time.local
+          # before, after = log_before_vs_after(beginning, before, after, i, i_max, verbose)
+          before = log_before_vs_after(beginning, before, i, i_max, verbose)
+          # before = after
+
+          if verbose && i % STEP_MAJOR == 0
+            before = log_before_vs_after(beginning, before, i, i_max, verbose)
+          end
         end
 
         p! recent_hists
@@ -368,9 +373,11 @@ module Ai4cr
         end
       end
 
-      def log_before_vs_after(beginning, before, after, i, i_max, verbose)
-        if verbose && i % STEP_MAJOR == 0
+      def log_before_vs_after(beginning, before, i, i_max, verbose)
+        # if verbose && i % STEP_MAJOR == 0
           # Thanks to the 'hardware' shard:
+          after = Time.local
+
           puts "System info:"
           memory = Hardware::Memory.new
           p! memory.percent.round(1)
@@ -390,7 +397,16 @@ module Ai4cr
           puts "ETA (time):"
           p! beginning + ((after - beginning) * i_max / (i + 1))
           puts "-"*80
-        end
+
+          # after = Time.local
+          # before = after
+          after
+        # else
+        #   before
+        # end
+        # [before, after]
+        # [after, Time.local]
+        # after
       end
 
       def update_member_comparisons(io_set_text_file, inputs, outputs, member, tc_size, training_set_seq, mem_seq, verbose)
