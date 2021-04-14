@@ -267,7 +267,6 @@ module Ai4cr
         )
       end
 
-      # ameba:disable Metrics/CyclomaticComplexity
       def train_team_using_sequence(
         inputs_sequence, outputs_sequence,
         team_members : Array(T),
@@ -481,7 +480,6 @@ module Ai4cr
         cp = member.error_stats.hist_correct_plot.last || "tbd"
         eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
         "step(#{i})_team_member_seq(#{j})_birth_id(#{bi})_corrects(#{ch} : #{cp})_error_hist(#{eh})"
-
       end
 
       def auto_save(team_members, i)
@@ -513,7 +511,6 @@ module Ai4cr
           end
         end
       end
-
 
       def sort_purge_replace(
         max_members, team_members, purge_error_limit, i,
@@ -574,6 +571,7 @@ module Ai4cr
 
         (members_ok + members_replaced)[0..max_members - 1]
       end
+
       # ameba:enable Metrics/CyclomaticComplexity
 
       def train_team_in_parallel(inputs, outputs, team_members, train_qty)
