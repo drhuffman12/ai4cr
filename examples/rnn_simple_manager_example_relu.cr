@@ -116,7 +116,7 @@ io_set_text_file = Ai4cr::Utils::IoData::TextFileIodBits.new(
 # re 'compare_successive_training_rounds'
 time_col_qty = 16       # 12 # 10 # 6 # 25
 hidden_layer_qty = 3    # 4 # 6 # 3
-hidden_size_given = 100 # 100 # 200
+hidden_size_given = 16 # 100 # 200
 max_members = 10         # 5 # 10
 train_qty = 3 # 1 # 2
 

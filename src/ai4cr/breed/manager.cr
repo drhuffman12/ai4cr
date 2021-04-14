@@ -259,13 +259,12 @@ module Ai4cr
 
       # def pick_to_members(team_members, max_members)
       def sort_members(team_members) # , max_members)
-        # (team_members.sort_by(&.error_stats.distance))[0..max_members - 1]
         tms = team_members.size
         (
           team_members.sort_by do |member|
             [tms - member.error_stats.hist_output_str_matches.last.sum, member.error_stats.distance]
           end
-        ) # [0..max_members - 1]
+        )
       end
 
       # ameba:disable Metrics/CyclomaticComplexity
@@ -280,12 +279,8 @@ module Ai4cr
         purge_error_limit = -1,
         verbose = true
       )
-        # TODO: split up into smaller pieces
         if purge_error_limit == -1
           # This is mainly for Relu, but could be adapted for other training types
-          # puts "outputs_sequence.size: #{outputs_sequence.size}"
-          # puts "outputs_sequence.first.size: #{outputs_sequence.first.size}"
-          # puts "outputs_sequence.first.first.size: #{outputs_sequence.first.first.size}"
           a = PURGE_ERROR_LIMIT_SCALE
           b = outputs_sequence.first.size
           c = (!outputs_sequence.first.first.is_a?(Float64)) ? outputs_sequence.first.first.size : 1.0
@@ -298,10 +293,6 @@ module Ai4cr
         max_hists = 10
         i_max = inputs_sequence.size
         tc_size = outputs_sequence.first.size
-
-        # list = Array(Int32).new
-        # hist = Hash(Int32, Int32).new(0)
-        # perc = Hash(Int32, Float64).new(0.0)
         recent_hists = Array(Hash(Int32, Int32)).new
 
         inputs_sequence.each_with_index do |inputs, i|
@@ -321,25 +312,20 @@ module Ai4cr
             qty_correct = update_member_comparisons(io_set_text_file, inputs, outputs, member, tc_size, i, mem_seq, verbose)
             list << qty_correct
           end
-          # team_members = sort_members(team_members)
-          team_members = sort_purge_replace(max_members, team_members, purge_error_limit, i)
-          log_correct_guess_stats(tc_size, i, max_hists, team_members, list, recent_hists, verbose)
 
-          if i % STEP_SAVE == 0 || i == i_max - 1
-            # auto_save(team_members, i) # Skip for now due to some saving (and/or to_s/pretty_inspect) errors,
-          end
+          team_members = sort_purge_replace(
+            max_members, team_members, purge_error_limit, i,
+            tc_size, max_hists, list, recent_hists, verbose
+          )
+
+          # Skip for now due to some saving (and/or to_s/pretty_inspect) errors
+          # if i % STEP_SAVE == 0 || i == i_max - 1
+          #   auto_save(team_members, i)
+          # end
 
           after = Time.local
           log_before_vs_after(beginning, before, after, i, i_max, verbose)
           before = after
-
-          # # Reset some counters
-          # list = Array(Int32).new
-          # hist = Hash(Int32, Int32).new(0)
-          # perc = Hash(Int32, Float64).new(0.0)
-          # recent_hists = Array(Hash(Int32, Int32)).new
-
-          # team_members
         end
 
         p! recent_hists
@@ -349,7 +335,6 @@ module Ai4cr
       end
 
       def log_correct_guess_stats(tc_size, i, max_hists, team_members, list, recent_hists, verbose)
-        # list = Array(Int32).new
         hist = Hash(Int32, Int32).new(0)
         perc = Hash(Int32, Float64).new(0.0)
 
@@ -372,18 +357,13 @@ module Ai4cr
           p! perc
           p! perc.values.sum
 
-          # perc_vals = perc.values.map(&./(100))
-          # p! CHARTER.plot(perc_vals, false)
-
-          # p! recent_hists
-
           recent_hists << hist.clone
           recent_hists = recent_hists[-max_hists..-1] if recent_hists.size > max_hists
           recent_hists.each { |h| puts CHARTER.plot(h.values.map(&./(100)), false) }
 
           puts "Stats per (remaining) top members:"
           team_members.each_with_index do |member, j|
-            puts log_summary_info(member, i, j) # log_summary_info(team_members, i)
+            puts log_summary_info(member, i, j)
           end
           puts "-"*80
         end
@@ -447,8 +427,21 @@ module Ai4cr
             puts "      outputs Actual (b): "
             puts "        aka: '#{outputs_str_actual}'!"
             puts "          " + member.error_hist_stats(in_bw: true)
-            # puts "          percent_correct: #{qty_correct} of #{tc_size} => #{correct_plot} => #{percent_correct}%"
-            puts "          percent_correct: #{log_summary_info(member, training_set_seq, mem_seq)} of #{tc_size} => #{correct_plot} => #{percent_correct}%"
+            puts "          percent_correct: #{log_summary_info(member, training_set_seq, mem_seq)} of #{tc_size} => #{percent_correct}%"
+            puts "            graph: #{correct_plot}"
+
+            # puts "          all_output_errors:"
+            # aoe_min_avg_max = member.all_output_errors.last.map { |l1| {min: l1.min, avg: l1.sum/l1.size, max: l1.max}}
+            # aoe_min_avg_max.each_with_index { |amam, ia| puts "            #{ia} : #{amam}" }
+
+            # puts "          all_output_errors:"
+            # aoe_min_avg_max = member.all_output_errors.last.map { |l1| {min: l1.min, avg: l1.sum/l1.size, max: l1.max}}
+
+            aedl = member.all_error_distances.last
+            puts "          all_error_distances.last:"
+            # puts "            aedl: #{aedl}"
+            puts "            graph: #{CHARTER.plot(aedl, false)}"
+            # aedl.each_with_index { |amam, ia| puts "            #{ia} : #{amam}" }
 
             puts "          certainty:"
             puts "            data: #{data_ce}"
@@ -479,21 +472,16 @@ module Ai4cr
       end
 
       def log_summary_info(member, i, j) # log_summary_info(team_members, i)
-        # puts
-        # team_members.each_with_index do |member, j|
         bi = member.birth_id
-        # puts "4"
         s = member.error_stats.hist_output_str_matches.last.sum
         c = member.error_stats.hist_output_str_matches.last.size
         s_c = s / c
         perc = (100.0 * s_c).round(2)
         ch = "#{CHARTER.plot([s_c], false)} #{perc}% aka #{s} of #{c}"
         cp = member.error_stats.hist_correct_plot.last || "tbd"
-        # puts "5"
         eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
         "step(#{i})_team_member_seq(#{j})_birth_id(#{bi})_corrects(#{ch} : #{cp})_error_hist(#{eh})"
-        # end
-        # puts
+
       end
 
       def auto_save(team_members, i)
@@ -505,30 +493,13 @@ module Ai4cr
           begin
             fp = folder_path
             file_path = "#{fp}/error.txt"
-            begin
-              ms = member_size
-              bi = member.birth_id
-              cp = member.error_stats.hist_correct_plot.last || "tbd"
-              eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
-              file_path = "#{fp}/(#{j}_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
-              s = member.to_json
-              File.write(file_path, s)
-              puts "8"
-            rescue e2
-              # probably something like: `Unhandled exception: Infinity not allowed in JSON (JSON::Error)`
-              # ... in which case, we probably can't really use the net anyways.
-              msg = {
-                member_birth_id: member.birth_id,
-                error:           {
-                  klass:     e2.class.name,
-                  message:   e2.message,
-                  backtrace: e2.backtrace,
-                },
-              }
-              f = file_path + ".ERROR.txt"
-              s = msg.pretty_inspect
-              File.write(f, s)
-            end
+            ms = member_size
+            bi = member.birth_id
+            cp = member.error_stats.hist_correct_plot.last || "tbd"
+            eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
+            file_path = "#{fp}/(#{j}_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
+            s = member.to_json
+            File.write(file_path, s)
           rescue e3
             msg = {
               j:     j,
@@ -543,113 +514,13 @@ module Ai4cr
         end
       end
 
-      def auto_save_old(team_members, i)
-        member_size = team_members.size
-        time_formated = Time.local.to_s.gsub(" ", "_").gsub(":", "_")
-        folder_path = "./tmp/#{self.class.name.gsub("::", "-")}/#{time_formated}"
 
-        team_members.each_with_index do |member, j|
-          begin
-            # recent_hists_last_chart = CHARTER.plot(recent_hists.last.values.map(&./(100)), false)
-            # file_path = "#{folder_path}/#{member.birth_id}_step_#{i}(#{recent_hists_last_chart}).json"
-
-            # puts "1"
-            fp = folder_path
-            # member.update_history_correct_plot(CHARTER.plot(hist.clone.values.map(&./(100)), false))
-            # Dir.mkdir_p(folder_path)
-            file_path = "#{fp}/error.txt"
-            begin
-              # puts "2"
-              ms = member_size
-              # puts "3"
-              bi = member.birth_id
-              # puts "4"
-              cp = member.error_stats.hist_correct_plot.last || "tbd"
-              # puts "5"
-              eh = member.error_hist_stats(in_bw: true).gsub("'", "").gsub("=>", "aka").gsub("@", "at")
-              # puts "6"
-              file_path = "#{fp}/(#{j}_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
-              # file_path = "#{fp}/(x_of_#{ms})_birth_id(#{bi})_step(#{i})_corrects(#{cp})_error_hist(#{eh}).json"
-
-              # I might need to save a subset of the data or otherwise split this into smaller (more saveable)
-              #   chunks (e.g.: confis, weights, ???)!
-              #   For now, just log file_path to 'log.txt'...
-              # puts file_path + " .. auto-saving disabled due to 'sometimes' signal IOT (6)"
-
-              # puts "7"
-              # # WHY does `member.pretty_inspect` (sometimes) cause:
-              # #   ```
-              # #   mmap(PROT_NONE) failed
-              # #   Program received and didn't handle signal IOT (6)
-              # #   ```
-              # s = member.pretty_inspect
-              # # puts "7a1"
-              # # puts s
-              # puts "7a2"
-              # File.write(file_path + ".txt", s)
-              # begin
-              #   puts "7a"
-              #   # WHY does `member.to_json` (sometimes) cause:
-              #   #   ```
-              #   #   mmap(PROT_NONE) failed
-              #   #   Program received and didn't handle signal IOT (6)
-              #   #   ```
-              s = member.to_json
-              #   puts "7b"
-              # rescue e1
-              #   puts "7c"
-              #   p! e1
-              #   puts "7d"
-              # end
-              # puts "7e"
-              File.write(file_path, s)
-              puts "8"
-            rescue e2
-              # probably something like: `Unhandled exception: Infinity not allowed in JSON (JSON::Error)`
-              # ... in which case, we probably can't really use the net anyways.
-              # puts "10a"
-              msg = {
-                member_birth_id: member.birth_id,
-                error:           {
-                  klass:     e2.class.name,
-                  message:   e2.message,
-                  backtrace: e2.backtrace,
-                },
-                # member: member,
-              }
-              # puts "10b"
-              f = file_path + ".ERROR.txt"
-              # puts "10c"
-              s = msg.to_s
-              # puts "10d"
-              File.write(f, s) # msg.pretty_inspect)
-              # puts "10e"
-            end
-          rescue e3
-            # puts "11a"
-            msg = {
-              # member_birth_id: member.birth_id,
-              j:     j,
-              error: {
-                klass:     e3.class.name,
-                message:   e3.message,
-                backtrace: e3.backtrace,
-              },
-              # member: member,
-            }
-            # puts "11b"
-            p! msg.to_s # pretty_inspect
-            # puts "11c"
-          end
-        end
-      end
-
-      # def sort_purge_replace(max_members, team_members, purge_error_limit, i)
-      #   sort_members(team_members)[0..max_members - 1]
-      # end
-
-      def sort_purge_replace(max_members, team_members, purge_error_limit, i)
+      def sort_purge_replace(
+        max_members, team_members, purge_error_limit, i,
+        tc_size, max_hists, list, recent_hists, verbose
+      )
         team_members = sort_members(team_members)
+        log_correct_guess_stats(tc_size, i, max_hists, team_members, list, recent_hists, verbose)
 
         config = team_members.first.config.clone
 
@@ -657,30 +528,36 @@ module Ai4cr
         members_ok = Array(T).new
         members_replaced = Array(T).new
 
-        purge_qty = 0
+        replace_qty = 0
+        replaced_ids = typeof([{-1 => -1}]).new
 
         ok_qty = 0
+        keep_ids = Array(Int32).new
 
         team_members.each do |member|
           # Note: We could use 'score' instead of 'distance', but I think 'distance' is best if we're breeding after each training io pair.
           d = member.error_stats.distance
 
-          if (ok_qty + purge_qty >= max_members)
+          if (ok_qty >= max_members)
             next
           else
             if (d.nan? || d.infinite? || d >= HIGH_ENOUGH_ERROR_DISTANCE_FOR_REPLACEMENT)
-              purge_qty += 1
+              replace_qty += 1
               name = "pb"
               delta = Ai4cr::Utils::Rand.rand_excluding(scale: 2, offset: -1.0)
-              # delta = Ai4cr::Utils::Rand.rand_excluding(scale: 1, offset: -0.5)
-              # delta = Ai4cr::Utils::Rand.rand_excluding(scale: 1, offset: 0.5)
               puts "\n---- i: #{i}, REPLACING member.birth_id: #{member.birth_id}; name: #{name}, err_stat_dist: #{d}, delta: #{delta} ----\n"
 
               new_rand_member = create(**config)
-              members_replaced << breed(member, new_rand_member, delta).tap(&.name=(name))
+              new_breeded_member = breed(member, new_rand_member, delta).tap(&.name=(name))
+              replaced_ids << {member.birth_id => new_breeded_member.birth_id}
+
+              members_replaced << new_breeded_member
             else
               ok_qty += 1
               puts "\n---- i: #{i}, keeping member.birth_id: #{member.birth_id}; name: #{member.name}, err_stat_dist: #{d}, delta: n/a ----\n"
+
+              keep_ids << member.birth_id
+
               members_ok << member
             end
           end
@@ -688,15 +565,15 @@ module Ai4cr
 
         purge_msg = "\n**** SORTED AND TRIMMED! -- i: #{i}, purge_error_limit: #{purge_error_limit}"
         purge_msg += "\n  ok_qty: #{(1.0 * ok_qty / target_size).round(4)*100}% aka #{ok_qty} out of #{target_size}"
-        purge_msg += "\n  purge_qty: #{(1.0 * purge_qty / target_size).round(4)*100}% aka #{purge_qty} out of #{target_size} at #{Time.local}"
-        purge_msg += (purge_qty > 0 ? "" : "  ---- (NO PURGES) ----")
+        purge_msg += "\n  replace_qty: #{(1.0 * replace_qty / target_size).round(4)*100}% aka #{replace_qty} out of #{target_size} at #{Time.local}"
+        purge_msg += "\n  keep_ids: #{keep_ids}"
+        purge_msg += "\n  replaced_ids: #{replaced_ids}"
+        purge_msg += (replace_qty > 0 ? "" : "  ---- (NO Replacements) ----")
         purge_msg += "\n****\n"
         puts purge_msg
 
-        # team_members[0..max_members - 1]
         (members_ok + members_replaced)[0..max_members - 1]
       end
-
       # ameba:enable Metrics/CyclomaticComplexity
 
       def train_team_in_parallel(inputs, outputs, team_members, train_qty)
