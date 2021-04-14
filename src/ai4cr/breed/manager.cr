@@ -375,32 +375,32 @@ module Ai4cr
 
       def log_before_vs_after(beginning, before, i, i_max, verbose)
         # if verbose && i % STEP_MAJOR == 0
-          # Thanks to the 'hardware' shard:
-          after = Time.local
+        # Thanks to the 'hardware' shard:
+        after = Time.local
 
-          puts "System info:"
-          memory = Hardware::Memory.new
-          p! memory.percent.round(1)
-          puts "^"*80
+        puts "System info:"
+        memory = Hardware::Memory.new
+        p! memory.percent.round(1)
+        puts "^"*80
 
-          puts "="*80
-          puts "Currently:"
-          p! Time.local
-          p! i
-          p! (after - before)
-          p! (after - beginning)
-          puts "ETA (duration):"
-          p! (after - beginning) * i_max / (i + 1)
-          puts "-"*80
-          puts "Percent Complete:"
-          p! (i + 1) / i_max
-          puts "ETA (time):"
-          p! beginning + ((after - beginning) * i_max / (i + 1))
-          puts "-"*80
+        puts "="*80
+        puts "Currently:"
+        p! Time.local
+        p! i
+        p! (after - before)
+        p! (after - beginning)
+        puts "ETA (duration):"
+        p! (after - beginning) * i_max / (i + 1)
+        puts "-"*80
+        puts "Percent Complete:"
+        p! (i + 1) / i_max
+        puts "ETA (time):"
+        p! beginning + ((after - beginning) * i_max / (i + 1))
+        puts "-"*80
 
-          # after = Time.local
-          # before = after
-          after
+        # after = Time.local
+        # before = after
+        after
         # else
         #   before
         # end
