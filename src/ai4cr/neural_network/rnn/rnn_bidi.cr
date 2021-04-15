@@ -2,25 +2,41 @@ require "./rnn_simple_concerns/calc_guess.cr"
 require "./rnn_simple_concerns/props_and_inits.cr"
 require "./rnn_simple_concerns/train_and_adjust.cr"
 require "./rnn_simple_concerns/roll_ups.cr"
+
+require "./rnn_bi_di_concerns/calc_guess.cr"
+require "./rnn_bi_di_concerns/props_and_inits.cr"
+require "./rnn_bi_di_concerns/train_and_adjust.cr"
+require "./rnn_bi_di_concerns/roll_ups.cr"
+
 require "./rnn_simple_concerns/data_utils.cr"
 
 module Ai4cr
   module NeuralNetwork
     module Rnn
-      class RnnSimple
-        # Simple RNN w/ inputs, hidden forward-feeding recurrent layer(s), outputs, and some other params
+      class RnnBiDi
+        # TODO: Implement Bi-directional RNN (i.e.: RnnSimple pulls from inputs and previous time column.)
+        # This class must also pull from next time column and mix them all together in subsequent hidden layers.
 
         include JSON::Serializable
 
         include Ai4cr::Breed::Client
+
         include RnnSimpleConcerns::PropsAndInits
+        include RnnBiDiConcerns::PropsAndInits
+
         include RnnSimpleConcerns::CalcGuess
+        include RnnBiDiConcerns::CalcGuess
+
         include RnnSimpleConcerns::TrainAndAdjust
+        include RnnBiDiConcerns::TrainAndAdjust
+
         include RnnSimpleConcerns::RollUps
+        include RnnBiDiConcerns::RollUps
+
         include RnnSimpleConcerns::DataUtils
 
         def clone
-          a_clone = RnnSimple.new(
+          a_clone = RnnBiDi.new(
             name: self.name.clone,
 
             history_size: self.history_size.clone,

@@ -10,7 +10,7 @@ module Ai4cr
           # end
           # abstract def propagation_function
 
-          property learning_style = LS_RELU
+          property learning_styles = LS_RELU
 
           property bias_default = 1.0
           property bias_disabled = false
@@ -42,10 +42,15 @@ module Ai4cr
             # * Xavier initialization mostly used with tanh and logistic activation function
             # * He-initialization mostly used with ReLU or it’s variants — Leaky ReLU.
 
-            @weights = @height_indexes.map { @width_indexes.map { @weight_init_scale * Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero } }
-            # @weights = Array.new(height_considering_bias) { Array.new(width) { Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero } }
-            # @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero*(Math.sqrt(2.0/(height_considering_bias + width))) } }
-            # @weights = @height_indexes.map { @width_indexes.map { Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero*(Math.sqrt(height_considering_bias/2.0)) } }
+            # @weights = @height_indexes.map { @width_indexes.map { @weight_init_scale * Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero } }
+
+            @weights = @height_indexes.map do
+              @width_indexes.map do
+                w = @weight_init_scale * Ai4cr::Utils::Rand.rand_neg_one_to_pos_one_no_zero
+                # (w.nan? ? 0.0 : w)
+                Float64.avoid_extremes(w)
+              end
+            end
           end
 
           def init_net_re_guess
@@ -101,14 +106,15 @@ module Ai4cr
             @outputs_guessed = @width_indexes.map do |w|
               sum = @height_indexes.sum do |h|
                 val = @inputs_given[h]*@weights[h][w]
-                case
-                when val.nan?
-                  0.0
-                  # when value.infinite?
-                  #   1.0
-                else
-                  val
-                end
+                # case
+                # when val.nan?
+                #   0.0
+                #   # when value.infinite?
+                #   #   1.0
+                # else
+                #   val
+                # end
+                Float64.avoid_extremes(val)
               end
               propagation_function.call(sum)
             end
@@ -130,7 +136,7 @@ module Ai4cr
           # ameba:disable Metrics/CyclomaticComplexity
           def propagation_function
             # TODO: Make this JSON-loadable and customizable
-            case @learning_style
+            case @learning_styles
             when LS_PRELU
               # LearningStyle::Prelu
               ->(x : Float64) do

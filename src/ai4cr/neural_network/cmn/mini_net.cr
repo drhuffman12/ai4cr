@@ -24,14 +24,14 @@ module Ai4cr
           name : String = Time.utc.to_s,
           height : Int32 = 2,
           width : Int32 = 2,
-          learning_style : LearningStyle = LEARNING_STYLE_DEFAULT,
+          learning_styles : LearningStyle = LEARNING_STYLES_DEFAULT,
           bias_disabled = false,
           history_size = 10
         )
           {
-            height:         height,
-            width:          width,
-            learning_style: learning_style,
+            height:          height,
+            width:           width,
+            learning_styles: learning_styles,
 
             deriv_scale: Ai4cr::Utils::Rand.rand_excluding(scale: 0.5),
 
@@ -49,7 +49,7 @@ module Ai4cr
         def clone
           a_clone = MiniNet.new(
             height: self.height, width: self.width,
-            learning_style: self.learning_style,
+            learning_styles: self.learning_styles,
 
             deriv_scale: self.deriv_scale,
 

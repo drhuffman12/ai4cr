@@ -26,8 +26,8 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
     context "#init_network" do
       it "the 'outputs_guessed' start as zeros" do
         # prep net vvv
-        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 2, width: 4, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: false)
-        net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 3, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: true)
+        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 2, width: 4, learning_styles: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: false)
+        net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 3, learning_styles: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: true)
 
         net0.init_network
         net0.learning_rate = 0.25
@@ -57,8 +57,8 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
     context "#eval" do
       it "the 'outputs_guessed' are updated as expected" do
         # prep net vvv
-        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 2, width: 4, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: false)
-        net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 3, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: true)
+        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 2, width: 4, learning_styles: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: false)
+        net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 3, learning_styles: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: true)
 
         net0.init_network
         net0.learning_rate = 0.25
@@ -91,8 +91,8 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
         # TODO: FIX!!!
 
         # prep net vvv
-        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 2, width: 4, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: false)
-        net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 3, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: true)
+        net0 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 2, width: 4, learning_styles: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: false)
+        net1 = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: 4, width: 3, learning_styles: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: true)
 
         net0.init_network
         net0.learning_rate = 0.25
@@ -136,10 +136,10 @@ describe Ai4cr::NeuralNetwork::Cmn::Chain do
     layer_3_size_without_bias = 6
     layer_4_size_without_bias = 7
 
-    nt = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_0_size_without_bias, width: layer_1_size_without_bias, learning_style: Ai4cr::NeuralNetwork::LS_TANH, bias_disabled: false)
-    nr = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_1_size_without_bias, width: layer_2_size_without_bias, learning_style: Ai4cr::NeuralNetwork::LS_RELU, bias_disabled: true)
-    np = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_2_size_without_bias, width: layer_3_size_without_bias, learning_style: Ai4cr::NeuralNetwork::LS_PRELU, bias_disabled: true)
-    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_3_size_without_bias, width: layer_4_size_without_bias, learning_style: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: true)
+    nt = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_0_size_without_bias, width: layer_1_size_without_bias, learning_styles: Ai4cr::NeuralNetwork::LS_TANH, bias_disabled: false)
+    nr = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_1_size_without_bias, width: layer_2_size_without_bias, learning_styles: Ai4cr::NeuralNetwork::LS_RELU, bias_disabled: true)
+    np = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_2_size_without_bias, width: layer_3_size_without_bias, learning_styles: Ai4cr::NeuralNetwork::LS_PRELU, bias_disabled: true)
+    ne = Ai4cr::NeuralNetwork::Cmn::MiniNet.new(height: layer_3_size_without_bias, width: layer_4_size_without_bias, learning_styles: Ai4cr::NeuralNetwork::LS_SIGMOID, bias_disabled: true)
 
     arr = Array(Ai4cr::NeuralNetwork::Cmn::MiniNet).new
     arr << nt

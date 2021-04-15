@@ -149,7 +149,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
 
           [
             "width", "height", "height_considering_bias", "width_indexes", "height_indexes",
-            "learning_style", "bias_disabled", "outputs_expected",
+            "learning_styles", "bias_disabled", "outputs_expected",
           ].each do |var|
             puts_debug
             puts_debug "var: #{var}"
@@ -290,7 +290,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
             ancestor_adam_value = ancestor_adam.error_stats.distance
             ancestor_eve_value = ancestor_eve.error_stats.distance
             # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
-            expected_child_1_value = -1.0
+            expected_child_1_value = 1.1579208923731618e+77 # -1.0
 
             expect(ancestor_adam_value).not_to eq(ancestor_eve_value)
             expect(child_1.error_stats.distance).to eq(expected_child_1_value)
@@ -312,7 +312,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Cmn::MiniNetManager do
             ancestor_adam_value = ancestor_adam.error_stats.score
             ancestor_eve_value = ancestor_eve.error_stats.score
             # expected_child_1_value = my_breed_manager.mix_nested_parts(ancestor_adam_value, ancestor_eve_value, delta_child_1)
-            expected_child_1_value = 1.8446744073709552e+19
+            expected_child_1_value = 1.1579208923731618e+77 # 1.8446744073709552e+19
 
             expect(ancestor_adam_value).not_to eq(ancestor_eve_value)
             expect(child_1.error_stats.score).to eq(expected_child_1_value)

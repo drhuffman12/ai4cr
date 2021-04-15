@@ -74,7 +74,9 @@ module Ai4cr
 
           def step_calc_output_errors
             @output_errors = @outputs_guessed.map_with_index do |og, i|
-              @outputs_expected[i] - og
+              # @outputs_expected[i] - og
+              v = @outputs_expected[i] - og
+              Float64.avoid_extremes(v)
             end
           end
 
@@ -87,7 +89,9 @@ module Ai4cr
               width_indexes.each do |k|
                 error += @output_deltas[k] * @weights[j][k]
               end
-              layer_deltas << (derivative_propagation_function.call(@inputs_given[j]) * error)
+              # layer_deltas << (derivative_propagation_function.call(@inputs_given[j]) * error)
+              d = (derivative_propagation_function.call(@inputs_given[j]) * error)
+              layer_deltas << Float64.avoid_extremes(d)
             end
             @input_deltas = layer_deltas
           end
@@ -101,9 +105,11 @@ module Ai4cr
           def step_update_weights_v1
             height_indexes.each do |j|
               @weights[j].each_with_index do |_elem, k|
-                change = @output_deltas[k]*@inputs_given[j]
+                # change = @output_deltas[k]*@inputs_given[j]
+                change = Float64.avoid_extremes(@output_deltas[k]*@inputs_given[j])
                 weight_delta = (@learning_rate * change + @momentum * @last_changes[j][k])
-                @weights[j][k] += weight_delta
+                # @weights[j][k] += weight_delta
+                @weights[j][k] = Float64.avoid_extremes(@weights[j][k] + weight_delta)
                 @last_changes[j][k] = change
               end
             end
@@ -138,7 +144,7 @@ module Ai4cr
 
           def derivative_propagation_function
             # TODO: Make this JSON-loadable and customizable
-            case @learning_style
+            case @learning_styles
             when LS_PRELU
               # LearningStyle::Prelu
               ->(y : Float64) { y < 0 ? @deriv_scale : 1.0 }
@@ -158,7 +164,7 @@ module Ai4cr
 
           def guesses_best
             # TODO: Make this JSON-loadable and customizable
-            case @learning_style
+            case @learning_styles
             when LS_PRELU # LearningStyle::Prelu
               guesses_ceiled
             when LS_RELU # LearningStyle::Rel

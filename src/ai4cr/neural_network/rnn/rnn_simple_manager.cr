@@ -22,7 +22,7 @@ module Ai4cr
                                                           parent_a.hidden_size_given == parent_b.hidden_size_given &&
                                                           parent_a.bias_disabled == parent_b.bias_disabled &&
                                                           # parent_a.bias_default == parent_b.bias_default &&
-                                                          parent_a.learning_style == parent_b.learning_style
+                                                          parent_a.learning_styles == parent_b.learning_styles
                                                         )
         end
 
