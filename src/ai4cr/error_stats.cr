@@ -14,7 +14,7 @@ module Ai4cr
     getter history : Array(Float64)
     getter score : Float64
     getter hist_correct_plot = Array(String).new # ["tbd"]
-    getter hist_output_str_matches = Array(Int32).new
+    getter hist_output_str_matches = Array(Array(Int32)).new
 
     # DISTANCE_MAX = Float64::MAX / (2**10)
 
@@ -57,7 +57,7 @@ module Ai4cr
       charter.plot(hist, prefixed)
     end
 
-    def update_output_str_matches(output_str_matches = [0])
+    def update_output_str_matches(output_str_matches = 0)
       if @hist_output_str_matches.size < @history_size # - 1
         # Array not 'full' yet, so add latest value to end
         @hist_output_str_matches << output_str_matches
