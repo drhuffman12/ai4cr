@@ -144,7 +144,7 @@ module Ai4cr
         ->(y : Float64) { y*(1 - y) } # lambda { |y| 1.0 - y**2 }
       end
 
-      def learning_style
+      def learning_styles
         :sigmoid
       end
 

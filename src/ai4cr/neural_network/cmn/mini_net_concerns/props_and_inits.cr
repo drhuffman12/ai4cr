@@ -3,13 +3,13 @@ module Ai4cr
     module Cmn
       module MiniNetConcerns
         module PropsAndInits
-          LEARNING_STYLE_DEFAULT = LS_RELU
+          LEARNING_STYLES_DEFAULT = LS_RELU
 
           def config
             {
-              height:         @height,
-              width:          @width,
-              learning_style: @learning_style,
+              height:          @height,
+              width:           @width,
+              learning_styles: @learning_styles,
 
               deriv_scale: @deriv_scale,
 
@@ -27,7 +27,7 @@ module Ai4cr
 
           def initialize(
             @height = 2, @width = 2,
-            @learning_style : LearningStyle = LEARNING_STYLE_DEFAULT,
+            @learning_styles : LearningStyle = LEARNING_STYLES_DEFAULT,
 
             @deriv_scale = Ai4cr::Utils::Rand.rand_excluding(scale: 0.5),
 

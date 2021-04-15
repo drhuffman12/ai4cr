@@ -146,7 +146,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       let(ancestor_8) { my_breed_manager.create(name: "non-default hidden_layer_qty", hidden_layer_qty: Ai4cr::NeuralNetwork::Rnn::RnnSimple::HIDDEN_LAYER_QTY_MIN + 1 + rand(2)) }
       let(ancestor_9) { my_breed_manager.create(name: "non-default hidden_size_given", hidden_size_given: 2 + rand(2)) }
       let(ancestor_10) { my_breed_manager.create(name: "non-default bias_disabled", bias_disabled: true) }
-      let(ancestor_11) { my_breed_manager.create(name: "non-default learning_style", learning_style: (LearningStyle.values - [Ai4cr::NeuralNetwork::Rnn::RnnSimple::LEARNING_STYLE_DEFAULT]).sample) }
+      let(ancestor_11) { my_breed_manager.create(name: "non-default learning_styles", learning_styles: (LearningStyle.values - Ai4cr::NeuralNetwork::Rnn::RnnSimple::LEARNING_STYLE_DEFAULT).sample) }
 
       context "when parents have same structure params values" do
         it "does NOT raise" do
@@ -162,7 +162,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
           expect(ancestor_a.hidden_size_given).to eq(ancestor_b.hidden_size_given)
           expect(ancestor_a.bias_disabled).to eq(ancestor_b.bias_disabled)
           expect(ancestor_a.bias_default).to eq(ancestor_b.bias_default)
-          expect(ancestor_a.learning_style).to eq(ancestor_b.learning_style)
+          expect(ancestor_a.learning_styles).to eq(ancestor_b.learning_styles)
 
           expect { my_breed_manager.breed(ancestor_a, ancestor_b) }.not_to raise_error
         end
@@ -184,7 +184,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
             expect(ancestor_a.hidden_size_given).to eq(ancestor_b.hidden_size_given)
             expect(ancestor_a.bias_disabled).to eq(ancestor_b.bias_disabled)
             expect(ancestor_a.bias_default).to eq(ancestor_b.bias_default)
-            expect(ancestor_a.learning_style).to eq(ancestor_b.learning_style)
+            expect(ancestor_a.learning_styles).to eq(ancestor_b.learning_styles)
 
             expect { my_breed_manager.breed(ancestor_a, ancestor_b) }.to raise_error(Ai4cr::Breed::StructureError)
           end
@@ -234,7 +234,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
             # "history_size",
             [
               "io_offset", "time_col_qty", "input_size", "output_size",
-              "hidden_layer_qty", "hidden_size_given", "bias_disabled", "learning_style",
+              "hidden_layer_qty", "hidden_size_given", "bias_disabled", "learning_styles",
             ].each do |var|
               puts_debug
               puts_debug "var: #{var}"
@@ -298,7 +298,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
               # TODO
               ancestor_adam_value = ancestor_adam.error_stats.distance
               ancestor_eve_value = ancestor_eve.error_stats.distance
-              expected_child_1_value = -1.0
+              expected_child_1_value = Ai4cr::ErrorStats::DISTANCE_DEFAULT
 
               expect(ancestor_adam_value).not_to eq(ancestor_eve_value)
               expect(child_1.error_stats.distance).to eq(expected_child_1_value)
@@ -316,7 +316,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
             it "score" do
               ancestor_adam_value = ancestor_adam.error_stats.score
               ancestor_eve_value = ancestor_eve.error_stats.score
-              expected_child_1_value = 1.8446744073709552e+19 # TODO: Why this value?
+              expected_child_1_value = Ai4cr::ErrorStats::SCORE_DEFAULT # 1.8446744073709552e+19 # TODO: Why this value?
 
               expect(ancestor_adam_value).not_to eq(ancestor_eve_value)
               expect(child_1.error_stats.score).to eq(expected_child_1_value)
@@ -333,7 +333,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
       [
         :name, :history_size, :io_offset, :time_col_qty,
         :input_size, :output_size, :hidden_layer_qty, :hidden_size_given,
-        :learning_style, :bias_disabled, :bias_default, :learning_rate,
+        :learning_styles, :bias_disabled, :bias_default, :learning_rate,
         :momentum, :deriv_scale, :weight_init_scale_given,
       ]
     }
@@ -385,7 +385,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleManager do
 
       #     next_gen_members.each do |member|
       #       member_json = JSON.parse(next_gen_members.first.to_json)
-      #       (params.keys.to_a - [:history_size, :learning_style]).each do |key|
+      #       (params.keys.to_a - [:history_size, :learning_styles]).each do |key|
       #         key_string = key.to_s
       #         params_value = params[key]
 
