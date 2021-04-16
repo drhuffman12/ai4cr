@@ -194,11 +194,17 @@ module Ai4cr
             end
 
             def calc_node_input_sizes
-              raise "Must implement in class"
+              klass_name = self.class.name
+              method_name = {{@def.name.stringify}}
+              # arg_names = {{@def.args}}
+              raise "Method '#{klass_name}##{method_name}' MUST implement in class!"
             end
 
             def init_mini_net_set
-              raise "Must implement in class"
+              klass_name = self.class.name
+              method_name = {{@def.name.stringify}}
+              # arg_names = {{@def.args}}
+              raise "Method '#{klass_name}##{method_name}' MUST implement in class!"
             end
           end
         end
