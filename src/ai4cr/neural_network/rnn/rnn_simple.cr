@@ -20,10 +20,6 @@ module Ai4cr
 
         include Concerns::Common::CalcGuess
 
-        property node_input_sizes = Array(Array(NamedTuple(
-          previous_synaptic_layer: Int32,
-          previous_time_column: Int32))).new
-
         include Concerns::Common::TrainAndAdjust
         include Concerns::Common::RollUps
         include Concerns::Common::DataUtils

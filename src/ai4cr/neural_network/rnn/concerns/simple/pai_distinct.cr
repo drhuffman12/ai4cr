@@ -4,6 +4,12 @@ module Ai4cr
       module Concerns
         module Simple
           module PaiDistinct
+            alias NodeInputSizes = Array(Array(NamedTuple(
+              previous_synaptic_layer: Int32,
+              previous_time_column: Int32)))
+
+            property node_input_sizes = NodeInputSizes.new
+
             def calc_node_input_sizes
               if @valid
                 input_sizes = [input_size] + node_output_sizes[0..-2]

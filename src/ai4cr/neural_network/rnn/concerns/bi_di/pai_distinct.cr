@@ -4,6 +4,24 @@ module Ai4cr
       module Concerns
         module BiDi
           module PaiDistinct
+            alias NodeInputSizes = Array(Array(NamedTuple(
+              channel_forward: NamedTuple(
+                current_self_mem: Int32,
+                previous_synaptic_layer_inputs_or_combo: Int32,
+                previous_synaptic_layer_channel_forward: Int32,
+                previous_time_column: Int32),
+              channel_backward: NamedTuple(
+                current_self_mem: Int32,
+                previous_synaptic_layer_inputs_or_combo: Int32,
+                previous_synaptic_layer_channel_backward: Int32,
+                next_time_column: Int32),
+              channel_sl_or_combo: NamedTuple(
+                current_self_mem: Int32,
+                previous_synaptic_layer_inputs_or_combo: Int32,
+                current_forward: Int32, current_backward: Int32))))
+
+            property node_input_sizes = NodeInputSizes.new
+
             def calc_node_input_sizes
               if @valid
                 input_sizes = [input_size] + node_output_sizes[0..-2]
@@ -39,27 +57,7 @@ module Ai4cr
                 end
               else
                 # for type consistency when otherwise invalid:
-                [
-                  [
-                    {
-                      channel_forward: {
-                        previous_synaptic_layer: 0,
-                        previous_time_column:    0,
-                        current_self_mem:        0,
-                      },
-                      channel_backward: {
-                        previous_synaptic_layer: 0,
-                        next_time_column:        0,
-                        current_self_mem:        0,
-                      },
-                      channel_sl_or_combo: {
-                        current_forward:  0,
-                        current_backward: 0,
-                        current_self_mem: 0,
-                      },
-                    },
-                  ],
-                ]
+                NodeInputSizes.new
               end
             end
 

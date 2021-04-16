@@ -21,13 +21,6 @@ module Ai4cr
 
         include Concerns::Common::CalcGuess
         # include Concerns::BiDi::CalcGuess
-        property node_input_sizes = Array(Array(NamedTuple(
-          channel_forward: NamedTuple(
-            previous_synaptic_layer: Int32, previous_time_column: Int32, current_self_mem: Int32),
-          channel_backward: NamedTuple(
-            previous_synaptic_layer: Int32, next_time_column: Int32, current_self_mem: Int32),
-          channel_sl_or_combo: NamedTuple(
-            current_forward: Int32, current_backward: Int32, current_self_mem: Int32)))).new
 
         include Concerns::Common::TrainAndAdjust
         # include Concerns::BiDi::TrainAndAdjust
