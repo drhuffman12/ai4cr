@@ -1,7 +1,7 @@
-require "./../../../../spectator_helper"
+require "./../../../../../spectator_helper"
 
-Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnBiDiConcerns::CalcGuess do
-  let(rnn_simple) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new }
+Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::CalcGuess do
+  let(rnn_simple) { Ai4cr::NeuralNetwork::Rnn::RnnSimple.new }
 
   let(input_set_given) {
     [
@@ -88,7 +88,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnBiDiConcerns::CalcGuess do
 
   describe "#all_mini_net_outputs" do
     context "with hard-coded weights" do
-      let(rnn_simple) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new }
+      let(rnn_simple) { Ai4cr::NeuralNetwork::Rnn::RnnSimple.new }
 
       let(input_set_given) {
         [

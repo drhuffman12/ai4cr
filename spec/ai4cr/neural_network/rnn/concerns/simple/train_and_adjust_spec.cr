@@ -1,4 +1,4 @@
-require "./../../../../spectator_helper"
+require "./../../../../../spectator_helper"
 
 Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::TrainAndAdjust do
   let(deriv_scale) { 0.1 }

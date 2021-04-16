@@ -1,8 +1,9 @@
-require "./rnn_simple_concerns/calc_guess.cr"
-require "./rnn_simple_concerns/props_and_inits.cr"
-require "./rnn_simple_concerns/train_and_adjust.cr"
-require "./rnn_simple_concerns/roll_ups.cr"
-require "./rnn_simple_concerns/data_utils.cr"
+require "./concerns/common/calc_guess.cr"
+require "./concerns/common/props_and_inits.cr"
+require "./concerns/simple/pai_distinct.cr"
+require "./concerns/common/train_and_adjust.cr"
+require "./concerns/common/roll_ups.cr"
+require "./concerns/common/data_utils.cr"
 
 module Ai4cr
   module NeuralNetwork
@@ -13,11 +14,19 @@ module Ai4cr
         include JSON::Serializable
 
         include Ai4cr::Breed::Client
-        include RnnSimpleConcerns::PropsAndInits
-        include RnnSimpleConcerns::CalcGuess
-        include RnnSimpleConcerns::TrainAndAdjust
-        include RnnSimpleConcerns::RollUps
-        include RnnSimpleConcerns::DataUtils
+
+        include Concerns::Common::PropsAndInits
+        include Concerns::Simple::PaiDistinct
+
+        include Concerns::Common::CalcGuess
+
+        property node_input_sizes = Array(Array(NamedTuple(
+          previous_synaptic_layer: Int32,
+          previous_time_column: Int32))).new
+
+        include Concerns::Common::TrainAndAdjust
+        include Concerns::Common::RollUps
+        include Concerns::Common::DataUtils
 
         def clone
           a_clone = RnnSimple.new(

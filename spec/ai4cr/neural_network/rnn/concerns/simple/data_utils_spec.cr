@@ -1,6 +1,6 @@
-require "./../../../../spectator_helper"
+require "./../../../../../spectator_helper"
 
-Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnBiDiConcerns::DataUtils do
+Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::DataUtils do
   let(time_col_qty) { 4 }
   let(io_offset) { time_col_qty }
 
@@ -9,7 +9,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnBiDiConcerns::DataUtils do
   let(hidden_layer_qty) { 1 }
 
   let(rnn_simple) {
-    Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new(
+    Ai4cr::NeuralNetwork::Rnn::RnnSimple.new(
       io_offset: io_offset,
       time_col_qty: time_col_qty,
 
