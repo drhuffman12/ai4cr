@@ -12,22 +12,27 @@ module Ai4cr
                   output_size = node_output_sizes[sli]
                   time_col_indexes.map do |ti|
                     previous_time_column = ti == 0 ? 0 : output_size
+                    previous_channel_forward_or_backward = ti == 0 ? in_size : output_size
+                    previous_channel_inputs_or_combo = ti == 0 ? 0 : output_size
                     next_time_column = ti == time_col_indexes.last ? 0 : output_size
                     {
                       channel_forward: {
-                        previous_synaptic_layer: in_size,
-                        previous_time_column:    previous_time_column,
-                        current_self_mem:        output_size,
+                        current_self_mem:                        output_size,
+                        previous_synaptic_layer_inputs_or_combo: in_size,
+                        previous_synaptic_layer_channel_forward: previous_channel_forward_or_backward,
+                        previous_time_column:                    previous_time_column,
                       },
                       channel_backward: {
-                        previous_synaptic_layer: in_size,
-                        next_time_column:        next_time_column,
-                        current_self_mem:        output_size,
+                        current_self_mem:                         output_size,
+                        previous_synaptic_layer_inputs_or_combo:  in_size,
+                        previous_synaptic_layer_channel_backward: previous_channel_forward_or_backward,
+                        next_time_column:                         next_time_column,
                       },
                       channel_sl_or_combo: {
-                        current_forward:  output_size,
-                        current_backward: output_size,
-                        current_self_mem: output_size,
+                        current_self_mem:                        output_size,
+                        previous_synaptic_layer_inputs_or_combo: previous_channel_inputs_or_combo,
+                        current_forward:                         output_size,
+                        current_backward:                        output_size,
                       },
                     }
                   end
