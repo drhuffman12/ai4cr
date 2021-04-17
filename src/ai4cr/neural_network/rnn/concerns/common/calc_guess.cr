@@ -55,7 +55,7 @@ module Ai4cr
             property node_output_sizes = Array(Int32).new
 
             property weight_init_scale : Float64 = 1.0
-            property mini_net_set = Array(Array(Cmn::MiniNet)).new
+            # property mini_net_set = Array(Array(Cmn::MiniNet)).new
 
             getter input_set_given = Array(Array(Float64)).new
 

@@ -7,8 +7,10 @@ module Ai4cr
             alias NodeInputSizes = Array(Array(NamedTuple(
               previous_synaptic_layer: Int32,
               previous_time_column: Int32)))
+            alias MiniNetSet = Array(Array(Cmn::MiniNet))
 
             property node_input_sizes = NodeInputSizes.new
+            property mini_net_set = MiniNetSet.new
 
             def calc_node_input_sizes
               if @valid

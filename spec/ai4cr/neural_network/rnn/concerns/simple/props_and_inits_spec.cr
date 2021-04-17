@@ -16,7 +16,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
       end
 
       context "has expected value for property" do
-        let(expected_slis) {
+        let(node_input_sizes_expected) {
           [
             [
               {
@@ -25,7 +25,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
               },
               {
                 "previous_synaptic_layer": rnn_simple.input_size,
-                "previous_time_column":    3,
+                "previous_time_column":    rnn_simple.hidden_size,
               },
             ],
             [
@@ -70,7 +70,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
         end
 
         it "@node_input_sizes" do
-          expect(rnn_simple.node_input_sizes).to eq(expected_slis)
+          expect(rnn_simple.node_input_sizes).to eq(node_input_sizes_expected)
         end
       end
     end
@@ -90,7 +90,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
       end
 
       context "has expected value for property" do
-        let(expected_slis) {
+        let(node_input_sizes_expected) {
           [
             [
               {
@@ -144,7 +144,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
         end
 
         it "@node_input_sizes" do
-          expect(rnn_simple.node_input_sizes).to eq(expected_slis)
+          expect(rnn_simple.node_input_sizes).to eq(node_input_sizes_expected)
         end
       end
     end
@@ -165,7 +165,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
       end
 
       context "has expected value for property" do
-        let(expected_slis) {
+        let(node_input_sizes_expected) {
           [
             [
               {
@@ -229,7 +229,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
         end
 
         it "@node_input_sizes" do
-          expect(rnn_simple.node_input_sizes).to eq(expected_slis)
+          expect(rnn_simple.node_input_sizes).to eq(node_input_sizes_expected)
         end
       end
     end
@@ -251,7 +251,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
       end
 
       context "has expected value for property" do
-        let(expected_slis) {
+        let(node_input_sizes_expected) {
           [
             [
               {
@@ -327,7 +327,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
         end
 
         it "@node_input_sizes" do
-          expect(rnn_simple.node_input_sizes).to eq(expected_slis)
+          expect(rnn_simple.node_input_sizes).to eq(node_input_sizes_expected)
         end
       end
     end
