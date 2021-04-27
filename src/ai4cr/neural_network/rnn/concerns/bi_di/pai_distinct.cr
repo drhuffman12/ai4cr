@@ -4,6 +4,8 @@ module Ai4cr
       module Concerns
         module BiDi
           module PaiDistinct
+            # 'Pai' aka short for 'PropsAndInits'
+
             alias NodeInputSizes = Array(Array(NamedTuple(
               channel_forward: NamedTuple(
                 # enabled: Bool,
@@ -28,6 +30,7 @@ module Ai4cr
             property node_input_sizes = NodeInputSizes.new
             property mini_net_set = MiniNetSet.new
 
+            # ameba:disable Metrics/CyclomaticComplexity
             def calc_node_input_sizes
               if @valid
                 input_sizes = [input_size] + node_output_sizes[0..-2]
@@ -83,6 +86,8 @@ module Ai4cr
                 NodeInputSizes.new
               end
             end
+
+            # ameba:enable Metrics/CyclomaticComplexity
 
             def init_mini_net_set
               # TODO
