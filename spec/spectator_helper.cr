@@ -1,3 +1,4 @@
 # require "../src/*"
-require "./spec_helper"
+# require "./spec_helper"
 require "spectator"
+require "./common_helper"

@@ -6,7 +6,7 @@ module Ai4cr
           module PaiDistinct
             alias NodeInputSizes = Array(Array(NamedTuple(
               previous_synaptic_layer: Int32,
-              previous_time_column: Int32)))
+              tc_previous_channel_forward: Int32)))
             alias MiniNetSet = Array(Array(Cmn::MiniNet))
 
             property node_input_sizes = NodeInputSizes.new
@@ -20,14 +20,14 @@ module Ai4cr
                   output_size = node_output_sizes[li]
                   time_col_indexes.map do |ti|
                     if ti == 0
-                      {previous_synaptic_layer: in_size, previous_time_column: 0}
+                      {previous_synaptic_layer: in_size, tc_previous_channel_forward: 0}
                     else
-                      {previous_synaptic_layer: in_size, previous_time_column: output_size}
+                      {previous_synaptic_layer: in_size, tc_previous_channel_forward: output_size}
                     end
                   end
                 end
               else
-                [[{previous_synaptic_layer: 0, previous_time_column: 0}]]
+                [[{previous_synaptic_layer: 0, tc_previous_channel_forward: 0}]]
               end
             end
 

@@ -231,7 +231,7 @@ module Ai4cr
       end
 
       def train_team(inputs, outputs, team_members : Array(T), max_members = MAX_MEMBERS_DEFAULT, train_qty = 1, and_cross_breed = true)
-        team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
+        # team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
 
         if team_members.size > 1 && and_cross_breed
           team_members = cross_breed(team_members)

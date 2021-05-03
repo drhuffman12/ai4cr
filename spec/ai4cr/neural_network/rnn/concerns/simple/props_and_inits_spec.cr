@@ -20,22 +20,22 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
           [
             [
               {
-                "previous_synaptic_layer": rnn_simple.input_size,
-                "previous_time_column":    0,
+                "previous_synaptic_layer":     rnn_simple.input_size,
+                "tc_previous_channel_forward": 0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.input_size,
-                "previous_time_column":    rnn_simple.hidden_size,
+                "previous_synaptic_layer":     rnn_simple.input_size,
+                "tc_previous_channel_forward": rnn_simple.hidden_size,
               },
             ],
             [
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    0,
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": 0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    rnn_simple.output_size,
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": rnn_simple.output_size,
               },
             ],
           ]
@@ -94,22 +94,22 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
           [
             [
               {
-                "previous_synaptic_layer": rnn_simple.input_size,
-                "previous_time_column":    0,
+                "previous_synaptic_layer":     rnn_simple.input_size,
+                "tc_previous_channel_forward": 0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.input_size,
-                "previous_time_column":    10,
+                "previous_synaptic_layer":     rnn_simple.input_size,
+                "tc_previous_channel_forward": 10,
               },
             ],
             [
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    0,
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": 0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    rnn_simple.output_size,
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": rnn_simple.output_size,
               },
             ],
           ]
@@ -169,32 +169,32 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
           [
             [
               {
-                "previous_synaptic_layer": rnn_simple.input_size,
-                "previous_time_column":    0,
+                "previous_synaptic_layer":     rnn_simple.input_size,
+                "tc_previous_channel_forward": 0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.input_size,
-                "previous_time_column":    10,
-              },
-            ],
-            [
-              {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    0,
-              },
-              {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    rnn_simple.hidden_size,
+                "previous_synaptic_layer":     rnn_simple.input_size,
+                "tc_previous_channel_forward": 10,
               },
             ],
             [
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    0,
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": 0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    rnn_simple.output_size,
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": rnn_simple.hidden_size,
+              },
+            ],
+            [
+              {
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": 0,
+              },
+              {
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": rnn_simple.output_size,
               },
             ],
           ]
@@ -255,44 +255,44 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::PropsAndInits d
           [
             [
               {
-                "previous_synaptic_layer": rnn_simple.input_size,
-                "previous_time_column":    0,
+                "previous_synaptic_layer":     rnn_simple.input_size,
+                "tc_previous_channel_forward": 0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.input_size,
-                "previous_time_column":    10,
+                "previous_synaptic_layer":     rnn_simple.input_size,
+                "tc_previous_channel_forward": 10,
               },
               {
-                "previous_synaptic_layer": rnn_simple.input_size,
-                "previous_time_column":    10,
-              },
-            ],
-            [
-              {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    0,
-              },
-              {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    rnn_simple.hidden_size,
-              },
-              {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    rnn_simple.hidden_size,
+                "previous_synaptic_layer":     rnn_simple.input_size,
+                "tc_previous_channel_forward": 10,
               },
             ],
             [
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    0,
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": 0,
               },
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    rnn_simple.output_size,
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": rnn_simple.hidden_size,
               },
               {
-                "previous_synaptic_layer": rnn_simple.hidden_size,
-                "previous_time_column":    rnn_simple.output_size,
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": rnn_simple.hidden_size,
+              },
+            ],
+            [
+              {
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": 0,
+              },
+              {
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": rnn_simple.output_size,
+              },
+              {
+                "previous_synaptic_layer":     rnn_simple.hidden_size,
+                "tc_previous_channel_forward": rnn_simple.output_size,
               },
             ],
           ]

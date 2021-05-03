@@ -10,18 +10,18 @@ module Ai4cr
               channel_forward: NamedTuple(
                 # enabled: Bool,
                 current_self_mem: Int32,
-                previous_synaptic_layer_channel_sl_or_combo: Int32,
-                previous_synaptic_layer_channel_forward: Int32,
-                previous_time_column: Int32),
+                sl_previous_input_or_combo: Int32,
+                sl_previous_channel_forward: Int32,
+                tc_previous_channel_forward: Int32),
               channel_backward: NamedTuple(
                 # enabled: Bool,
                 current_self_mem: Int32,
-                previous_synaptic_layer_channel_sl_or_combo: Int32,
-                previous_synaptic_layer_channel_backward: Int32,
-                next_time_column: Int32),
+                sl_previous_input_or_combo: Int32,
+                sl_previous_channel_backward: Int32,
+                tc_next_channel_backward: Int32),
               channel_sl_or_combo: NamedTuple(
                 current_self_mem: Int32,
-                previous_synaptic_layer_channel_sl_or_combo: Int32,
+                sl_previous_input_or_combo: Int32,
                 current_forward: Int32, current_backward: Int32))))
             # alias MiniNetSet = Array(Array(Hash(Symbol, Hash(Symbol, Int32))))
             # alias MiniNetSet = Array(Array(Ai4cr::NeuralNetwork::Cmn::MiniNet)
@@ -38,15 +38,15 @@ module Ai4cr
                   in_size = input_sizes[sli]
                   output_size = node_output_sizes[sli]
                   time_col_indexes.map do |ti|
-                    previous_time_column = ti == 0 ? 0 : output_size
+                    tc_previous_channel_forward = ti == 0 ? 0 : output_size
 
                     # previous_channel_forward_or_backward = ti == 0 ? 0 : node_output_sizes[sli - 1] # in_size : output_size
                     previous_channel_forward_or_backward = [0, 1].includes?(sli) ? 0 : hidden_size # node_output_sizes[sli - 1]
 
-                    # previous_synaptic_layer_channel_sl_or_combo = ti == 0 ? 0 : node_output_sizes[sli - 1]     # in_size # ti == 0 ? in_size : output_size
+                    # sl_previous_input_or_combo = ti == 0 ? 0 : node_output_sizes[sli - 1]     # in_size # ti == 0 ? in_size : output_size
 
-                    previous_synaptic_layer_channel_sl_or_combo = sli == 0 ? in_size : hidden_size
-                    # previous_synaptic_layer_channel_sl_or_combo = case
+                    sl_previous_input_or_combo = sli == 0 ? in_size : hidden_size
+                    # sl_previous_input_or_combo = case
                     #   when sli == 0
                     #     in_size
                     #   # when sli == 1
@@ -55,28 +55,28 @@ module Ai4cr
                     #     hidden_size # node_output_sizes[sli - 1]
                     #   end
 
-                    next_time_column = ti == time_col_indexes.last ? 0 : output_size
+                    tc_next_channel_backward = ti == time_col_indexes.last ? 0 : output_size
                     {
                       channel_forward: {
                         # enabled: sli > 0,
-                        current_self_mem:                            sli == 0 ? 0 : output_size,
-                        previous_synaptic_layer_channel_sl_or_combo: sli == 0 ? 0 : previous_synaptic_layer_channel_sl_or_combo, # sli == 0 ? 0 : in_size,
-                        previous_synaptic_layer_channel_forward:     previous_channel_forward_or_backward,                       # sli == 0 ? 0 : previous_channel_forward_or_backward,
-                        previous_time_column:                        sli == 0 ? 0 : previous_time_column,
+                        current_self_mem:            sli == 0 ? 0 : output_size,
+                        sl_previous_input_or_combo:  sli == 0 ? 0 : sl_previous_input_or_combo, # sli == 0 ? 0 : in_size,
+                        sl_previous_channel_forward: previous_channel_forward_or_backward,      # sli == 0 ? 0 : previous_channel_forward_or_backward,
+                        tc_previous_channel_forward: sli == 0 ? 0 : tc_previous_channel_forward,
                       },
                       channel_backward: {
                         # enabled: sli > 0,
-                        current_self_mem:                            sli == 0 ? 0 : output_size,
-                        previous_synaptic_layer_channel_sl_or_combo: sli == 0 ? 0 : previous_synaptic_layer_channel_sl_or_combo, # sli == 0 ? 0 : in_size,
-                        previous_synaptic_layer_channel_backward:    previous_channel_forward_or_backward,                       # sli == 0 ? 0 : previous_channel_forward_or_backward,
-                        next_time_column:                            sli == 0 ? 0 : next_time_column,
+                        current_self_mem:             sli == 0 ? 0 : output_size,
+                        sl_previous_input_or_combo:   sli == 0 ? 0 : sl_previous_input_or_combo, # sli == 0 ? 0 : in_size,
+                        sl_previous_channel_backward: previous_channel_forward_or_backward,      # sli == 0 ? 0 : previous_channel_forward_or_backward,
+                        tc_next_channel_backward:     sli == 0 ? 0 : tc_next_channel_backward,
                       },
                       channel_sl_or_combo: {
                         # disabled: false,
-                        current_self_mem:                            output_size,
-                        previous_synaptic_layer_channel_sl_or_combo: previous_synaptic_layer_channel_sl_or_combo, # sli == 0 ? in_size : node_output_sizes[sli - 1], # previous_synaptic_layer_channel_sl_or_combo,
-                        current_forward:                             sli == 0 ? 0 : output_size,
-                        current_backward:                            sli == 0 ? 0 : output_size,
+                        current_self_mem:           output_size,
+                        sl_previous_input_or_combo: sl_previous_input_or_combo, # sli == 0 ? in_size : node_output_sizes[sli - 1], # sl_previous_input_or_combo,
+                        current_forward:            sli == 0 ? 0 : output_size,
+                        current_backward:           sli == 0 ? 0 : output_size,
                       },
                     }
                   end
