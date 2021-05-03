@@ -37,46 +37,28 @@ module Ai4cr
                 synaptic_layer_indexes.map do |sli|
                   in_size = input_sizes[sli]
                   output_size = node_output_sizes[sli]
-                  time_col_indexes.map do |ti|
-                    tc_previous_channel_forward = ti == 0 ? 0 : output_size
-
-                    # previous_channel_forward_or_backward = ti == 0 ? 0 : node_output_sizes[sli - 1] # in_size : output_size
-                    previous_channel_forward_or_backward = [0, 1].includes?(sli) ? 0 : hidden_size # node_output_sizes[sli - 1]
-
-                    # sl_previous_input_or_combo = ti == 0 ? 0 : node_output_sizes[sli - 1]     # in_size # ti == 0 ? in_size : output_size
-
-                    sl_previous_input_or_combo = sli == 0 ? in_size : hidden_size
-                    # sl_previous_input_or_combo = case
-                    #   when sli == 0
-                    #     in_size
-                    #   # when sli == 1
-                    #   #   node_output_sizes[sli - 1] # 0
-                    #   else
-                    #     hidden_size # node_output_sizes[sli - 1]
-                    #   end
-
-                    tc_next_channel_backward = ti == time_col_indexes.last ? 0 : output_size
+                  time_col_indexes.map do |tci|
                     {
                       channel_forward: {
                         # enabled: sli > 0,
-                        current_self_mem:            sli == 0 ? 0 : output_size,
-                        sl_previous_input_or_combo:  sli == 0 ? 0 : sl_previous_input_or_combo, # sli == 0 ? 0 : in_size,
-                        sl_previous_channel_forward: previous_channel_forward_or_backward,      # sli == 0 ? 0 : previous_channel_forward_or_backward,
-                        tc_previous_channel_forward: sli == 0 ? 0 : tc_previous_channel_forward,
+                        current_self_mem:            sli == 0 ? 0 : hidden_size,
+                        sl_previous_input_or_combo:  sli == 0 ? 0 : in_size,
+                        sl_previous_channel_forward: sli <= 1 ? 0 : hidden_size,
+                        tc_previous_channel_forward: sli == 0 ? 0 : (tci == 0 ? 0 : hidden_size),
                       },
                       channel_backward: {
                         # enabled: sli > 0,
-                        current_self_mem:             sli == 0 ? 0 : output_size,
-                        sl_previous_input_or_combo:   sli == 0 ? 0 : sl_previous_input_or_combo, # sli == 0 ? 0 : in_size,
-                        sl_previous_channel_backward: previous_channel_forward_or_backward,      # sli == 0 ? 0 : previous_channel_forward_or_backward,
-                        tc_next_channel_backward:     sli == 0 ? 0 : tc_next_channel_backward,
+                        current_self_mem:             sli == 0 ? 0 : hidden_size,
+                        sl_previous_input_or_combo:   sli == 0 ? 0 : in_size,
+                        sl_previous_channel_backward: sli <= 1 ? 0 : hidden_size,
+                        tc_next_channel_backward:     sli == 0 ? 0 : (tci == time_col_indexes.last ? 0 : hidden_size),
                       },
                       channel_sl_or_combo: {
                         # disabled: false,
                         current_self_mem:           output_size,
-                        sl_previous_input_or_combo: sl_previous_input_or_combo, # sli == 0 ? in_size : node_output_sizes[sli - 1], # sl_previous_input_or_combo,
-                        current_forward:            sli == 0 ? 0 : output_size,
-                        current_backward:           sli == 0 ? 0 : output_size,
+                        sl_previous_input_or_combo: in_size,
+                        current_forward:            sli == 0 ? 0 : hidden_size,
+                        current_backward:           sli == 0 ? 0 : hidden_size,
                       },
                     }
                   end
