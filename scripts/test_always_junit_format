@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-# crystal spec --release --no-debug --time --error-trace --no-color --junit_output test-results/results
-crystal spec --release --no-debug --time --error-trace --no-color --junit_output test-results/spec
+crystal spec --release --no-debug --time --error-trace --no-color --junit_output test-results/results
+# crystal spec --release --no-debug --time --error-trace --no-color --junit_output test-results/spec
