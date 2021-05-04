@@ -297,8 +297,6 @@ module Ai4cr
         inputs_sequence.each_with_index do |inputs, i|
           outputs = outputs_sequence[i]
 
-          team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
-
           if team_members.size > 1 && and_cross_breed
             team_members = cross_breed(team_members)
             team_members = train_team_in_parallel(inputs, outputs, team_members, train_qty)
