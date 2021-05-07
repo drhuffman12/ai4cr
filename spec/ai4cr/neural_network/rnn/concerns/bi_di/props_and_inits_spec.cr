@@ -2,6 +2,43 @@ require "./../../../../../spectator_helper"
 
 Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
   # NOTE: This also tests Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PaiDistinct. Maybe those tests should be pulled out?
+
+  def check_mini_net_set(rnn_bi_di)
+    # sli_last = rnn_bi_di.synaptic_layer_indexes.last
+    rnn_bi_di.synaptic_layer_indexes.map do |sli|
+      rnn_bi_di.time_col_indexes.map do |tci|
+        channels = [:channel_forward, :channel_backward, :channel_sl_or_combo]
+        channels.each do |channel_symbol|
+          # puts "v"*80
+          expect(channel_symbol).to be_a(Symbol)
+
+          # p! sli
+          # p! tci
+          # p! channel_symbol
+          # if rnn_bi_di.mini_net_set[sli][tci].keys.includes?(channel_symbol)
+          #   p! rnn_bi_di.mini_net_set[sli][tci][channel_symbol]
+          #   puts "MiniNet at: [#{sli}][#{tci}][#{channel_symbol}]"
+          # else
+          #   puts "MiniNet NOT at: [#{sli}][#{tci}][#{channel_symbol}]"
+          # end
+
+          if sli == 0 && channel_symbol != :channel_sl_or_combo
+            expect(rnn_bi_di.mini_net_set[sli][tci].keys).not_to contain(channel_symbol)
+          else
+            expect(rnn_bi_di.mini_net_set[sli][tci].keys).to contain(channel_symbol)
+
+            mn_input_sizes = rnn_bi_di.node_input_sizes[sli][tci][channel_symbol]
+            expected_input_size_total = mn_input_sizes.values.sum
+            mini_net = rnn_bi_di.mini_net_set[sli][tci][channel_symbol]
+
+            expect(mini_net.height).to eq(expected_input_size_total)
+          end
+          # puts "^"*80
+        end
+      end
+    end
+  end
+
   describe "#initialize" do
     let(hidden_size_given) { 0 } # aka the default
     let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new(hidden_size_given: hidden_size_given) }
@@ -163,6 +200,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
           expect(rnn_bi_di.node_input_sizes).to eq(node_input_sizes_expected)
         end
       end
+
+      context "mini_net_set" do
+        # let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new(hidden_size_given: hidden_size_given) }
+
+        it "each are of the expected width and height" do
+          check_mini_net_set(rnn_bi_di)
+        end
+      end
     end
 
     context "when passing in hidden_size_given of 10" do
@@ -224,6 +269,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
           puts
           puts "-"*80
           expect(rnn_bi_di.node_input_sizes).to eq(node_input_sizes_expected)
+        end
+      end
+
+      context "mini_net_set" do
+        # let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new(hidden_size_given: hidden_size_given) }
+
+        it "each are of the expected width and height" do
+          check_mini_net_set(rnn_bi_di)
         end
       end
     end
@@ -426,6 +479,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
           puts
           puts "-"*80
           expect(rnn_bi_di.node_input_sizes).to eq(node_input_sizes_expected)
+        end
+      end
+
+      context "mini_net_set" do
+        # let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new(hidden_size_given: hidden_size_given) }
+
+        it "each are of the expected width and height" do
+          check_mini_net_set(rnn_bi_di)
         end
       end
     end
@@ -694,6 +755,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
           expect(rnn_bi_di.node_input_sizes).to eq(node_input_sizes_expected)
         end
       end
+
+      context "mini_net_set" do
+        # let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new(hidden_size_given: hidden_size_given) }
+
+        it "each are of the expected width and height" do
+          check_mini_net_set(rnn_bi_di)
+        end
+      end
     end
 
     # it "just some debugging" do # TODO: REMOVE before merging!
@@ -717,8 +786,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
     #       rnn_bi_di.time_col_indexes.map do |ti|
     #         mini_net = rnn_bi_di.mini_net_set[li][ti]
 
-    #         expected_input_size = rnn_bi_di.node_input_sizes[li][ti].values.sum
-    #         expect(mini_net.height).to eq(expected_input_size)
+    #         expected_input_size_total = rnn_bi_di.node_input_sizes[li][ti].values.sum
+    #         expect(mini_net.height).to eq(expected_input_size_total)
 
     #         expected_output_size = rnn_bi_di.node_output_sizes[li]
     #         expect(mini_net.width).to eq(expected_output_size)
@@ -727,4 +796,28 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
     #   end
     # end
   end
+
+  # # sli: 0
+  # {
+  #   # sli: 0, tci: 0
+  #   channel_forward: {
+  #     current_self_mem:            0,
+  #     sl_previous_input_or_combo:  0,
+  #     sl_previous_channel_forward: 0,
+  #     tc_previous_channel_forward: 0,
+  #   },
+  #   channel_backward: {
+  #     current_self_mem:             0,
+  #     sl_previous_input_or_combo:   0,
+  #     sl_previous_channel_backward: 0,
+  #     tc_next_channel_backward:     0,
+  #   },
+  #   channel_sl_or_combo: {
+  #     current_self_mem:           rnn_bi_di.hidden_size,
+  #     sl_previous_input_or_combo: rnn_bi_di.input_size,
+  #     current_forward:            0,
+  #     current_backward:           0,
+  #   },
+  # },
+
 end
