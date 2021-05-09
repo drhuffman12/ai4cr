@@ -3,7 +3,7 @@ require "./../../../../../spectator_helper"
 Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
   # NOTE: This also tests Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PaiDistinct. Maybe those tests should be pulled out?
 
-  def check_mini_net_set(rnn_bi_di)
+  def expect_mini_net_set(rnn_bi_di)
     # sli_last = rnn_bi_di.synaptic_layer_indexes.last
     rnn_bi_di.synaptic_layer_indexes.map do |sli|
       rnn_bi_di.time_col_indexes.map do |tci|
@@ -204,8 +204,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
       context "mini_net_set" do
         # let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new(hidden_size_given: hidden_size_given) }
 
-        it "each are of the expected width and height" do
-          check_mini_net_set(rnn_bi_di)
+        it "each mini_net is of the expected width and height" do
+          expect_mini_net_set(rnn_bi_di)
         end
       end
     end
@@ -275,8 +275,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
       context "mini_net_set" do
         # let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new(hidden_size_given: hidden_size_given) }
 
-        it "each are of the expected width and height" do
-          check_mini_net_set(rnn_bi_di)
+        it "each mini_net is of the expected width and height" do
+          expect_mini_net_set(rnn_bi_di)
         end
       end
     end
@@ -485,8 +485,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
       context "mini_net_set" do
         # let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new(hidden_size_given: hidden_size_given) }
 
-        it "each are of the expected width and height" do
-          check_mini_net_set(rnn_bi_di)
+        it "each mini_net is of the expected width and height" do
+          expect_mini_net_set(rnn_bi_di)
         end
       end
     end
@@ -759,8 +759,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
       context "mini_net_set" do
         # let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new(hidden_size_given: hidden_size_given) }
 
-        it "each are of the expected width and height" do
-          check_mini_net_set(rnn_bi_di)
+        it "each mini_net is of the expected width and height" do
+          expect_mini_net_set(rnn_bi_di)
         end
       end
     end
@@ -781,7 +781,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
     # context "mini_net_set" do
     #   let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new }
 
-    #   it "each are of the expected width and height" do
+    #   it "each mini_net is of the expected width and height" do
     #     rnn_bi_di.synaptic_layer_indexes.map do |li|
     #       rnn_bi_di.time_col_indexes.map do |ti|
     #         mini_net = rnn_bi_di.mini_net_set[li][ti]

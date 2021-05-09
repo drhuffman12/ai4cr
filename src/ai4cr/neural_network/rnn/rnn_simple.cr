@@ -1,3 +1,4 @@
+require "./concerns/simple/aliases.cr"
 require "./concerns/common/props_and_inits.cr"
 require "./concerns/simple/pai_distinct.cr"
 require "./concerns/simple/calc_guess.cr"
@@ -8,6 +9,10 @@ require "./concerns/common/data_utils.cr"
 module Ai4cr
   module NeuralNetwork
     module Rnn
+      # module Concerns::Simple
+      #   alias InputSetGiven = Array(Array(Float64))
+      #   alias OutputSetGiven = Array(Array(Float64))
+      # end
       class RnnSimple
         # Simple RNN w/ inputs, hidden forward-feeding recurrent layer(s), outputs, and some other params
 

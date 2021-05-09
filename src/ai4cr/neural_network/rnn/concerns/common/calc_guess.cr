@@ -44,6 +44,7 @@ module Ai4cr
             getter synaptic_layer_qty = -1
 
             getter synaptic_layer_indexes = Array(Int32).new
+            getter time_col_indexes_last = 0
             getter time_col_indexes = Array(Int32).new
 
             getter synaptic_layer_indexes_reversed = Array(Int32).new

@@ -5,7 +5,6 @@ module Ai4cr
         module BiDi
           module PaiDistinct
             # 'Pai' aka short for 'PropsAndInits'
-
             property node_input_sizes = NodeInputSizes.new
             property mini_net_set = MiniNetSet.new
 

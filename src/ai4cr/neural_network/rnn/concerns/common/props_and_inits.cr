@@ -12,6 +12,10 @@ module Ai4cr
             OUTPUT_SIZE_MIN         =  1
             LEARNING_STYLES_DEFAULT = [LS_RELU]
 
+            property input_set_given : Array(Array(Float64))
+            property output_set_expected : Array(Array(Float64))
+            getter time_col_indexes_last : Int32 = 0
+
             # TODO: Handle usage of a 'structure' param in 'initialize'
             # def initialize(@time_col_qty = TIME_COL_QTY_MIN, @structure = [INPUT_SIZE_MIN, OUTPUT_SIZE_MIN])
             #   initialize(time_col_qty, structure[0], structure[-1], structure[1..-2], )
@@ -129,6 +133,7 @@ module Ai4cr
             def init_network_mini_net_set
               @synaptic_layer_indexes = calc_synaptic_layer_indexes
               @time_col_indexes = calc_time_col_indexes
+              @time_col_indexes_last = @time_col_indexes.last
 
               @synaptic_layer_indexes_reversed = @synaptic_layer_indexes.reverse
               @time_col_indexes_reversed = @time_col_indexes.reverse
@@ -142,8 +147,8 @@ module Ai4cr
 
               @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }
 
-              @input_set_given = Array(Array(Float64)).new
-              @output_set_expected = Array(Array(Float64)).new
+              @input_set_given = Array(Array(Float64)).new # init_input_set_given
+              @output_set_expected = Array(Array(Float64)).new # init_output_set_expected
             end
 
             def valid?
