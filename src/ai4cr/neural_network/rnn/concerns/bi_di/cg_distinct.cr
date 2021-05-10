@@ -12,7 +12,7 @@ module Ai4cr
 
               @input_set_given = input_set_given
 
-              time_col_indexes_last = @time_col_indexes.last
+              # time_col_indexes_last = @time_col_indexes.last
               synaptic_layer_indexes.each do |sli|
                 if sli > 0
                   channel = :channel_forward
@@ -77,11 +77,12 @@ module Ai4cr
             # end
 
             # def inputs_for_channel_sl_or_combo
+            # ameba:disable Metrics/CyclomaticComplexity
             def inputs_for(sli, tci, channel)
               # ins = Array(Array(Float64)).new
               # ins = Array(Array(Hash(Symbol, Float64))).new
               ins = Hash(Symbol, Array(Float64)).new
-              
+
               # memory
               if sli == 0 && channel == :channel_sl_or_combo
                 ins[:memory] = mini_net_set[sli][tci][channel].outputs_guessed
@@ -93,30 +94,38 @@ module Ai4cr
               if sli == 0 && channel == :channel_sl_or_combo
                 ins[:prior_sli] = @input_set_given[tci] # if channel == :channel_sl_or_combo
               else
-                ins[:prior_sli] = mini_net_set[sli-1][tci][:channel_sl_or_combo].outputs_guessed
+                ins[:prior_sli] = mini_net_set[sli - 1][tci][:channel_sl_or_combo].outputs_guessed
               end
-              
+
+              # current forward and backward into current combo
+              if channel == :channel_sl_or_combo
+                if sli > 0
+                  ins[:current_forward] = mini_net_set[sli][tci][:channel_forward].outputs_guessed
+                  ins[:current_backward] = mini_net_set[sli][tci][:channel_backward].outputs_guessed
+                end
+              end
+
               # if channel == :channel_sl_or_combo
-                # ins << mini_net_set[sli][tci+1].outputs_guessed unless sli == 0
+              # ins << mini_net_set[sli][tci+1].outputs_guessed unless sli == 0
               # end
 
               if channel == :channel_forward
                 # prior tci outputs (unless sli == 0 or tci == 0)
-                ins[:prior_forward] = mini_net_set[sli][tci-1][channel].outputs_guessed unless sli == 0 || tci == 0
+                ins[:prior_forward] = mini_net_set[sli][tci - 1][channel].outputs_guessed unless sli == 0 || tci == 0
               end
 
               if channel == :channel_backward
                 # next tci outputs (unless sli == 0 or tci == max tci)
-                ins[:prior_backward] = mini_net_set[sli][tci+1][channel].outputs_guessed unless sli == 0 || tci >= @time_col_indexes_last
+                ins[:prior_backward] = mini_net_set[sli][tci + 1][channel].outputs_guessed unless sli == 0 || tci >= @time_col_indexes_last
               end
 
               # bias
               if sli == 0 && channel == :channel_sl_or_combo
                 # ins << mini_net_set[sli][tci][channel].outputs_guessed
                 ins[:bias] = [@bias_default] if !@bias_disabled
-              # elsif sli > 0
-              #   # ins << mini_net_set[sli][tci][channel].outputs_guessed
-              #   ins << [@bias_default] if !@bias_disabled
+                # elsif sli > 0
+                #   # ins << mini_net_set[sli][tci][channel].outputs_guessed
+                #   ins << [@bias_default] if !@bias_disabled
               end
 
               # if sli == 0 && channel == :channel_sl_or_combo
@@ -133,7 +142,6 @@ module Ai4cr
               #   mini_net_set[sli-1][tci].outputs_guessed
               # end
 
-
               # case
               # when sli == 0 && tci == 0
               #   @input_set_given[tci]
@@ -145,6 +153,7 @@ module Ai4cr
               #   step_outputs_guessed_from_previous_li(sli, tci) + step_outputs_guessed_from_previous_tc(sli, tci)
               # end
 
+
             rescue ex
               p! ["vvvv", :inputs_for, sli, tci, channel]
               p! ex.class
@@ -153,6 +162,8 @@ module Ai4cr
               p! ["^^^^", :inputs_for, sli, tci, channel]
               raise ex
             end
+
+            # ameba:enable Metrics/CyclomaticComplexity
 
             def outputs_guessed
               sli = synaptic_layer_indexes.last

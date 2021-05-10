@@ -147,7 +147,7 @@ module Ai4cr
 
               @all_output_errors = synaptic_layer_indexes.map { time_col_indexes.map { 0.0 } }
 
-              @input_set_given = Array(Array(Float64)).new # init_input_set_given
+              @input_set_given = Array(Array(Float64)).new     # init_input_set_given
               @output_set_expected = Array(Array(Float64)).new # init_output_set_expected
             end
 

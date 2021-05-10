@@ -1,16 +1,18 @@
 require "./../../../../../spectator_helper"
 
 Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
-   describe "#inputs_for" do
+  describe "#inputs_for" do
     let(hidden_size_given) { 0 } # aka the default
     let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new(hidden_size_given: hidden_size_given) }
 
     let(input_set_given_example) {
       [
-        [0.0,0.0,0.0],
-        [0.0,0.0]
+        [0.0, 0.0, 0.0],
+        [0.0, 0.0],
       ]
     }
+    let(input_set_given_example) { [[0.1, 0.2], [0.3, 0.4]] }
+
     before_each do
       rnn_bi_di.input_set_given = input_set_given_example
     end
@@ -114,25 +116,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
     }
 
     let(node_input_sets_expected) {
-
     }
 
     def expect_input_sizes_channel_sl_or_combo(rnn_bi_di, node_input_sizes_expected)
       rnn_bi_di.synaptic_layer_indexes.each do |sli|
+        include_bias = sli == 0
         rnn_bi_di.time_col_indexes.each do |tci|
           channel = :channel_sl_or_combo
-          input_size_expected = node_input_sizes_expected[sli][tci][channel].values.sum
-          input_sizes_actual = rnn_bi_di.inputs_for(sli, tci, channel).values.flatten.size
-
-          puts
-          p! sli
-          p! tci
-          p! channel
-          p! input_size_expected
-          p! input_sizes_actual
-          puts
-
-          expect(input_sizes_actual).to eq(input_size_expected)
+          expect_input_sizes(rnn_bi_di, node_input_sizes_expected, sli, tci, channel, include_bias)
         end
       end
     end
@@ -141,22 +132,10 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
       rnn_bi_di.synaptic_layer_indexes.each do |sli|
         rnn_bi_di.time_col_indexes.each do |tci|
           if sli = 0
-            expect(1).to eq(0)
+            # expect(1).to eq(1)
           else
-            # channel_forward
             channel = :channel_forward
-            input_size_expected = node_input_sizes_expected[sli][tci][channel].values.sum
-            input_sizes_actual = rnn_bi_di.inputs_for(sli, tci, channel).values.flatten.size
-
-            puts
-            p! sli
-            p! tci
-            p! channel
-            p! input_size_expected
-            p! input_sizes_actual
-            puts
-
-            expect(input_sizes_actual).to eq(input_size_expected)
+            expect_input_sizes(rnn_bi_di, node_input_sizes_expected, sli, tci, channel)
           end
         end
       end
@@ -166,25 +145,32 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
       rnn_bi_di.synaptic_layer_indexes.each do |sli|
         rnn_bi_di.time_col_indexes.each do |tci|
           if sli = 0
-            expect(1).to eq(0)
+            # expect(1).to eq(1)
           else
-            # channel_backward
             channel = :channel_backward
-            input_size_expected = node_input_sizes_expected[sli][tci][channel].values.sum
-            input_sizes_actual = rnn_bi_di.inputs_for(sli, tci, channel).values.flatten.size
-
-            puts
-            p! sli
-            p! tci
-            p! channel
-            p! input_size_expected
-            p! input_sizes_actual
-            puts
-
-            expect(input_sizes_actual).to eq(input_size_expected)
+            expect_input_sizes(rnn_bi_di, node_input_sizes_expected, sli, tci, channel)
           end
         end
       end
+    end
+
+    def expect_input_sizes(rnn_bi_di, node_input_sizes_expected, sli, tci, channel, include_bias = false)
+      input_size_expected = (include_bias ? 1 : 0) + node_input_sizes_expected[sli][tci][channel].values.sum
+      inputs_for = rnn_bi_di.inputs_for(sli, tci, channel)
+      input_sizes_actual = inputs_for.values.flatten.size
+
+      puts
+      p! sli
+      p! tci
+      p! channel
+      p! node_input_sizes_expected[sli][tci][channel]
+      p! inputs_for.class
+      p! inputs_for
+      p! input_size_expected
+      p! input_sizes_actual
+      puts
+
+      expect(input_sizes_actual).to eq(input_size_expected)
     end
 
     context "when NOT passing in any values" do
@@ -195,7 +181,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
           # expect(rnn_bi_di.mini_net_set)
           p! rnn_bi_di.input_set_given.class
           p! rnn_bi_di.input_set_given
-  
+
           expect_input_sizes_channel_sl_or_combo(rnn_bi_di, node_input_sizes_expected)
         end
 
@@ -220,6 +206,31 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
     context "when passing in hidden_size_given of 10" do
       let(hidden_size_given) { 10 }
 
+      context "gathers expected inputs/outputs" do
+        it "re :channel_sl_or_combo" do
+          # expect(rnn_bi_di.mini_net_set)
+          p! rnn_bi_di.input_set_given.class
+          p! rnn_bi_di.input_set_given
+
+          expect_input_sizes_channel_sl_or_combo(rnn_bi_di, node_input_sizes_expected)
+        end
+
+        it "re :channel_forward" do
+          # expect(rnn_bi_di.mini_net_set)
+          p! rnn_bi_di.input_set_given.class
+          p! rnn_bi_di.input_set_given
+
+          expect_input_sizes_channel_forward(rnn_bi_di, node_input_sizes_expected)
+        end
+
+        it "re :channel_backwardo" do
+          # expect(rnn_bi_di.mini_net_set)
+          p! rnn_bi_di.input_set_given.class
+          p! rnn_bi_di.input_set_given
+
+          expect_input_sizes_channel_backward(rnn_bi_di, node_input_sizes_expected)
+        end
+      end
     end
 
     context "when passing in hidden_layer_qty of 2, hidden_size_given of 10" do
@@ -366,6 +377,32 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
           ],
         ]
       }
+
+      context "gathers expected inputs/outputs" do
+        it "re :channel_sl_or_combo" do
+          # expect(rnn_bi_di.mini_net_set)
+          p! rnn_bi_di.input_set_given.class
+          p! rnn_bi_di.input_set_given
+
+          expect_input_sizes_channel_sl_or_combo(rnn_bi_di, node_input_sizes_expected)
+        end
+
+        it "re :channel_forward" do
+          # expect(rnn_bi_di.mini_net_set)
+          p! rnn_bi_di.input_set_given.class
+          p! rnn_bi_di.input_set_given
+
+          expect_input_sizes_channel_forward(rnn_bi_di, node_input_sizes_expected)
+        end
+
+        it "re :channel_backwardo" do
+          # expect(rnn_bi_di.mini_net_set)
+          p! rnn_bi_di.input_set_given.class
+          p! rnn_bi_di.input_set_given
+
+          expect_input_sizes_channel_backward(rnn_bi_di, node_input_sizes_expected)
+        end
+      end
     end
 
     context "when passing in time_col_qty of 3, hidden_layer_qty of 2, hidden_size_given of 10" do
@@ -576,14 +613,38 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
           ],
         ]
       }
+      let(input_set_given_example) { [[0.1, 0.2], [0.3, 0.4], [0.5, 0.6]] }
 
+      context "gathers expected inputs/outputs" do
+        it "re :channel_sl_or_combo" do
+          # expect(rnn_bi_di.mini_net_set)
+          p! rnn_bi_di.input_set_given.class
+          p! rnn_bi_di.input_set_given
+
+          expect_input_sizes_channel_sl_or_combo(rnn_bi_di, node_input_sizes_expected)
+        end
+
+        it "re :channel_forward" do
+          # expect(rnn_bi_di.mini_net_set)
+          p! rnn_bi_di.input_set_given.class
+          p! rnn_bi_di.input_set_given
+
+          expect_input_sizes_channel_forward(rnn_bi_di, node_input_sizes_expected)
+        end
+
+        it "re :channel_backwardo" do
+          # expect(rnn_bi_di.mini_net_set)
+          p! rnn_bi_di.input_set_given.class
+          p! rnn_bi_di.input_set_given
+
+          expect_input_sizes_channel_backward(rnn_bi_di, node_input_sizes_expected)
+        end
+      end
     end
   end
 end
 
-
 # ####
-
 # context "when NOT passing in any values" do
 #   # let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new }
 
