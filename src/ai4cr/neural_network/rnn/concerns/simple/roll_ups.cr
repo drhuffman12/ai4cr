@@ -2,7 +2,7 @@ module Ai4cr
   module NeuralNetwork
     module Rnn
       module Concerns
-        module Common
+        module Simple
           module RollUps
             def all_mini_net_outputs
               synaptic_layer_indexes.map do |li|

@@ -4,7 +4,7 @@ require "./concerns/bi_di/pai_distinct.cr"
 require "./concerns/common/calc_guess.cr"
 require "./concerns/bi_di/cg_distinct.cr"
 require "./concerns/common/train_and_adjust.cr"
-require "./concerns/common/roll_ups.cr"
+require "./concerns/bi_di/roll_ups.cr"
 require "./concerns/common/data_utils.cr"
 
 module Ai4cr
@@ -29,8 +29,8 @@ module Ai4cr
         include Concerns::Common::TrainAndAdjust
         # include Concerns::BiDi::TrainAndAdjust
 
-        include Concerns::Common::RollUps
-        # include Concerns::BiDi::RollUps
+        # include Concerns::Common::RollUps
+        include Concerns::BiDi::RollUps
 
         include Concerns::Common::DataUtils
 

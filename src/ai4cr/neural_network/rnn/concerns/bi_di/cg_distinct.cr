@@ -140,34 +140,33 @@ module Ai4cr
             #   w
             # end
 
-            def weights
-              empty_hash = Hash(Symbol, Array(Array(Float64))).new
-              synaptic_layer_indexes.map do |sli|
-                time_col_indexes.map do |tci|
-                  channel = :channel_sl_or_combo
-                  w = {channel => mini_net_set[sli][tci][channel].weights}.merge(
-                    if sli > 0
-                      channel = :channel_backward
-                      {channel => mini_net_set[sli][tci][channel].weights}
-                    else
-                      empty_hash
-                    end
-                  ).merge(
-                    if sli > 0
-                      channel = :channel_forward
-                      {channel => mini_net_set[sli][tci][channel].weights}
-                    else
-                      empty_hash
-                    end
-                  )
-                  w2 = Hash(Symbol, Array(Array(Float64))).new
-                  w2[:channel_forward] = w[:channel_forward] if w.keys.includes?(:channel_forward)
-                  w2[:channel_backward] = w[:channel_backward] if w.keys.includes?(:channel_backward)
-                  w2[:channel_sl_or_combo] = w[:channel_sl_or_combo]
-
-                  w2
+            def all_mini_nets_each(&block)
+              synaptic_layer_indexes.each do |sli|
+                time_col_indexes.each do |tci|
+                  [:channel_backward, :channel_forward, :channel_sl_or_combo].each do |channel|
+                    [channel, yield @mini_net_set[sli][tci][channel]] if @mini_net_set[sli][tci].keys.includes?(channel)
+                  end
                 end
               end
+            end
+
+            def all_mini_nets_map(&block)
+              channels_first_sli = [:channel_sl_or_combo]
+              channels_other_sli = [:channel_forward, :channel_backward, :channel_sl_or_combo]
+              synaptic_layer_indexes.map do |sli|
+                channels = (sli == 0) ? channels_first_sli : channels_other_sli
+                time_col_indexes.map do |tci|
+                  channels.map do |channel|
+                    [channel, yield @mini_net_set[sli][tci][channel]]
+                  end.to_h
+                end
+              end
+            end
+
+            def weights
+              all_mini_nets_map do |mini_net|
+                mini_net.weights
+              end # as(Array(Array(Hash(Symbol, Array(Array(Float64))))))
             end
 
             # def weights=(w : Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::Weights)

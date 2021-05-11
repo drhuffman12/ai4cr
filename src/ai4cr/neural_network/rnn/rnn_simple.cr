@@ -3,7 +3,7 @@ require "./concerns/common/props_and_inits.cr"
 require "./concerns/simple/pai_distinct.cr"
 require "./concerns/simple/calc_guess.cr"
 require "./concerns/common/train_and_adjust.cr"
-require "./concerns/common/roll_ups.cr"
+require "./concerns/simple/roll_ups.cr"
 require "./concerns/common/data_utils.cr"
 
 module Ai4cr
@@ -26,7 +26,7 @@ module Ai4cr
         include Concerns::Simple::CalcGuess
 
         include Concerns::Common::TrainAndAdjust
-        include Concerns::Common::RollUps
+        include Concerns::Simple::RollUps
         include Concerns::Common::DataUtils
 
         def clone
