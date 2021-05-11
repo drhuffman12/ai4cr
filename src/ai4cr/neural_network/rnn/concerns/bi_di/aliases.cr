@@ -25,6 +25,8 @@ module Ai4cr
           # alias MiniNetSet = Array(Array(Hash(Symbol, Hash(Symbol, Int32))))
           # alias MiniNetSet = Array(Array(Ai4cr::NeuralNetwork::Cmn::MiniNet)
           alias MiniNetSet = Array(Array(Hash(Symbol, Cmn::MiniNet)))
+
+          alias Weights = Array(Array(Hash(Symbol, Array(Array(Float64)))))
         end
       end
     end

@@ -116,13 +116,85 @@ module Ai4cr
 
             # ameba:enable Metrics/CyclomaticComplexity
 
+            # def weights
+            #   w = Array(Array(Symbol,Array(Array(Float64))))
+            #   synaptic_layer_indexes.each do |sli|
+            #     # channels = [] of Array(Symbol, String)
+            #     if sli > 0
+            #       channel = :channel_forward
+            #       time_col_indexes.each do |tci|
+            #         w[sli][tci][channel] = mini_net_set[sli][tci].weights
+            #       end
+
+            #       channel = :channel_backward
+            #       time_col_indexes_reversed.each do |tci|
+            #         w[sli][tci][channel] = mini_net_set[sli][tci].weights
+            #       end
+            #     end
+
+            #     channel = :channel_sl_or_combo
+            #     time_col_indexes.each do |tci|
+            #       w[sli][tci][channel] = mini_net_set[sli][tci].weights
+            #     end
+            #   end
+            #   w
+            # end
+
+            def weights
+              empty_hash = Hash(Symbol, Array(Array(Float64))).new
+              synaptic_layer_indexes.map do |sli|
+                time_col_indexes.map do |tci|
+                  channel = :channel_sl_or_combo
+                  w = {channel => mini_net_set[sli][tci][channel].weights}.merge(
+                    if sli > 0
+                      channel = :channel_backward
+                      {channel => mini_net_set[sli][tci][channel].weights}
+                    else
+                      empty_hash
+                    end
+                  ).merge(
+                    if sli > 0
+                      channel = :channel_forward
+                      {channel => mini_net_set[sli][tci][channel].weights}
+                    else
+                      empty_hash
+                    end
+                  )
+                  w2 = Hash(Symbol, Array(Array(Float64))).new
+                  w2[:channel_forward] = w[:channel_forward] if w.keys.includes?(:channel_forward)
+                  w2[:channel_backward] = w[:channel_backward] if w.keys.includes?(:channel_backward)
+                  w2[:channel_sl_or_combo] = w[:channel_sl_or_combo]
+
+                  w2
+                end
+              end
+            end
+
+            # def weights=(w : Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::Weights)
+            def weights=(w : BiDi::Weights)
+              synaptic_layer_indexes.map do |sli|
+                time_col_indexes.map do |tci|
+                  if sli > 0
+                    channel = :channel_forward
+                    mini_net_set[sli][tci][channel].weights = w[sli][tci][channel]
+
+                    channel = :channel_backward
+                    mini_net_set[sli][tci][channel].weights = w[sli][tci][channel]
+                  end
+
+                  channel = :channel_sl_or_combo
+                  mini_net_set[sli][tci][channel].weights = w[sli][tci][channel]
+                end
+              end
+            end
+
             def outputs_guessed
               sli = synaptic_layer_indexes.last
 
               time_col_indexes.map do |tci|
                 a = mini_net_set[sli]
                 b = a[tci]
-                guessed = b.outputs_guessed
+                guessed = b[:channel_sl_or_combo].outputs_guessed
                 guessed
               end
             end
