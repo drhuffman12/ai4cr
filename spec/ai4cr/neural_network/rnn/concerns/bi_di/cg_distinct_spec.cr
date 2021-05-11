@@ -155,11 +155,17 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
   describe "#eval" do
     context "when using a RnnBiDi initialized without passing in any values" do
       it "updates outputs of each mini_net as expected" do
+        expect(all_outputs_expected_before).not_to eq(all_outputs_expected_after)
+
+        # before
         expect(rnn_bi_di.all_mini_net_outputs).to eq(all_outputs_expected_before)
+
+        # guess
         rnn_bi_di.weights = weights_example
         rnn_bi_di.eval(input_set_given_example)
+
+        # after
         expect(rnn_bi_di.all_mini_net_outputs).to eq(all_outputs_expected_after)
-        expect(all_outputs_expected_before).not_to eq(all_outputs_expected_after)
       end
 
       context "returns" do
@@ -1017,14 +1023,6 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
 
         expect(weights_before).not_to eq(weights_example)
         expect(weights_after).to eq(weights_example)
-      end
-    end
-  end
-
-  describe "#all_mini_net_outputs" do
-    context "returns" do
-      it "expected values" do
-        expect(rnn_bi_di.all_mini_net_outputs).to eq(all_outputs_expected_before)
       end
     end
   end
