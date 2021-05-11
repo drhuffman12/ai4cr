@@ -46,37 +46,11 @@ module Ai4cr
             end
 
             def load_inputs_and_step_forward(sli, tci, channel)
-              ins = inputs_for(sli, tci, channel).flatten
+              ins = inputs_for(sli, tci, channel).values.flatten
               mini_net_set[sli][tci][channel].step_load_inputs(ins)
               mini_net_set[sli][tci][channel].step_calc_forward
             end
 
-            # def step_load_inputs_channel_sl_or_combo(sli, tci)
-            #   mini_net_set[sli][tci].step_load_inputs(inputs_for(sli, tci, channel))
-            # end
-
-            # def step_load_inputs_channel_forward(sli, tci)
-            # end
-
-            # def step_load_inputs_channel_backward(sli, tci)
-            # end
-
-            # inputs_for
-
-            # def inputs_for(sli, tci)
-            #   case
-            #   when sli == 0 && tci == 0
-            #     @input_set_given[tci]
-            #   when sli == 0 && tci > 0
-            #     @input_set_given[tci] + step_outputs_guessed_from_previous_tc(sli, tci)
-            #   when sli > 0 && tci == 0
-            #     step_outputs_guessed_from_previous_li(sli, tci)
-            #   else
-            #     step_outputs_guessed_from_previous_li(sli, tci) + step_outputs_guessed_from_previous_tc(sli, tci)
-            #   end
-            # end
-
-            # def inputs_for_channel_sl_or_combo
             # ameba:disable Metrics/CyclomaticComplexity
             def inputs_for(sli, tci, channel)
               # ins = Array(Array(Float64)).new
@@ -85,16 +59,16 @@ module Ai4cr
 
               # memory
               if sli == 0 && channel == :channel_sl_or_combo
-                ins[:memory] = mini_net_set[sli][tci][channel].outputs_guessed
+                ins[:current_self_mem] = mini_net_set[sli][tci][channel].outputs_guessed
               elsif sli > 0
-                ins[:memory] = mini_net_set[sli][tci][channel].outputs_guessed
+                ins[:current_self_mem] = mini_net_set[sli][tci][channel].outputs_guessed
               end
 
               # prior sli outputs (or original inputs if sli == 0)
               if sli == 0 && channel == :channel_sl_or_combo
-                ins[:prior_sli] = @input_set_given[tci] # if channel == :channel_sl_or_combo
+                ins[:sl_previous_input_or_combo] = @input_set_given[tci] # if channel == :channel_sl_or_combo
               else
-                ins[:prior_sli] = mini_net_set[sli - 1][tci][:channel_sl_or_combo].outputs_guessed
+                ins[:sl_previous_input_or_combo] = mini_net_set[sli - 1][tci][:channel_sl_or_combo].outputs_guessed
               end
 
               # current forward and backward into current combo
@@ -111,12 +85,14 @@ module Ai4cr
 
               if channel == :channel_forward
                 # prior tci outputs (unless sli == 0 or tci == 0)
-                ins[:prior_forward] = mini_net_set[sli][tci - 1][channel].outputs_guessed unless sli == 0 || tci == 0
+                ins[:sl_previous_channel_forward] = mini_net_set[sli - 1][tci][channel].outputs_guessed if sli > 1
+                ins[:tc_previous_channel_forward] = mini_net_set[sli][tci - 1][channel].outputs_guessed unless sli == 0 || tci == 0
               end
 
               if channel == :channel_backward
                 # next tci outputs (unless sli == 0 or tci == max tci)
-                ins[:prior_backward] = mini_net_set[sli][tci + 1][channel].outputs_guessed unless sli == 0 || tci >= @time_col_indexes_last
+                ins[:sl_previous_channel_backward] = mini_net_set[sli - 1][tci][channel].outputs_guessed if sli > 1
+                ins[:tc_next_channel_backward] = mini_net_set[sli][tci + 1][channel].outputs_guessed unless sli == 0 || tci >= @time_col_indexes_last
               end
 
               # bias
@@ -128,32 +104,7 @@ module Ai4cr
                 #   ins << [@bias_default] if !@bias_disabled
               end
 
-              # if sli == 0 && channel == :channel_sl_or_combo
-              #   ins << [@bias_default] if !@bias_disabled
-              # # else
-              # #   ins << [] of Float64
-              # end
-
-              ins # .flatten
-
-              # if sli == 0
-              #   input_set_given[tci]
-              # else
-              #   mini_net_set[sli-1][tci].outputs_guessed
-              # end
-
-              # case
-              # when sli == 0 && tci == 0
-              #   @input_set_given[tci]
-              # when sli == 0 && tci > 0
-              #   @input_set_given[tci] + step_outputs_guessed_from_previous_tc(sli, tci)
-              # when sli > 0 && tci == 0
-              #   step_outputs_guessed_from_previous_li(sli, tci)
-              # else
-              #   step_outputs_guessed_from_previous_li(sli, tci) + step_outputs_guessed_from_previous_tc(sli, tci)
-              # end
-
-
+              ins
             rescue ex
               p! ["vvvv", :inputs_for, sli, tci, channel]
               p! ex.class

@@ -131,9 +131,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
     def expect_input_sizes_channel_forward(rnn_bi_di, node_input_sizes_expected)
       rnn_bi_di.synaptic_layer_indexes.each do |sli|
         rnn_bi_di.time_col_indexes.each do |tci|
-          if sli = 0
-            # expect(1).to eq(1)
-          else
+          if sli != 0
             channel = :channel_forward
             expect_input_sizes(rnn_bi_di, node_input_sizes_expected, sli, tci, channel)
           end
@@ -144,9 +142,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
     def expect_input_sizes_channel_backward(rnn_bi_di, node_input_sizes_expected)
       rnn_bi_di.synaptic_layer_indexes.each do |sli|
         rnn_bi_di.time_col_indexes.each do |tci|
-          if sli = 0
-            # expect(1).to eq(1)
-          else
+          if sli != 0
             channel = :channel_backward
             expect_input_sizes(rnn_bi_di, node_input_sizes_expected, sli, tci, channel)
           end
@@ -168,6 +164,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
       p! inputs_for
       p! input_size_expected
       p! input_sizes_actual
+      # p! rnn_bi_di.mini_net_set[sli][tci][channel].weights
       puts
 
       expect(input_sizes_actual).to eq(input_size_expected)
@@ -177,12 +174,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
       # let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new }
 
       context "gathers expected inputs/outputs" do
-        it "re :channel_sl_or_combo" do
-          # expect(rnn_bi_di.mini_net_set)
-          p! rnn_bi_di.input_set_given.class
-          p! rnn_bi_di.input_set_given
+        context "re :channel_sl_or_combo" do
+          it "expected input sizes" do
+            # expect(rnn_bi_di.mini_net_set)
+            p! rnn_bi_di.input_set_given.class
+            p! rnn_bi_di.input_set_given
 
-          expect_input_sizes_channel_sl_or_combo(rnn_bi_di, node_input_sizes_expected)
+            expect_input_sizes_channel_sl_or_combo(rnn_bi_di, node_input_sizes_expected)
+          end
         end
 
         it "re :channel_forward" do
@@ -238,6 +237,145 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::CgDistinct do
       let(hidden_size_given) { 10 }
       let(rnn_bi_di) { Ai4cr::NeuralNetwork::Rnn::RnnBiDi.new(hidden_layer_qty: hidden_layer_qty, hidden_size_given: hidden_size_given) }
 
+      let(node_input_sizes_expected) {
+        [
+          [
+            # sli: 0
+            {
+              # sli: 0, tci: 0
+              channel_forward: {
+                current_self_mem:            0,
+                sl_previous_input_or_combo:  0,
+                sl_previous_channel_forward: 0,
+                tc_previous_channel_forward: 0,
+              },
+              channel_backward: {
+                current_self_mem:             0,
+                sl_previous_input_or_combo:   0,
+                sl_previous_channel_backward: 0,
+                tc_next_channel_backward:     0,
+              },
+              channel_sl_or_combo: {
+                current_self_mem:           rnn_bi_di.hidden_size,
+                sl_previous_input_or_combo: rnn_bi_di.input_size,
+                current_forward:            0,
+                current_backward:           0,
+              },
+            },
+            {
+              # sli: 0, tci: 1
+              channel_forward: {
+                current_self_mem:            0,
+                sl_previous_input_or_combo:  0,
+                sl_previous_channel_forward: 0,
+                tc_previous_channel_forward: 0,
+              },
+              channel_backward: {
+                current_self_mem:             0,
+                sl_previous_input_or_combo:   0,
+                sl_previous_channel_backward: 0,
+                tc_next_channel_backward:     0,
+              },
+              channel_sl_or_combo: {
+                current_self_mem:           rnn_bi_di.hidden_size,
+                sl_previous_input_or_combo: rnn_bi_di.input_size,
+                current_forward:            0,
+                current_backward:           0,
+              },
+            },
+          ],
+          [
+            # sli: 1
+            {
+              # sli: 1, tci: 0
+              channel_forward: {
+                current_self_mem:            rnn_bi_di.hidden_size,
+                sl_previous_input_or_combo:  rnn_bi_di.hidden_size,
+                sl_previous_channel_forward: 0,
+                tc_previous_channel_forward: 0,
+              },
+              channel_backward: {
+                current_self_mem:             rnn_bi_di.hidden_size,
+                sl_previous_input_or_combo:   rnn_bi_di.hidden_size,
+                sl_previous_channel_backward: 0,
+                tc_next_channel_backward:     rnn_bi_di.hidden_size,
+              },
+              channel_sl_or_combo: {
+                current_self_mem:           rnn_bi_di.hidden_size,
+                sl_previous_input_or_combo: rnn_bi_di.hidden_size,
+                current_forward:            rnn_bi_di.hidden_size,
+                current_backward:           rnn_bi_di.hidden_size,
+              },
+            },
+            {
+              # sli: 1, tci: 1
+              channel_forward: {
+                current_self_mem:            rnn_bi_di.hidden_size,
+                sl_previous_input_or_combo:  rnn_bi_di.hidden_size,
+                sl_previous_channel_forward: 0,
+                tc_previous_channel_forward: rnn_bi_di.hidden_size,
+              },
+              channel_backward: {
+                current_self_mem:             rnn_bi_di.hidden_size,
+                sl_previous_input_or_combo:   rnn_bi_di.hidden_size,
+                sl_previous_channel_backward: 0,
+                tc_next_channel_backward:     0,
+              },
+              channel_sl_or_combo: {
+                current_self_mem:           rnn_bi_di.hidden_size,
+                sl_previous_input_or_combo: rnn_bi_di.hidden_size,
+                current_forward:            rnn_bi_di.hidden_size,
+                current_backward:           rnn_bi_di.hidden_size,
+              },
+            },
+          ],
+          [
+            # sli: 2
+            {
+              # sli: 2, tci: 0
+              channel_forward: {
+                current_self_mem:            rnn_bi_di.hidden_size,
+                sl_previous_input_or_combo:  rnn_bi_di.hidden_size,
+                sl_previous_channel_forward: rnn_bi_di.hidden_size,
+                tc_previous_channel_forward: 0,
+              },
+              channel_backward: {
+                current_self_mem:             rnn_bi_di.hidden_size,
+                sl_previous_input_or_combo:   rnn_bi_di.hidden_size,
+                sl_previous_channel_backward: rnn_bi_di.hidden_size,
+                tc_next_channel_backward:     rnn_bi_di.hidden_size,
+              },
+              channel_sl_or_combo: {
+                current_self_mem:           rnn_bi_di.output_size,
+                sl_previous_input_or_combo: rnn_bi_di.hidden_size,
+                current_forward:            rnn_bi_di.hidden_size,
+                current_backward:           rnn_bi_di.hidden_size,
+              },
+            },
+            {
+              # sli: 2, tci: 1
+              channel_forward: {
+                current_self_mem:            rnn_bi_di.hidden_size,
+                sl_previous_input_or_combo:  rnn_bi_di.hidden_size,
+                sl_previous_channel_forward: rnn_bi_di.hidden_size,
+                tc_previous_channel_forward: rnn_bi_di.hidden_size,
+              },
+              channel_backward: {
+                current_self_mem:             rnn_bi_di.hidden_size,
+                sl_previous_input_or_combo:   rnn_bi_di.hidden_size,
+                sl_previous_channel_backward: rnn_bi_di.hidden_size,
+                tc_next_channel_backward:     0,
+              },
+              channel_sl_or_combo: {
+                current_self_mem:           rnn_bi_di.output_size,
+                sl_previous_input_or_combo: rnn_bi_di.hidden_size,
+                current_forward:            rnn_bi_di.hidden_size,
+                current_backward:           rnn_bi_di.hidden_size,
+              },
+            },
+          ],
+        ]
+      }
       let(node_input_sizes_expected) {
         [
           [
