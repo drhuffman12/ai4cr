@@ -1,8 +1,10 @@
 require "./concerns/simple/aliases.cr"
 require "./concerns/common/props_and_inits.cr"
 require "./concerns/simple/pai_distinct.cr"
-require "./concerns/simple/calc_guess.cr"
+require "./concerns/common/calc_guess.cr"
+require "./concerns/simple/cg_distinct.cr"
 require "./concerns/common/train_and_adjust.cr"
+require "./concerns/simple/taa_distinct.cr"
 require "./concerns/simple/roll_ups.cr"
 require "./concerns/common/data_utils.cr"
 
@@ -23,9 +25,12 @@ module Ai4cr
         include Concerns::Common::PropsAndInits
         include Concerns::Simple::PaiDistinct
 
-        include Concerns::Simple::CalcGuess
+        include Concerns::Common::CalcGuess
+        include Concerns::Simple::CgDistinct
 
         include Concerns::Common::TrainAndAdjust
+        include Concerns::Simple::TaaDistinct
+
         include Concerns::Simple::RollUps
         include Concerns::Common::DataUtils
 

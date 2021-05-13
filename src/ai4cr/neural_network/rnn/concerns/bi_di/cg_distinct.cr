@@ -4,7 +4,8 @@ module Ai4cr
       module Concerns
         module BiDi
           module CgDistinct
-            # TODO: Adapt below based on 'src/ai4cr/neural_network/rnn/concerns/bi_di/pai_distinct.cr'
+            CHANNELS_FIRST_SLI = [:channel_sl_or_combo]
+            CHANNELS_OTHER_SLI = [:channel_forward, :channel_backward, :channel_sl_or_combo]
 
             # steps for 'eval' aka 'guess':
             def eval(input_set_given)
@@ -116,45 +117,122 @@ module Ai4cr
 
             # ameba:enable Metrics/CyclomaticComplexity
 
-            # def weights
-            #   w = Array(Array(Symbol,Array(Array(Float64))))
+            # def all_mini_nets_each(&block)
             #   synaptic_layer_indexes.each do |sli|
-            #     # channels = [] of Array(Symbol, String)
-            #     if sli > 0
-            #       channel = :channel_forward
-            #       time_col_indexes.each do |tci|
-            #         w[sli][tci][channel] = mini_net_set[sli][tci].weights
-            #       end
-
-            #       channel = :channel_backward
-            #       time_col_indexes_reversed.each do |tci|
-            #         w[sli][tci][channel] = mini_net_set[sli][tci].weights
-            #       end
-            #     end
-
-            #     channel = :channel_sl_or_combo
+            #     channels = (sli == 0) ? CHANNELS_FIRST_SLI : CHANNELS_OTHER_SLI
             #     time_col_indexes.each do |tci|
-            #       w[sli][tci][channel] = mini_net_set[sli][tci].weights
+            #       channels.each do |channel|
+            #         yield @mini_net_set[sli][tci][channel]
+            #       end
             #     end
             #   end
-            #   w
             # end
 
             def all_mini_nets_each(&block)
               synaptic_layer_indexes.each do |sli|
-                time_col_indexes.each do |tci|
-                  [:channel_backward, :channel_forward, :channel_sl_or_combo].each do |channel|
-                    [channel, yield @mini_net_set[sli][tci][channel]] if @mini_net_set[sli][tci].keys.includes?(channel)
+                # channels = (sli == 0) ? CHANNELS_FIRST_SLI : CHANNELS_OTHER_SLI
+                if sli == 0
+                  time_col_indexes.each do |tci|
+                    # channels.each do |channel|
+                    yield @mini_net_set[sli][tci][:channel_sl_or_combo]
+                    # end
+                  end
+                else
+                  channel = :channel_forward
+                  time_col_indexes.each do |tci|
+                    # channels.each do |channel|
+                    yield @mini_net_set[sli][tci][channel]
+                    # end
+                  end
+
+                  channel = :channel_backward
+                  time_col_indexes_reversed.each do |tci|
+                    # channels.each do |channel|
+                    yield @mini_net_set[sli][tci][channel]
+                    # end
+                  end
+
+                  channel = :channel_sl_or_combo
+                  time_col_indexes.each do |tci|
+                    # channels.each do |channel|
+                    yield @mini_net_set[sli][tci][channel]
+                    # end
+                  end
+                end
+              end
+            end
+
+            def all_mini_nets_each_with_indexes(&block)
+              synaptic_layer_indexes.each do |sli|
+                # channels = (sli == 0) ? CHANNELS_FIRST_SLI : CHANNELS_OTHER_SLI
+                if sli == 0
+                  time_col_indexes.each do |tci|
+                    # channels.each do |channel|
+                    yield @mini_net_set[sli][tci][:channel_sl_or_combo], sli, tci, channel
+                    # end
+                  end
+                else
+                  channel = :channel_forward
+                  time_col_indexes.each do |tci|
+                    # channels.each do |channel|
+                    yield @mini_net_set[sli][tci][channel], sli, tci, channel
+                    # end
+                  end
+
+                  channel = :channel_backward
+                  time_col_indexes_reversed.each do |tci|
+                    # channels.each do |channel|
+                    yield @mini_net_set[sli][tci][channel], sli, tci, channel
+                    # end
+                  end
+
+                  channel = :channel_sl_or_combo
+                  time_col_indexes.each do |tci|
+                    # channels.each do |channel|
+                    yield @mini_net_set[sli][tci][channel], sli, tci, channel
+                    # end
+                  end
+                end
+              end
+            end
+
+            def all_mini_nets_each_reversed_with_indexes(&block)
+              synaptic_layer_indexes_reversed.each do |sli|
+                # channels = (sli == 0) ? CHANNELS_FIRST_SLI : CHANNELS_OTHER_SLI
+                if sli == 0
+                  time_col_indexes_reversed.each do |tci|
+                    # channels.each do |channel|
+                    yield @mini_net_set[sli][tci][:channel_sl_or_combo], sli, tci, channel
+                    # end
+                  end
+                else
+                  channel = :channel_sl_or_combo
+                  time_col_indexes_reversed.each do |tci|
+                    # channels.each do |channel|
+                    yield @mini_net_set[sli][tci][channel], sli, tci, channel
+                    # end
+                  end
+
+                  channel = :channel_backward
+                  time_col_indexes.each do |tci|
+                    # channels.each do |channel|
+                    yield @mini_net_set[sli][tci][channel], sli, tci, channel
+                    # end
+                  end
+
+                  channel = :channel_forward
+                  time_col_indexes_reversed.each do |tci|
+                    # channels.each do |channel|
+                    yield @mini_net_set[sli][tci][channel], sli, tci, channel
+                    # end
                   end
                 end
               end
             end
 
             def all_mini_nets_map(&block)
-              channels_first_sli = [:channel_sl_or_combo]
-              channels_other_sli = [:channel_forward, :channel_backward, :channel_sl_or_combo]
               synaptic_layer_indexes.map do |sli|
-                channels = (sli == 0) ? channels_first_sli : channels_other_sli
+                channels = (sli == 0) ? CHANNELS_FIRST_SLI : CHANNELS_OTHER_SLI
                 time_col_indexes.map do |tci|
                   channels.map do |channel|
                     [channel, yield @mini_net_set[sli][tci][channel]]
@@ -169,7 +247,6 @@ module Ai4cr
               end # as(Array(Array(Hash(Symbol, Array(Array(Float64))))))
             end
 
-            # def weights=(w : Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::Weights)
             def weights=(w : BiDi::Weights)
               synaptic_layer_indexes.map do |sli|
                 time_col_indexes.map do |tci|
@@ -197,18 +274,6 @@ module Ai4cr
                 guessed
               end
             end
-
-            # private def step_outputs_guessed_from_previous_tc(sli, tci)
-            #   raise "Index error in step_outputs_guessed_from_previous_tc" if tci == 0
-
-            #   mini_net_set[sli][tci - 1].outputs_guessed
-            # end
-
-            # private def step_outputs_guessed_from_previous_li(sli, tci)
-            #   raise "Index error in step_outputs_guessed_from_previous_li" if sli == 0
-
-            #   mini_net_set[sli - 1][tci].outputs_guessed
-            # end
 
             # guesses
             def guesses_sorted
