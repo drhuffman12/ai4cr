@@ -34,7 +34,10 @@ module Ai4cr
 
                     # TODO: I think this needs to be split!
                     #   I don't think we can pass in 'input_set_given[ti]' unless the net has no hidden layers!
-                    mini_net_set[li][ti].train(input_set_given[ti], @output_set_expected[ti], until_min_avg_error)
+                    # mini_net_set[li][ti].train(input_set_given[ti], @output_set_expected[ti], until_min_avg_error)
+                    mini_net_set[li][ti].step_load_outputs(@output_set_expected[ti]) # 'regular' step_load_outputs
+                    step_calculate_output_errors_at(li, ti)
+                    step_backpropagate_at(li, ti)
                   when li == synaptic_layer_index_last && ti < time_col_index_last
                     # This is an odd situation.
                     # In this case, to calculate the 'outputs_expected', we just use @output_set_expected[ti], which must 'rule' the 'outputs_expected' values.
@@ -79,14 +82,18 @@ module Ai4cr
 
               local_errors = case
                              when li == synaptic_layer_index_last && ti == time_col_index_last
-                               raise "Index Error! Invalid method!"
-                             when li == synaptic_layer_index_last && ti < time_col_index_last
+                               #  raise "Index Error! Invalid method!"
+                               error_along_li = step_calculate_output_error_along_li(li, ti)
+                               #  error_along_ti = step_calculate_output_error_along_ti(li, ti)
+                               error_along_li.map_with_index { |eli, i| 0.5 * eli }
+                             when li == synaptic_layer_index_last # && ti < time_col_index_last
                                # We have 2 errors to deal with; we will average them.
                                error_along_li = step_calculate_output_error_along_li(li, ti)
                                error_along_ti = step_calculate_output_error_along_ti(li, ti)
                                error_along_li.map_with_index { |eli, i| 0.5 * (eli + error_along_ti[i]) }
                              when li < synaptic_layer_index_last && ti == time_col_index_last
-                               step_calculate_output_error_along_li(li, ti)
+                               error_along_li = step_calculate_output_error_along_li(li, ti)
+                               error_along_li.map_with_index { |eli, i| 0.5 * eli }
                              when li < synaptic_layer_index_last && ti < time_col_index_last
                                # We have 2 errors to deal with; we will average them.
                                error_along_li = step_calculate_output_error_along_li(li, ti)

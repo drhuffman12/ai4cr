@@ -241,6 +241,28 @@ module Ai4cr
               end
             end
 
+            def all_mini_nets_map_with_indexes(&block)
+              synaptic_layer_indexes.map do |sli|
+                channels = (sli == 0) ? CHANNELS_FIRST_SLI : CHANNELS_OTHER_SLI
+                time_col_indexes.map do |tci|
+                  channels.map do |channel|
+                    [channel, yield @mini_net_set[sli][tci][channel], sli, tci, channel]
+                  end.to_h
+                end
+              end
+            end
+
+            def map_only_indexes(&block)
+              synaptic_layer_indexes.map do |sli|
+                channels = (sli == 0) ? CHANNELS_FIRST_SLI : CHANNELS_OTHER_SLI
+                time_col_indexes.map do |tci|
+                  channels.map do |channel|
+                    [channel, yield sli, tci, channel]
+                  end.to_h
+                end
+              end
+            end
+
             def weights
               all_mini_nets_map do |mini_net|
                 mini_net.weights
