@@ -26,65 +26,140 @@ module Ai4cr
               synaptic_layer_indexes_reversed.each do |sli|
                 train_channel_sl_or_combo(sli)
                 if sli > 0
-                  train_channel_backwards(sli)
-                  train_channel_forwards(sli)
+                  train_channel_backward(sli)
+                  train_channel_forward(sli)
                 end
               end
+
+              # synaptic_layer_indexes_reversed.each do |sli|
+              #   time_col_indexes_reversed.each do |tci|
+              #     mini_net_set[sli][tci][:channel_sl_or_combo].calculate_error_distance
+              #   end
+              #   if sli > 0
+              #     time_col_indexes.each do |tci|
+              #       mini_net_set[sli][tci][:channel_forward].calculate_error_distance
+              #     end
+              #     time_col_indexes_reversed.each do |tci|
+              #       mini_net_set[sli][tci][:channel_backward].calculate_error_distance
+              #     end
+              #   end
+              # end
 
               calculate_error_distance
             end
 
             def train_channel_sl_or_combo(sli)
               time_col_indexes_reversed.each do |tci|
-                outputs_expected = outputs_expected_for(sli, tci, :channel_sl_or_combo)
-                mini_net_set[sli][tci][:channel_sl_or_combo].step_load_outputs(outputs_expected)
-                mini_net_set[sli][tci][:channel_sl_or_combo].step_calc_output_errors
+                outputs_deltas_and_expected = outputs_deltas_and_expected_for(sli, tci, :channel_sl_or_combo)
+
+                # TODO: Do something to mix outs_expected and outs_deltas!
+                outs_expected = outputs_deltas_and_expected[:outs_expected]
+                outs_deltas = outputs_deltas_and_expected[:outs_deltas]
+                mininet = mini_net_set[sli][tci][:channel_sl_or_combo]
+
+                p! outs_expected
+                p! outs_deltas
+                p! mininet.outputs_expected
+
+                outputs_expected = mininet.outputs_expected.map_with_index do |_, i|
+                  val = (outs_expected.size > 0 ? outs_expected[i] : 0.0)
+                  outs_deltas.each_value do |v|
+                    val += (v.size > 0 ? v[i] : 0.0)
+                  end
+                  val
+                end
+
+                mininet.step_load_outputs(outputs_expected)
+                mininet.step_calc_output_errors
                 # step_calculate_output_errors_at(sli, tci, :channel_sl_or_combo)
 
                 # step_backpropagate_at(sli, tci, :channel_sl_or_combo)
-                mini_net_set[sli][tci][:channel_sl_or_combo].step_backpropagate
-                # mini_net_set[sli][tci][:channel_sl_or_combo].step_calculate_output_deltas
-                # mini_net_set[sli][tci][:channel_sl_or_combo].step_calc_input_deltas
-                # mini_net_set[sli][tci][:channel_sl_or_combo].step_update_weights
+                mininet.step_backpropagate
+                # mininet.step_calculate_output_deltas
+                # mininet.step_calc_input_deltas
+                # mininet.step_update_weights
+                mininet.calculate_error_distance
               end
             end
 
-            def train_channel_backwards(sli)
+            def train_channel_backward(sli)
               # @input_set_given
               # @output_set_expected
               time_col_indexes.each do |tci|
-                outputs_expected = outputs_expected_for(sli, tci, :channel_backwards)
-                mini_net_set[sli][tci][:channel_backwards].step_load_outputs(outputs_expected)
-                mini_net_set[sli][tci][:channel_backwards].step_calc_output_errors
-                # step_calculate_output_errors_at(sli, tci, :channel_backwards)
+                outputs_deltas_and_expected = outputs_deltas_and_expected_for(sli, tci, :channel_backward)
 
-                # step_backpropagate_at(sli, tci, :channel_backwards)
-                mini_net_set[sli][tci][:channel_backwards].step_backpropagate
-                # mini_net_set[sli][tci][:channel_backwards].step_calculate_output_deltas
-                # mini_net_set[sli][tci][:channel_backwards].step_calc_input_deltas
-                # mini_net_set[sli][tci][:channel_backwards].step_update_weights
+                # TODO: Do something to mix outs_expected and outs_deltas!
+                outs_expected = outputs_deltas_and_expected[:outs_expected]
+                outs_deltas = outputs_deltas_and_expected[:outs_deltas]
+                mininet = mini_net_set[sli][tci][:channel_backward]
+
+                p! outs_expected
+                p! outs_deltas
+                p! mininet.width
+                p! mininet.outputs_expected
+
+                outputs_expected = mininet.outputs_expected.map_with_index do |_, i|
+                  val = (outs_expected.size > 0 ? outs_expected[i] : 0.0)
+                  outs_deltas.each_value do |v|
+                    val += (v.size > 0 ? v[i] : 0.0)
+                  end
+                  val
+                end
+
+                p! outs_expected
+
+                mininet.step_load_outputs(outputs_expected)
+                mininet.step_calc_output_errors
+                # step_calculate_output_errors_at(sli, tci, :channel_backward)
+
+                # step_backpropagate_at(sli, tci, :channel_backward)
+                mininet.step_backpropagate
+                # mininet.step_calculate_output_deltas
+                # mininet.step_calc_input_deltas
+                # mininet.step_update_weights
+                mininet.calculate_error_distance
               end
             end
 
-            def train_channel_forwards(sli)
+            def train_channel_forward(sli)
               # @input_set_given
               # @output_set_expected
               time_col_indexes_reversed.each do |tci|
-                outputs_expected = outputs_expected_for(sli, tci, :channel_forwards)
-                mini_net_set[sli][tci][:channel_forwards].step_load_outputs(outputs_expected)
-                mini_net_set[sli][tci][:channel_forwards].step_calc_output_errors
-                # step_calculate_output_errors_at(sli, tci, :channel_forwards)
+                outputs_deltas_and_expected = outputs_deltas_and_expected_for(sli, tci, :channel_forward)
 
-                # step_backpropagate_at(sli, tci, :channel_forwards)
-                mini_net_set[sli][tci][:channel_forwards].step_backpropagate
-                # mini_net_set[sli][tci][:channel_forwards].step_calculate_output_deltas
-                # mini_net_set[sli][tci][:channel_forwards].step_calc_input_deltas
-                # mini_net_set[sli][tci][:channel_forwards].step_update_weights
+                # TODO: Do something to mix outs_expected and outs_deltas!
+                outs_expected = outputs_deltas_and_expected[:outs_expected]
+                outs_deltas = outputs_deltas_and_expected[:outs_deltas]
+                mininet = mini_net_set[sli][tci][:channel_forward]
+
+                p! outs_expected
+                p! outs_deltas
+                p! mininet.outputs_expected
+
+                outputs_expected = mininet.outputs_expected.map_with_index do |_, i|
+                  val = (outs_expected.size > 0 ? outs_expected[i] : 0.0)
+                  outs_deltas.each_value do |v|
+                    val += (v.size > 0 ? v[i] : 0.0)
+                  end
+                  val
+                end
+
+                # mininet.step_load_outputs(outs_expected)
+                mininet.step_load_outputs(outputs_expected)
+                mininet.step_calc_output_errors
+                # step_calculate_output_errors_at(sli, tci, :channel_forward)
+
+                # step_backpropagate_at(sli, tci, :channel_forward)
+                mininet.step_backpropagate
+                # mininet.step_calculate_output_deltas
+                # mininet.step_calc_input_deltas
+                # mininet.step_update_weights
+                mininet.calculate_error_distance
               end
             end
 
             # ameba:disable Metrics/CyclomaticComplexity
-            def outputs_expected_for(sli, tci, channel)
+            def outputs_deltas_and_expected_for(sli, tci, channel)
               # TODO: Split this method up!
 
               # @input_set_given
@@ -338,6 +413,14 @@ module Ai4cr
               #   i.e.: The below will use a 1-training-round offset for memory; kinda like a blurred-memory update?
               #         But, I think that's ok, since the first training round has memory inputs of all 0's.
               channel_from = channel
+
+              puts
+              puts "mini_net_set:"
+              puts mini_net_set.to_pretty_json
+              puts
+              p! mini_net_set[sli][tci], sli, tci
+              puts
+
               mn_from = mini_net_set[sli][tci][channel_from]
               nis_from = node_input_sizes[sli][tci][channel_from]
               i_from = 0
@@ -420,12 +503,12 @@ module Ai4cr
             #   end
             # end
 
-            # def final_li_output_error_distances
-            #   sli = synaptic_layer_indexes.last
-            #   time_col_indexes.map do |tci|
-            #     mini_net_set[sli][tci].error_stats.distance
-            #   end
-            # end
+            def final_li_output_error_distances
+              sli = synaptic_layer_indexes.last
+              time_col_indexes.map do |tci|
+                mini_net_set[sli][tci][:channel_sl_or_combo].error_stats.distance
+              end
+            end
           end
         end
       end
