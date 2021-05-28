@@ -1,23 +1,38 @@
-require "./rnn_simple_concerns/calc_guess.cr"
-require "./rnn_simple_concerns/props_and_inits.cr"
-require "./rnn_simple_concerns/train_and_adjust.cr"
-require "./rnn_simple_concerns/roll_ups.cr"
-require "./rnn_simple_concerns/data_utils.cr"
+require "./concerns/simple/aliases.cr"
+require "./concerns/common/props_and_inits.cr"
+require "./concerns/simple/pai_distinct.cr"
+require "./concerns/common/calc_guess.cr"
+require "./concerns/simple/cg_distinct.cr"
+require "./concerns/common/train_and_adjust.cr"
+require "./concerns/simple/taa_distinct.cr"
+require "./concerns/simple/roll_ups.cr"
+require "./concerns/common/data_utils.cr"
 
 module Ai4cr
   module NeuralNetwork
     module Rnn
+      # module Concerns::Simple
+      #   alias InputSetGiven = Array(Array(Float64))
+      #   alias OutputSetGiven = Array(Array(Float64))
+      # end
       class RnnSimple
         # Simple RNN w/ inputs, hidden forward-feeding recurrent layer(s), outputs, and some other params
 
         include JSON::Serializable
 
         include Ai4cr::Breed::Client
-        include RnnSimpleConcerns::PropsAndInits
-        include RnnSimpleConcerns::CalcGuess
-        include RnnSimpleConcerns::TrainAndAdjust
-        include RnnSimpleConcerns::RollUps
-        include RnnSimpleConcerns::DataUtils
+
+        include Concerns::Common::PropsAndInits
+        include Concerns::Simple::PaiDistinct
+
+        include Concerns::Common::CalcGuess
+        include Concerns::Simple::CgDistinct
+
+        include Concerns::Common::TrainAndAdjust
+        include Concerns::Simple::TaaDistinct
+
+        include Concerns::Simple::RollUps
+        include Concerns::Common::DataUtils
 
         def clone
           a_clone = RnnSimple.new(

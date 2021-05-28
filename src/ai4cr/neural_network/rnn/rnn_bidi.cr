@@ -1,19 +1,19 @@
-require "./rnn_simple_concerns/calc_guess.cr"
-require "./rnn_simple_concerns/props_and_inits.cr"
-require "./rnn_simple_concerns/train_and_adjust.cr"
-require "./rnn_simple_concerns/roll_ups.cr"
-
-require "./rnn_bi_di_concerns/calc_guess.cr"
-require "./rnn_bi_di_concerns/props_and_inits.cr"
-require "./rnn_bi_di_concerns/train_and_adjust.cr"
-require "./rnn_bi_di_concerns/roll_ups.cr"
-
-require "./rnn_simple_concerns/data_utils.cr"
+require "./concerns/bi_di/aliases.cr"
+require "./concerns/common/props_and_inits.cr"
+require "./concerns/bi_di/pai_distinct.cr"
+require "./concerns/common/calc_guess.cr"
+require "./concerns/bi_di/cg_distinct.cr"
+require "./concerns/common/train_and_adjust.cr"
+require "./concerns/bi_di/taa_distinct.cr"
+require "./concerns/bi_di/roll_ups.cr"
+require "./concerns/common/data_utils.cr"
 
 module Ai4cr
   module NeuralNetwork
     module Rnn
       class RnnBiDi
+        # CHANNELS = [:channel_forward, :channel_backward, :channel_sl_or_combo]
+
         # TODO: Implement Bi-directional RNN (i.e.: RnnSimple pulls from inputs and previous time column.)
         # This class must also pull from next time column and mix them all together in subsequent hidden layers.
 
@@ -21,19 +21,19 @@ module Ai4cr
 
         include Ai4cr::Breed::Client
 
-        include RnnSimpleConcerns::PropsAndInits
-        include RnnBiDiConcerns::PropsAndInits
+        include Concerns::Common::PropsAndInits
+        include Concerns::BiDi::PaiDistinct
 
-        include RnnSimpleConcerns::CalcGuess
-        include RnnBiDiConcerns::CalcGuess
+        include Concerns::Common::CalcGuess
+        include Concerns::BiDi::CgDistinct
 
-        include RnnSimpleConcerns::TrainAndAdjust
-        include RnnBiDiConcerns::TrainAndAdjust
+        include Concerns::Common::TrainAndAdjust
+        include Concerns::BiDi::TaaDistinct
 
-        include RnnSimpleConcerns::RollUps
-        include RnnBiDiConcerns::RollUps
+        # include Concerns::Common::RollUps
+        include Concerns::BiDi::RollUps
 
-        include RnnSimpleConcerns::DataUtils
+        include Concerns::Common::DataUtils
 
         def clone
           a_clone = RnnBiDi.new(

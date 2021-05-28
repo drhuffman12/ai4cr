@@ -118,7 +118,7 @@ time_col_qty = 16     # 12 # 10 # 6 # 25
 hidden_layer_qty = 3  # 4 # 6 # 3
 hidden_size_given = 8 # 16 # 100 # 200
 max_members = 10      # 5 # 10
-train_qty = 3         # 1 # 2
+train_qty = 1         # 3         # 1 # 2
 
 io_offset = time_col_qty
 ios = io_set_text_file.iod_to_io_set_with_offset_time_cols(time_col_qty, io_offset)
@@ -150,22 +150,14 @@ puts
 
 r = Runner.new(file_path)
 
-r.compare_successive_training_rounds(
-  io_offset, time_col_qty,
-  inputs_sequence, outputs_sequence,
-  hidden_layer_qty, hidden_size_given,
-  qty_new_members,
-  my_breed_manager, max_members,
-  train_qty,
-  io_set_text_file
-)
-
-r.compare_successive_training_rounds(
-  io_offset, time_col_qty,
-  inputs_sequence, outputs_sequence,
-  hidden_layer_qty, hidden_size_given,
-  qty_new_members,
-  my_breed_manager, max_members,
-  train_qty,
-  io_set_text_file
-)
+10.times do
+  r.compare_successive_training_rounds(
+    io_offset, time_col_qty,
+    inputs_sequence, outputs_sequence,
+    hidden_layer_qty, hidden_size_given,
+    qty_new_members,
+    my_breed_manager, max_members,
+    train_qty,
+    io_set_text_file
+  )
+end

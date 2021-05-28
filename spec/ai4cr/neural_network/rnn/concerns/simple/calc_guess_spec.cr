@@ -1,4 +1,4 @@
-require "./../../../../spectator_helper"
+require "./../../../../../spectator_helper"
 
 Spectator.describe Ai4cr::NeuralNetwork::Rnn::RnnSimpleConcerns::CalcGuess do
   let(rnn_simple) { Ai4cr::NeuralNetwork::Rnn::RnnSimple.new }
