@@ -299,14 +299,15 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
       end
 
       context "returns" do
-        #### TODO... (left off here as of 2021-05-38)
-        
+        # ### TODO... (left off here as of 2021-05-38)
+
         let(class_expected) {
           # TODO: Why the '| Symbol' in the 'Hash'?
           Array(Array(Hash(NamedTuple(outs_deltas: Hash(Symbol, Array(Float64)), outs_expected: Array(Float64)) | Symbol, NamedTuple(outs_deltas: Hash(Symbol, Array(Float64)), outs_expected: Array(Float64)) | Symbol)))
         }
 
         let(outputs_expected_for_all_expected) {
+          # ### TODO... (left off here as of 2021-05-38)
           [
             [
               {

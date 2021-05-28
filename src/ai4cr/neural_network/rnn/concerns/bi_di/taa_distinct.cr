@@ -48,6 +48,7 @@ module Ai4cr
                 # mini_net_set[sli][tci][:channel_sl_or_combo].step_update_weights
               end
             end
+
             def train_channel_backwards(sli)
               # @input_set_given
               # @output_set_expected
@@ -64,6 +65,7 @@ module Ai4cr
                 # mini_net_set[sli][tci][:channel_backwards].step_update_weights
               end
             end
+
             def train_channel_forwards(sli)
               # @input_set_given
               # @output_set_expected
@@ -81,12 +83,14 @@ module Ai4cr
               end
             end
 
+            # ameba:disable Metrics/CyclomaticComplexity
             def outputs_expected_for(sli, tci, channel)
+              # TODO: Split this method up!
+
               # @input_set_given
               # @output_set_expected
 
-
-              # The 'outs_expected' is only (mostly) directly defined by outputs_expected for 
+              # The 'outs_expected' is only (mostly) directly defined by outputs_expected for
               #   th last sli of last tci of channel ':channel_sl_or_combo'.
               #   But that has 'memory' also, which must be considered.
               # All others must first gather applicable 'outs_deltas' and derive applicable combo of 'outs_expected'.
@@ -98,7 +102,7 @@ module Ai4cr
                 outs_deltas[:current_self_mem] = outs_deltas_mem(sli, tci, channel)
               end
 
-              #### TODO... (left off here as of 2021-05-38)
+              # ### TODO... (left off here as of 2021-05-38)
 
               case
               when sli == synaptic_layer_indexes.last && channel == :channel_sl_or_combo
@@ -129,7 +133,9 @@ module Ai4cr
                 puts "v"*80
                 p! sli
                 p! tci
+                p! channel
                 p! channel_from
+                p! mn_from
                 p! nis_from
                 puts "^"*80
                 puts
@@ -153,7 +159,9 @@ module Ai4cr
                 puts "v"*80
                 p! sli
                 p! tci
+                p! channel
                 p! channel_from
+                p! mn_from
                 p! nis_from
                 puts "^"*80
                 puts
@@ -173,7 +181,9 @@ module Ai4cr
                 puts "v"*80
                 p! sli
                 p! tci
+                p! channel
                 p! channel_from
+                p! mn_from
                 p! nis_from
                 puts "^"*80
                 puts
@@ -200,7 +210,9 @@ module Ai4cr
                 puts "v"*80
                 p! sli
                 p! tci
+                p! channel
                 p! channel_from
+                p! mn_from
                 p! nis_from
                 puts "^"*80
                 puts
@@ -220,7 +232,9 @@ module Ai4cr
                 puts "v"*80
                 p! sli
                 p! tci
+                p! channel
                 p! channel_from
+                p! mn_from
                 p! nis_from
                 puts "^"*80
                 puts
@@ -245,6 +259,7 @@ module Ai4cr
                 p! tci
                 p! channel
                 p! channel_from
+                p! mn_from
                 p! nis_from
                 puts "^"*80
                 puts
@@ -315,6 +330,8 @@ module Ai4cr
 
               {outs_deltas: outs_deltas, outs_expected: outs_expected}
             end
+
+            # ameba:enable Metrics/CyclomaticComplexity
 
             def outs_deltas_mem(sli, tci, channel)
               # TODO: How to calc input_deltas for inclusion in calcs for gathering outputs expected and/or deltas?
