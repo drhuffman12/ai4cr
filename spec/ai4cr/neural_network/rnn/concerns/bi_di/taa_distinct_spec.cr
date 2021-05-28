@@ -437,24 +437,33 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
     # TODO: Expect ___ to change
 
     # TODO: Expect ___ to equal
-    pending "foo" do
+    pending "temporarily un-pend and adjust 'loop_count' as desired when you want to check the example learning progress" do
       # This will randomly pass!
+      loop_count = 1
 
-      10.times { rnn_bi_di.train(input_set_given_example, output_set_expected) }
+      loop_count.times { rnn_bi_di.train(input_set_given_example, output_set_expected) }
       # expect(rnn_bi_di.outputs).to eq(all_outputs_expected_after)
-      err_dist_1 = rnn_bi_di.error_stats.distance
 
-      10.times { rnn_bi_di.train(input_set_given_example, output_set_expected) }
+      err_dist_1 = rnn_bi_di.error_stats.distance
+      err_dist_hist_1 = rnn_bi_di.error_stats.plot_error_distance_history
+
+      loop_count.times { rnn_bi_di.train(input_set_given_example, output_set_expected) }
       # expect(rnn_bi_di.outputs).to eq(all_outputs_expected_after)
       err_dist_2 = rnn_bi_di.error_stats.distance
+      err_dist_hist_2 = rnn_bi_di.error_stats.plot_error_distance_history
 
-      10.times { rnn_bi_di.train(input_set_given_example, output_set_expected) }
+      loop_count.times { rnn_bi_di.train(input_set_given_example, output_set_expected) }
       # expect(rnn_bi_di.outputs).to eq(all_outputs_expected_after)
       err_dist_3 = rnn_bi_di.error_stats.distance
+      err_dist_hist_3 = rnn_bi_di.error_stats.plot_error_distance_history
 
       p! err_dist_1
       p! err_dist_2
       p! err_dist_3
+
+      puts "err_dist_hist_1: " + err_dist_hist_1
+      puts "err_dist_hist_2: " + err_dist_hist_2
+      puts "err_dist_hist_3: " + err_dist_hist_3
 
       expect(err_dist_2).to be < (err_dist_1)
       expect(err_dist_3).to be < (err_dist_2)
