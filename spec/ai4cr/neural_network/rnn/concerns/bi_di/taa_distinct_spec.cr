@@ -156,8 +156,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
 
   let(outputs_guessed_expected) { [[0.05910000000000001], [0.041186]] }
 
-  describe "#outputs_for" do
-    let(outputs_for) { rnn_bi_di.outputs_for(sli, tci, channel) }
+  describe "#outputs_expected_for" do
+    let(outputs_expected_for) { rnn_bi_di.outputs_expected_for(sli, tci, channel) }
 
     before_each do
       rnn_bi_di.input_set_given = input_set_given_example
@@ -187,20 +187,20 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
           it "expected class" do
             puts
             puts "v"*80
-            p! outputs_for
+            p! outputs_expected_for
             puts "^"*80
             puts
 
             class_expected = NamedTuple(outs_deltas: Hash(Symbol, Array(Float64)), outs_expected: Array(Float64))
-            expect(outputs_for.class).to eq(class_expected)
+            expect(outputs_expected_for.class).to eq(class_expected)
           end
 
           context "expected nested sizes for key" do
             it ":outs_deltas" do
-              expect(outputs_for[:outs_deltas].keys).to eq([:current_self_mem, :sl_next_channel_forward, :sl_next_channel_backward, :sl_next_channel_combo])
+              expect(outputs_expected_for[:outs_deltas].keys).to eq([:current_self_mem, :sl_next_channel_forward, :sl_next_channel_backward, :sl_next_channel_combo])
             end
             it ":outs_expected" do
-              expect(outputs_for[:outs_expected].size).to eq(0)
+              expect(outputs_expected_for[:outs_expected].size).to eq(0)
             end
           end
         end
@@ -217,20 +217,20 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
           it "expected class" do
             puts
             puts "v"*80
-            p! outputs_for
+            p! outputs_expected_for
             puts "^"*80
             puts
 
             class_expected = NamedTuple(outs_deltas: Hash(Symbol, Array(Float64)), outs_expected: Array(Float64))
-            expect(outputs_for.class).to eq(class_expected)
+            expect(outputs_expected_for.class).to eq(class_expected)
           end
 
           context "expected nested sizes for key" do
             it ":outs_deltas" do
-              expect(outputs_for[:outs_deltas].keys).to eq([:current_self_mem, :sl_next_channel_forward, :sl_next_channel_backward, :sl_next_channel_combo])
+              expect(outputs_expected_for[:outs_deltas].keys).to eq([:current_self_mem, :sl_next_channel_forward, :sl_next_channel_backward, :sl_next_channel_combo])
             end
             it ":outs_expected" do
-              expect(outputs_for[:outs_expected].size).to eq(0)
+              expect(outputs_expected_for[:outs_expected].size).to eq(0)
             end
           end
         end
@@ -247,21 +247,21 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
           it "expected class" do
             puts
             puts "v"*80
-            p! outputs_for
-            p! outputs_for.class
+            p! outputs_expected_for
+            p! outputs_expected_for.class
             puts "^"*80
             puts
 
             class_expected = NamedTuple(outs_deltas: Hash(Symbol, Array(Float64)), outs_expected: Array(Float64))
-            expect(outputs_for.class).to eq(class_expected)
+            expect(outputs_expected_for.class).to eq(class_expected)
           end
 
           context "expected nested sizes for key" do
             it ":outs_deltas" do
-              expect(outputs_for[:outs_deltas].keys).to eq([:current_self_mem])
+              expect(outputs_expected_for[:outs_deltas].keys).to eq([:current_self_mem])
             end
             it ":outs_expected" do
-              expect(outputs_for[:outs_expected].size).to eq(1)
+              expect(outputs_expected_for[:outs_expected].size).to eq(1)
             end
           end
         end
@@ -278,33 +278,35 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
           it "expected class" do
             puts
             puts "v"*80
-            p! outputs_for
-            p! outputs_for.class
+            p! outputs_expected_for
+            p! outputs_expected_for.class
             puts "^"*80
             puts
 
             class_expected = NamedTuple(outs_deltas: Hash(Symbol, Array(Float64)), outs_expected: Array(Float64))
-            expect(outputs_for.class).to eq(class_expected)
+            expect(outputs_expected_for.class).to eq(class_expected)
           end
 
           context "expected nested sizes for key" do
             it ":outs_deltas" do
-              expect(outputs_for[:outs_deltas].keys).to eq([:current_self_mem])
+              expect(outputs_expected_for[:outs_deltas].keys).to eq([:current_self_mem])
             end
             it ":outs_expected" do
-              expect(outputs_for[:outs_expected].size).to eq(1)
+              expect(outputs_expected_for[:outs_expected].size).to eq(1)
             end
           end
         end
       end
 
       context "returns" do
+        #### TODO... (left off here as of 2021-05-38)
+        
         let(class_expected) {
           # TODO: Why the '| Symbol' in the 'Hash'?
           Array(Array(Hash(NamedTuple(outs_deltas: Hash(Symbol, Array(Float64)), outs_expected: Array(Float64)) | Symbol, NamedTuple(outs_deltas: Hash(Symbol, Array(Float64)), outs_expected: Array(Float64)) | Symbol)))
         }
 
-        let(outputs_for_all_expected) {
+        let(outputs_expected_for_all_expected) {
           [
             [
               {
@@ -377,23 +379,23 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
         it "expected class" do
           # This doesn't collect the inputs in the right order, so the values won't be correct.
           #   BUT, the configuration should be correct .. so we can test it:
-          outputs_for_all = rnn_bi_di.map_only_indexes do |sli, tci, channel|
+          outputs_expected_for_all = rnn_bi_di.map_only_indexes do |sli, tci, channel|
             puts
             puts "v"*80
             p! [sli, tci, channel]
             puts "^"*80
             puts
 
-            rnn_bi_di.outputs_for(sli, tci, channel)
+            rnn_bi_di.outputs_expected_for(sli, tci, channel)
           end
 
           puts
           puts "v"*80
-          p! outputs_for_all
+          p! outputs_expected_for_all
           puts "^"*80
           puts
 
-          expect(outputs_for_all.class).to eq(class_expected)
+          expect(outputs_expected_for_all.class).to eq(class_expected)
         end
       end
     end

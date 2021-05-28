@@ -85,7 +85,8 @@ module Ai4cr
                                #  raise "Index Error! Invalid method!"
                                error_along_li = step_calculate_output_error_along_li(li, ti)
                                #  error_along_ti = step_calculate_output_error_along_ti(li, ti)
-                               error_along_li.map_with_index { |eli, i| 0.5 * eli }
+                              #  error_along_li.map_with_index { |eli, i| 0.5 * eli }
+                               error_along_li.map { |eli| 0.5 * eli }
                              when li == synaptic_layer_index_last # && ti < time_col_index_last
                                # We have 2 errors to deal with; we will average them.
                                error_along_li = step_calculate_output_error_along_li(li, ti)
@@ -93,7 +94,8 @@ module Ai4cr
                                error_along_li.map_with_index { |eli, i| 0.5 * (eli + error_along_ti[i]) }
                              when li < synaptic_layer_index_last && ti == time_col_index_last
                                error_along_li = step_calculate_output_error_along_li(li, ti)
-                               error_along_li.map_with_index { |eli, i| 0.5 * eli }
+                               #  error_along_li.map_with_index { |eli, i| 0.5 * eli }
+                                error_along_li.map { |eli| 0.5 * eli }
                              when li < synaptic_layer_index_last && ti < time_col_index_last
                                # We have 2 errors to deal with; we will average them.
                                error_along_li = step_calculate_output_error_along_li(li, ti)

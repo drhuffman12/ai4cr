@@ -23,55 +23,82 @@ module Ai4cr
               #   end
               # end
 
-              # synaptic_layer_indexes_reversed.each do |sli|
-              #   time_col_indexes_reversed.each do |tci|
-              #     case
-              #     when sli == synaptic_layer_index_last && tci == time_col_index_last
-              #       # In this case, to calculate the 'outputs_expected', we just use @output_set_expected[tci].
-              #       # 'regular' for all sub-parts
-              #       # e.g.:
-              #       # * 'regular' output_deltas
-              #       mini_net_set[sli][tci].train(input_set_given[tci], @output_set_expected[tci], until_min_avg_error)
-              #     when sli == synaptic_layer_index_last && tci < time_col_index_last
-              #       # This is an odd situation.
-              #       # In this case, to calculate the 'outputs_expected', we just use @output_set_expected[tci], which must 'rule' the 'outputs_expected' values.
-              #       # However, we also need to consider error adjustments coming from the next time column index.
-              #       # We want to combine the error deltas coming from both sli and tci directions,
-              #       #   but we must first load the 'output_set_expected' values to be able to calculate the deltas along the sli axis.
-              #       mini_net_set[sli][tci].step_load_outputs(@output_set_expected[tci]) # 'regular' step_load_outputs
-              #       step_calculate_output_errors_at(sli, tci)
-              #       step_backpropagate(sli, tci)
-              #     when sli < synaptic_layer_index_last && tci == time_col_index_last
-              #       # In this case, to calculate the 'outputs_expected', use outputs_guessed (of current [sli][tci]) + input_deltas of (matching parts of next [sli][tci])
-              #       #   TODO: Should this be plus or minus?
-              #       # Also, this is calc'd only in the sli direction.
-              #       step_calculate_output_errors_at(sli, tci)
-              #       mini_net_set[sli][tci].step_load_outputs(calc_hidden_outputs_expected(sli, tci))
-              #       step_backpropagate(sli, tci)
-              #     when sli < synaptic_layer_index_last && tci < time_col_index_last
-              #       # In this case, to calculate the 'outputs_expected', use outputs_guessed (of current [sli][tci]) + input_deltas of (matching parts of next [sli][tci])
-              #       #   TODO: Should this be plus or minus?
-              #       # Also, this is calc'd as a combo (sum or avg) in both sli and tci directions.
-              #       step_calculate_output_errors_at(sli, tci)
-              #       mini_net_set[sli][tci].step_load_outputs(calc_hidden_outputs_expected(sli, tci))
-              #       step_backpropagate(sli, tci)
-              #     else
-              #       raise "Index error! (Range Mis-match!) sli: #{sli}, tci: #{tci}"
-              #     end
-              #   end
-              # end
+              synaptic_layer_indexes_reversed.each do |sli|
+                train_channel_sl_or_combo(sli)
+                if sli > 0
+                  train_channel_backwards(sli)
+                  train_channel_forwards(sli)
+                end
+              end
 
               calculate_error_distance
             end
 
-            def outputs_for(sli, tci, channel)
-              outs_deltas = Hash(Symbol, Array(Float64)).new
-              outs_expected = Array(Float64).new
+            def train_channel_sl_or_combo(sli)
+              time_col_indexes_reversed.each do |tci|
+                outputs_expected = outputs_expected_for(sli, tci, :channel_sl_or_combo)
+                mini_net_set[sli][tci][:channel_sl_or_combo].step_load_outputs(outputs_expected)
+                mini_net_set[sli][tci][:channel_sl_or_combo].step_calc_output_errors
+                # step_calculate_output_errors_at(sli, tci, :channel_sl_or_combo)
 
-              # memory (almost all have it)
-              if sli > 0 || channel == :channel_sl_or_combo
+                # step_backpropagate_at(sli, tci, :channel_sl_or_combo)
+                mini_net_set[sli][tci][:channel_sl_or_combo].step_backpropagate
+                # mini_net_set[sli][tci][:channel_sl_or_combo].step_calculate_output_deltas
+                # mini_net_set[sli][tci][:channel_sl_or_combo].step_calc_input_deltas
+                # mini_net_set[sli][tci][:channel_sl_or_combo].step_update_weights
+              end
+            end
+            def train_channel_backwards(sli)
+              # @input_set_given
+              # @output_set_expected
+              time_col_indexes.each do |tci|
+                outputs_expected = outputs_expected_for(sli, tci, :channel_backwards)
+                mini_net_set[sli][tci][:channel_backwards].step_load_outputs(outputs_expected)
+                mini_net_set[sli][tci][:channel_backwards].step_calc_output_errors
+                # step_calculate_output_errors_at(sli, tci, :channel_backwards)
+
+                # step_backpropagate_at(sli, tci, :channel_backwards)
+                mini_net_set[sli][tci][:channel_backwards].step_backpropagate
+                # mini_net_set[sli][tci][:channel_backwards].step_calculate_output_deltas
+                # mini_net_set[sli][tci][:channel_backwards].step_calc_input_deltas
+                # mini_net_set[sli][tci][:channel_backwards].step_update_weights
+              end
+            end
+            def train_channel_forwards(sli)
+              # @input_set_given
+              # @output_set_expected
+              time_col_indexes_reversed.each do |tci|
+                outputs_expected = outputs_expected_for(sli, tci, :channel_forwards)
+                mini_net_set[sli][tci][:channel_forwards].step_load_outputs(outputs_expected)
+                mini_net_set[sli][tci][:channel_forwards].step_calc_output_errors
+                # step_calculate_output_errors_at(sli, tci, :channel_forwards)
+
+                # step_backpropagate_at(sli, tci, :channel_forwards)
+                mini_net_set[sli][tci][:channel_forwards].step_backpropagate
+                # mini_net_set[sli][tci][:channel_forwards].step_calculate_output_deltas
+                # mini_net_set[sli][tci][:channel_forwards].step_calc_input_deltas
+                # mini_net_set[sli][tci][:channel_forwards].step_update_weights
+              end
+            end
+
+            def outputs_expected_for(sli, tci, channel)
+              # @input_set_given
+              # @output_set_expected
+
+
+              # The 'outs_expected' is only (mostly) directly defined by outputs_expected for 
+              #   th last sli of last tci of channel ':channel_sl_or_combo'.
+              #   But that has 'memory' also, which must be considered.
+              # All others must first gather applicable 'outs_deltas' and derive applicable combo of 'outs_expected'.
+              outs_expected = Array(Float64).new
+              outs_deltas = Hash(Symbol, Array(Float64)).new
+
+              # outs_deltas[:current_self_mem] (all have it; except on first sli, only channel channel_sl_or_combo exists)
+              if channel == :channel_sl_or_combo || sli > 0
                 outs_deltas[:current_self_mem] = outs_deltas_mem(sli, tci, channel)
               end
+
+              #### TODO... (left off here as of 2021-05-38)
 
               case
               when sli == synaptic_layer_indexes.last && channel == :channel_sl_or_combo
