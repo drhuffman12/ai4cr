@@ -4,12 +4,12 @@ module Ai4cr
       module Concerns
         module Simple
           module PaiDistinct
-            alias NodeInputSizes = Array(Array(NamedTuple(
+            alias NodeInputConfig = Array(Array(NamedTuple(
               previous_synaptic_layer: Int32,
               tc_previous_channel_forward: Int32)))
             alias MiniNetSet = Array(Array(Cmn::MiniNet))
 
-            property node_input_sizes = NodeInputSizes.new
+            property node_input_sizes = NodeInputConfig.new
             property mini_net_set = MiniNetSet.new
 
             def calc_node_input_sizes

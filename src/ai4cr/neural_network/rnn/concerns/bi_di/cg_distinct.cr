@@ -4,8 +4,8 @@ module Ai4cr
       module Concerns
         module BiDi
           module CgDistinct
-            CHANNELS_FIRST_SLI = [:channel_sl_or_combo]
-            CHANNELS_OTHER_SLI = [:channel_forward, :channel_backward, :channel_sl_or_combo]
+            CHANNELS_FIRST_SLI = [:channel_input_or_combo]
+            CHANNELS_OTHER_SLI = [:channel_forward, :channel_backward, :channel_input_or_combo]
 
             # steps for 'eval' aka 'guess':
             def eval(input_set_given)
@@ -27,7 +27,7 @@ module Ai4cr
                   end
                 end
 
-                channel = :channel_sl_or_combo
+                channel = :channel_input_or_combo
                 time_col_indexes.each do |tci|
                   load_inputs_and_step_forward(sli, tci, channel)
                 end
@@ -59,28 +59,28 @@ module Ai4cr
               ins = Hash(Symbol, Array(Float64)).new
 
               # memory
-              if sli == 0 && channel == :channel_sl_or_combo
+              if sli == 0 && channel == :channel_input_or_combo
                 ins[:current_self_mem] = mini_net_set[sli][tci][channel].outputs_guessed
               elsif sli > 0
                 ins[:current_self_mem] = mini_net_set[sli][tci][channel].outputs_guessed
               end
 
               # prior sli outputs (or original inputs if sli == 0)
-              if sli == 0 && channel == :channel_sl_or_combo
-                ins[:sl_previous_input_or_combo] = @input_set_given[tci] # if channel == :channel_sl_or_combo
+              if sli == 0 && channel == :channel_input_or_combo
+                ins[:sl_previous_input_or_combo] = @input_set_given[tci] # if channel == :channel_input_or_combo
               else
-                ins[:sl_previous_input_or_combo] = mini_net_set[sli - 1][tci][:channel_sl_or_combo].outputs_guessed
+                ins[:sl_previous_input_or_combo] = mini_net_set[sli - 1][tci][:channel_input_or_combo].outputs_guessed
               end
 
               # current forward and backward into current combo
-              if channel == :channel_sl_or_combo
+              if channel == :channel_input_or_combo
                 if sli > 0
                   ins[:current_forward] = mini_net_set[sli][tci][:channel_forward].outputs_guessed
                   ins[:current_backward] = mini_net_set[sli][tci][:channel_backward].outputs_guessed
                 end
               end
 
-              # if channel == :channel_sl_or_combo
+              # if channel == :channel_input_or_combo
               # ins << mini_net_set[sli][tci+1].outputs_guessed unless sli == 0
               # end
 
@@ -97,7 +97,7 @@ module Ai4cr
               end
 
               # bias
-              if sli == 0 && channel == :channel_sl_or_combo
+              if sli == 0 && channel == :channel_input_or_combo
                 # ins << mini_net_set[sli][tci][channel].outputs_guessed
                 ins[:bias] = [@bias_default] if !@bias_disabled
                 # elsif sli > 0
@@ -134,7 +134,7 @@ module Ai4cr
                 if sli == 0
                   time_col_indexes.each do |tci|
                     # channels.each do |channel|
-                    yield @mini_net_set[sli][tci][:channel_sl_or_combo]
+                    yield @mini_net_set[sli][tci][:channel_input_or_combo]
                     # end
                   end
                 else
@@ -152,7 +152,7 @@ module Ai4cr
                     # end
                   end
 
-                  channel = :channel_sl_or_combo
+                  channel = :channel_input_or_combo
                   time_col_indexes.each do |tci|
                     # channels.each do |channel|
                     yield @mini_net_set[sli][tci][channel]
@@ -168,7 +168,7 @@ module Ai4cr
                 if sli == 0
                   time_col_indexes.each do |tci|
                     # channels.each do |channel|
-                    yield @mini_net_set[sli][tci][:channel_sl_or_combo], sli, tci, channel
+                    yield @mini_net_set[sli][tci][:channel_input_or_combo], sli, tci, channel
                     # end
                   end
                 else
@@ -186,7 +186,7 @@ module Ai4cr
                     # end
                   end
 
-                  channel = :channel_sl_or_combo
+                  channel = :channel_input_or_combo
                   time_col_indexes.each do |tci|
                     # channels.each do |channel|
                     yield @mini_net_set[sli][tci][channel], sli, tci, channel
@@ -202,11 +202,11 @@ module Ai4cr
                 if sli == 0
                   time_col_indexes_reversed.each do |tci|
                     # channels.each do |channel|
-                    yield @mini_net_set[sli][tci][:channel_sl_or_combo], sli, tci, channel
+                    yield @mini_net_set[sli][tci][:channel_input_or_combo], sli, tci, channel
                     # end
                   end
                 else
-                  channel = :channel_sl_or_combo
+                  channel = :channel_input_or_combo
                   time_col_indexes_reversed.each do |tci|
                     # channels.each do |channel|
                     yield @mini_net_set[sli][tci][channel], sli, tci, channel
@@ -280,7 +280,7 @@ module Ai4cr
                     mini_net_set[sli][tci][channel].weights = w[sli][tci][channel]
                   end
 
-                  channel = :channel_sl_or_combo
+                  channel = :channel_input_or_combo
                   mini_net_set[sli][tci][channel].weights = w[sli][tci][channel]
                 end
               end
@@ -292,7 +292,7 @@ module Ai4cr
               time_col_indexes.map do |tci|
                 a = mini_net_set[sli]
                 b = a[tci]
-                guessed = b[:channel_sl_or_combo].outputs_guessed
+                guessed = b[:channel_input_or_combo].outputs_guessed
                 guessed
               end
             end

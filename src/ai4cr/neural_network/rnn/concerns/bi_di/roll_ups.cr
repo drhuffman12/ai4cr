@@ -18,7 +18,7 @@ module Ai4cr
               empty_hash = Hash(Symbol, Array(Array(Float64))).new
               synaptic_layer_indexes.map do |sli|
                 time_col_indexes.map do |tci|
-                  channel = :channel_sl_or_combo
+                  channel = :channel_input_or_combo
                   w = {channel => block.call(mini_net_set[sli][tci][channel])}.merge(
                     if sli > 0
                       channel = :channel_backward
@@ -37,7 +37,7 @@ module Ai4cr
                   w2 = Hash(Symbol, Array(Array(Float64))).new
                   w2[:channel_forward] = w[:channel_forward] if w.keys.includes?(:channel_forward)
                   w2[:channel_backward] = w[:channel_backward] if w.keys.includes?(:channel_backward)
-                  w2[:channel_sl_or_combo] = w[:channel_sl_or_combo]
+                  w2[:channel_input_or_combo] = w[:channel_input_or_combo]
 
                   w2
                 end

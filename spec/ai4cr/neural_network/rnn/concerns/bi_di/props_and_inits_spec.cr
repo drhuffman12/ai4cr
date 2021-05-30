@@ -7,7 +7,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
     # sli_last = rnn_bi_di.synaptic_layer_indexes.last
     rnn_bi_di.synaptic_layer_indexes.map do |sli|
       rnn_bi_di.time_col_indexes.map do |tci|
-        channels = [:channel_forward, :channel_backward, :channel_sl_or_combo]
+        channels = [:channel_forward, :channel_backward, :channel_input_or_combo]
         channels.each do |channel_symbol|
           # puts "v"*80
           expect(channel_symbol).to be_a(Symbol)
@@ -22,7 +22,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
           #   puts "MiniNet NOT at: [#{sli}][#{tci}][#{channel_symbol}]"
           # end
 
-          if sli == 0 && channel_symbol != :channel_sl_or_combo
+          if sli == 0 && channel_symbol != :channel_input_or_combo
             expect(rnn_bi_di.mini_net_set[sli][tci].keys).not_to contain(channel_symbol)
           else
             expect(rnn_bi_di.mini_net_set[sli][tci].keys).to contain(channel_symbol)
@@ -61,7 +61,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
               sl_previous_channel_backward: 0,
               tc_next_channel_backward:     0,
             },
-            channel_sl_or_combo: {
+            channel_input_or_combo: {
               current_self_mem:           rnn_bi_di.hidden_size,
               sl_previous_input_or_combo: rnn_bi_di.input_size,
               current_forward:            0,
@@ -82,7 +82,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
               sl_previous_channel_backward: 0,
               tc_next_channel_backward:     0,
             },
-            channel_sl_or_combo: {
+            channel_input_or_combo: {
               current_self_mem:           rnn_bi_di.hidden_size,
               sl_previous_input_or_combo: rnn_bi_di.input_size,
               current_forward:            0,
@@ -106,7 +106,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
               sl_previous_channel_backward: 0,
               tc_next_channel_backward:     rnn_bi_di.hidden_size,
             },
-            channel_sl_or_combo: {
+            channel_input_or_combo: {
               current_self_mem:           rnn_bi_di.output_size,
               sl_previous_input_or_combo: rnn_bi_di.hidden_size,
               current_forward:            rnn_bi_di.hidden_size,
@@ -127,7 +127,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
               sl_previous_channel_backward: 0,
               tc_next_channel_backward:     0,
             },
-            channel_sl_or_combo: {
+            channel_input_or_combo: {
               current_self_mem:           rnn_bi_di.output_size,
               sl_previous_input_or_combo: rnn_bi_di.hidden_size,
               current_forward:            rnn_bi_di.hidden_size,
@@ -315,7 +315,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: 0,
                   tc_next_channel_backward:     0,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.hidden_size,
                   sl_previous_input_or_combo: rnn_bi_di.input_size,
                   current_forward:            0,
@@ -336,7 +336,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: 0,
                   tc_next_channel_backward:     0,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.hidden_size,
                   sl_previous_input_or_combo: rnn_bi_di.input_size,
                   current_forward:            0,
@@ -360,7 +360,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: 0,
                   tc_next_channel_backward:     rnn_bi_di.hidden_size,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.hidden_size,
                   sl_previous_input_or_combo: rnn_bi_di.hidden_size,
                   current_forward:            rnn_bi_di.hidden_size,
@@ -381,7 +381,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: 0,
                   tc_next_channel_backward:     0,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.hidden_size,
                   sl_previous_input_or_combo: rnn_bi_di.hidden_size,
                   current_forward:            rnn_bi_di.hidden_size,
@@ -405,7 +405,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: rnn_bi_di.hidden_size,
                   tc_next_channel_backward:     rnn_bi_di.hidden_size,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.output_size,
                   sl_previous_input_or_combo: rnn_bi_di.hidden_size,
                   current_forward:            rnn_bi_di.hidden_size,
@@ -426,7 +426,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: rnn_bi_di.hidden_size,
                   tc_next_channel_backward:     0,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.output_size,
                   sl_previous_input_or_combo: rnn_bi_di.hidden_size,
                   current_forward:            rnn_bi_di.hidden_size,
@@ -526,7 +526,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: 0,
                   tc_next_channel_backward:     0,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.hidden_size,
                   sl_previous_input_or_combo: rnn_bi_di.input_size,
                   current_forward:            0,
@@ -547,7 +547,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: 0,
                   tc_next_channel_backward:     0,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.hidden_size,
                   sl_previous_input_or_combo: rnn_bi_di.input_size,
                   current_forward:            0,
@@ -568,7 +568,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: 0,
                   tc_next_channel_backward:     0,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.hidden_size,
                   sl_previous_input_or_combo: rnn_bi_di.input_size,
                   current_forward:            0,
@@ -592,7 +592,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: 0,
                   tc_next_channel_backward:     rnn_bi_di.hidden_size,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.hidden_size,
                   sl_previous_input_or_combo: rnn_bi_di.hidden_size,
                   current_forward:            rnn_bi_di.hidden_size,
@@ -613,7 +613,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: 0,
                   tc_next_channel_backward:     rnn_bi_di.hidden_size,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.hidden_size,
                   sl_previous_input_or_combo: rnn_bi_di.hidden_size,
                   current_forward:            rnn_bi_di.hidden_size,
@@ -634,7 +634,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: 0,
                   tc_next_channel_backward:     0,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.hidden_size,
                   sl_previous_input_or_combo: rnn_bi_di.hidden_size,
                   current_forward:            rnn_bi_di.hidden_size,
@@ -658,7 +658,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: rnn_bi_di.hidden_size,
                   tc_next_channel_backward:     rnn_bi_di.hidden_size,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.output_size,
                   sl_previous_input_or_combo: rnn_bi_di.hidden_size,
                   current_forward:            rnn_bi_di.hidden_size,
@@ -679,7 +679,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: rnn_bi_di.hidden_size,
                   tc_next_channel_backward:     rnn_bi_di.hidden_size,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.output_size,
                   sl_previous_input_or_combo: rnn_bi_di.hidden_size,
                   current_forward:            rnn_bi_di.hidden_size,
@@ -700,7 +700,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
                   sl_previous_channel_backward: rnn_bi_di.hidden_size,
                   tc_next_channel_backward:     0,
                 },
-                channel_sl_or_combo: {
+                channel_input_or_combo: {
                   current_self_mem:           rnn_bi_di.output_size,
                   sl_previous_input_or_combo: rnn_bi_di.hidden_size,
                   current_forward:            rnn_bi_di.hidden_size,
@@ -812,7 +812,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::PropsAndInits do
   #     sl_previous_channel_backward: 0,
   #     tc_next_channel_backward:     0,
   #   },
-  #   channel_sl_or_combo: {
+  #   channel_input_or_combo: {
   #     current_self_mem:           rnn_bi_di.hidden_size,
   #     sl_previous_input_or_combo: rnn_bi_di.input_size,
   #     current_forward:            0,
