@@ -12,7 +12,7 @@ module Ai4cr
 
               # all_mini_nets_each_reversed_with_indexes do |mininet, sli, tci, channel|
               #   case
-              #   when sli == synaptic_layer_indexes.last && channel == :channel_sl_or_combo
+              #   when sli == synaptic_layer_indexes.last && channel == :channel_input_or_combo
               #     # step_load_outputs
               #     mininet.step_load_outputs(@output_set_expected[tci])
               #     # step_calculate_output_errors_at
@@ -24,7 +24,7 @@ module Ai4cr
               # end
 
               synaptic_layer_indexes_reversed.each do |sli|
-                train_channel_sl_or_combo(sli)
+                train_channel_input_or_combo(sli)
                 if sli > 0
                   train_channel_backward(sli)
                   train_channel_forward(sli)
@@ -33,7 +33,7 @@ module Ai4cr
 
               # synaptic_layer_indexes_reversed.each do |sli|
               #   time_col_indexes_reversed.each do |tci|
-              #     mini_net_set[sli][tci][:channel_sl_or_combo].calculate_error_distance
+              #     mini_net_set[sli][tci][:channel_input_or_combo].calculate_error_distance
               #   end
               #   if sli > 0
               #     time_col_indexes.each do |tci|
@@ -48,14 +48,14 @@ module Ai4cr
               calculate_error_distance
             end
 
-            def train_channel_sl_or_combo(sli)
+            def train_channel_input_or_combo(sli)
               time_col_indexes_reversed.each do |tci|
-                outputs_deltas_and_expected = outputs_deltas_and_expected_for(sli, tci, :channel_sl_or_combo)
+                outputs_deltas_and_expected = outputs_deltas_and_expected_for(sli, tci, :channel_input_or_combo)
 
                 # TODO: Do something to mix outs_expected and outs_deltas!
                 outs_expected = outputs_deltas_and_expected[:outs_expected]
                 outs_deltas = outputs_deltas_and_expected[:outs_deltas]
-                mininet = mini_net_set[sli][tci][:channel_sl_or_combo]
+                mininet = mini_net_set[sli][tci][:channel_input_or_combo]
 
                 p! outs_expected
                 p! outs_deltas
@@ -71,9 +71,9 @@ module Ai4cr
 
                 mininet.step_load_outputs(outputs_expected)
                 mininet.step_calc_output_errors
-                # step_calculate_output_errors_at(sli, tci, :channel_sl_or_combo)
+                # step_calculate_output_errors_at(sli, tci, :channel_input_or_combo)
 
-                # step_backpropagate_at(sli, tci, :channel_sl_or_combo)
+                # step_backpropagate_at(sli, tci, :channel_input_or_combo)
                 mininet.step_backpropagate
                 # mininet.step_calculate_output_deltas
                 # mininet.step_calc_input_deltas
@@ -166,21 +166,21 @@ module Ai4cr
               # @output_set_expected
 
               # The 'outs_expected' is only (mostly) directly defined by outputs_expected for
-              #   th last sli of last tci of channel ':channel_sl_or_combo'.
+              #   th last sli of last tci of channel ':channel_input_or_combo'.
               #   But that has 'memory' also, which must be considered.
               # All others must first gather applicable 'outs_deltas' and derive applicable combo of 'outs_expected'.
               outs_expected = Array(Float64).new
               outs_deltas = Hash(Symbol, Array(Float64)).new
 
-              # outs_deltas[:current_self_mem] (all have it; except on first sli, only channel channel_sl_or_combo exists)
-              if channel == :channel_sl_or_combo || sli > 0
+              # outs_deltas[:current_self_mem] (all have it; except on first sli, only channel channel_input_or_combo exists)
+              if channel == :channel_input_or_combo || sli > 0
                 outs_deltas[:current_self_mem] = outs_deltas_mem(sli, tci, channel)
               end
 
               # ### TODO... (left off here as of 2021-05-38)
 
               case
-              when sli == synaptic_layer_indexes.last && channel == :channel_sl_or_combo
+              when sli == synaptic_layer_indexes.last && channel == :channel_input_or_combo
                 # final outputs
 
                 puts
@@ -199,8 +199,8 @@ module Ai4cr
                 # channel_backward
                 # (none)
 
-                # channel_sl_or_combo
-                channel_from = :channel_sl_or_combo
+                # channel_input_or_combo
+                channel_from = :channel_input_or_combo
                 mn_from = mini_net_set[sli][tci][channel_from]
                 nis_from = node_input_sizes[sli][tci][channel_from]
 
@@ -226,7 +226,7 @@ module Ai4cr
                 # (none)
 
                 # channel_backward
-                channel_from = :channel_sl_or_combo
+                channel_from = :channel_input_or_combo
                 mn_from = mini_net_set[sli][tci - 1][channel_from]
                 nis_from = node_input_sizes[sli][tci - 1][channel_from]
 
@@ -247,8 +247,8 @@ module Ai4cr
                 # i_to = i_from + nis_from[:tc_next_channel_backward] - 1
                 # outs_deltas[:tc_previous_channel_backward] = mn_from.input_deltas[i_from..i_to]
 
-                # channel_sl_or_combo
-                channel_from = :channel_sl_or_combo
+                # channel_input_or_combo
+                channel_from = :channel_input_or_combo
                 mn_from = mini_net_set[sli][tci][channel_from]
                 nis_from = node_input_sizes[sli][tci][channel_from]
 
@@ -276,8 +276,8 @@ module Ai4cr
                 # channel_backward
                 # (none)
 
-                # channel_sl_or_combo
-                channel_from = :channel_sl_or_combo
+                # channel_input_or_combo
+                channel_from = :channel_input_or_combo
                 mn_from = mini_net_set[sli][tci][channel_from]
                 nis_from = node_input_sizes[sli][tci][channel_from]
 
@@ -322,8 +322,8 @@ module Ai4cr
                 # channel_backward
                 # (none)
 
-                # channel_sl_or_combo
-                channel_from = :channel_sl_or_combo
+                # channel_input_or_combo
+                channel_from = :channel_input_or_combo
                 mn_from = mini_net_set[sli][tci][channel_from]
                 nis_from = node_input_sizes[sli][tci][channel_from]
 
@@ -344,7 +344,7 @@ module Ai4cr
                 # i_to = i_from + nis_from[:current_forward] - 1
                 # outs_deltas[:sl_next_combo] = mn_from.input_deltas[i_from..i_to]
 
-              when channel == :channel_sl_or_combo
+              when channel == :channel_input_or_combo
                 # channel_forward
                 channel_from = :channel_forward
                 mn_from = mini_net_set[sli + 1][tci][channel_from]
@@ -381,8 +381,8 @@ module Ai4cr
                 i_to = i_from + nis_from[:sl_previous_input_or_combo] - 1
                 outs_deltas[:sl_next_channel_backward] = mn_from.input_deltas[i_from..i_to]
 
-                # channel_sl_or_combo
-                channel_from = :channel_sl_or_combo
+                # channel_input_or_combo
+                channel_from = :channel_input_or_combo
                 mn_from = mini_net_set[sli + 1][tci][channel_from]
                 nis_from = node_input_sizes[sli + 1][tci][channel_from]
 
@@ -506,7 +506,7 @@ module Ai4cr
             def final_li_output_error_distances
               sli = synaptic_layer_indexes.last
               time_col_indexes.map do |tci|
-                mini_net_set[sli][tci][:channel_sl_or_combo].error_stats.distance
+                mini_net_set[sli][tci][:channel_input_or_combo].error_stats.distance
               end
             end
           end

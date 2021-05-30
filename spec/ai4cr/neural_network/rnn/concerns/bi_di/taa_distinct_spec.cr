@@ -10,7 +10,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
     [
       [
         {
-          :channel_sl_or_combo => [
+          :channel_input_or_combo => [
             [10.01, 0.02, -0.03],
             [0.04, -10.05, 0.06],
             [0.07, 0.08, 10.09],
@@ -20,7 +20,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
           ],
         },
         {
-          :channel_sl_or_combo => [
+          :channel_input_or_combo => [
             [-0.01, -10.02, 0.03],
             [0.04, -0.05, 10.06],
             [10.07, 0.08, 0.09],
@@ -51,7 +51,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
             [0.22, -0.23, -10.24],
             [10.25, -0.26, -0.27],
           ],
-          :channel_sl_or_combo => [
+          :channel_input_or_combo => [
             [0.01],
             [0.02],
             [-0.03],
@@ -84,7 +84,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
             [-0.13, -0.14, -0.15],
             [-0.16, 0.17, 0.18],
           ],
-          :channel_sl_or_combo => [
+          :channel_input_or_combo => [
             [0.01],
             [-0.02],
             [0.03],
@@ -107,22 +107,22 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
     [
       [
         {
-          :channel_sl_or_combo => [0.0, 0.0, 0.0],
+          :channel_input_or_combo => [0.0, 0.0, 0.0],
         },
         {
-          :channel_sl_or_combo => [0.0, 0.0, 0.0],
+          :channel_input_or_combo => [0.0, 0.0, 0.0],
         },
       ],
       [
         {
-          :channel_forward     => [0.0, 0.0, 0.0],
-          :channel_backward    => [0.0, 0.0, 0.0],
-          :channel_sl_or_combo => [0.0],
+          :channel_forward        => [0.0, 0.0, 0.0],
+          :channel_backward       => [0.0, 0.0, 0.0],
+          :channel_input_or_combo => [0.0],
         },
         {
-          :channel_forward     => [0.0, 0.0, 0.0],
-          :channel_backward    => [0.0, 0.0, 0.0],
-          :channel_sl_or_combo => [0.0],
+          :channel_forward        => [0.0, 0.0, 0.0],
+          :channel_backward       => [0.0, 0.0, 0.0],
+          :channel_input_or_combo => [0.0],
         },
       ],
     ]
@@ -131,22 +131,22 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
     [
       [
         {
-          :channel_sl_or_combo => [0.0, 1.0, 0.0],
+          :channel_input_or_combo => [0.0, 1.0, 0.0],
         },
         {
-          :channel_sl_or_combo => [0.0, 1.0, 0.0],
+          :channel_input_or_combo => [0.0, 1.0, 0.0],
         },
       ],
       [
         {
-          :channel_forward     => [0.13, 0.0, 1.0],
-          :channel_backward    => [0.0, 0.14, 0.0],
-          :channel_sl_or_combo => [0.05910000000000001],
+          :channel_forward        => [0.13, 0.0, 1.0],
+          :channel_backward       => [0.0, 0.14, 0.0],
+          :channel_input_or_combo => [0.05910000000000001],
         },
         {
-          :channel_forward     => [0.0953, 0.094, 0.14730000000000004],
-          :channel_backward    => [0.0, 0.0, 0.0],
-          :channel_sl_or_combo => [0.041186],
+          :channel_forward        => [0.0953, 0.094, 0.14730000000000004],
+          :channel_backward       => [0.0, 0.0, 0.0],
+          :channel_input_or_combo => [0.041186],
         },
       ],
     ]
@@ -177,11 +177,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
         end
       end
 
-      context "for sli '0' tci '0' channel ':channel_sl_or_combo'" do
+      context "for sli '0' tci '0' channel ':channel_input_or_combo'" do
         let(sli) { 0 }
         let(tci) { 0 }
         let(channel) {
-          :channel_sl_or_combo
+          :channel_input_or_combo
         }
 
         context "returns" do
@@ -206,11 +206,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
         end
       end
 
-      context "for sli '0' tci '1' channel ':channel_sl_or_combo'" do
+      context "for sli '0' tci '1' channel ':channel_input_or_combo'" do
         let(sli) { 0 }
         let(tci) { 1 }
         let(channel) {
-          :channel_sl_or_combo
+          :channel_input_or_combo
         }
 
         context "returns" do
@@ -235,11 +235,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
         end
       end
 
-      context "for sli '1' tci '0' channel ':channel_sl_or_combo'" do
+      context "for sli '1' tci '0' channel ':channel_input_or_combo'" do
         let(sli) { 1 }
         let(tci) { 0 }
         let(channel) {
-          :channel_sl_or_combo
+          :channel_input_or_combo
         }
 
         context "returns" do
@@ -265,11 +265,11 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
         end
       end
 
-      context "for sli '1' tci '1' channel ':channel_sl_or_combo'" do
+      context "for sli '1' tci '1' channel ':channel_input_or_combo'" do
         let(sli) { 1 }
         let(tci) { 1 }
         let(channel) {
-          :channel_sl_or_combo
+          :channel_input_or_combo
         }
 
         context "returns" do
@@ -308,7 +308,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
           [
             [
               {
-                :channel_sl_or_combo => {
+                :channel_input_or_combo => {
                   outs_deltas: {
                     :current_self_mem         => [0.0, 0.0, 0.0],
                     :sl_next_channel_forward  => [0.0, 0.0, 0.0],
@@ -319,7 +319,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
                 },
               },
               {
-                :channel_sl_or_combo => {
+                :channel_input_or_combo => {
                   outs_deltas: {
                     :current_self_mem         => [0.0, 0.0, 0.0],
                     :sl_next_channel_forward  => [0.0, 0.0, 0.0],
@@ -344,7 +344,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
                   },
                   outs_expected: [] of Float64,
                 },
-                :channel_sl_or_combo => {
+                :channel_input_or_combo => {
                   outs_deltas: {
                     :current_self_mem => [0.0],
                   },
@@ -364,7 +364,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::TaaDistinct do
                   },
                   outs_expected: [] of Float64,
                 },
-                :channel_sl_or_combo => {
+                :channel_input_or_combo => {
                   outs_deltas: {
                     :current_self_mem => [0.0],
                   },

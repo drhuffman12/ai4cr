@@ -8,22 +8,22 @@ Spectator.describe Ai4cr::NeuralNetwork::Rnn::Concerns::BiDi::Rollups do
     [
       [
         {
-          :channel_sl_or_combo => [0.0, 0.0, 0.0],
+          :channel_input_or_combo => [0.0, 0.0, 0.0],
         },
         {
-          :channel_sl_or_combo => [0.0, 0.0, 0.0],
+          :channel_input_or_combo => [0.0, 0.0, 0.0],
         },
       ],
       [
         {
-          :channel_forward     => [0.0, 0.0, 0.0],
-          :channel_backward    => [0.0, 0.0, 0.0],
-          :channel_sl_or_combo => [0.0],
+          :channel_forward        => [0.0, 0.0, 0.0],
+          :channel_backward       => [0.0, 0.0, 0.0],
+          :channel_input_or_combo => [0.0],
         },
         {
-          :channel_forward     => [0.0, 0.0, 0.0],
-          :channel_backward    => [0.0, 0.0, 0.0],
-          :channel_sl_or_combo => [0.0],
+          :channel_forward        => [0.0, 0.0, 0.0],
+          :channel_backward       => [0.0, 0.0, 0.0],
+          :channel_input_or_combo => [0.0],
         },
       ],
     ]
