@@ -100,7 +100,7 @@ module SimpleStateMachine
         add_path(state_from: STATE_RESETTING, states_to: [STATE_READY, STATE_ERROR, STATE_RESET], restriced_states: true)
       else
         # Use a any-to-any (except self) state-flow:
-        @states.map_with_index do |state_from, i|
+        @states.map do |state_from|
           states_to = @states - [state_from]
 
           @allowed_paths.merge!({state_from => states_to})
