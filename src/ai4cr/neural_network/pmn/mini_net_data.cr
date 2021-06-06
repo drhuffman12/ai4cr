@@ -18,25 +18,25 @@ module Ai4cr
 
         getter bias_enabled : Bool
 
-        getter height_set : Hash(String, Int32)
-        getter height_set_indexes = Hash(String, Array(Int32)).new
+        getter height_set : HeightSet
+        getter height_set_indexes = HeightSetIndexes.new
         getter height = -1
 
         # getter width = -1
 
-        def initialize(@bias_enabled = false, @height_set = Hash(String, Int32).new)
-          upsert_height(incoming_channel: "bias", height: 1) if bias_enabled
+        def initialize(@bias_enabled = false, @height_set = HeightSet.new)
+          upsert_height(from_channel: "bias", from_offset: [0], height: 1) if bias_enabled
           reset_height_set_indexes
         end
 
-        def upsert_height(incoming_channel : String, height : Int32)
-          @height_set[incoming_channel] = height
+        def upsert_height(from_channel : String, from_offset : Offset, height : Int32)
+          @height_set[{from_channel: from_channel, from_offset: from_offset}] = height
           reset_height_set_indexes
         end
 
         def reset_height_set_indexes
           h_from = 0
-          @height_set_indexes = Hash(String, Array(Int32)).new
+          @height_set_indexes = Hash(NodeCoord, Array(Int32)).new
           @height_set.each do |key, h_size|
             h_to = h_from + h_size - 1
             @height_set_indexes[key] = (h_from..h_to).to_a
