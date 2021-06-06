@@ -22,10 +22,10 @@ Spectator.describe Ai4cr::NeuralNetwork::Pmn::MiniNetData do
       let(bias_enabled_expected) { false }
       let(height_expected) { 0 }
       let(height_set_expected) {
-        Hash(String,Int32).new
+        Hash(String, Int32).new
       }
       let(height_set_indexes_expected) {
-        Hash(String,Array(Int32)).new
+        Hash(String, Array(Int32)).new
       }
 
       it "bias is disabled" do
@@ -50,7 +50,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Pmn::MiniNetData do
       let(height_foo) { 2 }
       let(height_bar) { 3 }
       let(height_set) {
-        { "foo" => 2, "bar" => 3 }
+        {"foo" => 2, "bar" => 3}
       }
 
       let(mnd) {
@@ -63,14 +63,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Pmn::MiniNetData do
         height_set
       }
       let(height_set_indexes_expected) {
-        { "foo" => [0,1], "bar" => [2,3,4] }
+        {"foo" => [0, 1], "bar" => [2, 3, 4]}
       }
 
       # it "DEBUG" do
       #   p! mnd
-  
+
       #   puts mnd.to_pretty_json
-  
+
       #   expect(1).to eq(1)
       # end
 
@@ -97,7 +97,7 @@ Spectator.describe Ai4cr::NeuralNetwork::Pmn::MiniNetData do
       let(height_foo) { 2 }
       let(height_bar) { 3 }
       let(height_set) {
-        { "bias" => 1, "foo" => 2, "bar" => 3 }
+        {"bias" => 1, "foo" => 2, "bar" => 3}
       }
 
       let(mnd) {
@@ -110,14 +110,14 @@ Spectator.describe Ai4cr::NeuralNetwork::Pmn::MiniNetData do
         height_set
       }
       let(height_set_indexes_expected) {
-        { "bias" => [0], "foo" => [1,2], "bar" => [3,4,5] }
+        {"bias" => [0], "foo" => [1, 2], "bar" => [3, 4, 5]}
       }
 
       # it "DEBUG" do
       #   p! mnd
-  
+
       #   puts mnd.to_pretty_json
-  
+
       #   expect(1).to eq(1)
       # end
 
@@ -144,10 +144,10 @@ Spectator.describe Ai4cr::NeuralNetwork::Pmn::MiniNetData do
       let(incoming_channel) { "foo" }
       let(height) { rand(3) + 1 }
       let(height_set_indexes_expected_before) {
-        Hash(String,Array(Int32)).new
+        Hash(String, Array(Int32)).new
       }
       let(height_set_indexes_expected_after) {
-        {incoming_channel => (0..height-1).to_a}
+        {incoming_channel => (0..height - 1).to_a}
       }
 
       it "appends the 'incoming_channel' and associated height" do
