@@ -171,15 +171,15 @@ Spectator.describe Ai4cr::NeuralNetwork::Pmn::ParallelNode do
       # let(from_channel) { "foo" }
       let(from_offset) { [0] }
       let(height) { rand(3) + 1 }
+      let(height_indexes_expected) { (0..height - 1).to_a }
       let(height_set_indexes_expected_before) {
         Ai4cr::NeuralNetwork::Pmn::HeightSetIndexes.new
       }
       let(height_set_indexes_expected_after) {
-        {[0] => [0]}
+        {[0] => height_indexes_expected}
       }
 
       it "appends the heights list with associated height" do # TODO: Re-word title
-        # TODO: Why randomly failing?
         expect(para_node.height_set_indexes).to eq(height_set_indexes_expected_before)
         para_node.upsert_height(from_coord: from_offset, height: height)
         para_node.lock
