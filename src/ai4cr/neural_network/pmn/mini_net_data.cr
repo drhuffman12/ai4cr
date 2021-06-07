@@ -16,38 +16,57 @@ module Ai4cr
 
         # property deriv_scale : Float64 = Ai4cr::Utils::Rand.rand_excluding(scale: 0.5)
 
-        getter bias_enabled : Bool
+        getter node : ParallelNode
+        # getter training_config : TrainingConfig
+        getter name : String
+        # getter width : Int32
 
-        getter height_set : HeightSet
-        getter height_set_indexes = HeightSetIndexes.new
-        getter height = -1
+        # getter height_set : HeightSet
+        # getter height_set_indexes : HeightSetIndexes
+        # getter height : Int32
+        # getter height_with_bias : Int32
 
-        # getter width = -1
+        getter errors = Hash(Symbol, String).new
 
-        def initialize(@bias_enabled = false, @height_set = HeightSet.new)
-          upsert_height(from_channel: "bias", from_offset: [0], height: 1) if bias_enabled
-          reset_height_set_indexes
+        getter weight_sets = Hash(String, Array(Array(Float64))).new
+
+        # def initialize(@training_config = TrainingConfig.new, @height_set = HeightSet.new, @width = 0)
+        def initialize(
+          @node : ParallelNode,
+          @name = ""
+          # @training_config = TrainingConfig.new,
+          # @name = "",
+          # @width = 0
+        )
+          # @height_set = HeightSet.new
+          # @height_set_indexes = HeightSetIndexes.new
+          # upsert_height(from_channel: "bias", from_offset: [0], height: 1) if bias_enabled
+          # reset_height_set_indexes
+          validate
         end
 
-        def upsert_height(from_channel : String, from_offset : Offset, height : Int32)
-          @height_set[{from_channel: from_channel, from_offset: from_offset}] = height
-          reset_height_set_indexes
+        def validate
+          @errors = Hash(Symbol, String).new
         end
 
-        def reset_height_set_indexes
-          h_from = 0
-          @height_set_indexes = Hash(NodeCoord, Array(Int32)).new
-          @height_set.each do |key, h_size|
-            h_to = h_from + h_size - 1
-            @height_set_indexes[key] = (h_from..h_to).to_a
-            h_from += h_size
-          end
-          reset_height
-          @height_set_indexes
+        def valid?
+          @errors.empty?
         end
 
-        def reset_height
-          @height = height_set_indexes.values.flatten.size
+        def training_config
+          node.training_config
+        end
+
+        def coord
+          node.coord
+        end
+
+        def width
+          node.width
+        end
+
+        def bias_enabled
+          training_config.bias_enabled
         end
 
         # # def reset_height_set_indexes

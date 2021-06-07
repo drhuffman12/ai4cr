@@ -1,21 +1,20 @@
 require "./../../../spectator_helper"
 
-Spectator.describe Ai4cr::NeuralNetwork::Pmn::MiniNetData do
-  let(mnd) { Ai4cr::NeuralNetwork::Pmn::MiniNetData.new }
+Spectator.describe Ai4cr::NeuralNetwork::Pmn::ParallelNet do
+  let(para_net) { Ai4cr::NeuralNetwork::Pmn::ParallelNet.new }
 
   describe "#initialize" do
     # it "DEBUG" do
-    #   p! mnd
+    #   p! para_net
 
-    #   puts mnd.to_pretty_json
+    #   puts para_net.to_pretty_json
 
     #   expect(1).to eq(1)
     # end
 
-    let(para_node) { Ai4cr::NeuralNetwork::Pmn::ParallelNode.new }
     it "does not crash" do
       expect {
-        Ai4cr::NeuralNetwork::Pmn::MiniNetData.new(node: para_node, name: "TEST")
+        Ai4cr::NeuralNetwork::Pmn::ParallelNet.new
       }.not_to raise_error
     end
 
@@ -30,28 +29,28 @@ Spectator.describe Ai4cr::NeuralNetwork::Pmn::MiniNetData do
     #   }
 
     #   it "bias is disabled" do
-    #     expect(mnd.bias_enabled).to eq(bias_enabled_expected)
+    #     expect(para_net.bias_enabled).to eq(bias_enabled_expected)
     #   end
 
     #   it "height is 0" do
-    #     expect(mnd.height).to eq(height_expected)
+    #     expect(para_net.height).to eq(height_expected)
     #   end
 
     #   # it "height_set is an empty hash" do
-    #   #   expect(mnd.height_set).to eq(height_set_expected)
+    #   #   expect(para_net.height_set).to eq(height_set_expected)
     #   # end
 
     #   it "height_set_indexes is an empty hash" do
-    #     expect(mnd.height_set_indexes).to eq(height_set_indexes_expected)
+    #     expect(para_net.height_set_indexes).to eq(height_set_indexes_expected)
     #   end
 
     #   it "is invalid" do
-    #     expect(mnd.valid?).to be_false
+    #     expect(para_net.valid?).to be_false
     #   end
 
     #   context "is invalid re" do
     #     it "height" do
-    #       expect(mnd.errors.keys).to contain(:height)
+    #       expect(para_net.errors.keys).to contain(:height)
     #     end
     #   end
     # end
@@ -67,8 +66,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Pmn::MiniNetData do
     #     }
     #   }
 
-    #   let(mnd) {
-    #     Ai4cr::NeuralNetwork::Pmn::MiniNetData.new(bias_enabled: bias_enabled, height_set: height_set)
+    #   let(para_net) {
+    #     Ai4cr::NeuralNetwork::Pmn::ParallelNet.new(bias_enabled: bias_enabled, height_set: height_set)
     #   }
 
     #   let(bias_enabled_expected) { false }
@@ -84,27 +83,27 @@ Spectator.describe Ai4cr::NeuralNetwork::Pmn::MiniNetData do
     #   }
 
     #   # it "DEBUG" do
-    #   #   p! mnd
+    #   #   p! para_net
 
-    #   #   puts mnd.to_pretty_json
+    #   #   puts para_net.to_pretty_json
 
     #   #   expect(1).to eq(1)
     #   # end
 
     #   it "bias is disabled" do
-    #     expect(mnd.bias_enabled).to eq(bias_enabled_expected)
+    #     expect(para_net.bias_enabled).to eq(bias_enabled_expected)
     #   end
 
     #   it "height is 0" do
-    #     expect(mnd.height).to eq(height_expected)
+    #     expect(para_net.height).to eq(height_expected)
     #   end
 
     #   it "height_set is an empty hash" do
-    #     expect(mnd.height_set).to eq(height_set_expected)
+    #     expect(para_net.height_set).to eq(height_set_expected)
     #   end
 
     #   it "height_set_indexes is an empty hash" do
-    #     expect(mnd.height_set_indexes).to eq(height_set_indexes_expected)
+    #     expect(para_net.height_set_indexes).to eq(height_set_indexes_expected)
     #   end
     # end
 
@@ -123,8 +122,8 @@ Spectator.describe Ai4cr::NeuralNetwork::Pmn::MiniNetData do
     #     }
     #   }
 
-    #   let(mnd) {
-    #     Ai4cr::NeuralNetwork::Pmn::MiniNetData.new(bias_enabled: bias_enabled, height_set: height_set)
+    #   let(para_net) {
+    #     Ai4cr::NeuralNetwork::Pmn::ParallelNet.new(bias_enabled: bias_enabled, height_set: height_set)
     #   }
 
     #   let(bias_enabled_expected) { true }
@@ -142,50 +141,28 @@ Spectator.describe Ai4cr::NeuralNetwork::Pmn::MiniNetData do
     #   }
 
     #   # it "DEBUG" do
-    #   #   p! mnd
+    #   #   p! para_net
 
-    #   #   puts mnd.to_pretty_json
+    #   #   puts para_net.to_pretty_json
 
     #   #   expect(1).to eq(1)
     #   # end
 
     #   it "bias is disabled" do
-    #     expect(mnd.bias_enabled).to eq(bias_enabled_expected)
+    #     expect(para_net.bias_enabled).to eq(bias_enabled_expected)
     #   end
 
     #   it "height is 0" do
-    #     expect(mnd.height).to eq(height_expected)
+    #     expect(para_net.height).to eq(height_expected)
     #   end
 
     #   it "height_set is an empty hash" do
-    #     expect(mnd.height_set).to eq(height_set_expected)
+    #     expect(para_net.height_set).to eq(height_set_expected)
     #   end
 
     #   it "height_set_indexes is an empty hash" do
-    #     expect(mnd.height_set_indexes).to eq(height_set_indexes_expected)
+    #     expect(para_net.height_set_indexes).to eq(height_set_indexes_expected)
     #   end
     # end
   end
-
-  # describe "#upsert_height" do
-  #   context "when 'from_channel' does not yet exist" do
-  #     let(from_channel) { "foo" }
-  #     let(from_offset) { [0] }
-  #     let(height) { rand(3) + 1 }
-  #     let(height_set_indexes_expected_before) {
-  #       Ai4cr::NeuralNetwork::Pmn::HeightSetIndexes.new
-  #     }
-  #     let(height_set_indexes_expected_after) {
-  #       {
-  #         {from_channel: from_channel, from_offset: from_offset} => (0..height - 1).to_a,
-  #       }
-  #     }
-
-  #     it "appends the 'from_channel' and associated height" do
-  #       expect(mnd.height_set_indexes).to eq(height_set_indexes_expected_before)
-  #       mnd.upsert_height(from_channel: from_channel, from_offset: from_offset, height: height)
-  #       expect(mnd.height_set_indexes).to eq(height_set_indexes_expected_after)
-  #     end
-  #   end
-  # end
 end
